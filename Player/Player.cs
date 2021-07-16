@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
@@ -15,6 +16,17 @@ public class Player : KinematicBody2D
     [Export]
     private int gravity = 13;
 
+    [Export]
+    private bool dummy = false;
+
+    private List<InputEventKey> unhandledInputs = new List<InputEventKey>();
+    private List<InputEventKey> inputBuffer = new List<InputEventKey>();
+    private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
+
+    [Export]
+    private int bufferTimeMax = 12;
+    private int bufferTime;
+
     public Vector2 velocity = new Vector2(0, 0);
 
     private bool facingRight;
@@ -28,6 +40,8 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
+        bufferTime = bufferTimeMax; //reset the buffer
+
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 
         {
@@ -35,6 +49,20 @@ public class Player : KinematicBody2D
         }
         currentState = GetNode<State>("StateTree/Idle");
         ChangeState("Idle");
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey) 
+        {
+            foreach (string actionName in allowableInputs) 
+            {
+                if (@event.IsActionPressed(actionName) || @event.IsActionReleased(actionName))
+                {
+                    unhandledInputs.Add((InputEventKey)@event);
+                }
+            }
+        }
     }
 
     public void ChangeState(string nextStateName) 
@@ -47,9 +75,43 @@ public class Player : KinematicBody2D
     
     }
 
+    public void AnimationFinished() 
+    {
+        currentState.AnimationFinished();
+    }
+
     public void FrameAdvance() 
     {
         velocity.y += gravity;
+        if (!dummy)
+        {
+            AdvanceBufferTimer();
+            foreach (InputEventKey @event in unhandledInputs) 
+            {
+                currentState.HandleInput(@event);
+                inputBuffer.Add(@event); // need to fix this so only keys involved in the game get buffered
+                bufferTime = bufferTimeMax;
+            }
+            
+        }
+        unhandledInputs.Clear();
+
+        currentState.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
+    }
+
+    private void AdvanceBufferTimer() 
+    {
+        // the timer will sit at -1 if there are no inputs
+        if (bufferTime > -1) 
+        { 
+            bufferTime--; 
+        }
+        
+        if (bufferTime == 0) 
+        {
+            inputBuffer.Clear();
+            GD.Print("Emptying buffer");
+        }
     }
 }

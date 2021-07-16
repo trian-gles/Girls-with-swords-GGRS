@@ -23,10 +23,10 @@ public class State : Node
 
     public virtual void HandleInput(InputEvent inEvent)
     {
-
+        GD.Print(inEvent);
     }
 
-    public virtual void Update()
+    public virtual void FrameAdvance()
     {
 
     }

@@ -36,3 +36,4 @@ position = Vector2( 132.862, 240.496 )
 
 [node name="P2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 329.631, 242.178 )
+dummy = true

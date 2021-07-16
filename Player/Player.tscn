@@ -512,3 +512,5 @@ anims/Slash = SubResource( 29 )
 anims/Sweep = SubResource( 30 )
 anims/Wakeup = SubResource( 31 )
 anims/Walk = SubResource( 32 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="AnimationFinished"]

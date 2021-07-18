@@ -1,12 +1,16 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GWS-GGPO", "GWS-GGPO.csproj", "{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWS-GGPO", "GWS-GGPO.csproj", "{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +19,13 @@ Global
 		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{6B4C7D1D-8CC7-445E-BC52-CC34AC5896B5}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA2431E3-F91B-4958-8366-46B4AA3DB33F}
 	EndGlobalSection
 EndGlobal

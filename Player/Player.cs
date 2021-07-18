@@ -11,7 +11,7 @@ public class Player : KinematicBody2D
     public int speed = 200;
 
     [Export]
-    private int jumpForce = 400;
+    public int jumpForce = 400;
 
     [Export]
     private int gravity = 13;
@@ -56,18 +56,13 @@ public class Player : KinematicBody2D
         private int bufferTimeMax;
         private int bufferTime;
         private List<InputEventKey> inputBuffer = new List<InputEventKey>();
-        
+        private List<string> heldKeys = new List<string>();
         private List<InputEventKey> unhandledInputs = new List<InputEventKey>();
         
         public InputHandler(int bufferTime) 
         {
             bufferTimeMax = bufferTime;
             this.bufferTime = bufferTime;
-        }
-
-        public void Reset() 
-        {
-            bufferTime = bufferTimeMax;
         }
 
         public void NewInput(InputEvent @event) 
@@ -104,6 +99,19 @@ public class Player : KinematicBody2D
             {
                 currentState.HandleInput(@event);
                 inputBuffer.Add(@event);
+
+                // Hold or release keys
+                foreach (string actionName in allowableInputs)
+                {
+                    if (@event.IsActionPressed(actionName))
+                    {
+                        heldKeys.Add(actionName);
+                    }
+                    else if (@event.IsActionReleased(actionName))
+                    {
+                        heldKeys.Remove(actionName);
+                    }
+                }
                 bufferTime = bufferTimeMax;
             }
 
@@ -141,9 +149,6 @@ public class Player : KinematicBody2D
         {
             inputHandler.FrameAdvance(currentState); 
         }
-        
-
-        currentState.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
     }
 }

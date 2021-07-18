@@ -3,8 +3,15 @@ using System;
 
 public class State : Node
 {
+    public Player owner;
+
     [Signal]
-    delegate void StateFinished(string nextStateName);
+    public delegate void StateFinished(string nextStateName);
+
+    public override void _Ready()
+    {
+        owner = GetOwner<Player>();
+    }
 
     public virtual void Enter() 
     { 
@@ -21,9 +28,9 @@ public class State : Node
     
     }
 
-    public virtual void HandleInput(InputEvent inEvent)
+    public virtual void HandleInput(InputEvent @event)
     {
-        GD.Print(inEvent);
+        GD.Print(@event);
     }
 
     public virtual void FrameAdvance()

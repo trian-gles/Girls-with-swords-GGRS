@@ -8,7 +8,7 @@ public class Player : KinematicBody2D
     public KinematicBody2D otherPlayer;
 
     [Export]
-    private int speed = 200;
+    public int speed = 200;
 
     [Export]
     private int jumpForce = 400;
@@ -19,13 +19,13 @@ public class Player : KinematicBody2D
     [Export]
     private bool dummy = false;
 
-    private List<InputEventKey> unhandledInputs = new List<InputEventKey>();
-    private List<InputEventKey> inputBuffer = new List<InputEventKey>();
-    private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
+    
+    
+
 
     [Export]
     private int bufferTimeMax = 12;
-    private int bufferTime;
+    private InputHandler inputHandler;
 
     public Vector2 velocity = new Vector2(0, 0);
 
@@ -36,12 +36,11 @@ public class Player : KinematicBody2D
 
     public int combo = 0;
 
-    public string[] inputBuf = new string[4];
+    
 
     public override void _Ready()
     {
-        bufferTime = bufferTimeMax; //reset the buffer
-
+        inputHandler = new InputHandler(bufferTimeMax);
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 
         {
@@ -51,17 +50,72 @@ public class Player : KinematicBody2D
         ChangeState("Idle");
     }
 
-    public override void _Input(InputEvent @event)
+    public class InputHandler 
     {
-        if (@event is InputEventKey) 
+        private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
+        private int bufferTimeMax;
+        private int bufferTime;
+        private List<InputEventKey> inputBuffer = new List<InputEventKey>();
+        
+        private List<InputEventKey> unhandledInputs = new List<InputEventKey>();
+        
+        public InputHandler(int bufferTime) 
         {
-            foreach (string actionName in allowableInputs) 
+            bufferTimeMax = bufferTime;
+            this.bufferTime = bufferTime;
+        }
+
+        public void Reset() 
+        {
+            bufferTime = bufferTimeMax;
+        }
+
+        public void NewInput(InputEvent @event) 
+        {
+            if (@event is InputEventKey)
             {
-                if (@event.IsActionPressed(actionName) || @event.IsActionReleased(actionName))
+                foreach (string actionName in allowableInputs)
                 {
-                    unhandledInputs.Add((InputEventKey)@event);
+                    if (@event.IsActionPressed(actionName) || @event.IsActionReleased(actionName))
+                    {
+                        unhandledInputs.Add((InputEventKey)@event);
+                    }
                 }
             }
+        }
+        private void AdvanceBufferTimer()
+        {
+            // the timer will sit at -1 if there are no inputs
+            if (bufferTime > -1)
+            {
+                bufferTime--;
+            }
+
+            if (bufferTime == 0)
+            {
+                inputBuffer.Clear();
+                GD.Print("Emptying buffer");
+            }
+        }
+        public void FrameAdvance(State currentState) 
+        {
+            AdvanceBufferTimer();
+            foreach (InputEventKey @event in unhandledInputs)
+            {
+                currentState.HandleInput(@event);
+                inputBuffer.Add(@event);
+                bufferTime = bufferTimeMax;
+            }
+
+            unhandledInputs.Clear();
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (!dummy)
+        {
+            inputHandler.NewInput(@event);
         }
     }
 
@@ -85,33 +139,11 @@ public class Player : KinematicBody2D
         velocity.y += gravity;
         if (!dummy)
         {
-            AdvanceBufferTimer();
-            foreach (InputEventKey @event in unhandledInputs) 
-            {
-                currentState.HandleInput(@event);
-                inputBuffer.Add(@event); // need to fix this so only keys involved in the game get buffered
-                bufferTime = bufferTimeMax;
-            }
-            
+            inputHandler.FrameAdvance(currentState); 
         }
-        unhandledInputs.Clear();
+        
 
         currentState.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
-    }
-
-    private void AdvanceBufferTimer() 
-    {
-        // the timer will sit at -1 if there are no inputs
-        if (bufferTime > -1) 
-        { 
-            bufferTime--; 
-        }
-        
-        if (bufferTime == 0) 
-        {
-            inputBuffer.Clear();
-            GD.Print("Emptying buffer");
-        }
     }
 }

@@ -4,7 +4,7 @@ using System;
 public class State : Node
 {
     public Player owner;
-
+    protected int frameCount = 0;
     [Signal]
     public delegate void StateFinished(string nextStateName);
 

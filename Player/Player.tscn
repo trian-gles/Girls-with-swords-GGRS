@@ -457,7 +457,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 104
+frame = 73
 
 [node name="StateTree" type="Node" parent="."]
 

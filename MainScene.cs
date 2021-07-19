@@ -15,7 +15,7 @@ public class MainScene : Node2D
     public void FrameAdvance() 
     {
         Frame++;
-        GD.Print($"Advance to frame {Frame}");
+        // GD.Print($"Advance to frame {Frame}");
 
     }
 

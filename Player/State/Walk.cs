@@ -5,7 +5,10 @@ public class Walk : State
 {
     public override void Enter()
     {
-        base.Enter();
+        if (owner.CheckHeldKey("up"))
+        {
+            EmitSignal(nameof(StateFinished), "MovingJump");
+        }
     }
 
     public override void HandleInput(InputEvent @event)
@@ -13,6 +16,10 @@ public class Walk : State
         if (@event.IsActionReleased("right") || @event.IsActionReleased("left"))
         {
             EmitSignal(nameof(StateFinished), "Idle");
+        }
+        else if (@event.IsActionPressed("up")) 
+        {
+            EmitSignal(nameof(StateFinished), "MovingJump");
         }
     }
 }

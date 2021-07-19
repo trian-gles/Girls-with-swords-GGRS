@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -340,6 +340,23 @@ tracks/0/keys = {
 "values": [ 101, 102, 103 ]
 }
 
+[sub_resource type="Animation" id=33]
+resource_name = "MovingJump"
+length = 20.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 73, 76 ]
+}
+
 [sub_resource type="Animation" id=28]
 length = 24.0
 loop = true
@@ -507,6 +524,7 @@ anims/JumpSlash = SubResource( 24 )
 anims/Kick = SubResource( 25 )
 anims/Knockdown = SubResource( 26 )
 anims/Lose = SubResource( 27 )
+anims/MovingJump = SubResource( 33 )
 anims/Run = SubResource( 28 )
 anims/Slash = SubResource( 29 )
 anims/Sweep = SubResource( 30 )

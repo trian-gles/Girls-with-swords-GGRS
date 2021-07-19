@@ -1,8 +1,8 @@
 ﻿using Godot;
 using System;
 
-public class MovingJump : State
+public class MovingJump : Jump
 {
-
+    
 }
 

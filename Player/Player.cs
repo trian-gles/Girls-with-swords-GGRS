@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Player : KinematicBody2D
 {
     private State currentState;
-    public KinematicBody2D otherPlayer;
+    public Player otherPlayer;
 
     [Export]
     public int speed = 200;
@@ -25,9 +25,9 @@ public class Player : KinematicBody2D
 
     public Vector2 velocity = new Vector2(0, 0);
 
-    private bool facingRight;
+    public bool facingRight;
     private bool touchingWall = false;
-    private bool grounded;
+    public bool grounded;
     private bool hitstopped;
 
     public int combo = 0;
@@ -155,5 +155,45 @@ public class Player : KinematicBody2D
         }
         currentState.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
+
+        grounded = false; // will be set true if touching the ground
+        for (int i = 0; i < GetSlideCount(); i++) 
+        {
+            
+
+            KinematicCollision2D collision = GetSlideCollision(i);
+            Node collisionObj = (Node)collision.Collider; 
+            if (collision.Collider == otherPlayer)
+            {
+                
+                if (collision.Normal.x == 0) 
+                {
+                    SlideAway();
+                    otherPlayer.SlideAway();
+                }
+                else 
+                { 
+                    // non attacking push will go here
+                }
+            }
+            else if (collisionObj.Name == "Floor") 
+            {
+                grounded = true;
+            }
+            
+        }
     }
+
+    public void SlideAway() 
+    {
+        GD.Print("Collided with player head");
+        var mod = 1;
+
+        if (facingRight) 
+        {
+            mod = -1;
+        }
+        GlobalPosition = new Vector2(GlobalPosition.x + 4 * mod, GlobalPosition.y);
+    }
+
 }

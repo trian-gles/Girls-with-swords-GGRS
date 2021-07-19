@@ -153,7 +153,7 @@ public class Player : KinematicBody2D
         {
             inputHandler.FrameAdvance(currentState); 
         }
-        currentState.FrameAdvance();
+        
         MoveAndSlide(velocity, Vector2.Up);
 
         grounded = false; // will be set true if touching the ground
@@ -172,8 +172,8 @@ public class Player : KinematicBody2D
                     otherPlayer.SlideAway();
                 }
                 else 
-                { 
-                    // non attacking push will go here
+                {
+                    otherPlayer.PushMovement(velocity.x);
                 }
             }
             else if (collisionObj.Name == "Floor") 
@@ -182,6 +182,8 @@ public class Player : KinematicBody2D
             }
             
         }
+
+        currentState.FrameAdvance();
     }
 
     public void SlideAway() 
@@ -194,6 +196,11 @@ public class Player : KinematicBody2D
             mod = -1;
         }
         GlobalPosition = new Vector2(GlobalPosition.x + 4 * mod, GlobalPosition.y);
+    }
+
+    public void PushMovement(float xVel) 
+    {
+        currentState.PushMovement(xVel);
     }
 
 }

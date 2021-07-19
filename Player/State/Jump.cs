@@ -18,6 +18,10 @@ public class Jump : State
         frameCount += 1;
         owner.velocity.y += owner.gravity;
     }
+
+    public override void PushMovement(float _xVel)
+    {
+    }
 }
 
 

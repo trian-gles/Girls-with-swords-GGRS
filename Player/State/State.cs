@@ -39,8 +39,8 @@ public class State : Node
     }
 
     public virtual void PushMovement(float xVel) 
-    { 
-    
+    {
+        owner.velocity.x = xVel / 2;
     }
 
     public virtual void PushAttack() 

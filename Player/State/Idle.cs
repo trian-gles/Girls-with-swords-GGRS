@@ -43,5 +43,10 @@ public class Idle : State
             EmitSignal(nameof(StateFinished), "Jump");
         }
     }
+
+    public override void FrameAdvance()
+    {
+        owner.velocity.x = 0;
+    }
 }
 

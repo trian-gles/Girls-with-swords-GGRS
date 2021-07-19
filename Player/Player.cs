@@ -195,7 +195,7 @@ public class Player : KinematicBody2D
         GD.Print("Collided with player head");
         var mod = 1;
 
-        if (facingRight) 
+        if (Position.x < otherPlayer.Position.x) 
         {
             mod = -1;
         }

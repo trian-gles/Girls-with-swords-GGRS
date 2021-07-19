@@ -40,6 +40,15 @@ public class Player : KinematicBody2D
     {
         hitBoxes = GetNode<Area2D>("HitBoxes");
         hurtBoxes = GetNode<Area2D>("HurtBoxes");
+        foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
+        {
+            box.Shape = new RectangleShape2D();
+        }
+        foreach (CollisionShape2D box in hurtBoxes.GetChildren())
+        {
+            box.Shape = new RectangleShape2D();
+        }
+
         inputHandler = new InputHandler(bufferTimeMax);
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 

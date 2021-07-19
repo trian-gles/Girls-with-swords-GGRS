@@ -25,20 +25,20 @@ public class Idle : State
             EmitSignal(nameof(StateFinished), "Jump");
         }
     } 
-    public override void HandleInput(InputEvent @event)
+    public override void HandleInput(string[] inputArr)
     {
-        if (@event.IsActionPressed("right"))
+        if (inputArr[0] == "right" && inputArr[1] == "press") // Can I make this a bit less confusing to read?
         {
             owner.velocity.x = owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
-        else if (@event.IsActionPressed("left"))
+        else if (inputArr[0] == "left" && inputArr[1] == "press")
         {
             owner.velocity.x = -owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
 
-        else if (@event.IsActionPressed("up")) 
+        else if (inputArr[0] == "up" && inputArr[1] == "press")
         {
             EmitSignal(nameof(StateFinished), "Jump");
         }

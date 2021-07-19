@@ -28,9 +28,9 @@ public class State : Node
     
     }
 
-    public virtual void HandleInput(InputEvent @event)
+    public virtual void HandleInput(string[] inputArr)
     {
-        GD.Print(@event);
+        GD.Print(inputArr);
     }
 
     public virtual void FrameAdvance()

@@ -54,9 +54,9 @@ public class Player : KinematicBody2D
         private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
         private int bufferTimeMax;
         private int bufferTime;
-        private List<InputEventKey> inputBuffer = new List<InputEventKey>();
+        private List<string[]> inputBuffer = new List<string[]>();
         public List<string> heldKeys = new List<string>();
-        private List<InputEventKey> unhandledInputs = new List<InputEventKey>();
+        private List<string[]> unhandledInputs = new List<string[]>();
         
         public InputHandler(int bufferTime) 
         {
@@ -70,9 +70,16 @@ public class Player : KinematicBody2D
             {
                 foreach (string actionName in allowableInputs)
                 {
-                    if (@event.IsActionPressed(actionName) || @event.IsActionReleased(actionName))
+                    if (@event.IsActionPressed(actionName))
                     {
-                        unhandledInputs.Add((InputEventKey)@event);
+                        string[] inputArr = new string[2] { actionName, "press" };
+                        unhandledInputs.Add(inputArr);
+                    }
+
+                    else if (@event.IsActionReleased(actionName)) 
+                    {
+                        string[] inputArr = new string[2] { actionName, "release" };
+                        unhandledInputs.Add(inputArr);
                     }
                 }
             }
@@ -94,24 +101,21 @@ public class Player : KinematicBody2D
         public void FrameAdvance(State currentState) 
         {
             AdvanceBufferTimer();
-            foreach (InputEventKey @event in unhandledInputs)
+            foreach (string[] inputArr in unhandledInputs)
             {
                 
                 // Hold or release keys
-                foreach (string actionName in allowableInputs)
+                if (inputArr[1] == "press")
                 {
-                    if (@event.IsActionPressed(actionName))
-                    {
-                        heldKeys.Add(actionName);
-                    }
-                    else if (@event.IsActionReleased(actionName))
-                    {
-                        heldKeys.Remove(actionName);
-                    }
+                    heldKeys.Add(inputArr[0]);
+                }
+                else if (inputArr[1] == "release")
+                {
+                    heldKeys.Remove(inputArr[0]);
                 }
 
-                currentState.HandleInput(@event);
-                inputBuffer.Add(@event);
+                currentState.HandleInput(inputArr);
+                inputBuffer.Add(inputArr);
 
                 bufferTime = bufferTimeMax;
             }

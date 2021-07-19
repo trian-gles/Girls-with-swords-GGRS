@@ -11,13 +11,13 @@ public class Walk : State
         }
     }
 
-    public override void HandleInput(InputEvent @event)
+    public override void HandleInput(string[] inputArr)
     {
-        if (@event.IsActionReleased("right") || @event.IsActionReleased("left"))
+        if ((inputArr[0] == "right" || inputArr[0] == "left") && inputArr[1] == "release")
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        else if (@event.IsActionPressed("up")) 
+        else if (inputArr[0] == "up" && inputArr[1] == "press")
         {
             EmitSignal(nameof(StateFinished), "MovingJump");
         }

@@ -12,6 +12,8 @@ public class MainScene : Node2D
         P2 = GetNode<Player>("P2");
         P1.otherPlayer = P2;
         P2.otherPlayer = P1;
+        P1.CheckTurnAround();
+        P2.CheckTurnAround();
 
         
     }

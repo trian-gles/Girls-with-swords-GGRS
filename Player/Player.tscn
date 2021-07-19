@@ -465,9 +465,11 @@ shape = SubResource( 4 )
 shape = SubResource( 5 )
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
+position = Vector2( -0.0883865, 1.94454 )
 shape = SubResource( 6 )
 
 [node name="HurtB3" type="CollisionShape2D" parent="HurtBoxes"]
+position = Vector2( 25, -21 )
 shape = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]

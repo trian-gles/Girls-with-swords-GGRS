@@ -32,13 +32,13 @@ public class Player : KinematicBody2D
 
     public int combo = 0;
 
-    private Area2D hitBox;
-    private Area2D hurtBox;
+    private Area2D hitBoxes;
+    private Area2D hurtBoxes;
 
     public override void _Ready()
     {
-        hitBox = GetNode<Area2D>("HitBoxes");
-        hurtBox = GetNode<Area2D>("HurtBoxes");
+        hitBoxes = GetNode<Area2D>("HitBoxes");
+        hurtBoxes = GetNode<Area2D>("HurtBoxes");
         inputHandler = new InputHandler(bufferTimeMax);
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 
@@ -213,36 +213,48 @@ public class Player : KinematicBody2D
         {
             return;
         }
-        if (Position.x > otherPlayer.Position.x)
+        if ((Position.x > otherPlayer.Position.x) && facingRight)
         {
             TurnLeft();
         }
-        else 
+        else if ((Position.x < otherPlayer.Position.x) && !facingRight) 
         {
             TurnRight();
         }
     }
 
-    public void TurnRight() 
+    public void TurnRight()
     {
         facingRight = true;
 
         GetNode<Sprite>("Sprite").FlipH = false;
 
-        hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
+        // this needs a for loop
+        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
+        {
+            hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
+        }
 
-        hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x) * -1, hitBox.Position.y);
+        foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
+        {
+            hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x), hitBox.Position.y);
+        }
     }
 
-    public void TurnLeft()
+        public void TurnLeft()
     {
         facingRight = false;
 
         GetNode<Sprite>("Sprite").FlipH = true;
 
-        hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x) * -1, hurtBox.Position.y);
-
-        hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x), hitBox.Position.y);
+        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
+        {
+            hurtBox.Position = new Vector2(-Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
+        }
+        foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
+        {
+            hitBox.Position = new Vector2(-Math.Abs(hitBox.Position.x), hitBox.Position.y);
+        }
     }
-
+    
 }

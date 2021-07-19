@@ -47,4 +47,10 @@ public class State : Node
     { 
     
     }
+
+    public virtual void InHurtbox()
+    {
+
+
+    }
 }

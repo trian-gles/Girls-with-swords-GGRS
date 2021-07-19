@@ -42,6 +42,11 @@ public class Idle : State
         {
             EmitSignal(nameof(StateFinished), "Jump");
         }
+
+        else if (inputArr[0] == "k" && inputArr[1] == "press")
+        {
+            EmitSignal(nameof(StateFinished), "Kick");
+        }
     }
 
     public override void FrameAdvance()

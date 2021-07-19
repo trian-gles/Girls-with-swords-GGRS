@@ -175,6 +175,17 @@ public class Player : KinematicBody2D
         
         MoveAndSlide(velocity, Vector2.Up);
 
+        foreach (Area2D area in hurtBoxes.GetOverlappingAreas()) 
+        {
+            if (area.Owner == otherPlayer) 
+            {
+                if (area.Name == "HitBoxes") 
+                {
+                    currentState.InHurtbox();
+                } 
+            }
+        }
+
         grounded = false; // will be set true if touching the ground
         for (int i = 0; i < GetSlideCount(); i++) 
         {
@@ -268,21 +279,12 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void OnHurtBoxesAreaEntered(Area2D enteredArea) 
-    {
-        if (enteredArea == otherPlayer.hurtBoxes) 
+    public void CheckBoxFlip() 
+    { 
+        if (!facingRight) 
         {
-            GD.Print("Other player entered Hurtbox");
-            playerInHurtbox = true;
-        }
-    }
-
-    public void OnHurtBoxesAreaExited(Area2D exitedArea) 
-    {
-        if (exitedArea == otherPlayer.hurtBoxes)
-        {
-            GD.Print("Other player exited Hurtbox");
-            playerInHurtbox = false;
+            flipAll();
+            GD.Print("Flipping box");
         }
     }
 }

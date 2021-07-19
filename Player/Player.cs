@@ -29,6 +29,7 @@ public class Player : KinematicBody2D
     private bool touchingWall = false;
     public bool grounded;
     private bool hitstopped;
+    private bool playerInHurtbox = false;
 
     public int combo = 0;
 
@@ -121,6 +122,7 @@ public class Player : KinematicBody2D
             }
 
             unhandledInputs.Clear();
+
         }
     }
 
@@ -143,7 +145,7 @@ public class Player : KinematicBody2D
 
     }
 
-    public void AnimationFinished() 
+    public void AnimationFinished(string _animName) 
     {
         currentState.AnimationFinished();
     }
@@ -254,6 +256,24 @@ public class Player : KinematicBody2D
         foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
         {
             hitBox.Position = new Vector2(-hitBox.Position.x, hitBox.Position.y);
+        }
+    }
+
+    public void OnHurtBoxesAreaEntered(Area2D enteredArea) 
+    {
+        if (enteredArea == otherPlayer.hurtBoxes) 
+        {
+            GD.Print("Other player entered Hurtbox");
+            playerInHurtbox = true;
+        }
+    }
+
+    public void OnHurtBoxesAreaExited(Area2D exitedArea) 
+    {
+        if (exitedArea == otherPlayer.hurtBoxes)
+        {
+            GD.Print("Other player exited Hurtbox");
+            playerInHurtbox = false;
         }
     }
 }

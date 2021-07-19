@@ -341,7 +341,7 @@ tracks/0/keys = {
 "values": [ 101, 102, 103 ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=28]
 resource_name = "MovingJump"
 length = 20.0
 step = 1.0
@@ -358,7 +358,7 @@ tracks/0/keys = {
 "values": [ 73, 76 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=29]
 length = 24.0
 loop = true
 step = 1.0
@@ -375,7 +375,7 @@ tracks/0/keys = {
 "values": [ 97, 98, 99, 100 ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=30]
 length = 42.0
 step = 1.0
 tracks/0/type = "value"
@@ -391,7 +391,7 @@ tracks/0/keys = {
 "values": [ 22, 23, 24, 25, 26, 27 ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=31]
 length = 30.0
 step = 1.0
 tracks/0/type = "value"
@@ -407,7 +407,7 @@ tracks/0/keys = {
 "values": [ 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=32]
 length = 60.0
 loop = true
 step = 1.0
@@ -424,7 +424,7 @@ tracks/0/keys = {
 "values": [ 104, 105, 106, 107, 108, 109 ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=33]
 length = 60.0
 loop = true
 step = 1.0
@@ -462,10 +462,11 @@ shape = SubResource( 4 )
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
+position = Vector2( -6.54074, 15.5564 )
 shape = SubResource( 5 )
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( -0.0883865, 1.94454 )
+position = Vector2( -6.36397, -9.10401 )
 shape = SubResource( 6 )
 
 [node name="HurtB3" type="CollisionShape2D" parent="HurtBoxes"]
@@ -477,7 +478,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 73
+frame = 28
 
 [node name="StateTree" type="Node" parent="."]
 
@@ -527,11 +528,13 @@ anims/JumpSlash = SubResource( 24 )
 anims/Kick = SubResource( 25 )
 anims/Knockdown = SubResource( 26 )
 anims/Lose = SubResource( 27 )
-anims/MovingJump = SubResource( 33 )
-anims/Run = SubResource( 28 )
-anims/Slash = SubResource( 29 )
-anims/Sweep = SubResource( 30 )
-anims/Wakeup = SubResource( 31 )
-anims/Walk = SubResource( 32 )
+anims/MovingJump = SubResource( 28 )
+anims/Run = SubResource( 29 )
+anims/Slash = SubResource( 30 )
+anims/Sweep = SubResource( 31 )
+anims/Wakeup = SubResource( 32 )
+anims/Walk = SubResource( 33 )
 
+[connection signal="area_entered" from="HurtBoxes" to="." method="OnHurtBoxesAreaEntered"]
+[connection signal="area_exited" from="HurtBoxes" to="." method="OnHurtBoxesAreaExited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="AnimationFinished"]

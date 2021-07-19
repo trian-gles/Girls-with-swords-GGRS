@@ -13,9 +13,6 @@ public class MainScene : Node2D
         P1.otherPlayer = P2;
         P2.otherPlayer = P1;
 
-        P1.TurnRight();
-        P2.TurnLeft();
-
         
     }
 

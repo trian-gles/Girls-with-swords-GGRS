@@ -25,7 +25,7 @@ public class Player : KinematicBody2D
 
     public Vector2 velocity = new Vector2(0, 0);
 
-    public bool facingRight;
+    public bool facingRight = true;
     private bool touchingWall = false;
     public bool grounded;
     private bool hitstopped;
@@ -229,32 +229,27 @@ public class Player : KinematicBody2D
 
         GetNode<Sprite>("Sprite").FlipH = false;
 
-        // this needs a for loop
-        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
-        {
-            hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
-        }
-
-        foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
-        {
-            hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x), hitBox.Position.y);
-        }
+        flipAll();
     }
 
-        public void TurnLeft()
+    public void TurnLeft()
     {
         facingRight = false;
 
         GetNode<Sprite>("Sprite").FlipH = true;
 
+        flipAll();
+    }
+
+    public void flipAll()
+    {
         foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
         {
-            hurtBox.Position = new Vector2(-Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
+            hurtBox.Position = new Vector2(-hurtBox.Position.x, hurtBox.Position.y);
         }
         foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
         {
-            hitBox.Position = new Vector2(-Math.Abs(hitBox.Position.x), hitBox.Position.y);
+            hitBox.Position = new Vector2(-hitBox.Position.x, hitBox.Position.y);
         }
     }
-    
 }

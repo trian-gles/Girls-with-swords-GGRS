@@ -47,6 +47,7 @@ public class Idle : State
     public override void FrameAdvance()
     {
         owner.velocity.x = 0;
+        owner.CheckTurnAround();
     }
 }
 

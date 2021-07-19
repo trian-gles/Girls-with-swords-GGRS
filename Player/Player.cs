@@ -32,10 +32,13 @@ public class Player : KinematicBody2D
 
     public int combo = 0;
 
-    
+    private Area2D hitBox;
+    private Area2D hurtBox;
 
     public override void _Ready()
     {
+        hitBox = GetNode<Area2D>("HitBoxes");
+        hurtBox = GetNode<Area2D>("HurtBoxes");
         inputHandler = new InputHandler(bufferTimeMax);
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 
@@ -132,7 +135,8 @@ public class Player : KinematicBody2D
         GetNode<AnimationPlayer>("AnimationPlayer").Play(nextStateName);
         GD.Print("Entering State " + nextStateName);
         currentState.Enter();
-    
+        CheckTurnAround();
+
     }
 
     public void AnimationFinished() 
@@ -201,6 +205,44 @@ public class Player : KinematicBody2D
     public void PushMovement(float xVel) 
     {
         currentState.PushMovement(xVel);
+    }
+
+    public void CheckTurnAround() 
+    {
+        if (otherPlayer == null) 
+        {
+            return;
+        }
+        if (Position.x > otherPlayer.Position.x)
+        {
+            TurnLeft();
+        }
+        else 
+        {
+            TurnRight();
+        }
+    }
+
+    public void TurnRight() 
+    {
+        facingRight = true;
+
+        GetNode<Sprite>("Sprite").FlipH = false;
+
+        hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x), hurtBox.Position.y);
+
+        hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x) * -1, hitBox.Position.y);
+    }
+
+    public void TurnLeft()
+    {
+        facingRight = false;
+
+        GetNode<Sprite>("Sprite").FlipH = true;
+
+        hurtBox.Position = new Vector2(Math.Abs(hurtBox.Position.x) * -1, hurtBox.Position.y);
+
+        hitBox.Position = new Vector2(Math.Abs(hitBox.Position.x), hitBox.Position.y);
     }
 
 }

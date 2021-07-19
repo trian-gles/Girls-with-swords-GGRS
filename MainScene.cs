@@ -9,13 +9,14 @@ public class MainScene : Node2D
     public override void _Ready()
     {
         P1 = GetNode<Player>("P1");
-        P1.facingRight = true;
-        
         P2 = GetNode<Player>("P2");
-        P2.facingRight = true;
-
         P1.otherPlayer = P2;
         P2.otherPlayer = P1;
+
+        P1.TurnRight();
+        P2.TurnLeft();
+
+        
     }
 
     public void FrameAdvance() 

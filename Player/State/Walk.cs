@@ -3,6 +3,11 @@ using System;
 
 public class Walk : State
 {
+    public override void _Ready()
+    {
+        base._Ready();
+        loop = true;
+    }
     public override void Enter()
     {
         if (owner.CheckHeldKey("up"))

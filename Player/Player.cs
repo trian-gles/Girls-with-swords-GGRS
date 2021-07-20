@@ -19,7 +19,7 @@ public class Player : KinematicBody2D
     public int gravity = 13;
 
     [Export]
-    private bool dummy = false;
+    public bool dummy = false;
 
     public InputHandler inputHandler;
 
@@ -44,6 +44,7 @@ public class Player : KinematicBody2D
         hitBoxes = GetNode<Area2D>("HitBoxes");
         hurtBoxes = GetNode<Area2D>("HurtBoxes");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
         foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
         {
             box.Shape = new RectangleShape2D();
@@ -138,17 +139,24 @@ public class Player : KinematicBody2D
     {
         currentState.Exit();
         currentState = GetNode<State>("StateTree/" + nextStateName);
-        animationPlayer.Play(nextStateName);
-        animationPlayer.Seek(0);
+        animationPlayer.NewAnimation(nextStateName);
         GD.Print("Entering State " + nextStateName);
         currentState.Enter();
         CheckTurnAround();
 
     }
 
-    public void AnimationFinished(string _animName) 
+    public void AnimationFinished(string animName) 
     {
-        currentState.AnimationFinished();
+        GD.Print("Animation finished");
+        if (currentState.loop) 
+        {
+            animationPlayer.Restart();
+        }
+        else
+        {
+            currentState.AnimationFinished();
+        }
     }
 
     public bool CheckHeldKey(string key) 
@@ -160,15 +168,13 @@ public class Player : KinematicBody2D
     public void FrameAdvance(bool hitStop) 
     {
         
-        if (!dummy)
-        {
-            inputHandler.FrameAdvance(hitStop, currentState); 
-        }
+        inputHandler.FrameAdvance(hitStop, currentState); 
+        
         if (hitStop)
         {
             return;
         }
-
+        animationPlayer.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
 
         foreach (Area2D area in hurtBoxes.GetOverlappingAreas()) 

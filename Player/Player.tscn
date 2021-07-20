@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Player/State/Jump.cs" type="Script" id=8]
 [ext_resource path="res://Player/State/Block.cs" type="Script" id=9]
 [ext_resource path="res://Player/State/JumpKick.cs" type="Script" id=10]
+[ext_resource path="res://Player/AnimationPlayer.cs" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 40 )
@@ -212,7 +213,7 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 30, 60 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
+"update": 1,
 "values": [ 84, 93, 84 ]
 }
 tracks/1/type = "value"
@@ -224,7 +225,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 10, 40 ) ]
 }
 tracks/2/type = "value"
@@ -296,7 +297,7 @@ tracks/7/enabled = true
 tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 0, -1 ) ]
 }
 tracks/8/type = "value"
@@ -340,7 +341,7 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 20 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 0,
+"update": 1,
 "values": [ 73, 76 ]
 }
 tracks/1/type = "value"
@@ -352,7 +353,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 10, 30 ) ]
 }
 tracks/2/type = "value"
@@ -376,7 +377,7 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 0, -1 ) ]
 }
 tracks/4/type = "value"
@@ -572,7 +573,7 @@ tracks/6/enabled = true
 tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 10, 40 ) ]
 }
 tracks/7/type = "value"
@@ -596,7 +597,7 @@ tracks/8/enabled = true
 tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 0, -1 ) ]
 }
 tracks/9/type = "value"
@@ -991,6 +992,7 @@ disabled = true
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( 24, 0 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
 shape = SubResource( 6 )
@@ -1005,7 +1007,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 55
+frame = 104
 
 [node name="StateTree" type="Node" parent="."]
 
@@ -1036,7 +1038,6 @@ script = ExtResource( 9 )
 script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 60.0
 anims/AntiAir = SubResource( 8 )
 anims/Backdash = SubResource( 9 )
 anims/Block = SubResource( 10 )
@@ -1063,5 +1064,4 @@ anims/Slash = SubResource( 30 )
 anims/Sweep = SubResource( 31 )
 anims/Wakeup = SubResource( 32 )
 anims/Walk = SubResource( 33 )
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="AnimationFinished"]
+script = ExtResource( 11 )

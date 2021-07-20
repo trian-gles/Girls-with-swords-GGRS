@@ -3,6 +3,11 @@ using System;
 
 public class Idle : State
 {
+    public override void _Ready()
+    {
+        base._Ready();
+        loop = true;
+    }
     public override void Enter()
     {
         owner.velocity.x = 0;

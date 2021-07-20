@@ -9,7 +9,7 @@ public class State : Node
     public delegate void StateFinished(string nextStateName);
 
     protected int stunRemaining;
-
+    public bool loop = false;
     
 
     public override void _Ready()

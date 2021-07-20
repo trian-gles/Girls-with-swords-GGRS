@@ -8,6 +8,10 @@ public class State : Node
     [Signal]
     public delegate void StateFinished(string nextStateName);
 
+    protected int stunRemaining;
+
+    
+
     public override void _Ready()
     {
         owner = GetOwner<Player>();
@@ -43,14 +47,43 @@ public class State : Node
         owner.velocity.x = xVel / 2;
     }
 
-    public virtual void PushAttack() 
-    { 
-    
-    }
-
     public virtual void InHurtbox()
     {
 
 
+    }
+
+    public virtual void ReceiveHit(bool rightAttack, string height, Vector2 push)
+    {
+        owner.velocity = push;
+        if (height == "high") 
+        {
+            GD.Print("High hit");
+        }
+        else if (height == "low") 
+        {
+            GD.Print("Low hit");
+        }
+        else
+        {
+            if ((rightAttack && owner.CheckHeldKey("right")) || (!rightAttack && owner.CheckHeldKey("Block"))) 
+            {
+                EmitSignal(nameof(StateFinished), "Block");
+            }
+            else 
+            {
+                EmitSignal(nameof(StateFinished), "HitStun");
+            }
+        }
+    }
+
+    public void receiveStun(int stun)
+    {
+        stunRemaining = stun;
+    }
+
+    public virtual void receiveDamage(int dmg)
+    {
+        owner.health -= dmg;
     }
 }

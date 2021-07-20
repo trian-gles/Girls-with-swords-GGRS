@@ -7,6 +7,8 @@ public class Player : KinematicBody2D
     private State currentState;
     public Player otherPlayer;
 
+    public int health = 100;
+
     [Export]
     public int speed = 200;
 
@@ -21,7 +23,7 @@ public class Player : KinematicBody2D
 
     [Export]
     private int bufferTimeMax = 12;
-    private InputHandler inputHandler;
+    public InputHandler inputHandler;
 
     public Vector2 velocity = new Vector2(0, 0);
 
@@ -286,5 +288,12 @@ public class Player : KinematicBody2D
             flipAll();
             GD.Print("Flipping box");
         }
+    }
+
+    public void ReceiveHit(bool rightAttack, int dmg, int stun, string height, Vector2 push) 
+    {
+        currentState.ReceiveHit(rightAttack, height, push);
+        currentState.receiveStun(stun);
+        currentState.receiveDamage(dmg);
     }
 }

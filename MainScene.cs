@@ -47,5 +47,10 @@ public class MainScene : Node2D
         P2.FrameAdvance((hitStopRemaining > 0));
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        P1.inputHandler.NewInput(@event);
+    }
+
 
 }

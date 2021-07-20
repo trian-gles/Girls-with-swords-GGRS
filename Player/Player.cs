@@ -21,8 +21,6 @@ public class Player : KinematicBody2D
     [Export]
     private bool dummy = false;
 
-    [Export]
-    private int bufferTimeMax = 12;
     public InputHandler inputHandler;
 
     public Vector2 velocity = new Vector2(0, 0);
@@ -31,8 +29,6 @@ public class Player : KinematicBody2D
     public bool facingRight = true;
     private bool touchingWall = false;
     public bool grounded;
-    private bool hitstopped;
-    private bool playerInHurtbox = false;
 
     public int combo = 0;
 
@@ -57,7 +53,7 @@ public class Player : KinematicBody2D
             box.Shape = new RectangleShape2D();
         }
 
-        inputHandler = new InputHandler(bufferTimeMax);
+        inputHandler = new InputHandler();
         Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
         foreach (Node state in allStates) 
         {
@@ -70,17 +66,9 @@ public class Player : KinematicBody2D
     public class InputHandler 
     {
         private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
-        private int bufferTimeMax;
-        private int bufferTime;
-        private List<string[]> inputBuffer = new List<string[]>();
+        private List<List<string[]>> inputBuffer = new List<List<string[]>>();
         public List<string> heldKeys = new List<string>();
         private List<string[]> unhandledInputs = new List<string[]>();
-        
-        public InputHandler(int bufferTime) 
-        {
-            bufferTimeMax = bufferTime;
-            this.bufferTime = bufferTime;
-        }
 
         public void NewInput(InputEvent @event) 
         {
@@ -102,23 +90,9 @@ public class Player : KinematicBody2D
                 }
             }
         }
-        private void AdvanceBufferTimer()
-        {
-            // the timer will sit at -1 if there are no inputs
-            if (bufferTime > -1)
-            {
-                bufferTime--;
-            }
-
-            if (bufferTime == 0)
-            {
-                inputBuffer.Clear();
-                GD.Print("Emptying buffer");
-            }
-        }
         public void FrameAdvance(bool hitStop, State currentState) 
         {
-            AdvanceBufferTimer();
+            List<string[]> curBufStep = new List<string[]>();
             foreach (string[] inputArr in unhandledInputs)
             {
                 
@@ -131,25 +105,34 @@ public class Player : KinematicBody2D
                 {
                     heldKeys.Remove(inputArr[0]);
                 }
-
-                currentState.HandleInput(inputArr);
-                inputBuffer.Add(inputArr);
-
-                bufferTime = bufferTimeMax;
+                if (!hitStop)
+                {
+                    currentState.HandleInput(inputArr);
+                }
+                
+                curBufStep.Add(inputArr);
             }
-
+            inputBuffer.Add(curBufStep);
+            if (inputBuffer.Count > 12) 
+            {
+                inputBuffer.RemoveAt(0);
+            }
             unhandledInputs.Clear();
-
         }
-    }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (!dummy)
+        public List<string[]> GetBuffer() 
         {
-            inputHandler.NewInput(@event);
+            List<string[]> flatBuf = new List<string[]>();
+            foreach (List<string[]> frameInputs in inputBuffer)
+            {
+                foreach (string[] input in frameInputs) 
+                {
+                    flatBuf.Add(input);
+                }
+            }
+            return flatBuf;
         }
-    }
+    }//input buffer needs to be tested!!!
 
     public void ChangeState(string nextStateName) 
     {

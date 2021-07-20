@@ -24,6 +24,10 @@ config/name="GWS-GGPO"
 run/main_scene="res://MainScene.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.cs"
+
 [display]
 
 window/size/width=480

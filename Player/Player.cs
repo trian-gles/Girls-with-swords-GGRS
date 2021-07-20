@@ -26,6 +26,7 @@ public class Player : KinematicBody2D
     public InputHandler inputHandler;
 
     public Vector2 velocity = new Vector2(0, 0);
+    public int xAccel = 0;
 
     public bool facingRight = true;
     private bool touchingWall = false;
@@ -37,11 +38,13 @@ public class Player : KinematicBody2D
 
     private Area2D hitBoxes;
     private Area2D hurtBoxes;
+    private AnimationPlayer animationPlayer;
 
     public override void _Ready()
     {
         hitBoxes = GetNode<Area2D>("HitBoxes");
         hurtBoxes = GetNode<Area2D>("HurtBoxes");
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
         {
             box.Shape = new RectangleShape2D();
@@ -149,7 +152,8 @@ public class Player : KinematicBody2D
     {
         currentState.Exit();
         currentState = GetNode<State>("StateTree/" + nextStateName);
-        GetNode<AnimationPlayer>("AnimationPlayer").Play(nextStateName);
+        animationPlayer.Play(nextStateName);
+        animationPlayer.Seek(0);
         GD.Print("Entering State " + nextStateName);
         currentState.Enter();
         CheckTurnAround();

@@ -35,5 +35,22 @@ public class Kick : State
         }
               
     }
+
+    public override void HandleInput(string[] inputArr)
+    {
+        
+        if (inputArr[1] == "press" && hitConnect) 
+        {
+            
+            if (inputArr[0] == "k")
+            {
+                EmitSignal(nameof(StateFinished), "Kick");
+            }
+            else if (inputArr[0] == "up") 
+            {
+                EmitSignal(nameof(StateFinished), "Jump");
+            }
+        }
+    }
 }
 

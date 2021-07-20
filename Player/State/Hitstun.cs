@@ -6,6 +6,7 @@ public class HitStun : State
     public override void Enter()
     {
         owner.combo++;
+        GD.Print($"Combo {owner.combo}");
     }
 
 

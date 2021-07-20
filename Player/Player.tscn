@@ -184,6 +184,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=18]
 length = 20.0
+loop = true
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -1004,7 +1005,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 20
+frame = 55
 
 [node name="StateTree" type="Node" parent="."]
 
@@ -1022,7 +1023,8 @@ script = ExtResource( 6 )
 
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 7 )
-hitStun = 40
+hitStun = 12
+hitPush = Vector2( 80, 0 )
 
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 10 )

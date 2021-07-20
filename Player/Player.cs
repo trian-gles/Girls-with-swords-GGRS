@@ -40,6 +40,9 @@ public class Player : KinematicBody2D
     private Area2D hurtBoxes;
     private AnimationPlayer animationPlayer;
 
+    [Signal]
+    public delegate void HitConfirm();
+
     public override void _Ready()
     {
         hitBoxes = GetNode<Area2D>("HitBoxes");
@@ -113,7 +116,7 @@ public class Player : KinematicBody2D
                 GD.Print("Emptying buffer");
             }
         }
-        public void FrameAdvance(State currentState) 
+        public void FrameAdvance(bool hitStop, State currentState) 
         {
             AdvanceBufferTimer();
             foreach (string[] inputArr in unhandledInputs)
@@ -171,14 +174,18 @@ public class Player : KinematicBody2D
     }
 
 
-    public void FrameAdvance() 
+    public void FrameAdvance(bool hitStop) 
     {
         
         if (!dummy)
         {
-            inputHandler.FrameAdvance(currentState); 
+            inputHandler.FrameAdvance(hitStop, currentState); 
         }
-        
+        if (hitStop)
+        {
+            return;
+        }
+
         MoveAndSlide(velocity, Vector2.Up);
 
         foreach (Area2D area in hurtBoxes.GetOverlappingAreas()) 
@@ -299,5 +306,6 @@ public class Player : KinematicBody2D
         currentState.ReceiveHit(rightAttack, height, push);
         currentState.receiveStun(stun);
         currentState.receiveDamage(dmg);
+        EmitSignal(nameof(HitConfirm));
     }
 }

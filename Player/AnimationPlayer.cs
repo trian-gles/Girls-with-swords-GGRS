@@ -16,7 +16,6 @@ public class AnimationPlayer : Godot.AnimationPlayer
             
             Seek(0, true);
             cursor = 0;
-            GD.Print($"Restarting {animName} animation. Cursor = {cursor}, length = {animationLength}");
         }
         else
         {
@@ -50,10 +49,5 @@ public class AnimationPlayer : Godot.AnimationPlayer
     {
         Seek(0, true);
         cursor = 0;
-    }
-
-    public void FirstFrame()
-    {
-        GD.Print("First Frame of Kick actions called");
     }
 }

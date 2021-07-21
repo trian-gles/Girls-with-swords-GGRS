@@ -176,14 +176,12 @@ public class Player : KinematicBody2D
 
     public void FrameAdvance(bool hitStop) 
     {
-        
-        inputHandler.FrameAdvance(hitStop, currentState); 
-        
         if (hitStop)
         {
             return;
         }
         Update(); //Redraw
+        inputHandler.FrameAdvance(hitStop, currentState);
         animationPlayer.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
 
@@ -191,8 +189,9 @@ public class Player : KinematicBody2D
         {
             if (area.Owner == otherPlayer) 
             {
-                if (area.Name == "HitBoxes") 
+                if (area.Name == "HitBoxes" && animationPlayer.cursor > 1) 
                 {
+                    GD.Print("Other player hitbox in hurtbox");
                     currentState.InHurtbox();
                 } 
             }
@@ -301,12 +300,12 @@ public class Player : KinematicBody2D
         EmitSignal(nameof(HitConfirm));
     }
 
-    public void OnHitConnected(Vector2 hitPush)
+    public void OnHitConnected(Vector2 hitPush) //this is a bandaid!!!
     {
         GD.Print($"HIT, frame = {animationPlayer.cursor}");
         foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
         {
-            // hurtBox.SetDeferred("disabled", true);
+            hurtBox.SetDeferred("disabled", true);
         }
     }
 

@@ -34,15 +34,6 @@ public class Kick : State
         EmitSignal(nameof(StateFinished), "Idle");
     }
 
-    public override void FrameAdvance()
-    {
-        if (owner.CheckBuffer(new string[] { "k", "press" }) && hitConnect) //FIX THIS
-        {
-            GD.Print("Gatling to kick via buffer");
-            EmitSignal(nameof(StateFinished), "Kick");
-        }
-    }
-
     public override void InHurtbox()
     {
         if (!hitConnect) 

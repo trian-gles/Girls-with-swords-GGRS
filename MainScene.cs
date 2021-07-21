@@ -7,7 +7,8 @@ public class MainScene : Node2D
     public Player P1;
     public Player P2;
     private int hitStopRemaining = 0;
-    private const int maxHitStop = 50;
+    [Export]
+    private int maxHitStop = 10;
     public override void _Ready()
     {
         P1 = GetNode<Player>("P1");

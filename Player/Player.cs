@@ -37,9 +37,9 @@ public class Player : KinematicBody2D
     private Color colColor = new Color(0, 0, 255, 0.5f);
 
     private Area2D hitBoxes;
-    private Area2D hurtBoxes;
+    public Area2D hurtBoxes;
     private CollisionShape2D colBox;
-    private AnimationPlayer animationPlayer;
+    public AnimationPlayer animationPlayer;
 
     [Signal]
     public delegate void HitConfirm();
@@ -144,9 +144,9 @@ public class Player : KinematicBody2D
     public void ChangeState(string nextStateName) 
     {
         currentState.Exit();
-        currentState = GetNode<State>("StateTree/" + nextStateName);
         animationPlayer.NewAnimation(nextStateName);
-        GD.Print("Entering State " + nextStateName);
+        currentState = GetNode<State>("StateTree/" + nextStateName);
+        
         currentState.Enter();
         CheckTurnAround();
 
@@ -169,6 +169,10 @@ public class Player : KinematicBody2D
         return (inputHandler.heldKeys.Contains(key));
     }
 
+    public bool CheckBuffer(string[] key) // FIX THIS
+    {
+        return (inputHandler.GetBuffer().Contains(key));
+    }
 
     public void FrameAdvance(bool hitStop) 
     {
@@ -295,6 +299,15 @@ public class Player : KinematicBody2D
         currentState.receiveStun(stun);
         currentState.receiveDamage(dmg);
         EmitSignal(nameof(HitConfirm));
+    }
+
+    public void OnHitConnected(Vector2 hitPush)
+    {
+        GD.Print($"HIT, frame = {animationPlayer.cursor}");
+        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
+        {
+            // hurtBox.SetDeferred("disabled", true);
+        }
     }
 
     public List<Rect2> GetRects(Area2D area) 

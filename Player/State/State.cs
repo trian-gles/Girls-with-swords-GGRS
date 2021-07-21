@@ -55,6 +55,7 @@ public class State : Node
 
     public virtual void ReceiveHit(bool rightAttack, string height, Vector2 push)
     {
+        GD.Print($"Received attack on side {rightAttack}");
         if (!rightAttack)
         {
             push.x *= -1;

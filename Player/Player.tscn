@@ -624,6 +624,20 @@ tracks/10/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/11/type = "method"
+tracks/11/path = NodePath("AnimationPlayer")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 10 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "FirstFrame"
+} ]
+}
 
 [sub_resource type="Animation" id=26]
 length = 80.0
@@ -993,7 +1007,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 18
+frame = 19
 
 [node name="StateTree" type="Node" parent="."]
 

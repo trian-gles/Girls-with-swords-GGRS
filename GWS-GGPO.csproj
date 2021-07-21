@@ -3,4 +3,9 @@
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>GWSGGPO</RootNamespace>
   </PropertyGroup>
+	<ItemGroup>
+		<CSFile Include="addons\WAT\core\assertions\Assertions.cs"/>
+		<CSFile Include="addons\WAT\core\test\Recorder.cs"/>
+		<CSFile Include="addons\WAT\core\test\Test.cs"/>
+	</ItemGroup>
 </Project>

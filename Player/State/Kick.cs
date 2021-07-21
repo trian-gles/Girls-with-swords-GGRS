@@ -3,7 +3,7 @@ using System;
 
 public class Kick : State
 {
-    private bool hitConnect = false;
+    protected bool hitConnect = false;
 
     [Export]
     protected int hitStun = 10;
@@ -28,6 +28,8 @@ public class Kick : State
     public override void Enter()
     {
         hitConnect = false;
+        owner.velocity.x = 0;
+        owner.velocity.y = 0;
     }
     public override void AnimationFinished()
     {
@@ -39,7 +41,7 @@ public class Kick : State
         if (!hitConnect) 
         {
             EmitSignal(nameof(OnHitConnected), hitPush);
-            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush);// this needs to be worked out to allow crossups
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush);
             hitConnect = true;
         }
               

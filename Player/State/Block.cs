@@ -13,9 +13,20 @@ public class Block : State
         stunRemaining--;
         if (stunRemaining == 0)
         {
-            EmitSignal(nameof(StateFinished), "Idle");
+            if (owner.grounded)
+            {
+                EmitSignal(nameof(StateFinished), "Idle");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "Fall");
+            }
+            
         }
-
+        if (!owner.grounded)
+        {
+            owner.velocity.y += owner.gravity;
+        }
     }
 
     public override void receiveDamage(int dmg)

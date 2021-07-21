@@ -17,7 +17,7 @@ public class MainScene : Node2D
         P2.otherPlayer = P1;
         P1.CheckTurnAround();
         P2.CheckTurnAround();
-
+        P2.inputHandler.heldKeys.Add("up");
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
     }

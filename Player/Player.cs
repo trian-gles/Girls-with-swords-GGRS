@@ -24,10 +24,9 @@ public class Player : KinematicBody2D
     public InputHandler inputHandler;
 
     public Vector2 velocity = new Vector2(0, 0);
-    public int xAccel = 0;
 
     public bool facingRight = true;
-    private bool touchingWall = false;
+    public bool touchingWall = false;
     public bool grounded;
 
     public int combo = 0;
@@ -183,7 +182,12 @@ public class Player : KinematicBody2D
         Update(); //Redraw
         inputHandler.FrameAdvance(hitStop, currentState);
         animationPlayer.FrameAdvance();
-        MoveAndSlide(velocity, Vector2.Up);
+        Vector2 currVel = new Vector2(velocity.x, velocity.y);
+        MoveAndSlide(velocity, Vector2.Up, maxSlides: 4);
+        if (!velocity.IsEqualApprox(currVel) && Name == "P2")
+        {
+            GD.Print($"Move and slide changed velocity to {velocity}");
+        }
 
         foreach (Area2D area in hurtBoxes.GetOverlappingAreas()) 
         {
@@ -191,13 +195,16 @@ public class Player : KinematicBody2D
             {
                 if (area.Name == "HitBoxes" && animationPlayer.cursor > 1) 
                 {
-                    GD.Print("Other player hitbox in hurtbox");
                     currentState.InHurtbox();
                 } 
             }
         }
 
         grounded = false; // will be set true if touching the ground
+        if (velocity.x > 0)
+        {
+            touchingWall = false;
+        }
         for (int i = 0; i < GetSlideCount(); i++) 
         {
             
@@ -221,15 +228,17 @@ public class Player : KinematicBody2D
             {
                 grounded = true;
             }
+            else if (collisionObj.Name == "Walls")
+            {
+                touchingWall = true;
+            }
             
         }
-
         currentState.FrameAdvance();
     }
 
     public void SlideAway() 
     {
-        GD.Print("Collided with player head");
         var mod = 1;
 
         if (Position.x < otherPlayer.Position.x) 
@@ -300,12 +309,19 @@ public class Player : KinematicBody2D
         EmitSignal(nameof(HitConfirm));
     }
 
-    public void OnHitConnected(Vector2 hitPush) //this is a bandaid!!!
+    public void OnHitConnected(Vector2 hitPush) 
     {
-        GD.Print($"HIT, frame = {animationPlayer.cursor}");
-        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
+        if (otherPlayer.touchingWall)
         {
-            hurtBox.SetDeferred("disabled", true);
+            GD.Print("Other player at wall, pushing attacker");
+            if (OtherPlayerOnRight())
+            {
+                velocity.x = -hitPush.x;
+            }
+            else
+            {
+                velocity.x = hitPush.x;
+            }
         }
     }
 

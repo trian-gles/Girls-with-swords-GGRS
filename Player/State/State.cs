@@ -63,7 +63,14 @@ public class State : Node
         owner.velocity = push;
         if (height == "high") 
         {
-            GD.Print("High hit");
+            if ((rightAttack && owner.CheckHeldKey("right")) || (!rightAttack && owner.CheckHeldKey("Block")))
+            {
+                EmitSignal(nameof(StateFinished), "Block");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "HitStun");
+            }
         }
         else if (height == "low") 
         {

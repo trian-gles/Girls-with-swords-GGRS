@@ -32,4 +32,13 @@ public class GlobalsTests : WAT.Test
 		Assert.IsFalse(Globals.ArrayInList(inpList, testInp), "String array not found in list not containing it");
 	}
 
+	[Test]
+	public void KeyPressTest()
+    {
+		string[] input = new string[] { "k", "press" };
+		Assert.IsTrue(Globals.CheckKeyPress(input, "k"), "Input properly checks as key press");
+		Assert.IsFalse(Globals.CheckKeyPress(input, "p"), "Bad Input properly checks as not key press");
+
+	}
+
 }

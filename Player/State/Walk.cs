@@ -22,10 +22,18 @@ public class Walk : State
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        else if (inputArr[0] == "up" && inputArr[1] == "press")
+        else if (Globals.CheckKeyPress(inputArr, "up"))
         {
             EmitSignal(nameof(StateFinished), "MovingJump");
         }
+        else if (Globals.CheckKeyPress(inputArr, "k"))
+        {
+            EmitSignal(nameof(StateFinished), "Kick");
+        }
+    }
+
+    public override void PushMovement(float _xVel)
+    {
     }
 }
 

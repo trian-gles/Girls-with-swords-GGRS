@@ -18,12 +18,32 @@ public class HitStun : State
     public override void FrameAdvance()
     {
         stunRemaining--;
-        if (stunRemaining == 0) 
+
+        if (stunRemaining == 0)
         {
-            owner.combo = 0;
-            EmitSignal(nameof(StateFinished), "Idle");
+            if (owner.grounded)
+            {
+                EmitSignal(nameof(StateFinished), "Idle");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "Fall");
+            }
         }
 
+        if (!owner.grounded)
+        {
+            owner.velocity.y += owner.gravity;
+        }
+
+    }
+
+    public override void PushMovement(float _xVel)
+    {
+        if (owner.grounded)
+        {
+            base.PushMovement(_xVel);
+        }
     }
 
     public override void ReceiveHit(bool rightAttack, string height, Vector2 push)

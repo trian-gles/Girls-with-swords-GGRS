@@ -20,4 +20,14 @@ public class Globals : Node
         var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));
         return elementTest.Contains(true);
     }
+
+    public static bool CheckKeyPress(string[] input, string desiredPress)
+    {
+        return (input[1] == "press" && input[0] == desiredPress);
+    }
+
+    public static bool CheckKeyRelease(string[] input, string desiredRelease)
+    {
+        return (input[1] == "press" && input[0] == desiredRelease);
+    }
 }

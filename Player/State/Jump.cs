@@ -22,6 +22,19 @@ public class Jump : State
     public override void PushMovement(float _xVel)
     {
     }
+
+    public override void HandleInput(string[] inputArr)
+    {
+        if (Globals.CheckKeyPress(inputArr, "k"))
+        {
+            EmitSignal(nameof(StateFinished), "JumpKick");
+        }
+    }
+
+    public override void AnimationFinished()
+    {
+        EmitSignal(nameof(StateFinished), "Fall");
+    }
 }
 
 

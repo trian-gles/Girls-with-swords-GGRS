@@ -32,8 +32,13 @@ public class Player : KinematicBody2D
 
     public int combo = 0;
 
+    private Color hitColor = new Color(255, 0, 0, 0.5f);
+    private Color hurtColor = new Color(0, 255, 0, 0.5f);
+    private Color colColor = new Color(0, 0, 255, 0.5f);
+
     private Area2D hitBoxes;
     private Area2D hurtBoxes;
+    private CollisionShape2D colBox;
     private AnimationPlayer animationPlayer;
 
     [Signal]
@@ -43,6 +48,7 @@ public class Player : KinematicBody2D
     {
         hitBoxes = GetNode<Area2D>("HitBoxes");
         hurtBoxes = GetNode<Area2D>("HurtBoxes");
+        colBox = GetNode<CollisionShape2D>("CollisionBox");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
         foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
@@ -174,6 +180,7 @@ public class Player : KinematicBody2D
         {
             return;
         }
+        Update(); //Redraw
         animationPlayer.FrameAdvance();
         MoveAndSlide(velocity, Vector2.Up);
 
@@ -235,17 +242,29 @@ public class Player : KinematicBody2D
         currentState.PushMovement(xVel);
     }
 
+    public bool OtherPlayerOnRight()
+    {
+        if (Position.x > otherPlayer.Position.x)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public void CheckTurnAround() 
     {
         if (otherPlayer == null) 
         {
             return;
         }
-        if ((Position.x > otherPlayer.Position.x) && facingRight)
+        if (!OtherPlayerOnRight() && facingRight)
         {
             TurnLeft();
         }
-        else if ((Position.x < otherPlayer.Position.x) && !facingRight) 
+        else if (OtherPlayerOnRight() && !facingRight) 
         {
             TurnRight();
         }
@@ -296,5 +315,47 @@ public class Player : KinematicBody2D
         currentState.receiveStun(stun);
         currentState.receiveDamage(dmg);
         EmitSignal(nameof(HitConfirm));
+    }
+
+    public List<Rect2> GetRects(Area2D area) 
+    {
+        List<Rect2> allRects = new List<Rect2>();
+        foreach (CollisionShape2D colShape in area.GetChildren()) 
+        {
+            if (!colShape.Disabled)
+            {
+                allRects.Add(GetRect(colShape));
+            }
+            
+        }
+        return allRects;
+    }
+
+    public Rect2 GetRect(CollisionShape2D colShape) 
+    {
+        RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
+        Vector2 extents = shape.Extents * 2;
+        Vector2 position = colShape.Position - extents / 2;
+        return new Rect2(position, extents);
+    }
+
+    public override void _Draw()
+    {
+        List<Rect2> hitRects = GetRects(hitBoxes);
+        List<Rect2> hurtRects = GetRects(hurtBoxes);
+        Rect2 colRect = GetRect(colBox);
+        
+
+        foreach (Rect2 rect in hitRects) 
+        {
+            DrawRect(rect, hitColor);
+        }
+
+        foreach (Rect2 rect in hurtRects)
+        {
+            DrawRect(rect, hurtColor);
+        }
+
+        DrawRect(colRect, colColor);
     }
 }

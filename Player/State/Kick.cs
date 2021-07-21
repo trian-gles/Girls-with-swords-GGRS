@@ -30,7 +30,7 @@ public class Kick : State
         if (!hitConnect) 
         {
             GD.Print("HIT");
-            owner.otherPlayer.ReceiveHit(owner.facingRight, dmg, hitStun, height, hitPush);// this needs to be worked out to allow crossups
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush);// this needs to be worked out to allow crossups
             hitConnect = true;
         }
               

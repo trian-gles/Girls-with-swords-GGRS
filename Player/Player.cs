@@ -154,7 +154,6 @@ public class Player : KinematicBody2D
 
     public void AnimationFinished(string animName) 
     {
-        GD.Print("Animation finished");
         if (currentState.loop) 
         {
             animationPlayer.Restart();
@@ -276,7 +275,8 @@ public class Player : KinematicBody2D
 
         GetNode<Sprite>("Sprite").FlipH = false;
 
-        flipAll();
+        hurtBoxes.Scale = new Vector2(1, 1);
+        hitBoxes.Scale = new Vector2(1, 1);
     }
 
     public void TurnLeft()
@@ -285,28 +285,8 @@ public class Player : KinematicBody2D
 
         GetNode<Sprite>("Sprite").FlipH = true;
 
-        flipAll();
-    }
-
-    public void flipAll()
-    {
-        foreach (CollisionShape2D hurtBox in hurtBoxes.GetChildren())
-        {
-            hurtBox.Position = new Vector2(-hurtBox.Position.x, hurtBox.Position.y);
-        }
-        foreach (CollisionShape2D hitBox in hitBoxes.GetChildren())
-        {
-            hitBox.Position = new Vector2(-hitBox.Position.x, hitBox.Position.y);
-        }
-    }
-
-    public void CheckBoxFlip() 
-    { 
-        if (!facingRight) 
-        {
-            flipAll();
-            GD.Print("Flipping box");
-        }
+        hurtBoxes.Scale = new Vector2(-1, 1);
+        hitBoxes.Scale = new Vector2(-1, 1);
     }
 
     public void ReceiveHit(bool rightAttack, int dmg, int stun, string height, Vector2 push) 
@@ -335,7 +315,15 @@ public class Player : KinematicBody2D
     {
         RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
         Vector2 extents = shape.Extents * 2;
-        Vector2 position = colShape.Position - extents / 2;
+        Vector2 position;
+        if (facingRight)
+        {
+            position = colShape.Position - extents / 2;
+        }
+        else
+        {
+            position = -colShape.Position - extents / 2;
+        }
         return new Rect2(position, extents);
     }
 

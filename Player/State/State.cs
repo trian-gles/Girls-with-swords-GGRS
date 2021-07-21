@@ -55,6 +55,10 @@ public class State : Node
 
     public virtual void ReceiveHit(bool rightAttack, string height, Vector2 push)
     {
+        if (!rightAttack)
+        {
+            push.x *= -1;
+        }
         owner.velocity = push;
         if (height == "high") 
         {

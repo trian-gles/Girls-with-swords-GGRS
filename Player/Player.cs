@@ -42,6 +42,7 @@ public class Player : KinematicBody2D
         public List<char> heldKeys { get; set; }
         public List<char[]> unhandledInputs { get; set; }
         public string currentState { get; set; }
+        public bool hitConnect { get; set; }
         public int frameCount { get; set; }
         public int stunRemaining { get; set; }
 
@@ -104,6 +105,7 @@ public class Player : KinematicBody2D
         pState.unhandledInputs = inputHandler.unhandledInputs;
         pState.currentState = currentState.Name;
         pState.frameCount = currentState.frameCount;
+        pState.hitConnect = currentState.hitConnect;
         pState.stunRemaining = currentState.stunRemaining;
         pState.flipH = sprite.FlipH;
 
@@ -125,6 +127,7 @@ public class Player : KinematicBody2D
         inputHandler.heldKeys = pState.heldKeys;
         inputHandler.unhandledInputs = pState.unhandledInputs;
         currentState = GetNode<State>("StateTree/" + pState.currentState);
+        currentState.hitConnect = pState.hitConnect;
         currentState.frameCount = pState.frameCount;
         animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
         currentState.stunRemaining = pState.stunRemaining;
@@ -243,15 +246,9 @@ public class Player : KinematicBody2D
             GD.Print($"Move and slide changed velocity to {velocity}");
         }
 
-        foreach (Area2D area in hurtBoxes.GetOverlappingAreas()) 
+        if (CheckHurtRect())
         {
-            if (area.Owner == otherPlayer) 
-            {
-                if (area.Name == "HitBoxes" && animationPlayer.cursor > 1) 
-                {
-                    currentState.InHurtbox();
-                } 
-            }
+            currentState.InHurtbox();
         }
 
         grounded = false; // will be set true if touching the ground
@@ -398,21 +395,39 @@ public class Player : KinematicBody2D
         EmitSignal(nameof(HealthChanged), Name, health);
     }
 
-    public List<Rect2> GetRects(Area2D area) 
+    public bool CheckHurtRect()
+    {
+        List<Rect2> myRects = GetRects(hurtBoxes, true);
+        List<Rect2> otherRects = otherPlayer.GetRects(otherPlayer.hitBoxes, true);
+        foreach (Rect2 hurtRect in myRects)
+        {
+            foreach (Rect2 hitRect in otherRects)
+            {
+                if (hurtRect.Intersects(hitRect))
+                {
+                    GD.Print("Hitbox contains other player");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
     {
         List<Rect2> allRects = new List<Rect2>();
         foreach (CollisionShape2D colShape in area.GetChildren()) 
         {
             if (!colShape.Disabled)
             {
-                allRects.Add(GetRect(colShape));
+                allRects.Add(GetRect(colShape, globalPosition));
             }
             
         }
         return allRects;
     }
 
-    public Rect2 GetRect(CollisionShape2D colShape) 
+    public Rect2 GetRect(CollisionShape2D colShape, bool globalPosition = false) 
     {
         RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
         Vector2 extents = shape.Extents * 2;
@@ -424,6 +439,10 @@ public class Player : KinematicBody2D
         else
         {
             position = -colShape.Position - extents / 2;
+        }
+        if (globalPosition)
+        {
+            position += Position;
         }
         return new Rect2(position, extents);
     }

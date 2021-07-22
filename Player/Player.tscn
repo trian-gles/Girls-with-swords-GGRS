@@ -17,7 +17,7 @@
 extents = Vector2( 7, 40 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 40 )
+extents = Vector2( 10, 30 )
 
 [sub_resource type="RectangleShape2D" id=3]
 
@@ -1294,7 +1294,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 104
+frame = 62
 
 [node name="StateTree" type="Node" parent="."]
 

@@ -4,13 +4,17 @@ using System;
 public class State : Node
 {
     public Player owner;
-    protected int frameCount = 0;
+    public int frameCount
+    { get; set; }
     [Signal]
     public delegate void StateFinished(string nextStateName);
 
-    protected int stunRemaining;
+    public int stunRemaining 
+    { get; set; }
     public bool loop = false;
-    
+
+    public bool hitConnect = false;
+
 
     public override void _Ready()
     {
@@ -18,8 +22,8 @@ public class State : Node
     }
 
     public virtual void Enter() 
-    { 
-    
+    {
+        frameCount = 0;
     }
 
     public virtual void Exit()
@@ -39,7 +43,7 @@ public class State : Node
 
     public virtual void FrameAdvance()
     {
-
+        frameCount++;
     }
 
     public virtual void PushMovement(float xVel) 

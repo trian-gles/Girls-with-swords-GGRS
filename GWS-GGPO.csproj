@@ -4,8 +4,11 @@
     <RootNamespace>GWSGGPO</RootNamespace>
   </PropertyGroup>
 	<ItemGroup>
-		<CSFile Include="addons\WAT\core\assertions\Assertions.cs"/>
-		<CSFile Include="addons\WAT\core\test\Recorder.cs"/>
-		<CSFile Include="addons\WAT\core\test\Test.cs"/>
+		<CSFile Include="addons\WAT\core\assertions\Assertions.cs" />
+		<CSFile Include="addons\WAT\core\test\Recorder.cs" />
+		<CSFile Include="addons\WAT\core\test\Test.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="System.Text.Json" Version="5.0.2" />
 	</ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Text.Json;
 
 public class MainScene : Node2D
 {
@@ -10,13 +11,23 @@ public class MainScene : Node2D
     private Label P2Combo;
     private TextureProgress P1Health;
     private TextureProgress P2Health;
+    private Camera2D camera;
+
+
     private int hitStopRemaining = 0;
     [Export]
     private int maxHitStop = 10;
 
     private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
 
-    private Camera2D camera;
+    private struct GameState
+    {
+        public int frame { get; set; }
+        public Player.PlayerState P1State { get; set; }
+        public Player.PlayerState P2State { get; set; }
+        public int hitStopRemaining { get; set; }
+    }
+
     public override void _Ready()
     {
         camera = GetNode<Camera2D>("Camera2D");
@@ -45,6 +56,28 @@ public class MainScene : Node2D
         P2.Connect("HitConfirm", this, nameof(HitStop));
     }
 
+    private GameState GetGameState()
+    {
+        GameState gState = new GameState();
+        gState.frame = Frame;
+        gState.P1State = P1.GetState();
+        gState.P2State = P2.GetState();
+        gState.hitStopRemaining = hitStopRemaining;
+
+        return gState;
+    }
+
+
+    private void SaveState()
+    {
+        GameState gState = GetGameState();
+        string jsonString = JsonSerializer.Serialize(gState);
+        GD.Print(jsonString);
+        var file = new File();
+        file.Open("res://SavedState.json", File.ModeFlags.Write);
+        file.StoreString(jsonString);
+        file.Close();
+    }
     public void OnPlayerComboChange(string name, int combo)
     {
         if (name == "P2")
@@ -114,6 +147,12 @@ public class MainScene : Node2D
     }
     public override void _Input(InputEvent @event)
     {
+        if (@event.IsActionPressed("ui_select"))
+        {
+            GD.Print("Saving state");
+            SaveState();
+        }
+
         if (@event is InputEventKey)
         {
             foreach (char actionName in allowableInputs)

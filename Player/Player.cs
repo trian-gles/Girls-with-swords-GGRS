@@ -9,7 +9,10 @@ public class Player : KinematicBody2D
 
     [Signal]
     public delegate void HealthChanged(string name, int health);
-    private int health = 100;
+    [Signal]
+    public delegate void ComboChanged(string name, int combo);
+    [Signal]
+    public delegate void HitConfirm();
 
     [Export]
     public int speed = 200;
@@ -25,15 +28,34 @@ public class Player : KinematicBody2D
 
     public InputHandler inputHandler;
 
+    // All of these will be stored in gamestate
+    private int health = 100;
     public Vector2 velocity = new Vector2(0, 0);
-
     public bool facingRight = true;
     public bool touchingWall = false;
     public bool grounded;
-
-    [Signal]
-    public delegate void ComboChanged(string name, int combo);
     private int combo = 0;
+
+    public struct PlayerState
+    {
+        public List<List<char[]>> inputBuffer { get; set; }
+        public List<char> heldKeys { get; set; }
+        public List<char[]> unhandledInputs { get; set; }
+        public string currentState { get; set; }
+        public int frameCount { get; set; }
+        public int stunRemaining { get; set; }
+
+        public int health { get; set; }
+        public float[] position { get; set; }
+        public float[] velocity { get; set; }
+        public bool facingRight { get; set; }
+        public bool touchingWall { get; set; }
+        public bool grounded { get; set; }
+        public int combo { get; set; }
+
+
+    }
+    
 
     private Color hitColor = new Color(255, 0, 0, 0.5f);
     private Color hurtColor = new Color(0, 255, 0, 0.5f);
@@ -44,8 +66,7 @@ public class Player : KinematicBody2D
     private CollisionShape2D colBox;
     public AnimationPlayer animationPlayer;
 
-    [Signal]
-    public delegate void HitConfirm();
+    
 
     public override void _Ready()
     {
@@ -73,12 +94,35 @@ public class Player : KinematicBody2D
         ChangeState("Idle");
     }
 
+    public PlayerState GetState()
+    {
+        var pState = new PlayerState();
+        pState.inputBuffer = inputHandler.inputBuffer;
+        pState.heldKeys = inputHandler.heldKeys;
+        pState.unhandledInputs = inputHandler.unhandledInputs;
+        pState.currentState = currentState.Name;
+        pState.frameCount = currentState.frameCount;
+        pState.stunRemaining = currentState.stunRemaining;
+
+        pState.health = health;
+        pState.position = new float[] { Position.x, Position.y };
+
+
+        pState.velocity = new float[] { velocity.x, velocity.y };
+        pState.facingRight = facingRight;
+        pState.touchingWall = touchingWall;
+        pState.grounded = grounded;
+        pState.combo = combo;
+        return pState;
+    }
+
+    public void SetState(PlayerState pState) { }
+
     public class InputHandler 
     {
-        private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
-        private List<List<char[]>> inputBuffer = new List<List<char[]>>();
+        public List<List<char[]>> inputBuffer = new List<List<char[]>>();
         public List<char> heldKeys = new List<char>();
-        private List<char[]> unhandledInputs = new List<char[]>();
+        public List<char[]> unhandledInputs = new List<char[]>();
 
         public void NewInput(char key, char pressOrRelease) 
         {

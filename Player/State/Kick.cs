@@ -3,7 +3,7 @@ using System;
 
 public class Kick : State
 {
-    protected bool hitConnect = false;
+    
 
     [Export]
     protected int hitStun = 10;
@@ -28,7 +28,6 @@ public class Kick : State
     public override void Enter()
     {
         hitConnect = false;
-        owner.velocity.y = 0;
     }
     public override void AnimationFinished()
     {

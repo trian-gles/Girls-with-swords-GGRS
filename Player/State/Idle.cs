@@ -10,6 +10,7 @@ public class Idle : State
     }
     public override void Enter()
     {
+        base.Enter();
         owner.velocity.x = 0;
         owner.velocity.y = 0;
 
@@ -56,6 +57,7 @@ public class Idle : State
 
     public override void FrameAdvance()
     {
+        base.FrameAdvance();
         owner.velocity.x = 0;
         owner.CheckTurnAround();
         if (owner.CheckHeldKey('8'))

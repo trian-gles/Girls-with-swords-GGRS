@@ -10,6 +10,7 @@ public class HitStun : State
     }
     public override void Enter()
     {
+        base.Enter();
         owner.ComboUp();
     }
 

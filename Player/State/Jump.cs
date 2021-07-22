@@ -5,12 +5,13 @@ public class Jump : State
 {
     public override void Enter()
     {
-
+        base.Enter();
         owner.velocity.y = -1 * owner.jumpForce;
     }
 
     public override void FrameAdvance()
     {
+        base.FrameAdvance();
         if (owner.grounded && frameCount > 0) 
         {
             EmitSignal(nameof(StateFinished), "Idle");

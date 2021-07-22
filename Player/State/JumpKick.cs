@@ -6,10 +6,12 @@ public class JumpKick : Kick
 
     public override void Enter()
     {
+        base.Enter();
         hitConnect = false;
     }
     public override void FrameAdvance()
     {
+        base.FrameAdvance();
         if (owner.grounded && frameCount > 0)
         {
             EmitSignal(nameof(StateFinished), "Idle");

@@ -10,6 +10,7 @@ public class Walk : State
     }
     public override void Enter()
     {
+        base.Enter();
         if (owner.CheckHeldKey('8'))
         {
             EmitSignal(nameof(StateFinished), "MovingJump");
@@ -31,6 +32,12 @@ public class Walk : State
             owner.velocity.x = 0;
             EmitSignal(nameof(StateFinished), "Kick");
         }
+    }
+
+    public override void FrameAdvance()
+    {
+        base.FrameAdvance();
+        owner.CheckTurnAround();
     }
 
     public override void PushMovement(float _xVel)

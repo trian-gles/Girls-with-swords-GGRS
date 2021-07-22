@@ -11,7 +11,7 @@ public class GlobalsTests : WAT.Test
 	}
 
 	[Test]
-	public void charArrayInList()
+	public void CharArrayInList()
 	{
 		List<char[]> inpList = new List<char[]>();
 		inpList.Add(new char[] {'k', 'p' });

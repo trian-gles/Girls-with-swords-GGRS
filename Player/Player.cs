@@ -45,6 +45,7 @@ public class Player : KinematicBody2D
         public int frameCount { get; set; }
         public int stunRemaining { get; set; }
 
+        public bool flipH { get; set; }
         public int health { get; set; }
         public float[] position { get; set; }
         public float[] velocity { get; set; }
@@ -65,7 +66,7 @@ public class Player : KinematicBody2D
     public Area2D hurtBoxes;
     private CollisionShape2D colBox;
     public AnimationPlayer animationPlayer;
-
+    private Sprite sprite;
     
 
     public override void _Ready()
@@ -74,6 +75,7 @@ public class Player : KinematicBody2D
         hurtBoxes = GetNode<Area2D>("HurtBoxes");
         colBox = GetNode<CollisionShape2D>("CollisionBox");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        sprite = GetNode<Sprite>("Sprite");
         animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
         foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
         {
@@ -103,6 +105,7 @@ public class Player : KinematicBody2D
         pState.currentState = currentState.Name;
         pState.frameCount = currentState.frameCount;
         pState.stunRemaining = currentState.stunRemaining;
+        pState.flipH = sprite.FlipH;
 
         pState.health = health;
         pState.position = new float[] { Position.x, Position.y };
@@ -125,6 +128,7 @@ public class Player : KinematicBody2D
         currentState.frameCount = pState.frameCount;
         animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
         currentState.stunRemaining = pState.stunRemaining;
+        sprite.FlipH = pState.flipH;
 
         health = pState.health;
         Position = new Vector2(pState.position[0], pState.position[1]);

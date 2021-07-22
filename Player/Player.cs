@@ -116,7 +116,25 @@ public class Player : KinematicBody2D
         return pState;
     }
 
-    public void SetState(PlayerState pState) { }
+    public void SetState(PlayerState pState) //adjust this
+    {
+        inputHandler.inputBuffer = pState.inputBuffer;
+        inputHandler.heldKeys = pState.heldKeys;
+        inputHandler.unhandledInputs = pState.unhandledInputs;
+        currentState = GetNode<State>("StateTree/" + pState.currentState);
+        currentState.frameCount = pState.frameCount;
+        animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
+        currentState.stunRemaining = pState.stunRemaining;
+
+        health = pState.health;
+        Position = new Vector2(pState.position[0], pState.position[1]);
+        velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
+        facingRight = pState.facingRight;
+        grounded = pState.grounded;
+        combo = pState.combo;
+        EmitSignal(nameof(ComboChanged), combo, Name);
+
+    }
 
     public class InputHandler 
     {

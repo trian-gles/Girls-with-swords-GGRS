@@ -20,6 +20,8 @@ public class MainScene : Node2D
 
     private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
 
+    private string savedState;
+
     private struct GameState
     {
         public int frame { get; set; }
@@ -67,16 +69,25 @@ public class MainScene : Node2D
         return gState;
     }
 
+    private void SetGameState(GameState gState)
+    {
+        Frame = gState.frame;
+        hitStopRemaining = gState.hitStopRemaining;
+        P1.SetState(gState.P1State);
+        P2.SetState(gState.P2State);
+    }
 
     private void SaveState()
     {
         GameState gState = GetGameState();
-        string jsonString = JsonSerializer.Serialize(gState);
-        GD.Print(jsonString);
-        var file = new File();
-        file.Open("res://SavedState.json", File.ModeFlags.Write);
-        file.StoreString(jsonString);
-        file.Close();
+        savedState = JsonSerializer.Serialize(gState);
+        
+    }
+
+    private void LoadState()
+    {
+        GameState gState = JsonSerializer.Deserialize<GameState>(savedState);
+        SetGameState(gState);
     }
     public void OnPlayerComboChange(string name, int combo)
     {
@@ -151,6 +162,12 @@ public class MainScene : Node2D
         {
             GD.Print("Saving state");
             SaveState();
+        }
+
+        if (@event.IsActionPressed("debug_shift"))
+        {
+            GD.Print("Loading state");
+            LoadState();
         }
 
         if (@event is InputEventKey)

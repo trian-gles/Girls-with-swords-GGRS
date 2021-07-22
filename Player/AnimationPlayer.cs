@@ -27,6 +27,14 @@ public class AnimationPlayer : Godot.AnimationPlayer
         }
     }
 
+    public void SetAnimationAndFrame(string animName, int frame)
+    {
+        Play(animName);
+        Stop();
+        cursor = frame;
+        Seek(cursor, true);
+        GD.Print($"Setting animation to {animName} and frame to {frame}");
+    }
     public void FrameAdvance() 
     {
         if (cursor < animationLength)

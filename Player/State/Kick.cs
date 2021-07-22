@@ -27,6 +27,7 @@ public class Kick : State
     }
     public override void Enter()
     {
+        base.Enter();
         hitConnect = false;
     }
     public override void AnimationFinished()

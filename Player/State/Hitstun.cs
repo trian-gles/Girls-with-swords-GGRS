@@ -10,8 +10,7 @@ public class HitStun : State
     }
     public override void Enter()
     {
-        owner.combo++;
-        GD.Print($"Combo {owner.combo}");
+        owner.ComboUp();
     }
 
 
@@ -21,6 +20,7 @@ public class HitStun : State
 
         if (stunRemaining == 0)
         {
+            owner.ResetCombo();
             if (owner.grounded)
             {
                 EmitSignal(nameof(StateFinished), "Idle");

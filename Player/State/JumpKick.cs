@@ -18,10 +18,10 @@ public class JumpKick : Kick
         owner.velocity.y += owner.gravity;
     }
 
-    public override void HandleInput(string[] inputArr)
+    public override void HandleInput(char[] inputArr)
     {
 
-        if (Globals.CheckKeyPress(inputArr, "k") && hitConnect)
+        if (Globals.CheckKeyPress(inputArr, 'k') && hitConnect)
         { 
         EmitSignal(nameof(StateFinished), "JumpKick");
         }

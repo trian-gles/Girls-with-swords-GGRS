@@ -23,9 +23,9 @@ public class Jump : State
     {
     }
 
-    public override void HandleInput(string[] inputArr)
+    public override void HandleInput(char[] inputArr)
     {
-        if (Globals.CheckKeyPress(inputArr, "k"))
+        if (Globals.CheckKeyPress(inputArr, 'k'))
         {
             EmitSignal(nameof(StateFinished), "JumpKick");
         }

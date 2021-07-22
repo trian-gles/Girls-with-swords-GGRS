@@ -7,7 +7,9 @@ public class Player : KinematicBody2D
     private State currentState;
     public Player otherPlayer;
 
-    public int health = 100;
+    [Signal]
+    public delegate void HealthChanged(string name, int health);
+    private int health = 100;
 
     [Export]
     public int speed = 200;
@@ -29,7 +31,9 @@ public class Player : KinematicBody2D
     public bool touchingWall = false;
     public bool grounded;
 
-    public int combo = 0;
+    [Signal]
+    public delegate void ComboChanged(string name, int combo);
+    private int combo = 0;
 
     private Color hitColor = new Color(255, 0, 0, 0.5f);
     private Color hurtColor = new Color(0, 255, 0, 0.5f);
@@ -71,43 +75,27 @@ public class Player : KinematicBody2D
 
     public class InputHandler 
     {
-        private string[] allowableInputs = new string[] { "up", "down", "left", "right", "p", "k", "s" };
-        private List<List<string[]>> inputBuffer = new List<List<string[]>>();
-        public List<string> heldKeys = new List<string>();
-        private List<string[]> unhandledInputs = new List<string[]>();
+        private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
+        private List<List<char[]>> inputBuffer = new List<List<char[]>>();
+        public List<char> heldKeys = new List<char>();
+        private List<char[]> unhandledInputs = new List<char[]>();
 
-        public void NewInput(InputEvent @event) 
+        public void NewInput(char key, char pressOrRelease) 
         {
-            if (@event is InputEventKey)
-            {
-                foreach (string actionName in allowableInputs)
-                {
-                    if (@event.IsActionPressed(actionName))
-                    {
-                        string[] inputArr = new string[2] { actionName, "press" };
-                        unhandledInputs.Add(inputArr);
-                    }
-
-                    else if (@event.IsActionReleased(actionName)) 
-                    {
-                        string[] inputArr = new string[2] { actionName, "release" };
-                        unhandledInputs.Add(inputArr);
-                    }
-                }
-            }
+            unhandledInputs.Add(new char[] { key, pressOrRelease });
         }
         public void FrameAdvance(bool hitStop, State currentState) 
         {
-            List<string[]> curBufStep = new List<string[]>();
-            foreach (string[] inputArr in unhandledInputs)
+            List<char[]> curBufStep = new List<char[]>();
+            foreach (char[] inputArr in unhandledInputs)
             {
                 
                 // Hold or release keys
-                if (inputArr[1] == "press")
+                if (inputArr[1] == 'p')
                 {
                     heldKeys.Add(inputArr[0]);
                 }
-                else if (inputArr[1] == "release")
+                else if (inputArr[1] == 'r')
                 {
                     heldKeys.Remove(inputArr[0]);
                 }
@@ -126,12 +114,12 @@ public class Player : KinematicBody2D
             unhandledInputs.Clear();
         }
 
-        public List<string[]> GetBuffer() 
+        public List<char[]> GetBuffer() 
         {
-            List<string[]> flatBuf = new List<string[]>();
-            foreach (List<string[]> frameInputs in inputBuffer)
+            List<char[]> flatBuf = new List<char[]>();
+            foreach (List<char[]> frameInputs in inputBuffer)
             {
-                foreach (string[] input in frameInputs) 
+                foreach (char[] input in frameInputs) 
                 {
                     flatBuf.Add(input);
                 }
@@ -163,12 +151,12 @@ public class Player : KinematicBody2D
         }
     }
 
-    public bool CheckHeldKey(string key) 
+    public bool CheckHeldKey(char key) 
     {
         return (inputHandler.heldKeys.Contains(key));
     }
 
-    public bool CheckBuffer(string[] key) // FIX THIS
+    public bool CheckBuffer(char[] key) // FIX THIS
     {
         return (inputHandler.GetBuffer().Contains(key));
     }
@@ -323,6 +311,25 @@ public class Player : KinematicBody2D
                 velocity.x = hitPush.x;
             }
         }
+    }
+
+    public void ResetCombo()
+    {
+        combo = 0;
+        EmitSignal(nameof(ComboChanged), Name, combo);
+    }
+
+    public void ComboUp()
+    {
+        combo++;
+        GD.Print($"Combo up to {combo}");
+        EmitSignal(nameof(ComboChanged), Name, combo);
+    }
+
+    public void DeductHealth(int dmg)
+    {
+        health -= dmg;
+        EmitSignal(nameof(HealthChanged), Name, health);
     }
 
     public List<Rect2> GetRects(Area2D area) 

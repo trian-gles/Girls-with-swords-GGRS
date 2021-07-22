@@ -1,16 +1,9 @@
 {
-	"res://tests/BooleanTest.cs": {
-		"path": "res://tests/BooleanTest.cs",
+	"res://tests/GlobalsTests.cs": {
+		"path": "res://tests/GlobalsTests.cs",
 		"tags": [
 
 		],
-		"passing": true
-	},
-	"res://tests/BooleanTest.gd": {
-		"path": "res://tests/BooleanTest.gd",
-		"tags": [
-
-		],
-		"passing": true
+		"passing": false
 	}
 }

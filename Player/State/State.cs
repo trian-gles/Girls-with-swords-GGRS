@@ -32,7 +32,7 @@ public class State : Node
     
     }
 
-    public virtual void HandleInput(string[] inputArr)
+    public virtual void HandleInput(char[] inputArr)
     {
         GD.Print(inputArr);
     }
@@ -63,7 +63,7 @@ public class State : Node
         owner.velocity = push;
         if (height == "high") 
         {
-            if ((rightAttack && owner.CheckHeldKey("right")) || (!rightAttack && owner.CheckHeldKey("Block")))
+            if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
             {
                 EmitSignal(nameof(StateFinished), "Block");
             }
@@ -78,7 +78,7 @@ public class State : Node
         }
         else
         {
-            if ((rightAttack && owner.CheckHeldKey("right")) || (!rightAttack && owner.CheckHeldKey("Block"))) 
+            if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4'))) 
             {
                 EmitSignal(nameof(StateFinished), "Block");
             }
@@ -96,6 +96,6 @@ public class State : Node
 
     public virtual void receiveDamage(int dmg)
     {
-        owner.health -= dmg;
+        owner.DeductHealth(dmg);
     }
 }

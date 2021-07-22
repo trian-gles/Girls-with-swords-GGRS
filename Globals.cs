@@ -15,19 +15,19 @@ public class Globals : Node
         
     }
 
-    public static bool ArrayInList(List<string[]> arr, string[] element)
+    public static bool ArrayInList(List<char[]> arr, char[] element)
     {
         var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));
         return elementTest.Contains(true);
     }
 
-    public static bool CheckKeyPress(string[] input, string desiredPress)
+    public static bool CheckKeyPress(char[] input, char desiredPress)
     {
-        return (input[1] == "press" && input[0] == desiredPress);
+        return (input[1] == 'p' && input[0] == desiredPress);
     }
 
-    public static bool CheckKeyRelease(string[] input, string desiredRelease)
+    public static bool CheckKeyRelease(char[] input, char desiredRelease)
     {
-        return (input[1] == "press" && input[0] == desiredRelease);
+        return (input[1] == 'p' && input[0] == desiredRelease);
     }
 }

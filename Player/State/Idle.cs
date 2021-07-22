@@ -13,42 +13,42 @@ public class Idle : State
         owner.velocity.x = 0;
         owner.velocity.y = 0;
 
-        if (owner.CheckHeldKey("right"))
+        if (owner.CheckHeldKey('6'))
         {
             owner.velocity.x = owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
 
-        else if (owner.CheckHeldKey("left"))
+        else if (owner.CheckHeldKey('4'))
         {
             owner.velocity.x = -owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
 
-        else if (owner.CheckHeldKey("up"))
+        else if (owner.CheckHeldKey('8'))
         {
             EmitSignal(nameof(StateFinished), "Jump");
         }
     } 
-    public override void HandleInput(string[] inputArr)
+    public override void HandleInput(char[] inputArr)
     {
-        if (inputArr[0] == "right" && inputArr[1] == "press") // Can I make this a bit less confusing to read?
+        if (Globals.CheckKeyPress(inputArr, '6'))
         {
             owner.velocity.x = owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
-        else if (inputArr[0] == "left" && inputArr[1] == "press")
+        else if (Globals.CheckKeyPress(inputArr, '4'))
         {
             owner.velocity.x = -owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
         }
 
-        else if (inputArr[0] == "up" && inputArr[1] == "press")
+        else if (Globals.CheckKeyPress(inputArr, '8'))
         {
             EmitSignal(nameof(StateFinished), "Jump");
         }
 
-        else if (inputArr[0] == "k" && inputArr[1] == "press")
+        else if (Globals.CheckKeyPress(inputArr, 'k'))
         {
             EmitSignal(nameof(StateFinished), "Kick");
         }
@@ -58,7 +58,7 @@ public class Idle : State
     {
         owner.velocity.x = 0;
         owner.CheckTurnAround();
-        if (owner.CheckHeldKey("up"))
+        if (owner.CheckHeldKey('8'))
         {
             EmitSignal(nameof(StateFinished), "Jump");
         }

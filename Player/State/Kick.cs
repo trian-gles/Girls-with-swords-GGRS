@@ -28,7 +28,6 @@ public class Kick : State
     public override void Enter()
     {
         hitConnect = false;
-        owner.velocity.x = 0;
         owner.velocity.y = 0;
     }
     public override void AnimationFinished()
@@ -47,17 +46,17 @@ public class Kick : State
               
     }
 
-    public override void HandleInput(string[] inputArr)
+    public override void HandleInput(char[] inputArr)
     {
         
-        if (inputArr[1] == "press" && hitConnect) 
+        if (inputArr[1] == 'p' && hitConnect) 
         {
             
-            if (inputArr[0] == "k")
+            if (inputArr[0] == 'k')
             {
                 EmitSignal(nameof(StateFinished), "Kick");
             }
-            else if (inputArr[0] == "up") 
+            else if (inputArr[0] == '8') 
             {
                 EmitSignal(nameof(StateFinished), "Jump");
             }

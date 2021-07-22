@@ -139,7 +139,7 @@ public class Player : KinematicBody2D
         facingRight = pState.facingRight;
         grounded = pState.grounded;
         combo = pState.combo;
-        EmitSignal(nameof(ComboChanged), combo, Name);
+        EmitSignal(nameof(ComboChanged), Name, combo);
 
     }
 
@@ -241,10 +241,6 @@ public class Player : KinematicBody2D
         animationPlayer.FrameAdvance();
         Vector2 currVel = new Vector2(velocity.x, velocity.y);
         MoveAndSlide(velocity, Vector2.Up, maxSlides: 4);
-        if (!velocity.IsEqualApprox(currVel) && Name == "P2")
-        {
-            GD.Print($"Move and slide changed velocity to {velocity}");
-        }
 
         if (CheckHurtRect())
         {
@@ -405,7 +401,6 @@ public class Player : KinematicBody2D
             {
                 if (hurtRect.Intersects(hitRect))
                 {
-                    GD.Print("Hitbox contains other player");
                     return true;
                 }
             }

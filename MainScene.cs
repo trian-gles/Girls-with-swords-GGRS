@@ -91,6 +91,7 @@ public class MainScene : Node2D
     }
     public void OnPlayerComboChange(string name, int combo)
     {
+        GD.Print($"Call for {name} combo to change to {combo}");
         if (name == "P2")
         {
             if (combo > 1)

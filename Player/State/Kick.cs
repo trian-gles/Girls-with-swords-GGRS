@@ -43,10 +43,6 @@ public class Kick : State
             owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush);
             hitConnect = true;
         }
-        else
-        {
-            GD.Print("Hit already connected");
-        }
               
     }
 

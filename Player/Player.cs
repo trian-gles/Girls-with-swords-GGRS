@@ -135,6 +135,8 @@ public class Player : KinematicBody2D
 
         health = pState.health;
         Position = new Vector2(pState.position[0], pState.position[1]);
+        GD.Print($"setting {Name} position to {Position}");
+
         velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
         facingRight = pState.facingRight;
         grounded = pState.grounded;

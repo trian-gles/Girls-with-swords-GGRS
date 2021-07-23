@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Text.Json;
+using System.Collections.Generic;
 
 public class MainScene : Node2D
 {
@@ -12,7 +13,10 @@ public class MainScene : Node2D
     private TextureProgress P1Health;
     private TextureProgress P2Health;
     private Camera2D camera;
+    private Label recording;
 
+    private List<List<char[]>> savedInputs = new List<List<char[]>>();
+    private List<char[]> thisFrameInputs = new List<char[]>();
 
     private int hitStopRemaining = 0;
     [Export]
@@ -21,7 +25,7 @@ public class MainScene : Node2D
     private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
 
     private string savedState;
-
+    private int finalFrame = 0;
     private struct GameState
     {
         public int frame { get; set; }
@@ -46,6 +50,8 @@ public class MainScene : Node2D
         P2Combo = GetNode<Label>("HUD/P2Combo");
         P1Health = GetNode<TextureProgress>("HUD/P1Health");
         P2Health = GetNode<TextureProgress>("HUD/P2Health");
+        recording = GetNode<Label>("HUD/Recording");
+        recording.Visible = false;
 
         P1Combo.Text = "";
         P2Combo.Text = "";
@@ -56,6 +62,8 @@ public class MainScene : Node2D
         P2.inputHandler.heldKeys.Add('8');
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
+
+        SaveState();
     }
 
     private GameState GetGameState()
@@ -65,6 +73,7 @@ public class MainScene : Node2D
         gState.P1State = P1.GetState();
         gState.P2State = P2.GetState();
         gState.hitStopRemaining = hitStopRemaining;
+        recording.Visible = true;
 
         return gState;
     }
@@ -75,23 +84,26 @@ public class MainScene : Node2D
         hitStopRemaining = gState.hitStopRemaining;
         P1.SetState(gState.P1State);
         P2.SetState(gState.P2State);
+        recording.Visible = true;
+        recording.Text = "PLAYBACK";
     }
 
     private void SaveState()
     {
         GameState gState = GetGameState();
         savedState = JsonSerializer.Serialize(gState);
-        
     }
 
     private void LoadState()
     {
+        GD.Print($"P1 has finally arrived at {P1.Position}");
+        finalFrame = Frame;
         GameState gState = JsonSerializer.Deserialize<GameState>(savedState);
         SetGameState(gState);
+        
     }
     public void OnPlayerComboChange(string name, int combo)
     {
-        GD.Print($"Call for {name} combo to change to {combo}");
         if (name == "P2")
         {
             if (combo > 1)
@@ -132,11 +144,29 @@ public class MainScene : Node2D
 
     public void FrameAdvance() 
     {
+        savedInputs.Add(thisFrameInputs);
+        thisFrameInputs = new List<char[]>();
+        if (Frame < savedInputs.Count)
+        {
+            foreach (char[] inp in savedInputs[Frame])
+            {
+                P1.inputHandler.NewInput(inp[0], inp[1]);
+            }
+
+        }
+        
+        if (Frame == finalFrame && finalFrame != 0)
+        {
+            GD.Print($"P1 has finally arrived at {P1.Position}");
+            LoadState();
+        }
+
         Frame++;
         if (hitStopRemaining > 0) 
         { 
             hitStopRemaining--; 
         }
+        
 
         camera.Call("adjust", P1.Position, P2.Position);
         // GD.Print($"Advance to frame {Frame}");
@@ -159,12 +189,6 @@ public class MainScene : Node2D
     }
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_select"))
-        {
-            GD.Print("Saving state");
-            SaveState();
-        }
-
         if (@event.IsActionPressed("debug_shift"))
         {
             GD.Print("Loading state");
@@ -178,11 +202,14 @@ public class MainScene : Node2D
                 if (@event.IsActionPressed(actionName.ToString()))
                 {
                     P1.inputHandler.NewInput(actionName, 'p');
+                    thisFrameInputs.Add(new char[] { actionName, 'p' });
+                    
                 }
 
                 else if (@event.IsActionReleased(actionName.ToString()))
                 {
                     P1.inputHandler.NewInput(actionName, 'r');
+                    thisFrameInputs.Add(new char[] { actionName, 'r' });
                 }
             }
         }

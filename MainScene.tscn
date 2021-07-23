@@ -147,6 +147,21 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="HUD/P1Combo"]
 wait_time = 0.5
 
+[node name="Recording" type="Label" parent="HUD"]
+anchor_left = 0.241
+anchor_top = 0.172
+anchor_right = 0.69
+anchor_bottom = 0.405
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 11 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "RECORDING"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="WallL" type="CollisionShape2D" parent="Walls"]

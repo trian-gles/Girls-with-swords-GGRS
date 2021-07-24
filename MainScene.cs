@@ -13,10 +13,12 @@ public class MainScene : Node2D
     private TextureProgress P1Health;
     private TextureProgress P2Health;
     private Camera2D camera;
-    private Label recording;
-
+    public Label recording;
     private List<List<char[]>> savedInputs = new List<List<char[]>>();
     private List<char[]> thisFrameInputs = new List<char[]>();
+
+    [Export]
+    private bool testing = false;
 
     private int hitStopRemaining = 0;
     [Export]
@@ -45,13 +47,14 @@ public class MainScene : Node2D
         P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
         P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
         P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
-
         P1Combo = GetNode<Label>("HUD/P1Combo");
         P2Combo = GetNode<Label>("HUD/P2Combo");
         P1Health = GetNode<TextureProgress>("HUD/P1Health");
         P2Health = GetNode<TextureProgress>("HUD/P2Health");
         recording = GetNode<Label>("HUD/Recording");
         recording.Visible = false;
+
+        
 
         P1Combo.Text = "";
         P2Combo.Text = "";
@@ -63,7 +66,12 @@ public class MainScene : Node2D
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
 
-        SaveState();
+        if (testing)
+        {
+            recording.Visible = true;
+            recording.Text = "PLAYBACK";
+            LoadInputsForTesting();
+        }
     }
 
     private GameState GetGameState()
@@ -74,7 +82,7 @@ public class MainScene : Node2D
         gState.P2State = P2.GetState();
         gState.hitStopRemaining = hitStopRemaining;
         recording.Visible = true;
-
+        
         return gState;
     }
 
@@ -84,14 +92,70 @@ public class MainScene : Node2D
         hitStopRemaining = gState.hitStopRemaining;
         P1.SetState(gState.P1State);
         P2.SetState(gState.P2State);
-        recording.Visible = true;
-        recording.Text = "PLAYBACK";
+        
     }
 
     private void SaveState()
     {
         GameState gState = GetGameState();
         savedState = JsonSerializer.Serialize(gState);
+
+    }
+
+    private void CheckStateTesting(string savedState)
+    {
+        string expectedState = LoadStateForTesting();
+        GD.Print($"This state = {savedState}");
+        GD.Print($"Expected state = {expectedState}");
+        bool error = false;
+        for (int i = 0; i < savedState.Length; i++)
+        {
+            if (expectedState[i] != savedState[i])
+            {
+                GD.Print($"{savedState[i]} != {expectedState[i]}");
+                error = true;
+            }
+            
+        }
+        if (error)
+        {
+            GD.Print("Saved state does not match expected state");
+        }
+        else
+        {
+            GD.Print("Saved state matches expected.");
+        }
+    }
+
+    private void SaveStateForTesting(string savedState)
+    {
+        File f = new File();
+        f.Open("res://tests/FinalState.json", File.ModeFlags.Write);
+        f.StoreString(savedState);
+    }
+
+    private string LoadStateForTesting()
+    {
+        File f = new File();
+        f.Open("res://tests/FinalState.json", File.ModeFlags.Read);
+        return f.GetAsText();
+    }
+
+    private void SaveInputsForTesting() //
+    {
+        string jsonString = JsonSerializer.Serialize(savedInputs);
+        File f = new File();
+        f.Open("res://tests/SavedInputs.json", File.ModeFlags.Write);
+        f.StoreString(jsonString);
+    }
+
+    public void LoadInputsForTesting() //used for testing
+    {
+        
+        File f = new File();
+        f.Open("res://tests/SavedInputs.json", File.ModeFlags.Read);
+        string jsonString = f.GetAsText();
+        savedInputs = JsonSerializer.Deserialize<List<List<char[]>>>(jsonString);
     }
 
     private void LoadState()
@@ -144,6 +208,14 @@ public class MainScene : Node2D
 
     public void FrameAdvance() 
     {
+        if (Frame == 249 && testing)
+        {
+            SaveState();
+            CheckStateTesting(savedState);
+        }
+        
+
+
         savedInputs.Add(thisFrameInputs);
         thisFrameInputs = new List<char[]>();
         if (Frame < savedInputs.Count)
@@ -154,12 +226,6 @@ public class MainScene : Node2D
             }
 
         }
-        
-        if (Frame == finalFrame && finalFrame != 0)
-        {
-            GD.Print($"P1 has finally arrived at {P1.Position}");
-            LoadState();
-        }
 
         Frame++;
         if (hitStopRemaining > 0) 
@@ -169,6 +235,9 @@ public class MainScene : Node2D
         
 
         camera.Call("adjust", P1.Position, P2.Position);
+
+        P1.FrameAdvance((hitStopRemaining > 0));
+        P2.FrameAdvance((hitStopRemaining > 0));
         // GD.Print($"Advance to frame {Frame}");
 
     }
@@ -184,15 +253,19 @@ public class MainScene : Node2D
     public override void _PhysicsProcess(float _delta)
     {
         FrameAdvance();
-        P1.FrameAdvance((hitStopRemaining > 0));
-        P2.FrameAdvance((hitStopRemaining > 0));
+        FrameAdvance();
     }
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("debug_shift"))
         {
-            GD.Print("Loading state");
-            LoadState();
+            GD.Print("Saving final state and inputs");
+            SaveState();
+        }
+
+        else if (@event.IsActionPressed("ui_select"))
+        {
+            FrameAdvance();
         }
 
         if (@event is InputEventKey)

@@ -17,6 +17,7 @@ public class HitStun : State
 
     public override void FrameAdvance()
     {
+        base.FrameAdvance();
         stunRemaining--;
 
         if (stunRemaining == 0)

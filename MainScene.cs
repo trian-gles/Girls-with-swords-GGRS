@@ -16,9 +16,18 @@ public class MainScene : Node2D
     public Label recording;
     private List<List<char[]>> savedInputs = new List<List<char[]>>();
     private List<char[]> thisFrameInputs = new List<char[]>();
+    private Dictionary<int, string> expectedStates = new Dictionary<int, string>();
+    private int playSpeed = 1;
 
     [Export]
-    private bool testing = false;
+    private bool rollbackTesting = false;
+    [Export]
+    private int targetFrame = 500;
+    [Export]
+    private int rollbackFrame = 100;
+    private File debugFile = new File();
+
+    private bool recInputs = false;
 
     private int hitStopRemaining = 0;
     [Export]
@@ -66,11 +75,12 @@ public class MainScene : Node2D
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
 
-        if (testing)
+        if (rollbackTesting)
         {
             recording.Visible = true;
-            recording.Text = "PLAYBACK";
-            LoadInputsForTesting();
+            recording.Text = "RECORDING";
+            recInputs = true;
+            debugFile.Open("res://tests/SyncTestResults.txt", File.ModeFlags.Write);
         }
     }
 
@@ -102,17 +112,23 @@ public class MainScene : Node2D
 
     }
 
-    private void CheckStateTesting(string savedState)
+    private void CheckStateTesting(string expectedState)
     {
-        string expectedState = LoadStateForTesting();
-        GD.Print($"This state = {savedState}");
-        GD.Print($"Expected state = {expectedState}");
-        bool error = false;
-        for (int i = 0; i < savedState.Length; i++)
+        //debugFile.StoreLine($"Sync testing for frame {Frame}");
+        if (Frame == rollbackFrame)
         {
-            if (expectedState[i] != savedState[i])
+            debugFile.StoreLine("\n\nNEW PASS\n\n");
+        }
+        string foundState = JsonSerializer.Serialize<GameState>(GetGameState());
+        bool error = false;
+        for (int i = 0; i < foundState.Length; i++)
+        {
+            if (i >= expectedState.Length)
             {
-                GD.Print($"{savedState[i]} != {expectedState[i]}");
+                break;
+            }
+            if (expectedState[i] != foundState[i])
+            {
                 error = true;
             }
             
@@ -120,25 +136,28 @@ public class MainScene : Node2D
         if (error)
         {
             GD.Print("Saved state does not match expected state");
+            debugFile.StoreLine("Saved state does not match expected state");
+            playSpeed = 0;
+
         }
         else
         {
             GD.Print("Saved state matches expected.");
+            debugFile.StoreLine("Saved state matches expected.");
         }
+        debugFile.StoreLine($"This state =      {foundState}");
+        debugFile.StoreLine($"Expected state = {expectedState}");
     }
 
-    private void SaveStateForTesting(string savedState)
+    private void SaveStateForTesting(int frame)
     {
-        File f = new File();
-        f.Open("res://tests/FinalState.json", File.ModeFlags.Write);
-        f.StoreString(savedState);
+        GameState gState = GetGameState();
+        expectedStates[frame] = JsonSerializer.Serialize(gState);
     }
 
-    private string LoadStateForTesting()
+    private string LoadStateForTesting(int frame)
     {
-        File f = new File();
-        f.Open("res://tests/FinalState.json", File.ModeFlags.Read);
-        return f.GetAsText();
+        return expectedStates[frame];
     }
 
     private void SaveInputsForTesting() //
@@ -147,20 +166,34 @@ public class MainScene : Node2D
         File f = new File();
         f.Open("res://tests/SavedInputs.json", File.ModeFlags.Write);
         f.StoreString(jsonString);
+        GD.Print("Saved inputs in SavedInputs.json");
     }
 
     public void LoadInputsForTesting() //used for testing
     {
-        
+        GD.Print("loading inputs for testing from SavedInputs.json");
         File f = new File();
         f.Open("res://tests/SavedInputs.json", File.ModeFlags.Read);
+        GD.Print("File successfully opened");
         string jsonString = f.GetAsText();
         savedInputs = JsonSerializer.Deserialize<List<List<char[]>>>(jsonString);
+        
     }
 
+
+    private void PrintAllSavedInputs()
+    {
+        GD.Print("All saved inputs = ");
+        foreach (List<char[]> frameInputs in savedInputs)
+        {
+            foreach (char[] input in frameInputs)
+            {
+                GD.Print(input[0]);
+            }
+        }
+    }
     private void LoadState()
     {
-        GD.Print($"P1 has finally arrived at {P1.Position}");
         finalFrame = Frame;
         GameState gState = JsonSerializer.Deserialize<GameState>(savedState);
         SetGameState(gState);
@@ -208,24 +241,65 @@ public class MainScene : Node2D
 
     public void FrameAdvance() 
     {
-        if (Frame == 249 && testing)
+        if (recInputs)
         {
-            SaveState();
-            CheckStateTesting(savedState);
+            savedInputs.Add(new List<char[]>(thisFrameInputs));
+            foreach (char[] input in savedInputs[Frame])
+            {
+                //GD.Print($"Saving frame {Frame} input {input[0]}");
+            }
+            if (rollbackTesting)
+            {
+                SaveStateForTesting(Frame);
+            }
         }
+
+        if (Frame == targetFrame && rollbackTesting)
+        {
+            if (recInputs)
+            {
+                recInputs = false;
+                recording.Text = "PLAYBACK";
+                playSpeed = 1;
+            }
+
+            GameState rolldState = JsonSerializer.Deserialize<GameState>(LoadStateForTesting(rollbackFrame));
+            SetGameState(rolldState);
+
+        }
+
+
+
+        if (rollbackTesting && !recInputs)
+        {
+            CheckStateTesting(LoadStateForTesting(Frame));
+            SaveStateForTesting(Frame); // every new pass saves it's state for future comparisons
+            foreach (char[] input in savedInputs[Frame])
+            {
+                debugFile.StoreLine($"calling input {input[0]}, {input[1]} on frame {Frame}");
+            }
+            P1.inputHandler.setUnhandledInputs(new List<char[]>(savedInputs[Frame]));
+            
+
+        }
+        else
+        {
+            if (rollbackTesting)
+            {
+                foreach (char[] input in thisFrameInputs)
+                {
+                    debugFile.StoreLine($"calling input {input[0]}, {input[1]} on frame {Frame}");
+                }
+            }
+            P1.inputHandler.setUnhandledInputs(thisFrameInputs);
+        }
+
+
         
 
 
-        savedInputs.Add(thisFrameInputs);
-        thisFrameInputs = new List<char[]>();
-        if (Frame < savedInputs.Count)
-        {
-            foreach (char[] inp in savedInputs[Frame])
-            {
-                P1.inputHandler.NewInput(inp[0], inp[1]);
-            }
-
-        }
+        thisFrameInputs = new List<char[]>(); // reset the inputs
+        
 
         Frame++;
         if (hitStopRemaining > 0) 
@@ -238,7 +312,6 @@ public class MainScene : Node2D
 
         P1.FrameAdvance((hitStopRemaining > 0));
         P2.FrameAdvance((hitStopRemaining > 0));
-        // GD.Print($"Advance to frame {Frame}");
 
     }
 
@@ -252,20 +325,26 @@ public class MainScene : Node2D
 
     public override void _PhysicsProcess(float _delta)
     {
-        FrameAdvance();
-        FrameAdvance();
+        for (int _ = 0; _ < playSpeed; _++)
+        {
+            FrameAdvance();
+        }
+        
     }
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("debug_shift"))
         {
-            GD.Print("Saving final state and inputs");
-            SaveState();
+            for (int _ = 0; _ < 100; _++)
+            {
+                FrameAdvance();
+            }
+            
         }
 
         else if (@event.IsActionPressed("ui_select"))
         {
-            FrameAdvance();
+            playSpeed = 1;
         }
 
         if (@event is InputEventKey)
@@ -274,14 +353,12 @@ public class MainScene : Node2D
             {
                 if (@event.IsActionPressed(actionName.ToString()))
                 {
-                    P1.inputHandler.NewInput(actionName, 'p');
                     thisFrameInputs.Add(new char[] { actionName, 'p' });
                     
                 }
 
                 else if (@event.IsActionReleased(actionName.ToString()))
                 {
-                    P1.inputHandler.NewInput(actionName, 'r');
                     thisFrameInputs.Add(new char[] { actionName, 'r' });
                 }
             }

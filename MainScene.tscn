@@ -35,7 +35,8 @@ extents = Vector2( 240, 1 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
-testing = true
+rollbackTesting = true
+rollbackFrame = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -180,10 +181,10 @@ position = Vector2( 240, 271 )
 shape = SubResource( 6 )
 
 [node name="P1" parent="." instance=ExtResource( 1 )]
-position = Vector2( 132.862, 240.496 )
+position = Vector2( 133, 240 )
 
 [node name="P2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 329.631, 242.178 )
+position = Vector2( 330, 242 )
 dummy = true
 
 [node name="Background" type="Node2D" parent="."]

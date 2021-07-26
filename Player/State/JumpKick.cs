@@ -12,11 +12,11 @@ public class JumpKick : Kick
     public override void FrameAdvance()
     {
         base.FrameAdvance();
-        if (owner.grounded && frameCount > 0)
+        if (owner.grounded && frameCount > 1)
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        frameCount += 1;
+        
         owner.velocity.y += owner.gravity;
     }
 

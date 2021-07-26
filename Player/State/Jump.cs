@@ -16,7 +16,6 @@ public class Jump : State
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        frameCount += 1;
         owner.velocity.y += owner.gravity;
     }
 

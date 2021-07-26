@@ -14,10 +14,10 @@
 [ext_resource path="res://Player/State/Fall.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7, 40 )
+extents = Vector2( 7, 34 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 30 )
+extents = Vector2( 10, 40 )
 
 [sub_resource type="RectangleShape2D" id=3]
 
@@ -1254,7 +1254,7 @@ tracks/8/keys = {
 script = ExtResource( 1 )
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -1 )
+position = Vector2( 0, 5 )
 shape = SubResource( 1 )
 __meta__ = {
 "_editor_description_": "Will NEVER CHANGE"
@@ -1294,7 +1294,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 62
+frame = 84
 
 [node name="StateTree" type="Node" parent="."]
 

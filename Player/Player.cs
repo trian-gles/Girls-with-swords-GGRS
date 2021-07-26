@@ -137,6 +137,7 @@ public class Player : KinematicBody2D
         Position = new Vector2(pState.position[0], pState.position[1]);
         GD.Print($"setting {Name} position to {Position}");
 
+        touchingWall = pState.touchingWall;
         velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
         facingRight = pState.facingRight;
         grounded = pState.grounded;
@@ -151,9 +152,9 @@ public class Player : KinematicBody2D
         public List<char> heldKeys = new List<char>();
         public List<char[]> unhandledInputs = new List<char[]>();
 
-        public void NewInput(char key, char pressOrRelease) 
+        public void setUnhandledInputs(List<char[]> thisFrameInputs) 
         {
-            unhandledInputs.Add(new char[] { key, pressOrRelease });
+            unhandledInputs = thisFrameInputs;
         }
         public void FrameAdvance(bool hitStop, State currentState) 
         {

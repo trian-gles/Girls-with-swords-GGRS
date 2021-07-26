@@ -16,7 +16,6 @@ public class Fall : State
             EmitSignal(nameof(StateFinished), "Idle");
         }
         owner.CheckTurnAround();
-        frameCount += 1;
         owner.velocity.y += owner.gravity;
     }
 

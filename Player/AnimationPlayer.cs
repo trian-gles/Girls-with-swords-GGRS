@@ -30,6 +30,7 @@ public class AnimationPlayer : Godot.AnimationPlayer
     public void SetAnimationAndFrame(string animName, int frame)
     {
         Play(animName);
+        animationLength = (int)CurrentAnimationLength;
         Stop();
         cursor = frame;
         Seek(cursor, true);

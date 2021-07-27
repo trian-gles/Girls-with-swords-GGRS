@@ -45,6 +45,7 @@ public class MainScene : Node2D
         public int hitStopRemaining { get; set; }
     }
 
+    private Color colColor = new Color(0, 0, 255, 0.5f);
     public override void _Ready()
     {
         camera = GetNode<Camera2D>("Camera2D");
@@ -309,10 +310,41 @@ public class MainScene : Node2D
         
 
         camera.Call("adjust", P1.Position, P2.Position);
+        if (hitStopRemaining < 1)
+        {
+            P1.FrameAdvance();
+            P2.FrameAdvance();
+            CheckFixCollision();
+            P1.MoveSlideDeterministic();
+            P2.MoveSlideDeterministic();
+            CheckFixCollision();
+        }
 
-        P1.FrameAdvance((hitStopRemaining > 0));
-        P2.FrameAdvance((hitStopRemaining > 0));
+    }
 
+    public void CheckFixCollision()
+    {
+        while (CheckRects())
+        {
+            if (P1.GlobalPosition < P2.GlobalPosition)
+            {
+                P1.Position = new Vector2(P1.Position.x - 1, P1.Position.y);
+                P2.Position = new Vector2(P2.Position.x + 1, P2.Position.y);
+            }
+            else
+            {
+                P1.Position = new Vector2(P1.Position.x + 1, P1.Position.y);
+                P2.Position = new Vector2(P2.Position.x - 1, P2.Position.y);
+            }
+        }
+    }
+    public bool CheckRects()
+    {
+        Rect2 P1rect = P1.GetCollisionRect();
+        P1rect.Position = P1rect.Position + P1.Position;
+        Rect2 P2rect = P2.GetCollisionRect();
+        P2rect.Position = P2rect.Position + P2.Position;
+        return P1rect.Intersects(P2rect);
     }
 
     public void HitStop() 

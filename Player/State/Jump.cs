@@ -7,6 +7,7 @@ public class Jump : State
     {
         base.Enter();
         owner.velocity.y = -1 * owner.jumpForce;
+        owner.grounded = false;
     }
 
     public override void FrameAdvance()

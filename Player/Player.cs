@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Player : KinematicBody2D
+public class Player : Node2D
 {
     private State currentState;
     public Player otherPlayer;
@@ -15,13 +15,13 @@ public class Player : KinematicBody2D
     public delegate void HitConfirm();
 
     [Export]
-    public int speed = 200;
+    public int speed = 4;
 
     [Export]
-    public int jumpForce = 400;
+    public int jumpForce = 7;
 
     [Export]
-    public int gravity = 13;
+    public float gravity = 0.2f;
 
     [Export]
     public bool dummy = false;
@@ -233,58 +233,44 @@ public class Player : KinematicBody2D
         return (inputHandler.GetBuffer().Contains(key));
     }
 
-    public void FrameAdvance(bool hitStop) 
+    public void FrameAdvance() 
     {
-        if (hitStop)
-        {
-            return;
-        }
+        bool hitStop = false;
         Update(); //Redraw
         inputHandler.FrameAdvance(hitStop, currentState);
         animationPlayer.FrameAdvance();
-        Vector2 currVel = new Vector2(velocity.x, velocity.y);
-        MoveAndSlide(velocity, Vector2.Up, maxSlides: 4);
 
         if (CheckHurtRect())
         {
             currentState.InHurtbox();
         }
-
-        grounded = false; // will be set true if touching the ground
-        if (velocity.x > 0)
-        {
-            touchingWall = false;
-        }
-        for (int i = 0; i < GetSlideCount(); i++) 
-        {
-            
-
-            KinematicCollision2D collision = GetSlideCollision(i);
-            Node collisionObj = (Node)collision.Collider; 
-            if (collision.Collider == otherPlayer)
-            {
-                
-                if (collision.Normal.x == 0) 
-                {
-                    SlideAway();
-                    otherPlayer.SlideAway();
-                }
-                else 
-                {
-                    otherPlayer.PushMovement(velocity.x);
-                }
-            }
-            else if (collisionObj.Name == "Floor") 
-            {
-                grounded = true;
-            }
-            else if (collisionObj.Name == "Walls")
-            {
-                touchingWall = true;
-            }
-            
-        }
         currentState.FrameAdvance();
+
+        MoveSlideDeterministic();
+
+        
+        
+    }
+
+    public void MoveSlideDeterministic()
+    {
+        Position += velocity / 2;
+        if (Position.y > 235)
+        {
+            Position = new Vector2(Position.x, 235);
+            grounded = true;
+        }
+
+        if (Position.x > 475)
+        {
+            Position = new Vector2(475, Position.y);
+            touchingWall = true;
+        }
+        else if (Position.x < 5)
+        {
+            Position = new Vector2(5, Position.y);
+            touchingWall = true;
+        }
     }
 
     public void SlideAway() 
@@ -445,8 +431,13 @@ public class Player : KinematicBody2D
         return new Rect2(position, extents);
     }
 
+    public Rect2 GetCollisionRect()
+    {
+        return GetRect(colBox);
+    }
     public override void _Draw()
     {
+        return;
         List<Rect2> hitRects = GetRects(hitBoxes);
         List<Rect2> hurtRects = GetRects(hurtBoxes);
         Rect2 colRect = GetRect(colBox);

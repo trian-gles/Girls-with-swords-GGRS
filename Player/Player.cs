@@ -145,14 +145,17 @@ public class Player : Node2D
         EmitSignal(nameof(ComboChanged), Name, combo);
 
     }
-
+    public void SetUnhandledInputs(List<char[]> inputs)
+    {
+        inputHandler.SetUnhandledInputs(new List<char[]>(inputs));
+    }
     public class InputHandler 
     {
         public List<List<char[]>> inputBuffer = new List<List<char[]>>();
         public List<char> heldKeys = new List<char>();
         public List<char[]> unhandledInputs = new List<char[]>();
 
-        public void setUnhandledInputs(List<char[]> thisFrameInputs) 
+        public void SetUnhandledInputs(List<char[]> thisFrameInputs) 
         {
             unhandledInputs = thisFrameInputs;
         }

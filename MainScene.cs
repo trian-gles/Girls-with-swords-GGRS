@@ -14,29 +14,44 @@ public class MainScene : Node2D
     private TextureProgress P2Health;
     private Camera2D camera;
     public Label recording;
+
+
     private List<List<char[]>> savedInputs = new List<List<char[]>>();
+    private List<GameState> savedStates = new List<GameState>();
     private List<char[]> thisFrameInputs = new List<char[]>();
-    private Dictionary<int, string> expectedStates = new Dictionary<int, string>();
-    private int playSpeed = 1;
+
+    private int hitStopRemaining = 0;
+    [Export]
+    private int maxHitStop = 10;
+    private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
 
     [Export]
+    private bool playbackTesting = false;
+    [Export]
     private bool rollbackTesting = false;
+
+    //For playback testing only
+    private Dictionary<int, string> expectedStates = new Dictionary<int, string>();
+    private int playSpeed = 1;
+    private string savedStateSingle;
+    private int finalFrame = 0;
+    private bool recInputs = false;
     [Export]
     private int targetFrame = 500;
     [Export]
     private int rollbackFrame = 100;
     private File debugFile = new File();
 
-    private bool recInputs = false;
+    //For rollback testing only
+    private int depth = 7;
+    private bool initRollback = false;
 
-    private int hitStopRemaining = 0;
-    [Export]
-    private int maxHitStop = 10;
+    
+    
 
-    private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
+    
 
-    private string savedState;
-    private int finalFrame = 0;
+    
     private struct GameState
     {
         public int frame { get; set; }
@@ -76,7 +91,7 @@ public class MainScene : Node2D
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
 
-        if (rollbackTesting)
+        if (playbackTesting)
         {
             recording.Visible = true;
             recording.Text = "RECORDING";
@@ -85,31 +100,13 @@ public class MainScene : Node2D
         }
     }
 
-    private GameState GetGameState()
-    {
-        GameState gState = new GameState();
-        gState.frame = Frame;
-        gState.P1State = P1.GetState();
-        gState.P2State = P2.GetState();
-        gState.hitStopRemaining = hitStopRemaining;
-        recording.Visible = true;
-        
-        return gState;
-    }
 
-    private void SetGameState(GameState gState)
-    {
-        Frame = gState.frame;
-        hitStopRemaining = gState.hitStopRemaining;
-        P1.SetState(gState.P1State);
-        P2.SetState(gState.P2State);
-        
-    }
 
-    private void SaveState()
+    //Used only for playback testing
+    private void SaveSingleState()
     {
         GameState gState = GetGameState();
-        savedState = JsonSerializer.Serialize(gState);
+        savedStateSingle = JsonSerializer.Serialize(gState);
 
     }
 
@@ -132,7 +129,7 @@ public class MainScene : Node2D
             {
                 error = true;
             }
-            
+
         }
         if (error)
         {
@@ -177,9 +174,8 @@ public class MainScene : Node2D
         GD.Print("File successfully opened");
         string jsonString = f.GetAsText();
         savedInputs = JsonSerializer.Deserialize<List<List<char[]>>>(jsonString);
-        
-    }
 
+    }
 
     private void PrintAllSavedInputs()
     {
@@ -192,13 +188,51 @@ public class MainScene : Node2D
             }
         }
     }
-    private void LoadState()
+    private void LoadSingleState()
     {
         finalFrame = Frame;
-        GameState gState = JsonSerializer.Deserialize<GameState>(savedState);
+        GameState gState = JsonSerializer.Deserialize<GameState>(savedStateSingle);
         SetGameState(gState);
+
+    }
+
+
+
+
+    //Used only for rollback testing
+    private void SaveStateAndInputs()
+    {
+        savedStates.Add(GetGameState());
+        savedInputs.Add(new List<char[]>(thisFrameInputs));
+        if (savedStates.Count > depth)
+        {
+            savedStates.RemoveAt(0);
+            savedInputs.RemoveAt(0);
+        }
+    }
+
+
+
+    private GameState GetGameState()
+    {
+        GameState gState = new GameState();
+        gState.frame = Frame;
+        gState.P1State = P1.GetState();
+        gState.P2State = P2.GetState();
+        gState.hitStopRemaining = hitStopRemaining;
+        recording.Visible = true;
+        
+        return gState;
+    }
+    private void SetGameState(GameState gState)
+    {
+        Frame = gState.frame;
+        hitStopRemaining = gState.hitStopRemaining;
+        P1.SetState(gState.P1State);
+        P2.SetState(gState.P2State);
         
     }
+
     public void OnPlayerComboChange(string name, int combo)
     {
         if (name == "P2")
@@ -241,6 +275,11 @@ public class MainScene : Node2D
 
     public void FrameAdvance() 
     {
+        if (rollbackTesting && initRollback)
+        {
+            RollbackTestingMode();
+        }
+
         if (recInputs)
         {
             savedInputs.Add(new List<char[]>(thisFrameInputs));
@@ -248,13 +287,12 @@ public class MainScene : Node2D
             {
                 //GD.Print($"Saving frame {Frame} input {input[0]}");
             }
-            if (rollbackTesting)
+            if (playbackTesting)
             {
                 SaveStateForTesting(Frame);
             }
         }
-
-        if (Frame == targetFrame && rollbackTesting)
+        if (Frame == targetFrame && playbackTesting)
         {
             if (recInputs)
             {
@@ -267,10 +305,7 @@ public class MainScene : Node2D
             SetGameState(rolldState);
 
         }
-
-
-
-        if (rollbackTesting && !recInputs)
+        if (playbackTesting && !recInputs)
         {
             CheckStateTesting(LoadStateForTesting(Frame));
             SaveStateForTesting(Frame); // every new pass saves it's state for future comparisons
@@ -278,37 +313,61 @@ public class MainScene : Node2D
             {
                 debugFile.StoreLine($"calling input {input[0]}, {input[1]} on frame {Frame}");
             }
-            P1.inputHandler.setUnhandledInputs(new List<char[]>(savedInputs[Frame]));
+            P1.SetUnhandledInputs(savedInputs[Frame]);
             
 
         }
         else
         {
-            if (rollbackTesting)
+            if (playbackTesting)
             {
                 foreach (char[] input in thisFrameInputs)
                 {
                     debugFile.StoreLine($"calling input {input[0]}, {input[1]} on frame {Frame}");
                 }
             }
-            P1.inputHandler.setUnhandledInputs(thisFrameInputs);
+            P1.SetUnhandledInputs(thisFrameInputs);
         }
 
+        if (rollbackTesting)
+        {
+            SaveStateAndInputs();
+        }
 
-        
-
+        AdvanceFrameAndHitstop();
 
         thisFrameInputs = new List<char[]>(); // reset the inputs
         
 
-        Frame++;
-        if (hitStopRemaining > 0) 
-        { 
-            hitStopRemaining--; 
-        }
-        
-
         camera.Call("adjust", P1.Position, P2.Position);
+        FrameAdvancePlayers();
+
+    }
+
+    private void RollbackTestingMode()
+    {
+        GD.Print("INITIATING ROLLBACK");
+        SetGameState(savedStates[0]);
+        foreach (List<char[]> frameInputs in savedInputs)
+        {
+            P1.SetUnhandledInputs(frameInputs);
+            AdvanceFrameAndHitstop();
+            FrameAdvancePlayers();
+        }
+        initRollback = false;
+    }
+
+    private void AdvanceFrameAndHitstop()
+    {
+        Frame++;
+        if (hitStopRemaining > 0)
+        {
+            hitStopRemaining--;
+        }
+    }
+
+    private void FrameAdvancePlayers()
+    {
         if (hitStopRemaining < 1)
         {
             P1.FrameAdvance();
@@ -318,14 +377,13 @@ public class MainScene : Node2D
             P2.MoveSlideDeterministicTwo();
             CheckFixCollision();
 
-            if (rollbackTesting)
+            if (playbackTesting)
             {
                 P1.DebugDisplay();
                 P2.DebugDisplay();
             }
-            
-        }
 
+        }
     }
 
     public void CheckFixCollision()
@@ -382,7 +440,7 @@ public class MainScene : Node2D
 
         else if (@event.IsActionPressed("ui_select"))
         {
-            playSpeed = 1;
+            initRollback = true; // rollback depth number of inputs for testing
         }
 
         if (@event is InputEventKey)

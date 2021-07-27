@@ -16,7 +16,7 @@ public class Fall : State
             EmitSignal(nameof(StateFinished), "Idle");
         }
         owner.CheckTurnAround();
-        owner.velocity.y += owner.gravity;
+        ApplyGravity();
     }
 
     public override void PushMovement(float _xVel)

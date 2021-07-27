@@ -21,7 +21,7 @@ public class Player : Node2D
     public int jumpForce = 7;
 
     [Export]
-    public float gravity = 0.2f;
+    public int gravityDenom = 5;
 
     [Export]
     public bool dummy = false;
@@ -31,8 +31,8 @@ public class Player : Node2D
     // All of these will be stored in gamestate
     private int health = 100;
     public Vector2 velocity = new Vector2(0, 0);
+    public int gravityPos = 0;
     public bool facingRight = true;
-    public bool touchingWall = false;
     public bool grounded;
     private int combo = 0;
 
@@ -48,8 +48,9 @@ public class Player : Node2D
 
         public bool flipH { get; set; }
         public int health { get; set; }
-        public float[] position { get; set; }
-        public float[] velocity { get; set; }
+        public int[] position { get; set; }
+        public int gravityPos { get; set; }
+        public int[] velocity { get; set; }
         public bool facingRight { get; set; }
         public bool touchingWall { get; set; }
         public bool grounded { get; set; }
@@ -110,12 +111,12 @@ public class Player : Node2D
         pState.flipH = sprite.FlipH;
 
         pState.health = health;
-        pState.position = new float[] { Position.x, Position.y };
+        pState.position = new int[] { (int)Position.x, (int)Position.y };
 
 
-        pState.velocity = new float[] { velocity.x, velocity.y };
+        pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
+        pState.gravityPos = gravityPos;
         pState.facingRight = facingRight;
-        pState.touchingWall = touchingWall;
         pState.grounded = grounded;
         pState.combo = combo;
         return pState;
@@ -136,8 +137,7 @@ public class Player : Node2D
         health = pState.health;
         Position = new Vector2(pState.position[0], pState.position[1]);
         GD.Print($"setting {Name} position to {Position}");
-
-        touchingWall = pState.touchingWall;
+        gravityPos = pState.gravityPos;
         velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
         facingRight = pState.facingRight;
         grounded = pState.grounded;
@@ -246,30 +246,52 @@ public class Player : Node2D
         }
         currentState.FrameAdvance();
 
-        MoveSlideDeterministic();
-
-        
-        
+        MoveSlideDeterministicOne();
     }
 
-    public void MoveSlideDeterministic()
+    private void MoveSlideDeterministicOne()
     {
-        Position += velocity / 2;
-        if (Position.y > 235)
+        int xChange = (int)Math.Floor(velocity.x / 2);
+        int yChange = (int)Math.Floor(velocity.y / 2);
+        Position += new Vector2(xChange, yChange);
+        CorrectPositionBounds();
+    }
+
+    public void MoveSlideDeterministicTwo()
+    {
+        int xChange = (int)Math.Ceiling(velocity.x / 2);
+        int yChange = (int)Math.Ceiling(velocity.y / 2);
+        Position += new Vector2(xChange, yChange);
+        CorrectPositionBounds();
+    }
+
+    private void CorrectPositionBounds()
+    {
+        if (Position.y > 230)
         {
-            Position = new Vector2(Position.x, 235);
+            Position = new Vector2(Position.x, 230);
             grounded = true;
         }
 
         if (Position.x > 475)
         {
             Position = new Vector2(475, Position.y);
-            touchingWall = true;
         }
         else if (Position.x < 5)
         {
             Position = new Vector2(5, Position.y);
-            touchingWall = true;
+        }
+    }
+
+    public bool CheckTouchingWall()
+    {
+        if (Position.x > 474 || Position.x < 6)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -347,7 +369,7 @@ public class Player : Node2D
 
     public void OnHitConnected(Vector2 hitPush) 
     {
-        if (otherPlayer.touchingWall)
+        if (otherPlayer.CheckTouchingWall())
         {
             GD.Print("Other player at wall, pushing attacker");
             if (OtherPlayerOnRight())
@@ -434,6 +456,11 @@ public class Player : Node2D
     public Rect2 GetCollisionRect()
     {
         return GetRect(colBox);
+    }
+
+    public void DebugDisplay()
+    {
+        GetNode<Label>("DebugPos").Text = Position.ToString();
     }
     public override void _Draw()
     {

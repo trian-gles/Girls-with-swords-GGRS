@@ -35,7 +35,7 @@ public class HitStun : State
 
         if (!owner.grounded)
         {
-            owner.velocity.y += owner.gravity;
+            ApplyGravity();
         }
 
     }

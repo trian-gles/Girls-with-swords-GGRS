@@ -143,7 +143,6 @@ public class MainScene : Node2D
         }
         else
         {
-            GD.Print("Saved state matches expected.");
             debugFile.StoreLine("Saved state matches expected.");
         }
         debugFile.StoreLine($"This state =      {foundState}");
@@ -315,9 +314,16 @@ public class MainScene : Node2D
             P1.FrameAdvance();
             P2.FrameAdvance();
             CheckFixCollision();
-            P1.MoveSlideDeterministic();
-            P2.MoveSlideDeterministic();
+            P1.MoveSlideDeterministicTwo();
+            P2.MoveSlideDeterministicTwo();
             CheckFixCollision();
+
+            if (rollbackTesting)
+            {
+                P1.DebugDisplay();
+                P2.DebugDisplay();
+            }
+            
         }
 
     }

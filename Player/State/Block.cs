@@ -26,7 +26,7 @@ public class Block : State
         }
         if (!owner.grounded)
         {
-            owner.velocity.y += owner.gravity;
+            ApplyGravity();
         }
     }
 

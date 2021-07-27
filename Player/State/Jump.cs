@@ -17,7 +17,8 @@ public class Jump : State
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        owner.velocity.y += owner.gravity;
+        ApplyGravity();
+        
     }
 
     public override void PushMovement(float _xVel)

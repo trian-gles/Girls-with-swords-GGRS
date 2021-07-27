@@ -16,8 +16,8 @@ public class JumpKick : Kick
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        
-        owner.velocity.y += owner.gravity;
+
+        ApplyGravity();
     }
 
     public override void HandleInput(char[] inputArr)

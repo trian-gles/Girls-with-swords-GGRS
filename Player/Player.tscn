@@ -1252,6 +1252,9 @@ tracks/8/keys = {
 
 [node name="Player" type="Node2D"]
 script = ExtResource( 1 )
+speed = 3
+jumpForce = 6
+gravityDenom = 6
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
@@ -1313,13 +1316,13 @@ script = ExtResource( 6 )
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 7 )
 hitStun = 12
-hitPush = Vector2( 80, 0 )
+hitPush = Vector2( 2, 0 )
 dmg = 10
 
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 10 )
 hitStun = 12
-hitPush = Vector2( 80, 0 )
+hitPush = Vector2( 2, 0 )
 height = "high"
 dmg = 10
 
@@ -1360,3 +1363,12 @@ anims/Sweep = SubResource( 31 )
 anims/Wakeup = SubResource( 32 )
 anims/Walk = SubResource( 33 )
 script = ExtResource( 11 )
+
+[node name="DebugPos" type="Label" parent="."]
+margin_left = -20.2271
+margin_top = -58.434
+margin_right = 19.7729
+margin_bottom = -44.434
+__meta__ = {
+"_edit_use_anchors_": false
+}

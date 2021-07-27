@@ -91,6 +91,7 @@ public class MainScene : Node2D
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
 
+        recording.Visible = false;
         if (playbackTesting)
         {
             recording.Visible = true;

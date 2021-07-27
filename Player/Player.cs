@@ -270,9 +270,9 @@ public class Player : Node2D
 
     private void CorrectPositionBounds()
     {
-        if (Position.y > 230)
+        if (Position.y > 220)
         {
-            Position = new Vector2(Position.x, 230);
+            Position = new Vector2(Position.x, 220);
             grounded = true;
         }
 

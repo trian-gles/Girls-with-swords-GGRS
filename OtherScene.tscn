@@ -4,11 +4,11 @@
 [ext_resource path="res://Sprites/Overlay/Player Number.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Overlay/healthbar.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Overlay/Name Example.png" type="Texture" id=9]
-[ext_resource path="res://Camera2D.gd" type="Script" id=10]
+[ext_resource path="res://HUD/Camera2D.gd" type="Script" id=10]
 [ext_resource path="res://Other-assets/font.tres" type="DynamicFont" id=11]
-[ext_resource path="res://HUDCombo.gd" type="Script" id=12]
+[ext_resource path="res://HUD/HUDCombo.gd" type="Script" id=12]
 [ext_resource path="res://MainScene.gd" type="Script" id=13]
-[ext_resource path="res://Timer.gd" type="Script" id=14]
+[ext_resource path="res://HUD/Timer.gd" type="Script" id=14]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )

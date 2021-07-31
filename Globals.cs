@@ -5,11 +5,24 @@ using System.Linq;
 
 public class Globals : Node
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
 
-    // Called when the node enters the scene tree for the first time.
+    public enum Inputs
+    {
+        UP = 1,
+        DOWN = 2,
+        LEFT = 3,
+        RIGHT = 4,
+        PUNCH = 5,
+        KICK = 6,
+        SLASH = 7
+    }
+
+    public enum Press
+    {
+        PRESS = 0,
+        RELEASE = 1
+    }
+
     public override void _Ready()
     {
         

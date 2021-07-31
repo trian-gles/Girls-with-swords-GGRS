@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MainScene : Node2D
 {
-    public int Frame = 0;
+    
     public Player P1;
     public Player P2;
     private Label P1Combo;
@@ -13,34 +13,20 @@ public class MainScene : Node2D
     private TextureProgress P1Health;
     private TextureProgress P2Health;
     private Camera2D camera;
+    private GameStateObject gsObj;
 
-
-    private List<List<char[]>> savedInputs = new List<List<char[]>>();
-    private List<GameState> savedStates = new List<GameState>();
-    private List<char[]> thisFrameInputs = new List<char[]>();
-
-    private int hitStopRemaining = 0;
-    [Export]
-    private int maxHitStop = 10;
+    private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
     private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
-    
-    private struct GameState
-    {
-        public int frame { get; set; }
-        public Player.PlayerState P1State { get; set; }
-        public Player.PlayerState P2State { get; set; }
-        public int hitStopRemaining { get; set; }
-    }
-
-    private Color colColor = new Color(0, 0, 255, 0.5f);
     public override void _Ready()
     {
         GD.Print("Running");
+        gsObj = new GameStateObject();
+        
         camera = GetNode<Camera2D>("Camera2D");
 
         P1 = GetNode<Player>("P1");
         P2 = GetNode<Player>("P2");
-
+        gsObj.Config(P1, P2);
         P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
         P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
         P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
@@ -59,30 +45,12 @@ public class MainScene : Node2D
         P1.CheckTurnAround();
         P2.CheckTurnAround();
         P2.inputHandler.heldKeys.Add('8');
-        P1.Connect("HitConfirm", this, nameof(HitStop));
-        P2.Connect("HitConfirm", this, nameof(HitStop));
-    }
-
-
-
-    private GameState GetGameState()
-    {
-        GameState gState = new GameState();
-        gState.frame = Frame;
-        gState.P1State = P1.GetState();
-        gState.P2State = P2.GetState();
-        gState.hitStopRemaining = hitStopRemaining;
-        
-        return gState;
-    }
-    private void SetGameState(GameState gState)
-    {
-        Frame = gState.frame;
-        hitStopRemaining = gState.hitStopRemaining;
-        P1.SetState(gState.P1State);
-        P2.SetState(gState.P2State);
         
     }
+
+
+
+    
 
     public void OnPlayerComboChange(string name, int combo)
     {
@@ -124,101 +92,118 @@ public class MainScene : Node2D
         }
     }
 
-    public void FrameAdvance() 
-    {
-        P1.SetUnhandledInputs(thisFrameInputs);
-
-        AdvanceFrameAndHitstop();
-
-        thisFrameInputs = new List<char[]>(); // reset the inputs
-        
-
-        camera.Call("adjust", P1.Position, P2.Position);
-        FrameAdvancePlayers();
-
-    }
-
-    private void AdvanceFrameAndHitstop()
-    {
-        Frame++;
-        if (hitStopRemaining > 0)
-        {
-            hitStopRemaining--;
-        }
-    }
-
-    private void FrameAdvancePlayers()
-    {
-        if (hitStopRemaining < 1)
-        {
-            P1.FrameAdvance();
-            P2.FrameAdvance();
-            CheckFixCollision();
-            P1.MoveSlideDeterministicTwo();
-            P2.MoveSlideDeterministicTwo();
-            CheckFixCollision();
-        }
-    }
-
-    public void CheckFixCollision()
-    {
-        while (CheckRects())
-        {
-            if (P1.GlobalPosition < P2.GlobalPosition)
-            {
-                P1.Position = new Vector2(P1.Position.x - 1, P1.Position.y);
-                P2.Position = new Vector2(P2.Position.x + 1, P2.Position.y);
-            }
-            else
-            {
-                P1.Position = new Vector2(P1.Position.x + 1, P1.Position.y);
-                P2.Position = new Vector2(P2.Position.x - 1, P2.Position.y);
-            }
-        }
-    }
-    public bool CheckRects()
-    {
-        Rect2 P1rect = P1.GetCollisionRect();
-        P1rect.Position = P1rect.Position + P1.Position;
-        Rect2 P2rect = P2.GetCollisionRect();
-        P2rect.Position = P2rect.Position + P2.Position;
-        return P1rect.Intersects(P2rect);
-    }
-
-    public void HitStop() 
-    {
-        hitStopRemaining = maxHitStop;
-        GD.Print("HitStop");
-    }
+    
 
     
 
     public override void _PhysicsProcess(float _delta)
     {
-        FrameAdvance();
-       
-        
+        camera.Call("adjust", P1.Position, P2.Position);
+        gsObj.Update(inputs);
+        inputs = 0; // reset the inputs
     }
     public override void _Input(InputEvent @event)
     {
-
-        if (@event is InputEventKey)
+        if (@event.IsActionPressed("ui_select"))
         {
-            foreach (char actionName in allowableInputs)
-            {
-                if (@event.IsActionPressed(actionName.ToString()))
-                {
-                    thisFrameInputs.Add(new char[] { actionName, 'p' });
-                    
-                }
+            gsObj.TestSaveGameState();
+        }
+        else if (@event.IsActionPressed("debug_shift"))
+        {
+            gsObj.TestLoadGameState();
+        }
 
-                else if (@event.IsActionReleased(actionName.ToString()))
-                {
-                    thisFrameInputs.Add(new char[] { actionName, 'r' });
-                }
-            }
+        else if (@event.IsActionPressed("8"))
+        {
+            AddPress((int) Globals.Inputs.UP);
+        }
+        else if (@event.IsActionPressed("2"))
+        {
+            AddPress((int)Globals.Inputs.DOWN);
+        }
+        else if (@event.IsActionPressed("4"))
+        {
+            AddPress((int)Globals.Inputs.LEFT);
+        }
+        else if (@event.IsActionPressed("6"))
+        {
+            AddPress((int)Globals.Inputs.RIGHT);
+        }
+        else if (@event.IsActionPressed("p"))
+        {
+            AddPress((int)Globals.Inputs.PUNCH);
+        }
+        else if (@event.IsActionPressed("k"))
+        {
+            AddPress((int)Globals.Inputs.KICK);
+        }
+        else if (@event.IsActionPressed("s"))
+        {
+            AddPress((int)Globals.Inputs.SLASH);
+        }
+
+        else if (@event.IsActionReleased("8"))
+        {
+            AddRelease((int)Globals.Inputs.UP);
+        }
+        else if (@event.IsActionReleased("2"))
+        {
+            AddRelease((int)Globals.Inputs.DOWN);
+        }
+        else if (@event.IsActionReleased("4"))
+        {
+            AddRelease((int)Globals.Inputs.LEFT);
+        }
+        else if (@event.IsActionReleased("6"))
+        {
+            AddRelease((int)Globals.Inputs.RIGHT);
+        }
+        else if (@event.IsActionReleased("p"))
+        {
+            AddRelease((int)Globals.Inputs.PUNCH);
+        }
+        else if (@event.IsActionReleased("k"))
+        {
+            AddRelease((int)Globals.Inputs.KICK);
+        }
+        else if (@event.IsActionReleased("s"))
+        {
+            AddRelease((int)Globals.Inputs.SLASH);
         }
     }
+
+    private void AddPress(int key)
+    {
+        int thisInput = key * 10;
+        AddInput(thisInput);
+    }
+
+    private void AddRelease(int key)
+    {
+        int thisInput = key * 10 + 1;
+        AddInput(thisInput);
+    }
+
+    private void AddInput(int input)
+    {
+        if (inputs == 0) //This is the first input of the frame
+        {
+            inputs = input;
+            return;
+        }
+
+        string inputsCurr = inputs.ToString();
+        
+        if (inputsCurr.Length > 10) //Max 5 inputs per frame to prevent overflow
+        {
+            GD.Print("Too many inputs");
+            return;
+        }
+        string newInput = input.ToString();
+        inputs = int.Parse(inputsCurr + newInput);
+    }
+
+
 
 
 }

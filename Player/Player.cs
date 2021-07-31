@@ -36,6 +36,7 @@ public class Player : Node2D
     public bool grounded;
     private int combo = 0;
 
+    [Serializable]
     public struct PlayerState
     {
         public List<List<char[]>> inputBuffer { get; set; }

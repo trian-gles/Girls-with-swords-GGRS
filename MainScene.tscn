@@ -162,5 +162,14 @@ texture = ExtResource( 4 )
 [node name="Office Interior" type="Sprite" parent="Background"]
 texture = ExtResource( 13 )
 
+[node name="Sync" type="Label" parent="."]
+margin_left = 210.718
+margin_top = 62.2256
+margin_right = 250.718
+margin_bottom = 76.2256
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]

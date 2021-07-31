@@ -8,11 +8,11 @@ public class GameStateObject : Node
 {
     public Player P1;
     public Player P2;
+    private bool hosting;
 
     private StreamPeerBuffer testSave;
 
     public int Frame = 0;
-    
 
     private int hitStopRemaining = 0;
     [Export]
@@ -27,12 +27,18 @@ public class GameStateObject : Node
         public int hitStopRemaining { get; set; }
     }
 
-    public void Config(Player P1, Player P2)
+    public void config(Player P1, Player P2, bool hosting)
     {
         this.P1 = P1;
         this.P2 = P2;
+        this.hosting = hosting;
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
+
+        P1.otherPlayer = P2;
+        P2.otherPlayer = P1;
+        P1.CheckTurnAround();
+        P2.CheckTurnAround();
     }
     public static byte[] Serialize<T>(T data)
     where T : struct
@@ -122,7 +128,7 @@ public class GameStateObject : Node
 
         return retrievedGamestate;
     }
-    private void LoadGameState(StreamPeerBuffer stream)
+    public void LoadGameState(StreamPeerBuffer stream)
     {
         SetGameState(DeserializeGamestate(stream));
     }
@@ -137,11 +143,20 @@ public class GameStateObject : Node
         LoadGameState(testSave);
     }
 
-    public void Update(int thisFrameInputs)
+    public void Update(Godot.Collections.Array thisFrameInputs)
     {
 
-
-        P1.SetUnhandledInputs(ConvertInputs(thisFrameInputs));
+        if (hosting)
+        {
+            P1.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[0]));
+            P2.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[1]));
+        }
+        else
+        {
+            P1.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[1]));
+            P2.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[0]));
+        }
+        
 
         AdvanceFrameAndHitstop();
         FrameAdvancePlayers();

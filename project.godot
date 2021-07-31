@@ -47,7 +47,7 @@ Test_Metadata_Directory="res://tests"
 [application]
 
 config/name="GWS-GGPO"
-run/main_scene="res://MainScene.tscn"
+run/main_scene="res://Lobby/Lobby.tscn"
 config/icon="res://icon.png"
 
 [autoload]

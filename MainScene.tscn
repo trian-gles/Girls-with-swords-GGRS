@@ -26,8 +26,6 @@ default_font = ExtResource( 11 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
-rollbackTesting = true
-rollbackFrame = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -139,21 +137,6 @@ __meta__ = {
 
 [node name="Timer" type="Timer" parent="HUD/P1Combo"]
 wait_time = 0.5
-
-[node name="Recording" type="Label" parent="HUD"]
-anchor_left = 0.241
-anchor_top = 0.172
-anchor_right = 0.69
-anchor_bottom = 0.405
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 11 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "RECORDING"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="P1" parent="." instance=ExtResource( 1 )]
 position = Vector2( 133, 240 )

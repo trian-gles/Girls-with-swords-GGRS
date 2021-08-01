@@ -52,9 +52,9 @@ public class MainScene : Node2D
         gsObj = new GameStateObject();
         gsObj.config(P1, P2, hosting);
         ConnectEvents();
-        Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand, ip, localPort);
+        Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand);
         localPlayerHandle = (int)localHandle["playerHandle"];
-        GD.Print($"Local add result: {localHandle["result"]}");
+        GD.Print($"Local add result: {localHandle["result"]}, hosting on ip {localHandle["playerIpAddress"]}");
 
         int frameDelayError = GGPO.SetFrameDelay(localPlayerHandle, 2);
         GD.Print($"Frame delay error code: {frameDelayError}");

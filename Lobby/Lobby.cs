@@ -5,12 +5,12 @@ public class Lobby : Node2D
 {
     public void OnHostButtonDown()
     {
-        Begin(7000, 7001, true);
+        Begin(7000, 7000, true);
     }
 
     public void OnJoinButtonDown()
     {
-        Begin(7001, 7000, false);
+        Begin(7000, 7000, false);
     }
 
     public void OnSyncTestButtonDown()

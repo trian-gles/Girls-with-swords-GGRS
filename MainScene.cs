@@ -161,16 +161,8 @@ public class MainScene : Node2D
     /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_select"))
-        {
-            gsObj.TestSaveGameState();
-        }
-        else if (@event.IsActionPressed("debug_shift"))
-        {
-            gsObj.TestLoadGameState();
-        }
 
-        else if (@event.IsActionPressed("8"))
+        if (@event.IsActionPressed("8"))
         {
             AddPress((int) Globals.Inputs.UP);
         }

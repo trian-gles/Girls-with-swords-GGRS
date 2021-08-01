@@ -25,7 +25,14 @@ public class MainScene : Node2D
 
 
     private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
-    private char[] allowableInputs = new char[] { '8', '4', '2', '6', 'p', 'k', 's' };
+    
+    /// <summary>
+    /// Godot doesn't allow constructors so I have to do stuff like this instead
+    /// </summary>
+    /// <param name="ip"></param>
+    /// <param name="localPort"></param>
+    /// <param name="remotePort"></param>
+    /// <param name="hosting"></param>
     public void Begin(string ip, int localPort, int remotePort, bool hosting)
     {
         
@@ -54,7 +61,7 @@ public class MainScene : Node2D
         ConnectEvents();
         Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand);
         localPlayerHandle = (int)localHandle["playerHandle"];
-        GD.Print($"Local add result: {localHandle["result"]}, hosting on ip {localHandle["playerIpAddress"]}");
+        GD.Print($"Local add result: {localHandle["result"]}");
 
         int frameDelayError = GGPO.SetFrameDelay(localPlayerHandle, 2);
         GD.Print($"Frame delay error code: {frameDelayError}");
@@ -65,7 +72,9 @@ public class MainScene : Node2D
 
 
 
-
+    /// <summary>
+    /// Connect GGPO callbacks
+    /// </summary>
     private void ConnectEvents()
     {
         GGPO.Singleton.Connect("advance_frame", this, nameof(OnAdvanceFrame));
@@ -130,6 +139,10 @@ public class MainScene : Node2D
         GD.Print($"Connected to peer with handle {handle}");
     }
 
+    /// <summary>
+    /// Callback function for advancing frames given to GGPO to execute rollbacks
+    /// </summary>
+    /// <param name="combinedInputs"></param>
     public void OnAdvanceFrame(Godot.Collections.Array combinedInputs)
     {
         gsObj.Update(combinedInputs);
@@ -142,7 +155,10 @@ public class MainScene : Node2D
     }
 
 
-    // Input handling functions
+    /// <summary>
+    /// Called whenever the user presses a key, which gets added to the inputs int
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_select"))

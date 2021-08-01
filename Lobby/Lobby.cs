@@ -5,12 +5,12 @@ public class Lobby : Node2D
 {
     public void OnHostButtonDown()
     {
-        Begin(7000, 7000, true);
+        Begin(true);
     }
 
     public void OnJoinButtonDown()
     {
-        Begin(7000, 7000, false);
+        Begin(false);
     }
 
     public void OnSyncTestButtonDown()
@@ -19,15 +19,23 @@ public class Lobby : Node2D
         GD.Print($"Starting synctest");
     }
 
-    public void Begin(int localPort, int otherPort, bool hosting)
+    public void Begin(bool host)
     {
         GetNode<Button>("Host").Visible = false;
         GetNode<Button>("Join").Visible = false;
         GetNode<Button>("SyncTest").Visible = false;
-        string ip = GetNode<LineEdit>("IpEdit").Text;
+
+        
+        string ip = GetNode<LineEdit>("OpponentIp").Text;
+        
+        int otherPort = int.Parse(GetNode<LineEdit>("OpponentPort").Text);
+        int localPort = int.Parse(GetNode<LineEdit>("LocalPort").Text);
+        GetNode<LineEdit>("OpponentPort").Visible = false;
+        GetNode<LineEdit>("LocalPort").Visible = false;
+
         var mainScene = (PackedScene) ResourceLoader.Load("res://MainScene.tscn");
         var mainInstance = (MainScene)mainScene.Instance();
         AddChild(mainInstance);
-        mainInstance.Begin(ip, localPort, otherPort, hosting);
+        mainInstance.Begin(ip, localPort, otherPort, host);
     }
 }

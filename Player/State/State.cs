@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Base class for all states
+/// </summary>
 public class State : Node
 {
     public Player owner;
@@ -21,11 +24,17 @@ public class State : Node
         owner = GetOwner<Player>();
     }
 
+    /// <summary>
+    /// Called right when switching into this state.  NOT called when a game state is loaded
+    /// </summary>
     public virtual void Enter() 
     {
         frameCount = 0;
     }
 
+    /// <summary>
+    /// Called right when exiting this state.  NOT called when a game state is loaded
+    /// </summary>
     public virtual void Exit()
     {
 
@@ -55,11 +64,18 @@ public class State : Node
         frameCount++;
     }
 
+    /// <summary>
+    /// Get pushed by the opposing player from pure movement
+    /// </summary>
+    /// <param name="xVel"></param>
     public virtual void PushMovement(float xVel) 
     {
         owner.velocity.x = xVel / 2;
     }
 
+    /// <summary>
+    /// Called if the other player is found in this hurtbox
+    /// </summary>
     public virtual void InHurtbox()
     {
 

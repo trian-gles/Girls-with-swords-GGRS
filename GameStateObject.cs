@@ -18,8 +18,11 @@ public class GameStateObject : Node
     [Export]
     private int maxHitStop = 10;
 
+    /// <summary>
+    /// Stores all vital data about positions in the game in a single struct
+    /// </summary>
     [Serializable]
-    public struct GameState
+    private struct GameState
     {
         public int frame { get; set; }
         public Player.PlayerState P1State { get; set; }
@@ -40,7 +43,7 @@ public class GameStateObject : Node
         P1.CheckTurnAround();
         P2.CheckTurnAround();
     }
-    public static byte[] Serialize<T>(T data)
+    private byte[] Serialize<T>(T data)
     where T : struct
     {
         var formatter = new BinaryFormatter();
@@ -48,14 +51,14 @@ public class GameStateObject : Node
         formatter.Serialize(stream, data);
         return stream.ToArray();
     }
-    public static T Deserialize<T>(byte[] array)
+    private T Deserialize<T>(byte[] array)
         where T : struct
     {
         var stream = new MemoryStream(array);
         var formatter = new BinaryFormatter();
         return (T)formatter.Deserialize(stream);
     }
-    public GameState GetGameState()
+    private GameState GetGameState()
     {
         GameState gState = new GameState();
         gState.frame = Frame;
@@ -65,7 +68,7 @@ public class GameStateObject : Node
 
         return gState;
     }
-    public StreamPeerBuffer SerializeGamestate(GameState gameState)
+    private StreamPeerBuffer SerializeGamestate(GameState gameState)
     {
         
         byte[] arr = Serialize(gameState);
@@ -89,11 +92,16 @@ public class GameStateObject : Node
         return stream;
 
     }
+
+    /// <summary>
+    /// Return the serialized game state for GGPO to hold on to
+    /// </summary>
+    /// <returns></returns>
     public StreamPeerBuffer SaveGameState()
     {
         return SerializeGamestate(GetGameState());
     }
-    public int CalcFletcher32(StreamPeerBuffer stream)
+    private int CalcFletcher32(StreamPeerBuffer stream)
     {
         int sum1 = 0;
         int sum2 = 0;
@@ -128,21 +136,20 @@ public class GameStateObject : Node
 
         return retrievedGamestate;
     }
+
+    /// <summary>
+    /// Load the game state provided by GGPO
+    /// </summary>
+    /// <param name="stream"></param>
     public void LoadGameState(StreamPeerBuffer stream)
     {
         SetGameState(DeserializeGamestate(stream));
     }
 
-    public void TestSaveGameState()
-    {
-        testSave = SaveGameState();
-    }
-
-    public void TestLoadGameState()
-    {
-        LoadGameState(testSave);
-    }
-
+    /// <summary>
+    /// Updates the gamestate by one frame with the given inputs
+    /// </summary>
+    /// <param name="thisFrameInputs"></param>
     public void Update(Godot.Collections.Array thisFrameInputs)
     {
 
@@ -163,6 +170,11 @@ public class GameStateObject : Node
 
     }
 
+    /// <summary>
+    /// Takes the inputs list and turns it back into List<char[]>
+    /// </summary>
+    /// <param name="inputs"></param>
+    /// <returns></returns>
     private List<char[]> ConvertInputs(int inputs)
     {
         var convertedInputs = new List<char[]>();
@@ -182,7 +194,7 @@ public class GameStateObject : Node
         }
         return convertedInputs;
 
-    }//takes the single int and creates a list of inputs
+    }
 
     private char[] ConvertInput(int key, int press)
     {
@@ -249,7 +261,10 @@ public class GameStateObject : Node
         }
     }
 
-    public void CheckFixCollision()
+    /// <summary>
+    /// Check if player collision boxes are colliding and adjust accordingly
+    /// </summary>
+    private void CheckFixCollision()
     {
         while (CheckRects())
         {
@@ -265,7 +280,7 @@ public class GameStateObject : Node
             }
         }
     }
-    public bool CheckRects()
+    private bool CheckRects()
     {
         Rect2 P1rect = P1.GetCollisionRect();
         P1rect.Position = P1rect.Position + P1.Position;
@@ -274,6 +289,9 @@ public class GameStateObject : Node
         return P1rect.Intersects(P2rect);
     }
 
+    /// <summary>
+    /// Reset the hitstop counter, called by player signals on hit
+    /// </summary>
     public void HitStop()
     {
         hitStopRemaining = maxHitStop;

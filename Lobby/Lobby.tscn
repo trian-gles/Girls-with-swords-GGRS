@@ -7,9 +7,9 @@ script = ExtResource( 1 )
 
 [node name="Host" type="Button" parent="."]
 margin_left = 176.0
-margin_top = 88.0
+margin_top = 144.0
 margin_right = 326.0
-margin_bottom = 108.0
+margin_bottom = 164.0
 text = "Host"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -17,9 +17,9 @@ __meta__ = {
 
 [node name="Join" type="Button" parent="."]
 margin_left = 176.0
-margin_top = 144.0
+margin_top = 184.0
 margin_right = 326.0
-margin_bottom = 164.0
+margin_bottom = 204.0
 text = "Join"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,20 +27,42 @@ __meta__ = {
 
 [node name="SyncTest" type="Button" parent="."]
 margin_left = 176.0
-margin_top = 200.0
+margin_top = 224.0
 margin_right = 326.0
-margin_bottom = 220.0
+margin_bottom = 244.0
 text = "SyncTest"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IpEdit" type="LineEdit" parent="."]
+[node name="OpponentPort" type="LineEdit" parent="."]
 margin_left = 176.0
 margin_top = 24.0
 margin_right = 326.0
 margin_bottom = 48.0
-text = "Enter Ip here..."
+placeholder_text = "Enter Opponent Port"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpponentIp" type="LineEdit" parent="."]
+margin_left = 176.0
+margin_top = 64.0
+margin_right = 326.0
+margin_bottom = 88.0
+rect_pivot_offset = Vector2( 96, 40 )
+placeholder_text = "Enter Opponent Ip"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalPort" type="LineEdit" parent="."]
+margin_left = 176.0
+margin_top = 104.0
+margin_right = 326.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 96, 40 )
+placeholder_text = "Enter Local Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }

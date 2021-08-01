@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Player : Node2D
 {
     private State currentState;
-    public Player otherPlayer;
+    public Player otherPlayer; //I know I shouldn't do this, but it makes my life so much easier...
 
     [Signal]
     public delegate void HealthChanged(string name, int health);
@@ -21,10 +21,10 @@ public class Player : Node2D
     public int jumpForce = 7;
 
     [Export]
-    public int gravityDenom = 5;
+    public int gravityDenom = 5; //GGPO can only store ints due to issues with float determinism so I have to do some wacky stuff
 
     [Export]
-    public bool dummy = false;
+    public bool dummy = false; //you can use this for testing with a dummy
 
     public InputHandler inputHandler;
 
@@ -36,6 +36,9 @@ public class Player : Node2D
     public bool grounded;
     private int combo = 0;
 
+    /// <summary>
+    /// Contains all vital data for saving gamestate
+    /// </summary>
     [Serializable]
     public struct PlayerState
     {
@@ -123,7 +126,7 @@ public class Player : Node2D
         return pState;
     }
 
-    public void SetState(PlayerState pState) //adjust this
+    public void SetState(PlayerState pState)
     {
         inputHandler.inputBuffer = pState.inputBuffer;
         inputHandler.heldKeys = pState.heldKeys;
@@ -146,10 +149,19 @@ public class Player : Node2D
         EmitSignal(nameof(ComboChanged), Name, combo);
 
     }
+
+    /// <summary>
+    /// Right now this is an unneccessary step in input handling, but it works so I'll leave it for now
+    /// </summary>
+    /// <param name="inputs"></param>
     public void SetUnhandledInputs(List<char[]> inputs)
     {
         inputHandler.SetUnhandledInputs(new List<char[]>(inputs));
     }
+
+    /// <summary>
+    /// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
+    /// </summary>
     public class InputHandler 
     {
         public List<List<char[]>> inputBuffer = new List<List<char[]>>();
@@ -204,6 +216,10 @@ public class Player : Node2D
         }
     }//input buffer needs to be tested!!!
 
+    /// <summary>
+    /// Call the Enter() and Exit() methods of the current state and go to a new one
+    /// </summary>
+    /// <param name="nextStateName"></param>
     public void ChangeState(string nextStateName) 
     {
         currentState.Exit();
@@ -240,7 +256,7 @@ public class Player : Node2D
     public void FrameAdvance() 
     {
         bool hitStop = false;
-        Update(); //Redraw
+        Update();
         inputHandler.FrameAdvance(hitStop, currentState);
         animationPlayer.FrameAdvance();
 
@@ -253,6 +269,9 @@ public class Player : Node2D
         MoveSlideDeterministicOne();
     }
 
+    /// <summary>
+    /// First half of the integer based, deterministic collision detection system.
+    /// </summary>
     private void MoveSlideDeterministicOne()
     {
         int xChange = (int)Math.Floor(velocity.x / 2);
@@ -261,6 +280,9 @@ public class Player : Node2D
         CorrectPositionBounds();
     }
 
+    /// <summary>
+    /// Finishes the movement system
+    /// </summary>
     public void MoveSlideDeterministicTwo()
     {
         int xChange = (int)Math.Ceiling(velocity.x / 2);
@@ -269,6 +291,9 @@ public class Player : Node2D
         CorrectPositionBounds();
     }
 
+    /// <summary>
+    /// Stay inside the bounds of the stage
+    /// </summary>
     private void CorrectPositionBounds()
     {
         if (Position.y > 220)
@@ -327,6 +352,9 @@ public class Player : Node2D
         }
     }
 
+    /// <summary>
+    /// Called to check if the player should change directions.  Always called when changing states.  Some states call this in their FrameAdvance() methods.
+    /// </summary>
     public void CheckTurnAround() 
     {
         if (otherPlayer == null) 
@@ -466,6 +494,10 @@ public class Player : Node2D
     {
         GetNode<Label>("DebugPos").Text = Position.ToString();
     }
+
+    /// <summary>
+    /// You can use this if you want to draw all the boxes
+    /// </summary>
     public override void _Draw()
     {
         return;

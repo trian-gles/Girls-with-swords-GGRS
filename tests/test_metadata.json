@@ -1,16 +1,3 @@
 {
-	"res://tests/DeterminismTests.cs": {
-		"path": "res://tests/DeterminismTests.cs",
-		"tags": [
 
-		],
-		"passing": false
-	},
-	"res://tests/GlobalsTests.cs": {
-		"path": "res://tests/GlobalsTests.cs",
-		"tags": [
-
-		],
-		"passing": true
-	}
 }

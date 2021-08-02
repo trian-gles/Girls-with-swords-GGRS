@@ -53,21 +53,30 @@ public class MainScene : Node2D
         P1Combo.Text = "";
         P2Combo.Text = "";
 
-        //GGPO Config
-        int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
-        GD.Print($"Starting regular session, errorcode {errorcode}");
+
         gsObj = new GameStateObject();
         gsObj.config(P1, P2, hosting);
-        ConnectEvents();
-        Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand);
-        localPlayerHandle = (int)localHandle["playerHandle"];
-        GD.Print($"Local add result: {localHandle["result"]}");
 
-        int frameDelayError = GGPO.SetFrameDelay(localPlayerHandle, 2);
-        GD.Print($"Frame delay error code: {frameDelayError}");
-        GGPO.CreateInstance(gsObj, nameof(gsObj.SaveGameState));
-        Godot.Collections.Dictionary remoteHandle = GGPO.AddPlayer(GGPO.PlayertypeRemote, otherHand, ip, remotePort);
-        GD.Print($"Remote add result:{remoteHandle["result"]}");
+        if (Globals.mode == Globals.Mode.GGPO)
+        {
+            //GGPO Config
+            int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
+            GD.Print($"Starting GGPO session, errorcode {errorcode}");
+
+
+            
+            ConnectEvents();
+            Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand, "127.0.0.1", 7000);
+            localPlayerHandle = (int)localHandle["playerHandle"];
+            GD.Print($"Local add result: {localHandle["result"]}");
+
+            int frameDelayError = GGPO.SetFrameDelay(localPlayerHandle, 2);
+            GD.Print($"Frame delay error code: {frameDelayError}");
+            GGPO.CreateInstance(gsObj, nameof(gsObj.SaveGameState));
+            Godot.Collections.Dictionary remoteHandle = GGPO.AddPlayer(GGPO.PlayertypeRemote, otherHand, ip, remotePort);
+            GD.Print($"Remote add result:{remoteHandle["result"]}");
+        }
+        
     }
 
 
@@ -87,10 +96,21 @@ public class MainScene : Node2D
 
     public override void _PhysicsProcess(float _delta)
     {
-        GGPO.Idle(30);
-        camera.Call("adjust", P1.Position, P2.Position);
-        
+        camera.Call("adjust", P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
+        if (Globals.mode == Globals.Mode.GGPO)
+        {
+            GGPOPhysicsProcess();
+        }
+        else if (Globals.mode == Globals.Mode.TRAINING) 
+        {
+            TrainingPhysicsProcess();
+        }
+        inputs = 0; // reset the inputs
+    }
 
+    public void GGPOPhysicsProcess()
+    {
+        GGPO.Idle(30);
         int result;
         if (localPlayerHandle != GGPO.InvalidHandle)
         {
@@ -103,7 +123,6 @@ public class MainScene : Node2D
         }
         if (result == GGPO.ErrorcodeSuccess)
         {
-            GetNode<Label>("Sync").Text = "Synchronized";
             Godot.Collections.Dictionary resultDict = GGPO.SynchronizeInput(MAXPLAYERS);
             if ((int)resultDict["result"] == GGPO.ErrorcodeSuccess)
             {
@@ -112,16 +131,24 @@ public class MainScene : Node2D
             }
 
         }
-
-        inputs = 0; // reset the inputs
     }
 
+    public void TrainingPhysicsProcess()
+    {
+        var combinedInputs = new int[2] {inputs, 0 }; 
+        gsObj.Update(new Godot.Collections.Array(combinedInputs));
+    }
     
+    /// <summary>
+    /// Non callback advance frame that we use with GGPO
+    /// </summary>
+    /// <param name="combinedInputs"></param>
     public void Advance_Frame(Godot.Collections.Array combinedInputs)
     {
         gsObj.Update(combinedInputs);
         GGPO.AdvanceFrame();
     }
+
 
     //GGPO callbacks
     public void OnSaveGameState()

@@ -23,11 +23,19 @@ public class Globals : Node
         RELEASE = 1
     }
 
+    public enum Mode
+    {
+        LOCAL = 0,
+        TRAINING = 1,
+        GGPO = 2
+    }
+
     public override void _Ready()
     {
         
     }
 
+    static public Mode mode;
     public static bool ArrayInList(List<char[]> arr, char[] element)
     {
         var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));

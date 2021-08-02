@@ -195,7 +195,7 @@ public class Player : Node2D
                 curBufStep.Add(inputArr);
             }
             inputBuffer.Add(curBufStep);
-            if (inputBuffer.Count > 12) 
+            if (inputBuffer.Count > 16) 
             {
                 inputBuffer.RemoveAt(0);
             }
@@ -248,9 +248,24 @@ public class Player : Node2D
         return (inputHandler.heldKeys.Contains(key));
     }
 
-    public bool CheckBuffer(char[] key) // FIX THIS
+    /// <summary>
+    /// Checks if the key is in the input buffer
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public bool CheckBuffer(char[] key)
     {
-        return (inputHandler.GetBuffer().Contains(key));
+        return Globals.ArrayInList(inputHandler.GetBuffer(), key);
+    }
+
+    /// <summary>
+    /// Checks if the sequence of inputs in elements can be found in order in the buffer
+    /// </summary>
+    /// <param name="elements"></param>
+    /// <returns></returns>
+    public bool CheckBufferComplex(List<char[]> elements)
+    {
+        return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
     }
 
     public void FrameAdvance() 
@@ -500,22 +515,25 @@ public class Player : Node2D
     /// </summary>
     public override void _Draw()
     {
-        return;
-        List<Rect2> hitRects = GetRects(hitBoxes);
-        List<Rect2> hurtRects = GetRects(hurtBoxes);
-        Rect2 colRect = GetRect(colBox);
+        if (Globals.mode == Globals.Mode.TRAINING)
+        {
+            List<Rect2> hitRects = GetRects(hitBoxes);
+            List<Rect2> hurtRects = GetRects(hurtBoxes);
+            Rect2 colRect = GetRect(colBox);
+
+
+            foreach (Rect2 rect in hitRects)
+            {
+                DrawRect(rect, hitColor);
+            }
+
+            foreach (Rect2 rect in hurtRects)
+            {
+                DrawRect(rect, hurtColor);
+            }
+
+            DrawRect(colRect, colColor);
+        }
         
-
-        foreach (Rect2 rect in hitRects) 
-        {
-            DrawRect(rect, hitColor);
-        }
-
-        foreach (Rect2 rect in hurtRects)
-        {
-            DrawRect(rect, hurtColor);
-        }
-
-        DrawRect(colRect, colColor);
     }
 }

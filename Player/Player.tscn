@@ -17,7 +17,7 @@
 extents = Vector2( 7, 34 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 28 )
+extents = Vector2( 10, 40 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 3 )
@@ -25,7 +25,7 @@ extents = Vector2( 5, 3 )
 [sub_resource type="RectangleShape2D" id=4]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 11, 29 )
+extents = Vector2( 14, 8 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 15 )
@@ -1665,7 +1665,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, 12 )
+position = Vector2( 0, -1 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -1681,23 +1681,25 @@ disabled = true
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( -25, -13 )
+position = Vector2( 24, 0 )
 shape = SubResource( 5 )
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( -2, -31 )
 shape = SubResource( 6 )
+disabled = true
 
 [node name="HurtB3" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( 20, 1 )
 shape = SubResource( 7 )
+disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 30
+frame = 20
 
 [node name="StateTree" type="Node" parent="."]
 

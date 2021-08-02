@@ -3,6 +3,11 @@ using System;
 
 public class Lobby : Node2D
 {
+
+    public override void _Ready()
+    {
+        Globals.Tests();
+    }
     public void OnHostButtonDown()
     {
         

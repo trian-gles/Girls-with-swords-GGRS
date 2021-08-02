@@ -37,7 +37,7 @@ public class State : Node
     /// </summary>
     public virtual void Exit()
     {
-
+        hitConnect = false;
     }
 
     protected void ApplyGravity()

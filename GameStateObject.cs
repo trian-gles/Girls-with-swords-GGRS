@@ -15,8 +15,8 @@ public class GameStateObject : Node
     public int Frame = 0;
 
     private int hitStopRemaining = 0;
-    [Export]
-    private int maxHitStop = 10;
+
+    private int maxHitStop = 14;
 
     /// <summary>
     /// Stores all vital data about positions in the game in a single struct

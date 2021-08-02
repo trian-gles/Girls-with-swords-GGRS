@@ -1,12 +1,23 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=46 format=2]
 
+[ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
+[ext_resource path="res://Player/State/Walk.cs" type="Script" id=3]
+[ext_resource path="res://Player/AnimationPlayer.cs" type="Script" id=4]
+[ext_resource path="res://Player/State/Idle.cs" type="Script" id=5]
+[ext_resource path="res://Player/State/Kick.cs" type="Script" id=6]
+[ext_resource path="res://Player/State/HitStun.cs" type="Script" id=7]
+[ext_resource path="res://Player/State/Block.cs" type="Script" id=8]
+[ext_resource path="res://Player/State/Fall.cs" type="Script" id=9]
+[ext_resource path="res://Player/State/MovingJump.cs" type="Script" id=10]
+[ext_resource path="res://Player/State/Jump.cs" type="Script" id=11]
+[ext_resource path="res://Player/State/JumpKick.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 34 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 21, 15 )
+extents = Vector2( 12, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 3 )
@@ -14,7 +25,7 @@ extents = Vector2( 5, 3 )
 [sub_resource type="RectangleShape2D" id=4]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 17, 9 )
+extents = Vector2( 11, 29 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 15 )
@@ -1639,6 +1650,9 @@ tracks/8/keys = {
 }
 
 [node name="Player" type="Node2D"]
+script = ExtResource( 1 )
+speed = 3
+jumpForce = 6
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 visible = false
@@ -1651,7 +1665,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, 24 )
+position = Vector2( -2, 12 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -1667,46 +1681,56 @@ disabled = true
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( -26, 26 )
+position = Vector2( -25, -13 )
 shape = SubResource( 5 )
-disabled = true
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( -2, -31 )
 shape = SubResource( 6 )
-disabled = true
 
 [node name="HurtB3" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 37.5106, -18.0393 )
+position = Vector2( 20, 1 )
 shape = SubResource( 7 )
-disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 10
+frame = 30
 
 [node name="StateTree" type="Node" parent="."]
 
 [node name="Idle" type="Node" parent="StateTree"]
+script = ExtResource( 5 )
 
 [node name="Walk" type="Node" parent="StateTree"]
+script = ExtResource( 3 )
 
 [node name="Jump" type="Node" parent="StateTree"]
+script = ExtResource( 11 )
 
 [node name="MovingJump" type="Node" parent="StateTree"]
+script = ExtResource( 10 )
 
 [node name="Kick" type="Node" parent="StateTree"]
+script = ExtResource( 6 )
+hitStun = 14
+hitPush = Vector2( 1, 0 )
 
 [node name="JumpKick" type="Node" parent="StateTree"]
+script = ExtResource( 12 )
+hitStun = 14
+hitPush = Vector2( 1, 0 )
 
 [node name="Block" type="Node" parent="StateTree"]
+script = ExtResource( 8 )
 
 [node name="HitStun" type="Node" parent="StateTree"]
+script = ExtResource( 7 )
 
 [node name="Fall" type="Node" parent="StateTree"]
+script = ExtResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0
@@ -1736,6 +1760,7 @@ anims/Slash = SubResource( 30 )
 anims/Sweep = SubResource( 31 )
 anims/Wakeup = SubResource( 32 )
 anims/Walk = SubResource( 33 )
+script = ExtResource( 4 )
 
 [node name="DebugPos" type="Label" parent="."]
 margin_left = -20.2271

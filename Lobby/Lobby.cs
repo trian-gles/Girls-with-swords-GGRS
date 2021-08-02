@@ -5,14 +5,16 @@ public class Lobby : Node2D
 {
     public void OnHostButtonDown()
     {
-        Begin(true);
+        
         Globals.mode = Globals.Mode.GGPO;
+        Begin(true);
     }
 
     public void OnJoinButtonDown()
     {
-        Begin(false);
+        
         Globals.mode = Globals.Mode.GGPO;
+        Begin(false);
     }
 
     public void OnLocalButtonDown()
@@ -53,7 +55,7 @@ public class Lobby : Node2D
         GetNode<LineEdit>("LocalPort").Visible = false;
 
         var mainScene = (PackedScene) ResourceLoader.Load("res://MainScene.tscn");
-        var mainInstance = (MainScene)mainScene.Instance();
+        var mainInstance = mainScene.Instance() as MainScene;
         AddChild(mainInstance);
         mainInstance.Begin(ip, localPort, otherPort, host);
     }

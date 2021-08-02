@@ -7,3 +7,7 @@ build/
 lib/
 
 .mono/
+
+synclogs/
+
+.vs/

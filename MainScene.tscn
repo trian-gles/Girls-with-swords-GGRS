@@ -24,7 +24,7 @@ default_font = ExtResource( 11 )
 [sub_resource type="Theme" id=3]
 default_font = ExtResource( 11 )
 
-[node name="Main" type="Node2D"]
+[node name="MainScene" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -143,7 +143,6 @@ position = Vector2( 133, 240 )
 
 [node name="P2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 330, 242 )
-dummy = true
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2( 240, 135 )

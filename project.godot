@@ -13,21 +13,9 @@ _global_script_classes=[ {
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
-}, {
-"base": "Reference",
-"class": "WAT",
-"language": "GDScript",
-"path": "res://addons/WAT/namespace.gd"
-}, {
-"base": "Node",
-"class": "WATTest",
-"language": "GDScript",
-"path": "res://addons/WAT/core/test/test.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": "",
-"WAT": "",
-"WATTest": ""
+"GitAPI": ""
 }
 
 [WAT]
@@ -60,10 +48,6 @@ window/size/width=480
 window/size/height=270
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
-
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/WAT/plugin.cfg" )
 
 [gdnative]
 

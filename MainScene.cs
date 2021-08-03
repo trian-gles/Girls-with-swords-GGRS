@@ -200,10 +200,12 @@ public class MainScene : Node2D
         else if (@event.IsActionPressed("4"))
         {
             AddPress((int)Globals.Inputs.LEFT);
+            GD.Print("Pressing 4");
         }
         else if (@event.IsActionPressed("6"))
         {
             AddPress((int)Globals.Inputs.RIGHT);
+            GD.Print("Pressing 6");
         }
         else if (@event.IsActionPressed("p"))
         {
@@ -228,10 +230,12 @@ public class MainScene : Node2D
         }
         else if (@event.IsActionReleased("4"))
         {
+            GD.Print("Releasing 4 in MainScene");
             AddRelease((int)Globals.Inputs.LEFT);
         }
         else if (@event.IsActionReleased("6"))
         {
+            GD.Print("Releasing 6 in MainScene");
             AddRelease((int)Globals.Inputs.RIGHT);
         }
         else if (@event.IsActionReleased("p"))

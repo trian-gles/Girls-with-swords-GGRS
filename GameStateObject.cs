@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Linq;
 
 public class GameStateObject : Node
 {
@@ -190,6 +191,14 @@ public class GameStateObject : Node
             int key = int.Parse(stringInputs[i * 2].ToString());
             int press = int.Parse(stringInputs[i * 2 + 1].ToString());
             char[] convertedInput = ConvertInput(key, press);
+            if (Enumerable.SequenceEqual(convertedInput, new char[] { '4', 'r' }))
+            {
+                GD.Print("Releasing 4 in GameState");
+            }
+            else if (Enumerable.SequenceEqual(convertedInput, new char[] { '6', 'r' }))
+            {
+                GD.Print("Releasing 6 in GameState");
+            }
             convertedInputs.Add(convertedInput);
         }
         return convertedInputs;
@@ -250,6 +259,8 @@ public class GameStateObject : Node
 
     private void FrameAdvancePlayers()
     {
+        P1.FrameAdvanceInputs(hitStopRemaining);
+        P2.FrameAdvanceInputs(hitStopRemaining);
         if (hitStopRemaining < 1)
         {
             P1.FrameAdvance();

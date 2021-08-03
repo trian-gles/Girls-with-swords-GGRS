@@ -26,7 +26,7 @@ public class Player : Node2D
     [Export]
     public bool dummy = false; //you can use this for testing with a dummy
 
-    public InputHandler inputHandler;
+    private InputHandler inputHandler;
 
     // All of these will be stored in gamestate
     private int health = 100;
@@ -162,7 +162,7 @@ public class Player : Node2D
     /// <summary>
     /// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
     /// </summary>
-    public class InputHandler 
+    private class InputHandler 
     {
         public List<List<char[]>> inputBuffer = new List<List<char[]>>();
         public List<char> heldKeys = new List<char>();
@@ -170,10 +170,14 @@ public class Player : Node2D
 
         public void SetUnhandledInputs(List<char[]> thisFrameInputs) 
         {
-            unhandledInputs = thisFrameInputs;
+            unhandledInputs.AddRange(thisFrameInputs);
         }
-        public void FrameAdvance(bool hitStop, State currentState) 
+        public void FrameAdvance(int hitStop, State currentState) 
         {
+            if (hitStop > 0) // delay the handling of inputs until after hitstop ends
+            {
+                return;
+            }
             List<char[]> curBufStep = new List<char[]>();
             foreach (char[] inputArr in unhandledInputs)
             {
@@ -182,15 +186,18 @@ public class Player : Node2D
                 if (inputArr[1] == 'p')
                 {
                     heldKeys.Add(inputArr[0]);
+                    
                 }
                 else if (inputArr[1] == 'r')
                 {
-                    heldKeys.Remove(inputArr[0]);
+                    bool removeResult = heldKeys.Remove(inputArr[0]);
+                    if (inputArr[0] == '4' || inputArr[0] == '6')
+                    {
+                        GD.Print($"Result of removing {inputArr[0]} from heldKeys = {removeResult}");
+                    }
+                    
                 }
-                if (!hitStop)
-                {
-                    currentState.HandleInput(inputArr);
-                }
+                currentState.HandleInput(inputArr);
                 
                 curBufStep.Add(inputArr);
             }
@@ -268,11 +275,15 @@ public class Player : Node2D
         return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
     }
 
+    public void FrameAdvanceInputs(int hitStop)
+    {
+        inputHandler.FrameAdvance(hitStop, currentState);
+    }
     public void FrameAdvance() 
     {
-        bool hitStop = false;
+        
         Update();
-        inputHandler.FrameAdvance(hitStop, currentState);
+        
         animationPlayer.FrameAdvance();
 
         if (CheckHurtRect())
@@ -418,7 +429,6 @@ public class Player : Node2D
     {
         if (otherPlayer.CheckTouchingWall())
         {
-            GD.Print("Other player at wall, pushing attacker");
             if (OtherPlayerOnRight())
             {
                 velocity.x = -hitPush.x;
@@ -439,7 +449,6 @@ public class Player : Node2D
     public void ComboUp()
     {
         combo++;
-        GD.Print($"Combo up to {combo}");
         EmitSignal(nameof(ComboChanged), Name, combo);
     }
 

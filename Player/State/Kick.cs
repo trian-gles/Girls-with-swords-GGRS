@@ -50,41 +50,21 @@ public class Kick : State
         }
               
     }
-
-    public override void FrameAdvance()
+    public override void HandleInput(char[] inputArr)
     {
-        if (hitConnect)
+
+        if (inputArr[1] == 'p' && hitConnect)
         {
-            if (owner.CheckBufferComplex(kickToKickInput))
+
+            if (inputArr[0] == 'k')
             {
                 EmitSignal(nameof(StateFinished), "Kick");
             }
-            if (owner.CheckBuffer(jumpInput))
+            else if (inputArr[0] == '8')
             {
                 EmitSignal(nameof(StateFinished), "Jump");
             }
         }
-        base.FrameAdvance();
-        
-
-        
-    }
-
-    public override void HandleInput(char[] inputArr)
-    {
-        
-        //if (inputArr[1] == 'p' && hitConnect) 
-        //{
-            
-        //    if (inputArr[0] == 'k')
-        //    {
-        //        EmitSignal(nameof(StateFinished), "Kick");
-        //    }
-        //    else if (inputArr[0] == '8') 
-        //    {
-        //        EmitSignal(nameof(StateFinished), "Jump");
-        //    }
-        //}
     }
 }
 

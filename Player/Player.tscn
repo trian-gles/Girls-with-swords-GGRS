@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -12,9 +12,11 @@
 [ext_resource path="res://Player/State/MovingJump.cs" type="Script" id=10]
 [ext_resource path="res://Player/State/Jump.cs" type="Script" id=11]
 [ext_resource path="res://Player/State/JumpKick.cs" type="Script" id=12]
+[ext_resource path="res://Player/State/BaseAttack.cs" type="Script" id=13]
+[ext_resource path="res://Player/State/Crouch.cs" type="Script" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7, 34 )
+extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 17, 24 )
@@ -25,7 +27,7 @@ extents = Vector2( 5, 3 )
 [sub_resource type="RectangleShape2D" id=4]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 14, 8 )
+extents = Vector2( 0, 0 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 15 )
@@ -1655,8 +1657,7 @@ speed = 3
 jumpForce = 6
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0, 5 )
+position = Vector2( 0, 15 )
 shape = SubResource( 1 )
 __meta__ = {
 "_editor_description_": "Will NEVER CHANGE"
@@ -1724,6 +1725,7 @@ hitPush = Vector2( 1, 0 )
 script = ExtResource( 12 )
 hitStun = 14
 hitPush = Vector2( 1, 0 )
+height = 2
 
 [node name="Block" type="Node" parent="StateTree"]
 script = ExtResource( 8 )
@@ -1733,6 +1735,12 @@ script = ExtResource( 7 )
 
 [node name="Fall" type="Node" parent="StateTree"]
 script = ExtResource( 9 )
+
+[node name="BaseAttack" type="Node" parent="StateTree"]
+script = ExtResource( 13 )
+
+[node name="Crouch" type="Node" parent="StateTree"]
+script = ExtResource( 14 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

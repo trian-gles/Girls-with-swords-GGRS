@@ -103,7 +103,7 @@ public class Globals : Node
 
     public static bool CheckKeyRelease(char[] input, char desiredRelease)
     {
-        return (input[1] == 'p' && input[0] == desiredRelease);
+        return (input[1] == 'r' && input[0] == desiredRelease);
     }
 
     public static void Tests()

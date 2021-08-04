@@ -48,7 +48,7 @@ public class HitStun : State
         }
     }
 
-    public override void ReceiveHit(bool rightAttack, string height, Vector2 push)
+    public override void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push)
     {
         if (!rightAttack)
         {

@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// Base class for all states
 /// </summary>
-public class State : Node
+public abstract class State : Node
 {
     public Player owner;
     public int frameCount
@@ -18,7 +18,12 @@ public class State : Node
 
     public bool hitConnect = false;
 
-
+    public enum HEIGHT
+    {
+        LOW,
+        MID,
+        HIGH
+    }
     public override void _Ready()
     {
         owner = GetOwner<Player>();
@@ -82,7 +87,7 @@ public class State : Node
 
     }
 
-    public virtual void ReceiveHit(bool rightAttack, string height, Vector2 push)
+    public virtual void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push)
     {
         GD.Print($"Received attack on side {rightAttack}");
         if (!rightAttack)
@@ -90,7 +95,7 @@ public class State : Node
             push.x *= -1;
         }
         owner.velocity = push;
-        if (height == "high") 
+        if (height == HEIGHT.HIGH) 
         {
             if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
             {
@@ -101,7 +106,7 @@ public class State : Node
                 EmitSignal(nameof(StateFinished), "HitStun");
             }
         }
-        else if (height == "low") 
+        else if (height == HEIGHT.LOW) 
         {
             GD.Print("Low hit");
         }

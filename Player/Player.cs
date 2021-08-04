@@ -162,7 +162,7 @@ public class Player : Node2D
     /// <summary>
     /// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
     /// </summary>
-    private class InputHandler 
+    private class InputHandler //NEEDS TO BE FIXED FOR PROPER HANDLING OF INPUT BUFFER DURING HITSTOP
     {
         public List<List<char[]>> inputBuffer = new List<List<char[]>>();
         public List<char> heldKeys = new List<char>();
@@ -202,11 +202,16 @@ public class Player : Node2D
                 curBufStep.Add(inputArr);
             }
             inputBuffer.Add(curBufStep);
-            if (inputBuffer.Count > 16) 
+            LimitInputBuff();
+            unhandledInputs.Clear();
+        }
+
+        private void LimitInputBuff()
+        {
+            while (inputBuffer.Count > 16)
             {
                 inputBuffer.RemoveAt(0);
             }
-            unhandledInputs.Clear();
         }
 
         public List<char[]> GetBuffer() 
@@ -417,7 +422,7 @@ public class Player : Node2D
         hitBoxes.Scale = new Vector2(-1, 1);
     }
 
-    public void ReceiveHit(bool rightAttack, int dmg, int stun, string height, Vector2 push) 
+    public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, Vector2 push) 
     {
         currentState.ReceiveHit(rightAttack, height, push);
         currentState.receiveStun(stun);
@@ -500,7 +505,7 @@ public class Player : Node2D
         }
         else
         {
-            position = -colShape.Position - extents / 2;
+            position = new Vector2(-colShape.Position.x - extents.x / 2, colShape.Position.y - extents.y / 2);
         }
         if (globalPosition)
         {

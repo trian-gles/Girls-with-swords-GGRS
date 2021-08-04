@@ -82,6 +82,10 @@ public abstract class BaseAttack : State
 
     public override void HandleInput(char[] inputArr)
     {
+        if (!hitConnect)
+        {
+            return;
+        }
         foreach (CommandGatling comGat in commandGatlings)
         {
 

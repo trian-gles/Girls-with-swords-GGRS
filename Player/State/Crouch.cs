@@ -27,6 +27,11 @@ public class Crouch : State
             EmitSignal(nameof(StateFinished), "Idle");
         }
 
+        else if (Globals.CheckKeyPress(inputArr, 'p'))
+        {
+            EmitSignal(nameof(StateFinished), "CrouchJab");
+        }
+
         else if (Globals.CheckKeyPress(inputArr, '8'))
         {
             EmitSignal(nameof(StateFinished), "Jump");

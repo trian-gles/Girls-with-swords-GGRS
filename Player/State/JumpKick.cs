@@ -1,14 +1,10 @@
 ﻿using Godot;
 using System;
 
-public class JumpKick : Kick
+public class JumpKick : BaseAttack
 {
 
-    public override void Enter()
-    {
-        base.Enter();
-        hitConnect = false;
-    }
+    
     public override void FrameAdvance()
     {
         base.FrameAdvance();
@@ -20,14 +16,7 @@ public class JumpKick : Kick
         ApplyGravity();
     }
 
-    public override void HandleInput(char[] inputArr)
-    {
-
-        if (Globals.CheckKeyPress(inputArr, 'k') && hitConnect)
-        { 
-        EmitSignal(nameof(StateFinished), "JumpKick");
-        }
-    }
+    
 
     public override void AnimationFinished()
     {

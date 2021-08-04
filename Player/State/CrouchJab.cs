@@ -9,6 +9,7 @@ public class CrouchJab : BaseAttack
         base._Ready();
         AddNormalGatling(new char[] { '8', 'p' }, "Jump");
         AddNormalGatling(new char[] { 'p', 'p' }, "CrouchJab");
+        AddNormalGatling(new char[] { 's', 'p' }, "CrouchSlash");
         AddCommandGatling(new List<char[]> { new char[] { '2', 'r' }, new char[] { 'k', 'p' } }, "Kick");
     }
 }

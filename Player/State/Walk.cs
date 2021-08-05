@@ -32,6 +32,10 @@ public class Walk : State
             owner.velocity.x = 0;
             EmitSignal(nameof(StateFinished), "Kick");
         }
+        else if (Globals.CheckKeyPress(inputArr, '2'))
+        {
+            EmitSignal(nameof(StateFinished), "Crouch");
+        }
     }
 
     public override void FrameAdvance()

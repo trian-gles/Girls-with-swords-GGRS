@@ -43,6 +43,8 @@ public class GameStateObject : Node
         P2.otherPlayer = P1;
         P1.CheckTurnAround();
         P2.CheckTurnAround();
+
+        P2.SetUnhandledInputs(new List<char[]>() { new char[] {'6', 'p' }, new char[] {'2', 'p' } });
     }
     private byte[] Serialize<T>(T data)
     where T : struct

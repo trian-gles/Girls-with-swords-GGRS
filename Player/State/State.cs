@@ -97,18 +97,40 @@ public abstract class State : Node
         owner.velocity = push;
         if (height == HEIGHT.HIGH) 
         {
-            if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
+            if (!owner.CheckHeldKey('2'))
             {
-                EmitSignal(nameof(StateFinished), "Block");
+                if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
+                {
+                    EmitSignal(nameof(StateFinished), "Block");
+                }
+                else
+                {
+                    EmitSignal(nameof(StateFinished), "HitStun");
+                }
             }
             else
             {
                 EmitSignal(nameof(StateFinished), "HitStun");
             }
+            
         }
         else if (height == HEIGHT.LOW) 
         {
-            GD.Print("Low hit");
+            if (owner.CheckHeldKey('2') && owner.grounded)
+            {
+                if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
+                {
+                    EmitSignal(nameof(StateFinished), "CrouchBlock");
+                }
+                else
+                {
+                    EmitSignal(nameof(StateFinished), "HitStun");
+                }
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "HitStun");
+            }
         }
         else
         {

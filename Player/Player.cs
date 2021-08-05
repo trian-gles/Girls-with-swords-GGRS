@@ -162,7 +162,7 @@ public class Player : Node2D
     /// <summary>
     /// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
     /// </summary>
-    private class InputHandler //NEEDS TO BE FIXED FOR PROPER HANDLING OF INPUT BUFFER DURING HITSTOP
+    private class InputHandler 
     {
         public List<List<char[]>> inputBuffer = new List<List<char[]>>();
         public List<char> heldKeys = new List<char>();
@@ -197,12 +197,16 @@ public class Player : Node2D
                     }
                     
                 }
-                currentState.HandleInput(inputArr);
+                
                 
                 curBufStep.Add(inputArr);
             }
             inputBuffer.Add(curBufStep);
             LimitInputBuff();
+            foreach (char[] inputArr in unhandledInputs)
+            {
+                currentState.HandleInput(inputArr);
+            }
             unhandledInputs.Clear();
         }
 
@@ -267,6 +271,7 @@ public class Player : Node2D
     /// <returns></returns>
     public bool CheckBuffer(char[] key)
     {
+        
         return Globals.ArrayInList(inputHandler.GetBuffer(), key);
     }
 
@@ -277,6 +282,7 @@ public class Player : Node2D
     /// <returns></returns>
     public bool CheckBufferComplex(List<char[]> elements)
     {
+        foreach (char[] input in inputHandler.GetBuffer()) { GD.Print(input[0]); }
         return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
     }
 

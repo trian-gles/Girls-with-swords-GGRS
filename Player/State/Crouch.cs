@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Crouch : State
 {
@@ -34,7 +35,14 @@ public class Crouch : State
 
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {
-            EmitSignal(nameof(StateFinished), "CrouchSlash");
+            if (owner.CheckBufferComplex(new List<char[]>() { new char[] {'2', 'p' }, new char[] { '2', 'p' } }))
+            {
+                EmitSignal(nameof(StateFinished), "AntiAir");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "CrouchSlash");
+            }
         }
 
         else if (Globals.CheckKeyPress(inputArr, '8'))

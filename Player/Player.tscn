@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Player/State/Crouch.cs" type="Script" id=14]
 [ext_resource path="res://Player/State/CrouchJab.cs" type="Script" id=15]
 [ext_resource path="res://Player/CrouchSlash.cs" type="Script" id=16]
+[ext_resource path="res://Player/State/AntiAir.cs" type="Script" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -1746,9 +1747,18 @@ script = ExtResource( 14 )
 
 [node name="CrouchJab" type="Node" parent="StateTree"]
 script = ExtResource( 15 )
+hitStun = 12
+hitPush = Vector2( 1, 0 )
+height = 0
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
+height = 0
+
+[node name="AntiAir" type="Node" parent="StateTree"]
+script = ExtResource( 17 )
+height = 2
+launch = Vector2( 0, -4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

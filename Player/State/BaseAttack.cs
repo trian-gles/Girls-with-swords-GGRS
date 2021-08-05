@@ -34,7 +34,7 @@ public abstract class BaseAttack : State
         public string state;
     }
 
-    protected void AddNormalGatling(char[] input, string state)
+    protected void AddGatling(char[] input, string state)
     {
         var newGatling = new NormalGatling
         {
@@ -44,7 +44,7 @@ public abstract class BaseAttack : State
         normalGatlings.Add(newGatling);
     }
 
-    protected void AddCommandGatling(List<char[]> inputs, string state)
+    protected void AddGatling(List<char[]> inputs, string state)
     {
         var newGatling = new CommandGatling
         {
@@ -88,7 +88,13 @@ public abstract class BaseAttack : State
         }
         foreach (CommandGatling comGat in commandGatlings)
         {
-
+            if (Enumerable.SequenceEqual(comGat.inputs[comGat.inputs.Count - 1], inputArr))
+            {
+                if (owner.CheckBufferComplex(comGat.inputs))
+                {
+                    EmitSignal(nameof(StateFinished), comGat.state);
+                }
+            }
         }
         foreach (NormalGatling normGat in normalGatlings)
         {

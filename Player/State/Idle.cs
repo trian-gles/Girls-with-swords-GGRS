@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Idle : State
 {
@@ -44,13 +45,38 @@ public class Idle : State
         }
         else if (Globals.CheckKeyPress(inputArr, '6'))
         {
-            owner.velocity.x = owner.speed;
-            EmitSignal(nameof(StateFinished), "Walk");
+            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }))
+            {
+                owner.velocity.x = owner.speed * 2;
+                if (!owner.facingRight)
+                {
+                    EmitSignal(nameof(StateFinished), "Backdash");
+                }
+                
+            }
+            else
+            {
+                owner.velocity.x = owner.speed;
+                EmitSignal(nameof(StateFinished), "Walk");
+            }
+
         }
         else if (Globals.CheckKeyPress(inputArr, '4'))
         {
-            owner.velocity.x = -owner.speed;
-            EmitSignal(nameof(StateFinished), "Walk");
+            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }))
+            {
+                owner.velocity.x = owner.speed * -2;
+                if (owner.facingRight)
+                {
+                    EmitSignal(nameof(StateFinished), "Backdash");
+                }
+            }
+            else
+            {
+                owner.velocity.x = -owner.speed;
+                EmitSignal(nameof(StateFinished), "Walk");
+            }
+            
         }
 
         else if (Globals.CheckKeyPress(inputArr, '8'))

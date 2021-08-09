@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Walk : State
 {
@@ -22,6 +23,15 @@ public class Walk : State
         if ((inputArr[0] == '6' || inputArr[0] == '4') && inputArr[1] == 'r')
         {
             EmitSignal(nameof(StateFinished), "Idle");
+        }
+        else if (Globals.CheckKeyPress(inputArr, '6') && !owner.facingRight)
+        {
+            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }))
+            {
+                owner.velocity.x -= owner.speed;
+                EmitSignal(nameof(StateFinished), "Backdash");
+            }
+
         }
         else if (Globals.CheckKeyPress(inputArr, '8'))
         {

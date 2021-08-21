@@ -21,8 +21,6 @@ public class MainScene : Node2D
     private int localHand = 1;
     private int otherHand = 2;
 
-    private Player thisPlayer;
-
 
     private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
     

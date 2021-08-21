@@ -11,8 +11,6 @@ public class GameStateObject : Node
     public Player P2;
     private bool hosting;
 
-    private StreamPeerBuffer testSave;
-
     public int Frame = 0;
 
     private int hitStopRemaining = 0;

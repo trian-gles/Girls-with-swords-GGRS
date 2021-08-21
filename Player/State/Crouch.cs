@@ -30,7 +30,19 @@ public class Crouch : State
 
         else if (Globals.CheckKeyPress(inputArr, 'p'))
         {
-            EmitSignal(nameof(StateFinished), "CrouchJab");
+            if (!owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'p' }, new char[] { '4', 'p' } }))
+            {
+                EmitSignal(nameof(StateFinished), "DP");
+            }
+            else if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' } }))
+            {
+                EmitSignal(nameof(StateFinished), "DP");
+            }
+            else 
+            {
+                EmitSignal(nameof(StateFinished), "CrouchJab");
+            }
+            
         }
 
         else if (Globals.CheckKeyPress(inputArr, 's'))

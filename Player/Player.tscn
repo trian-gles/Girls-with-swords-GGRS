@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -19,15 +19,16 @@
 [ext_resource path="res://Player/State/AntiAir.cs" type="Script" id=17]
 [ext_resource path="res://Player/State/CrouchBlock.cs" type="Script" id=18]
 [ext_resource path="res://Player/Backdash.cs" type="Script" id=19]
+[ext_resource path="res://Player/State/DP.cs" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 39 )
+extents = Vector2( 17, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 4 )
+extents = Vector2( 5, 5 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
@@ -1894,7 +1895,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=28]
 resource_name = "MovingJump"
 length = 20.0
 step = 1.0
@@ -2284,7 +2285,7 @@ tracks/9/keys = {
 "values": [ Vector2( 13, 5 ), Vector2( 13, 5 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=32]
 length = 60.0
 loop = true
 step = 1.0
@@ -2413,12 +2414,11 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, 0 )
+position = Vector2( 0, -5 )
 shape = SubResource( 2 )
-disabled = true
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( 17, 35 )
+position = Vector2( -14, -17 )
 shape = SubResource( 3 )
 disabled = true
 
@@ -2449,7 +2449,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 82
+frame = 62
 
 [node name="StateTree" type="Node" parent="."]
 
@@ -2511,6 +2511,9 @@ script = ExtResource( 18 )
 [node name="Backdash" type="Node" parent="StateTree"]
 script = ExtResource( 19 )
 
+[node name="DP" type="Node" parent="StateTree"]
+script = ExtResource( 20 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0
 anims/AntiAir = SubResource( 8 )
@@ -2533,11 +2536,11 @@ anims/JumpSlash = SubResource( 24 )
 anims/Kick = SubResource( 25 )
 anims/Knockdown = SubResource( 26 )
 anims/Lose = SubResource( 27 )
-anims/MovingJump = SubResource( 34 )
+anims/MovingJump = SubResource( 28 )
 anims/Run = SubResource( 29 )
 anims/Slash = SubResource( 30 )
 anims/Sweep = SubResource( 31 )
-anims/Walk = SubResource( 33 )
+anims/Walk = SubResource( 32 )
 script = ExtResource( 4 )
 
 [node name="DebugPos" type="Label" parent="."]

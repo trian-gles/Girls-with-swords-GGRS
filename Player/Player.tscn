@@ -27,7 +27,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 39 )
+extents = Vector2( 21, 27 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5.93342, 6.28895 )
@@ -36,7 +36,7 @@ extents = Vector2( 5.93342, 6.28895 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 9.22237, 4.71105 )
+extents = Vector2( 15, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -1562,7 +1562,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 9, 10, 17 ),
+"times": PoolRealArray( 0, 10, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -1638,7 +1638,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 6, 7, 27 ),
+"times": PoolRealArray( 0, 7, 27 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -2157,10 +2157,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 7, 20 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 7, 20 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true, false, true ]
 }
 
 [sub_resource type="Animation" id=31]
@@ -2416,12 +2416,13 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, 0 )
+position = Vector2( 0, 12 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( 13.2889, -15.9334 )
 shape = SubResource( 3 )
+disabled = true
 
 [node name="HitB3" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( 17, 5 )
@@ -2431,8 +2432,9 @@ disabled = true
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 16.2889, -21.2224 )
+position = Vector2( 25, -1 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( -25, -15 )
@@ -2449,7 +2451,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 11
+frame = 22
 
 [node name="StateTree" type="Node" parent="."]
 
@@ -2520,6 +2522,7 @@ hitPush = Vector2( 1, 0 )
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
+hitPush = Vector2( 1, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

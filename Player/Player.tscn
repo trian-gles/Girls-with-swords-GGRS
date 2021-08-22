@@ -27,7 +27,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 21, 27 )
+extents = Vector2( 19, 22 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5.93342, 6.28895 )
@@ -2257,7 +2257,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 9, 10, 23 ),
+"times": PoolRealArray( 0, 10, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -2416,7 +2416,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( 0, 12 )
+position = Vector2( 1, 17 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -2451,7 +2451,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 22
+frame = 3
 
 [node name="StateTree" type="Node" parent="."]
 

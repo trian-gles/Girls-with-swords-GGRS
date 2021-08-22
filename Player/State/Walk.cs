@@ -20,7 +20,11 @@ public class Walk : State
 
     public override void HandleInput(char[] inputArr)
     {
-        if ((inputArr[0] == '6' || inputArr[0] == '4') && inputArr[1] == 'r')
+        if (Globals.CheckKeyPress(inputArr, 'p'))
+        {
+            EmitSignal(nameof(StateFinished), "Jab");
+        }
+        else if ((inputArr[0] == '6' || inputArr[0] == '4') && inputArr[1] == 'r')
         {
             EmitSignal(nameof(StateFinished), "Idle");
         }

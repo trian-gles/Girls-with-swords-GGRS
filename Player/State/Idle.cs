@@ -39,7 +39,11 @@ public class Idle : State
     } 
     public override void HandleInput(char[] inputArr)
     {
-        if (Globals.CheckKeyPress(inputArr, '2'))
+        if (Globals.CheckKeyPress(inputArr, 'p')) 
+        {
+            EmitSignal(nameof(StateFinished), "Jab");
+        }
+        else if (Globals.CheckKeyPress(inputArr, '2'))
         {
             EmitSignal(nameof(StateFinished), "Crouch");
         }

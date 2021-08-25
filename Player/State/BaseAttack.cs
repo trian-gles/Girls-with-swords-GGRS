@@ -17,8 +17,13 @@ public abstract class BaseAttack : State
     [Export]
     protected int dmg = 1;
 
+    [Export]
+    protected bool knockdown = false;
+
     [Signal]
     public delegate void OnHitConnected(Vector2 hitPush);
+
+    
 
     protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
     protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
@@ -74,7 +79,7 @@ public abstract class BaseAttack : State
         {
             GD.Print($"Hit connect on frame {frameCount}");
             EmitSignal(nameof(OnHitConnected), hitPush);
-            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush);
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush, knockdown);
             hitConnect = true;
         }
 

@@ -35,6 +35,10 @@ public class Jump : State
         {
             EmitSignal(nameof(StateFinished), "JumpKick");
         }
+        else if (Globals.CheckKeyPress(inputArr, 's'))
+        {
+            EmitSignal(nameof(StateFinished), "JumpSlash");
+        }
     }
 
     public override void AnimationFinished()

@@ -1,26 +1,12 @@
 ﻿using Godot;
 using System;
 
-public class JumpKick : BaseAttack
+public class JumpKick : JumpSlash
 {
-
-    
-    public override void FrameAdvance()
+    public override void _Ready()
     {
-        base.FrameAdvance();
-        if (owner.grounded && frameCount > 1)
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-
-        ApplyGravity();
-    }
-
-    
-
-    public override void AnimationFinished()
-    {
-        EmitSignal(nameof(StateFinished), "Fall");
+        base._Ready();
+        AddGatling(new char[] { 's', 'p' }, "JumpSlash");
     }
 }
 

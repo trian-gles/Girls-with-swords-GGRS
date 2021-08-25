@@ -48,14 +48,14 @@ public class HitStun : State
         }
     }
 
-    public override void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push)
+    public override void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push, bool knockdown)
     {
         if (!rightAttack)
         {
             push.x *= -1;
         }
         owner.velocity = push;
-        EmitSignal(nameof(StateFinished), "HitStun");
+        EnterHitState(knockdown);
 
     }
 }

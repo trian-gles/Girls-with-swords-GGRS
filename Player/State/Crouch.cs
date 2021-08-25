@@ -45,6 +45,11 @@ public class Crouch : State
             
         }
 
+        else if (Globals.CheckKeyPress(inputArr, 'k')) 
+        {
+            EmitSignal(nameof(StateFinished), "Sweep");
+        }
+
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {
             if (owner.CheckBufferComplex(new List<char[]>() { new char[] {'2', 'p' }, new char[] { '2', 'p' } }))

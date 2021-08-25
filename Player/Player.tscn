@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -22,12 +22,15 @@
 [ext_resource path="res://Player/State/DP.cs" type="Script" id=20]
 [ext_resource path="res://Player/State/Jab.cs" type="Script" id=21]
 [ext_resource path="res://Player/State/JumpPunch.cs" type="Script" id=22]
+[ext_resource path="res://Player/State/JumpSlash.cs" type="Script" id=23]
+[ext_resource path="res://Player/State/Knockdown.cs" type="Script" id=24]
+[ext_resource path="res://Player/State/Sweep.cs" type="Script" id=25]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 21, 15 )
+extents = Vector2( 17, 24 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5.93342, 6.28895 )
@@ -1674,7 +1677,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 6, 7, 13 ),
+"times": PoolRealArray( 0, 7, 13 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -2416,8 +2419,9 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, 24 )
+position = Vector2( 1, -1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( 13.2889, -15.9334 )
@@ -2451,9 +2455,10 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 6
+frame = 58
 
 [node name="StateTree" type="Node" parent="."]
+script = ExtResource( 25 )
 
 [node name="Idle" type="Node" parent="StateTree"]
 script = ExtResource( 5 )
@@ -2523,6 +2528,22 @@ hitPush = Vector2( 1, 0 )
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
 hitPush = Vector2( 1, 0 )
+height = 2
+
+[node name="JumpSlash" type="Node" parent="StateTree"]
+script = ExtResource( 23 )
+hitStun = 16
+hitPush = Vector2( 2, 0 )
+height = 2
+dmg = 3
+
+[node name="Knockdown" type="Node" parent="StateTree"]
+script = ExtResource( 24 )
+
+[node name="Sweep" type="Node" parent="StateTree"]
+script = ExtResource( 25 )
+height = 0
+knockdown = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

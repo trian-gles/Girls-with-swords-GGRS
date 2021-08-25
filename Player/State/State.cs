@@ -87,8 +87,21 @@ public abstract class State : Node
 
     }
 
-    public virtual void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push)
+    protected void EnterHitState(bool knockdown)
     {
+        if (knockdown)
+        {
+            EmitSignal(nameof(StateFinished), "Knockdown");
+        }
+        else
+        {
+            EmitSignal(nameof(StateFinished), "HitStun");
+        }
+    }
+
+    public virtual void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push, bool knockdown)
+    {
+        // need to handle for knockdown!!!
         GD.Print($"Received attack on side {rightAttack}");
         if (!rightAttack)
         {
@@ -105,12 +118,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EmitSignal(nameof(StateFinished), "HitStun");
+                    EnterHitState(knockdown);
                 }
             }
             else
             {
-                EmitSignal(nameof(StateFinished), "HitStun");
+                EnterHitState(knockdown);
             }
             
         }
@@ -124,12 +137,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EmitSignal(nameof(StateFinished), "HitStun");
+                    EnterHitState(knockdown);
                 }
             }
             else
             {
-                EmitSignal(nameof(StateFinished), "HitStun");
+                EnterHitState(knockdown);
             }
         }
         else
@@ -140,7 +153,7 @@ public abstract class State : Node
             }
             else 
             {
-                EmitSignal(nameof(StateFinished), "HitStun");
+                EnterHitState(knockdown);
             }
         }
     }

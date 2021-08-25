@@ -428,9 +428,9 @@ public class Player : Node2D
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}
 
-	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, Vector2 push) 
+	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, Vector2 push, bool knockdown) 
 	{
-		currentState.ReceiveHit(rightAttack, height, push);
+		currentState.ReceiveHit(rightAttack, height, push, knockdown);
 		currentState.receiveStun(stun);
 		currentState.receiveDamage(dmg);
 		EmitSignal(nameof(HitConfirm));

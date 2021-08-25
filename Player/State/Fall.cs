@@ -33,5 +33,9 @@ public class Fall : State
         {
             EmitSignal(nameof(StateFinished), "JumpPunch");
         }
+        else if (Globals.CheckKeyPress(inputArr, 's'))
+        {
+            EmitSignal(nameof(StateFinished), "JumpSlash");
+        }
     }
 }

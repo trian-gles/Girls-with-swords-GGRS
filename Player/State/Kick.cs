@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-public class Kick : BaseAttack
+public class Kick : Slash
 {
     public override void _Ready()
     {
         base._Ready();
-        
-        AddGatling(new char[] { '8', 'p' }, "Jump");
+        AddGatling(new char[] { 's', 'p' }, "Slash");
     }
 }
 

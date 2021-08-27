@@ -50,6 +50,11 @@ public class Walk : State
         {
             EmitSignal(nameof(StateFinished), "Crouch");
         }
+
+        else if (Globals.CheckKeyPress(inputArr, 's'))
+        {
+            EmitSignal(nameof(StateFinished), "Slash");
+        }
     }
 
     public override void FrameAdvance()

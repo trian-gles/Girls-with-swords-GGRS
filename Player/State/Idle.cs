@@ -92,6 +92,11 @@ public class Idle : State
         {
             EmitSignal(nameof(StateFinished), "Kick");
         }
+
+        else if (Globals.CheckKeyPress(inputArr, 's'))
+        {
+            EmitSignal(nameof(StateFinished), "Slash");
+        }
     }
 
     public override void FrameAdvance()

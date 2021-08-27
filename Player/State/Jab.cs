@@ -1,14 +1,13 @@
 using Godot;
 using System;
 
-public class Jab : BaseAttack
+public class Jab : Kick
 {
     
     public override void _Ready()
     {
         base._Ready();
         AddGatling(new char[] { 'p', 'p' }, "Jab");
-        AddGatling(new char[] { '8', 'p' }, "Jump");
         AddGatling(new char[] { 'k', 'p' }, "Kick");
     }
 

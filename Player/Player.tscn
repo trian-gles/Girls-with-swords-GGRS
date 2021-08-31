@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://Player/State/Knockdown.cs" type="Script" id=24]
 [ext_resource path="res://Player/State/Sweep.cs" type="Script" id=25]
 [ext_resource path="res://Player/State/Slash.cs" type="Script" id=26]
+[ext_resource path="res://Player/State/Run.cs" type="Script" id=27]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -2406,7 +2407,8 @@ tracks/8/keys = {
 
 [node name="Player" type="Node2D"]
 script = ExtResource( 1 )
-speed = 3
+speed = 2
+dashSpeed = 4
 jumpForce = 6
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
@@ -2548,6 +2550,9 @@ knockdown = true
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
+
+[node name="Run" type="Node" parent="StateTree"]
+script = ExtResource( 27 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

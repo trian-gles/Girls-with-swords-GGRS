@@ -56,6 +56,11 @@ public class Idle : State
                 {
                     EmitSignal(nameof(StateFinished), "Backdash");
                 }
+                else 
+                {
+                    owner.velocity.x = owner.dashSpeed;
+                    EmitSignal(nameof(StateFinished), "Run");
+                }
                 
             }
             else
@@ -65,6 +70,7 @@ public class Idle : State
             }
 
         }
+
         else if (Globals.CheckKeyPress(inputArr, '4'))
         {
             if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }))
@@ -73,6 +79,11 @@ public class Idle : State
                 if (owner.facingRight)
                 {
                     EmitSignal(nameof(StateFinished), "Backdash");
+                }
+                else 
+                {
+                    owner.velocity.x = -owner.dashSpeed;
+                    EmitSignal(nameof(StateFinished), "Run");
                 }
             }
             else

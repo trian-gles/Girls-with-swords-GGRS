@@ -46,7 +46,8 @@ public class Player : Node2D
 	[Serializable]
 	public struct PlayerState
 	{
-		public List<List<char[]>> inputBuffer { get; set; }
+		public List<char[]> inBuf2 { get; set; }
+		public int inBuf2Timer { get; set; }
 		public List<char> heldKeys { get; set; }
 		public List<char[]> unhandledInputs { get; set; }
 		public string currentState { get; set; }
@@ -109,7 +110,8 @@ public class Player : Node2D
 	public PlayerState GetState()
 	{
 		var pState = new PlayerState();
-		pState.inputBuffer = inputHandler.inputBuffer;
+		pState.inBuf2 = inputHandler.inBuf2;
+		pState.inBuf2Timer = inputHandler.inBuf2Timer;
 		pState.heldKeys = inputHandler.heldKeys;
 		pState.unhandledInputs = inputHandler.unhandledInputs;
 		pState.currentState = currentState.Name;
@@ -132,7 +134,8 @@ public class Player : Node2D
 
 	public void SetState(PlayerState pState)
 	{
-		inputHandler.inputBuffer = pState.inputBuffer;
+		inputHandler.inBuf2 = pState.inBuf2;
+		inputHandler.inBuf2Timer = pState.inBuf2Timer;
 		inputHandler.heldKeys = pState.heldKeys;
 		inputHandler.unhandledInputs = pState.unhandledInputs;
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
@@ -168,7 +171,6 @@ public class Player : Node2D
 	/// </summary>
 	private class InputHandler 
 	{
-		public List<List<char[]>> inputBuffer = new List<List<char[]>>();
 		public List<char[]> inBuf2 = new List<char[]>();
 		public int inBuf2TimerMax = 8;
 		public int inBuf2Timer = 8;
@@ -230,8 +232,6 @@ public class Player : Node2D
 				
 				curBufStep.Add(inputArr);
 			}
-			inputBuffer.Add(curBufStep); // old input buffer
-			LimitInputBuff(); // more old input buffer
 
 			Buf2AddInputs(curBufStep); // new better input buffer
 			
@@ -242,29 +242,11 @@ public class Player : Node2D
 			unhandledInputs.Clear();
 		}
 
-		private void LimitInputBuff()
-		{
-			while (inputBuffer.Count > 16)
-			{
-				inputBuffer.RemoveAt(0);
-			}
-		}
-
 		public List<char[]> GetBuffer() 
 		{
-			List<char[]> flatBuf = new List<char[]>();
-			foreach (List<char[]> frameInputs in inputBuffer)
-			{
-				foreach (char[] input in frameInputs) 
-				{
-					flatBuf.Add(input);
-				}
-			}
-			// return flatBuf;
-
 			return inBuf2;
 		}
-	}//input buffer needs to be tested!!!
+	}//input buffer needs to be tested with GGPO!!!
 
 	/// <summary>
 	/// Call the Enter() and Exit() methods of the current state and go to a new one

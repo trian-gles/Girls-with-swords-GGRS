@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Player : Node2D
 {
@@ -168,9 +169,34 @@ public class Player : Node2D
 	private class InputHandler 
 	{
 		public List<List<char[]>> inputBuffer = new List<List<char[]>>();
+		public List<char[]> inBuf2 = new List<char[]>();
+		public int inBuf2TimerMax = 8;
+		public int inBuf2Timer = 8;
 		public List<char> heldKeys = new List<char>();
 		public List<char[]> unhandledInputs = new List<char[]>();
 
+		public void Buf2AddInputs(List<char[]> newInputs) 
+		{ 
+			if (!newInputs.Any())
+            {
+				if (inBuf2Timer > 0)
+                {
+					inBuf2Timer--;
+				}
+				else
+                {
+					inBuf2 = new List<char[]>();
+				}
+            }
+			else
+            { // would it be faster with concat
+				foreach (char[] newInput in newInputs)
+                {
+					inBuf2Timer = inBuf2TimerMax;
+					inBuf2.Add(newInput);
+                }
+            }
+		}
 		public void SetUnhandledInputs(List<char[]> thisFrameInputs) 
 		{
 			unhandledInputs.AddRange(thisFrameInputs);
@@ -204,8 +230,11 @@ public class Player : Node2D
 				
 				curBufStep.Add(inputArr);
 			}
-			inputBuffer.Add(curBufStep);
-			LimitInputBuff();
+			inputBuffer.Add(curBufStep); // old input buffer
+			LimitInputBuff(); // more old input buffer
+
+			Buf2AddInputs(curBufStep); // new better input buffer
+			
 			foreach (char[] inputArr in unhandledInputs)
 			{
 				currentState.HandleInput(inputArr);
@@ -231,7 +260,9 @@ public class Player : Node2D
 					flatBuf.Add(input);
 				}
 			}
-			return flatBuf;
+			// return flatBuf;
+
+			return inBuf2;
 		}
 	}//input buffer needs to be tested!!!
 

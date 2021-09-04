@@ -24,16 +24,17 @@ public class Lobby : Node2D
 
 	public void OnLocalButtonDown()
 	{
-		
-		GD.Print($"Starting local match");
-		Begin(true);
-		Globals.mode = Globals.Mode.LOCAL;
+
+		GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+
+
 	}
 
 	public void OnTrainingButtonDown()
 	{
-		Begin(true);
 		Globals.mode = Globals.Mode.TRAINING;
+		Begin(true);
+		
 	}
 
 	public void Begin(bool host)

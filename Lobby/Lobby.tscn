@@ -79,5 +79,5 @@ __meta__ = {
 
 [connection signal="button_down" from="Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="Join" to="." method="OnJoinButtonDown"]
-[connection signal="button_down" from="Local" to="." method="OLocalButtonDown"]
+[connection signal="button_down" from="Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="Training" to="." method="OnTrainingButtonDown"]

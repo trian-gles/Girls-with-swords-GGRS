@@ -32,7 +32,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 25 )
+extents = Vector2( 17, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -1347,7 +1347,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 6, 12, 18, 25 ),
+"times": PoolRealArray( 0, 4, 8, 15, 25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 62, 63, 65, 66, 67 ]
@@ -1359,7 +1359,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 12, 25 ),
+"times": PoolRealArray( 0, 8, 25 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -1371,7 +1371,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 12, 17, 18 ),
+"times": PoolRealArray( 8, 14, 15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 20, 0 ), Vector2( 20, 0 ), Vector2( 22, 0 ) ]
@@ -1383,7 +1383,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 12, 17, 18 ),
+"times": PoolRealArray( 8, 14, 15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 10, 6 ), Vector2( 10, 6 ), Vector2( 14, 6 ) ]
@@ -1419,7 +1419,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 17, 18, 24, 25 ),
+"times": PoolRealArray( 0, 14, 15, 24, 25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 17, 28 ), Vector2( 17, 28 ), Vector2( 18, 24 ), Vector2( 18, 24 ), Vector2( 15, 29 ) ]
@@ -1491,7 +1491,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 17, 18, 24, 25 ),
+"times": PoolRealArray( 0, 14, 15, 24, 25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, -5 ), Vector2( 0, -5 ), Vector2( -1, -9 ), Vector2( -1, -9 ), Vector2( 5, -5 ) ]
@@ -2422,7 +2422,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -5, 8 )
+position = Vector2( 0, -5 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -2457,7 +2457,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 33
+frame = 62
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -2530,6 +2530,7 @@ hitPush = Vector2( 1, 0 )
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
+hitStun = 12
 hitPush = Vector2( 1, 0 )
 height = 2
 

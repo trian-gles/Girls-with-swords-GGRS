@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
@@ -27,12 +27,13 @@
 [ext_resource path="res://Player/State/Sweep.cs" type="Script" id=25]
 [ext_resource path="res://Player/State/Slash.cs" type="Script" id=26]
 [ext_resource path="res://Player/State/Run.cs" type="Script" id=27]
+[ext_resource path="res://Player/State/Hadouken.cs" type="Script" id=28]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 28 )
+extents = Vector2( 15, 39 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -41,7 +42,7 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 7, 4 )
+extents = Vector2( 15, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -2412,7 +2413,6 @@ dashSpeed = 4
 jumpForce = 6
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 15 )
 shape = SubResource( 1 )
 __meta__ = {
@@ -2422,7 +2422,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( 0, -5 )
+position = Vector2( -2, 0 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -2438,7 +2438,7 @@ disabled = true
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 18, 19 )
+position = Vector2( 25, -1 )
 shape = SubResource( 5 )
 disabled = true
 
@@ -2457,7 +2457,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 62
+frame = 21
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -2554,6 +2554,9 @@ script = ExtResource( 26 )
 
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )
+
+[node name="Hadouken" type="Node" parent="StateTree"]
+script = ExtResource( 28 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

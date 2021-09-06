@@ -23,6 +23,11 @@ public class Walk : State
         if (Globals.CheckKeyPress(inputArr, 'p'))
         {
             EmitSignal(nameof(StateFinished), "Jab");
+
+            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p'}, new char[] { '6', 'p' }, new char[] { '2', 'r' } })) 
+            {
+                EmitSignal(nameof(StateFinished), "Hadouken");
+            }
         }
         else if ((inputArr[0] == '6' || inputArr[0] == '4') && inputArr[1] == 'r')
         {

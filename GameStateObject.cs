@@ -5,10 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 
+/// <summary>
+/// This object controls all the actual management of gameplay, and passes this information to GGPO
+/// </summary>
 public class GameStateObject : Node
 {
     public Player P1;
     public Player P2;
+    private MainScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
+
     private bool hosting;
 
     public int Frame = 0;
@@ -26,13 +31,18 @@ public class GameStateObject : Node
         public int frame { get; set; }
         public Player.PlayerState P1State { get; set; }
         public Player.PlayerState P2State { get; set; }
+
+        public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
         public int hitStopRemaining { get; set; }
     }
 
-    public void config(Player P1, Player P2, bool hosting)
+    private Dictionary<string, HadoukenPart> hadoukens;
+    private List<HadoukenPart> deleteQueued;
+    public void config(Player P1, Player P2, MainScene mainScene, bool hosting)
     {
         this.P1 = P1;
         this.P2 = P2;
+        this.mainScene = mainScene;
         this.hosting = hosting;
         P1.Connect("HitConfirm", this, nameof(HitStop));
         P2.Connect("HitConfirm", this, nameof(HitStop));
@@ -42,6 +52,10 @@ public class GameStateObject : Node
         P1.CheckTurnAround();
         P2.CheckTurnAround();
 
+        hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
+        deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
+
+        // Use this below code to make P2 hold a button
         // P2.SetUnhandledInputs(new List<char[]>() { new char[] { '8', 'p' } });
     }
     private byte[] Serialize<T>(T data)
@@ -65,6 +79,11 @@ public class GameStateObject : Node
         gState.frame = Frame;
         gState.P1State = P1.GetState();
         gState.P2State = P2.GetState();
+        gState.hadoukenStates = new List<HadoukenPart.HadoukenState>();
+        foreach (var entry in hadoukens)
+        {
+            gState.hadoukenStates.Add(entry.Value.GetState());
+        }
         gState.hitStopRemaining = hitStopRemaining;
 
         return gState;
@@ -121,6 +140,13 @@ public class GameStateObject : Node
         hitStopRemaining = gState.hitStopRemaining;
         P1.SetState(gState.P1State);
         P2.SetState(gState.P2State);
+        foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
+        {
+            if (hadoukens.ContainsKey(hState.name))
+            {
+                hadoukens[hState.name].SetState(hState);
+            }
+        }
     }
     private GameState DeserializeGamestate(StreamPeerBuffer stream)
     {
@@ -270,6 +296,22 @@ public class GameStateObject : Node
             P2.MoveSlideDeterministicTwo();
             CheckFixCollision();
         }
+        
+
+        foreach (var entry in hadoukens)
+        {
+            entry.Value.FrameAdvance();
+        }
+
+        foreach (HadoukenPart h in deleteQueued)
+        {
+            CleanupHadouken(h);
+        }
+        if (deleteQueued.Count > 0)
+        {
+            deleteQueued = new List<HadoukenPart>();
+        }
+        
     }
 
     /// <summary>
@@ -309,5 +351,21 @@ public class GameStateObject : Node
         GD.Print("HitStop");
     }
 
+    private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
+    {
+        hadoukens.Remove(h.Name);
+        h.QueueFree();
+        mainScene.RemoveChild(h);
+        
+    }
+    public void NewHadouken(HadoukenPart h)
+    {
+        hadoukens.Add(h.Name, h);
+    }
+
+    public void RemoveHadouken(HadoukenPart h)
+    {
+        deleteQueued.Add(h);
+    }
     
 }

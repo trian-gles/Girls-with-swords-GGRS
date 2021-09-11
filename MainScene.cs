@@ -44,6 +44,10 @@ public class MainScene : Node2D
         P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
         P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
         P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
+        P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
+        P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
+        P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
+        P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
         P1Combo = GetNode<Label>("HUD/P1Combo");
         P2Combo = GetNode<Label>("HUD/P2Combo");
         P1Health = GetNode<TextureProgress>("HUD/P1Health");
@@ -53,7 +57,7 @@ public class MainScene : Node2D
 
 
         gsObj = new GameStateObject();
-        gsObj.config(P1, P2, hosting);
+        gsObj.config(P1, P2, this, hosting);
 
         if (Globals.mode == Globals.Mode.GGPO)
         {
@@ -313,6 +317,16 @@ public class MainScene : Node2D
             P1Health.Value = health;
         }
     }
+    public void OnHadoukenEmitted(HadoukenPart h)
+    {
+        AddChild(h); // Add the hadouken as a child
+        gsObj.NewHadouken(h); // let the gamestate object control it. this still needs to be cleaned up on deletion
+        
+    }
 
-
+    public void OnHadoukenRemoved(HadoukenPart h)
+    {
+        
+        gsObj.RemoveHadouken(h);
+    }
 }

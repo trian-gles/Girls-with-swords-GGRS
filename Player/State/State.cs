@@ -108,6 +108,10 @@ public abstract class State : Node
             push.x *= -1;
         }
         owner.velocity = push;
+        if (owner.velocity.y < 0)
+        {
+            owner.grounded = false;
+        }
         if (height == HEIGHT.HIGH) 
         {
             if (!owner.CheckHeldKey('2'))

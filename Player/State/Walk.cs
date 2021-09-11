@@ -24,7 +24,11 @@ public class Walk : State
         {
             EmitSignal(nameof(StateFinished), "Jab");
 
-            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p'}, new char[] { '6', 'p' }, new char[] { '2', 'r' } })) 
+            if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p'}, new char[] { '6', 'p' }, new char[] { '2', 'r' } })) 
+            {
+                EmitSignal(nameof(StateFinished), "Hadouken");
+            }
+            else if ((!owner.facingRight) && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '4', 'p' }, new char[] { '2', 'r' } }))
             {
                 EmitSignal(nameof(StateFinished), "Hadouken");
             }

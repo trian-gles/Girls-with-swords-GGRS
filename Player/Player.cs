@@ -14,6 +14,10 @@ public class Player : Node2D
 	public delegate void ComboChanged(string name, int combo);
 	[Signal]
 	public delegate void HitConfirm();
+	[Signal]
+	public delegate void HadoukenEmitted(HadoukenPart h);
+	[Signal]
+	public delegate void HadoukenRemoved(HadoukenPart h);
 
 	[Export]
 	public int speed = 4;
@@ -73,7 +77,7 @@ public class Player : Node2D
 	private Color hurtColor = new Color(0, 255, 0, 0.5f);
 	private Color colColor = new Color(0, 0, 255, 0.5f);
 
-	private Area2D hitBoxes;
+	public Area2D hitBoxes;
 	public Area2D hurtBoxes;
 	private CollisionShape2D colBox;
 	public AnimationPlayer animationPlayer;
@@ -466,6 +470,16 @@ public class Player : Node2D
 			}
 		}
 	}
+
+	public void EmitHadouken(HadoukenPart h)
+    {
+		EmitSignal(nameof(HadoukenEmitted), h);
+    }
+
+	public void DeleteHadouken(HadoukenPart h)
+    {
+		EmitSignal(nameof(HadoukenRemoved), h);
+    }
 
 	public void ResetCombo()
 	{

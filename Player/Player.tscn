@@ -2416,7 +2416,7 @@ jumpForce = 6
 position = Vector2( 0, 15 )
 shape = SubResource( 1 )
 __meta__ = {
-"_editor_description_": "Will NEVER CHANGE"
+"_editor_description_": "THIS BOX DOESN'T DO ANYTHING, PLEASE DON'T MOVE/CHANGE IT"
 }
 
 [node name="HitBoxes" type="Area2D" parent="."]

@@ -40,6 +40,7 @@ public class GameStateObject : Node
     private List<HadoukenPart> deleteQueued;
     public void config(Player P1, Player P2, MainScene mainScene, bool hosting)
     {
+        GD.Print("Starting GameState config");
         this.P1 = P1;
         this.P2 = P2;
         this.mainScene = mainScene;
@@ -49,12 +50,16 @@ public class GameStateObject : Node
 
         P1.otherPlayer = P2;
         P2.otherPlayer = P1;
+        P1.internalPos = P1.Position * 100;
+        GD.Print(P1.internalPos);
+        P2.internalPos = P2.Position * 100;
+        GD.Print(P2.internalPos);
         P1.CheckTurnAround();
         P2.CheckTurnAround();
 
         hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
         deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
-
+        GD.Print("GameState config finished");
         // Use this below code to make P2 hold a button
         // P2.SetUnhandledInputs(new List<char[]>() { new char[] { '8', 'p' } });
     }
@@ -283,6 +288,9 @@ public class GameStateObject : Node
         }
     }
 
+    /// <summary>
+    /// Note the movement step separated into two separate MoveSlide actions, for more accurate collision checking.
+    /// </summary>
     private void FrameAdvancePlayers()
     {
         P1.FrameAdvanceInputs(hitStopRemaining);
@@ -295,9 +303,9 @@ public class GameStateObject : Node
             P1.MoveSlideDeterministicTwo();
             P2.MoveSlideDeterministicTwo();
             CheckFixCollision();
+            P1.RenderPosition();
+            P2.RenderPosition();
         }
-        
-
         foreach (var entry in hadoukens)
         {
             entry.Value.FrameAdvance();
@@ -321,24 +329,27 @@ public class GameStateObject : Node
     {
         while (CheckRects())
         {
-            if (P1.GlobalPosition < P2.GlobalPosition)
+            GD.Print("REcts collide!");
+            if (P1.internalPos < P2.internalPos)
             {
-                P1.Position = new Vector2(P1.Position.x - 1, P1.Position.y);
-                P2.Position = new Vector2(P2.Position.x + 1, P2.Position.y);
+                P1.Position = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
+                P2.Position = new Vector2(P2.internalPos.x + 1, P1.internalPos.y);
             }
             else
             {
-                P1.Position = new Vector2(P1.Position.x + 1, P1.Position.y);
-                P2.Position = new Vector2(P2.Position.x - 1, P2.Position.y);
+                P1.Position = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
+                P2.Position = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
             }
         }
     }
     private bool CheckRects()
     {
         Rect2 P1rect = P1.GetCollisionRect();
-        P1rect.Position = P1rect.Position + P1.Position;
+        Globals.Rect100Expand(P1rect);
+        P1rect.Position = P1rect.Position + P1.internalPos;
         Rect2 P2rect = P2.GetCollisionRect();
-        P2rect.Position = P2rect.Position + P2.Position;
+        Globals.Rect100Expand(P2rect);
+        P2rect.Position = P2rect.Position + P2.internalPos;
         return P1rect.Intersects(P2rect);
     }
 

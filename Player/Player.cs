@@ -20,16 +20,16 @@ public class Player : Node2D
 	public delegate void HadoukenRemoved(HadoukenPart h);
 
 	[Export]
-	public int speed = 4;
+	public int speed = 400;
 
 	[Export]
-	public int dashSpeed = 7;
+	public int dashSpeed = 700;
 
 	[Export]
-	public int jumpForce = 7;
+	public int jumpForce = 700;
 
 	[Export]
-	public int gravityDenom = 5; //GGPO can only store ints due to issues with float determinism so I have to do some wacky stuff
+	public int gravity = 50; 
 
 	[Export]
 	public bool dummy = false; //you can use this for testing with a dummy
@@ -37,9 +37,9 @@ public class Player : Node2D
 	private InputHandler inputHandler;
 
 	// All of these will be stored in gamestate
+	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 100;
 	public Vector2 velocity = new Vector2(0, 0);
-	public int gravityPos = 0;
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
@@ -125,11 +125,10 @@ public class Player : Node2D
 		pState.flipH = sprite.FlipH;
 
 		pState.health = health;
-		pState.position = new int[] { (int)Position.x, (int)Position.y };
+		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 
 
 		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
-		pState.gravityPos = gravityPos;
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
 		pState.combo = combo;
@@ -150,9 +149,7 @@ public class Player : Node2D
 		sprite.FlipH = pState.flipH;
 
 		health = pState.health;
-		Position = new Vector2(pState.position[0], pState.position[1]);
-		GD.Print($"setting {Name} position to {Position}");
-		gravityPos = pState.gravityPos;
+		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
@@ -331,9 +328,9 @@ public class Player : Node2D
 	/// </summary>
 	private void MoveSlideDeterministicOne()
 	{
-		int xChange = (int)Math.Floor(velocity.x / 2);
+		int xChange = (int)Math.Floor((velocity.x) / 2);
 		int yChange = (int)Math.Floor(velocity.y / 2);
-		Position += new Vector2(xChange, yChange);
+		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}
 
@@ -342,36 +339,44 @@ public class Player : Node2D
 	/// </summary>
 	public void MoveSlideDeterministicTwo()
 	{
-		int xChange = (int)Math.Ceiling(velocity.x / 2);
+		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
-		Position += new Vector2(xChange, yChange);
+		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}
+
+	/// <summary>
+	/// Adapts the 100x position to the visualized position
+	/// </summary>
+	public void RenderPosition()
+    {
+		Position = new Vector2((int)Math.Floor(internalPos.x / 100), (int)Math.Floor(internalPos.y / 100));
+    }
 
 	/// <summary>
 	/// Stay inside the bounds of the stage
 	/// </summary>
 	private void CorrectPositionBounds()
 	{
-		if (Position.y > 220)
+		if (internalPos.y > 22000)
 		{
-			Position = new Vector2(Position.x, 220);
+			internalPos= new Vector2(internalPos.x, 22000);
 			grounded = true;
 		}
 
-		if (Position.x > 475)
+		if (internalPos.x > 47500)
 		{
-			Position = new Vector2(475, Position.y);
+			internalPos = new Vector2(47500, internalPos.y);
 		}
-		else if (Position.x < 5)
+		else if (internalPos.x < 500)
 		{
-			Position = new Vector2(5, Position.y);
+			internalPos = new Vector2(500, internalPos.y);
 		}
 	}
 
 	public bool CheckTouchingWall()
 	{
-		if (Position.x > 474 || Position.x < 6)
+		if (Position.x > 47400 || Position.x < 600)
 		{
 			return true;
 		}
@@ -381,15 +386,15 @@ public class Player : Node2D
 		}
 	}
 
-	public void SlideAway() 
+	public void SlideAway() //MAKE SURE THIS WORKS
 	{
 		var mod = 1;
 
-		if (Position.x < otherPlayer.Position.x) 
+		if (internalPos.x < otherPlayer.internalPos.x) 
 		{
 			mod = -1;
 		}
-		GlobalPosition = new Vector2(GlobalPosition.x + 4 * mod, GlobalPosition.y);
+		internalPos = new Vector2(internalPos.x + 4 * mod, internalPos.y); // FIX THIS
 	}
 
 	public void PushMovement(float xVel) 
@@ -552,7 +557,7 @@ public class Player : Node2D
 
 	public Rect2 GetCollisionRect()
 	{
-		return GetRect(colBox);
+		return GetRect(colBox); // THIS NEEDS TO BE CHANGED
 	}
 
 	public void DebugDisplay()

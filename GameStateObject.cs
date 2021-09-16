@@ -329,27 +329,22 @@ public class GameStateObject : Node
     {
         while (CheckRects())
         {
-            GD.Print("REcts collide!");
             if (P1.internalPos < P2.internalPos)
             {
-                P1.Position = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
-                P2.Position = new Vector2(P2.internalPos.x + 1, P1.internalPos.y);
+                P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
+                P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
             }
             else
             {
-                P1.Position = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
-                P2.Position = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
+                P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
+                P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
             }
         }
     }
     private bool CheckRects()
     {
         Rect2 P1rect = P1.GetCollisionRect();
-        Globals.Rect100Expand(P1rect);
-        P1rect.Position = P1rect.Position + P1.internalPos;
         Rect2 P2rect = P2.GetCollisionRect();
-        Globals.Rect100Expand(P2rect);
-        P2rect.Position = P2rect.Position + P2.internalPos;
         return P1rect.Intersects(P2rect);
     }
 

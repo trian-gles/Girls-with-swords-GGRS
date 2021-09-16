@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Player : Node2D
 {
-	private State currentState;
+	private State currentState; //The current state governs key aspects of input handling, movement, animation etc.
 	public Player otherPlayer; //I know I shouldn't do this, but it makes my life so much easier...
 
 	[Signal]
@@ -303,6 +303,10 @@ public class Player : Node2D
 		return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
 	}
 
+	/// <summary>
+	/// passes any new inputs since the past frame to the input handler for buffering, withholding and passing to the current state
+	/// </summary>
+	/// <param name="hitStop"></param>
 	public void FrameAdvanceInputs(int hitStop)
 	{
 		inputHandler.FrameAdvance(hitStop, currentState);
@@ -376,8 +380,9 @@ public class Player : Node2D
 
 	public bool CheckTouchingWall()
 	{
-		if (Position.x > 47400 || Position.x < 600)
+		if (internalPos.x > 47400 || internalPos.x < 600)
 		{
+			GD.Print($"{Name} is touching wall");
 			return true;
 		}
 		else
@@ -557,7 +562,9 @@ public class Player : Node2D
 
 	public Rect2 GetCollisionRect()
 	{
-		return GetRect(colBox); // THIS NEEDS TO BE CHANGED
+		Vector2 start = new Vector2(internalPos.x - 700, internalPos.y - 900);
+		Vector2 size = new Vector2(1400, 4800);
+		return new Rect2(start, size);
 	}
 
 	public void DebugDisplay()

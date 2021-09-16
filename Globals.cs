@@ -140,10 +140,4 @@ public class Globals : Node
         bool result = (ArrOfArraysComplexInList(arr, elements) == false);
         GD.Print($"Result of testing nonexistant elements in array = {result}");
     }
-
-    public static void Rect100Expand(Rect2 rect)
-    {
-        rect.Position *= 100;
-        rect.End *= 100;
-    }
 }

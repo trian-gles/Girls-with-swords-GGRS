@@ -2420,6 +2420,7 @@ __meta__ = {
 }
 
 [node name="HitBoxes" type="Area2D" parent="."]
+visible = false
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( -2, 0 )
@@ -2436,6 +2437,7 @@ shape = SubResource( 4 )
 disabled = true
 
 [node name="HurtBoxes" type="Area2D" parent="."]
+visible = false
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( 25, -1 )
@@ -2477,12 +2479,12 @@ script = ExtResource( 10 )
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 6 )
 hitStun = 14
-hitPush = Vector2( 1, 0 )
+hitPush = Vector2( 100, 0 )
 
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 12 )
 hitStun = 14
-hitPush = Vector2( 1, 0 )
+hitPush = Vector2( 100, 0 )
 height = 2
 
 [node name="Block" type="Node" parent="StateTree"]
@@ -2503,11 +2505,12 @@ script = ExtResource( 14 )
 [node name="CrouchJab" type="Node" parent="StateTree"]
 script = ExtResource( 15 )
 hitStun = 12
-hitPush = Vector2( 1, 0 )
+hitPush = Vector2( 100, 0 )
 height = 0
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
+hitPush = Vector2( 150, 0 )
 
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
@@ -2522,22 +2525,24 @@ script = ExtResource( 19 )
 
 [node name="DP" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
+hitPush = Vector2( 150, 200 )
+launch = Vector2( 150, 300 )
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
 hitStun = 12
-hitPush = Vector2( 1, 0 )
+hitPush = Vector2( 100, 0 )
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
 hitStun = 12
-hitPush = Vector2( 1, 0 )
+hitPush = Vector2( 100, 0 )
 height = 2
 
 [node name="JumpSlash" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
 hitStun = 16
-hitPush = Vector2( 2, 0 )
+hitPush = Vector2( 150, 0 )
 height = 2
 dmg = 3
 
@@ -2546,11 +2551,14 @@ script = ExtResource( 24 )
 
 [node name="Sweep" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
+hitPush = Vector2( 100, 0 )
 height = 0
 knockdown = true
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
+hitStun = 16
+hitPush = Vector2( 150, 0 )
 
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )

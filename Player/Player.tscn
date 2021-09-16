@@ -2511,10 +2511,16 @@ height = 0
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
 hitPush = Vector2( 150, 0 )
+hitStun = 16
+height = 0
+dmg = 3
 
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
+hitStun = 14
+hitPush = Vector2( 2, 0 )
 height = 2
+dmg = 3
 launch = Vector2( 0, -4 )
 
 [node name="CrouchBlock" type="Node" parent="StateTree"]
@@ -2527,6 +2533,9 @@ script = ExtResource( 19 )
 script = ExtResource( 20 )
 hitPush = Vector2( 150, 200 )
 launch = Vector2( 150, 300 )
+hitStun = 16
+height = 2
+dmg = 4
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
@@ -2559,6 +2568,7 @@ knockdown = true
 script = ExtResource( 26 )
 hitStun = 16
 hitPush = Vector2( 150, 0 )
+dmg = 4
 
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )

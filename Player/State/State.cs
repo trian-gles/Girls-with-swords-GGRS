@@ -47,12 +47,7 @@ public abstract class State : Node
 
     protected void ApplyGravity()
     {
-        owner.gravityPos += 1;
-        if (owner.gravityPos == owner.gravityDenom)
-        {
-            owner.gravityPos = 0;
-            owner.velocity.y += 1;
-        }
+        owner.velocity.y += owner.gravity;
     }
     public virtual void AnimationFinished() 
     { 

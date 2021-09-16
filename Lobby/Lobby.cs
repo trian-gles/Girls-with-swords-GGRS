@@ -33,6 +33,7 @@ public class Lobby : Node2D
 	public void OnTrainingButtonDown()
 	{
 		Globals.mode = Globals.Mode.TRAINING;
+		GD.Print("Training mode selected");
 		Begin(true);
 		
 	}

@@ -12,7 +12,6 @@ public class Crouch : State
     public override void Enter()
     {
         base.Enter();
-        owner.gravityPos = 0;
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         

@@ -22,7 +22,7 @@ public class Knockdown : State
         }
     }
 
-    public override void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push, bool knockdown)
+    public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         // No OTG
     }

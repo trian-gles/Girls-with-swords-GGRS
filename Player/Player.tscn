@@ -2531,7 +2531,7 @@ launch = Vector2( 150, 300 )
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
 hitStun = 12
-hitPush = Vector2( 100, 0 )
+hitPush = 2000
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )

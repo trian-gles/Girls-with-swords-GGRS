@@ -34,9 +34,13 @@ public class Player : Node2D
 	[Export]
 	public bool dummy = false; //you can use this for testing with a dummy
 
+	[Export]
+	public int hitPushSpeed = 100;
+
 	private InputHandler inputHandler;
 
 	// All of these will be stored in gamestate
+	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 100;
 	public Vector2 velocity = new Vector2(0, 0);
@@ -58,7 +62,7 @@ public class Player : Node2D
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
-
+		public int hitPushRemaining { get; set; }
 		public bool flipH { get; set; }
 		public int health { get; set; }
 		public int[] position { get; set; }
@@ -123,7 +127,7 @@ public class Player : Node2D
 		pState.hitConnect = currentState.hitConnect;
 		pState.stunRemaining = currentState.stunRemaining;
 		pState.flipH = sprite.FlipH;
-
+		pState.hitPushRemaining = hitPushRemaining;
 		pState.health = health;
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 
@@ -147,6 +151,7 @@ public class Player : Node2D
 		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
+		hitPushRemaining = pState.hitPushRemaining;
 
 		health = pState.health;
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
@@ -323,7 +328,7 @@ public class Player : Node2D
 			currentState.InHurtbox();
 		}
 		currentState.FrameAdvance();
-
+		AdjustHitpush(); // make sure this is placed in the right spot...
 		MoveSlideDeterministicOne();
 	}
 
@@ -337,6 +342,33 @@ public class Player : Node2D
 		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}
+
+	/// <summary>
+	/// Updates the remaining hitpush and adjusts the player accordingly.  does NOT use velocity
+	/// </summary>
+	private void AdjustHitpush()
+    {
+		if (hitPushRemaining != 0)
+        {
+			if (hitPushRemaining > -hitPushSpeed && hitPushRemaining < hitPushSpeed)
+            {
+				hitPushRemaining = 0;
+            }
+			else
+            {
+				if (hitPushRemaining < 0)
+                {
+					internalPos.x -= hitPushSpeed;
+					hitPushRemaining += hitPushSpeed;
+                }
+				else
+                {
+					internalPos.x += hitPushSpeed;
+					hitPushRemaining -= hitPushSpeed;
+				}
+            }
+        }
+    }
 
 	/// <summary>
 	/// Finishes the movement system
@@ -458,25 +490,25 @@ public class Player : Node2D
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}
 
-	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, Vector2 push, bool knockdown) 
+	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
 	{
-		currentState.ReceiveHit(rightAttack, height, push, knockdown);
+		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
 		currentState.receiveStun(stun);
 		currentState.receiveDamage(dmg);
 		EmitSignal(nameof(HitConfirm));
 	}
 
-	public void OnHitConnected(Vector2 hitPush) 
+	public void OnHitConnected(int hitPush) 
 	{
 		if (otherPlayer.CheckTouchingWall())
 		{
 			if (OtherPlayerOnRight())
 			{
-				velocity.x = -hitPush.x;
+				hitPushRemaining = -hitPush;
 			}
 			else
 			{
-				velocity.x = hitPush.x;
+				hitPushRemaining = hitPush;
 			}
 		}
 	}

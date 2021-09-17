@@ -94,15 +94,22 @@ public abstract class State : Node
         }
     }
 
-    public virtual void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push, bool knockdown)
+    public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
-        // need to handle for knockdown!!!
         GD.Print($"Received attack on side {rightAttack}");
         if (!rightAttack)
         {
-            push.x *= -1;
+            launch.x *= -1;
+            hitPush *= -1;
         }
-        owner.velocity = push;
+        if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+        {
+            GD.Print("Launch is not zero!");
+            owner.velocity = launch;
+        }
+
+        owner.hitPushRemaining = hitPush;
+
         if (owner.velocity.y < 0)
         {
             owner.grounded = false;

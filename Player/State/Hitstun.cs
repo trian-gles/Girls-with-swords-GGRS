@@ -48,13 +48,21 @@ public class HitStun : State
         }
     }
 
-    public override void ReceiveHit(bool rightAttack, HEIGHT height, Vector2 push, bool knockdown)
+    public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
+        GD.Print($"Received attack on side {rightAttack}");
         if (!rightAttack)
         {
-            push.x *= -1;
+            launch.x *= -1;
+            hitPush *= -1;
         }
-        owner.velocity = push;
+        if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+        {
+            GD.Print("Launch is not zero!");
+            owner.velocity = launch;
+        }
+
+        owner.hitPushRemaining = hitPush;
         EnterHitState(knockdown);
 
     }

@@ -33,12 +33,11 @@ extents = Vector2( 12, 10 )
 [node name="HadoukenPart" type="Node2D"]
 position = Vector2( 0, -1 )
 script = ExtResource( 1 )
-speed = Vector2( 2, 0 )
+speed = Vector2( 4, 0 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

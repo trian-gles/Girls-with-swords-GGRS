@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Player : Node2D
 {
-	private State currentState;
+	private State currentState; //The current state governs key aspects of input handling, movement, animation etc.
 	public Player otherPlayer; //I know I shouldn't do this, but it makes my life so much easier...
 
 	[Signal]
@@ -20,26 +20,30 @@ public class Player : Node2D
 	public delegate void HadoukenRemoved(HadoukenPart h);
 
 	[Export]
-	public int speed = 4;
+	public int speed = 400;
 
 	[Export]
-	public int dashSpeed = 7;
+	public int dashSpeed = 700;
 
 	[Export]
-	public int jumpForce = 7;
+	public int jumpForce = 700;
 
 	[Export]
-	public int gravityDenom = 5; //GGPO can only store ints due to issues with float determinism so I have to do some wacky stuff
+	public int gravity = 50; 
 
 	[Export]
 	public bool dummy = false; //you can use this for testing with a dummy
 
+	[Export]
+	public int hitPushSpeed = 100;
+
 	private InputHandler inputHandler;
 
 	// All of these will be stored in gamestate
+	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
+	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 100;
 	public Vector2 velocity = new Vector2(0, 0);
-	public int gravityPos = 0;
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
@@ -58,7 +62,7 @@ public class Player : Node2D
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
-
+		public int hitPushRemaining { get; set; }
 		public bool flipH { get; set; }
 		public int health { get; set; }
 		public int[] position { get; set; }
@@ -123,13 +127,12 @@ public class Player : Node2D
 		pState.hitConnect = currentState.hitConnect;
 		pState.stunRemaining = currentState.stunRemaining;
 		pState.flipH = sprite.FlipH;
-
+		pState.hitPushRemaining = hitPushRemaining;
 		pState.health = health;
-		pState.position = new int[] { (int)Position.x, (int)Position.y };
+		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 
 
 		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
-		pState.gravityPos = gravityPos;
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
 		pState.combo = combo;
@@ -148,11 +151,10 @@ public class Player : Node2D
 		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
+		hitPushRemaining = pState.hitPushRemaining;
 
 		health = pState.health;
-		Position = new Vector2(pState.position[0], pState.position[1]);
-		GD.Print($"setting {Name} position to {Position}");
-		gravityPos = pState.gravityPos;
+		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
@@ -306,6 +308,10 @@ public class Player : Node2D
 		return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
 	}
 
+	/// <summary>
+	/// passes any new inputs since the past frame to the input handler for buffering, withholding and passing to the current state
+	/// </summary>
+	/// <param name="hitStop"></param>
 	public void FrameAdvanceInputs(int hitStop)
 	{
 		inputHandler.FrameAdvance(hitStop, currentState);
@@ -322,7 +328,7 @@ public class Player : Node2D
 			currentState.InHurtbox();
 		}
 		currentState.FrameAdvance();
-
+		AdjustHitpush(); // make sure this is placed in the right spot...
 		MoveSlideDeterministicOne();
 	}
 
@@ -331,48 +337,84 @@ public class Player : Node2D
 	/// </summary>
 	private void MoveSlideDeterministicOne()
 	{
-		int xChange = (int)Math.Floor(velocity.x / 2);
+		int xChange = (int)Math.Floor((velocity.x) / 2);
 		int yChange = (int)Math.Floor(velocity.y / 2);
-		Position += new Vector2(xChange, yChange);
+		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}
+
+	/// <summary>
+	/// Updates the remaining hitpush and adjusts the player accordingly.  does NOT use velocity
+	/// </summary>
+	private void AdjustHitpush()
+    {
+		if (hitPushRemaining != 0)
+        {
+			if (hitPushRemaining > -hitPushSpeed && hitPushRemaining < hitPushSpeed)
+            {
+				hitPushRemaining = 0;
+            }
+			else
+            {
+				if (hitPushRemaining < 0)
+                {
+					internalPos.x -= hitPushSpeed;
+					hitPushRemaining += hitPushSpeed;
+                }
+				else
+                {
+					internalPos.x += hitPushSpeed;
+					hitPushRemaining -= hitPushSpeed;
+				}
+            }
+        }
+    }
 
 	/// <summary>
 	/// Finishes the movement system
 	/// </summary>
 	public void MoveSlideDeterministicTwo()
 	{
-		int xChange = (int)Math.Ceiling(velocity.x / 2);
+		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
-		Position += new Vector2(xChange, yChange);
+		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}
+
+	/// <summary>
+	/// Adapts the 100x position to the visualized position
+	/// </summary>
+	public void RenderPosition()
+    {
+		Position = new Vector2((int)Math.Floor(internalPos.x / 100), (int)Math.Floor(internalPos.y / 100));
+    }
 
 	/// <summary>
 	/// Stay inside the bounds of the stage
 	/// </summary>
 	private void CorrectPositionBounds()
 	{
-		if (Position.y > 220)
+		if (internalPos.y > 22000)
 		{
-			Position = new Vector2(Position.x, 220);
+			internalPos= new Vector2(internalPos.x, 22000);
 			grounded = true;
 		}
 
-		if (Position.x > 475)
+		if (internalPos.x > 47500)
 		{
-			Position = new Vector2(475, Position.y);
+			internalPos = new Vector2(47500, internalPos.y);
 		}
-		else if (Position.x < 5)
+		else if (internalPos.x < 500)
 		{
-			Position = new Vector2(5, Position.y);
+			internalPos = new Vector2(500, internalPos.y);
 		}
 	}
 
 	public bool CheckTouchingWall()
 	{
-		if (Position.x > 474 || Position.x < 6)
+		if (internalPos.x > 47400 || internalPos.x < 600)
 		{
+			GD.Print($"{Name} is touching wall");
 			return true;
 		}
 		else
@@ -381,15 +423,15 @@ public class Player : Node2D
 		}
 	}
 
-	public void SlideAway() 
+	public void SlideAway() //MAKE SURE THIS WORKS
 	{
 		var mod = 1;
 
-		if (Position.x < otherPlayer.Position.x) 
+		if (internalPos.x < otherPlayer.internalPos.x) 
 		{
 			mod = -1;
 		}
-		GlobalPosition = new Vector2(GlobalPosition.x + 4 * mod, GlobalPosition.y);
+		internalPos = new Vector2(internalPos.x + 4 * mod, internalPos.y); // FIX THIS
 	}
 
 	public void PushMovement(float xVel) 
@@ -448,25 +490,25 @@ public class Player : Node2D
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}
 
-	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, Vector2 push, bool knockdown) 
+	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
 	{
-		currentState.ReceiveHit(rightAttack, height, push, knockdown);
+		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
 		currentState.receiveStun(stun);
 		currentState.receiveDamage(dmg);
 		EmitSignal(nameof(HitConfirm));
 	}
 
-	public void OnHitConnected(Vector2 hitPush) 
+	public void OnHitConnected(int hitPush) 
 	{
 		if (otherPlayer.CheckTouchingWall())
 		{
 			if (OtherPlayerOnRight())
 			{
-				velocity.x = -hitPush.x;
+				hitPushRemaining = -hitPush;
 			}
 			else
 			{
-				velocity.x = hitPush.x;
+				hitPushRemaining = hitPush;
 			}
 		}
 	}
@@ -552,7 +594,9 @@ public class Player : Node2D
 
 	public Rect2 GetCollisionRect()
 	{
-		return GetRect(colBox);
+		Vector2 start = new Vector2(internalPos.x - 700, internalPos.y - 900);
+		Vector2 size = new Vector2(1400, 4800);
+		return new Rect2(start, size);
 	}
 
 	public void DebugDisplay()

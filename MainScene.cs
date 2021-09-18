@@ -33,7 +33,7 @@ public class MainScene : Node2D
     /// <param name="hosting"></param>
     public void Begin(string ip, int localPort, int remotePort, bool hosting)
     {
-        
+        GD.Print("Starting Mainscene Config");
         //Basic config
         camera = GetNode<Camera2D>("Camera2D");
 

@@ -2418,10 +2418,11 @@ hitPushSpeed = 200
 position = Vector2( 0, 15 )
 shape = SubResource( 1 )
 __meta__ = {
-"_editor_description_": "Will NEVER CHANGE"
+"_editor_description_": "THIS BOX DOESN'T DO ANYTHING, PLEASE DON'T MOVE/CHANGE IT"
 }
 
 [node name="HitBoxes" type="Area2D" parent="."]
+visible = false
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( -4, 13 )
@@ -2438,6 +2439,7 @@ shape = SubResource( 4 )
 disabled = true
 
 [node name="HurtBoxes" type="Area2D" parent="."]
+visible = false
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( 15, -20 )
@@ -2478,19 +2480,12 @@ script = ExtResource( 10 )
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 6 )
 hitStun = 14
-<<<<<<< Updated upstream
-hitPush = Vector2( 1, 0 )
-=======
 hitPush = 2000
->>>>>>> Stashed changes
 
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 12 )
 hitStun = 14
-<<<<<<< Updated upstream
-hitPush = Vector2( 1, 0 )
-=======
->>>>>>> Stashed changes
+hitPush = Vector2( 100, 0 )
 height = 2
 
 [node name="Block" type="Node" parent="StateTree"]
@@ -2511,24 +2506,23 @@ script = ExtResource( 14 )
 [node name="CrouchJab" type="Node" parent="StateTree"]
 script = ExtResource( 15 )
 hitStun = 12
-<<<<<<< Updated upstream
-hitPush = Vector2( 1, 0 )
-=======
 hitPush = 2000
->>>>>>> Stashed changes
 height = 0
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
-<<<<<<< Updated upstream
-=======
 hitPush = 2000
->>>>>>> Stashed changes
+hitStun = 16
+height = 0
+dmg = 3
 
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
+hitStun = 14
+hitPush = Vector2( 2, 0 )
 height = 2
 launch = Vector2( 0, -300 )
+dmg = 3
 
 [node name="CrouchBlock" type="Node" parent="StateTree"]
 script = ExtResource( 18 )
@@ -2538,35 +2532,26 @@ script = ExtResource( 19 )
 
 [node name="DP" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
-<<<<<<< Updated upstream
-=======
 hitStun = 28
 opponentLaunch = Vector2( 0, -600 )
 hitPush = 6000
 launch = Vector2( 150, -500 )
->>>>>>> Stashed changes
+height = 2
+dmg = 4
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
 hitStun = 12
-hitPush = Vector2( 1, 0 )
+hitPush = 2000
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
 hitStun = 12
-<<<<<<< Updated upstream
-hitPush = Vector2( 1, 0 )
-=======
->>>>>>> Stashed changes
 height = 2
 
 [node name="JumpSlash" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
 hitStun = 16
-<<<<<<< Updated upstream
-hitPush = Vector2( 2, 0 )
-=======
->>>>>>> Stashed changes
 height = 2
 dmg = 3
 
@@ -2575,20 +2560,16 @@ script = ExtResource( 24 )
 
 [node name="Sweep" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
-<<<<<<< Updated upstream
-=======
 hitPush = 2000
->>>>>>> Stashed changes
+hitPush = Vector2( 100, 0 )
 height = 0
 knockdown = true
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
-<<<<<<< Updated upstream
-=======
 hitStun = 16
 hitPush = 2000
->>>>>>> Stashed changes
+dmg = 4
 
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )

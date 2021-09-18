@@ -12,7 +12,6 @@ public class Idle : State
     public override void Enter()
     {
         base.Enter();
-        owner.gravityPos = 0;
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         if (owner.CheckHeldKey('2'))
@@ -23,6 +22,7 @@ public class Idle : State
         if (owner.CheckHeldKey('6'))
         {
             owner.velocity.x = owner.speed;
+            
             EmitSignal(nameof(StateFinished), "Walk");
         }
 
@@ -66,6 +66,7 @@ public class Idle : State
             else
             {
                 owner.velocity.x = owner.speed;
+                GD.Print($"Setting speed to {owner.speed}");
                 EmitSignal(nameof(StateFinished), "Walk");
             }
 

@@ -140,9 +140,19 @@ wait_time = 0.5
 
 [node name="P1" parent="." instance=ExtResource( 1 )]
 position = Vector2( 133, 240 )
+<<<<<<< Updated upstream
 
 [node name="P2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 330, 242 )
+=======
+jumpForce = 600
+gravity = 20
+
+[node name="P2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 330, 242 )
+jumpForce = 600
+gravity = 20
+>>>>>>> Stashed changes
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2( 240, 135 )

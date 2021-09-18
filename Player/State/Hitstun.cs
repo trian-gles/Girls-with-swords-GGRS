@@ -6,7 +6,6 @@ public class HitStun : State
     public override void _Ready()
     {
         base._Ready();
-        loop = true;
     }
     public override void Enter()
     {
@@ -54,7 +53,22 @@ public class HitStun : State
         {
             push.x *= -1;
         }
+<<<<<<< Updated upstream
         owner.velocity = push;
+=======
+        if (!(launch == Vector2.Zero))
+        {
+            GD.Print("Launch is not zero!");
+            owner.velocity = launch;
+        }
+
+        if (owner.velocity.y < 0) // make sure the player is registered as in the air if launched 
+        {
+            owner.grounded = false;
+        }
+
+        owner.hitPushRemaining = hitPush;
+>>>>>>> Stashed changes
         EnterHitState(knockdown);
 
     }

@@ -10,6 +10,10 @@ public class AntiAir : BaseAttack
     public override void Enter()
     {
         base.Enter();
+        if (!owner.facingRight)
+        {
+            launch.x *= -1;
+        }
         owner.velocity = launch;
         owner.grounded = false;
     }

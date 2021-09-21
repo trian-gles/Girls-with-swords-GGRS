@@ -33,7 +33,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 26 )
+extents = Vector2( 13, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -42,7 +42,7 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 11, 25 )
+extents = Vector2( 0, 0 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -2425,7 +2425,7 @@ __meta__ = {
 visible = false
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -4, 13 )
+position = Vector2( 0, 9 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -2442,7 +2442,7 @@ disabled = true
 visible = false
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 15, -20 )
+position = Vector2( 24, 0 )
 shape = SubResource( 5 )
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
@@ -2460,7 +2460,7 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 55
 vframes = 2
-frame = 48
+frame = 28
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -2511,8 +2511,8 @@ height = 0
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
-hitPush = 2000
 hitStun = 16
+hitPush = 2000
 height = 0
 dmg = 3
 
@@ -2521,8 +2521,8 @@ script = ExtResource( 17 )
 hitStun = 14
 hitPush = Vector2( 2, 0 )
 height = 2
-launch = Vector2( 0, -300 )
 dmg = 3
+launch = Vector2( 0, -450 )
 
 [node name="CrouchBlock" type="Node" parent="StateTree"]
 script = ExtResource( 18 )
@@ -2535,9 +2535,9 @@ script = ExtResource( 20 )
 hitStun = 28
 opponentLaunch = Vector2( 0, -600 )
 hitPush = 6000
-launch = Vector2( 150, -500 )
 height = 2
 dmg = 4
+launch = Vector2( 150, -600 )
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
@@ -2560,7 +2560,6 @@ script = ExtResource( 24 )
 
 [node name="Sweep" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
-hitPush = 2000
 hitPush = Vector2( 100, 0 )
 height = 0
 knockdown = true

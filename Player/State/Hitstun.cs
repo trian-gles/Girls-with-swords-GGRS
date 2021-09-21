@@ -55,7 +55,7 @@ public class HitStun : State
             launch.x *= -1;
             hitPush *= -1;
         }
-        owner.velocity = push;
+        owner.velocity = launch;
         if (!(launch == Vector2.Zero))
         {
             GD.Print("Launch is not zero!");

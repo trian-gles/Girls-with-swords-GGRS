@@ -10,11 +10,12 @@ public class AntiAir : BaseAttack
     public override void Enter()
     {
         base.Enter();
+        owner.velocity = launch;
         if (!owner.facingRight)
         {
-            launch.x *= -1;
+            GD.Print("Flipping launch x coor");
+            owner.velocity.x *= -1;
         }
-        owner.velocity = launch;
         owner.grounded = false;
     }
 

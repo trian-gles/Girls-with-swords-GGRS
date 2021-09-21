@@ -2485,7 +2485,6 @@ hitPush = 2000
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 12 )
 hitStun = 14
-hitPush = Vector2( 100, 0 )
 height = 2
 
 [node name="Block" type="Node" parent="StateTree"]
@@ -2519,7 +2518,6 @@ dmg = 3
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
 hitStun = 14
-hitPush = Vector2( 2, 0 )
 height = 2
 dmg = 3
 launch = Vector2( 0, -450 )
@@ -2560,7 +2558,6 @@ script = ExtResource( 24 )
 
 [node name="Sweep" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
-hitPush = Vector2( 100, 0 )
 height = 0
 knockdown = true
 

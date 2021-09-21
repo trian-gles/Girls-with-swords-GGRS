@@ -81,6 +81,7 @@ public class Player : Node2D
 	private Color hurtColor = new Color(0, 255, 0, 0.5f);
 	private Color colColor = new Color(0, 0, 255, 0.5f);
 
+	public Position2D grabPos;
 	public Area2D hitBoxes;
 	public Area2D hurtBoxes;
 	private CollisionShape2D colBox;
@@ -90,6 +91,7 @@ public class Player : Node2D
 
 	public override void _Ready()
 	{
+		grabPos = GetNode<Position2D>("GrabPos");
 		hitBoxes = GetNode<Area2D>("HitBoxes");
 		hurtBoxes = GetNode<Area2D>("HurtBoxes");
 		colBox = GetNode<CollisionShape2D>("CollisionBox");
@@ -540,6 +542,14 @@ public class Player : Node2D
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
+
+	public void Release(Vector2 launch)
+    {
+		Grabbed grabState = (Grabbed)currentState;
+		grabState.Release();
+		velocity = launch;
+		currentState.receiveStun(19);
+    }
 
 	public bool CheckHurtRect()
 	{

@@ -1,7 +1,7 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
-[ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Movesets/OL Moveset-Sheet v2.png" type="Texture" id=2]
 [ext_resource path="res://Player/State/Walk.cs" type="Script" id=3]
 [ext_resource path="res://Player/AnimationPlayer.cs" type="Script" id=4]
 [ext_resource path="res://Player/State/Idle.cs" type="Script" id=5]
@@ -28,27 +28,29 @@
 [ext_resource path="res://Player/State/Slash.cs" type="Script" id=26]
 [ext_resource path="res://Player/State/Run.cs" type="Script" id=27]
 [ext_resource path="res://Player/State/Hadouken.cs" type="Script" id=28]
+[ext_resource path="res://Player/State/Grab.cs" type="Script" id=29]
+[ext_resource path="res://Player/State/Grabbed.cs" type="Script" id=30]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 13, 28 )
+extents = Vector2( 18, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 5, 5 )
+extents = Vector2( 7, 7 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 0, 0 )
+extents = Vector2( 15, 14 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 18 )
+extents = Vector2( 32, 6 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 11, 20 )
+extents = Vector2( 11, 14 )
 
 [sub_resource type="Animation" id=8]
 length = 30.0
@@ -786,6 +788,49 @@ tracks/9/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 18, 24 ) ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "Grab"
+length = 65.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 41.7, 47.7, 55.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 110, 111, 112, 113, 114, 115, 116, 117 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GrabPos:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 28, 31 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -25, 0 ), Vector2( -20, -25 ), Vector2( 10, -50 ) ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "Grabbed"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 51 ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -2415,6 +2460,7 @@ gravity = 100
 hitPushSpeed = 200
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, 15 )
 shape = SubResource( 1 )
 __meta__ = {
@@ -2425,11 +2471,11 @@ __meta__ = {
 visible = false
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( 0, 9 )
+position = Vector2( -4, 6 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -14, -17 )
+position = Vector2( -18, -11 )
 shape = SubResource( 3 )
 disabled = true
 
@@ -2442,25 +2488,25 @@ disabled = true
 visible = false
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 24, 0 )
+position = Vector2( -28, -10 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( -25, -15 )
+position = Vector2( -2, -25 )
 shape = SubResource( 6 )
 disabled = true
 
 [node name="HurtB3" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 20, 1 )
+position = Vector2( 21, -8 )
 shape = SubResource( 7 )
 disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
-hframes = 55
-vframes = 2
-frame = 28
+hframes = 121
+frame = 52
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -2574,6 +2620,12 @@ script = ExtResource( 27 )
 script = ExtResource( 28 )
 releaseFrame = 20
 
+[node name="Grab" type="Node" parent="StateTree"]
+script = ExtResource( 29 )
+
+[node name="Grabbed" type="Node" parent="StateTree"]
+script = ExtResource( 30 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0
 anims/AntiAir = SubResource( 8 )
@@ -2585,6 +2637,8 @@ anims/CrouchJab = SubResource( 13 )
 anims/CrouchSlash = SubResource( 14 )
 anims/DP = SubResource( 15 )
 anims/Fall = SubResource( 16 )
+anims/Grab = SubResource( 33 )
+anims/Grabbed = SubResource( 34 )
 anims/Hadouken = SubResource( 17 )
 anims/HitStun = SubResource( 18 )
 anims/Idle = SubResource( 19 )
@@ -2604,6 +2658,7 @@ anims/Walk = SubResource( 32 )
 script = ExtResource( 4 )
 
 [node name="DebugPos" type="Label" parent="."]
+visible = false
 margin_left = -23.0
 margin_top = -59.0
 margin_right = 17.0
@@ -2611,3 +2666,6 @@ margin_bottom = -45.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GrabPos" type="Position2D" parent="."]
+position = Vector2( 10, -50 )

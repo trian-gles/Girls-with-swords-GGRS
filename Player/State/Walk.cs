@@ -62,7 +62,16 @@ public class Walk : State
 
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {
-            EmitSignal(nameof(StateFinished), "Slash");
+            if (owner.Position.DistanceTo(owner.otherPlayer.Position) < 25)
+            {
+                GD.Print("GRAB");
+                EmitSignal(nameof(StateFinished), "Grab");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "Slash");
+            }
+            
         }
     }
 

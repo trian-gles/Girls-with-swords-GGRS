@@ -35,7 +35,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 18, 25 )
+extents = Vector2( 13, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 7 )
@@ -44,7 +44,7 @@ extents = Vector2( 7, 7 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 15, 14 )
+extents = Vector2( 0, 0 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 6 )
@@ -790,7 +790,7 @@ tracks/9/keys = {
 "values": [ Vector2( 18, 24 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=17]
 resource_name = "Grab"
 length = 65.0
 tracks/0/type = "value"
@@ -818,7 +818,7 @@ tracks/1/keys = {
 "values": [ Vector2( -25, 0 ), Vector2( -20, -25 ), Vector2( 10, -50 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=18]
 resource_name = "Grabbed"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -833,7 +833,7 @@ tracks/0/keys = {
 "values": [ 51 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=19]
 length = 38.0
 step = 1.0
 tracks/0/type = "value"
@@ -885,7 +885,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=20]
 length = 20.0
 loop = true
 step = 1.0
@@ -1046,7 +1046,7 @@ tracks/12/keys = {
 "values": [ Vector2( 17, 5 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=21]
 length = 60.0
 loop = true
 step = 1.0
@@ -1159,7 +1159,7 @@ tracks/8/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 17.0
 step = 1.0
 tracks/0/type = "value"
@@ -1271,7 +1271,7 @@ tracks/8/keys = {
 "values": [ Vector2( 6, 6 ), Vector2( 11, 4 ), Vector2( 11, 4 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 length = 20.0
 step = 1.0
 tracks/0/type = "value"
@@ -1383,7 +1383,7 @@ tracks/8/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=24]
 length = 35.0
 step = 1.0
 tracks/0/type = "value"
@@ -1543,7 +1543,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, -5 ), Vector2( 0, -5 ), Vector2( -1, -9 ), Vector2( -1, -9 ), Vector2( 5, -5 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=25]
 length = 22.0
 step = 1.0
 tracks/0/type = "value"
@@ -1643,7 +1643,7 @@ tracks/7/keys = {
 "values": [ Vector2( 19, 5 ), Vector2( 19, 5 ) ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=26]
 length = 38.0
 step = 1.0
 tracks/0/type = "value"
@@ -1755,7 +1755,7 @@ tracks/8/keys = {
 "values": [ Vector2( 10, 18 ), Vector2( 10, 18 ), Vector2( 10, 18 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=27]
 length = 28.0
 step = 1.0
 tracks/0/type = "value"
@@ -1891,7 +1891,7 @@ tracks/10/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=28]
 length = 80.0
 step = 1.0
 tracks/0/type = "value"
@@ -1919,7 +1919,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=29]
 length = 30.0
 loop = true
 step = 1.0
@@ -1948,8 +1948,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=28]
-resource_name = "MovingJump"
+[sub_resource type="Animation" id=30]
 length = 20.0
 step = 1.0
 tracks/0/type = "value"
@@ -2061,7 +2060,7 @@ tracks/8/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=31]
 length = 24.0
 loop = true
 step = 1.0
@@ -2102,7 +2101,7 @@ tracks/2/keys = {
 "values": [ Vector2( -1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=32]
 length = 42.0
 step = 1.0
 tracks/0/type = "value"
@@ -2214,7 +2213,7 @@ tracks/8/keys = {
 "values": [ true, false, true ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=33]
 length = 30.0
 step = 1.0
 tracks/0/type = "value"
@@ -2338,7 +2337,7 @@ tracks/9/keys = {
 "values": [ Vector2( 13, 5 ), Vector2( 13, 5 ) ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=34]
 length = 60.0
 loop = true
 step = 1.0
@@ -2471,7 +2470,7 @@ __meta__ = {
 visible = false
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -4, 6 )
+position = Vector2( 0, 9 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -2488,9 +2487,8 @@ disabled = true
 visible = false
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( -28, -10 )
+position = Vector2( 24, 0 )
 shape = SubResource( 5 )
-disabled = true
 
 [node name="HurtB2" type="CollisionShape2D" parent="HurtBoxes"]
 position = Vector2( -2, -25 )
@@ -2506,7 +2504,7 @@ disabled = true
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 121
-frame = 52
+frame = 110
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -2622,6 +2620,8 @@ releaseFrame = 20
 
 [node name="Grab" type="Node" parent="StateTree"]
 script = ExtResource( 29 )
+releaseFrame = 30
+launch = Vector2( 600, 600 )
 
 [node name="Grabbed" type="Node" parent="StateTree"]
 script = ExtResource( 30 )
@@ -2637,24 +2637,24 @@ anims/CrouchJab = SubResource( 13 )
 anims/CrouchSlash = SubResource( 14 )
 anims/DP = SubResource( 15 )
 anims/Fall = SubResource( 16 )
-anims/Grab = SubResource( 33 )
-anims/Grabbed = SubResource( 34 )
-anims/Hadouken = SubResource( 17 )
-anims/HitStun = SubResource( 18 )
-anims/Idle = SubResource( 19 )
-anims/Jab = SubResource( 20 )
-anims/Jump = SubResource( 21 )
-anims/JumpKick = SubResource( 22 )
-anims/JumpPunch = SubResource( 23 )
-anims/JumpSlash = SubResource( 24 )
-anims/Kick = SubResource( 25 )
-anims/Knockdown = SubResource( 26 )
-anims/Lose = SubResource( 27 )
-anims/MovingJump = SubResource( 28 )
-anims/Run = SubResource( 29 )
-anims/Slash = SubResource( 30 )
-anims/Sweep = SubResource( 31 )
-anims/Walk = SubResource( 32 )
+anims/Grab = SubResource( 17 )
+anims/Grabbed = SubResource( 18 )
+anims/Hadouken = SubResource( 19 )
+anims/HitStun = SubResource( 20 )
+anims/Idle = SubResource( 21 )
+anims/Jab = SubResource( 22 )
+anims/Jump = SubResource( 23 )
+anims/JumpKick = SubResource( 24 )
+anims/JumpPunch = SubResource( 25 )
+anims/JumpSlash = SubResource( 26 )
+anims/Kick = SubResource( 27 )
+anims/Knockdown = SubResource( 28 )
+anims/Lose = SubResource( 29 )
+anims/MovingJump = SubResource( 30 )
+anims/Run = SubResource( 31 )
+anims/Slash = SubResource( 32 )
+anims/Sweep = SubResource( 33 )
+anims/Walk = SubResource( 34 )
 script = ExtResource( 4 )
 
 [node name="DebugPos" type="Label" parent="."]
@@ -2668,4 +2668,4 @@ __meta__ = {
 }
 
 [node name="GrabPos" type="Position2D" parent="."]
-position = Vector2( 10, -50 )
+position = Vector2( -25, 0 )

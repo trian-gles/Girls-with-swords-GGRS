@@ -18,7 +18,11 @@ public class Grab : State
     public override void Enter()
     {
         base.Enter();
+        owner.velocity = new Vector2(0, 0);
         released = false;
+        owner.otherPlayer.ChangeState("Grabbed");
+        GD.Print("Entering grab");
+
     }
 
     public override void FrameAdvance()

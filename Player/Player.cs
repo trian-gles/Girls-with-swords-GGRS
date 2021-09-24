@@ -80,6 +80,7 @@ public class Player : Node2D
 	private Color hitColor = new Color(255, 0, 0, 0.5f);
 	private Color hurtColor = new Color(0, 255, 0, 0.5f);
 	private Color colColor = new Color(0, 0, 255, 0.5f);
+	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
 	public Position2D grabPos;
 	public Area2D hitBoxes;
@@ -265,9 +266,9 @@ public class Player : Node2D
 		currentState.Exit();
 		animationPlayer.NewAnimation(nextStateName);
 		currentState = GetNode<State>("StateTree/" + nextStateName);
-		
-		currentState.Enter();
 		CheckTurnAround();
+		currentState.Enter();
+		
 
 	}
 
@@ -543,12 +544,10 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 
-	public void Release(Vector2 launch)
+	public void Release()
     {
 		Grabbed grabState = (Grabbed)currentState;
 		grabState.Release();
-		velocity = launch;
-		currentState.receiveStun(19);
     }
 
 	public bool CheckHurtRect()
@@ -638,6 +637,8 @@ public class Player : Node2D
 
 			DrawRect(colRect, colColor);
 		}
+
+		DrawCircle(grabPos.Position, 2, grabColor);
 		
 	}
 }

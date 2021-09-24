@@ -59,6 +59,9 @@ public abstract class State : Node
         GD.Print(inputArr);
     }
 
+    /// <summary>
+    /// Just advances the frameCount, please make a base. call anyways though!
+    /// </summary>
     public virtual void FrameAdvance()
     {
         frameCount++;

@@ -80,7 +80,9 @@ public class Player : Node2D
 	private Color hitColor = new Color(255, 0, 0, 0.5f);
 	private Color hurtColor = new Color(0, 255, 0, 0.5f);
 	private Color colColor = new Color(0, 0, 255, 0.5f);
+	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
+	public Position2D grabPos;
 	public Area2D hitBoxes;
 	public Area2D hurtBoxes;
 	private CollisionShape2D colBox;
@@ -90,6 +92,7 @@ public class Player : Node2D
 
 	public override void _Ready()
 	{
+		grabPos = GetNode<Position2D>("GrabPos");
 		hitBoxes = GetNode<Area2D>("HitBoxes");
 		hurtBoxes = GetNode<Area2D>("HurtBoxes");
 		colBox = GetNode<CollisionShape2D>("CollisionBox");
@@ -263,9 +266,9 @@ public class Player : Node2D
 		currentState.Exit();
 		animationPlayer.NewAnimation(nextStateName);
 		currentState = GetNode<State>("StateTree/" + nextStateName);
-		
-		currentState.Enter();
 		CheckTurnAround();
+		currentState.Enter();
+		
 
 	}
 
@@ -541,6 +544,12 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 
+	public void Release()
+    {
+		Grabbed grabState = (Grabbed)currentState;
+		grabState.Release();
+    }
+
 	public bool CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);
@@ -628,6 +637,8 @@ public class Player : Node2D
 
 			DrawRect(colRect, colColor);
 		}
+
+		DrawCircle(grabPos.Position, 2, grabColor);
 		
 	}
 }

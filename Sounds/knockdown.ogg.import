@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/knockdown.ogg-81c6ed47afa625f3fe2c2087ccdc1859.oggstr"
+
+[deps]
+
+source_file="res://Sounds/knockdown.ogg"
+dest_files=[ "res://.import/knockdown.ogg-81c6ed47afa625f3fe2c2087ccdc1859.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

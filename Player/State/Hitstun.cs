@@ -11,6 +11,7 @@ public class HitStun : State
     {
         base.Enter();
         owner.ComboUp();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
     }
 
 

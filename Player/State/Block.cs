@@ -8,6 +8,12 @@ public class Block : State
         base._Ready();
         loop = true;
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+    }
     public override void FrameAdvance()
     {
         base.FrameAdvance();

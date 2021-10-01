@@ -8,7 +8,7 @@ using System.Linq;
 /// </summary>
 public class Globals : Node
 {
-
+    public static int frame = 0;
     public enum Inputs
     {
         UP = 1,

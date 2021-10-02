@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Player : Node2D
 {
-	private State currentState; //The current state governs key aspects of input handling, movement, animation etc.
+	public State currentState; //The current state governs key aspects of input handling, movement, animation etc.
 	public Player otherPlayer; //I know I shouldn't do this, but it makes my life so much easier...
 
 	[Signal]
@@ -88,6 +88,7 @@ public class Player : Node2D
 	private CollisionShape2D colBox;
 	public AnimationPlayer animationPlayer;
 	private Sprite sprite;
+	private EventScheduler eventSched;
 	
 
 	public override void _Ready()
@@ -98,6 +99,8 @@ public class Player : Node2D
 		colBox = GetNode<CollisionShape2D>("CollisionBox");
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		sprite = GetNode<Sprite>("Sprite");
+		eventSched = GetNode<EventScheduler>("EventScheduler");
+
 		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
 		foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
 		{
@@ -319,6 +322,18 @@ public class Player : Node2D
 	{
 		inputHandler.FrameAdvance(hitStop, currentState);
 	}
+
+	/// <summary>
+	/// Called even during hitstop
+	/// </summary>
+	public void AlwaysFrameAdvance()
+    {
+		eventSched.FrameAdvance();
+	}
+
+	/// <summary>
+	/// Only called outside of hitstop
+	/// </summary>
 	public void FrameAdvance() 
 	{
 		
@@ -550,6 +565,35 @@ public class Player : Node2D
 		grabState.Release();
     }
 
+	/// <summary>
+	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)
+	/// </summary>
+	/// <param name="type"></param>
+	public void ScheduleEvent(EventScheduler.EventType type)
+    {
+		Type curType = currentState.GetType();
+		string curStateName = curType.ToString();
+		eventSched.ScheduleEvent(curStateName, curStateName, type);
+		GD.Print($"Scheduling event for {curStateName}");
+    }
+
+	public void ScheduleEvent(EventScheduler.EventType type, string name)
+    {
+		eventSched.ScheduleEvent(name, name, type);
+		GD.Print($"Scheduling event for {name}");
+	}
+
+	public void ScheduleEvent(EventScheduler.EventType type, string name, string expectedStateName)
+	{
+		eventSched.ScheduleEvent(name, expectedStateName, type);
+		GD.Print($"Scheduling event for {name}");
+	}
+
+	public void ForceEvent(EventScheduler.EventType type, string name)
+    {
+		eventSched.ForceEvent(type, name);
+    }
+
 	public bool CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);
@@ -620,6 +664,7 @@ public class Player : Node2D
 	{
 		if (Globals.mode == Globals.Mode.TRAINING)
 		{
+			return;
 			List<Rect2> hitRects = GetRects(hitBoxes);
 			List<Rect2> hurtRects = GetRects(hurtBoxes);
 			Rect2 colRect = GetRect(colBox);

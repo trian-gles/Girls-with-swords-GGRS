@@ -13,6 +13,7 @@ public class Fall : State
         base.FrameAdvance();
         if (owner.grounded && frameCount > 0)
         {
+            owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
             EmitSignal(nameof(StateFinished), "Idle");
         }
         owner.CheckTurnAround();

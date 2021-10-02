@@ -82,6 +82,7 @@ public class GameStateObject : Node
     {
         GameState gState = new GameState();
         gState.frame = Frame;
+        
         gState.P1State = P1.GetState();
         gState.P2State = P2.GetState();
         gState.hadoukenStates = new List<HadoukenPart.HadoukenState>();
@@ -142,6 +143,7 @@ public class GameStateObject : Node
     private void SetGameState(GameState gState)
     {
         Frame = gState.frame;
+        Globals.frame = Frame;
         hitStopRemaining = gState.hitStopRemaining;
         P1.SetState(gState.P1State);
         P2.SetState(gState.P2State);
@@ -282,6 +284,7 @@ public class GameStateObject : Node
     private void AdvanceFrameAndHitstop()
     {
         Frame++;
+        Globals.frame++;
         if (hitStopRemaining > 0)
         {
             hitStopRemaining--;
@@ -295,6 +298,9 @@ public class GameStateObject : Node
     {
         P1.FrameAdvanceInputs(hitStopRemaining);
         P2.FrameAdvanceInputs(hitStopRemaining);
+        P1.AlwaysFrameAdvance();
+        P2.AlwaysFrameAdvance();
+
         if (hitStopRemaining < 1)
         {
             P1.FrameAdvance();

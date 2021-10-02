@@ -18,6 +18,7 @@ public class Hadouken : State
         base.FrameAdvance();
         if (frameCount == releaseFrame)
         {
+            owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
             EmitHadouken();
         }
     }

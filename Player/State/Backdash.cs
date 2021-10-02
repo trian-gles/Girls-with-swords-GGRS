@@ -6,6 +6,12 @@ public class Backdash : State
     [Export]
     public int len = 20;
 
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+    }
+
     public override void FrameAdvance()
     {
         base.FrameAdvance();

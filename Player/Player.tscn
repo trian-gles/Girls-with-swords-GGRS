@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset-Sheet v2.png" type="Texture" id=2]
@@ -30,6 +30,8 @@
 [ext_resource path="res://Player/State/Hadouken.cs" type="Script" id=28]
 [ext_resource path="res://Player/State/Grab.cs" type="Script" id=29]
 [ext_resource path="res://Player/State/Grabbed.cs" type="Script" id=30]
+[ext_resource path="res://Player/EventScheduler.cs" type="Script" id=31]
+[ext_resource path="res://Player/AudioStreamPlayer.cs" type="Script" id=32]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -2670,3 +2672,9 @@ __meta__ = {
 
 [node name="GrabPos" type="Position2D" parent="."]
 position = Vector2( -25, 0 )
+
+[node name="EventScheduler" type="Node" parent="."]
+script = ExtResource( 31 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler"]
+script = ExtResource( 32 )

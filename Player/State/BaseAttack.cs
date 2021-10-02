@@ -70,6 +70,7 @@ public abstract class BaseAttack : State
     {
         base.Enter();
         hitConnect = false;
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Whiff", Name);
     }
     public override void AnimationFinished()
     {

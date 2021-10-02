@@ -7,6 +7,7 @@ public class Knockdown : State
     {
         base.Enter();
         owner.ComboUp();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
     }
     public override void AnimationFinished()
     {

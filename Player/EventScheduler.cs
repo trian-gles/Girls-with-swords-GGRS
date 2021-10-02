@@ -66,7 +66,7 @@ public class EventScheduler : Node
             removeEvents.Add(@event);
         }
 
-        else if ((Globals.frame == @event.scheduledFrame + frameDelay))
+        else if ((Globals.frame >= @event.scheduledFrame + frameDelay))
         {
             
             GD.Print($"Scheduled event abandoned.  Name = {@event.name}");

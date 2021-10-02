@@ -5,27 +5,27 @@ using System.Collections.Generic;
 public class AudioStreamPlayer : Godot.AudioStreamPlayer
 {
 
-    private AudioStream hitSound;
-    private Dictionary<string, SoundFile> soundFiles = new Dictionary<string, SoundFile>();
-
-    private struct SoundFile
-    {
-        public string path;
-        public AudioStream stream;
-    }
+    private Dictionary<string, AudioStream> soundDict = new Dictionary<string, AudioStream>();
 
     public override void _Ready()
     {
-        
-        hitSound = ResourceLoader.Load("res://Sounds/clap.ogg") as AudioStream;
+        soundDict.Add("HitStun", LoadAudio("res://Sounds/clap.ogg"));
+        soundDict.Add("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
+        soundDict.Add("Jump", LoadAudio("res://Sounds/jump.ogg"));
+        soundDict.Add("Run", LoadAudio("res://Sounds/dash.ogg"));
+        soundDict.Add("Hadouken", LoadAudio("res://Sounds/hadouken.ogg"));
+        soundDict.Add("Landing", LoadAudio("res://Sounds/landing.ogg"));
     }
     public void PlaySound(string name)
     {
         GD.Print("Playing sound");
-        if (name == "HitStun")
-        {
-            SetStream(hitSound);
-            Play();
-        }
+        Stream = soundDict[name];
+        Play();
+    }
+
+    private AudioStream LoadAudio(string path)
+    {
+        AudioStream astr = ResourceLoader.Load(path) as AudioStream;
+        return astr;
     }
 }

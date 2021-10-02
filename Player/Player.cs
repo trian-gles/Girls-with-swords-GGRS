@@ -573,6 +573,12 @@ public class Player : Node2D
 		GD.Print($"Scheduling event for {curStateName}");
     }
 
+	public void ScheduleEvent(EventScheduler.EventType type, string name)
+    {
+		eventSched.ScheduleEvent(name, type);
+		GD.Print($"Scheduling event for {name}");
+	}
+
 	public bool CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);

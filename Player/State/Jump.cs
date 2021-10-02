@@ -8,6 +8,7 @@ public class Jump : State
         base.Enter();
         owner.velocity.y = -1 * owner.jumpForce;
         owner.grounded = false;
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump");
     }
 
     public override void FrameAdvance()

@@ -12,6 +12,7 @@ public class EventScheduler : Node
     private struct Event
     {
         public string name;
+        public string expectedState;
         public EventType type;
         public int scheduledFrame;
     }
@@ -28,13 +29,19 @@ public class EventScheduler : Node
         audioPlay = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
     }
 
-    public void ScheduleEvent(string name, EventType type)
+    /// <summary>
+    /// Schedule a GFX/SFX event to take place provided rollbacks don't interfere (the past is rewritten)
+    /// </summary>
+    /// <param name="name">Either the name of the current state, or the name of the inherited state that was used to store the expected effect</param>
+    /// <param name="expectedState">The state the player SHOULD be in following the frame delay</param>
+    /// <param name="type">audio or graphic</param>
+    public void ScheduleEvent(string name, string expectedState, EventType type)
     {
         var ev = new Event();
         ev.name = name;
+        ev.expectedState = expectedState;
         ev.type = type;
         ev.scheduledFrame = Globals.frame + frameDelay;
-
         scheduledEvents.Add(ev);
     }
 
@@ -58,7 +65,7 @@ public class EventScheduler : Node
             
         {
             Type sType = ((Player)Owner).currentState.GetType();
-            if (sType.ToString() ==  @event.name)
+            if (sType.ToString() ==  @event.expectedState)
             {
                 GD.Print($"Scheduled event concluded.  Name = {@event.name}");
                 ExecuteEvent(@event);
@@ -86,5 +93,22 @@ public class EventScheduler : Node
         {
 
         }
+    }
+
+    /// <summary>
+    /// Immediately play a sound.  Useful for landing
+    /// </summary>
+    /// <param name="name"></param>
+    public void ForceEvent(EventType type, string name)
+    {
+        if (type == EventType.AUDIO)
+        {
+            audioPlay.PlaySound(name);
+        }
+        else if (type == EventType.GRAPHIC)
+        {
+
+        }
+        
     }
 }

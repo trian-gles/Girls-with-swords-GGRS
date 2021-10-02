@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Walk : State
 {
+    protected int soundRate = 15;
     public override void _Ready()
     {
         base._Ready();
@@ -78,6 +79,10 @@ public class Walk : State
     {
         base.FrameAdvance();
         owner.CheckTurnAround();
+        if (frameCount % soundRate == 0)
+        {
+            owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Step", Name);
+        }
     }
 
     public override void PushMovement(float _xVel)

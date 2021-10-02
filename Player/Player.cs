@@ -565,19 +565,34 @@ public class Player : Node2D
 		grabState.Release();
     }
 
+	/// <summary>
+	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)
+	/// </summary>
+	/// <param name="type"></param>
 	public void ScheduleEvent(EventScheduler.EventType type)
     {
 		Type curType = currentState.GetType();
 		string curStateName = curType.ToString();
-		eventSched.ScheduleEvent(curStateName, type);
+		eventSched.ScheduleEvent(curStateName, curStateName, type);
 		GD.Print($"Scheduling event for {curStateName}");
     }
 
 	public void ScheduleEvent(EventScheduler.EventType type, string name)
     {
-		eventSched.ScheduleEvent(name, type);
+		eventSched.ScheduleEvent(name, name, type);
 		GD.Print($"Scheduling event for {name}");
 	}
+
+	public void ScheduleEvent(EventScheduler.EventType type, string name, string expectedStateName)
+	{
+		eventSched.ScheduleEvent(name, expectedStateName, type);
+		GD.Print($"Scheduling event for {name}");
+	}
+
+	public void ForceEvent(EventScheduler.EventType type, string name)
+    {
+		eventSched.ForceEvent(type, name);
+    }
 
 	public bool CheckHurtRect()
 	{

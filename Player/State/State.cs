@@ -85,9 +85,13 @@ public abstract class State : Node
 
     }
 
-    protected void EnterHitState(bool knockdown)
+    protected void EnterHitState(bool knockdown, bool launch)
     {
-        if (knockdown)
+        if (launch)
+        {
+            EmitSignal(nameof(StateFinished), "Float");
+        }
+        else if (knockdown)
         {
             EmitSignal(nameof(StateFinished), "Knockdown");
         }
@@ -100,6 +104,7 @@ public abstract class State : Node
     public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         GD.Print($"Received attack on side {rightAttack}");
+        bool launchBool = false;
         if (!rightAttack)
         {
             launch.x *= -1;
@@ -109,6 +114,7 @@ public abstract class State : Node
         {
             GD.Print("Launch is not zero!");
             owner.velocity = launch;
+            launchBool = true;
         }
 
         owner.hitPushRemaining = hitPush;
@@ -127,12 +133,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EnterHitState(knockdown);
+                    EnterHitState(knockdown, launchBool);
                 }
             }
             else
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launchBool);
             }
             
         }
@@ -146,12 +152,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EnterHitState(knockdown);
+                    EnterHitState(knockdown, launchBool);
                 }
             }
             else
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launchBool);
             }
         }
         else
@@ -162,7 +168,7 @@ public abstract class State : Node
             }
             else 
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launchBool);
             }
         }
     }

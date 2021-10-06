@@ -2719,7 +2719,9 @@ dmg = 3
 
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
-hitStun = 14
+hitStun = 20
+opponentLaunch = Vector2( 0, -400 )
+hitPush = 10
 height = 2
 dmg = 3
 launch = Vector2( 0, -450 )

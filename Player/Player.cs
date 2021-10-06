@@ -37,6 +37,12 @@ public class Player : Node2D
 	[Export]
 	public int hitPushSpeed = 100;
 
+	[Export]
+	public bool debugPress = false;
+
+	[Export]
+	public string debugKeys = "6";
+
 	private InputHandler inputHandler;
 
 	// All of these will be stored in gamestate
@@ -119,6 +125,15 @@ public class Player : Node2D
 		}
 		currentState = GetNode<State>("StateTree/Idle");
 		ChangeState("Idle");
+
+		if (debugPress)
+        {
+			foreach (char key in debugKeys)
+            {
+				inputHandler.heldKeys.Add(key);
+			}
+			
+        }
 	}
 
 	public PlayerState GetState()
@@ -508,10 +523,10 @@ public class Player : Node2D
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}
 
-	public void ReceiveHit(bool rightAttack, int dmg, int stun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
+	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
 	{
 		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
-		currentState.receiveStun(stun);
+		currentState.receiveStun(hitStun, blockStun);
 		currentState.receiveDamage(dmg);
 		EmitSignal(nameof(HitConfirm));
 	}

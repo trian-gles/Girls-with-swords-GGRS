@@ -3,9 +3,18 @@ using System;
 
 public class Float : HitStun
 {
-
-    protected override void EnterHitState(bool knockdown, bool launch)
+    /// <summary>
+    /// I have to override this because float always goes into float!
+    /// </summary>
+    /// <param name="knockdown"></param>
+    /// <param name="launch"></param>
+    protected override void EnterHitState(bool knockdown, Vector2 launch)
     {
+        if (!(launch == Vector2.Zero))
+        {
+            owner.velocity = launch;
+        }
+
         EmitSignal(nameof(StateFinished), "Float");
     }
 

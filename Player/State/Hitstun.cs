@@ -72,7 +72,7 @@ public class HitStun : State
         }
 
         owner.hitPushRemaining = hitPush;
-        EnterHitState(knockdown, launchBool);
+        EnterHitState(knockdown, launch);
 
     }
 }

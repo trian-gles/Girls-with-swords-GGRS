@@ -3,8 +3,13 @@ using System;
 
 public class AirKnockdown : HitStun
 {
-    protected override void EnterHitState(bool knockdown, bool launch)
+    protected override void EnterHitState(bool knockdown, Vector2 launch)
     {
+        if (!(launch == Vector2.Zero))
+        {
+            owner.velocity = launch;
+        }
+
         EmitSignal(nameof(StateFinished), "AirKnockdown");
     }
 

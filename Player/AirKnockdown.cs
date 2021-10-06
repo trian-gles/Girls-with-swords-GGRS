@@ -1,12 +1,11 @@
 using Godot;
 using System;
 
-public class Float : HitStun
+public class AirKnockdown : HitStun
 {
-
     protected override void EnterHitState(bool knockdown, bool launch)
     {
-        EmitSignal(nameof(StateFinished), "Float");
+        EmitSignal(nameof(StateFinished), "AirKnockdown");
     }
 
     public override void FrameAdvance()
@@ -17,16 +16,6 @@ public class Float : HitStun
             EmitSignal(nameof(StateFinished), "Knockdown");
             owner.ResetCombo();
         }
-
-        stunRemaining--;
-
-        if (stunRemaining == 0)
-        {
-            owner.ResetCombo();
-            EmitSignal(nameof(StateFinished), "Fall");
-        }
-        
-
         ApplyGravity();
     }
 }

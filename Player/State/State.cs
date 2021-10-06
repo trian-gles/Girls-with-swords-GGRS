@@ -87,11 +87,15 @@ public abstract class State : Node
 
     protected virtual void EnterHitState(bool knockdown, bool launch)
     {
-        if (launch)
+        if (launch && !knockdown)
         {
             EmitSignal(nameof(StateFinished), "Float");
         }
-        else if (knockdown)
+        else if (launch && knockdown)
+        {
+            EmitSignal(nameof(StateFinished), "AirKnockdown");
+        }
+        else if (!launch && knockdown)
         {
             EmitSignal(nameof(StateFinished), "Knockdown");
         }

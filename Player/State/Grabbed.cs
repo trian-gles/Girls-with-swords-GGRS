@@ -11,6 +11,6 @@ public class Grabbed : State
     }
     public void Release()
     {
-        EmitSignal(nameof(StateFinished), "Float");
+        EmitSignal(nameof(StateFinished), "AirKnockdown");
     }
 }

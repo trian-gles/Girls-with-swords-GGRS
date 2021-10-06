@@ -36,6 +36,11 @@ public class Block : State
         }
     }
 
+    public override void receiveStun(int hitStun, int blockStun)
+    {
+        stunRemaining = blockStun;
+    }
+
     public override void receiveDamage(int dmg)
     {
     }

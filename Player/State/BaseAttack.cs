@@ -9,6 +9,9 @@ public abstract class BaseAttack : State
     protected int hitStun = 10;
 
     [Export]
+    protected int blockStun = 11;
+
+    [Export]
     protected Vector2 opponentLaunch = new Vector2();
 
     [Export]
@@ -83,7 +86,7 @@ public abstract class BaseAttack : State
         {
             GD.Print($"Hit connect on frame {frameCount}");
             EmitSignal(nameof(OnHitConnected), hitPush);
-            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, height, hitPush, opponentLaunch, knockdown);
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown);
             hitConnect = true;
         }
 

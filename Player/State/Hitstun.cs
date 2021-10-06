@@ -11,7 +11,7 @@ public class HitStun : State
     {
         base.Enter();
         owner.ComboUp();
-        owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
     }
 
 
@@ -51,6 +51,8 @@ public class HitStun : State
     public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         GD.Print($"Received attack on side {rightAttack}");
+
+        bool launchBool = false;
         if (!rightAttack)
         {
             launch.x *= -1;
@@ -61,6 +63,7 @@ public class HitStun : State
         {
             GD.Print("Launch is not zero!");
             owner.velocity = launch;
+            launchBool = true;
         }
 
         if (owner.velocity.y < 0) // make sure the player is registered as in the air if launched 
@@ -69,7 +72,7 @@ public class HitStun : State
         }
 
         owner.hitPushRemaining = hitPush;
-        EnterHitState(knockdown);
+        EnterHitState(knockdown, launch);
 
     }
 }

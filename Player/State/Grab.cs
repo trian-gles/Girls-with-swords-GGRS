@@ -64,7 +64,7 @@ public class Grab : State
             }
 
             owner.otherPlayer.Release();
-            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, HEIGHT.MID, 0, launch, false);
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false);
         }
     }
     public override void AnimationFinished()

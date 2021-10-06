@@ -85,9 +85,31 @@ public abstract class State : Node
 
     }
 
-    protected void EnterHitState(bool knockdown)
+    /// <summary>
+    /// Determines which hitconfirm state to enter
+    /// </summary>
+    /// <param name="knockdown"></param>
+    /// <param name="launch"></param>
+    protected virtual void EnterHitState(bool knockdown, Vector2 launch)
     {
-        if (knockdown)
+        bool launchBool = false;
+
+        if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+        {
+            GD.Print("Launch is not zero!");
+            owner.velocity = launch;
+            launchBool = true;
+        }
+
+        if (launchBool && !knockdown)
+        {
+            EmitSignal(nameof(StateFinished), "Float");
+        }
+        else if (launchBool && knockdown)
+        {
+            EmitSignal(nameof(StateFinished), "AirKnockdown");
+        }
+        else if (!launchBool && knockdown)
         {
             EmitSignal(nameof(StateFinished), "Knockdown");
         }
@@ -100,16 +122,13 @@ public abstract class State : Node
     public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         GD.Print($"Received attack on side {rightAttack}");
+        
         if (!rightAttack)
         {
             launch.x *= -1;
             hitPush *= -1;
         }
-        if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
-        {
-            GD.Print("Launch is not zero!");
-            owner.velocity = launch;
-        }
+        
 
         owner.hitPushRemaining = hitPush;
 
@@ -127,12 +146,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EnterHitState(knockdown);
+                    EnterHitState(knockdown, launch);
                 }
             }
             else
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launch);
             }
             
         }
@@ -146,12 +165,12 @@ public abstract class State : Node
                 }
                 else
                 {
-                    EnterHitState(knockdown);
+                    EnterHitState(knockdown, launch);
                 }
             }
             else
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launch);
             }
         }
         else
@@ -162,14 +181,14 @@ public abstract class State : Node
             }
             else 
             {
-                EnterHitState(knockdown);
+                EnterHitState(knockdown, launch);
             }
         }
     }
 
-    public void receiveStun(int stun)
+    public virtual void receiveStun(int hitStun, int blockStun)
     {
-        stunRemaining = stun;
+        stunRemaining = hitStun;
     }
 
     public virtual void receiveDamage(int dmg)

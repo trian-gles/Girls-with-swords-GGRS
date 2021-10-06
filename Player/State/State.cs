@@ -85,7 +85,7 @@ public abstract class State : Node
 
     }
 
-    protected void EnterHitState(bool knockdown, bool launch)
+    protected virtual void EnterHitState(bool knockdown, bool launch)
     {
         if (launch)
         {
@@ -173,9 +173,9 @@ public abstract class State : Node
         }
     }
 
-    public void receiveStun(int stun)
+    public virtual void receiveStun(int hitStun, int blockStun)
     {
-        stunRemaining = stun;
+        stunRemaining = hitStun;
     }
 
     public virtual void receiveDamage(int dmg)

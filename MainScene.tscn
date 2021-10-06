@@ -145,6 +145,7 @@ gravity = 40
 [node name="P2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 330, 242 )
 gravity = 40
+debugPress = true
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2( 240, 135 )

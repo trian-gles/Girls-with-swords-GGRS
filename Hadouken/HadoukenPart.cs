@@ -11,6 +11,9 @@ public class HadoukenPart : Node2D
     public int hitStun = 10;
 
     [Export]
+    public int blockStun = 10;
+
+    [Export]
     public Vector2 launch = new Vector2();
 
     [Export]
@@ -103,7 +106,7 @@ public class HadoukenPart : Node2D
     private void HurtPlayer()
     {
         // fill this with harmful stuff!!!!
-        targetPlayer.ReceiveHit(movingRight, dmg, hitStun, State.HEIGHT.MID, hitPush, launch, false);
+        targetPlayer.ReceiveHit(movingRight, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false);
         MakeInactive();
     }
 

@@ -583,12 +583,6 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 
-	public void Release()
-    {
-		Grabbed grabState = (Grabbed)currentState;
-		grabState.Release();
-    }
-
 	/// <summary>
 	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)
 	/// </summary>

@@ -63,7 +63,6 @@ public class Grab : State
                 actualLaunch.x *= -1;
             }
 
-            owner.otherPlayer.Release();
             owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false);
         }
     }

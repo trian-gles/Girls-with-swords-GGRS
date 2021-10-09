@@ -3,6 +3,12 @@ using System;
 
 public class Float : HitStun
 {
+    public override void Enter()
+    {
+        base.Enter();
+        owner.grounded = false;
+    }
+
     /// <summary>
     /// I have to override this because float always goes into float!
     /// </summary>
@@ -21,8 +27,9 @@ public class Float : HitStun
     public override void FrameAdvance()
     {
         frameCount++;
-        if (owner.grounded)
+        if (owner.grounded && frameCount > 0)
         {
+            GD.Print("On ground, knocking down");
             EmitSignal(nameof(StateFinished), "Knockdown");
             owner.ResetCombo();
         }

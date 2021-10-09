@@ -523,6 +523,15 @@ public class Player : Node2D
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}
 
+	/// <summary>
+	/// Checks if this player is not in a hitstate so they can be grabbed.  Will eventually check for if they've only recently recovered.
+	/// </summary>
+	/// <returns></returns>
+	public bool IsGrabbable()
+    {
+		return (!currentState.GetType().IsSubclassOf(typeof(HitState)));
+    }
+
 	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
 	{
 		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);

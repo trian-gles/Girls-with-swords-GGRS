@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 
-public class Block : State
+public class Block : HitState
 {
     public override void _Ready()
     {

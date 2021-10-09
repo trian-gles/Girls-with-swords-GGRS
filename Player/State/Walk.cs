@@ -63,7 +63,7 @@ public class Walk : State
 
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {
-            if (owner.Position.DistanceTo(owner.otherPlayer.Position) < 45)
+            if ((owner.Position.DistanceTo(owner.otherPlayer.Position) < 45) && owner.otherPlayer.IsGrabbable())
             {
                 EmitSignal(nameof(StateFinished), "Grab");
             }

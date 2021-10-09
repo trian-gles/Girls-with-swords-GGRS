@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Knockdown : State
+public class Knockdown : HitState
 {
     public override void Enter()
     {

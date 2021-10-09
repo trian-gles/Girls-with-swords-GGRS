@@ -27,7 +27,7 @@ public class Float : HitStun
     public override void FrameAdvance()
     {
         frameCount++;
-        if (owner.grounded && frameCount > 0)
+        if (owner.grounded)
         {
             GD.Print("On ground, knocking down");
             EmitSignal(nameof(StateFinished), "Knockdown");

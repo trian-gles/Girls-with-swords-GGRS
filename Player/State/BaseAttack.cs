@@ -105,6 +105,7 @@ public abstract class BaseAttack : State
                 if (owner.CheckBufferComplex(comGat.inputs))
                 {
                     EmitSignal(nameof(StateFinished), comGat.state);
+                    return;
                 }
             }
         }
@@ -113,6 +114,7 @@ public abstract class BaseAttack : State
             if (Enumerable.SequenceEqual(normGat.input, inputArr))
             {
                 EmitSignal(nameof(StateFinished), normGat.state);
+                return;
             }
         }
     }

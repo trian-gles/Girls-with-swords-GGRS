@@ -8,6 +8,7 @@ public class Knockdown : HitState
         base.Enter();
         owner.ComboUp();
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+        owner.GFXEvent("Blood");
     }
     public override void AnimationFinished()
     {

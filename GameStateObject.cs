@@ -281,6 +281,12 @@ public class GameStateObject : Node
 
         return input;
     }
+
+    public void InformPlayersRollback()
+    {
+        P1.Rollback(Frame);
+        P2.Rollback(Frame);
+    }
     private void AdvanceFrameAndHitstop()
     {
         Frame++;

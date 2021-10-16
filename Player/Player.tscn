@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset-Sheet v2.png" type="Texture" id=2]
@@ -34,6 +34,8 @@
 [ext_resource path="res://Player/AudioStreamPlayer.cs" type="Script" id=32]
 [ext_resource path="res://Player/State/Float.cs" type="Script" id=33]
 [ext_resource path="res://Player/State/AirKnockdown.cs" type="Script" id=34]
+[ext_resource path="res://Player/GFXHandler.cs" type="Script" id=35]
+[ext_resource path="res://Player/Blood.cs" type="Script" id=36]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -2823,7 +2825,7 @@ disabled = true
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 121
-frame = 114
+frame = 51
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -3007,20 +3009,24 @@ script = ExtResource( 31 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler"]
 script = ExtResource( 32 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-z_index = -1
+[node name="GFXHandler" type="Node" parent="."]
+script = ExtResource( 35 )
+
+[node name="Blood" type="CPUParticles2D" parent="GFXHandler"]
+position = Vector2( 0, -8 )
+z_index = 1
 emitting = false
-amount = 30
-lifetime = 2.0
+amount = 40
+lifetime = 0.1
 one_shot = true
-preprocess = 171.43
-speed_scale = 4.77
-explosiveness = 0.63
-randomness = 0.39
-lifetime_randomness = 0.02
+explosiveness = 0.73
+randomness = 0.93
+lifetime_randomness = 1.0
 emission_shape = 2
-emission_rect_extents = Vector2( 4, 15 )
-spread = 114.32
-gravity = Vector2( -20, 0 )
-scale_amount = 1.5
-color = Color( 0.811765, 0.0392157, 0.0392157, 1 )
+emission_rect_extents = Vector2( 5, 20 )
+direction = Vector2( -1, 0 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 400.0
+color = Color( 1, 0.133333, 0.133333, 1 )
+script = ExtResource( 36 )

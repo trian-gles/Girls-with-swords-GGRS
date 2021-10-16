@@ -23,6 +23,7 @@ public class MainScene : Node2D
 
 
     private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
+    private int p2inputs = 0; //used only in training mode for local p2 inputs
     
     /// <summary>
     /// Godot doesn't allow constructors so I have to do stuff like this instead
@@ -107,7 +108,12 @@ public class MainScene : Node2D
         {
             TrainingPhysicsProcess();
         }
+        else if (Globals.mode == Globals.Mode.LOCAL)
+        {
+            LocalPhysicsProcess();
+        }
         inputs = 0; // reset the inputs
+        p2inputs = 0;
     }
 
     public void GGPOPhysicsProcess()
@@ -138,6 +144,12 @@ public class MainScene : Node2D
     public void TrainingPhysicsProcess()
     {
         var combinedInputs = new int[2] {inputs, 0 }; 
+        gsObj.Update(new Godot.Collections.Array(combinedInputs));
+    }
+
+    public void LocalPhysicsProcess()
+    {
+        var combinedInputs = new int[2] { inputs, p2inputs };
         gsObj.Update(new Godot.Collections.Array(combinedInputs));
     }
     
@@ -220,7 +232,6 @@ public class MainScene : Node2D
         {
             AddPress((int)Globals.Inputs.SLASH);
         }
-
         else if (@event.IsActionReleased("8"))
         {
             AddRelease((int)Globals.Inputs.UP);
@@ -249,6 +260,70 @@ public class MainScene : Node2D
         {
             AddRelease((int)Globals.Inputs.SLASH);
         }
+
+        if (Globals.mode != Globals.Mode.LOCAL)
+        {
+            return;
+        }
+
+        // P2 inputs in local mode handled below here
+
+        if (@event.IsActionPressed("8b"))
+        {
+            AddP2Press((int)Globals.Inputs.UP);
+        }
+        else if (@event.IsActionPressed("2b"))
+        {
+            AddP2Press((int)Globals.Inputs.DOWN);
+        }
+        else if (@event.IsActionPressed("4b"))
+        {
+            AddP2Press((int)Globals.Inputs.LEFT);
+        }
+        else if (@event.IsActionPressed("6b"))
+        {
+            AddP2Press((int)Globals.Inputs.RIGHT);
+        }
+        else if (@event.IsActionPressed("pb"))
+        {
+            AddP2Press((int)Globals.Inputs.PUNCH);
+        }
+        else if (@event.IsActionPressed("kb"))
+        {
+            AddP2Press((int)Globals.Inputs.KICK);
+        }
+        else if (@event.IsActionPressed("sb"))
+        {
+            AddP2Press((int)Globals.Inputs.SLASH);
+        }
+        else if (@event.IsActionReleased("8b"))
+        {
+            AddP2Release((int)Globals.Inputs.UP);
+        }
+        else if (@event.IsActionReleased("2b"))
+        {
+            AddP2Release((int)Globals.Inputs.DOWN);
+        }
+        else if (@event.IsActionReleased("4b"))
+        {
+            AddP2Release((int)Globals.Inputs.LEFT);
+        }
+        else if (@event.IsActionReleased("6b"))
+        {
+            AddP2Release((int)Globals.Inputs.RIGHT);
+        }
+        else if (@event.IsActionReleased("pb"))
+        {
+            AddP2Release((int)Globals.Inputs.PUNCH);
+        }
+        else if (@event.IsActionReleased("kb"))
+        {
+            AddP2Release((int)Globals.Inputs.KICK);
+        }
+        else if (@event.IsActionReleased("sb"))
+        {
+            AddP2Release((int)Globals.Inputs.SLASH);
+        }
     }
     private void AddPress(int key)
     {
@@ -260,6 +335,24 @@ public class MainScene : Node2D
         int thisInput = key * 10 + 1;
         AddInput(thisInput);
     }
+
+    private void AddP2Press(int key)
+    {
+        int thisInput = key * 10;
+        AddP2Input(thisInput);
+    }
+    private void AddP2Release(int key)
+    {
+        int thisInput = key * 10 + 1;
+        AddP2Input(thisInput);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="p2">Sets the inputs for p2</param>
     private void AddInput(int input)
     {
         if (inputs == 0) //This is the first input of the frame
@@ -278,6 +371,30 @@ public class MainScene : Node2D
         string newInput = input.ToString();
         inputs = int.Parse(inputsCurr + newInput);
     }
+
+    private void AddP2Input(int input)
+    {
+        if (p2inputs == 0) //This is the first input of the frame
+        {
+            p2inputs = input;
+            return;
+        }
+
+        string inputsCurr = p2inputs.ToString();
+
+        if (inputsCurr.Length > 10) //Max 5 inputs per frame to prevent overflow
+        {
+            GD.Print("Too many inputs");
+            return;
+        }
+        string newInput = input.ToString();
+        p2inputs = int.Parse(inputsCurr + newInput);
+    }
+
+
+
+
+
 
     // HUD
     public void OnPlayerComboChange(string name, int combo)

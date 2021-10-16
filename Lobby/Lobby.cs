@@ -22,12 +22,16 @@ public class Lobby : Node2D
 		Begin(false);
 	}
 
+	public void OnEasyButtonDown()
+    {
+		GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+	}
+
 	public void OnLocalButtonDown()
 	{
-
-		GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
-
-
+		Globals.mode = Globals.Mode.LOCAL;
+		GD.Print("Local mode selected");
+		Begin(true);
 	}
 
 	public void OnTrainingButtonDown()

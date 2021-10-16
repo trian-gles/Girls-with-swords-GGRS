@@ -175,6 +175,7 @@ public class MainScene : Node2D
     public void OnAdvanceFrame(Godot.Collections.Array combinedInputs)
     {
         gsObj.Update(combinedInputs);
+        gsObj.InformPlayersRollback();
         GGPO.AdvanceFrame();
     }
 

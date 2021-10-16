@@ -95,6 +95,7 @@ public class Player : Node2D
 	public AnimationPlayer animationPlayer;
 	private Sprite sprite;
 	private EventScheduler eventSched;
+	private GFXHandler gfxHand;
 	
 
 	public override void _Ready()
@@ -106,6 +107,7 @@ public class Player : Node2D
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		sprite = GetNode<Sprite>("Sprite");
 		eventSched = GetNode<EventScheduler>("EventScheduler");
+		gfxHand = GetNode<GFXHandler>("GFXHandler");
 
 		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
 		foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
@@ -183,6 +185,15 @@ public class Player : Node2D
 		EmitSignal(nameof(ComboChanged), Name, combo);
 
 	}
+
+	/// <summary>
+	/// Called to delete graphic effects if necessitated by a rollback
+	/// </summary>
+	/// <param name="frame"></param>
+	public void Rollback(int frame)
+    {
+		gfxHand.Rollback(frame);
+    }
 
 	/// <summary>
 	/// Right now this is an unneccessary step in input handling, but it works so I'll leave it for now
@@ -610,6 +621,11 @@ public class Player : Node2D
 	public void ForceEvent(EventScheduler.EventType type, string name)
     {
 		eventSched.ForceEvent(type, name);
+    }
+
+	public void GFXEvent(string name)
+    {
+		gfxHand.Effect(name, Position, facingRight);
     }
 
 	public bool CheckHurtRect()

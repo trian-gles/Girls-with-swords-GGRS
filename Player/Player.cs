@@ -260,10 +260,6 @@ public class Player : Node2D
 				else if (inputArr[1] == 'r')
 				{
 					bool removeResult = heldKeys.Remove(inputArr[0]);
-					if (inputArr[0] == '4' || inputArr[0] == '6')
-					{
-						GD.Print($"Result of removing {inputArr[0]} from heldKeys = {removeResult}");
-					}
 					
 				}
 				
@@ -372,7 +368,9 @@ public class Player : Node2D
 		}
 		currentState.FrameAdvance();
 		AdjustHitpush(); // make sure this is placed in the right spot...
+		
 		MoveSlideDeterministicOne();
+		
 	}
 
 	/// <summary>
@@ -393,12 +391,13 @@ public class Player : Node2D
 	{
 		if (hitPushRemaining != 0)
 		{
-			if (hitPushRemaining > -hitPushSpeed && hitPushRemaining < hitPushSpeed)
+			if ((hitPushRemaining > -hitPushSpeed) && (hitPushRemaining < hitPushSpeed))
 			{
 				hitPushRemaining = 0;
 			}
 			else
 			{
+				//GD.Print($"Internal pos before hitPush applied = {internalPos}.  Speed = {hitPushSpeed}");
 				if (hitPushRemaining < 0)
 				{
 					internalPos.x -= hitPushSpeed;
@@ -409,6 +408,7 @@ public class Player : Node2D
 					internalPos.x += hitPushSpeed;
 					hitPushRemaining -= hitPushSpeed;
 				}
+				//GD.Print($"Internal pos after hitPush applied = {internalPos}");
 			}
 		}
 	}
@@ -602,13 +602,11 @@ public class Player : Node2D
 		Type curType = currentState.GetType();
 		string curStateName = curType.ToString();
 		eventSched.ScheduleEvent(curStateName, curStateName, type);
-		GD.Print($"Scheduling event for {curStateName}");
 	}
 
 	public void ScheduleEvent(EventScheduler.EventType type, string name)
 	{
 		eventSched.ScheduleEvent(name, name, type);
-		GD.Print($"Scheduling event for {name}");
 	}
 
 	public void ScheduleEvent(EventScheduler.EventType type, string name, string expectedStateName)

@@ -120,7 +120,7 @@ public abstract class State : Node
 
     public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
-        
+        owner.velocity = new Vector2(0, 0);
         if (!rightAttack)
         {
             launch.x *= -1;
@@ -129,6 +129,7 @@ public abstract class State : Node
         
 
         owner.hitPushRemaining = hitPush;
+        GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
 
         if (owner.velocity.y < 0)
         {

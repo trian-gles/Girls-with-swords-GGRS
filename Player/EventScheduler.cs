@@ -67,7 +67,6 @@ public class EventScheduler : Node
             Type sType = ((Player)Owner).currentState.GetType();
             if (sType.ToString() ==  @event.expectedState)
             {
-                GD.Print($"Scheduled event concluded.  Name = {@event.name}");
                 ExecuteEvent(@event);
             }
             removeEvents.Add(@event);
@@ -75,8 +74,6 @@ public class EventScheduler : Node
 
         else if ((Globals.frame >= @event.scheduledFrame + frameDelay))
         {
-            
-            GD.Print($"Scheduled event abandoned.  Name = {@event.name}");
             removeEvents.Add(@event);
         }
     }

@@ -10,8 +10,8 @@ public class AntiAir : BaseAttack
     public override void _Ready()
     {
         base._Ready();
-        AddGatling(new char[] { 'p', 'p' }, "Jab");
-        AddGatling(new char[] { 'k', 'p' }, "Kick");
+        AddGatling(new char[] { 'p', 'p' }, "JumpPunch");
+        AddGatling(new char[] { 'k', 'p' }, "JumpKick");
     }
     public override void Enter()
     {
@@ -23,13 +23,20 @@ public class AntiAir : BaseAttack
             owner.velocity.x *= -1;
         }
         owner.grounded = false;
+        if (owner.grounded)
+        {
+            EmitSignal(nameof(StateFinished), "Idle");
+        }
     }
 
     public override void FrameAdvance()
     {
         base.FrameAdvance();
         ApplyGravity();
-
+        if (owner.grounded)
+        {
+            EmitSignal(nameof(StateFinished), "Idle");
+        }
     }
 
     public override void AnimationFinished()

@@ -43,6 +43,9 @@ public class Player : Node2D
 	[Export]
 	public string debugKeys = "6";
 
+	[Export(PropertyHint.Range, "0,3,0")]
+	private int colorScheme;
+
 	private InputHandler inputHandler;
 
 	// All of these will be stored in gamestate
@@ -136,6 +139,30 @@ public class Player : Node2D
 			}
 			
 		}
+
+		var shaderMaterial = sprite.Material as ShaderMaterial;
+		
+		string path = "res://Sprites/Palettes/Default Palette.png";
+		if (colorScheme == 0)
+        {
+			path = "res://Sprites/Palettes/Default Palette.png";
+
+		}
+		else if (colorScheme == 1)
+        {
+			path = "res://Sprites/Palettes/Ky v2.png";
+		}
+		else if (colorScheme == 2)
+		{
+			path = "res://Sprites/Palettes/Shrek v1.png";
+		}
+		else if (colorScheme == 3)
+		{
+			path = "res://Sprites/Palettes/Sol v1.png";
+		}
+		var resource = ResourceLoader.Load(path);
+		shaderMaterial.SetShaderParam("palette", resource);
+		GD.Print(shaderMaterial.GetShaderParam("palette"));
 	}
 
 	public PlayerState GetState()

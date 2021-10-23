@@ -44,10 +44,19 @@ public class Crouch : State
             
         }
 
-        else if (Globals.CheckKeyPress(inputArr, 'k')) 
-        {
-            EmitSignal(nameof(StateFinished), "Sweep");
-        }
+        else if (Globals.CheckKeyPress(inputArr, 'k'))
+            if (!owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'p' }, new char[] { '4', 'r' } }))
+            {
+                EmitSignal(nameof(StateFinished), "CommandRun");
+            }
+            else if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' } }))
+            {
+                EmitSignal(nameof(StateFinished), "CommandRun");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "Sweep");
+            }
 
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {

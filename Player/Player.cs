@@ -336,7 +336,6 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool CheckBufferComplex(List<char[]> elements)
 	{
-		foreach (char[] input in inputHandler.GetBuffer()) { GD.Print($"{input[0]} {input[1]}"); }
 		return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
 	}
 

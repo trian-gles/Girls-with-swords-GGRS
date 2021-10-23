@@ -37,9 +37,9 @@ __meta__ = {
 
 [node name="Training" type="Button" parent="."]
 margin_left = 64.0
-margin_top = 168.0
+margin_top = 168.334
 margin_right = 214.0
-margin_bottom = 188.0
+margin_bottom = 188.334
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false

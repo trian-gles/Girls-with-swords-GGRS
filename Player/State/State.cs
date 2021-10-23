@@ -56,7 +56,6 @@ public abstract class State : Node
 
     public virtual void HandleInput(char[] inputArr)
     {
-        GD.Print(inputArr);
     }
 
     /// <summary>

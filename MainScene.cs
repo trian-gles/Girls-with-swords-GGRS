@@ -143,7 +143,7 @@ public class MainScene : Node2D
 
 	public void TrainingPhysicsProcess()
 	{
-		var combinedInputs = new int[2] {inputs, 0 }; 
+		var combinedInputs = new int[2] {inputs, 5051 }; 
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
 	}
 

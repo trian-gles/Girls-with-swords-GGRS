@@ -121,7 +121,6 @@ public abstract class State : Node
 
     public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
-        GD.Print($"Received attack on side {rightAttack}");
         
         if (!rightAttack)
         {

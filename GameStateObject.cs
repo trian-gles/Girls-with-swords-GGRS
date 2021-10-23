@@ -224,14 +224,6 @@ public class GameStateObject : Node
 			int key = int.Parse(stringInputs[i * 2].ToString());
 			int press = int.Parse(stringInputs[i * 2 + 1].ToString());
 			char[] convertedInput = ConvertInput(key, press);
-			if (Enumerable.SequenceEqual(convertedInput, new char[] { '4', 'r' }))
-			{
-				GD.Print("Releasing 4 in GameState");
-			}
-			else if (Enumerable.SequenceEqual(convertedInput, new char[] { '6', 'r' }))
-			{
-				GD.Print("Releasing 6 in GameState");
-			}
 			convertedInputs.Add(convertedInput);
 		}
 		return convertedInputs;

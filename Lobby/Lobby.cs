@@ -23,7 +23,7 @@ public class Lobby : Node2D
 	}
 
 	public void OnEasyButtonDown()
-    {
+	{
 		GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
 	}
 

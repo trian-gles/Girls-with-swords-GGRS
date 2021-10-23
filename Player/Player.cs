@@ -129,13 +129,13 @@ public class Player : Node2D
 		ChangeState("Idle");
 
 		if (debugPress)
-        {
+		{
 			foreach (char key in debugKeys)
-            {
+			{
 				inputHandler.heldKeys.Add(key);
 			}
 			
-        }
+		}
 	}
 
 	public PlayerState GetState()
@@ -191,9 +191,9 @@ public class Player : Node2D
 	/// </summary>
 	/// <param name="frame"></param>
 	public void Rollback(int frame)
-    {
+	{
 		gfxHand.Rollback(frame);
-    }
+	}
 
 	/// <summary>
 	/// Right now this is an unneccessary step in input handling, but it works so I'll leave it for now
@@ -218,24 +218,24 @@ public class Player : Node2D
 		public void Buf2AddInputs(List<char[]> newInputs) 
 		{ 
 			if (!newInputs.Any())
-            {
+			{
 				if (inBuf2Timer > 0)
-                {
+				{
 					inBuf2Timer--;
 				}
 				else
-                {
+				{
 					inBuf2 = new List<char[]>();
 				}
-            }
+			}
 			else
-            { // would it be faster with concat
+			{ // would it be faster with concat
 				foreach (char[] newInput in newInputs)
-                {
+				{
 					inBuf2Timer = inBuf2TimerMax;
 					inBuf2.Add(newInput);
-                }
-            }
+				}
+			}
 		}
 		public void SetUnhandledInputs(List<char[]> thisFrameInputs) 
 		{
@@ -353,7 +353,7 @@ public class Player : Node2D
 	/// Called even during hitstop
 	/// </summary>
 	public void AlwaysFrameAdvance()
-    {
+	{
 		eventSched.FrameAdvance();
 	}
 
@@ -391,28 +391,28 @@ public class Player : Node2D
 	/// Updates the remaining hitpush and adjusts the player accordingly.  does NOT use velocity
 	/// </summary>
 	private void AdjustHitpush()
-    {
+	{
 		if (hitPushRemaining != 0)
-        {
+		{
 			if (hitPushRemaining > -hitPushSpeed && hitPushRemaining < hitPushSpeed)
-            {
+			{
 				hitPushRemaining = 0;
-            }
+			}
 			else
-            {
+			{
 				if (hitPushRemaining < 0)
-                {
+				{
 					internalPos.x -= hitPushSpeed;
 					hitPushRemaining += hitPushSpeed;
-                }
+				}
 				else
-                {
+				{
 					internalPos.x += hitPushSpeed;
 					hitPushRemaining -= hitPushSpeed;
 				}
-            }
-        }
-    }
+			}
+		}
+	}
 
 	/// <summary>
 	/// Finishes the movement system
@@ -429,9 +429,9 @@ public class Player : Node2D
 	/// Adapts the 100x position to the visualized position
 	/// </summary>
 	public void RenderPosition()
-    {
+	{
 		Position = new Vector2((int)Math.Floor(internalPos.x / 100), (int)Math.Floor(internalPos.y / 100));
-    }
+	}
 
 	/// <summary>
 	/// Stay inside the bounds of the stage
@@ -539,9 +539,9 @@ public class Player : Node2D
 	/// </summary>
 	/// <returns></returns>
 	public bool IsGrabbable()
-    {
+	{
 		return (!currentState.GetType().IsSubclassOf(typeof(HitState)));
-    }
+	}
 
 	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
 	{
@@ -567,14 +567,14 @@ public class Player : Node2D
 	}
 
 	public void EmitHadouken(HadoukenPart h)
-    {
+	{
 		EmitSignal(nameof(HadoukenEmitted), h);
-    }
+	}
 
 	public void DeleteHadouken(HadoukenPart h)
-    {
+	{
 		EmitSignal(nameof(HadoukenRemoved), h);
-    }
+	}
 
 	public void ResetCombo()
 	{
@@ -599,15 +599,15 @@ public class Player : Node2D
 	/// </summary>
 	/// <param name="type"></param>
 	public void ScheduleEvent(EventScheduler.EventType type)
-    {
+	{
 		Type curType = currentState.GetType();
 		string curStateName = curType.ToString();
 		eventSched.ScheduleEvent(curStateName, curStateName, type);
 		GD.Print($"Scheduling event for {curStateName}");
-    }
+	}
 
 	public void ScheduleEvent(EventScheduler.EventType type, string name)
-    {
+	{
 		eventSched.ScheduleEvent(name, name, type);
 		GD.Print($"Scheduling event for {name}");
 	}
@@ -619,14 +619,14 @@ public class Player : Node2D
 	}
 
 	public void ForceEvent(EventScheduler.EventType type, string name)
-    {
+	{
 		eventSched.ForceEvent(type, name);
-    }
+	}
 
 	public void GFXEvent(string name)
-    {
+	{
 		gfxHand.Effect(name, Position, facingRight);
-    }
+	}
 
 	public bool CheckHurtRect()
 	{

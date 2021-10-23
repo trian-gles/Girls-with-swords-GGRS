@@ -7,7 +7,6 @@ public class Blood : CPUParticles2D
 
     public void Trigger(int frame, Vector2 pos, bool facingRight)
     {
-        GD.Print("Triggering blood");
         startFrame = frame;
         if (facingRight)
         {

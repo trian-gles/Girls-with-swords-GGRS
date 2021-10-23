@@ -59,10 +59,11 @@ public class HitStun : HitState
             launch.x *= -1;
             hitPush *= -1;
         }
+        owner.hitPushRemaining = hitPush;
+        GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");
         owner.velocity = launch;
         if (!(launch == Vector2.Zero))
         {
-            GD.Print("Launch is not zero!");
             owner.velocity = launch;
             launchBool = true;
         }
@@ -71,8 +72,8 @@ public class HitStun : HitState
         {
             owner.grounded = false;
         }
-
-        owner.hitPushRemaining = hitPush;
+        
+        
         EnterHitState(knockdown, launch);
 
     }

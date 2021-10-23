@@ -21,7 +21,6 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
     }
     public void PlaySound(string name)
     {
-        GD.Print("Playing sound");
         Stream = soundDict[name];
         Play();
     }

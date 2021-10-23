@@ -92,6 +92,24 @@ public abstract class BaseAttack : State
 
     }
 
+    public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+    {
+        if (!rightAttack)
+        {
+            launch.x *= -1;
+            hitPush *= -1;
+        }
+
+        owner.hitPushRemaining = hitPush;
+
+        if (owner.velocity.y < 0)
+        {
+            owner.grounded = false;
+        }
+
+        EnterHitState(knockdown, launch);
+    }
+
     public override void HandleInput(char[] inputArr)
     {
         if (!hitConnect)

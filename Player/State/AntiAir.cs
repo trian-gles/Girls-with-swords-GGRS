@@ -7,6 +7,12 @@ public class AntiAir : BaseAttack
     [Export]
     protected Vector2 launch = new Vector2();
 
+    public override void _Ready()
+    {
+        base._Ready();
+        AddGatling(new char[] { 'p', 'p' }, "Jab");
+        AddGatling(new char[] { 'k', 'p' }, "Kick");
+    }
     public override void Enter()
     {
         base.Enter();

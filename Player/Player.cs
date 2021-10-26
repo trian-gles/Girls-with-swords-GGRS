@@ -144,12 +144,12 @@ public class Player : Node2D
 		
 		string path = "res://Sprites/Palettes/Default Palette.png";
 		if (colorScheme == 0)
-        {
+		{
 			path = "res://Sprites/Palettes/Default Palette.png";
 
 		}
 		else if (colorScheme == 1)
-        {
+		{
 			path = "res://Sprites/Palettes/Ky v2.png";
 		}
 		else if (colorScheme == 2)

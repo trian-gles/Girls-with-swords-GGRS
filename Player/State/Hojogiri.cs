@@ -3,6 +3,6 @@ using System;
 
 public class Hojogiri : BaseAttack
 {
-    
+	
 
 }

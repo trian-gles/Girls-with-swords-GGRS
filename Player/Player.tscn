@@ -46,7 +46,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 21, 28 )
+extents = Vector2( 20, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -55,7 +55,7 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 16, 29 )
+extents = Vector2( 15, 37 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -550,7 +550,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -11, 9 ) ]
+"values": [ Vector2( -11, 7 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:shape")
@@ -574,7 +574,19 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 20, 30 ) ]
+"values": [ Vector2( 20, 32 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("HurtBoxes/HurtB1:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=13]
@@ -3299,7 +3311,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -5, 3 )
+position = Vector2( -11, 7 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -3315,7 +3327,7 @@ disabled = true
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 13, -18 )
+position = Vector2( 13, -15 )
 shape = SubResource( 5 )
 disabled = true
 
@@ -3335,7 +3347,7 @@ position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 37 )
 hframes = 138
-frame = 34
+frame = 129
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )

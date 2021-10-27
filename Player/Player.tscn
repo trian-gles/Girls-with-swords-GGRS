@@ -46,7 +46,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 32 )
+extents = Vector2( 21, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -468,7 +468,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 8 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -6, 6 ) ]
+"values": [ Vector2( -5, 3 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:disabled")
@@ -3299,7 +3299,7 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -3, 7 )
+position = Vector2( -5, 3 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -3335,7 +3335,7 @@ position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 37 )
 hframes = 138
-frame = 47
+frame = 34
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )

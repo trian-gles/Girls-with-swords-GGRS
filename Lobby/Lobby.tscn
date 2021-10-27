@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Lobby/Lobby.cs" type="Script" id=1]
+[ext_resource path="res://Lobby/Local.gd" type="Script" id=2]
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
@@ -31,6 +32,7 @@ margin_top = 104.0
 margin_right = 214.0
 margin_bottom = 124.0
 text = "Local Match"
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

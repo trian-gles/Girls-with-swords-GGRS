@@ -15,6 +15,10 @@ public class MainScene : Node2D
 	private Camera2D camera;
 	private GameStateObject gsObj;
 
+	//used for synctesting
+	private StreamPeerBuffer lastGSbuf;
+	private int[] lastInputs = new int[2];
+
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
 	private int localPlayerHandle;
@@ -55,7 +59,6 @@ public class MainScene : Node2D
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
 		P1Combo.Text = "";
 		P2Combo.Text = "";
-
 
 		gsObj = new GameStateObject();
 		gsObj.config(P1, P2, this, hosting);
@@ -112,8 +115,18 @@ public class MainScene : Node2D
 		{
 			LocalPhysicsProcess();
 		}
+		else if (Globals.mode == Globals.Mode.SYNCTEST)
+        {
+			SyncTestPhysicsProcess();
+        }
 		inputs = 0; // reset the inputs
 		p2inputs = 0;
+	}
+
+	private void SyncTestPhysicsProcess()
+    {
+		var combinedInputs = new int[2] { inputs, 5051 };
+		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
 	}
 
 	public void GGPOPhysicsProcess()

@@ -42,12 +42,20 @@ public class Lobby : Node2D
 		
 	}
 
+	public void OnSyncTestButtonDown()
+    {
+		Globals.mode = Globals.Mode.SYNCTEST;
+		GD.Print("Training mode selected");
+		Begin(true);
+	}
+
 	public void Begin(bool host)
 	{
 		GetNode<Button>("Host").Visible = false;
 		GetNode<Button>("Join").Visible = false;
 		GetNode<Button>("Local").Visible = false;
 		GetNode<Button>("Training").Visible = false;
+		GetNode<Button>("SyncTest").Visible = false;
 
 		string ip = "127.0.0.1";
 		int localPort = 0;

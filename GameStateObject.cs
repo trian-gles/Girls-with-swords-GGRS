@@ -23,6 +23,11 @@ public class GameStateObject : Node
 	private int maxHitStop = 14;
 
 	/// <summary>
+	/// Used for synctesting
+	/// </summary>
+	private GameState lastGs;
+
+	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
 	[Serializable]
@@ -140,6 +145,49 @@ public class GameStateObject : Node
 		}
 		return ((sum2 << 16) | sum1);
 	}
+
+	private string CompareGameStates(GameState firstGs)
+    {
+		string errMsg = "";
+		GameState secondGs = GetGameState();
+		errMsg = AddError(errMsg, "Frame", firstGs.frame, secondGs.frame);
+		errMsg = AddError(errMsg, "HitStopRemaining", firstGs.hitStopRemaining, secondGs.hitStopRemaining);
+		string[] playerNames = { "p1", "p2" };
+		int i = 0;
+		foreach (Player.PlayerState[] pStates in new[]{ new[]{firstGs.P1State, secondGs.P1State}, new[]{firstGs.P2State, secondGs.P2State } })
+        {
+			AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
+			AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
+			AddError(errMsg, playerNames[i] + " xPos", pStates[0].position[0], pStates[1].position[0]);
+			i++;
+        }
+        
+
+
+
+		return errMsg;
+    }
+
+	private string AddError(string errMsg, string msg, int val1, int val2)
+    {
+		if (val1.ToString() == val2.ToString())
+        {
+			errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
+		}
+		
+		return errMsg;
+    }
+
+	private string AddError(string errMsg, string msg, string val1, string val2)
+	{
+		if (val1 == val2)
+		{
+			return errMsg;
+		}
+		errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
+		return errMsg;
+	}
+
 	private void SetGameState(GameState gState)
 	{
 		Frame = gState.frame;
@@ -178,6 +226,26 @@ public class GameStateObject : Node
 	public void LoadGameState(StreamPeerBuffer stream)
 	{
 		SetGameState(DeserializeGamestate(stream));
+	}
+
+	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)
+    {
+		Update(thisFrameInputs);
+		GameState firstGS = GetGameState();
+		if (Frame > 1)
+		{
+			SetGameState(lastGs);
+			Update(thisFrameInputs);
+			string result = CompareGameStates(firstGS);
+			if (result != "")
+            {
+				GD.Print(result);
+			}
+			
+		}
+		lastGs = firstGS;
+
+
 	}
 
 	/// <summary>

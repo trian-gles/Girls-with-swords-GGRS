@@ -17,6 +17,7 @@ public class Idle : State
         if (owner.CheckHeldKey('2'))
         {
             EmitSignal(nameof(StateFinished), "Crouch");
+            return;
         }
 
         if (owner.CheckHeldKey('6'))
@@ -24,28 +25,41 @@ public class Idle : State
             owner.velocity.x = owner.speed;
             
             EmitSignal(nameof(StateFinished), "Walk");
+            return;
         }
 
         else if (owner.CheckHeldKey('4'))
         {
             owner.velocity.x = -owner.speed;
             EmitSignal(nameof(StateFinished), "Walk");
+            return;
         }
 
         else if (owner.CheckHeldKey('8'))
         {
             EmitSignal(nameof(StateFinished), "Jump");
+            return;
         }
     } 
     public override void HandleInput(char[] inputArr)
     {
-        if (Globals.CheckKeyPress(inputArr, 'p')) 
+        if (Globals.CheckKeyPress(inputArr, 'p'))
         {
             EmitSignal(nameof(StateFinished), "Jab");
+
+            if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'r' } }))
+            {
+                EmitSignal(nameof(StateFinished), "Hadouken");
+            }
+            else if ((!owner.facingRight) && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '4', 'p' }, new char[] { '2', 'r' } }))
+            {
+                EmitSignal(nameof(StateFinished), "Hadouken");
+            }
         }
         else if (Globals.CheckKeyPress(inputArr, '2'))
         {
             EmitSignal(nameof(StateFinished), "Crouch");
+            return;
         }
         else if (Globals.CheckKeyPress(inputArr, '6'))
         {

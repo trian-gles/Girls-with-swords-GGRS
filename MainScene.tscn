@@ -30,7 +30,7 @@ script = ExtResource( 2 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 10 )
-zoom_offset = 0.04
+zoom_offset = 0.104
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

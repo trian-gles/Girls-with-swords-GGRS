@@ -15,10 +15,6 @@ public class MainScene : Node2D
 	private Camera2D camera;
 	private GameStateObject gsObj;
 
-	//used for synctesting
-	private StreamPeerBuffer lastGSbuf;
-	private int[] lastInputs = new int[2];
-
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
 	private int localPlayerHandle;
@@ -27,7 +23,7 @@ public class MainScene : Node2D
 
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
-	private int p2inputs = 0; //used only in training mode for local p2 inputs
+	private int p2inputs = 0; //used only in local mode for local p2 inputs
 	
 	/// <summary>
 	/// Godot doesn't allow constructors so I have to do stuff like this instead
@@ -47,6 +43,8 @@ public class MainScene : Node2D
 		
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
+		P1.Connect("ComboSet", this, nameof(OnPlayerComboSet));
+		P2.Connect("ComboSet", this, nameof(OnPlayerComboSet));
 		P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
@@ -125,7 +123,7 @@ public class MainScene : Node2D
 
 	private void SyncTestPhysicsProcess()
     {
-		var combinedInputs = new int[2] { inputs, 5051 };
+		var combinedInputs = new int[2] { inputs, 0 };
 		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
 	}
 
@@ -156,7 +154,7 @@ public class MainScene : Node2D
 
 	public void TrainingPhysicsProcess()
 	{
-		var combinedInputs = new int[2] {inputs, 5051 }; 
+		var combinedInputs = new int[2] {inputs, 0 }; 
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
 	}
 
@@ -341,6 +339,7 @@ public class MainScene : Node2D
 	private void AddPress(int key)
 	{
 		int thisInput = key * 10;
+		GD.Print($"press {key}");
 		AddInput(thisInput);
 	}
 	private void AddRelease(int key)
@@ -434,6 +433,19 @@ public class MainScene : Node2D
 			{
 				P2Combo.Call("off");
 			}
+		}
+	}
+
+	public void OnPlayerComboSet(string name, int combo)
+    {
+		if (name == "P2")
+		{
+			P1Combo.Call("combo_set", combo);
+		}
+
+		else
+		{
+			P2Combo.Call("combo_set", combo);
 		}
 	}
 	public void OnPlayerHealthChange(string name, int health)

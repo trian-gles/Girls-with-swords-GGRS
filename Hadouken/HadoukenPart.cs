@@ -31,6 +31,8 @@ public class HadoukenPart : Node2D
 
     private bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
 
+    public int creationFrame;
+
     static private int totalHads;
 
     /// <summary>

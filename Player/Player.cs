@@ -13,6 +13,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void ComboChanged(string name, int combo);
 	[Signal]
+	public delegate void ComboSet(string name, int combo);
+	[Signal]
 	public delegate void HitConfirm();
 	[Signal]
 	public delegate void HadoukenEmitted(HadoukenPart h);
@@ -65,8 +67,8 @@ public class Player : Node2D
 	{
 		public List<char[]> inBuf2 { get; set; }
 		public int inBuf2Timer { get; set; }
+		public List<char[]> hitStopInputs { get; set; }
 		public List<char> heldKeys { get; set; }
-		public List<char[]> unhandledInputs { get; set; }
 		public string currentState { get; set; }
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
@@ -75,7 +77,6 @@ public class Player : Node2D
 		public bool flipH { get; set; }
 		public int health { get; set; }
 		public int[] position { get; set; }
-		public int gravityPos { get; set; }
 		public int[] velocity { get; set; }
 		public bool facingRight { get; set; }
 		public bool touchingWall { get; set; }
@@ -168,10 +169,28 @@ public class Player : Node2D
 	public PlayerState GetState()
 	{
 		var pState = new PlayerState();
-		pState.inBuf2 = inputHandler.inBuf2;
+		pState.inBuf2 = new List<char[]>();
+		foreach (char[] inp in inputHandler.inBuf2)
+        {
+			pState.inBuf2.Add((char[])inp.Clone());
+        }
+
+		pState.hitStopInputs = new List<char[]>();
+		foreach (char[] inp in inputHandler.hitStopInputs)
+		{
+			pState.hitStopInputs.Add((char[])inp.Clone());
+		}
+
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
-		pState.heldKeys = inputHandler.heldKeys;
-		pState.unhandledInputs = inputHandler.unhandledInputs;
+
+
+		pState.heldKeys = new List<char>();
+		foreach (char c in inputHandler.heldKeys)
+        {
+			pState.heldKeys.Add(c);
+        }
+
+
 		pState.currentState = currentState.Name;
 		pState.frameCount = currentState.frameCount;
 		pState.hitConnect = currentState.hitConnect;
@@ -179,6 +198,7 @@ public class Player : Node2D
 		pState.flipH = sprite.FlipH;
 		pState.hitPushRemaining = hitPushRemaining;
 		pState.health = health;
+		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 
 
@@ -191,10 +211,10 @@ public class Player : Node2D
 
 	public void SetState(PlayerState pState)
 	{
-		inputHandler.inBuf2 = pState.inBuf2;
+		inputHandler.SetInBuf2(pState.inBuf2);
 		inputHandler.inBuf2Timer = pState.inBuf2Timer;
+		inputHandler.hitStopInputs = pState.hitStopInputs;
 		inputHandler.heldKeys = pState.heldKeys;
-		inputHandler.unhandledInputs = pState.unhandledInputs;
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
@@ -204,12 +224,13 @@ public class Player : Node2D
 		hitPushRemaining = pState.hitPushRemaining;
 
 		health = pState.health;
+		EmitSignal(nameof(HealthChanged), Name, health);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
 		combo = pState.combo;
-		EmitSignal(nameof(ComboChanged), Name, combo);
+		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
 
@@ -223,24 +244,15 @@ public class Player : Node2D
 	}
 
 	/// <summary>
-	/// Right now this is an unneccessary step in input handling, but it works so I'll leave it for now
-	/// </summary>
-	/// <param name="inputs"></param>
-	public void SetUnhandledInputs(List<char[]> inputs)
-	{
-		inputHandler.SetUnhandledInputs(new List<char[]>(inputs));
-	}
-
-	/// <summary>
 	/// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
 	/// </summary>
 	private class InputHandler 
 	{
 		public List<char[]> inBuf2 = new List<char[]>();
+		public List<char[]> hitStopInputs = new List<char[]>();
 		public int inBuf2TimerMax = 8;
 		public int inBuf2Timer = 8;
 		public List<char> heldKeys = new List<char>();
-		public List<char[]> unhandledInputs = new List<char[]>();
 
 		public void Buf2AddInputs(List<char[]> newInputs) 
 		{ 
@@ -264,16 +276,35 @@ public class Player : Node2D
 				}
 			}
 		}
-		public void SetUnhandledInputs(List<char[]> thisFrameInputs) 
+
+		public void SetInBuf2(List<char[]> newBuf)
 		{
-			unhandledInputs.AddRange(thisFrameInputs);
+			inBuf2 = new List<char[]> { };
+			foreach (char[] inp in newBuf)
+			{
+				inBuf2.Add((char[])inp.Clone());
+			}
 		}
-		public void FrameAdvance(int hitStop, State currentState) 
+
+		private void AddHitStopBuffer(List<char[]> unhandledInputs)
+        {
+			foreach (char[] inputArr in unhandledInputs)
+			{
+
+				hitStopInputs.Add(inputArr);
+			}
+		}
+
+		public void FrameAdvance(int hitStop, State currentState, List<char[]>unhandledInputs) 
 		{
 			if (hitStop > 0) // delay the handling of inputs until after hitstop ends
 			{
+				AddHitStopBuffer(unhandledInputs);
 				return;
 			}
+
+			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
+			hitStopInputs = new List<char[]>();
 			List<char[]> curBufStep = new List<char[]>();
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -366,9 +397,9 @@ public class Player : Node2D
 	/// passes any new inputs since the past frame to the input handler for buffering, withholding and passing to the current state
 	/// </summary>
 	/// <param name="hitStop"></param>
-	public void FrameAdvanceInputs(int hitStop)
+	public void FrameAdvanceInputs(int hitStop, List<char[]> unhandledInputs)
 	{
-		inputHandler.FrameAdvance(hitStop, currentState);
+		inputHandler.FrameAdvance(hitStop, currentState, unhandledInputs);
 	}
 
 	/// <summary>
@@ -484,7 +515,6 @@ public class Player : Node2D
 	{
 		if (internalPos.x > 47400 || internalPos.x < 600)
 		{
-			GD.Print($"{Name} is touching wall");
 			return true;
 		}
 		else
@@ -639,7 +669,6 @@ public class Player : Node2D
 	public void ScheduleEvent(EventScheduler.EventType type, string name, string expectedStateName)
 	{
 		eventSched.ScheduleEvent(name, expectedStateName, type);
-		GD.Print($"Scheduling event for {name}");
 	}
 
 	public void ForceEvent(EventScheduler.EventType type, string name)
@@ -698,7 +727,8 @@ public class Player : Node2D
 		}
 		if (globalPosition)
 		{
-			position += Position;
+			
+			position += new Vector2((float)Math.Round(internalPos.x / 100), (float)Math.Round(internalPos.y / 100));
 		}
 		return new Rect2(position, extents);
 	}
@@ -720,9 +750,8 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
-		if (Globals.mode == Globals.Mode.TRAINING)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
-			return;
 			List<Rect2> hitRects = GetRects(hitBoxes);
 			List<Rect2> hurtRects = GetRects(hurtBoxes);
 			Rect2 colRect = GetRect(colBox);

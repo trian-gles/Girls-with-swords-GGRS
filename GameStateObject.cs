@@ -146,21 +146,32 @@ public class GameStateObject : Node
 		return ((sum2 << 16) | sum1);
 	}
 
-	private string CompareGameStates(GameState firstGs)
+	private string CompareGameStates(GameState firstGs, GameState secondGs)
     {
 		string errMsg = "";
-		GameState secondGs = GetGameState();
 		errMsg = AddError(errMsg, "Frame", firstGs.frame, secondGs.frame);
 		errMsg = AddError(errMsg, "HitStopRemaining", firstGs.hitStopRemaining, secondGs.hitStopRemaining);
 		string[] playerNames = { "p1", "p2" };
 		int i = 0;
 		foreach (Player.PlayerState[] pStates in new[]{ new[]{firstGs.P1State, secondGs.P1State}, new[]{firstGs.P2State, secondGs.P2State } })
         {
-			AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
-			AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
-			AddError(errMsg, playerNames[i] + " xPos", pStates[0].position[0], pStates[1].position[0]);
+			errMsg = AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
+			errMsg = AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
+			errMsg = AddError(errMsg, playerNames[i] + " xPos", pStates[0].position[0], pStates[1].position[0]);
+			errMsg = AddError(errMsg, playerNames[i] + " yPos", pStates[0].position[1], pStates[1].position[1]);
+			errMsg = AddError(errMsg, playerNames[i] + " currState", pStates[0].currentState, pStates[1].currentState);
+			errMsg = AddError(errMsg, playerNames[i] + " hitConnect", pStates[0].hitConnect, pStates[1].hitConnect);
+			errMsg = AddError(errMsg, playerNames[i] + " stateFrame", pStates[0].frameCount, pStates[1].frameCount);
+			errMsg = AddError(errMsg, playerNames[i] + " xvel", pStates[0].velocity[0], pStates[1].velocity[0]);
+			errMsg = AddError(errMsg, playerNames[i] + " yvel", pStates[0].velocity[1], pStates[1].velocity[1]);
+			errMsg = AddError(errMsg, playerNames[i] + " health", pStates[0].health, pStates[1].health);
 			i++;
         }
+
+		for (int j = 0; j < firstGs.hadoukenStates.Count; j++)
+        {
+			errMsg = AddError(errMsg, $"Hadouken {j}" + " xPos", firstGs.hadoukenStates[j].pos[0], firstGs.hadoukenStates[j].pos[0]);
+		}
         
 
 
@@ -170,13 +181,29 @@ public class GameStateObject : Node
 
 	private string AddError(string errMsg, string msg, int val1, int val2)
     {
-		if (val1.ToString() == val2.ToString())
+
+		int val1c = val1;
+		int val2c = val2;
+		if (val1c != val2c)
         {
 			errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
 		}
 		
 		return errMsg;
     }
+
+	private string AddError(string errMsg, string msg, bool val1, bool val2)
+	{
+
+		bool val1c = val1;
+		bool val2c = val2;
+		if (val1c != val2c)
+		{
+			errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
+		}
+
+		return errMsg;
+	}
 
 	private string AddError(string errMsg, string msg, string val1, string val2)
 	{
@@ -191,6 +218,7 @@ public class GameStateObject : Node
 	private void SetGameState(GameState gState)
 	{
 		Frame = gState.frame;
+		//GD.Print($"Rolling back to frame {Frame}");
 		Globals.frame = Frame;
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
@@ -202,6 +230,17 @@ public class GameStateObject : Node
 				hadoukens[hState.name].SetState(hState);
 			}
 		}
+		foreach (var entry in hadoukens)
+		{
+			HadoukenPart thisHadouken = entry.Value;
+
+			if (thisHadouken.creationFrame > Frame)
+			{
+				deleteQueued.Add(thisHadouken);
+			}
+		}
+		CleanupHadoukens();
+
 	}
 	private GameState DeserializeGamestate(StreamPeerBuffer stream)
 	{
@@ -230,21 +269,26 @@ public class GameStateObject : Node
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)
     {
+		//GD.Print($"Synctesting on frame {Frame}");
+
 		Update(thisFrameInputs);
-		GameState firstGS = GetGameState();
+		
+
 		if (Frame > 1)
 		{
+			GameState firstGS = GetGameState();
 			SetGameState(lastGs);
 			Update(thisFrameInputs);
-			string result = CompareGameStates(firstGS);
+			string result = CompareGameStates(firstGS, GetGameState());
 			if (result != "")
             {
 				GD.Print(result);
 			}
 			
 		}
-		lastGs = firstGS;
+		lastGs = GetGameState();
 
+		
 
 	}
 
@@ -254,26 +298,34 @@ public class GameStateObject : Node
 	/// <param name="thisFrameInputs"></param>
 	public void Update(Godot.Collections.Array thisFrameInputs)
 	{
+		Frame++;
+		//GD.Print($"Advancing frame to {Frame}");
+		Globals.frame++;
+		List<char[]> p1inps;
+		List<char[]> p2inps;
 
 		if (hosting)
 		{
-			P1.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[0]));
-			P2.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[1]));
+			p1inps = ConvertInputs((int)thisFrameInputs[0]);
+			
+			
+			p2inps = ConvertInputs((int)thisFrameInputs[1]);
 		}
 		else
 		{
-			P1.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[1]));
-			P2.SetUnhandledInputs(ConvertInputs((int)thisFrameInputs[0]));
+			p2inps = ConvertInputs((int)thisFrameInputs[0]);
+			p1inps = ConvertInputs((int)thisFrameInputs[1]);
 		}
 		
 
 		AdvanceFrameAndHitstop();
-		FrameAdvancePlayers();
+		FrameAdvancePlayers(p1inps, p2inps);
+		
 
 	}
 
 	/// <summary>
-	/// Takes the inputs list and turns it back into List<char[]>
+	/// Takes the inputs int and turns it back into List<char[]>
 	/// </summary>
 	/// <param name="inputs"></param>
 	/// <returns></returns>
@@ -349,8 +401,7 @@ public class GameStateObject : Node
 	}
 	private void AdvanceFrameAndHitstop()
 	{
-		Frame++;
-		Globals.frame++;
+		
 		if (hitStopRemaining > 0)
 		{
 			hitStopRemaining--;
@@ -360,10 +411,10 @@ public class GameStateObject : Node
 	/// <summary>
 	/// Note the movement step separated into two separate MoveSlide actions, for more accurate collision checking.
 	/// </summary>
-	private void FrameAdvancePlayers()
+	private void FrameAdvancePlayers(List<char[]>p1inp, List<char[]>p2inp)
 	{
-		P1.FrameAdvanceInputs(hitStopRemaining);
-		P2.FrameAdvanceInputs(hitStopRemaining);
+		P1.FrameAdvanceInputs(hitStopRemaining, p1inp);
+		P2.FrameAdvanceInputs(hitStopRemaining, p2inp);
 		P1.AlwaysFrameAdvance();
 		P2.AlwaysFrameAdvance();
 
@@ -383,6 +434,12 @@ public class GameStateObject : Node
 			entry.Value.FrameAdvance();
 		}
 
+		CleanupHadoukens();
+		
+	}
+
+	private void CleanupHadoukens()
+    {
 		foreach (HadoukenPart h in deleteQueued)
 		{
 			CleanupHadouken(h);
@@ -391,7 +448,6 @@ public class GameStateObject : Node
 		{
 			deleteQueued = new List<HadoukenPart>();
 		}
-		
 	}
 
 	/// <summary>
@@ -438,7 +494,9 @@ public class GameStateObject : Node
 	}
 	public void NewHadouken(HadoukenPart h)
 	{
-		hadoukens.Add(h.Name, h);
+		hadoukens.Add(h.Name, h); 
+		//GD.Print($"New hadouken on frame {Frame}");
+		h.creationFrame = Frame;
 	}
 
 	public void RemoveHadouken(HadoukenPart h)

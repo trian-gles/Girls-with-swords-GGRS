@@ -24,6 +24,8 @@ public class MainScene : Node2D
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
+
+	private int frameAhead = 0; //prevents one sided rollbacks
 	
 	/// <summary>
 	/// Godot doesn't allow constructors so I have to do stuff like this instead
@@ -95,6 +97,7 @@ public class MainScene : Node2D
 		GGPO.Singleton.Connect("event_disconnected_from_peer", this, nameof(OnEventDisconnectedFromPeer));
 		GGPO.Singleton.Connect("save_game_state", this, nameof(OnSaveGameState));
 		GGPO.Singleton.Connect("event_connected_to_peer", this, nameof(OnEventConnectedToPeer));
+		GGPO.Singleton.Connect("event_timesync", this, nameof(OnEventTimesync));
 	}
 
 
@@ -117,6 +120,11 @@ public class MainScene : Node2D
         {
 			SyncTestPhysicsProcess();
         }
+		
+	}
+
+	private void ResetInputs()
+    {
 		inputs = 0; // reset the inputs
 		p2inputs = 0;
 	}
@@ -125,11 +133,18 @@ public class MainScene : Node2D
     {
 		var combinedInputs = new int[2] { inputs, 0 };
 		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 
 	public void GGPOPhysicsProcess()
 	{
 		GGPO.Idle(30);
+
+		if (frameAhead > 0)
+        {
+			frameAhead--;
+			return;
+        }
 		int result;
 		if (localPlayerHandle != GGPO.InvalidHandle)
 		{
@@ -150,18 +165,21 @@ public class MainScene : Node2D
 			}
 
 		}
+		ResetInputs();
 	}
 
 	public void TrainingPhysicsProcess()
 	{
 		var combinedInputs = new int[2] {inputs, 0 }; 
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 
 	public void LocalPhysicsProcess()
 	{
 		var combinedInputs = new int[2] { inputs, p2inputs };
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 	
 	/// <summary>
@@ -180,6 +198,11 @@ public class MainScene : Node2D
 	{
 
 	}
+
+	public void OnEventTimesync(int framesAhead)
+    {
+		frameAhead = framesAhead;
+    }
 
 	public void OnLoadGameState(StreamPeerBuffer buffer)
 	{

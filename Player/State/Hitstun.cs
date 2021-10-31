@@ -6,6 +6,7 @@ public class HitStun : HitState
     public override void _Ready()
     {
         base._Ready();
+        loop = false;
     }
     public override void Enter()
     {
@@ -13,6 +14,11 @@ public class HitStun : HitState
         owner.ComboUp();
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
         owner.GFXEvent("Blood");
+    }
+
+    public override void AnimationFinished()
+    {
+        GD.Print("Animation for HitStun finished");
     }
 
 

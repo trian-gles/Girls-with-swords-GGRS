@@ -22,6 +22,8 @@ public class GameStateObject : Node
 
 	private int maxHitStop = 14;
 
+	private GameState resetState;
+
 	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
@@ -62,6 +64,7 @@ public class GameStateObject : Node
 		GD.Print("GameState config finished");
 		// Use this below code to make P2 hold a button
 		// P2.SetUnhandledInputs(new List<char[]>() { new char[] { '8', 'p' } });
+		resetState = GetGameState();
 	}
 	private byte[] Serialize<T>(T data)
 	where T : struct
@@ -229,6 +232,11 @@ public class GameStateObject : Node
 		return convertedInputs;
 
 	}
+
+	public void ResetGameState()
+    {
+		SetGameState(resetState);
+    }
 
 	private char[] ConvertInput(int key, int press)
 	{

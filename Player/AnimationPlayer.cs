@@ -25,6 +25,7 @@ public class AnimationPlayer : Godot.AnimationPlayer
 			Stop();
 			Seek(0, true);
 		}
+		GD.Print($"new animation {animName}, length = {animationLength}");
 	}
 
 	public void SetAnimationAndFrame(string animName, int frame)
@@ -38,7 +39,7 @@ public class AnimationPlayer : Godot.AnimationPlayer
 	}
 	public void FrameAdvance() 
 	{
-		if (cursor < animationLength)
+		if (cursor < animationLength - 1)
 		{
 			cursor++;
 			Seek(cursor, true);
@@ -47,6 +48,8 @@ public class AnimationPlayer : Godot.AnimationPlayer
 		{
 			EmitSignal(nameof(AnimationFinished), CurrentAnimation);
 		}
+
+
 
 		if (IsPlaying())
 		{

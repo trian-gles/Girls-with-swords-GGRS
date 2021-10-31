@@ -30,7 +30,7 @@ script = ExtResource( 2 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 10 )
-zoom_offset = 0.04
+zoom_offset = 0.104
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -138,6 +138,18 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="HUD/P1Combo"]
 wait_time = 0.5
 
+[node name="Reset" type="Button" parent="HUD"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -24.0
+margin_top = 40.0
+margin_right = 24.0
+margin_bottom = 20.0
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="P1" parent="." instance=ExtResource( 1 )]
 position = Vector2( 133, 240 )
 gravity = 40
@@ -166,3 +178,4 @@ texture = ExtResource( 13 )
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]
+[connection signal="button_down" from="HUD/Reset" to="." method="OnResetButtonDown"]

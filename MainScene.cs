@@ -21,6 +21,10 @@ public class MainScene : Node2D
 	private int localHand = 1;
 	private int otherHand = 2;
 
+	[Export]
+	public bool halfSpeed = false;
+	public bool displayFrame = true;
+
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
@@ -103,6 +107,20 @@ public class MainScene : Node2D
 
 	public override void _PhysicsProcess(float _delta)
 	{
+		if (halfSpeed)
+		{
+			if (!displayFrame)
+			{
+				displayFrame = true;
+				return;
+			}
+			else
+            {
+				displayFrame = false;
+			}
+		}
+
+
 		camera.Call("adjust", P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
@@ -230,6 +248,10 @@ public class MainScene : Node2D
 		GGPO.CloseSession();
 	}
 
+	public void OnResetButtonDown()
+    {
+		gsObj.ResetGameState();
+    }
 
 	/// <summary>
 	/// Called whenever the user presses a key, which gets added to the inputs int

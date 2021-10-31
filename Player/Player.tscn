@@ -45,8 +45,8 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 40 )
+
+extents = Vector2( 15, 38 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 7 )
@@ -3309,7 +3309,8 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
-position = Vector2( -2, -1 )
+
+position = Vector2( 0, 1 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
@@ -3323,7 +3324,7 @@ shape = SubResource( 4 )
 [node name="HurtBoxes" type="Area2D" parent="."]
 
 [node name="HurtB1" type="CollisionShape2D" parent="HurtBoxes"]
-position = Vector2( 13, -15 )
+position = Vector2( 2, -16 )
 shape = SubResource( 5 )
 disabled = true
 
@@ -3343,7 +3344,7 @@ position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 37 )
 hframes = 138
-frame = 38
+frame = 51
 
 [node name="StateTree" type="Node" parent="."]
 script = ExtResource( 25 )
@@ -3405,7 +3406,6 @@ script = ExtResource( 17 )
 hitStun = 31
 opponentLaunch = Vector2( 0, -700 )
 hitPush = 10
-height = 2
 dmg = 3
 launch = Vector2( 0, -400 )
 
@@ -3414,6 +3414,7 @@ script = ExtResource( 18 )
 
 [node name="Backdash" type="Node" parent="StateTree"]
 script = ExtResource( 19 )
+hopForce = 250
 
 [node name="DP" type="Node" parent="StateTree"]
 script = ExtResource( 20 )

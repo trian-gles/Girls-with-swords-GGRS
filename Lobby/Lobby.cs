@@ -51,11 +51,15 @@ public class Lobby : Node2D
 
 	public void Begin(bool host)
 	{
-		GetNode<Button>("Host").Visible = false;
-		GetNode<Button>("Join").Visible = false;
-		GetNode<Button>("Local").Visible = false;
-		GetNode<Button>("Training").Visible = false;
-		GetNode<Button>("SyncTest").Visible = false;
+
+		HBoxContainer hbox = GetNode<HBoxContainer>("HBoxContainer");
+		VBoxContainer buttons = hbox.GetNode<VBoxContainer>("Buttons");
+		VBoxContainer entries = hbox.GetNode<VBoxContainer>("Entries");
+
+		buttons.GetNode<Button>("Host").Visible = false;
+		buttons.GetNode<Button>("Join").Visible = false;
+		buttons.GetNode<Button>("Local").Visible = false;
+		buttons.GetNode<Button>("Training").Visible = false;
 
 		string ip = "127.0.0.1";
 		int localPort = 0;
@@ -63,14 +67,14 @@ public class Lobby : Node2D
 
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
-			ip = GetNode<LineEdit>("OpponentIp").Text;
+			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
 
 			otherPort = int.Parse(GetNode<LineEdit>("OpponentPort").Text);
 			localPort = int.Parse(GetNode<LineEdit>("LocalPort").Text);
 		}
-		GetNode<LineEdit>("OpponentPort").Visible = false;
-		GetNode<LineEdit>("OpponentIp").Visible = false;
-		GetNode<LineEdit>("LocalPort").Visible = false;
+		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
+		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
+		entries.GetNode<LineEdit>("LocalPort").Visible = false;
 
 		var mainScene = (PackedScene) ResourceLoader.Load("res://MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;

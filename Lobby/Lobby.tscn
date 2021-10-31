@@ -39,6 +39,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+
 [node name="Local" type="Button" parent="HBoxContainer/Buttons"]
 margin_top = 48.0
 margin_right = 102.0
@@ -57,6 +58,7 @@ text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 
 [node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 106.0
@@ -93,6 +95,7 @@ placeholder_text = "Enter Local Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 
 [connection signal="button_down" from="HBoxContainer/Buttons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Buttons/Join" to="." method="OnJoinButtonDown"]

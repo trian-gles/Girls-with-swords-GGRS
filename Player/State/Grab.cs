@@ -44,15 +44,15 @@ public class Grab : State
         base.FrameAdvance();
         if (frameCount < releaseFrame)
         {
-            Vector2 relGrabPosition = owner.grabPos.Position;
+            Vector2 relGrabPosition = owner.grabPos.Position * 100;
             if (!rightGrab)
             {
                 relGrabPosition.x *= -1;
             }
 
-            Vector2 absGrabPosition = relGrabPosition + owner.Position;
+            Vector2 absGrabPosition = relGrabPosition + owner.internalPos;
 
-            owner.otherPlayer.internalPos =  absGrabPosition * 100;
+            owner.otherPlayer.internalPos =  absGrabPosition;
         }
         
         else if ((frameCount == releaseFrame) && !released)

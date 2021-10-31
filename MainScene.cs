@@ -27,7 +27,9 @@ public class MainScene : Node2D
 
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
-	private int p2inputs = 0; //used only in training mode for local p2 inputs
+	private int p2inputs = 0; //used only in local mode for local p2 inputs
+
+	private int frameAhead = 0; //prevents one sided rollbacks
 	
 	/// <summary>
 	/// Godot doesn't allow constructors so I have to do stuff like this instead
@@ -47,6 +49,8 @@ public class MainScene : Node2D
 		
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
+		P1.Connect("ComboSet", this, nameof(OnPlayerComboSet));
+		P2.Connect("ComboSet", this, nameof(OnPlayerComboSet));
 		P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
@@ -59,7 +63,6 @@ public class MainScene : Node2D
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
 		P1Combo.Text = "";
 		P2Combo.Text = "";
-
 
 		gsObj = new GameStateObject();
 		gsObj.config(P1, P2, this, hosting);
@@ -98,6 +101,7 @@ public class MainScene : Node2D
 		GGPO.Singleton.Connect("event_disconnected_from_peer", this, nameof(OnEventDisconnectedFromPeer));
 		GGPO.Singleton.Connect("save_game_state", this, nameof(OnSaveGameState));
 		GGPO.Singleton.Connect("event_connected_to_peer", this, nameof(OnEventConnectedToPeer));
+		GGPO.Singleton.Connect("event_timesync", this, nameof(OnEventTimesync));
 	}
 
 
@@ -130,13 +134,35 @@ public class MainScene : Node2D
 		{
 			LocalPhysicsProcess();
 		}
+		else if (Globals.mode == Globals.Mode.SYNCTEST)
+        {
+			SyncTestPhysicsProcess();
+        }
+		
+	}
+
+	private void ResetInputs()
+    {
 		inputs = 0; // reset the inputs
 		p2inputs = 0;
+	}
+
+	private void SyncTestPhysicsProcess()
+    {
+		var combinedInputs = new int[2] { inputs, 0 };
+		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 
 	public void GGPOPhysicsProcess()
 	{
 		GGPO.Idle(30);
+
+		if (frameAhead > 0)
+        {
+			frameAhead--;
+			return;
+        }
 		int result;
 		if (localPlayerHandle != GGPO.InvalidHandle)
 		{
@@ -157,18 +183,21 @@ public class MainScene : Node2D
 			}
 
 		}
+		ResetInputs();
 	}
 
 	public void TrainingPhysicsProcess()
 	{
-		var combinedInputs = new int[2] {inputs, 5051 }; 
+		var combinedInputs = new int[2] {inputs, 0 }; 
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 
 	public void LocalPhysicsProcess()
 	{
 		var combinedInputs = new int[2] { inputs, p2inputs };
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		ResetInputs();
 	}
 	
 	/// <summary>
@@ -187,6 +216,11 @@ public class MainScene : Node2D
 	{
 
 	}
+
+	public void OnEventTimesync(int framesAhead)
+    {
+		frameAhead = framesAhead;
+    }
 
 	public void OnLoadGameState(StreamPeerBuffer buffer)
 	{
@@ -350,6 +384,7 @@ public class MainScene : Node2D
 	private void AddPress(int key)
 	{
 		int thisInput = key * 10;
+		GD.Print($"press {key}");
 		AddInput(thisInput);
 	}
 	private void AddRelease(int key)
@@ -443,6 +478,19 @@ public class MainScene : Node2D
 			{
 				P2Combo.Call("off");
 			}
+		}
+	}
+
+	public void OnPlayerComboSet(string name, int combo)
+    {
+		if (name == "P2")
+		{
+			P1Combo.Call("combo_set", combo);
+		}
+
+		else
+		{
+			P2Combo.Call("combo_set", combo);
 		}
 	}
 	public void OnPlayerHealthChange(string name, int health)

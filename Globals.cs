@@ -30,7 +30,8 @@ public class Globals : Node
 	{
 		LOCAL = 0,
 		TRAINING = 1,
-		GGPO = 2
+		GGPO = 2,
+		SYNCTEST = 3
 	}
 
 	public override void _Ready()

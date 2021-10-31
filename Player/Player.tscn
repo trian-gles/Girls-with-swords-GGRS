@@ -45,7 +45,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
-[sub_resource type="RectangleShape2D" id=2]
+
 extents = Vector2( 15, 38 )
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -3309,18 +3309,17 @@ __meta__ = {
 [node name="HitBoxes" type="Area2D" parent="."]
 
 [node name="HitB1" type="CollisionShape2D" parent="HitBoxes"]
+
 position = Vector2( 0, 1 )
 shape = SubResource( 2 )
 
 [node name="HitB2" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( -18, -11 )
 shape = SubResource( 3 )
-disabled = true
 
 [node name="HitB3" type="CollisionShape2D" parent="HitBoxes"]
 position = Vector2( 17, 5 )
 shape = SubResource( 4 )
-disabled = true
 
 [node name="HurtBoxes" type="Area2D" parent="."]
 
@@ -3576,3 +3575,17 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 400.0
 color = Color( 1, 0.133333, 0.133333, 1 )
 script = ExtResource( 36 )
+
+[node name="Block" type="CPUParticles2D" parent="GFXHandler"]
+position = Vector2( 11.2246, -14.0308 )
+emitting = false
+amount = 20
+lifetime = 0.3
+one_shot = true
+speed_scale = 5.0
+emission_shape = 1
+emission_sphere_radius = 5.57
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 71.43
+color = Color( 1, 0.984314, 0.564706, 1 )

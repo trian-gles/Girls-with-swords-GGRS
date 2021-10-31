@@ -42,8 +42,16 @@ public class Lobby : Node2D
 		
 	}
 
+	public void OnSyncTestButtonDown()
+    {
+		Globals.mode = Globals.Mode.SYNCTEST;
+		GD.Print("Training mode selected");
+		Begin(true);
+	}
+
 	public void Begin(bool host)
 	{
+
 		HBoxContainer hbox = GetNode<HBoxContainer>("HBoxContainer");
 		VBoxContainer buttons = hbox.GetNode<VBoxContainer>("Buttons");
 		VBoxContainer entries = hbox.GetNode<VBoxContainer>("Entries");

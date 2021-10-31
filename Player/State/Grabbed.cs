@@ -7,7 +7,6 @@ public class Grabbed : State
     {
         base.FrameAdvance();
         owner.velocity = new Vector2(0, 0);
-        GD.Print($"Grabbed global position = {owner.GlobalPosition}");
     }
 
     /// <summary>

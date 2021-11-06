@@ -69,8 +69,8 @@ public class Lobby : Node2D
 		{
 			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
 
-			otherPort = int.Parse(GetNode<LineEdit>("OpponentPort").Text);
-			localPort = int.Parse(GetNode<LineEdit>("LocalPort").Text);
+			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
+			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 		}
 		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = false;

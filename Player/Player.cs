@@ -750,7 +750,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
-		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);
 			List<Rect2> hurtRects = GetRects(hurtBoxes);

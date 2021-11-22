@@ -14,6 +14,9 @@ public class MainScene : Node2D
 	private TextureProgress P2Health;
 	private Camera2D camera;
 	private GameStateObject gsObj;
+	private Label timer;
+	private Label centerText;
+	
 
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
@@ -23,11 +26,17 @@ public class MainScene : Node2D
 
 	[Export]
 	public bool halfSpeed = false;
+
+	[Export]
+	public int countDownSpeed = 30;
 	public bool displayFrame = true;
 
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
+
+	private bool roundFinished = false; // this really should be in GameStateObject, but because we interface with GGPO, I've put it here.  Allows inputs through
+	private bool roundStarted = false;
 
 	private int frameAhead = 0; //prevents one sided rollbacks
 	
@@ -61,6 +70,10 @@ public class MainScene : Node2D
 		P2Combo = GetNode<Label>("HUD/P2Combo");
 		P1Health = GetNode<TextureProgress>("HUD/P1Health");
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
+		timer = GetNode<Label>("HUD/Timer");
+		centerText = GetNode<Label>("HUD/CenterText");
+		centerText.Visible = true;
+		centerText.Text = "3";
 		P1Combo.Text = "";
 		P2Combo.Text = "";
 
@@ -85,7 +98,14 @@ public class MainScene : Node2D
 			GGPO.CreateInstance(gsObj, nameof(gsObj.SaveGameState));
 			Godot.Collections.Dictionary remoteHandle = GGPO.AddPlayer(GGPO.PlayertypeRemote, otherHand, ip, remotePort);
 			GD.Print($"Remote add result:{remoteHandle["result"]}");
+
+			WaitForConnectionDisplay();
 		}
+
+		else if (Globals.mode == Globals.Mode.TRAINING)
+        {
+			roundStarted = true;
+        }
 		
 	}
 
@@ -179,6 +199,7 @@ public class MainScene : Node2D
 
 		}
 		ResetInputs();
+		UpdateTime();
 	}
 
 	public void TrainingPhysicsProcess()
@@ -186,6 +207,7 @@ public class MainScene : Node2D
 		var combinedInputs = new int[2] {inputs, 0 }; 
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
 		ResetInputs();
+		UpdateTime();
 	}
 
 	public void LocalPhysicsProcess()
@@ -193,6 +215,7 @@ public class MainScene : Node2D
 		var combinedInputs = new int[2] { inputs, p2inputs };
 		gsObj.Update(new Godot.Collections.Array(combinedInputs));
 		ResetInputs();
+		UpdateTime();
 	}
 	
 	/// <summary>
@@ -203,6 +226,7 @@ public class MainScene : Node2D
 	{
 		gsObj.Update(combinedInputs);
 		GGPO.AdvanceFrame();
+
 	}
 
 
@@ -226,6 +250,7 @@ public class MainScene : Node2D
 	public void OnEventConnectedToPeer(int handle)
 	{
 		GD.Print($"Connected to peer with handle {handle}");
+		Connected();
 	}
 
 	/// <summary>
@@ -255,6 +280,11 @@ public class MainScene : Node2D
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
+		if (roundFinished || !roundStarted) // not the best place for this, but it works for now.  Eventually will want a message to send to each player
+        {
+			return;
+        }
+
 
 		if (@event.IsActionPressed("8"))
 		{
@@ -444,12 +474,75 @@ public class MainScene : Node2D
 		p2inputs = int.Parse(inputsCurr + newInput);
 	}
 
-
-
-
-
-
 	// HUD
+
+	private void WaitForConnectionDisplay()
+    {
+		P1.Visible = false;
+		P2.Visible = false;
+		centerText.Text = "WAITING FOR CONNECTION...";
+		centerText.Visible = true;
+    }
+
+	private void Connected()
+    {
+		P1.Visible = true;
+		P2.Visible = true;
+		centerText.Visible = false;
+	}
+
+	/// <summary>
+	/// This needs to be organized!!
+	/// </summary>
+	private void UpdateTime()
+    {
+		if (Globals.mode == Globals.Mode.TRAINING)
+        {
+			return;
+        }
+
+		if (roundFinished)
+        {
+			return;
+        }
+		int frame = gsObj.Frame;
+
+		if (!roundStarted)
+        {
+			if (frame % countDownSpeed == 0)
+			{
+				centerText.Visible = true;
+				centerText.Text = (3 - Mathf.FloorToInt(frame / countDownSpeed)).ToString();
+				if (frame == countDownSpeed * 3)
+                {
+					roundStarted = true;
+					centerText.Text = "FIGHT!";
+				}
+			}
+			return;
+        }
+
+
+		int postIntroFrame = frame - countDownSpeed * 3;
+		if (postIntroFrame / 60 < 100)
+        {
+			if (postIntroFrame == 60)
+            {
+				centerText.Visible = false; // "hide the 'FIGHT' center text"
+            }
+
+			if (postIntroFrame % 60 == 0)
+			{
+				timer.Text = (99 - Mathf.FloorToInt(postIntroFrame / 60)).ToString();
+			}
+		}
+        else
+        {
+			centerText.Visible = true;
+			centerText.Text = "TIME UP";
+			roundFinished = true;
+		}
+    }
 	public void OnPlayerComboChange(string name, int combo)
 	{
 		if (name == "P2")
@@ -491,14 +584,21 @@ public class MainScene : Node2D
 	}
 	public void OnPlayerHealthChange(string name, int health)
 	{
+		if (health < 0)
+        {
+			roundFinished = true;
+			centerText.Visible = true;
+        }
 		if (name == "P2")
 		{
 			P2Health.Value = health;
+			centerText.Text = "P1 WINS";
 		}
 
 		else
 		{
 			P1Health.Value = health;
+			centerText.Text = "P2 WINS";
 		}
 	}
 	public void OnHadoukenEmitted(HadoukenPart h)

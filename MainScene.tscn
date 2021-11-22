@@ -13,7 +13,6 @@
 [ext_resource path="res://Other-assets/font.tres" type="DynamicFont" id=11]
 [ext_resource path="res://HUD/HUDCombo.gd" type="Script" id=12]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=13]
-[ext_resource path="res://HUD/Timer.gd" type="Script" id=14]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )
@@ -22,6 +21,9 @@ default_font = ExtResource( 11 )
 default_font = ExtResource( 11 )
 
 [sub_resource type="Theme" id=3]
+default_font = ExtResource( 11 )
+
+[sub_resource type="Theme" id=4]
 default_font = ExtResource( 11 )
 
 [node name="MainScene" type="Node2D"]
@@ -97,14 +99,10 @@ margin_right = 265.0
 margin_bottom = 29.0
 theme = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "60"
-script = ExtResource( 14 )
+text = "99"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Timer" type="Timer" parent="HUD/Timer"]
-wait_time = 99.0
 
 [node name="P2Combo" type="Label" parent="HUD"]
 margin_left = 359.735
@@ -139,6 +137,7 @@ __meta__ = {
 wait_time = 0.5
 
 [node name="Reset" type="Button" parent="HUD"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -24.0
@@ -146,6 +145,23 @@ margin_top = 40.0
 margin_right = 24.0
 margin_bottom = 20.0
 text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterText" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -56.0
+margin_top = -8.0
+margin_right = 56.0
+margin_bottom = 8.0
+theme = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "TIME UP"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -164,6 +180,7 @@ position = Vector2( 240, 135 )
 z_index = -1
 
 [node name="Sky and Sun" type="Sprite" parent="Background"]
+position = Vector2( 0, 0.396851 )
 texture = ExtResource( 3 )
 
 [node name="Buildings Back" type="Sprite" parent="Background"]

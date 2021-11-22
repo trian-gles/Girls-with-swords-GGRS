@@ -66,14 +66,14 @@ text = "Sync Test"
 
 [node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 106.0
-margin_right = 277.0
+margin_right = 164.0
 margin_bottom = 143.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentPort" type="LineEdit" parent="HBoxContainer/Entries"]
-margin_right = 171.0
+margin_right = 58.0
 margin_bottom = 24.0
 placeholder_text = "Enter Opponent Port"
 __meta__ = {
@@ -82,7 +82,7 @@ __meta__ = {
 
 [node name="OpponentIp" type="LineEdit" parent="HBoxContainer/Entries"]
 margin_top = 28.0
-margin_right = 171.0
+margin_right = 58.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
@@ -92,7 +92,7 @@ __meta__ = {
 
 [node name="LocalPort" type="LineEdit" parent="HBoxContainer/Entries"]
 margin_top = 56.0
-margin_right = 171.0
+margin_right = 58.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Local Port"

@@ -68,8 +68,11 @@ public class Lobby : Node2D
 
 		buttons.GetNode<Button>("Host").Visible = false;
 		buttons.GetNode<Button>("Join").Visible = false;
+		buttons.GetNode<Button>("SyncTest").Visible = false;
 		buttons.GetNode<Button>("Local").Visible = false;
 		buttons.GetNode<Button>("Training").Visible = false;
+		GetNode<Button>("HostTest").Visible = false;
+		GetNode<Button>("JoinTest").Visible = false;
 
 		string ip = "127.0.0.1";
 		int localPort = 0;

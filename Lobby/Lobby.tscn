@@ -101,6 +101,7 @@ __meta__ = {
 }
 
 [node name="HostTest" type="Button" parent="."]
+visible = false
 margin_left = 328.94
 margin_top = 212.844
 margin_right = 460.94
@@ -111,6 +112,7 @@ __meta__ = {
 }
 
 [node name="JoinTest" type="Button" parent="."]
+visible = false
 margin_left = 328.468
 margin_top = 183.112
 margin_right = 460.468

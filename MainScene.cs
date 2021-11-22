@@ -73,7 +73,7 @@ public class MainScene : Node2D
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
 		centerText.Visible = true;
-		centerText.Text = "3";
+		
 		P1Combo.Text = "";
 		P2Combo.Text = "";
 
@@ -105,6 +105,7 @@ public class MainScene : Node2D
 		else if (Globals.mode == Globals.Mode.TRAINING)
         {
 			roundStarted = true;
+			centerText.Visible = false;
         }
 		
 	}
@@ -509,6 +510,10 @@ public class MainScene : Node2D
 
 		if (!roundStarted)
         {
+			if (frame == 1)
+            {
+				centerText.Text = "3";
+			}
 			if (frame % countDownSpeed == 0)
 			{
 				centerText.Visible = true;

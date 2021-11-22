@@ -100,6 +100,7 @@ public class Player : Node2D
 	private Sprite sprite;
 	private EventScheduler eventSched;
 	private GFXHandler gfxHand;
+	private Label debugPos;
 	
 
 	public override void _Ready()
@@ -112,6 +113,7 @@ public class Player : Node2D
 		sprite = GetNode<Sprite>("Sprite");
 		eventSched = GetNode<EventScheduler>("EventScheduler");
 		gfxHand = GetNode<GFXHandler>("GFXHandler");
+		debugPos = GetNode<Label>("DebugPos");
 
 		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
 		foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
@@ -332,6 +334,7 @@ public class Player : Node2D
 				currentState.HandleInput(inputArr);
 			}
 			unhandledInputs.Clear();
+			
 		}
 
 		public List<char[]> GetBuffer() 
@@ -487,6 +490,7 @@ public class Player : Node2D
 	/// </summary>
 	public void RenderPosition()
 	{
+		debugPos.Text = $"{internalPos.x}, {internalPos.y}";
 		Position = new Vector2((int)Math.Floor(internalPos.x / 100), (int)Math.Floor(internalPos.y / 100));
 	}
 
@@ -750,7 +754,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
-		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		//if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);
 			List<Rect2> hurtRects = GetRects(hurtBoxes);
@@ -770,7 +774,6 @@ public class Player : Node2D
 			DrawRect(colRect, colColor);
 		}
 
-		DrawCircle(grabPos.Position, 2, grabColor);
 		
 	}
 }

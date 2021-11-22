@@ -158,11 +158,6 @@ public class MainScene : Node2D
 	{
 		GGPO.Idle(30);
 
-		if (frameAhead > 0)
-        {
-			frameAhead--;
-			return;
-        }
 		int result;
 		if (localPlayerHandle != GGPO.InvalidHandle)
 		{
@@ -220,6 +215,7 @@ public class MainScene : Node2D
 	public void OnEventTimesync(int framesAhead)
     {
 		frameAhead = framesAhead;
+		GD.Print(frameAhead);
     }
 
 	public void OnLoadGameState(StreamPeerBuffer buffer)

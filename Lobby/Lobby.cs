@@ -3,9 +3,14 @@ using System;
 
 public class Lobby : Node2D
 {
-
+	HBoxContainer hbox;
+	VBoxContainer buttons;
+	VBoxContainer entries;
 	public override void _Ready()
 	{
+		hbox = GetNode<HBoxContainer>("HBoxContainer");
+		buttons = hbox.GetNode<VBoxContainer>("Buttons");
+		entries = hbox.GetNode<VBoxContainer>("Entries");
 		Globals.Tests();
 	}
 	public void OnHostButtonDown()
@@ -22,9 +27,18 @@ public class Lobby : Node2D
 		Begin(false);
 	}
 
-	public void OnEasyButtonDown()
+	public void OnHostTestButtonDown()
 	{
-		GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+		entries.GetNode<LineEdit>("OpponentPort").Text = "7000";
+		entries.GetNode<LineEdit>("LocalPort").Text = "7001";
+	}
+
+	public void OnJoinTestButtonDown()
+	{
+		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+		entries.GetNode<LineEdit>("OpponentPort").Text = "7001";
+		entries.GetNode<LineEdit>("LocalPort").Text = "7000";
 	}
 
 	public void OnLocalButtonDown()
@@ -51,10 +65,6 @@ public class Lobby : Node2D
 
 	public void Begin(bool host)
 	{
-
-		HBoxContainer hbox = GetNode<HBoxContainer>("HBoxContainer");
-		VBoxContainer buttons = hbox.GetNode<VBoxContainer>("Buttons");
-		VBoxContainer entries = hbox.GetNode<VBoxContainer>("Entries");
 
 		buttons.GetNode<Button>("Host").Visible = false;
 		buttons.GetNode<Button>("Join").Visible = false;

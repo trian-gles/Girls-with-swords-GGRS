@@ -105,6 +105,7 @@ public class MainScene : Node2D
 		else if (Globals.mode == Globals.Mode.TRAINING)
         {
 			roundStarted = true;
+			centerText.Visible = false;
         }
 		
 	}

@@ -26,13 +26,17 @@ public class MainScene : Node2D
 
 	[Export]
 	public bool halfSpeed = false;
+
+	[Export]
+	public int countDownSpeed = 30;
 	public bool displayFrame = true;
 
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
 
-	private bool notRunning = false; // this really should be in GameStateObject, but because we interface with GGPO, I've put it here
+	private bool roundFinished = false; // this really should be in GameStateObject, but because we interface with GGPO, I've put it here.  Allows inputs through
+	private bool roundStarted = false;
 
 	private int frameAhead = 0; //prevents one sided rollbacks
 	
@@ -68,7 +72,8 @@ public class MainScene : Node2D
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
-		centerText.Visible = false;
+		centerText.Visible = true;
+		centerText.Text = "3";
 		P1Combo.Text = "";
 		P2Combo.Text = "";
 
@@ -96,6 +101,11 @@ public class MainScene : Node2D
 
 			WaitForConnectionDisplay();
 		}
+
+		else if (Globals.mode == Globals.Mode.TRAINING)
+        {
+			roundStarted = true;
+        }
 		
 	}
 
@@ -270,7 +280,7 @@ public class MainScene : Node2D
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
-		if (notRunning) // not the best place for this, but it works for now
+		if (roundFinished || !roundStarted) // not the best place for this, but it works for now.  Eventually will want a message to send to each player
         {
 			return;
         }
@@ -480,6 +490,10 @@ public class MainScene : Node2D
 		P2.Visible = true;
 		centerText.Visible = false;
 	}
+
+	/// <summary>
+	/// This needs to be organized!!
+	/// </summary>
 	private void UpdateTime()
     {
 		if (Globals.mode == Globals.Mode.TRAINING)
@@ -487,23 +501,46 @@ public class MainScene : Node2D
 			return;
         }
 
-		if (notRunning)
+		if (roundFinished)
         {
 			return;
         }
 		int frame = gsObj.Frame;
-		if (frame / 60 < 100)
+
+		if (!roundStarted)
         {
-			if (frame % 60 == 0)
+			if (frame % countDownSpeed == 0)
 			{
-				timer.Text = (99 - Mathf.FloorToInt(frame / 60)).ToString();
+				centerText.Visible = true;
+				centerText.Text = (3 - Mathf.FloorToInt(frame / countDownSpeed)).ToString();
+				if (frame == countDownSpeed * 3)
+                {
+					roundStarted = true;
+					centerText.Text = "FIGHT!";
+				}
+			}
+			return;
+        }
+
+
+		int postIntroFrame = frame - countDownSpeed * 3;
+		if (postIntroFrame / 60 < 100)
+        {
+			if (postIntroFrame == 60)
+            {
+				centerText.Visible = false; // "hide the 'FIGHT' center text"
+            }
+
+			if (postIntroFrame % 60 == 0)
+			{
+				timer.Text = (99 - Mathf.FloorToInt(postIntroFrame / 60)).ToString();
 			}
 		}
         else
         {
 			centerText.Visible = true;
 			centerText.Text = "TIME UP";
-			notRunning = true;
+			roundFinished = true;
 		}
     }
 	public void OnPlayerComboChange(string name, int combo)
@@ -549,7 +586,7 @@ public class MainScene : Node2D
 	{
 		if (health < 0)
         {
-			notRunning = true;
+			roundFinished = true;
 			centerText.Visible = true;
         }
 		if (name == "P2")

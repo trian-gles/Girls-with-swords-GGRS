@@ -6,7 +6,7 @@ public class Knockdown : HitState
     public override void Enter()
     {
         base.Enter();
-        owner.ComboUp();
+        
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
         owner.GFXEvent("Blood");
         owner.velocity = new Vector2(0, 0);

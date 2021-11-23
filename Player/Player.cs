@@ -600,7 +600,18 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool IsGrabbable()
 	{
-		return (!currentState.GetType().IsSubclassOf(typeof(HitState)));
+		if (currentState.GetType().IsSubclassOf(typeof(HitState)))
+        {
+			return false;
+        }
+		else if (!grounded)
+        {
+			return false;
+        }
+        else
+        {
+			return true;
+        }
 	}
 
 	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 

@@ -284,13 +284,7 @@ public class MainScene : Node2D
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
-		if (roundFinished || !roundStarted) // not the best place for this, but it works for now.  Eventually will want a message to send to each player
-        {
-			return;
-        }
-
-
-		if (@event.IsActionPressed("8"))
+				if (@event.IsActionPressed("8"))
 		{
 			AddPress((int) Globals.Inputs.UP);
 		}
@@ -413,6 +407,10 @@ public class MainScene : Node2D
 	}
 	private void AddPress(int key)
 	{
+		if (roundFinished || !roundStarted) // not the best place for this, but it works for now.  Eventually will want a message to send to each player
+		{
+			return;
+		}
 		int thisInput = key * 10;
 		GD.Print($"press {key}");
 		AddInput(thisInput);
@@ -626,6 +624,10 @@ public class MainScene : Node2D
 	{
 		if (health < 1)
         {
+			if (Globals.mode == Globals.Mode.TRAINING) // eventually this should reset player health
+            {
+				return;
+            }
 			EndRound();
 			centerText.Visible = true;
         }

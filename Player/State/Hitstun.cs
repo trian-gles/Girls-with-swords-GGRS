@@ -11,7 +11,7 @@ public class HitStun : HitState
     public override void Enter()
     {
         base.Enter();
-        owner.ComboUp();
+        
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
         owner.GFXEvent("Blood");
     }

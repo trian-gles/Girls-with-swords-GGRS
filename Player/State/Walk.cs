@@ -10,6 +10,7 @@ public class Walk : State
         base._Ready();
         loop = true;
     }
+
     public override void Enter()
     {
         base.Enter();

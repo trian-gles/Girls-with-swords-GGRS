@@ -9,6 +9,10 @@ public class Jump : State
         owner.velocity.y = -1 * owner.jumpForce;
         owner.grounded = false;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
+
+        AddGatling(new[] { 'p', 'p' }, "JumpPunch");
+        AddGatling(new[] { 'k', 'p' }, "JumpKick");
+        AddGatling(new[] { 's', 'p' }, "JumpSlash");
     }
 
     public override void FrameAdvance()
@@ -24,22 +28,6 @@ public class Jump : State
 
     public override void PushMovement(float _xVel)
     {
-    }
-
-    public override void HandleInput(char[] inputArr)
-    {
-        if (Globals.CheckKeyPress(inputArr, 'p'))
-        {
-            EmitSignal(nameof(StateFinished), "JumpPunch");
-        }
-        else if (Globals.CheckKeyPress(inputArr, 'k'))
-        {
-            EmitSignal(nameof(StateFinished), "JumpKick");
-        }
-        else if (Globals.CheckKeyPress(inputArr, 's'))
-        {
-            EmitSignal(nameof(StateFinished), "JumpSlash");
-        }
     }
 
     public override void AnimationFinished()

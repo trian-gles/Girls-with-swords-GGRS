@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/GL Moveset-Sheet.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Player/New Palette Swapper/ExampleCode.shader" type="Shader" id=4]
+[ext_resource path="res://Player/AnimationPlayer.cs" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -25,3 +26,4 @@ hframes = 31
 frame = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
+script = ExtResource( 5 )

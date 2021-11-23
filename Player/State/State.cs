@@ -29,6 +29,7 @@ public abstract class State : Node
 
     protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
     protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+    protected delegate bool RequiredConditionCallback();
     protected delegate void PostInputCallback();
     public override void _Ready()
     {
@@ -65,6 +66,7 @@ public abstract class State : Node
     {
         public char[] input;
         public string state;
+        public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
         public PostInputCallback postCall;
     }
 
@@ -72,6 +74,7 @@ public abstract class State : Node
     {
         public List<char[]> inputs;
         public string state;
+        public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
         public PostInputCallback postCall;
     }
 
@@ -116,6 +119,17 @@ public abstract class State : Node
         normalGatlings.Add(newGatling);
     }
 
+    protected void AddGatling(char[] input, RequiredConditionCallback reqCall, string state)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state,
+            reqCall = reqCall
+        };
+        normalGatlings.Add(newGatling);
+    }
+
     protected void AddGatling(char[] input, string state, PostInputCallback postCall)
     {
         var newGatling = new NormalGatling
@@ -125,7 +139,6 @@ public abstract class State : Node
             postCall = postCall
         };
         normalGatlings.Add(newGatling);
-
     }
 
     protected void AddGatling(List<char[]> inputs, string state)
@@ -170,6 +183,14 @@ public abstract class State : Node
 
                 if (owner.CheckBufferComplex(testedInputs))
                 {
+                    if (comGat.reqCall != null)
+                    {
+                        if (!comGat.reqCall())
+                        {
+                            continue;
+                        }
+                    }
+
                     if (comGat.postCall != null)
                     {
                         comGat.postCall();
@@ -187,6 +208,14 @@ public abstract class State : Node
             testInp = ReverseInput(testInp);
             if (Enumerable.SequenceEqual(normGat.input, inputArr))
             {
+                if (normGat.reqCall != null)
+                {
+                    if (!normGat.reqCall())
+                    {
+                        continue;
+                    }
+                }
+
                 if (normGat.postCall != null)
                 {
                     normGat.postCall();

@@ -3459,6 +3459,7 @@ releaseFrame = 20
 script = ExtResource( 29 )
 releaseFrame = 45
 launch = Vector2( 600, -200 )
+dmg = 50
 hitStun = 35
 
 [node name="Grabbed" type="Node" parent="StateTree"]

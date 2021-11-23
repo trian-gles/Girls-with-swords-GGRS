@@ -29,8 +29,11 @@ public class MainScene : Node2D
 
 	[Export]
 	public int countDownSpeed = 30;
+	private int gameFinishFrame;
 	public bool displayFrame = true;
 
+	[Signal]
+	public delegate void LobbyReturn();
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
@@ -492,6 +495,66 @@ public class MainScene : Node2D
 		centerText.Visible = false;
 	}
 
+	private void PreRoundTime(int frame)
+    {
+		if (frame == 1)
+		{
+			centerText.Text = "3";
+		}
+		if (frame % countDownSpeed == 0)
+		{
+			centerText.Visible = true;
+			centerText.Text = (3 - Mathf.FloorToInt(frame / countDownSpeed)).ToString();
+			if (frame == countDownSpeed * 3)
+			{
+				roundStarted = true;
+				centerText.Text = "FIGHT!";
+			}
+		}
+	}
+
+	private void MainGameTime(int frame)
+    {
+		int postIntroFrame = frame - countDownSpeed * 3;
+		if (postIntroFrame / 60 < 100)
+		{
+			if (postIntroFrame == 60)
+			{
+				centerText.Visible = false; // "hide the 'FIGHT' center text"
+			}
+
+			if (postIntroFrame % 60 == 0)
+			{
+				timer.Text = (99 - Mathf.FloorToInt(postIntroFrame / 60)).ToString();
+			}
+			
+		}
+
+		else
+		{
+			
+			centerText.Visible = true;
+			centerText.Text = "TIME UP";
+			EndRound();
+			
+		}
+	}
+
+	private void EndRound()
+    {
+		gameFinishFrame = gsObj.Frame;
+		roundFinished = true;
+	}
+
+	private void PostGameTime(int frame)
+    {
+		int postGameFrame = frame - gameFinishFrame;
+		if (postGameFrame > 200)
+        {
+			ReturnToLobby();
+        }
+    }
+
 	/// <summary>
 	/// This needs to be organized!!
 	/// </summary>
@@ -501,52 +564,24 @@ public class MainScene : Node2D
         {
 			return;
         }
-
-		if (roundFinished)
-        {
-			return;
-        }
 		int frame = gsObj.Frame;
 
 		if (!roundStarted)
         {
-			if (frame == 1)
-            {
-				centerText.Text = "3";
-			}
-			if (frame % countDownSpeed == 0)
-			{
-				centerText.Visible = true;
-				centerText.Text = (3 - Mathf.FloorToInt(frame / countDownSpeed)).ToString();
-				if (frame == countDownSpeed * 3)
-                {
-					roundStarted = true;
-					centerText.Text = "FIGHT!";
-				}
-			}
-			return;
+			PreRoundTime(frame);
         }
-
-
-		int postIntroFrame = frame - countDownSpeed * 3;
-		if (postIntroFrame / 60 < 100)
+		else if (roundStarted && !roundFinished)
         {
-			if (postIntroFrame == 60)
-            {
-				centerText.Visible = false; // "hide the 'FIGHT' center text"
-            }
-
-			if (postIntroFrame % 60 == 0)
-			{
-				timer.Text = (99 - Mathf.FloorToInt(postIntroFrame / 60)).ToString();
-			}
+			MainGameTime(frame);
 		}
-        else
+		else if (roundFinished)
         {
-			centerText.Visible = true;
-			centerText.Text = "TIME UP";
-			roundFinished = true;
-		}
+			PostGameTime(frame);
+        }
+		
+
+
+		
     }
 	public void OnPlayerComboChange(string name, int combo)
 	{
@@ -589,9 +624,9 @@ public class MainScene : Node2D
 	}
 	public void OnPlayerHealthChange(string name, int health)
 	{
-		if (health < 0)
+		if (health < 1)
         {
-			roundFinished = true;
+			EndRound();
 			centerText.Visible = true;
         }
 		if (name == "P2")
@@ -618,4 +653,10 @@ public class MainScene : Node2D
 		
 		gsObj.RemoveHadouken(h);
 	}
+
+	private void ReturnToLobby()
+    {
+		EmitSignal(nameof(LobbyReturn));
+		QueueFree();
+    }
 }

@@ -60,6 +60,16 @@ public abstract class BaseAttack : State
 
 	}
 
+	public override void HandleInput(char[] inputArr)
+	{
+		if (!hitConnect)
+		{
+			return;
+		}
+		base.HandleInput(inputArr);
+	}
+
+
 	public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
 	{
 		if (!rightAttack)

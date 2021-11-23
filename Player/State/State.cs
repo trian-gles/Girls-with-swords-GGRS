@@ -279,7 +279,15 @@ public abstract class State : Node
         }
         else if (!launchBool && knockdown)
         {
-            EmitSignal(nameof(StateFinished), "Knockdown");
+            if (owner.grounded)
+            {
+                EmitSignal(nameof(StateFinished), "Knockdown");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "AirKnockdown");
+            }
+            
         }
         else
         {

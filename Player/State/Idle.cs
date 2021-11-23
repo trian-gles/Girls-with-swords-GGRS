@@ -58,10 +58,6 @@ public class Idle : State
         base.FrameAdvance();
         owner.velocity.x = 0;
         owner.CheckTurnAround();
-        if (owner.CheckHeldKey('8'))
-        {
-            EmitSignal(nameof(StateFinished), "Jump");
-        }
     }
 }
 

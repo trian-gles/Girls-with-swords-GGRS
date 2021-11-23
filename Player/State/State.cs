@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Base class for all states
@@ -54,8 +56,97 @@ public abstract class State : Node
     
     }
 
+    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
+    protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+    protected struct NormalGatling
+    {
+        public char[] input;
+        public string state;
+    }
+
+    protected struct CommandGatling
+    {
+        public List<char[]> inputs;
+        public string state;
+    }
+
+    protected List<char[]> ReverseInputs(List<char[]> origInputs)
+    {
+        var newInputs = new List<char[]>();
+        foreach (char[] inp in origInputs)
+        {
+            char[] newInp = new char[2];
+
+            inp.CopyTo(newInp, 0);
+
+            if (inp[0] == '4')
+            {
+                newInp[0] = '6';
+
+            }
+
+            else if (inp[0] == '6')
+            {
+                newInp[0] = '4';
+            }
+            newInputs.Add(newInp);
+        }
+
+        return newInputs;
+    }
+
+    protected void AddGatling(char[] input, string state)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state
+        };
+        normalGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(List<char[]> inputs, string state)
+    {
+        var newGatling = new CommandGatling
+        {
+            inputs = inputs,
+            state = state
+        };
+        commandGatlings.Add(newGatling);
+    }
     public virtual void HandleInput(char[] inputArr)
     {
+        if (!hitConnect)
+        {
+            return;
+        }
+        foreach (CommandGatling comGat in commandGatlings)
+        {
+            if (Enumerable.SequenceEqual(comGat.inputs[comGat.inputs.Count - 1], inputArr))
+            {
+                List<char[]> testedInputs = comGat.inputs;
+
+                if (!owner.facingRight)
+                {
+                    testedInputs = ReverseInputs(testedInputs);
+                }
+
+
+                if (owner.CheckBufferComplex(testedInputs))
+                {
+                    EmitSignal(nameof(StateFinished), comGat.state);
+                    return;
+                }
+            }
+        }
+        foreach (NormalGatling normGat in normalGatlings)
+        {
+            if (Enumerable.SequenceEqual(normGat.input, inputArr))
+            {
+                EmitSignal(nameof(StateFinished), normGat.state);
+                return;
+            }
+        }
     }
 
     /// <summary>

@@ -9,6 +9,17 @@ public class Walk : State
     {
         base._Ready();
         loop = true;
+        AddGatling(new[] { 's', 'p' }, () => (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 4500) && owner.otherPlayer.IsGrabbable(), "Grab");
+        AddGatling(new[] { 'p', 'p' }, "Jab");
+        AddGatling(new[] { 'k', 'p' }, "Kick");
+        AddGatling(new[] { 's', 'p' }, "Slash");
+        AddGatling(new[] { '8', 'p' }, "MovingJump");
+        AddGatling(new[] { '2', 'p' }, "Crouch");
+        AddGatling(new[] { '6', 'r' }, "Idle");
+        AddGatling(new[] { '4', 'r' }, "Idle");
+        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "Run", () => { owner.velocity.x = owner.speed * 2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+        AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
     }
 
     public override void Enter()
@@ -17,62 +28,6 @@ public class Walk : State
         if (owner.CheckHeldKey('8'))
         {
             EmitSignal(nameof(StateFinished), "MovingJump");
-        }
-    }
-
-    public override void HandleInput(char[] inputArr)
-    {
-        if (Globals.CheckKeyPress(inputArr, 'p'))
-        {
-            EmitSignal(nameof(StateFinished), "Jab");
-
-            if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p'}, new char[] { '6', 'p' }, new char[] { '2', 'r' } })) 
-            {
-                EmitSignal(nameof(StateFinished), "Hadouken");
-            }
-            else if ((!owner.facingRight) && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '4', 'p' }, new char[] { '2', 'r' } }))
-            {
-                EmitSignal(nameof(StateFinished), "Hadouken");
-            }
-        }
-        else if ((inputArr[0] == '6' || inputArr[0] == '4') && inputArr[1] == 'r')
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-        else if (Globals.CheckKeyPress(inputArr, '6') && !owner.facingRight)
-        {
-            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }))
-            {
-                owner.velocity.x -= owner.speed;
-                EmitSignal(nameof(StateFinished), "Backdash");
-            }
-
-        }
-        else if (Globals.CheckKeyPress(inputArr, '8'))
-        {
-            EmitSignal(nameof(StateFinished), "MovingJump");
-        }
-        else if (Globals.CheckKeyPress(inputArr, 'k'))
-        {
-            owner.velocity.x = 0;
-            EmitSignal(nameof(StateFinished), "Kick");
-        }
-        else if (Globals.CheckKeyPress(inputArr, '2'))
-        {
-            EmitSignal(nameof(StateFinished), "Crouch");
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, 's'))
-        {
-            if ((Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 4500) && owner.otherPlayer.IsGrabbable())
-            {
-                EmitSignal(nameof(StateFinished), "Grab");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "Slash");
-            }
-            
         }
     }
 

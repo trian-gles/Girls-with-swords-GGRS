@@ -626,6 +626,10 @@ public class MainScene : Node2D
 	{
 		if (health < 1)
         {
+			if (Globals.mode == Globals.Mode.TRAINING) // eventually this should reset player health
+            {
+				return;
+            }
 			EndRound();
 			centerText.Visible = true;
         }

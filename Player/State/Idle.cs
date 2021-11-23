@@ -12,13 +12,16 @@ public class Idle : State
         AddGatling(new[] { '2', 'p' }, "Crouch");
         AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
         AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
-        AddGatling(new[] { '6', 'p' }, "Jump");
+        AddGatling(new[] { '8', 'p' }, "Jump");
         AddGatling(new[] { 'p', 'p' }, "Jab");
         AddGatling(new[] { 'k', 'p' }, "Kick");
         AddGatling(new[] { 's', 'p' }, "Slash");
         AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] {'p', 'p' } }, "Hadouken");
         AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "Run", () => { owner.velocity.x = owner.speed * 2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
         AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { 'k', 'p' } }, "CommandRun");
+        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "AntiAir");
     }
     public override void Enter()
     {

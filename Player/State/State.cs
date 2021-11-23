@@ -26,6 +26,10 @@ public abstract class State : Node
         MID,
         HIGH
     }
+
+    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
+    protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+    protected delegate void PostInputCallback();
     public override void _Ready()
     {
         owner = GetOwner<Player>();
@@ -56,18 +60,39 @@ public abstract class State : Node
     
     }
 
-    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
-    protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+    
     protected struct NormalGatling
     {
         public char[] input;
         public string state;
+        public PostInputCallback postCall;
     }
 
     protected struct CommandGatling
     {
         public List<char[]> inputs;
         public string state;
+        public PostInputCallback postCall;
+    }
+
+    protected char[] ReverseInput(char[] inp)
+    {
+        char[] newInp = new char[2];
+
+        inp.CopyTo(newInp, 0);
+
+        if (inp[0] == '4')
+        {
+            newInp[0] = '6';
+
+        }
+
+        else if (inp[0] == '6')
+        {
+            newInp[0] = '4';
+        }
+
+        return newInp;
     }
 
     protected List<char[]> ReverseInputs(List<char[]> origInputs)
@@ -75,21 +100,7 @@ public abstract class State : Node
         var newInputs = new List<char[]>();
         foreach (char[] inp in origInputs)
         {
-            char[] newInp = new char[2];
-
-            inp.CopyTo(newInp, 0);
-
-            if (inp[0] == '4')
-            {
-                newInp[0] = '6';
-
-            }
-
-            else if (inp[0] == '6')
-            {
-                newInp[0] = '4';
-            }
-            newInputs.Add(newInp);
+            newInputs.Add(ReverseInput(inp));
         }
 
         return newInputs;
@@ -105,6 +116,18 @@ public abstract class State : Node
         normalGatlings.Add(newGatling);
     }
 
+    protected void AddGatling(char[] input, string state, PostInputCallback postCall)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state,
+            postCall = postCall
+        };
+        normalGatlings.Add(newGatling);
+
+    }
+
     protected void AddGatling(List<char[]> inputs, string state)
     {
         var newGatling = new CommandGatling
@@ -114,15 +137,28 @@ public abstract class State : Node
         };
         commandGatlings.Add(newGatling);
     }
+
+    protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall)
+    {
+        var newGatling = new CommandGatling
+        {
+            inputs = inputs,
+            state = state,
+            postCall = postCall
+        };
+        commandGatlings.Add(newGatling);
+    }
     public virtual void HandleInput(char[] inputArr)
     {
-        if (!hitConnect)
-        {
-            return;
-        }
         foreach (CommandGatling comGat in commandGatlings)
         {
-            if (Enumerable.SequenceEqual(comGat.inputs[comGat.inputs.Count - 1], inputArr))
+            char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
+            if (!owner.facingRight)
+            {
+                firstInp = ReverseInput(firstInp);
+            }
+
+            if (Enumerable.SequenceEqual(firstInp, inputArr))
             {
                 List<char[]> testedInputs = comGat.inputs;
 
@@ -134,6 +170,11 @@ public abstract class State : Node
 
                 if (owner.CheckBufferComplex(testedInputs))
                 {
+                    if (comGat.postCall != null)
+                    {
+                        comGat.postCall();
+                    }
+
                     EmitSignal(nameof(StateFinished), comGat.state);
                     return;
                 }
@@ -141,8 +182,16 @@ public abstract class State : Node
         }
         foreach (NormalGatling normGat in normalGatlings)
         {
+
+            char[] testInp = normGat.input;
+            testInp = ReverseInput(testInp);
             if (Enumerable.SequenceEqual(normGat.input, inputArr))
             {
+                if (normGat.postCall != null)
+                {
+                    normGat.postCall();
+                }
+
                 EmitSignal(nameof(StateFinished), normGat.state);
                 return;
             }

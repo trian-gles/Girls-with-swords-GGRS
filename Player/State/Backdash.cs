@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Backdash: State
+public class Backdash: Walk
 {
 	[Export]
 	public int len = 20;
@@ -11,37 +11,29 @@ public class Backdash: State
 
 	public override void Enter()
 	{
-		base.Enter();
+		frameCount = 0;
+		if (owner.CheckHeldKey('8'))
+		{
+			EmitSignal(nameof(StateFinished), "MovingJump");
+		}
+
 		owner.velocity.y = -1 * hopForce;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 		owner.grounded = false;
 	}
 
+	public override void HandleInput(char[] inputArr)
+    {
+
+    }
+
 	public override void FrameAdvance()
 	{
-		base.FrameAdvance();
+		frameCount++;
 		if (frameCount == len)
 		{
 			EmitSignal(nameof(StateFinished), "Idle");
 		}
 		ApplyGravity();
-	}
-
-	public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
-	{
-		if (!rightAttack)
-		{
-			launch.x *= -1;
-			hitPush *= -1;
-		}
-
-		owner.hitPushRemaining = hitPush;
-
-		if (owner.velocity.y < 0)
-		{
-			owner.grounded = false;
-		}
-
-		EnterHitState(knockdown, launch);
 	}
 }

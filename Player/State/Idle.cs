@@ -8,6 +8,20 @@ public class Idle : State
     {
         base._Ready();
         loop = true;
+        
+        AddGatling(new[] { '2', 'p' }, "Crouch");
+        AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
+        AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
+        AddGatling(new[] { '8', 'p' }, "Jump");
+        AddGatling(new[] { 'p', 'p' }, "Jab");
+        AddGatling(new[] { 'k', 'p' }, "Kick");
+        AddGatling(new[] { 's', 'p' }, "Slash");
+        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] {'p', 'p' } }, "Hadouken");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "Run", () => { owner.velocity.x = owner.speed * 2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+        AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { 'k', 'p' } }, "CommandRun");
+        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "AntiAir");
     }
     public override void Enter()
     {
@@ -41,99 +55,12 @@ public class Idle : State
             return;
         }
     } 
-    public override void HandleInput(char[] inputArr)
-    {
-        if (Globals.CheckKeyPress(inputArr, 'p'))
-        {
-            EmitSignal(nameof(StateFinished), "Jab");
-
-            if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'r' } }))
-            {
-                EmitSignal(nameof(StateFinished), "Hadouken");
-            }
-            else if ((!owner.facingRight) && owner.CheckBufferComplex(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '4', 'p' }, new char[] { '2', 'r' } }))
-            {
-                EmitSignal(nameof(StateFinished), "Hadouken");
-            }
-        }
-        else if (Globals.CheckKeyPress(inputArr, '2'))
-        {
-            EmitSignal(nameof(StateFinished), "Crouch");
-            return;
-        }
-        else if (Globals.CheckKeyPress(inputArr, '6'))
-        {
-            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }))
-            {
-                owner.velocity.x = owner.speed * 2;
-                if (!owner.facingRight)
-                {
-                    EmitSignal(nameof(StateFinished), "Backdash");
-                }
-                else 
-                {
-                    owner.velocity.x = owner.dashSpeed;
-                    EmitSignal(nameof(StateFinished), "Run");
-                }
-                
-            }
-            else
-            {
-                owner.velocity.x = owner.speed;
-                GD.Print($"Setting speed to {owner.speed}");
-                EmitSignal(nameof(StateFinished), "Walk");
-            }
-
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, '4'))
-        {
-            if (owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }))
-            {
-                owner.velocity.x = owner.speed * -2;
-                if (owner.facingRight)
-                {
-                    EmitSignal(nameof(StateFinished), "Backdash");
-                }
-                else 
-                {
-                    owner.velocity.x = -owner.dashSpeed;
-                    EmitSignal(nameof(StateFinished), "Run");
-                }
-            }
-            else
-            {
-                owner.velocity.x = -owner.speed;
-                EmitSignal(nameof(StateFinished), "Walk");
-            }
-            
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, '8'))
-        {
-            EmitSignal(nameof(StateFinished), "Jump");
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, 'k'))
-        {
-            EmitSignal(nameof(StateFinished), "Kick");
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, 's'))
-        {
-            EmitSignal(nameof(StateFinished), "Slash");
-        }
-    }
 
     public override void FrameAdvance()
     {
         base.FrameAdvance();
         owner.velocity.x = 0;
         owner.CheckTurnAround();
-        if (owner.CheckHeldKey('8'))
-        {
-            EmitSignal(nameof(StateFinished), "Jump");
-        }
     }
 }
 

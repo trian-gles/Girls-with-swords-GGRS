@@ -8,72 +8,20 @@ public class Crouch : State
     {
         base._Ready();
         loop = true;
+
+        AddGatling(new[] { '2', 'r' }, "Idle");
+        AddGatling(new[] { 'p', 'p' }, "CrouchJab");
+        AddGatling(new[] { 'k', 'p' }, "Sweep");
+        AddGatling(new[] { 's', 'p' }, "CrouchSlash");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP");
+        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { 'k', 'p' } }, "CommandRun");
+        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "AntiAir");
     }
     public override void Enter()
     {
         base.Enter();
         owner.velocity.x = 0;
         owner.velocity.y = 0;
-        
-        if (owner.CheckHeldKey('8'))
-        {
-            EmitSignal(nameof(StateFinished), "Jump");
-        }
-    } 
-    public override void HandleInput(char[] inputArr)
-    {
-        if (Globals.CheckKeyRelease(inputArr, '2'))
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, 'p'))
-        {
-            if (!owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'p' }, new char[] { '4', 'p' } }))
-            {
-                EmitSignal(nameof(StateFinished), "DP");
-            }
-            else if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' } }))
-            {
-                EmitSignal(nameof(StateFinished), "DP");
-            }
-            else 
-            {
-                EmitSignal(nameof(StateFinished), "CrouchJab");
-            }
-            
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, 'k'))
-            if (!owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'p' }, new char[] { '4', 'r' } }))
-            {
-                EmitSignal(nameof(StateFinished), "CommandRun");
-            }
-            else if (owner.facingRight && owner.CheckBufferComplex(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' } }))
-            {
-                EmitSignal(nameof(StateFinished), "CommandRun");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "Sweep");
-            }
-
-        else if (Globals.CheckKeyPress(inputArr, 's'))
-        {
-            if (owner.CheckBufferComplex(new List<char[]>() { new char[] {'2', 'p' }, new char[] { '2', 'p' } }))
-            {
-                EmitSignal(nameof(StateFinished), "AntiAir");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "CrouchSlash");
-            }
-        }
-
-        else if (Globals.CheckKeyPress(inputArr, '8'))
-        {
-            EmitSignal(nameof(StateFinished), "Jump");
-        }
     }
 
     public override void FrameAdvance()

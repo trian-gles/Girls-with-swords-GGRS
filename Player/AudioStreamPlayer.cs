@@ -13,6 +13,7 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
         soundDict.Add("Block", LoadAudio("res://Sounds/block.ogg"));
         soundDict.Add("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
         soundDict.Add("Jump", LoadAudio("res://Sounds/jump.ogg"));
+        soundDict.Add("MovingJump", LoadAudio("res://Sounds/jump.ogg"));
         soundDict.Add("Step", LoadAudio("res://Sounds/walk.ogg"));
         soundDict.Add("Backdash", LoadAudio("res://Sounds/dash.ogg"));
         soundDict.Add("Hadouken", LoadAudio("res://Sounds/hadouken.ogg"));

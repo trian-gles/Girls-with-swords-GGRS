@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Base class for all states
@@ -24,6 +26,11 @@ public abstract class State : Node
         MID,
         HIGH
     }
+
+    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
+    protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+    protected delegate bool RequiredConditionCallback();
+    protected delegate void PostInputCallback();
     public override void _Ready()
     {
         owner = GetOwner<Player>();
@@ -54,8 +61,170 @@ public abstract class State : Node
     
     }
 
+    
+    protected struct NormalGatling
+    {
+        public char[] input;
+        public string state;
+        public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
+        public PostInputCallback postCall;
+    }
+
+    protected struct CommandGatling
+    {
+        public List<char[]> inputs;
+        public string state;
+        public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
+        public PostInputCallback postCall;
+    }
+
+    protected char[] ReverseInput(char[] inp)
+    {
+        char[] newInp = new char[2];
+
+        inp.CopyTo(newInp, 0);
+
+        if (inp[0] == '4')
+        {
+            newInp[0] = '6';
+
+        }
+
+        else if (inp[0] == '6')
+        {
+            newInp[0] = '4';
+        }
+
+        return newInp;
+    }
+
+    protected List<char[]> ReverseInputs(List<char[]> origInputs)
+    {
+        var newInputs = new List<char[]>();
+        foreach (char[] inp in origInputs)
+        {
+            newInputs.Add(ReverseInput(inp));
+        }
+
+        return newInputs;
+    }
+
+    protected void AddGatling(char[] input, string state)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state
+        };
+        normalGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(char[] input, RequiredConditionCallback reqCall, string state)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state,
+            reqCall = reqCall
+        };
+        normalGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(char[] input, string state, PostInputCallback postCall)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state,
+            postCall = postCall
+        };
+        normalGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(List<char[]> inputs, string state)
+    {
+        var newGatling = new CommandGatling
+        {
+            inputs = inputs,
+            state = state
+        };
+        commandGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall)
+    {
+        var newGatling = new CommandGatling
+        {
+            inputs = inputs,
+            state = state,
+            postCall = postCall
+        };
+        commandGatlings.Add(newGatling);
+    }
     public virtual void HandleInput(char[] inputArr)
     {
+        foreach (CommandGatling comGat in commandGatlings)
+        {
+            char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
+            if (!owner.facingRight)
+            {
+                firstInp = ReverseInput(firstInp);
+            }
+
+            if (Enumerable.SequenceEqual(firstInp, inputArr))
+            {
+                List<char[]> testedInputs = comGat.inputs;
+
+                if (!owner.facingRight)
+                {
+                    testedInputs = ReverseInputs(testedInputs);
+                }
+
+
+                if (owner.CheckBufferComplex(testedInputs))
+                {
+                    if (comGat.reqCall != null)
+                    {
+                        if (!comGat.reqCall())
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (comGat.postCall != null)
+                    {
+                        comGat.postCall();
+                    }
+
+                    EmitSignal(nameof(StateFinished), comGat.state);
+                    return;
+                }
+            }
+        }
+        foreach (NormalGatling normGat in normalGatlings)
+        {
+
+            char[] testInp = normGat.input;
+            testInp = ReverseInput(testInp);
+            if (Enumerable.SequenceEqual(normGat.input, inputArr))
+            {
+                if (normGat.reqCall != null)
+                {
+                    if (!normGat.reqCall())
+                    {
+                        continue;
+                    }
+                }
+
+                if (normGat.postCall != null)
+                {
+                    normGat.postCall();
+                }
+
+                EmitSignal(nameof(StateFinished), normGat.state);
+                return;
+            }
+        }
     }
 
     /// <summary>

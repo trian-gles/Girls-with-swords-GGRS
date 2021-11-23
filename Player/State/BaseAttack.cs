@@ -45,6 +45,31 @@ public abstract class BaseAttack : State
 		public string state;
 	}
 
+	protected List<char[]> ReverseInputs(List<char[]> origInputs)
+    {
+		var newInputs = new List<char[]>();
+		foreach (char[] inp in origInputs)
+        {
+			char[] newInp = new char[2];
+
+			inp.CopyTo(newInp, 0);
+
+			if (inp[0] == '4')
+            {
+				newInp[0] = '6';
+				
+            }
+
+			else if (inp[0] == '6')
+            {
+				newInp[0] = '4';
+			}
+			newInputs.Add(newInp);
+		}
+
+		return newInputs;
+    }
+
 	protected void AddGatling(char[] input, string state)
 	{
 		var newGatling = new NormalGatling
@@ -120,7 +145,15 @@ public abstract class BaseAttack : State
 		{
 			if (Enumerable.SequenceEqual(comGat.inputs[comGat.inputs.Count - 1], inputArr))
 			{
-				if (owner.CheckBufferComplex(comGat.inputs))
+				List<char[]> testedInputs = comGat.inputs;
+
+				if (!owner.facingRight)
+                {
+					testedInputs = ReverseInputs(testedInputs);
+                }
+
+
+				if (owner.CheckBufferComplex(testedInputs))
 				{
 					EmitSignal(nameof(StateFinished), comGat.state);
 					return;

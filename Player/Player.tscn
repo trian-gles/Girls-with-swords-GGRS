@@ -3393,30 +3393,12 @@ hitPush = 2000
 height = 0
 dmg = 7
 
-[node name="AntiAir" type="Node" parent="StateTree"]
-script = ExtResource( 17 )
-hitStun = 31
-opponentLaunch = Vector2( 0, -700 )
-hitPush = 10
-dmg = 7
-launch = Vector2( 0, -400 )
-
 [node name="CrouchBlock" type="Node" parent="StateTree"]
 script = ExtResource( 18 )
 
 [node name="Backdash" type="Node" parent="StateTree"]
 script = ExtResource( 19 )
 hopForce = 250
-
-[node name="DP" type="Node" parent="StateTree"]
-script = ExtResource( 20 )
-hitStun = 31
-blockStun = 10
-opponentLaunch = Vector2( 0, -800 )
-hitPush = 6000
-height = 2
-dmg = 8
-launch = Vector2( 150, -800 )
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
@@ -3457,10 +3439,6 @@ dmg = 8
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )
 
-[node name="Hadouken" type="Node" parent="StateTree"]
-script = ExtResource( 28 )
-releaseFrame = 20
-
 [node name="Grab" type="Node" parent="StateTree"]
 script = ExtResource( 29 )
 releaseFrame = 45
@@ -3477,6 +3455,34 @@ script = ExtResource( 33 )
 [node name="AirKnockdown" type="Node" parent="StateTree"]
 script = ExtResource( 34 )
 
+[node name="CounterHit" type="Node" parent="StateTree"]
+script = ExtResource( 40 )
+
+[node name="CounterFloat" type="Node" parent="StateTree"]
+script = ExtResource( 41 )
+
+[node name="AntiAir" type="Node" parent="StateTree"]
+script = ExtResource( 17 )
+hitStun = 31
+opponentLaunch = Vector2( 0, -700 )
+hitPush = 10
+dmg = 7
+launch = Vector2( 0, -400 )
+
+[node name="Hadouken" type="Node" parent="StateTree"]
+script = ExtResource( 28 )
+releaseFrame = 20
+
+[node name="DP" type="Node" parent="StateTree"]
+script = ExtResource( 20 )
+hitStun = 31
+blockStun = 10
+opponentLaunch = Vector2( 0, -800 )
+hitPush = 6000
+height = 2
+dmg = 8
+launch = Vector2( 150, -800 )
+
 [node name="CommandRun" type="Node" parent="StateTree"]
 script = ExtResource( 39 )
 minLen = 13
@@ -3488,12 +3494,6 @@ blockStun = 18
 hitPush = 400
 dmg = 8
 knockdown = true
-
-[node name="CounterHit" type="Node" parent="StateTree"]
-script = ExtResource( 40 )
-
-[node name="CounterFloat" type="Node" parent="StateTree"]
-script = ExtResource( 41 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0

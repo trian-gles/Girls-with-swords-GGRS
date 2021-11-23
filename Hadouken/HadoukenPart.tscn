@@ -33,6 +33,7 @@ extents = Vector2( 12, 10 )
 [node name="HadoukenPart" type="Node2D"]
 position = Vector2( 0, -1 )
 script = ExtResource( 1 )
+dmg = 7
 speed = Vector2( 4, 0 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

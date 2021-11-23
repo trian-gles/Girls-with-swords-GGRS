@@ -3355,12 +3355,14 @@ script = ExtResource( 6 )
 hitStun = 14
 blockStun = 13
 hitPush = 2000
+dmg = 4
 
 [node name="JumpKick" type="Node" parent="StateTree"]
 script = ExtResource( 12 )
 hitStun = 14
 hitPush = 3000
 height = 2
+dmg = 4
 
 [node name="Block" type="Node" parent="StateTree"]
 script = ExtResource( 8 )
@@ -3382,20 +3384,21 @@ script = ExtResource( 15 )
 hitStun = 12
 hitPush = 2000
 height = 0
+dmg = 2
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
 hitStun = 16
 hitPush = 2000
 height = 0
-dmg = 3
+dmg = 7
 
 [node name="AntiAir" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
 hitStun = 31
 opponentLaunch = Vector2( 0, -700 )
 hitPush = 10
-dmg = 3
+dmg = 7
 launch = Vector2( 0, -400 )
 
 [node name="CrouchBlock" type="Node" parent="StateTree"]
@@ -3412,26 +3415,28 @@ blockStun = 10
 opponentLaunch = Vector2( 0, -800 )
 hitPush = 6000
 height = 2
-dmg = 4
+dmg = 8
 launch = Vector2( 150, -800 )
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
 hitStun = 12
 hitPush = 2000
+dmg = 2
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
 hitStun = 12
 hitPush = 2000
 height = 2
+dmg = 2
 
 [node name="JumpSlash" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
 hitStun = 16
 hitPush = 4000
 height = 2
-dmg = 3
+dmg = 7
 
 [node name="Knockdown" type="Node" parent="StateTree"]
 script = ExtResource( 24 )
@@ -3440,13 +3445,14 @@ script = ExtResource( 24 )
 script = ExtResource( 25 )
 hitPush = 300
 height = 0
+dmg = 4
 knockdown = true
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
 hitStun = 16
 hitPush = 2000
-dmg = 4
+dmg = 8
 
 [node name="Run" type="Node" parent="StateTree"]
 script = ExtResource( 27 )
@@ -3459,7 +3465,7 @@ releaseFrame = 20
 script = ExtResource( 29 )
 releaseFrame = 45
 launch = Vector2( 600, -200 )
-dmg = 50
+dmg = 5
 hitStun = 35
 
 [node name="Grabbed" type="Node" parent="StateTree"]
@@ -3480,6 +3486,7 @@ maxLen = 40
 script = ExtResource( 38 )
 blockStun = 18
 hitPush = 400
+dmg = 8
 knockdown = true
 
 [node name="CounterHit" type="Node" parent="StateTree"]

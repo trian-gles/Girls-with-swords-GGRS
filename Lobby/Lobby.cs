@@ -63,6 +63,19 @@ public class Lobby : Node2D
 		Begin(true);
 	}
 
+	public void OnLobbyReset()
+    {
+		buttons.GetNode<Button>("Host").Visible = true;
+		buttons.GetNode<Button>("Join").Visible = true;
+		buttons.GetNode<Button>("SyncTest").Visible = true;
+		buttons.GetNode<Button>("Local").Visible = true;
+		buttons.GetNode<Button>("Training").Visible = true;
+		entries.GetNode<LineEdit>("OpponentPort").Visible = true;
+		entries.GetNode<LineEdit>("OpponentIp").Visible = true;
+		entries.GetNode<LineEdit>("LocalPort").Visible = true;
+
+	}
+
 	public void Begin(bool host)
 	{
 
@@ -92,6 +105,7 @@ public class Lobby : Node2D
 		var mainScene = (PackedScene) ResourceLoader.Load("res://MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;
 		AddChild(mainInstance);
+		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 		mainInstance.Begin(ip, localPort, otherPort, host);
 	}
 }

@@ -17,4 +17,13 @@ public class Run : Walk
             EmitSignal(nameof(StateFinished), "MovingJump");
         }
     }
+
+    public override void FrameAdvance()
+    {
+        frameCount++;
+        if (frameCount % soundRate == 0)
+        {
+            owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Step", Name);
+        }
+    }
 }

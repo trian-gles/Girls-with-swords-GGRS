@@ -421,21 +421,34 @@ public class GameStateObject : Node
 	/// </summary>
 	private void FrameAdvancePlayers(List<char[]>p1inp, List<char[]>p2inp)
 	{
-		P1.FrameAdvanceInputs(hitStopRemaining, p1inp);
-		P2.FrameAdvanceInputs(hitStopRemaining, p2inp);
-		P1.AlwaysFrameAdvance();
-		P2.AlwaysFrameAdvance();
+		Player hostPlayer = P1;
+		Player joinPlayer = P2;
+		List<char[]> hostPlayerinp = p1inp;
+		List<char[]> joinPlayerinp = p2inp;
+
+		if (!hosting)
+        {
+			hostPlayer = P2;
+			joinPlayer = P1;
+			hostPlayerinp = p2inp;
+			joinPlayerinp = p1inp;
+        }
+
+		hostPlayer.FrameAdvanceInputs(hitStopRemaining, hostPlayerinp);
+		joinPlayer.FrameAdvanceInputs(hitStopRemaining, joinPlayerinp);
+		hostPlayer.AlwaysFrameAdvance();
+		joinPlayer.AlwaysFrameAdvance();
 
 		if (hitStopRemaining < 1)
 		{
-			P1.FrameAdvance();
-			P2.FrameAdvance();
+			hostPlayer.FrameAdvance();
+			joinPlayer.FrameAdvance();
 			CheckFixCollision();
-			P1.MoveSlideDeterministicTwo();
-			P2.MoveSlideDeterministicTwo();
+			hostPlayer.MoveSlideDeterministicTwo();
+			joinPlayer.MoveSlideDeterministicTwo();
 			CheckFixCollision();
-			P1.RenderPosition();
-			P2.RenderPosition();
+			hostPlayer.RenderPosition();
+			joinPlayer.RenderPosition();
 		}
 		foreach (var entry in hadoukens)
 		{

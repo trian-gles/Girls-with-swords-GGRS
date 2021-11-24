@@ -271,6 +271,7 @@ public class MainScene : Node2D
 	public void OnEventDisconnectedFromPeer()
 	{
 		GGPO.CloseSession();
+		ReturnToLobby();
 	}
 
 	public void OnResetButtonDown()

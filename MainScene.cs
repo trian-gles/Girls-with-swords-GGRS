@@ -106,10 +106,10 @@ public class MainScene : Node2D
 		}
 
 		else if (Globals.mode == Globals.Mode.TRAINING)
-        {
+		{
 			roundStarted = true;
 			centerText.Visible = false;
-        }
+		}
 		
 	}
 
@@ -139,7 +139,7 @@ public class MainScene : Node2D
 				return;
 			}
 			else
-            {
+			{
 				displayFrame = false;
 			}
 		}
@@ -159,20 +159,20 @@ public class MainScene : Node2D
 			LocalPhysicsProcess();
 		}
 		else if (Globals.mode == Globals.Mode.SYNCTEST)
-        {
+		{
 			SyncTestPhysicsProcess();
-        }
+		}
 		
 	}
 
 	private void ResetInputs()
-    {
+	{
 		inputs = 0; // reset the inputs
 		p2inputs = 0;
 	}
 
 	private void SyncTestPhysicsProcess()
-    {
+	{
 		var combinedInputs = new int[2] { inputs, 0 };
 		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
 		ResetInputs();
@@ -241,10 +241,10 @@ public class MainScene : Node2D
 	}
 
 	public void OnEventTimesync(int framesAhead)
-    {
+	{
 		frameAhead = framesAhead;
 		GD.Print(frameAhead);
-    }
+	}
 
 	public void OnLoadGameState(StreamPeerBuffer buffer)
 	{
@@ -275,9 +275,9 @@ public class MainScene : Node2D
 	}
 
 	public void OnResetButtonDown()
-    {
+	{
 		gsObj.ResetGameState();
-    }
+	}
 
 	/// <summary>
 	/// Called whenever the user presses a key, which gets added to the inputs int
@@ -480,22 +480,22 @@ public class MainScene : Node2D
 	// HUD
 
 	private void WaitForConnectionDisplay()
-    {
+	{
 		P1.Visible = false;
 		P2.Visible = false;
 		centerText.Text = "WAITING FOR CONNECTION...";
 		centerText.Visible = true;
-    }
+	}
 
 	private void Connected()
-    {
+	{
 		P1.Visible = true;
 		P2.Visible = true;
 		centerText.Visible = false;
 	}
 
 	private void PreRoundTime(int frame)
-    {
+	{
 		if (frame == 1)
 		{
 			centerText.Text = "3";
@@ -513,7 +513,7 @@ public class MainScene : Node2D
 	}
 
 	private void MainGameTime(int frame)
-    {
+	{
 		int postIntroFrame = frame - countDownSpeed * 3;
 		if (postIntroFrame / 60 < 100)
 		{
@@ -540,48 +540,48 @@ public class MainScene : Node2D
 	}
 
 	private void EndRound()
-    {
+	{
 		gameFinishFrame = gsObj.Frame;
 		roundFinished = true;
 	}
 
 	private void PostGameTime(int frame)
-    {
+	{
 		int postGameFrame = frame - gameFinishFrame;
 		if (postGameFrame > 200)
-        {
+		{
 			ReturnToLobby();
-        }
-    }
+		}
+	}
 
 	/// <summary>
 	/// This needs to be organized!!
 	/// </summary>
 	private void UpdateTime()
-    {
+	{
 		if (Globals.mode == Globals.Mode.TRAINING)
-        {
+		{
 			return;
-        }
+		}
 		int frame = gsObj.Frame;
 
 		if (!roundStarted)
-        {
+		{
 			PreRoundTime(frame);
-        }
+		}
 		else if (roundStarted && !roundFinished)
-        {
+		{
 			MainGameTime(frame);
 		}
 		else if (roundFinished)
-        {
+		{
 			PostGameTime(frame);
-        }
+		}
 		
 
 
 		
-    }
+	}
 	public void OnPlayerComboChange(string name, int combo)
 	{
 		if (name == "P2")
@@ -610,7 +610,7 @@ public class MainScene : Node2D
 	}
 
 	public void OnPlayerComboSet(string name, int combo)
-    {
+	{
 		if (name == "P2")
 		{
 			P1Combo.Call("combo_set", combo);
@@ -624,14 +624,14 @@ public class MainScene : Node2D
 	public void OnPlayerHealthChange(string name, int health)
 	{
 		if (health < 1)
-        {
+		{
 			if (Globals.mode == Globals.Mode.TRAINING) // eventually this should reset player health
-            {
+			{
 				return;
-            }
+			}
 			EndRound();
 			centerText.Visible = true;
-        }
+		}
 		if (name == "P2")
 		{
 			P2Health.Value = health;
@@ -658,8 +658,8 @@ public class MainScene : Node2D
 	}
 
 	private void ReturnToLobby()
-    {
+	{
 		EmitSignal(nameof(LobbyReturn));
 		QueueFree();
-    }
+	}
 }

@@ -173,9 +173,9 @@ public class Player : Node2D
 		var pState = new PlayerState();
 		pState.inBuf2 = new List<char[]>();
 		foreach (char[] inp in inputHandler.inBuf2)
-        {
+		{
 			pState.inBuf2.Add((char[])inp.Clone());
-        }
+		}
 
 		pState.hitStopInputs = new List<char[]>();
 		foreach (char[] inp in inputHandler.hitStopInputs)
@@ -188,9 +188,9 @@ public class Player : Node2D
 
 		pState.heldKeys = new List<char>();
 		foreach (char c in inputHandler.heldKeys)
-        {
+		{
 			pState.heldKeys.Add(c);
-        }
+		}
 
 
 		pState.currentState = currentState.Name;
@@ -289,7 +289,7 @@ public class Player : Node2D
 		}
 
 		private void AddHitStopBuffer(List<char[]> unhandledInputs)
-        {
+		{
 			foreach (char[] inputArr in unhandledInputs)
 			{
 
@@ -601,17 +601,17 @@ public class Player : Node2D
 	public bool IsGrabbable()
 	{
 		if (currentState.GetType().IsSubclassOf(typeof(HitState)))
-        {
+		{
 			return false;
-        }
+		}
 		else if (!grounded)
-        {
+		{
 			return false;
-        }
-        else
-        {
+		}
+		else
+		{
 			return true;
-        }
+		}
 	}
 
 	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 

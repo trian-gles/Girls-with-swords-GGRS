@@ -23,9 +23,9 @@ public class Backdash: Walk
 	}
 
 	public override void HandleInput(char[] inputArr)
-    {
+	{
 
-    }
+	}
 
 	public override void FrameAdvance()
 	{

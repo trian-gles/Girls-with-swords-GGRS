@@ -57,14 +57,14 @@ public class Lobby : Node2D
 	}
 
 	public void OnSyncTestButtonDown()
-    {
+	{
 		Globals.mode = Globals.Mode.SYNCTEST;
 		GD.Print("Training mode selected");
 		Begin(true);
 	}
 
 	public void OnLobbyReset()
-    {
+	{
 		buttons.GetNode<Button>("Host").Visible = true;
 		buttons.GetNode<Button>("Join").Visible = true;
 		buttons.GetNode<Button>("SyncTest").Visible = true;

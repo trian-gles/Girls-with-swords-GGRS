@@ -101,7 +101,7 @@ public abstract class BaseAttack : State
 			launchBool = true;
 		}
 
-		bool airState = (launchBool || owner.grounded);
+		bool airState = (launchBool || !owner.grounded);
 
 		if (launchBool && !knockdown)
 		{

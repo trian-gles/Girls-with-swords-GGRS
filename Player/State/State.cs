@@ -261,10 +261,11 @@ public abstract class State : Node
     protected virtual void EnterHitState(bool knockdown, Vector2 launch)
     {
         bool launchBool = false;
+        bool airState = (launchBool || owner.grounded);
         owner.ComboUp();
         if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
         {
-            GD.Print("Launch is not zero!");
+            //GD.Print("Launch is not zero!");
             owner.velocity = launch;
             launchBool = true;
         }
@@ -273,11 +274,11 @@ public abstract class State : Node
         {
             EmitSignal(nameof(StateFinished), "Float");
         }
-        else if (launchBool && knockdown)
+        else if (airState && knockdown)
         {
             EmitSignal(nameof(StateFinished), "AirKnockdown");
         }
-        else if (!launchBool && knockdown)
+        else if (!airState && knockdown)
         {
             if (owner.grounded)
             {
@@ -306,7 +307,7 @@ public abstract class State : Node
         
 
         owner.hitPushRemaining = hitPush;
-        GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
+        //GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
 
         if (owner.velocity.y < 0)
         {

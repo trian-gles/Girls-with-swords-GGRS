@@ -13,7 +13,7 @@ public class CommandRun : State
 	[Export]
 	public int speed = 500;
 
-	private bool exited = false;
+	//THIS IS NOT GGPO FRIENDLY
 	private bool oneHit = false;
 
 	public override void _Ready()
@@ -25,7 +25,6 @@ public class CommandRun : State
 	public override void Enter()
 	{
 		base.Enter();
-		exited = false;
 		oneHit = false;
 		if (owner.facingRight)
 		{
@@ -45,18 +44,17 @@ public class CommandRun : State
 		{
 			EmitSignal(nameof(StateFinished), "Idle");
 		}
-		if ((frameCount > minLen) && exited)
-		{
-			EmitSignal(nameof(StateFinished), "Hojogiri");
-		}
+		
 	}
 
 	public override void HandleInput(char[] inputArr)
 	{
 		if (Globals.CheckKeyPress(inputArr, 's'))
 		{
-			exited = true;
-			GD.Print("Set to exit");
+			if (frameCount > minLen)
+			{
+				EmitSignal(nameof(StateFinished), "Hojogiri");
+			}
 		}
 	}
 

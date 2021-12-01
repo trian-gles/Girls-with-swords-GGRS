@@ -24,6 +24,11 @@ public class MainScene : Node2D
 	private int localHand = 1;
 	private int otherHand = 2;
 
+
+	// Can be used to store inputs for synctesting, maybe later for training mode?
+	[Export]
+	private int[] p2InputLoop;
+
 	[Export]
 	public bool halfSpeed = false;
 
@@ -173,7 +178,10 @@ public class MainScene : Node2D
 
 	private void SyncTestPhysicsProcess()
 	{
-		var combinedInputs = new int[2] { inputs, 0 };
+		int frame = gsObj.Frame;
+		int thisP2Inp = p2InputLoop[frame % p2InputLoop.Length];
+
+		var combinedInputs = new int[2] { inputs, thisP2Inp };
 		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
 		ResetInputs();
 	}
@@ -413,7 +421,6 @@ public class MainScene : Node2D
 			return;
 		}
 		int thisInput = key * 10;
-		GD.Print($"press {key}");
 		AddInput(thisInput);
 	}
 	private void AddRelease(int key)

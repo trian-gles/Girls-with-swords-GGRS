@@ -28,6 +28,7 @@ default_font = ExtResource( 11 )
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 2 )
+p2InputLoop = PoolIntArray( 30, 0, 0, 0, 0, 0, 0, 10, 0, 31, 0, 70, 71, 0, 0, 40, 0, 11, 0, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

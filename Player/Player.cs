@@ -545,7 +545,7 @@ public class Player : Node2D
 
 	public bool OtherPlayerOnRight()
 	{
-		if (Position.x > otherPlayer.Position.x)
+		if (internalPos.x > otherPlayer.internalPos.x)
 		{
 			return false;
 		}
@@ -742,8 +742,9 @@ public class Player : Node2D
 		}
 		if (globalPosition)
 		{
-			
-			position += new Vector2((float)Math.Round(internalPos.x / 100), (float)Math.Round(internalPos.y / 100));
+			position *= 100;
+			position += new Vector2(internalPos.x, internalPos.y);
+			extents *= 100;
 		}
 		return new Rect2(position, extents);
 	}

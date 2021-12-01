@@ -495,7 +495,7 @@ public class GameStateObject : Node
 	public void HitStop()
 	{
 		hitStopRemaining = maxHitStop;
-		GD.Print("HitStop");
+		//GD.Print("HitStop");
 	}
 
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken

@@ -105,7 +105,7 @@ public class MainScene : Node2D
 			WaitForConnectionDisplay();
 		}
 
-		else if (Globals.mode == Globals.Mode.TRAINING)
+		else if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST )
 		{
 			roundStarted = true;
 			centerText.Visible = false;
@@ -559,7 +559,7 @@ public class MainScene : Node2D
 	/// </summary>
 	private void UpdateTime()
 	{
-		if (Globals.mode == Globals.Mode.TRAINING)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			return;
 		}
@@ -625,7 +625,7 @@ public class MainScene : Node2D
 	{
 		if (health < 1)
 		{
-			if (Globals.mode == Globals.Mode.TRAINING) // eventually this should reset player health
+			if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST) // eventually this should reset player health
 			{
 				return;
 			}

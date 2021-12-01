@@ -261,7 +261,7 @@ public abstract class State : Node
     protected virtual void EnterHitState(bool knockdown, Vector2 launch)
     {
         bool launchBool = false;
-        bool airState = (launchBool || owner.grounded);
+        bool airState = (launchBool || !owner.grounded);
         owner.ComboUp();
         if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
         {
@@ -280,14 +280,7 @@ public abstract class State : Node
         }
         else if (!airState && knockdown)
         {
-            if (owner.grounded)
-            {
-                EmitSignal(nameof(StateFinished), "Knockdown");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "AirKnockdown");
-            }
+            EmitSignal(nameof(StateFinished), "AirKnockdown");
             
         }
         else

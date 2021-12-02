@@ -29,6 +29,11 @@ public class EventScheduler : Node
         audioPlay = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
     }
 
+    public void TimeAdvance()
+    {
+        audioPlay.TimeAdvance();
+    }
+
     /// <summary>
     /// Schedule a GFX/SFX event to take place provided rollbacks don't interfere (the past is rewritten)
     /// </summary>

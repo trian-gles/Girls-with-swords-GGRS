@@ -167,6 +167,9 @@ public class MainScene : Node2D
 		{
 			SyncTestPhysicsProcess();
 		}
+
+		P1.TimeAdvance();
+		P2.TimeAdvance();
 		
 	}
 

@@ -417,6 +417,14 @@ public class Player : Node2D
 	}
 
 	/// <summary>
+	/// Called anytime outside of rollbacks
+	/// </summary>
+	public void TimeAdvance()
+	{
+		eventSched.TimeAdvance();
+	}
+
+	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
 	public void FrameAdvance() 

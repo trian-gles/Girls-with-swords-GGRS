@@ -508,19 +508,19 @@ public class Player : Node2D
 			grounded = true;
 		}
 
-		if (internalPos.x > 47500)
+		if (internalPos.x > 46500)
 		{
-			internalPos = new Vector2(47500, internalPos.y);
+			internalPos = new Vector2(46500, internalPos.y);
 		}
-		else if (internalPos.x < 500)
+		else if (internalPos.x < 1500)
 		{
-			internalPos = new Vector2(500, internalPos.y);
+			internalPos = new Vector2(1500, internalPos.y);
 		}
 	}
 
 	public bool CheckTouchingWall()
 	{
-		if (internalPos.x > 47400 || internalPos.x < 600)
+		if (internalPos.x > 46400 || internalPos.x < 1600)
 		{
 			return true;
 		}

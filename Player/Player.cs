@@ -70,6 +70,7 @@ public class Player : Node2D
 		public List<char[]> hitStopInputs { get; set; }
 		public List<char> heldKeys { get; set; }
 		public string currentState { get; set; }
+		public Dictionary<string, int> stateData { get; set; }
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
@@ -194,6 +195,7 @@ public class Player : Node2D
 
 
 		pState.currentState = currentState.Name;
+		pState.stateData = currentState.Save();
 		pState.frameCount = currentState.frameCount;
 		pState.hitConnect = currentState.hitConnect;
 		pState.stunRemaining = currentState.stunRemaining;
@@ -220,6 +222,7 @@ public class Player : Node2D
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
+		currentState.Load(pState.stateData);
 		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;

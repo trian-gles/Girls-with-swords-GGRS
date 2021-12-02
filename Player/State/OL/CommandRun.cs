@@ -22,6 +22,20 @@ public class CommandRun : State
 		loop = true;
 		
 	}
+
+
+	public override void Load(Dictionary<string, int> loadData)
+	{
+		oneHit = Convert.ToBoolean(loadData["oneHit"]);
+	}
+
+	public override Dictionary<string, int> Save()
+    {
+		var dict = new Dictionary<string, int>();
+		dict["oneHit"] = Convert.ToInt32(oneHit);
+		return dict;
+
+	}
 	public override void Enter()
 	{
 		base.Enter();

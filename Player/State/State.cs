@@ -36,6 +36,16 @@ public abstract class State : Node
         owner = GetOwner<Player>();
     }
 
+    public virtual void Load(Dictionary<string, int> loadData)
+    {
+
+    }
+
+    public virtual Dictionary<string, int> Save()
+    {
+        return new Dictionary<string, int>();
+    }
+
     /// <summary>
     /// Called right when switching into this state.  NOT called when a game state is loaded
     /// </summary>

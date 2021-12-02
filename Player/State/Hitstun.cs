@@ -18,7 +18,7 @@ public class HitStun : HitState
 
     public override void AnimationFinished()
     {
-        GD.Print("Animation for HitStun finished");
+        //GD.Print("Animation for HitStun finished");
     }
 
 
@@ -57,7 +57,7 @@ public class HitStun : HitState
 
     public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
-        GD.Print($"Received attack on side {rightAttack}");
+        //GD.Print($"Received attack on side {rightAttack}");
 
         bool launchBool = false;
         if (!rightAttack)
@@ -66,7 +66,7 @@ public class HitStun : HitState
             hitPush *= -1;
         }
         owner.hitPushRemaining = hitPush;
-        GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");
+        //GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");
         owner.velocity = launch;
         if (!(launch == Vector2.Zero))
         {

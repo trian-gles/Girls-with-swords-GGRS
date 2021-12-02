@@ -52,7 +52,7 @@ public abstract class BaseAttack : State
 	{
 		if (!hitConnect)
 		{
-			GD.Print($"Hit connect on frame {frameCount}");
+			//GD.Print($"Hit connect on frame {frameCount}");
 			EmitSignal(nameof(OnHitConnected), hitPush);
 			owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown);
 			hitConnect = true;
@@ -96,22 +96,28 @@ public abstract class BaseAttack : State
 
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
 		{
-			GD.Print("Launch is not zero!");
+			//GD.Print("Launch is not zero!");
 			owner.velocity = launch;
 			launchBool = true;
 		}
 
+		bool airState = (launchBool || !owner.grounded);
+
 		if (launchBool && !knockdown)
 		{
+			GD.Print("Entering counterfloat from attack");
 			EmitSignal(nameof(StateFinished), "CounterFloat");
 		}
-		else if (launchBool && knockdown)
+		else if (airState && knockdown)
 		{
+			GD.Print("Entering airknockdown from attack");
 			EmitSignal(nameof(StateFinished), "AirKnockdown");
 		}
-		else if (!launchBool && knockdown)
+		else if (!airState && knockdown)
 		{
+			GD.Print("Entering knockdown from attack");
 			EmitSignal(nameof(StateFinished), "Knockdown");
+			
 		}
 		else
 		{

@@ -24,6 +24,11 @@ public class MainScene : Node2D
 	private int localHand = 1;
 	private int otherHand = 2;
 
+
+	// Can be used to store inputs for synctesting, maybe later for training mode?
+	[Export]
+	private int[] p2InputLoop;
+
 	[Export]
 	public bool halfSpeed = false;
 
@@ -105,7 +110,7 @@ public class MainScene : Node2D
 			WaitForConnectionDisplay();
 		}
 
-		else if (Globals.mode == Globals.Mode.TRAINING)
+		else if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST )
 		{
 			roundStarted = true;
 			centerText.Visible = false;
@@ -162,6 +167,9 @@ public class MainScene : Node2D
 		{
 			SyncTestPhysicsProcess();
 		}
+
+		P1.TimeAdvance();
+		P2.TimeAdvance();
 		
 	}
 
@@ -173,7 +181,10 @@ public class MainScene : Node2D
 
 	private void SyncTestPhysicsProcess()
 	{
-		var combinedInputs = new int[2] { inputs, 0 };
+		int frame = gsObj.Frame;
+		int thisP2Inp = p2InputLoop[frame % p2InputLoop.Length];
+
+		var combinedInputs = new int[2] { inputs, thisP2Inp };
 		gsObj.SyncTestUpdate(new Godot.Collections.Array(combinedInputs));
 		ResetInputs();
 	}
@@ -413,7 +424,6 @@ public class MainScene : Node2D
 			return;
 		}
 		int thisInput = key * 10;
-		GD.Print($"press {key}");
 		AddInput(thisInput);
 	}
 	private void AddRelease(int key)
@@ -559,7 +569,7 @@ public class MainScene : Node2D
 	/// </summary>
 	private void UpdateTime()
 	{
-		if (Globals.mode == Globals.Mode.TRAINING)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			return;
 		}
@@ -625,7 +635,7 @@ public class MainScene : Node2D
 	{
 		if (health < 1)
 		{
-			if (Globals.mode == Globals.Mode.TRAINING) // eventually this should reset player health
+			if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST) // eventually this should reset player health
 			{
 				return;
 			}

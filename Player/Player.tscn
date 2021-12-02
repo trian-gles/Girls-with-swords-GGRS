@@ -49,10 +49,10 @@ extents = Vector2( 7, 7 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 12, 9 )
+extents = Vector2( 25, 15 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 32, 6 )
+extents = Vector2( 23, 20 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 14 )

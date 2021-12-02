@@ -20,6 +20,7 @@ public class Float : HitStun
         {
             owner.velocity = launch;
         }
+        owner.ComboUp();
 
         EmitSignal(nameof(StateFinished), "Float");
     }

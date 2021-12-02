@@ -13,6 +13,11 @@ public class Hadouken : State
         hadoukenScene = (PackedScene)GD.Load("res://Hadouken/HadoukenPart.tscn");
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        owner.velocity.x = 0;
+    }
     public override void FrameAdvance()
     {
         base.FrameAdvance();

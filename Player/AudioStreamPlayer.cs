@@ -6,6 +6,7 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 {
 
     private Dictionary<string, AudioStream> soundDict = new Dictionary<string, AudioStream>();
+    int timeSinceLastSound = 0;
 
     public override void _Ready()
     {
@@ -20,10 +21,23 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
         soundDict.Add("Landing", LoadAudio("res://Sounds/landing.ogg"));
         soundDict.Add("Whiff", LoadAudio("res://Sounds/whiff.ogg"));
     }
+
+    public void TimeAdvance()
+    {
+        timeSinceLastSound--;
+        timeSinceLastSound = Math.Max(0, timeSinceLastSound);
+    }
     public void PlaySound(string name)
     {
+        // will prevent double sounds on rollback
+        if (timeSinceLastSound > 0)
+        {
+            return;
+        }
+
         Stream = soundDict[name];
         Play();
+        timeSinceLastSound = 5;
     }
 
     private AudioStream LoadAudio(string path)

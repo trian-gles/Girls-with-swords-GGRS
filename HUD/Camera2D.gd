@@ -43,5 +43,8 @@ func calculate_zoom(rect: Rect2, viewport_size: Vector2) -> Vector2:
 		max(0.6, rect.size.x / viewport_size.x + zoom_offset),
 		max(0.6, rect.size.y / viewport_size.y + zoom_offset)
 	)
+	if max_zoom > 1:
+		max_zoom = 1
+	
 	return Vector2(max_zoom, max_zoom)
 	

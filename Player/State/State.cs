@@ -36,6 +36,16 @@ public abstract class State : Node
         owner = GetOwner<Player>();
     }
 
+    public virtual void Load(Dictionary<string, int> loadData)
+    {
+
+    }
+
+    public virtual Dictionary<string, int> Save()
+    {
+        return new Dictionary<string, int>();
+    }
+
     /// <summary>
     /// Called right when switching into this state.  NOT called when a game state is loaded
     /// </summary>
@@ -261,10 +271,11 @@ public abstract class State : Node
     protected virtual void EnterHitState(bool knockdown, Vector2 launch)
     {
         bool launchBool = false;
+        bool airState = (launchBool || !owner.grounded);
         owner.ComboUp();
         if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
         {
-            GD.Print("Launch is not zero!");
+            //GD.Print("Launch is not zero!");
             owner.velocity = launch;
             launchBool = true;
         }
@@ -273,20 +284,13 @@ public abstract class State : Node
         {
             EmitSignal(nameof(StateFinished), "Float");
         }
-        else if (launchBool && knockdown)
+        else if (airState && knockdown)
         {
             EmitSignal(nameof(StateFinished), "AirKnockdown");
         }
-        else if (!launchBool && knockdown)
+        else if (!airState && knockdown)
         {
-            if (owner.grounded)
-            {
-                EmitSignal(nameof(StateFinished), "Knockdown");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "AirKnockdown");
-            }
+            EmitSignal(nameof(StateFinished), "Knockdown");
             
         }
         else
@@ -306,7 +310,7 @@ public abstract class State : Node
         
 
         owner.hitPushRemaining = hitPush;
-        GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
+        //GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
 
         if (owner.velocity.y < 0)
         {

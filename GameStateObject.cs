@@ -426,14 +426,6 @@ public class GameStateObject : Node
 		List<char[]> hostPlayerinp = p1inp;
 		List<char[]> joinPlayerinp = p2inp;
 
-		if (!hosting)
-        {
-			hostPlayer = P2;
-			joinPlayer = P1;
-			hostPlayerinp = p2inp;
-			joinPlayerinp = p1inp;
-        }
-
 		hostPlayer.FrameAdvanceInputs(hitStopRemaining, hostPlayerinp);
 		joinPlayer.FrameAdvanceInputs(hitStopRemaining, joinPlayerinp);
 		hostPlayer.AlwaysFrameAdvance();
@@ -503,7 +495,7 @@ public class GameStateObject : Node
 	public void HitStop()
 	{
 		hitStopRemaining = maxHitStop;
-		GD.Print("HitStop");
+		//GD.Print("HitStop");
 	}
 
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken

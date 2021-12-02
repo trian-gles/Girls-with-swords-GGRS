@@ -70,6 +70,7 @@ public class Player : Node2D
 		public List<char[]> hitStopInputs { get; set; }
 		public List<char> heldKeys { get; set; }
 		public string currentState { get; set; }
+		public Dictionary<string, int> stateData { get; set; }
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
@@ -194,6 +195,7 @@ public class Player : Node2D
 
 
 		pState.currentState = currentState.Name;
+		pState.stateData = currentState.Save();
 		pState.frameCount = currentState.frameCount;
 		pState.hitConnect = currentState.hitConnect;
 		pState.stunRemaining = currentState.stunRemaining;
@@ -220,6 +222,7 @@ public class Player : Node2D
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
+		currentState.Load(pState.stateData);
 		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
@@ -414,6 +417,14 @@ public class Player : Node2D
 	}
 
 	/// <summary>
+	/// Called anytime outside of rollbacks
+	/// </summary>
+	public void TimeAdvance()
+	{
+		eventSched.TimeAdvance();
+	}
+
+	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
 	public void FrameAdvance() 
@@ -505,19 +516,19 @@ public class Player : Node2D
 			grounded = true;
 		}
 
-		if (internalPos.x > 47500)
+		if (internalPos.x > 46500)
 		{
-			internalPos = new Vector2(47500, internalPos.y);
+			internalPos = new Vector2(46500, internalPos.y);
 		}
-		else if (internalPos.x < 500)
+		else if (internalPos.x < 1500)
 		{
-			internalPos = new Vector2(500, internalPos.y);
+			internalPos = new Vector2(1500, internalPos.y);
 		}
 	}
 
 	public bool CheckTouchingWall()
 	{
-		if (internalPos.x > 47400 || internalPos.x < 600)
+		if (internalPos.x > 46400 || internalPos.x < 1600)
 		{
 			return true;
 		}
@@ -545,7 +556,7 @@ public class Player : Node2D
 
 	public bool OtherPlayerOnRight()
 	{
-		if (Position.x > otherPlayer.Position.x)
+		if (internalPos.x > otherPlayer.internalPos.x)
 		{
 			return false;
 		}
@@ -742,8 +753,9 @@ public class Player : Node2D
 		}
 		if (globalPosition)
 		{
-			
-			position += new Vector2((float)Math.Round(internalPos.x / 100), (float)Math.Round(internalPos.y / 100));
+			position *= 100;
+			position += new Vector2(internalPos.x, internalPos.y);
+			extents *= 100;
 		}
 		return new Rect2(position, extents);
 	}

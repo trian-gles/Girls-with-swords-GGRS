@@ -5,11 +5,12 @@ public class Knockdown : HitState
 {
     public override void Enter()
     {
-        base.Enter();
-        
+        frameCount = 0;
+        loop = false;
+        owner.velocity.x = 0;
+        owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
         owner.GFXEvent("Blood");
-        owner.velocity = new Vector2(0, 0);
     }
     public override void AnimationFinished()
     {

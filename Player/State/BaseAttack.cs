@@ -115,8 +115,9 @@ public abstract class BaseAttack : State
 		}
 		else if (!airState && knockdown)
 		{
-			EmitSignal(nameof(StateFinished), "Knockdown");
 			GD.Print("Entering knockdown from attack");
+			EmitSignal(nameof(StateFinished), "Knockdown");
+			
 		}
 		else
 		{

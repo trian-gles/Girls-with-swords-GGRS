@@ -290,7 +290,7 @@ public abstract class State : Node
         }
         else if (!airState && knockdown)
         {
-            EmitSignal(nameof(StateFinished), "AirKnockdown");
+            EmitSignal(nameof(StateFinished), "Knockdown");
             
         }
         else

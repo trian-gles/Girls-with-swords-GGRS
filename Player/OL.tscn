@@ -2685,6 +2685,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=28]
+resource_name = "Knockdown"
 length = 80.0
 step = 1.0
 tracks/0/type = "value"
@@ -2698,18 +2699,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 80, 81, 81, 105, 106, 107 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
 }
 
 [sub_resource type="Animation" id=29]
@@ -3236,17 +3225,12 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -9, 3 )
-
-[node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( -14, -17 )
-
-[node name="HitB3" parent="HitBoxes" index="2"]
-position = Vector2( 21, 2 )
+position = Vector2( 0, 1 )
+disabled = true
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-frame = 58
+frame = 80
 
 [node name="DP" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 4 )

@@ -175,7 +175,7 @@ position = Vector2( 330, 240 )
 colorScheme = 1
 
 [node name="Background" type="Node2D" parent="."]
-position = Vector2( 240, 135 )
+position = Vector2( 240, 125 )
 z_index = -1
 
 [node name="Sky and Sun" type="Sprite" parent="Background"]

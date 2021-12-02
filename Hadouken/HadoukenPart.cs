@@ -121,19 +121,19 @@ public class HadoukenPart : Node2D
     private Rect2 GetRect(CollisionShape2D colShape, bool globalPosition = false)
     {
         RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
-        Vector2 extents = shape.Extents * 2;
+        Vector2 extents = shape.Extents * 200;
         Vector2 position;
         if (movingRight)
         {
-            position = colShape.Position - extents / 2;
+            position = colShape.Position * 100 - extents / 2;
         }
         else
         {
-            position = new Vector2(-colShape.Position.x - extents.x / 2, colShape.Position.y - extents.y / 2);
+            position = new Vector2(-colShape.Position.x * 100 - extents.x / 2, colShape.Position.y * 100 - extents.y / 2);
         }
         if (globalPosition)
         {
-            position += Position;
+            position += Position * 100;
         }
         return new Rect2(position, extents);
     }

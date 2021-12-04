@@ -7,17 +7,16 @@
 script = ExtResource( 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 70.0
-margin_top = 42.0
-margin_right = 412.0
-margin_bottom = 185.0
+margin_left = 53.0
+margin_top = 81.0
+margin_right = 406.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Buttons" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 102.0
-margin_bottom = 143.0
+margin_bottom = 200.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -66,14 +65,16 @@ text = "Sync Test"
 
 [node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 106.0
-margin_right = 164.0
-margin_bottom = 143.0
+margin_right = 406.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 300, 200 )
+size_flags_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentPort" type="LineEdit" parent="HBoxContainer/Entries"]
-margin_right = 58.0
+margin_right = 300.0
 margin_bottom = 24.0
 placeholder_text = "Enter Opponent Port"
 __meta__ = {
@@ -82,7 +83,7 @@ __meta__ = {
 
 [node name="OpponentIp" type="LineEdit" parent="HBoxContainer/Entries"]
 margin_top = 28.0
-margin_right = 58.0
+margin_right = 300.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
@@ -92,7 +93,7 @@ __meta__ = {
 
 [node name="LocalPort" type="LineEdit" parent="HBoxContainer/Entries"]
 margin_top = 56.0
-margin_right = 58.0
+margin_right = 300.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Local Port"

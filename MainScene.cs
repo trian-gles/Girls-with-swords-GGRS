@@ -131,6 +131,7 @@ public class MainScene : Node2D
 		GGPO.Singleton.Connect("save_game_state", this, nameof(OnSaveGameState));
 		GGPO.Singleton.Connect("event_connected_to_peer", this, nameof(OnEventConnectedToPeer));
 		GGPO.Singleton.Connect("event_timesync", this, nameof(OnEventTimesync));
+		GGPO.Singleton.Connect("event_connection_interrupted", this, nameof(OnEventConnectionInterrupted));
 	}
 
 
@@ -191,29 +192,38 @@ public class MainScene : Node2D
 
 	public void GGPOPhysicsProcess()
 	{
-		GGPO.Idle(30);
+		if (!roundFinished)
+        {
+			GGPO.Idle(30);
 
-		int result;
-		if (localPlayerHandle != GGPO.InvalidHandle)
-		{
-			// GD.Print($"Adding local input {input}"); this works
-			result = GGPO.AddLocalInput(localPlayerHandle, inputs);
+			int result;
+			if (localPlayerHandle != GGPO.InvalidHandle)
+			{
+				// GD.Print($"Adding local input {input}"); this works
+				result = GGPO.AddLocalInput(localPlayerHandle, inputs);
+			}
+			else
+			{
+				result = 99;
+			}
+			if (result == GGPO.ErrorcodeSuccess)
+			{
+				Godot.Collections.Dictionary resultDict = GGPO.SynchronizeInput(MAXPLAYERS);
+				if ((int)resultDict["result"] == GGPO.ErrorcodeSuccess)
+				{
+
+					Advance_Frame((Godot.Collections.Array)resultDict["inputs"]);
+				}
+
+			}
+			ResetInputs();
 		}
 		else
-		{
-			result = 99;
-		}
-		if (result == GGPO.ErrorcodeSuccess)
-		{
-			Godot.Collections.Dictionary resultDict = GGPO.SynchronizeInput(MAXPLAYERS);
-			if ((int)resultDict["result"] == GGPO.ErrorcodeSuccess)
-			{
-
-				Advance_Frame((Godot.Collections.Array)resultDict["inputs"]);
-			}
+        {
+			gsObj.Update(new Godot.Collections.Array(new int[] {0, 0}));
 
 		}
-		ResetInputs();
+		
 		UpdateTime();
 	}
 
@@ -251,6 +261,11 @@ public class MainScene : Node2D
 
 	}
 
+	public void OnEventConnectionInterrupted(int player, int timeout)
+    {
+		GD.Print($"Connection interrupted by player {player} with timeout {timeout}");
+    }
+
 	public void OnEventTimesync(int framesAhead)
 	{
 		frameAhead = framesAhead;
@@ -279,10 +294,11 @@ public class MainScene : Node2D
 		GGPO.AdvanceFrame();
 	}
 
-	public void OnEventDisconnectedFromPeer()
+	public void OnEventDisconnectedFromPeer(int idk)
 	{
-		GGPO.CloseSession();
-		ReturnToLobby();
+		int res = GGPO.CloseSession();
+		GD.Print($"Disconnected from peer {idk}, closing with code {res}");
+		CloseMainscene();
 	}
 
 	public void OnResetButtonDown()
@@ -669,7 +685,22 @@ public class MainScene : Node2D
 
 	private void ReturnToLobby()
 	{
+		GD.Print("RETURN TO LOBBY FUNCTION");
+		if (Globals.mode == Globals.Mode.GGPO)
+        {
+
+			GD.Print("Closing GGPO session");
+			int closeResult = GGPO.CloseSession();
+			GD.Print($"GGPO session closed with code {closeResult}");
+        }
+		CloseMainscene();
+	}
+
+	private void CloseMainscene()
+    {
+		GD.Print("Emitting lobby return signal");
 		EmitSignal(nameof(LobbyReturn));
+		GD.Print("Emitted lobby return signal, queueing free");
 		QueueFree();
 	}
 }

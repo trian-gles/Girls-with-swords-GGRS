@@ -317,12 +317,20 @@ public class Player : Node2D
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
-					heldKeys.Add(inputArr[0]);
+					if (!heldKeys.Contains(inputArr[0]))
+                    {
+						heldKeys.Add(inputArr[0]);
+                    }
+					
 					
 				}
 				else if (inputArr[1] == 'r')
 				{
-					bool removeResult = heldKeys.Remove(inputArr[0]);
+					if (heldKeys.Contains(inputArr[0]))
+                    {
+						bool removeResult = heldKeys.Remove(inputArr[0]);
+					}
+					
 					
 				}
 				

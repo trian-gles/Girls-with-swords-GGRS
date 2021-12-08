@@ -601,6 +601,7 @@ public class MainScene : Node2D
 		}
 		else if (roundFinished)
 		{
+			gsObj.EndGame();
 			PostGameTime(frame);
 		}
 		

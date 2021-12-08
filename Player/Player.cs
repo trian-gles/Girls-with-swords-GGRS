@@ -381,6 +381,14 @@ public class Player : Node2D
 		}
 	}
 
+	/// <summary>
+	/// Called at the end of the match
+	/// </summary>
+	public void RemoveAllHeld()
+    {
+		inputHandler.heldKeys.Clear();
+    }
+
 	public bool CheckHeldKey(char key) 
 	{
 		return (inputHandler.heldKeys.Contains(key));

@@ -86,6 +86,7 @@ public abstract class State : Node
         public string state;
         public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
         public PostInputCallback postCall;
+        public bool preventMash;
     }
 
     protected char[] ReverseInput(char[] inp)
@@ -151,23 +152,25 @@ public abstract class State : Node
         normalGatlings.Add(newGatling);
     }
 
-    protected void AddGatling(List<char[]> inputs, string state)
-    {
-        var newGatling = new CommandGatling
-        {
-            inputs = inputs,
-            state = state
-        };
-        commandGatlings.Add(newGatling);
-    }
-
-    protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall)
+    protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true)
     {
         var newGatling = new CommandGatling
         {
             inputs = inputs,
             state = state,
-            postCall = postCall
+            preventMash = preventMash
+        };
+        commandGatlings.Add(newGatling);
+    }
+
+    protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall, bool preventMash = true)
+    {
+        var newGatling = new CommandGatling
+        {
+            inputs = inputs,
+            state = state,
+            postCall = postCall,
+            preventMash = preventMash
         };
         commandGatlings.Add(newGatling);
     }
@@ -193,12 +196,17 @@ public abstract class State : Node
 
                 if (owner.CheckBufferComplex(testedInputs))
                 {
-                    if (comGat.reqCall != null)
+                    if (comGat.reqCall != null) // check the required callback
                     {
                         if (!comGat.reqCall())
                         {
                             continue;
                         }
+                    }
+
+                    if (comGat.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input
+                    {
+                        continue;
                     }
 
                     if (comGat.postCall != null)

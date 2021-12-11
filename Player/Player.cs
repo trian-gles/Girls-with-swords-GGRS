@@ -394,6 +394,13 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public bool CheckLastBufInput(char[] key)
+    {
+		var buf = inputHandler.GetBuffer();
+		GD.Print(buf[buf.Count - 2][0]);
+		return (key[0] == buf[buf.Count - 2][0]);
+    }
+
 	/// <summary>
 	/// Checks if the key is in the input buffer
 	/// </summary>

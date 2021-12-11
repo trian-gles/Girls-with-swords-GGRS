@@ -25,19 +25,4 @@ public class Knockdown : HitState
             EmitSignal(nameof(StateFinished), "Fall");
         }
     }
-
-    public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
-    {
-        // No OTG
-    }
-
-    public override void receiveStun(int hitStun, int blockStun)
-    {
-        
-    }
-
-    public override void receiveDamage(int dmg)
-    {
-        
-    }
 }

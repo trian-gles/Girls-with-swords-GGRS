@@ -216,14 +216,14 @@ public class MainScene : Node2D
 				}
 
 			}
-			ResetInputs();
+			
 		}
 		else
         {
 			gsObj.Update(new Godot.Collections.Array(new int[] {0, 0}));
 
 		}
-		
+		ResetInputs();
 		UpdateTime();
 	}
 

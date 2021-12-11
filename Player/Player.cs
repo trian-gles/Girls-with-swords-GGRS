@@ -450,7 +450,7 @@ public class Player : Node2D
 		
 		animationPlayer.FrameAdvance();
 
-		if (CheckHurtRect())
+		if (CheckHurtRect() && (otherPlayer.currentState.Name != "Knockdown"))
 		{
 			currentState.InHurtbox();
 		}

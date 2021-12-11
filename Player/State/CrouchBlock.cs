@@ -30,7 +30,8 @@ public class CrouchBlock : State
         }
     }
 
-    public override void receiveDamage(int dmg)
+    public override void receiveDamage(int dmg, int prorationLevel)
     {
+        owner.DeductHealth(dmg);
     }
 }

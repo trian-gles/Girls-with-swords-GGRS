@@ -28,7 +28,7 @@ default_font = ExtResource( 11 )
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 2 )
-p2InputLoop = PoolIntArray( 30, 0, 0, 0, 0, 0, 0, 10, 0, 31, 0, 70, 71, 0, 0, 40, 0, 11, 0, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+p2InputLoop = PoolIntArray( 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -60,7 +60,8 @@ margin_left = 43.5141
 margin_top = 13.4195
 margin_right = 83.5141
 margin_bottom = 53.4195
-value = 100.0
+max_value = 800.0
+value = 800.0
 texture_progress = ExtResource( 8 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
@@ -74,7 +75,8 @@ margin_left = 286.975
 margin_top = 13.1587
 margin_right = 435.975
 margin_bottom = 53.1587
-value = 100.0
+max_value = 800.0
+value = 800.0
 texture_progress = ExtResource( 8 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )

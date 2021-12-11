@@ -32,14 +32,14 @@ public class Float : HitStun
         {
             GD.Print("On ground, knocking down");
             EmitSignal(nameof(StateFinished), "Knockdown");
-            owner.ResetCombo();
+            owner.ResetComboAndProration();
         }
 
         stunRemaining--;
 
         if (stunRemaining == 0)
         {
-            owner.ResetCombo();
+            owner.ResetComboAndProration();
             EmitSignal(nameof(StateFinished), "Fall");
         }
         

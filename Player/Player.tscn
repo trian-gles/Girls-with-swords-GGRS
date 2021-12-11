@@ -40,7 +40,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 38 )
+extents = Vector2( 20, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 7 )
@@ -164,6 +164,7 @@ hitStun = 12
 hitPush = 2000
 height = 0
 dmg = 2
+prorationLevel = 2
 
 [node name="CrouchSlash" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
@@ -184,6 +185,7 @@ script = ExtResource( 21 )
 hitStun = 12
 hitPush = 2000
 dmg = 2
+prorationLevel = 1
 
 [node name="JumpPunch" type="Node" parent="StateTree"]
 script = ExtResource( 22 )

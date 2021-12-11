@@ -42,8 +42,13 @@ public class Block : HitState
         stunRemaining = blockStun;
     }
 
-    public override void receiveDamage(int dmg)
+    /// <summary>
+    /// Not multiplied by proration because this is chip damage.  Also no proration is applied
+    /// </summary>
+    /// <param name="dmg"></param>
+    public override void receiveDamage(int dmg, int prorationLevel)
     {
+        owner.DeductHealth(dmg);
     }
 }
 

@@ -19,7 +19,7 @@ public class AirKnockdown : HitStun
         if (owner.grounded)
         {
             EmitSignal(nameof(StateFinished), "Knockdown");
-            owner.ResetCombo();
+            owner.ResetComboAndProration();
         }
         ApplyGravity();
     }

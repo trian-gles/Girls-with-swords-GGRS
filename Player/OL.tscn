@@ -3225,12 +3225,10 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( 0, 1 )
 disabled = true
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-frame = 80
 
 [node name="DP" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 4 )

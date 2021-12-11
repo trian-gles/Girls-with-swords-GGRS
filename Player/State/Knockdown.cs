@@ -15,7 +15,7 @@ public class Knockdown : HitState
     public override void AnimationFinished()
     {
 
-        owner.ResetCombo();
+        owner.ResetComboAndProration();
         if (owner.grounded) 
         {
             EmitSignal(nameof(StateFinished), "Idle");

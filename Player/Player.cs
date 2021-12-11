@@ -58,6 +58,7 @@ public class Player : Node2D
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
+	public int proration = 8;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -83,7 +84,7 @@ public class Player : Node2D
 		public bool touchingWall { get; set; }
 		public bool grounded { get; set; }
 		public int combo { get; set; }
-
+		public int proration { get; set; }
 
 	}
 	
@@ -210,6 +211,7 @@ public class Player : Node2D
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
 		pState.combo = combo;
+		pState.proration = proration;
 		return pState;
 	}
 
@@ -235,6 +237,7 @@ public class Player : Node2D
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
 		combo = pState.combo;
+		proration = pState.proration;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -648,11 +651,16 @@ public class Player : Node2D
 		}
 	}
 
-	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown) 
+	public void Prorate(int prorationLevel)
+    {
+		proration = Math.Max(1, proration - prorationLevel);
+    }
+
+	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
 	{
 		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
 		currentState.receiveStun(hitStun, blockStun);
-		currentState.receiveDamage(dmg);
+		currentState.receiveDamage(dmg, prorationLevel);
 		EmitSignal(nameof(HitConfirm));
 	}
 
@@ -681,9 +689,10 @@ public class Player : Node2D
 		EmitSignal(nameof(HadoukenRemoved), h);
 	}
 
-	public void ResetCombo()
+	public void ResetComboAndProration()
 	{
 		combo = 0;
+		proration = 8;
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
@@ -695,6 +704,7 @@ public class Player : Node2D
 
 	public void DeductHealth(int dmg)
 	{
+		GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}

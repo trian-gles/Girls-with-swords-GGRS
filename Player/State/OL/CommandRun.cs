@@ -93,4 +93,14 @@ public class CommandRun : State
 			base.receiveStun(hitStun, blockStun);
 		}
 	}
+
+	/// <summary>
+	/// Proration level is ignored here
+	/// </summary>
+	/// <param name="dmg"></param>
+	/// <param name="prorationLevel"></param>
+	public override void receiveDamage(int dmg, int prorationLevel)
+	{
+		owner.DeductHealth(dmg * owner.proration);
+	}
 }

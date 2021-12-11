@@ -29,7 +29,7 @@ public class HitStun : HitState
 
         if (stunRemaining == 0)
         {
-            owner.ResetCombo();
+            owner.ResetComboAndProration();
             if (owner.grounded)
             {
                 EmitSignal(nameof(StateFinished), "Idle");
@@ -54,11 +54,10 @@ public class HitStun : HitState
             base.PushMovement(_xVel);
         }
     }
-
+    
     public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         //GD.Print($"Received attack on side {rightAttack}");
-
         bool launchBool = false;
         if (!rightAttack)
         {

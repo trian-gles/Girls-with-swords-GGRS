@@ -43,10 +43,10 @@ public class Block : HitState
     }
 
     /// <summary>
-    /// Not multiplied because this is chip damage
+    /// Not multiplied by proration because this is chip damage.  Also no proration is applied
     /// </summary>
     /// <param name="dmg"></param>
-    public override void receiveDamage(int dmg)
+    public override void receiveDamage(int dmg, int prorationLevel)
     {
         owner.DeductHealth(dmg);
     }

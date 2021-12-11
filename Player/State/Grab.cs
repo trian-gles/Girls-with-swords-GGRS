@@ -15,6 +15,9 @@ public class Grab : State
     [Export]
     public int hitStun = 0;
 
+    [Export]
+    public int prorationLevel = 2;
+
     public bool released = false;
 
     public bool rightGrab = true;
@@ -63,7 +66,7 @@ public class Grab : State
                 actualLaunch.x *= -1;
             }
 
-            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false);
+            owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
         }
     }
     public override void AnimationFinished()

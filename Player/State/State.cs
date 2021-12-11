@@ -310,6 +310,7 @@ public abstract class State : Node
     public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
     {
         owner.velocity = new Vector2(0, 0);
+        
         if (!rightAttack)
         {
             launch.x *= -1;
@@ -380,11 +381,12 @@ public abstract class State : Node
     }
 
     /// <summary>
-    /// This is multiplied by 8 because it is NOT prorated or chip damage
+    /// This is multiplied by the proration value that is currently set, THEN the new proration is calculated for future moves
     /// </summary>
     /// <param name="dmg"></param>
-    public virtual void receiveDamage(int dmg)
+    public virtual void receiveDamage(int dmg, int prorationLevel)
     {
-        owner.DeductHealth(dmg * 8);
+        owner.DeductHealth(dmg * owner.proration);
+        owner.Prorate(prorationLevel);
     }
 }

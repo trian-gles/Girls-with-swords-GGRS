@@ -112,7 +112,7 @@ public class HadoukenPart : Node2D
         {
             return;
         }
-        targetPlayer.ReceiveHit(movingRight, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false);
+        targetPlayer.ReceiveHit(movingRight, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false, 0);
         MakeInactive();
     }
 

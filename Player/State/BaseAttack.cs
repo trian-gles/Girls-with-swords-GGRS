@@ -26,6 +26,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected bool knockdown = false;
 
+	[Export]
+	protected int prorationLevel = 0;
+
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
@@ -54,7 +57,7 @@ public abstract class BaseAttack : State
 		{
 			//GD.Print($"Hit connect on frame {frameCount}");
 			EmitSignal(nameof(OnHitConnected), hitPush);
-			owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown);
+			owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
 			hitConnect = true;
 		}
 

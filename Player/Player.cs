@@ -53,7 +53,7 @@ public class Player : Node2D
 	// All of these will be stored in gamestate
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
-	private int health = 100;
+	private int health = 800;
 	public Vector2 velocity = new Vector2(0, 0);
 	public bool facingRight = true;
 	public bool grounded;

@@ -379,8 +379,12 @@ public abstract class State : Node
         stunRemaining = hitStun;
     }
 
+    /// <summary>
+    /// This is multiplied by 8 because it is NOT prorated or chip damage
+    /// </summary>
+    /// <param name="dmg"></param>
     public virtual void receiveDamage(int dmg)
     {
-        owner.DeductHealth(dmg);
+        owner.DeductHealth(dmg * 8);
     }
 }

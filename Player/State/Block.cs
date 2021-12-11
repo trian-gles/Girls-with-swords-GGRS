@@ -42,8 +42,13 @@ public class Block : HitState
         stunRemaining = blockStun;
     }
 
+    /// <summary>
+    /// Not multiplied because this is chip damage
+    /// </summary>
+    /// <param name="dmg"></param>
     public override void receiveDamage(int dmg)
     {
+        owner.DeductHealth(dmg);
     }
 }
 

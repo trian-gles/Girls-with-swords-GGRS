@@ -108,6 +108,10 @@ public class HadoukenPart : Node2D
     private void HurtPlayer()
     {
         // fill this with harmful stuff!!!!
+        if (targetPlayer.currentState.Name == "Knockdown") // must be a better way to do this.  for now, hadoukens go through knocked down opponent
+        {
+            return;
+        }
         targetPlayer.ReceiveHit(movingRight, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false);
         MakeInactive();
     }

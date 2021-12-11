@@ -88,9 +88,9 @@ public class Player : Node2D
 	}
 	
 
-	private Color hitColor = new Color(255, 0, 0, 0.5f);
-	private Color hurtColor = new Color(0, 255, 0, 0.5f);
-	private Color colColor = new Color(0, 0, 255, 0.5f);
+	private Color hitColor = new Color(0, 0, 255, 0.5f);
+	private Color hurtColor = new Color(255, 0, 0, 0.5f);
+	private Color colColor = new Color(0, 255, 0, 0.5f);
 	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
 	public Position2D grabPos;
@@ -393,6 +393,13 @@ public class Player : Node2D
 	{
 		return (inputHandler.heldKeys.Contains(key));
 	}
+
+	public bool CheckLastBufInput(char[] key)
+    {
+		var buf = inputHandler.GetBuffer();
+		GD.Print(buf[buf.Count - 2][0]);
+		return (key[0] == buf[buf.Count - 2][0]);
+    }
 
 	/// <summary>
 	/// Checks if the key is in the input buffer

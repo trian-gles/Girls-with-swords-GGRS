@@ -296,6 +296,15 @@ public class GameStateObject : Node
 	}
 
 	/// <summary>
+	/// For now, both players release all held keys
+	/// </summary>
+	public void EndGame()
+    {
+		P1.RemoveAllHeld();
+		P2.RemoveAllHeld();
+    }
+
+	/// <summary>
 	/// Updates the gamestate by one frame with the given inputs
 	/// </summary>
 	/// <param name="thisFrameInputs"></param>

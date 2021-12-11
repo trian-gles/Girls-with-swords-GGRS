@@ -317,12 +317,20 @@ public class Player : Node2D
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
-					heldKeys.Add(inputArr[0]);
+					if (!heldKeys.Contains(inputArr[0]))
+                    {
+						heldKeys.Add(inputArr[0]);
+                    }
+					
 					
 				}
 				else if (inputArr[1] == 'r')
 				{
-					bool removeResult = heldKeys.Remove(inputArr[0]);
+					if (heldKeys.Contains(inputArr[0]))
+                    {
+						bool removeResult = heldKeys.Remove(inputArr[0]);
+					}
+					
 					
 				}
 				
@@ -372,6 +380,14 @@ public class Player : Node2D
 			currentState.AnimationFinished();
 		}
 	}
+
+	/// <summary>
+	/// Called at the end of the match
+	/// </summary>
+	public void RemoveAllHeld()
+    {
+		inputHandler.heldKeys.Clear();
+    }
 
 	public bool CheckHeldKey(char key) 
 	{

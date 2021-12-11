@@ -88,9 +88,9 @@ public class Player : Node2D
 	}
 	
 
-	private Color hitColor = new Color(255, 0, 0, 0.5f);
-	private Color hurtColor = new Color(0, 255, 0, 0.5f);
-	private Color colColor = new Color(0, 0, 255, 0.5f);
+	private Color hitColor = new Color(0, 0, 255, 0.5f);
+	private Color hurtColor = new Color(255, 0, 0, 0.5f);
+	private Color colColor = new Color(0, 255, 0, 0.5f);
 	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
 	public Position2D grabPos;

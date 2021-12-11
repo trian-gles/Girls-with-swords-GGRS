@@ -30,4 +30,14 @@ public class Knockdown : HitState
     {
         // No OTG
     }
+
+    public override void receiveStun(int hitStun, int blockStun)
+    {
+        
+    }
+
+    public override void receiveDamage(int dmg)
+    {
+        
+    }
 }

@@ -296,9 +296,9 @@ public class MainScene : Node2D
 
 	public void OnEventDisconnectedFromPeer(int idk)
 	{
-		int res = GGPO.CloseSession();
-		GD.Print($"Disconnected from peer {idk}, closing with code {res}");
-		CloseMainscene();
+		//int res = GGPO.CloseSession();
+		GD.Print($"Disconnected from peer {idk}");
+		//CloseMainscene();
 	}
 
 	public void OnResetButtonDown()

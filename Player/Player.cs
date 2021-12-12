@@ -400,7 +400,7 @@ public class Player : Node2D
 	public bool CheckLastBufInput(char[] key)
     {
 		var buf = inputHandler.GetBuffer();
-		GD.Print(buf[buf.Count - 2][0]);
+		GD.Print(buf[buf.Count - 1][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
     }
 

@@ -693,7 +693,7 @@ public class Player : Node2D
 		hit_hitPush = hitPush;
 		hit_launch = launch;
 		hit_knockdown = knockdown;
-		hit_prorationLevel = proration;
+		hit_prorationLevel = prorationLevel;
 
 
 

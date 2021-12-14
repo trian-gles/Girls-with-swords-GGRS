@@ -175,6 +175,7 @@ public class GameStateObject : Node
 		for (int j = 0; j < firstGs.hadoukenStates.Count; j++)
         {
 			errMsg = AddError(errMsg, $"Hadouken {j}" + " xPos", firstGs.hadoukenStates[j].pos[0], firstGs.hadoukenStates[j].pos[0]);
+			errMsg = AddError(errMsg, $"Hadouken {j}" + " active", firstGs.hadoukenStates[j].active, firstGs.hadoukenStates[j].active);
 		}
         
 
@@ -445,6 +446,16 @@ public class GameStateObject : Node
 		{
 			hostPlayer.FrameAdvance();
 			joinPlayer.FrameAdvance();
+
+			foreach (var entry in hadoukens)
+			{
+				entry.Value.FrameAdvance();
+			}
+
+			CleanupHadoukens();
+
+			hostPlayer.CalculateHit();
+			joinPlayer.CalculateHit();
 			CheckFixCollision();
 			hostPlayer.MoveSlideDeterministicTwo();
 			joinPlayer.MoveSlideDeterministicTwo();
@@ -452,12 +463,7 @@ public class GameStateObject : Node
 			hostPlayer.RenderPosition();
 			joinPlayer.RenderPosition();
 		}
-		foreach (var entry in hadoukens)
-		{
-			entry.Value.FrameAdvance();
-		}
-
-		CleanupHadoukens();
+		
 		
 	}
 

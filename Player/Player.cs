@@ -87,13 +87,26 @@ public class Player : Node2D
 		public int proration { get; set; }
 
 	}
-	
 
+	// components of a received attack
+	private bool wasHit = false;
+	private bool hit_rightAttack;
+	private int hit_dmg;
+	private int hit_blockStun;
+	private int hit_hitStun;
+	private State.HEIGHT hit_height;
+	private int hit_hitPush;
+	private Vector2 hit_launch;
+	private bool hit_knockdown;
+	private int hit_prorationLevel;
+
+	// Box colors
 	private Color hitColor = new Color(0, 0, 255, 0.5f);
 	private Color hurtColor = new Color(255, 0, 0, 0.5f);
 	private Color colColor = new Color(0, 255, 0, 0.5f);
 	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
+	// Sub nodes
 	public Position2D grabPos;
 	public Area2D hitBoxes;
 	public Area2D hurtBoxes;
@@ -656,12 +669,47 @@ public class Player : Node2D
 		proration = Math.Max(1, proration - prorationLevel);
     }
 
+	/// <summary>
+	/// Receive a hit, but do not calculate the results yet
+	/// </summary>
+	/// <param name="rightAttack"></param>
+	/// <param name="dmg"></param>
+	/// <param name="blockStun"></param>
+	/// <param name="hitStun"></param>
+	/// <param name="height"></param>
+	/// <param name="hitPush"></param>
+	/// <param name="launch"></param>
+	/// <param name="knockdown"></param>
+	/// <param name="prorationLevel"></param>
 	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
 	{
-		currentState.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
-		currentState.receiveStun(hitStun, blockStun);
-		currentState.receiveDamage(dmg, prorationLevel);
+
+		wasHit = true;
+		hit_rightAttack = rightAttack;
+		hit_dmg = dmg;
+		hit_blockStun = blockStun;
+		hit_hitStun = hitStun;
+		hit_height = height;
+		hit_hitPush = hitPush;
+		hit_launch = launch;
+		hit_knockdown = knockdown;
+		hit_prorationLevel = proration;
+
+
+
+}
+
+	public void CalculateHit()
+    {
+		if (!wasHit)
+        {
+			return;
+        }
+		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown);
+		currentState.receiveStun(hit_hitStun, hit_blockStun);
+		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
 		EmitSignal(nameof(HitConfirm));
+		wasHit = false;
 	}
 
 	public void OnHitConnected(int hitPush) 

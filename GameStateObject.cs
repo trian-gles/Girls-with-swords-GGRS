@@ -445,6 +445,8 @@ public class GameStateObject : Node
 		{
 			hostPlayer.FrameAdvance();
 			joinPlayer.FrameAdvance();
+			hostPlayer.CalculateHit();
+			joinPlayer.CalculateHit();
 			CheckFixCollision();
 			hostPlayer.MoveSlideDeterministicTwo();
 			joinPlayer.MoveSlideDeterministicTwo();

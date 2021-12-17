@@ -54,7 +54,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true, true ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:position")
@@ -4293,7 +4293,7 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -1, -9 )
+position = Vector2( 0, 1 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( -14, -17 )

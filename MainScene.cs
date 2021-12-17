@@ -193,7 +193,7 @@ public class MainScene : Node2D
 	public void GGPOPhysicsProcess()
 	{
 		if (!roundFinished)
-        {
+		{
 			GGPO.Idle(30);
 
 			int result;
@@ -219,7 +219,7 @@ public class MainScene : Node2D
 			
 		}
 		else
-        {
+		{
 			gsObj.Update(new Godot.Collections.Array(new int[] {0, 0}));
 
 		}
@@ -262,9 +262,9 @@ public class MainScene : Node2D
 	}
 
 	public void OnEventConnectionInterrupted(int player, int timeout)
-    {
+	{
 		GD.Print($"Connection interrupted by player {player} with timeout {timeout}");
-    }
+	}
 
 	public void OnEventTimesync(int framesAhead)
 	{
@@ -688,17 +688,17 @@ public class MainScene : Node2D
 	{
 		GD.Print("RETURN TO LOBBY FUNCTION");
 		if (Globals.mode == Globals.Mode.GGPO)
-        {
+		{
 
 			GD.Print("Closing GGPO session");
 			int closeResult = GGPO.CloseSession();
 			GD.Print($"GGPO session closed with code {closeResult}");
-        }
+		}
 		CloseMainscene();
 	}
 
 	private void CloseMainscene()
-    {
+	{
 		GD.Print("Emitting lobby return signal");
 		EmitSignal(nameof(LobbyReturn));
 		GD.Print("Emitted lobby return signal, queueing free");

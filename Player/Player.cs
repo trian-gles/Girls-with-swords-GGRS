@@ -334,16 +334,16 @@ public class Player : Node2D
 				if (inputArr[1] == 'p')
 				{
 					if (!heldKeys.Contains(inputArr[0]))
-                    {
+					{
 						heldKeys.Add(inputArr[0]);
-                    }
+					}
 					
 					
 				}
 				else if (inputArr[1] == 'r')
 				{
 					if (heldKeys.Contains(inputArr[0]))
-                    {
+					{
 						bool removeResult = heldKeys.Remove(inputArr[0]);
 					}
 					
@@ -401,9 +401,9 @@ public class Player : Node2D
 	/// Called at the end of the match
 	/// </summary>
 	public void RemoveAllHeld()
-    {
+	{
 		inputHandler.heldKeys.Clear();
-    }
+	}
 
 	public bool CheckHeldKey(char key) 
 	{
@@ -411,11 +411,11 @@ public class Player : Node2D
 	}
 
 	public bool CheckLastBufInput(char[] key)
-    {
+	{
 		var buf = inputHandler.GetBuffer();
 		GD.Print(buf[buf.Count - 1][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
-    }
+	}
 
 	/// <summary>
 	/// Checks if the key is in the input buffer
@@ -665,9 +665,9 @@ public class Player : Node2D
 	}
 
 	public void Prorate(int prorationLevel)
-    {
+	{
 		proration = Math.Max(1, proration - prorationLevel);
-    }
+	}
 
 	/// <summary>
 	/// Receive a hit, but do not calculate the results yet
@@ -700,11 +700,11 @@ public class Player : Node2D
 }
 
 	public void CalculateHit()
-    {
+	{
 		if (!wasHit)
-        {
+		{
 			return;
-        }
+		}
 		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown);
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);

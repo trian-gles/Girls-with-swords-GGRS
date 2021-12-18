@@ -1474,7 +1474,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 7, 16, 24 ),
+"times": PoolRealArray( 0, 11, 16, 24 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 41, 43, 44, 46 ]
@@ -1486,7 +1486,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 7 ),
+"times": PoolRealArray( 0, 11 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -1510,7 +1510,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 6, 7, 15 ),
+"times": PoolRealArray( 0, 10, 11, 15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 16, 29 ), Vector2( 16, 29 ), Vector2( 15, 37 ), Vector2( 15, 37 ) ]
@@ -1522,7 +1522,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 6, 7, 15 ),
+"times": PoolRealArray( 0, 10, 11, 15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 13, -18 ), Vector2( 13, -18 ), Vector2( 13, -15 ), Vector2( 13, -15 ) ]
@@ -1534,7 +1534,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 7, 15, 16, 23, 24, 30, 31 ),
+"times": PoolRealArray( 11, 15, 16, 23, 24, 30, 31 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 17, 29 ), Vector2( 17, 29 ), Vector2( 17, 28 ), Vector2( 17, 28 ), Vector2( 18, 29 ), Vector2( 18, 29 ), Vector2( 17, 32 ) ]
@@ -1546,7 +1546,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 7, 15, 16, 23, 24, 30, 31 ),
+"times": PoolRealArray( 11, 15, 16, 23, 24, 30, 31 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -5, 4 ), Vector2( -5, 4 ), Vector2( -2, 5 ), Vector2( -2, 5 ), Vector2( -3, 5 ), Vector2( -3, 5 ), Vector2( -2, 8 ) ]
@@ -4293,7 +4293,7 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -8, 8 )
+position = Vector2( -2, 5 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 17, 35 )
@@ -4302,14 +4302,14 @@ position = Vector2( 17, 35 )
 position = Vector2( 17, 7 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-disabled = false
+position = Vector2( 13, -15 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 21, -8 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-frame = 130
+frame = 44
 
 [node name="DP" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 4 )

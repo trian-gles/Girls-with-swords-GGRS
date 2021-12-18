@@ -2292,7 +2292,7 @@ tracks/12/keys = {
 }
 
 [sub_resource type="Animation" id=20]
-length = 22.0
+length = 27.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4293,7 +4293,7 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -2, 0 )
+position = Vector2( -8, 8 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 17, 35 )
@@ -4302,17 +4302,14 @@ position = Vector2( 17, 35 )
 position = Vector2( 17, 7 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 24, 33 )
-
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( -25, -15 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 21, -8 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-frame = 111
+frame = 130
 
 [node name="DP" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 4 )

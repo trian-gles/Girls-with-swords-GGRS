@@ -4319,8 +4319,8 @@ script = ExtResource( 4 )
 hitStun = 31
 opponentLaunch = Vector2( 0, -800 )
 hitPush = 6000
-height = 2
 dmg = 8
+prorationLevel = 1
 launch = Vector2( 150, -800 )
 
 [node name="AntiAir" type="Node" parent="StateTree" index="29"]
@@ -4329,6 +4329,7 @@ hitStun = 31
 opponentLaunch = Vector2( 0, -700 )
 hitPush = 2000
 dmg = 7
+prorationLevel = 1
 launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="30"]
@@ -4341,6 +4342,7 @@ blockStun = 18
 hitPush = 3000
 dmg = 8
 knockdown = true
+prorationLevel = 1
 
 [node name="Hadouken" type="Node" parent="StateTree" index="32"]
 script = ExtResource( 5 )

@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "",
+"class": "GodotGGRS",
+"language": "NativeScript",
+"path": "res://GodotGGRS.gdns"
+} ]
+_global_script_class_icons={
+"GodotGGRS": ""
+}
+
 [WAT]
 
 Tags=PoolStringArray(  )

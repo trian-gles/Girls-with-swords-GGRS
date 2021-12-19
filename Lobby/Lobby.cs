@@ -17,14 +17,14 @@ public class Lobby : Node2D
 	{
 		
 		Globals.mode = Globals.Mode.GGPO;
-		//Begin(true);
+		Begin(true);
 	}
 
 	public void OnJoinButtonDown()
 	{
 		
 		Globals.mode = Globals.Mode.GGPO;
-		//Begin(false);
+		Begin(false);
 	}
 
 	public void OnHostTestButtonDown()

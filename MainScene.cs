@@ -16,7 +16,7 @@ public class MainScene : Node2D
 	private GameStateObject gsObj;
 	private Label timer;
 	private Label centerText;
-	
+	private Node GGRS;
 
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
@@ -74,6 +74,7 @@ public class MainScene : Node2D
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
+		GGRS = GetNode("GodotGGRS");
 		P1Combo = GetNode<Label>("HUD/P1Combo");
 		P2Combo = GetNode<Label>("HUD/P2Combo");
 		P1Health = GetNode<TextureProgress>("HUD/P1Health");
@@ -94,7 +95,7 @@ public class MainScene : Node2D
 			//int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
 
-
+			GGRS.Call("create_session", localPort, PLAYERNUMBERS);
 			
 			//ConnectEvents();
 			//Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand, "127.0.0.1", 7000);

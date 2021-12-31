@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Text.Json;
 using System.Collections.Generic;
+using System.Threading;
 
 public class MainScene : Node2D
 {
@@ -23,6 +24,7 @@ public class MainScene : Node2D
 	private int localPlayerHandle;
 	private int localHand = 1;
 	private int otherHand = 2;
+	private int waitFrames = 0;
 
 
 	// Can be used to store inputs for synctesting, maybe later for training mode?
@@ -96,19 +98,29 @@ public class MainScene : Node2D
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
 
 			GGRS.Call("create_session", localPort, PLAYERNUMBERS);
-			
+
+			localPlayerHandle = (int)GGRS.Call("add_local_player");
+			GD.Print($"added local player with handle {localPlayerHandle}");
 			//ConnectEvents();
 			//Godot.Collections.Dictionary localHandle = GGPO.AddPlayer(GGPO.PlayertypeLocal, localHand, "127.0.0.1", 7000);
 			//localPlayerHandle = (int)localHandle["playerHandle"];
 			//GD.Print($"Local add result: {localHandle["result"]}");
 
+
+			var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{ip}:{remotePort}");
+			GD.Print($"added other player with handle {otherPlayerHandle}");
+			GD.Print("Setting callback node");
+			GGRS.Call("set_callback_node", this);
+			GGRS.Call("set_frame_delay", 2, localPlayerHandle);
+			GGRS.Call("start_session");
+			
 			//int frameDelayError = GGPO.SetFrameDelay(localPlayerHandle, 2);
 			//GD.Print($"Frame delay error code: {frameDelayError}");
 			//GGPO.CreateInstance(gsObj, nameof(gsObj.SaveGameState));
 			//Godot.Collections.Dictionary remoteHandle = GGPO.AddPlayer(GGPO.PlayertypeRemote, otherHand, ip, remotePort);
 			//GD.Print($"Remote add result:{remoteHandle["result"]}");
 
-			//WaitForConnectionDisplay();
+			WaitForConnectionDisplay();
 		}
 
 		else if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST )
@@ -135,8 +147,15 @@ public class MainScene : Node2D
 		//GGPO.Singleton.Connect("event_connection_interrupted", this, nameof(OnEventConnectionInterrupted));
 	}
 
+    public override void _Process(float delta)
+    {
+        if (Globals.mode == Globals.Mode.GGPO)
+        {
+			GGRS.Call("poll_remote_clients");
+        }
+    }
 
-	public override void _PhysicsProcess(float _delta)
+    public override void _PhysicsProcess(float _delta)
 	{
 		if (halfSpeed)
 		{
@@ -193,36 +212,35 @@ public class MainScene : Node2D
 
 	public void GGPOPhysicsProcess()
 	{
-		if (!roundFinished)
+		if (!roundFinished && (bool)GGRS.Call("is_running"))
 		{
-			//GGPO.Idle(30);
+			if (waitFrames > 0)
+            {
+				waitFrames--;
+				return;
+            }
 
-			//int result;
-			//if (localPlayerHandle != GGPO.InvalidHandle)
-			//{
-			//	// GD.Print($"Adding local input {input}"); this works
-			//	result = GGPO.AddLocalInput(localPlayerHandle, inputs);
-			//}
-			//else
-			//{
-			//	result = 99;
-			//}
-			//if (result == GGPO.ErrorcodeSuccess)
-			//{
-			//	Godot.Collections.Dictionary resultDict = GGPO.SynchronizeInput(MAXPLAYERS);
-			//	if ((int)resultDict["result"] == GGPO.ErrorcodeSuccess)
-			//	{
+			GGRS.Call("advance_frame", localPlayerHandle, inputs);
+			var events = (Godot.Collections.Array) GGRS.Call("get_events");
+			foreach (var item in events)
+			{
+				var itemArr = (Godot.Collections.Array)item;
+				if ((string)itemArr[0] == "WaitRecommendation")
+				{
+					waitFrames = (int)itemArr[1];
+				}
 
-			//		Advance_Frame((Godot.Collections.Array)resultDict["inputs"]);
-			//	}
-
-			//}
+			}
 			
+		}
+		else if (roundFinished)
+		{
+			gsObj.Update(0, 0);
+
 		}
 		else
 		{
-			gsObj.Update(new Godot.Collections.Array(new int[] {0, 0}));
-
+			return;
 		}
 		ResetInputs();
 		UpdateTime();
@@ -230,76 +248,37 @@ public class MainScene : Node2D
 
 	public void TrainingPhysicsProcess()
 	{
-		var combinedInputs = new int[2] {inputs, 0 }; 
-		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		gsObj.Update(inputs, 0);
 		ResetInputs();
 		UpdateTime();
 	}
 
 	public void LocalPhysicsProcess()
 	{
-		var combinedInputs = new int[2] { inputs, p2inputs };
-		gsObj.Update(new Godot.Collections.Array(combinedInputs));
+		gsObj.Update(inputs, p2inputs);
 		ResetInputs();
 		UpdateTime();
 	}
-	
-	/// <summary>
-	/// Non callback advance frame that we use with GGPO
-	/// </summary>
-	/// <param name="combinedInputs"></param>
-	public void Advance_Frame(Godot.Collections.Array combinedInputs)
-	{
-		//gsObj.Update(combinedInputs);
-		//GGPO.AdvanceFrame();
 
-	}
+	public void ggrs_advance_frame(Godot.Collections.Array<Godot.Collections.Array> combinedInputs)
+    {
+		int p1Inps = (int)combinedInputs[0][2];
+		int p2Inps = (int)combinedInputs[1][2];
 
+		gsObj.Update(p1Inps, p2Inps);
+    }
 
 	//GGPO callbacks
-	public void OnSaveGameState()
+	public byte[] ggrs_save_game_state(int frame)
 	{
-
+		return gsObj.SaveGameState().DataArray;
 	}
 
-	public void OnEventConnectionInterrupted(int player, int timeout)
+	public void ggrs_load_game_state(int frame, byte[] buffer, int checksum)
 	{
-		GD.Print($"Connection interrupted by player {player} with timeout {timeout}");
-	}
-
-	public void OnEventTimesync(int framesAhead)
-	{
-		frameAhead = framesAhead;
-		GD.Print(frameAhead);
-	}
-
-	public void OnLoadGameState(StreamPeerBuffer buffer)
-	{
-		gsObj.LoadGameState(buffer);
-	}
-
-	public void OnEventConnectedToPeer(int handle)
-	{
-		GD.Print($"Connected to peer with handle {handle}");
-		Connected();
-	}
-
-	/// <summary>
-	/// Callback function for advancing frames given to GGPO to execute rollbacks
-	/// </summary>
-	/// <param name="combinedInputs"></param>
-	public void OnAdvanceFrame(Godot.Collections.Array combinedInputs)
-	{
-		//gsObj.Update(combinedInputs);
-		//gsObj.InformPlayersRollback();
-		//GGPO.AdvanceFrame();
-	}
-
-	public void OnEventDisconnectedFromPeer(int idk)
-	{
-		//int res = GGPO.CloseSession();
-		GD.Print($"Disconnected from peer {idk}");
-		//CloseMainscene();
+		var buf = new StreamPeerBuffer();
+		buf.DataArray = buffer;
+		gsObj.LoadGameState(buf);
 	}
 
 	public void OnResetButtonDown()
@@ -526,6 +505,8 @@ public class MainScene : Node2D
 		if (frame == 1)
 		{
 			centerText.Text = "3";
+			P1.Visible = true;
+			P2.Visible = true;
 		}
 		if (frame % countDownSpeed == 0)
 		{

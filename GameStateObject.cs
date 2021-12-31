@@ -276,14 +276,14 @@ public class GameStateObject : Node
     {
 		//GD.Print($"Synctesting on frame {Frame}");
 
-		Update(thisFrameInputs);
+		Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
 		
 
 		if (Frame > 1)
 		{
 			GameState firstGS = GetGameState();
 			SetGameState(lastGs);
-			Update(thisFrameInputs);
+			Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
 			string result = CompareGameStates(firstGS, GetGameState());
 			if (result != "")
             {
@@ -310,7 +310,7 @@ public class GameStateObject : Node
 	/// Updates the gamestate by one frame with the given inputs
 	/// </summary>
 	/// <param name="thisFrameInputs"></param>
-	public void Update(Godot.Collections.Array thisFrameInputs)
+	public void Update(int p1InpInt, int p2InpInt)
 	{
 		Frame++;
 		//GD.Print($"Advancing frame to {Frame}");
@@ -320,15 +320,13 @@ public class GameStateObject : Node
 
 		if (hosting)
 		{
-			p1inps = ConvertInputs((int)thisFrameInputs[0]);
-			
-			
-			p2inps = ConvertInputs((int)thisFrameInputs[1]);
+			p1inps = ConvertInputs((int)p1InpInt);
+			p2inps = ConvertInputs((int)p2InpInt);
 		}
 		else
 		{
-			p2inps = ConvertInputs((int)thisFrameInputs[0]);
-			p1inps = ConvertInputs((int)thisFrameInputs[1]);
+			p2inps = ConvertInputs((int)p1InpInt);
+			p1inps = ConvertInputs((int)p2InpInt);
 		}
 		
 

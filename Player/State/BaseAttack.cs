@@ -40,6 +40,13 @@ public abstract class BaseAttack : State
 		base._Ready();
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 	}
+
+	protected void AddJumpCancel()
+	{
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), "Jump", () => owner.velocity.x = owner.speed);
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), "Jump", () => owner.velocity.x = -owner.speed);
+		AddGatling(new char[] { '8', 'p' }, "Jump");
+	}
 	public override void Enter()
 	{
 		base.Enter();
@@ -127,4 +134,6 @@ public abstract class BaseAttack : State
 			EmitSignal(nameof(StateFinished), "CounterHit");
 		}
 	}
+
+
 }

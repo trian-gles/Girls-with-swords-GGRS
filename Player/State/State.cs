@@ -152,6 +152,18 @@ public abstract class State : Node
         normalGatlings.Add(newGatling);
     }
 
+    protected void AddGatling(char[] input, RequiredConditionCallback reqCall, string state, PostInputCallback postCall)
+    {
+        var newGatling = new NormalGatling
+        {
+            input = input,
+            state = state,
+            postCall = postCall,
+            reqCall = reqCall
+        };
+        normalGatlings.Add(newGatling);
+    }
+
     protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true)
     {
         var newGatling = new CommandGatling

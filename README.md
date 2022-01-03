@@ -1,6 +1,6 @@
 # Girls With Swords
 
-An online multiplayer 2d fighting game made with Godot Mono
+An online multiplayer 2d fighting game made with Godot Mono.  See the releases section for the latest build.
 
 ## Features
 - Rollback netcode using the GGRS library
@@ -19,6 +19,11 @@ Click on any image to view video
 Between NY and CA
 <br>
 [![DP Combo](https://img.youtube.com/vi/a7L7UGM1E2E/0.jpg)](https://www.youtube.com/watch?v=a7L7UGM1E2E)
+
+## Upcoming Features
+- More characters
+- Additional air tech
+- Matchmaking server
 
 
 

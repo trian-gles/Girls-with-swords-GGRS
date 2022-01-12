@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL_2C0.png-dc53067b60b60f2995d3ca9412ab2004.stex"
+path="res://.import/OL_2C0.png-29e75419415ab9c261d58ad071c65caa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/OL Moveset/3 OL 2C/OL_2C0.png"
-dest_files=[ "res://.import/OL_2C0.png-dc53067b60b60f2995d3ca9412ab2004.stex" ]
+source_file="res://Sprites/Movesets/OL Moveset/3 OL 2C/Old/OL_2C0.png"
+dest_files=[ "res://.import/OL_2C0.png-29e75419415ab9c261d58ad071c65caa.stex" ]
 
 [params]
 

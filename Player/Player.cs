@@ -379,7 +379,10 @@ public class Player : Node2D
 		currentState.Exit();
 		animationPlayer.NewAnimation(nextStateName);
 		currentState = GetNode<State>("StateTree/" + nextStateName);
-		CheckTurnAround();
+		if (grounded)
+		{
+			CheckTurnAround();
+		}
 		currentState.Enter();
 		
 

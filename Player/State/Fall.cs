@@ -16,7 +16,7 @@ public class Fall : State
             owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
             EmitSignal(nameof(StateFinished), "Idle");
         }
-        owner.CheckTurnAround();
+        //owner.CheckTurnAround();
         ApplyGravity();
     }
 

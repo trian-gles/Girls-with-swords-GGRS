@@ -17,6 +17,7 @@ public class MainScene : Node2D
 	private GameStateObject gsObj;
 	private Label timer;
 	private Label centerText;
+	private Label statsText;
 	private Node GGRS;
 
 	private const int MAXPLAYERS = 2;
@@ -83,6 +84,7 @@ public class MainScene : Node2D
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
+		statsText = GetNode<Label>("HUD/NetStats");
 		centerText.Visible = true;
 		
 		P1Combo.Text = "";
@@ -147,15 +149,15 @@ public class MainScene : Node2D
 		//GGPO.Singleton.Connect("event_connection_interrupted", this, nameof(OnEventConnectionInterrupted));
 	}
 
-    public override void _Process(float delta)
-    {
-        if (Globals.mode == Globals.Mode.GGPO)
-        {
+	public override void _Process(float delta)
+	{
+		if (Globals.mode == Globals.Mode.GGPO)
+		{
 			GGRS.Call("poll_remote_clients");
-        }
-    }
+		}
+	}
 
-    public override void _PhysicsProcess(float _delta)
+	public override void _PhysicsProcess(float _delta)
 	{
 		if (halfSpeed)
 		{
@@ -215,10 +217,10 @@ public class MainScene : Node2D
 		if (!roundFinished && (bool)GGRS.Call("is_running"))
 		{
 			if (waitFrames > 0)
-            {
+			{
 				waitFrames--;
 				return;
-            }
+			}
 
 			GGRS.Call("advance_frame", localPlayerHandle, inputs);
 			var events = (Godot.Collections.Array) GGRS.Call("get_events");
@@ -231,6 +233,9 @@ public class MainScene : Node2D
 				}
 
 			}
+
+			var netStats = (Godot.Collections.Array)GGRS.Call("get_network_stats", 1);
+			statsText.Text = $"Ping = {netStats[1]} \n ";
 			
 		}
 		else if (roundFinished)
@@ -261,12 +266,12 @@ public class MainScene : Node2D
 	}
 
 	public void ggrs_advance_frame(Godot.Collections.Array<Godot.Collections.Array> combinedInputs)
-    {
+	{
 		int p1Inps = (int)combinedInputs[0][2];
 		int p2Inps = (int)combinedInputs[1][2];
 
 		gsObj.Update(p1Inps, p2Inps);
-    }
+	}
 
 	//GGPO callbacks
 	public byte[] ggrs_save_game_state(int frame)

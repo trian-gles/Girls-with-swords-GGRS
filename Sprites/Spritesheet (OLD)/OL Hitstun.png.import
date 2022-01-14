@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Jab.png-fefefa0f298af758099e3d483fbc2378.stex"
+path="res://.import/OL Hitstun.png-270029b38580c8bcc3c64154bee45432.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet/OL Jab.png"
-dest_files=[ "res://.import/OL Jab.png-fefefa0f298af758099e3d483fbc2378.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/OL Hitstun.png"
+dest_files=[ "res://.import/OL Hitstun.png-270029b38580c8bcc3c64154bee45432.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Falling.png-69e3d07b9f25330df5afbfb4d6511e20.stex"
+path="res://.import/OL Jumping Punch.png-3a87ec17a5f8b1d58587a3ffc41b9cf2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet/OL Falling.png"
-dest_files=[ "res://.import/OL Falling.png-69e3d07b9f25330df5afbfb4d6511e20.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/OL Jumping Punch.png"
+dest_files=[ "res://.import/OL Jumping Punch.png-3a87ec17a5f8b1d58587a3ffc41b9cf2.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Hadouken.png-9589d5544ad7aa23390796a6727d2bb7.stex"
+path="res://.import/OL Jump.png-bf96cd92bcbb93499d1b1967653b458e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet/OL Hadouken.png"
-dest_files=[ "res://.import/OL Hadouken.png-9589d5544ad7aa23390796a6727d2bb7.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/OL Jump.png"
+dest_files=[ "res://.import/OL Jump.png-bf96cd92bcbb93499d1b1967653b458e.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Wakeup.png-2c9d9b519b74b49dbc5047abc21c8186.stex"
+path="res://.import/OL Knockdown.png-11fc32b2d65337c6fc0faf571ff521c8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet/OL Wakeup.png"
-dest_files=[ "res://.import/OL Wakeup.png-2c9d9b519b74b49dbc5047abc21c8186.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/OL Knockdown.png"
+dest_files=[ "res://.import/OL Knockdown.png-11fc32b2d65337c6fc0faf571ff521c8.stex" ]
 
 [params]
 

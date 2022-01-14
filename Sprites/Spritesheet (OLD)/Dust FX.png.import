@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Impact FX 1.png-ac226ce38926eb82cfc4a29250793125.stex"
+path="res://.import/Dust FX.png-369f50d94f034f41ad0e334fe6fb4a71.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet/Impact FX 1.png"
-dest_files=[ "res://.import/Impact FX 1.png-ac226ce38926eb82cfc4a29250793125.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/Dust FX.png"
+dest_files=[ "res://.import/Dust FX.png-369f50d94f034f41ad0e334fe6fb4a71.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Moveset-Sheet v2.png-8b70eaae73b8eefcf6c5e8837c6ea9ee.stex"
+path="res://.import/OL Crouch Slash.png-218ef0c6d5d4cf6bad48212ccaaf4aa6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/OL Moveset-Sheet v2.png"
-dest_files=[ "res://.import/OL Moveset-Sheet v2.png-8b70eaae73b8eefcf6c5e8837c6ea9ee.stex" ]
+source_file="res://Sprites/Spritesheet (OLD)/OL Crouch Slash.png"
+dest_files=[ "res://.import/OL Crouch Slash.png-218ef0c6d5d4cf6bad48212ccaaf4aa6.stex" ]
 
 [params]
 

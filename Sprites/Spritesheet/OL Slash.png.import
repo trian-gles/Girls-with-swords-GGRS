@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Neutral Crouch Animated - Old.png-2d46d97cd2cac9d57d7c18e2778b3cf4.stex"
+path="res://.import/OL Slash.png-eaedea42520224c363c0f8b7416b0efd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Neutral Crouch Animated - Old.png"
-dest_files=[ "res://.import/OL Neutral Crouch Animated - Old.png-2d46d97cd2cac9d57d7c18e2778b3cf4.stex" ]
+source_file="res://Sprites/Spritesheet/OL Slash.png"
+dest_files=[ "res://.import/OL Slash.png-eaedea42520224c363c0f8b7416b0efd.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Neutral.png-7b586aca42fed9789028138f9e5f5a98.stex"
+path="res://.import/OL DP.png-176abfba7f6024d853231c7f63c3fe29.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Neutral.png"
-dest_files=[ "res://.import/OL Neutral.png-7b586aca42fed9789028138f9e5f5a98.stex" ]
+source_file="res://Sprites/Spritesheet/OL DP.png"
+dest_files=[ "res://.import/OL DP.png-176abfba7f6024d853231c7f63c3fe29.stex" ]
 
 [params]
 

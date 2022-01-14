@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Jab.png-7c5a5515aee40d02e8f415946195b578.stex"
+path="res://.import/Impact FX 1.png-ac226ce38926eb82cfc4a29250793125.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Jab.png"
-dest_files=[ "res://.import/OL Jab.png-7c5a5515aee40d02e8f415946195b578.stex" ]
+source_file="res://Sprites/Spritesheet/Impact FX 1.png"
+dest_files=[ "res://.import/Impact FX 1.png-ac226ce38926eb82cfc4a29250793125.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Crouch Jab.png-1287e9398d50ea4b79c6f5385bfa3cc4.stex"
+path="res://.import/OL Hadouken.png-9589d5544ad7aa23390796a6727d2bb7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Crouch Jab.png"
-dest_files=[ "res://.import/OL Crouch Jab.png-1287e9398d50ea4b79c6f5385bfa3cc4.stex" ]
+source_file="res://Sprites/Spritesheet/OL Hadouken.png"
+dest_files=[ "res://.import/OL Hadouken.png-9589d5544ad7aa23390796a6727d2bb7.stex" ]
 
 [params]
 

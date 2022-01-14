@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Crouch Block State.png-c7517cfce079a489f806274b0c0cd04c.stex"
+path="res://.import/OL Backdash.png-9011b8e7387ab0f41b61fc92d0d25065.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Crouch Block State.png"
-dest_files=[ "res://.import/OL Crouch Block State.png-c7517cfce079a489f806274b0c0cd04c.stex" ]
+source_file="res://Sprites/Spritesheet/OL Backdash.png"
+dest_files=[ "res://.import/OL Backdash.png-9011b8e7387ab0f41b61fc92d0d25065.stex" ]
 
 [params]
 

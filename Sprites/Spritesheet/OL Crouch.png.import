@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL 2H .png-02ee65d451a1b11e48d40166750fa761.stex"
+path="res://.import/OL Crouch.png-ef14f461e802c2e05a3d37cb81dd24a4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL 2H .png"
-dest_files=[ "res://.import/OL 2H .png-02ee65d451a1b11e48d40166750fa761.stex" ]
+source_file="res://Sprites/Spritesheet/OL Crouch.png"
+dest_files=[ "res://.import/OL Crouch.png-ef14f461e802c2e05a3d37cb81dd24a4.stex" ]
 
 [params]
 

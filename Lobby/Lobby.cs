@@ -84,6 +84,7 @@ public class Lobby : Node2D
 		buttons.GetNode<Button>("SyncTest").Visible = false;
 		buttons.GetNode<Button>("Local").Visible = false;
 		buttons.GetNode<Button>("Training").Visible = false;
+		buttons.GetNode<Button>("Quit").Visible = false;
 		GetNode<Button>("HostTest").Visible = false;
 		GetNode<Button>("JoinTest").Visible = false;
 

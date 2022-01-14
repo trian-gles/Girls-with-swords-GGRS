@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://In Game Menu/Main Menu.gd" type="Script" id=1]
+
+[node name="Main Menu" type="Button"]
+margin_top = 24.0
+margin_right = 125.0
+margin_bottom = 44.0
+text = "Main Menu"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+next_scene_path = "res://Lobby/Lobby.tscn"
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Walk.png-1c45dd6849eeb2533efceb95eb246b8e.stex"
+path="res://.import/Dust FX.png-e45b5d4451652c88c99328c9559e3dae.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Walk.png"
-dest_files=[ "res://.import/OL Walk.png-1c45dd6849eeb2533efceb95eb246b8e.stex" ]
+source_file="res://Sprites/Spritesheet/Dust FX.png"
+dest_files=[ "res://.import/Dust FX.png-e45b5d4451652c88c99328c9559e3dae.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Block State.png-e7c7ffbd33cd6b547397c8e48205ad38.stex"
+path="res://.import/OL Falling.png-69e3d07b9f25330df5afbfb4d6511e20.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Block State.png"
-dest_files=[ "res://.import/OL Block State.png-e7c7ffbd33cd6b547397c8e48205ad38.stex" ]
+source_file="res://Sprites/Spritesheet/OL Falling.png"
+dest_files=[ "res://.import/OL Falling.png-69e3d07b9f25330df5afbfb4d6511e20.stex" ]
 
 [params]
 

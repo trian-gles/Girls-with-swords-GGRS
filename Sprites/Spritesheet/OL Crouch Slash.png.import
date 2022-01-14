@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hadouken.png-2406b069e65498cd3fb9fdc2a9f1f9fe.stex"
+path="res://.import/OL Crouch Slash.png-841f2ece307301308b1c3afa2628a9d7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/Hadouken.png"
-dest_files=[ "res://.import/Hadouken.png-2406b069e65498cd3fb9fdc2a9f1f9fe.stex" ]
+source_file="res://Sprites/Spritesheet/OL Crouch Slash.png"
+dest_files=[ "res://.import/OL Crouch Slash.png-841f2ece307301308b1c3afa2628a9d7.stex" ]
 
 [params]
 

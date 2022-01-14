@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dust FX.png-369f50d94f034f41ad0e334fe6fb4a71.stex"
+path="res://.import/OL Crouch Jab.png-f6c2ef9da77f0db1fb51e0d463b8ab11.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/Dust FX.png"
-dest_files=[ "res://.import/Dust FX.png-369f50d94f034f41ad0e334fe6fb4a71.stex" ]
+source_file="res://Sprites/Spritesheet/OL Crouch Jab.png"
+dest_files=[ "res://.import/OL Crouch Jab.png-f6c2ef9da77f0db1fb51e0d463b8ab11.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL Falling.png-744b5b15a599287caca41198ddbac292.stex"
+path="res://.import/Impact FX 2.png-22f80d9d5c48273212f6126e4bad85e3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Spritesheet (OLD)/OL Falling.png"
-dest_files=[ "res://.import/OL Falling.png-744b5b15a599287caca41198ddbac292.stex" ]
+source_file="res://Sprites/Spritesheet/Impact FX 2.png"
+dest_files=[ "res://.import/Impact FX 2.png-22f80d9d5c48273212f6126e4bad85e3.stex" ]
 
 [params]
 

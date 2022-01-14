@@ -40,7 +40,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 39 )
+extents = Vector2( 16, 23 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 4 )
@@ -52,10 +52,10 @@ extents = Vector2( 6, 8 )
 extents = Vector2( 16, 6 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 18 )
+extents = Vector2( 32, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 11, 14 )
+extents = Vector2( 11, 20 )
 
 [node name="Player2" type="Node2D"]
 script = ExtResource( 1 )
@@ -162,7 +162,6 @@ script = ExtResource( 14 )
 script = ExtResource( 15 )
 hitStun = 12
 hitPush = 2000
-height = 0
 dmg = 2
 prorationLevel = 2
 
@@ -171,6 +170,7 @@ script = ExtResource( 16 )
 hitStun = 16
 hitPush = 2000
 dmg = 7
+knockdown = true
 
 [node name="CrouchBlock" type="Node" parent="StateTree"]
 script = ExtResource( 18 )
@@ -208,7 +208,6 @@ script = ExtResource( 25 )
 hitPush = 300
 height = 0
 dmg = 4
-knockdown = true
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )

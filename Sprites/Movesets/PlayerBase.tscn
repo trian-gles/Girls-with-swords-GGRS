@@ -1,36 +1,6 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=30 format=2]
 
-[ext_resource path="res://State/attack/Kick.gd" type="Script" id=1]
-[ext_resource path="res://Player.gd" type="Script" id=2]
-[ext_resource path="res://State/attack/JumpSlash.gd" type="Script" id=3]
-[ext_resource path="res://State/attack/jab.gd" type="Script" id=4]
-[ext_resource path="res://State/air/moving_jump.gd" type="Script" id=5]
-[ext_resource path="res://State/idle.gd" type="Script" id=6]
-[ext_resource path="res://State/knockdown.gd" type="Script" id=7]
-[ext_resource path="res://GFX/Impact.tscn" type="PackedScene" id=8]
-[ext_resource path="res://State/crouch.gd" type="Script" id=11]
-[ext_resource path="res://State/move/Backdash.gd" type="Script" id=12]
-[ext_resource path="res://State/air/jump.gd" type="Script" id=17]
-[ext_resource path="res://State/attack/CrouchJab.gd" type="Script" id=18]
-[ext_resource path="res://State/hit_state/Block.gd" type="Script" id=21]
-[ext_resource path="res://State/hit_state/hit_stun.gd" type="Script" id=22]
-[ext_resource path="res://State/hit_state/CrouchBlock.gd" type="Script" id=24]
-[ext_resource path="res://State/move/walk.gd" type="Script" id=25]
-[ext_resource path="res://State/move/run.gd" type="Script" id=26]
-[ext_resource path="res://Sprites/Movesets/OL Moveset.png" type="Texture" id=27]
-[ext_resource path="res://State/attack/JumpKick.gd" type="Script" id=28]
 [ext_resource path="res://Sounds/hit.ogg" type="AudioStream" id=37]
-[ext_resource path="res://AudioStreamPlayer.gd" type="Script" id=38]
-[ext_resource path="res://GFX/Dust.tscn" type="PackedScene" id=39]
-[ext_resource path="res://State/attack/Slash.gd" type="Script" id=40]
-[ext_resource path="res://State/attack/Sweep.gd" type="Script" id=41]
-[ext_resource path="res://Hadouken.tscn" type="PackedScene" id=42]
-[ext_resource path="res://State/attack/Hadouken.gd" type="Script" id=43]
-[ext_resource path="res://State/attack/JumpPunch.gd" type="Script" id=44]
-[ext_resource path="res://State/air/Fall.gd" type="Script" id=45]
-[ext_resource path="res://State/attack/CrouchSlash.gd" type="Script" id=46]
-[ext_resource path="res://State/attack/DP.gd" type="Script" id=48]
-[ext_resource path="res://State/attack/AntiAir.gd" type="Script" id=49]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3, 10 )
@@ -1651,20 +1621,15 @@ tracks/4/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
 }
-Dust = ExtResource( 39 )
-Hadouken = ExtResource( 42 )
-Impact = ExtResource( 8 )
 
 [node name="BufTimer" type="Timer" parent="."]
 wait_time = 0.2
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
-texture = ExtResource( 27 )
 hframes = 55
 vframes = 2
 frame = 81
@@ -1696,7 +1661,6 @@ disabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 37 )
-script = ExtResource( 38 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 60.0
@@ -1729,151 +1693,60 @@ anims/Walk = SubResource( 28 )
 [node name="States" type="Node" parent="."]
 
 [node name="Idle" type="Node" parent="States"]
-script = ExtResource( 6 )
 
 [node name="Crouch" type="Node" parent="States"]
-script = ExtResource( 11 )
 
 [node name="Knockdown" type="Node" parent="States"]
-script = ExtResource( 7 )
 
 [node name="Attack" type="Node" parent="States"]
 
 [node name="Jab" type="Node" parent="States/Attack"]
-script = ExtResource( 4 )
-begin_frame = 4
-end_frame = 9
-dmg = 8
-stun = 12
-push = Vector2( 250, 0 )
-height = "mid"
 
 [node name="CrouchJab" type="Node" parent="States/Attack"]
-script = ExtResource( 18 )
-begin_frame = 3
-end_frame = 7
-dmg = 4
-stun = 12
-push = Vector2( 250, 0 )
-height = "low"
 
 [node name="Slash" type="Node" parent="States/Attack"]
-script = ExtResource( 40 )
-begin_frame = 7
-end_frame = 20
-dmg = 12
-stun = 18
-push = Vector2( 400, 0 )
-height = "mid"
 
 [node name="Sweep" type="Node" parent="States/Attack"]
-script = ExtResource( 41 )
-begin_frame = 10
-end_frame = 23
-dmg = 10
-stun = 16
-push = Vector2( 250, 0 )
-height = "low"
-knockdown = true
 
 [node name="Hadouken" type="Node" parent="States/Attack"]
-script = ExtResource( 43 )
 
 [node name="JumpPunch" type="Node" parent="States/Attack"]
-script = ExtResource( 44 )
-begin_frame = 1
-end_frame = 10
-dmg = 7
-stun = 12
-push = Vector2( 200, 0 )
-height = "high"
 
 [node name="CrouchSlash" type="Node" parent="States/Attack"]
-script = ExtResource( 46 )
-begin_frame = 4
-end_frame = 20
-dmg = 12
-stun = 18
-push = Vector2( 400, 0 )
-height = "low"
 
 [node name="DP" type="Node" parent="States/Attack"]
-script = ExtResource( 48 )
-begin_frame = 1
-end_frame = 24
-dmg = 13
-stun = 18
-push = Vector2( 600, 400 )
-height = "mid"
 
 [node name="AntiAir" type="Node" parent="States/Attack"]
-script = ExtResource( 49 )
-begin_frame = 6
-end_frame = 27
-dmg = 15
-stun = 18
-height = "mid"
 
 [node name="JumpKick" type="Node" parent="States/Attack"]
-script = ExtResource( 28 )
-begin_frame = 6
-end_frame = 25
-dmg = 9
-stun = 16
-push = Vector2( 100, 0 )
-height = "high"
 
 [node name="Kick" type="Node" parent="States/Attack"]
-script = ExtResource( 1 )
-begin_frame = 10
-end_frame = 19
-dmg = 10
-stun = 11
-push = Vector2( 250, 0 )
-height = "mid"
 
 [node name="JumpSlash" type="Node" parent="States/Attack"]
-script = ExtResource( 3 )
-begin_frame = 7
-end_frame = 27
-dmg = 15
-stun = 18
-push = Vector2( 150, 0 )
-height = "high"
 
 [node name="Air" type="Node" parent="States"]
 
 [node name="Jump" type="Node" parent="States/Air"]
-script = ExtResource( 17 )
 
 [node name="MovingJump" type="Node" parent="States/Air"]
-script = ExtResource( 5 )
-launchForce = Vector2( 150, 400 )
 
 [node name="Fall" type="Node" parent="States/Air"]
-script = ExtResource( 45 )
 
 [node name="HitState" type="Node" parent="States"]
 
 [node name="Block" type="Node" parent="States/HitState"]
-script = ExtResource( 21 )
 
 [node name="HitStun" type="Node" parent="States/HitState"]
-script = ExtResource( 22 )
 
 [node name="CrouchBlock" type="Node" parent="States/HitState"]
-script = ExtResource( 24 )
 
 [node name="Move" type="Node" parent="States"]
 
 [node name="Run" type="Node" parent="States/Move"]
-script = ExtResource( 26 )
 
 [node name="Walk" type="Node" parent="States/Move"]
-script = ExtResource( 25 )
 
 [node name="Backdash" type="Node" parent="States/Move"]
-script = ExtResource( 12 )
 
 [connection signal="timeout" from="BufTimer" to="." method="_on_BufTimer_timeout"]
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

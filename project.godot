@@ -35,7 +35,9 @@ Test_Metadata_Directory="res://tests"
 [application]
 
 config/name="GWS-GGPO"
-run/main_scene="res://Lobby/Lobby.tscn"
+run/main_scene="res://SplashScreen/SplashScreen.tscn"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://icon.png"
 
 [autoload]
@@ -157,4 +159,5 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_clear_color=Color( 0.184314, 0.203922, 0.247059, 1 )
 environment/default_environment="res://default_env.tres"

@@ -10,9 +10,9 @@ public class Jump : State
         owner.grounded = false;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
 
-        AddGatling(new[] { 'p', 'p' }, "JumpPunch");
-        AddGatling(new[] { 'k', 'p' }, "JumpKick");
-        AddGatling(new[] { 's', 'p' }, "JumpSlash");
+        AddGatling(new[] { 'p', 'p' }, "JumpA");
+        AddGatling(new[] { 'k', 'p' }, "JumpB");
+        AddGatling(new[] { 's', 'p' }, "JumpC");
     }
 
     public override void FrameAdvance()

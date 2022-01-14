@@ -28,15 +28,15 @@ public class Fall : State
     {
         if (Globals.CheckKeyPress(inputArr, 'k'))
         {
-            EmitSignal(nameof(StateFinished), "JumpKick");
+            EmitSignal(nameof(StateFinished), "JumpB");
         }
         else if (Globals.CheckKeyPress(inputArr, 'p'))
         {
-            EmitSignal(nameof(StateFinished), "JumpPunch");
+            EmitSignal(nameof(StateFinished), "JumpA");
         }
         else if (Globals.CheckKeyPress(inputArr, 's'))
         {
-            EmitSignal(nameof(StateFinished), "JumpSlash");
+            EmitSignal(nameof(StateFinished), "JumpC");
         }
     }
 }

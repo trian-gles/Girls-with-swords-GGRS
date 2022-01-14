@@ -1669,8 +1669,8 @@ anims/Backdash = SubResource( 5 )
 anims/Block = SubResource( 6 )
 anims/Crouch = SubResource( 7 )
 anims/CrouchBlock = SubResource( 8 )
-anims/CrouchJab = SubResource( 9 )
-anims/CrouchSlash = SubResource( 10 )
+anims/CrouchA = SubResource( 9 )
+anims/CrouchC = SubResource( 10 )
 anims/DP = SubResource( 11 )
 anims/Fall = SubResource( 12 )
 anims/Hadouken = SubResource( 13 )
@@ -1678,15 +1678,15 @@ anims/HitStun = SubResource( 14 )
 anims/Idle = SubResource( 15 )
 anims/Jab = SubResource( 16 )
 anims/Jump = SubResource( 17 )
-anims/JumpKick = SubResource( 18 )
-anims/JumpPunch = SubResource( 19 )
-anims/JumpSlash = SubResource( 20 )
+anims/JumpB = SubResource( 18 )
+anims/JumpA = SubResource( 19 )
+anims/JumpC = SubResource( 20 )
 anims/Kick = SubResource( 21 )
 anims/Knockdown = SubResource( 22 )
 anims/Lose = SubResource( 23 )
 anims/Run = SubResource( 24 )
 anims/Slash = SubResource( 25 )
-anims/Sweep = SubResource( 26 )
+anims/CrouchB = SubResource( 26 )
 anims/Wakeup = SubResource( 27 )
 anims/Walk = SubResource( 28 )
 
@@ -1702,27 +1702,27 @@ anims/Walk = SubResource( 28 )
 
 [node name="Jab" type="Node" parent="States/Attack"]
 
-[node name="CrouchJab" type="Node" parent="States/Attack"]
+[node name="CrouchA" type="Node" parent="States/Attack"]
 
 [node name="Slash" type="Node" parent="States/Attack"]
 
-[node name="Sweep" type="Node" parent="States/Attack"]
+[node name="CrouchB" type="Node" parent="States/Attack"]
 
 [node name="Hadouken" type="Node" parent="States/Attack"]
 
-[node name="JumpPunch" type="Node" parent="States/Attack"]
+[node name="JumpA" type="Node" parent="States/Attack"]
 
-[node name="CrouchSlash" type="Node" parent="States/Attack"]
+[node name="CrouchC" type="Node" parent="States/Attack"]
 
 [node name="DP" type="Node" parent="States/Attack"]
 
 [node name="AntiAir" type="Node" parent="States/Attack"]
 
-[node name="JumpKick" type="Node" parent="States/Attack"]
+[node name="JumpB" type="Node" parent="States/Attack"]
 
 [node name="Kick" type="Node" parent="States/Attack"]
 
-[node name="JumpSlash" type="Node" parent="States/Attack"]
+[node name="JumpC" type="Node" parent="States/Attack"]
 
 [node name="Air" type="Node" parent="States"]
 

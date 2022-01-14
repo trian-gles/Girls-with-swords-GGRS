@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class JumpSlash : BaseAttack
+public class JumpC : BaseAttack
 {
 	public override void FrameAdvance()
 	{

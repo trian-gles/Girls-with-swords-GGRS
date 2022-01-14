@@ -8,8 +8,8 @@ public class Kick : Slash
 	{
 		base._Ready();
 		AddGatling(new char[] { 's', 'p' }, "Slash");
-		AddGatling(new List<char[]> { new char[] { '2', 'p' }, new char[] { 'k', 'p' } }, "Sweep");
-		AddGatling(new List<char[]> { new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "CrouchSlash");
+		AddGatling(new List<char[]> { new char[] { '2', 'p' }, new char[] { 'k', 'p' } }, "CrouchB");
+		AddGatling(new List<char[]> { new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "CrouchC");
 	}
 }
 

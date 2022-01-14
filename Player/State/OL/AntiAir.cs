@@ -10,8 +10,8 @@ public class AntiAir : BaseAttack
     public override void _Ready()
     {
         base._Ready();
-        AddGatling(new char[] { 'p', 'p' }, "JumpPunch");
-        AddGatling(new char[] { 'k', 'p' }, "JumpKick");
+        AddGatling(new char[] { 'p', 'p' }, "JumpA");
+        AddGatling(new char[] { 'k', 'p' }, "JumpB");
     }
     public override void Enter()
     {

@@ -4033,7 +4033,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=34]
-length = 19.0
+length = 21.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4042,7 +4042,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 10, 23 ),
+"times": PoolRealArray( 0, 10, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 3, 4, 5 ]
@@ -4054,7 +4054,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 5, 6 ),
+"times": PoolRealArray( 0, 6, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 17, 24 ), Vector2( 17, 24 ), Vector2( 16, 23 ) ]
@@ -4078,7 +4078,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 5, 6 ),
+"times": PoolRealArray( 0, 6, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -2, 15 ), Vector2( -2, 15 ), Vector2( -3, 16 ) ]
@@ -4090,7 +4090,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 6, 18, 19 ),
+"times": PoolRealArray( 7, 11, 12 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 22, 35 ), Vector2( 22, 35 ), Vector2( 17, 35 ) ]
@@ -4102,7 +4102,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 6, 18, 19 ),
+"times": PoolRealArray( 7, 11, 12 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 14, 4 ), Vector2( 14, 4 ), Vector2( 7, 4 ) ]
@@ -4114,7 +4114,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 5, 6 ),
+"times": PoolRealArray( 0, 6, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false ]
@@ -4126,7 +4126,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 6, 19 ),
+"times": PoolRealArray( 0, 7, 12 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4138,7 +4138,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 6, 18 ),
+"times": PoolRealArray( 7, 11 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 24, 33 ), Vector2( 24, 33 ) ]
@@ -4150,7 +4150,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 6, 18 ),
+"times": PoolRealArray( 7, 11 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 16, 6 ), Vector2( 16, 6 ) ]
@@ -4328,7 +4328,7 @@ position = Vector2( -2, -31 )
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 150
-frame = 4
+frame = 5
 
 [node name="JumpSlash" parent="StateTree" index="17"]
 hitStun = 18

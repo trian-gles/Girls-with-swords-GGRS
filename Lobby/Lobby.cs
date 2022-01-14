@@ -103,7 +103,7 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
 		entries.GetNode<LineEdit>("LocalPort").Visible = false;
 
-		var mainScene = (PackedScene) ResourceLoader.Load("res://MainScene.tscn");
+		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));

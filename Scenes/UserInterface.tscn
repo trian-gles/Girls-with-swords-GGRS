@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Lobby/Quit Button/Quit.tscn" type="PackedScene" id=1]
-[ext_resource path="res://In Game Menu/Main Menu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/MainMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://In Game Menu/UserInterface.gd" type="Script" id=3]
 
 [node name="UserInterface" type="Control"]

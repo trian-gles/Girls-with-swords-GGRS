@@ -10,7 +10,7 @@ public class Hadouken : State
 	public override void _Ready()
 	{
 		base._Ready();
-		hadoukenScene = (PackedScene)GD.Load("res://Hadouken/HadoukenPart.tscn");
+		hadoukenScene = (PackedScene)GD.Load("res://Scenes/HadoukenPart.tscn");
 	}
 
 	public override void Enter()

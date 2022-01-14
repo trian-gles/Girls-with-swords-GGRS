@@ -13,13 +13,13 @@
 [ext_resource path="res://Other-assets/font.tres" type="DynamicFont" id=11]
 [ext_resource path="res://HUD/HUDCombo.gd" type="Script" id=12]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=13]
-[ext_resource path="res://Player/OL.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/OL.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 2.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 5.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=18]
 [ext_resource path="res://GodotGGRS.gdns" type="Script" id=19]
-[ext_resource path="res://In Game Menu/UserInterface.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )

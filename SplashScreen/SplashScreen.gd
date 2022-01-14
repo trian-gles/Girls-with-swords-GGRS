@@ -16,7 +16,7 @@ func _input(event):
 #func _process(delta):
 #	pass
 func go_title_screen():
-	get_tree().change_scene("res://Lobby/Lobby.tscn")
+	get_tree().change_scene("res://Scenes/Lobby.tscn")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	go_title_screen()

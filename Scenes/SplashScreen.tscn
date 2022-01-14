@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/SplashScreen/SplashScreen.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Logos/Salan Logo Square Large-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Logos/BG Color.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Logo Animate"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 27 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7, 3.6, 5.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="SplashScreen" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Logo Animate"
+"anims/Logo Animate" = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 232.041, 138.266 )
+scale = Vector2( 2.52021, 2.52021 )
+texture = ExtResource( 2 )
+hframes = 28
+frame = 10
+
+[node name="BG Color" type="Sprite" parent="."]
+show_behind_parent = true
+position = Vector2( 238.658, 135.397 )
+scale = Vector2( 1.11408, 1.11408 )
+texture = ExtResource( 3 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

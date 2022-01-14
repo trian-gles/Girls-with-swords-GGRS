@@ -1,0 +1,294 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Sprites/BG Clouds/Cloud 1.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/MainScene.cs" type="Script" id=2]
+[ext_resource path="res://Sprites/BG Assets/Sky and Sun.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/BG Assets/Buildings Front.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/BG Assets/Buildings Back.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Overlay/Health.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Overlay/Player Number.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Overlay/healthbar.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Overlay/Name Example.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/HUD/Camera2D.gd" type="Script" id=10]
+[ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=12]
+[ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/OL.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Sprites/BG Clouds/Cloud 2.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/BG Clouds/Cloud 5.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=18]
+[ext_resource path="res://GodotGGRS.gdns" type="Script" id=19]
+[ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=20]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 11 )
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 11 )
+
+[sub_resource type="Theme" id=3]
+default_font = ExtResource( 11 )
+
+[sub_resource type="Theme" id=4]
+default_font = ExtResource( 11 )
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource( 2 )
+p2InputLoop = PoolIntArray( 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+
+[node name="UserInterface" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="UserInterface" parent="UserInterface" instance=ExtResource( 20 )]
+
+[node name="GodotGGRS" type="Node" parent="."]
+script = ExtResource( 19 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+script = ExtResource( 10 )
+zoom_offset = 0.104
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthTexture" type="TextureRect" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerNum" type="TextureRect" parent="HUD"]
+margin_left = -0.353951
+margin_top = -0.140305
+margin_right = 479.646
+margin_bottom = 269.86
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1Health" type="TextureProgress" parent="HUD"]
+margin_left = 43.5141
+margin_top = 13.4195
+margin_right = 83.5141
+margin_bottom = 53.4195
+max_value = 800.0
+value = 800.0
+texture_progress = ExtResource( 8 )
+tint_under = Color( 1, 1, 1, 0 )
+tint_over = Color( 1, 1, 1, 0 )
+tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Health" type="TextureProgress" parent="HUD"]
+margin_left = 286.975
+margin_top = 13.1587
+margin_right = 435.975
+margin_bottom = 53.1587
+max_value = 800.0
+value = 800.0
+texture_progress = ExtResource( 8 )
+tint_under = Color( 1, 1, 1, 0 )
+tint_over = Color( 1, 1, 1, 0 )
+tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+margin_left = 0.297302
+margin_top = 7.43254
+margin_right = 480.297
+margin_bottom = 277.433
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Label" parent="HUD"]
+margin_left = 225.0
+margin_top = 13.0
+margin_right = 265.0
+margin_bottom = 29.0
+theme = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "99"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Combo" type="Label" parent="HUD"]
+margin_left = 359.735
+margin_top = 64.5145
+margin_right = 399.735
+margin_bottom = 80.5145
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "x2"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Combo"]
+wait_time = 0.5
+
+[node name="P1Combo" type="Label" parent="HUD"]
+margin_left = 64.8118
+margin_top = 62.1361
+margin_right = 104.812
+margin_bottom = 78.1361
+theme = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "x3"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Combo"]
+wait_time = 0.5
+
+[node name="Reset" type="Button" parent="HUD"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -24.0
+margin_top = 40.0
+margin_right = 24.0
+margin_bottom = 20.0
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterText" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -56.0
+margin_top = -8.0
+margin_right = 56.0
+margin_bottom = 8.0
+theme = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "TIME UP"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NetStats" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -36.0
+margin_right = 268.0
+margin_bottom = 36.0
+theme = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "PING: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1" parent="." instance=ExtResource( 14 )]
+position = Vector2( 133, 240 )
+
+[node name="P2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 330, 240 )
+colorScheme = 1
+
+[node name="Background" type="Node2D" parent="."]
+position = Vector2( 240, 125 )
+z_index = -1
+
+[node name="Sky and Sun" type="Sprite" parent="Background"]
+position = Vector2( 0, 0.396851 )
+texture = ExtResource( 3 )
+
+[node name="Cloud_3" type="CPUParticles2D" parent="Background"]
+position = Vector2( -292.129, -6.60712 )
+amount = 4
+lifetime = 66.0
+preprocess = 30.0
+texture = ExtResource( 18 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 80 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 26.6
+initial_velocity_random = 1.0
+
+[node name="Cloud_4" type="CPUParticles2D" parent="Background"]
+position = Vector2( -292.129, -6.60712 )
+amount = 4
+lifetime = 66.0
+preprocess = 30.0
+texture = ExtResource( 17 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 80 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 26.6
+initial_velocity_random = 1.0
+
+[node name="Cloud_5" type="CPUParticles2D" parent="Background"]
+position = Vector2( -292.129, -6.60712 )
+amount = 4
+lifetime = 66.0
+preprocess = 30.0
+texture = ExtResource( 16 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 80 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 26.6
+initial_velocity_random = 1.0
+
+[node name="Buildings Back" type="Sprite" parent="Background"]
+texture = ExtResource( 5 )
+
+[node name="Cloud_2" type="CPUParticles2D" parent="Background"]
+position = Vector2( -292.129, -6.60712 )
+amount = 4
+lifetime = 66.0
+preprocess = 30.0
+texture = ExtResource( 15 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 80 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 26.6
+initial_velocity_random = 1.0
+
+[node name="Buildings Front" type="Sprite" parent="Background"]
+position = Vector2( 1.06067, 0 )
+texture = ExtResource( 4 )
+
+[node name="Cloud_1" type="CPUParticles2D" parent="Background"]
+position = Vector2( -292.129, -6.60712 )
+amount = 4
+lifetime = 66.0
+preprocess = 30.0
+texture = ExtResource( 1 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 80 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 26.6
+initial_velocity_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 0.84
+
+[node name="Office Interior" type="Sprite" parent="Background"]
+texture = ExtResource( 13 )
+
+[connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]
+[connection signal="button_down" from="HUD/Reset" to="." method="OnResetButtonDown"]

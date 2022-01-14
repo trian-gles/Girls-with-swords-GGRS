@@ -3,5 +3,5 @@ using System;
 
 public class Sweep : BaseAttack
 {
-    
+	
 }

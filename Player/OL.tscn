@@ -4101,7 +4101,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 9, 10 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ true, true, false ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -4293,23 +4293,23 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -8, 8 )
+position = Vector2( -2, 15 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 17, 35 )
+position = Vector2( 22, 35 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 17, 7 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-disabled = false
+position = Vector2( 24, 33 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
-position = Vector2( 21, -8 )
+position = Vector2( 85.7336, -12.6433 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-frame = 130
+frame = 3
 
 [node name="JumpSlash" parent="StateTree" index="17"]
 hitStun = 18

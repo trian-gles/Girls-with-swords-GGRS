@@ -7,6 +7,5 @@ public class CrouchSlash : BaseAttack
 	{
 		base._Ready();
 		AddJumpCancel();
-		AddGatling(new char[] { 'k', 'p' }, "Sweep");
 	}
 }

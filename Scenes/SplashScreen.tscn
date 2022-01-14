@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://SplashScreen/SplashScreen.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/SplashScreen/SplashScreen.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Logos/Salan Logo Square Large-Sheet.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Logos/BG Color.png" type="Texture" id=3]
 

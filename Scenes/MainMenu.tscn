@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://In Game Menu/Main Menu.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/InGameMenu/MainMenu.gd" type="Script" id=1]
 
 [node name="Main Menu" type="Button"]
 margin_top = 24.0

@@ -40,7 +40,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://Globals.cs"
+Globals="*res://Scripts/Globals.cs"
 
 [display]
 

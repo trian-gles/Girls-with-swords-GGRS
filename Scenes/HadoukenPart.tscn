@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Hadouken/HadoukenPart.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/HadoukenPart.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Spritesheet/Hadouken.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -39,7 +39,6 @@ speed = Vector2( 4, 0 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

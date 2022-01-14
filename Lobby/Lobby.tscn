@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Lobby/Local.gd" type="Script" id=2]
+[ext_resource path="res://Lobby/Quit Button/Quit.tscn" type="PackedScene" id=3]
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
@@ -62,6 +63,8 @@ margin_top = 96.0
 margin_right = 102.0
 margin_bottom = 116.0
 text = "Sync Test"
+
+[node name="Quit" parent="HBoxContainer/Buttons" instance=ExtResource( 3 )]
 
 [node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 106.0

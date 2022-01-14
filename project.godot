@@ -36,8 +36,6 @@ Test_Metadata_Directory="res://tests"
 
 config/name="GWS-GGPO"
 run/main_scene="res://SplashScreen/SplashScreen.tscn"
-boot_splash/fullsize=false
-boot_splash/use_filter=false
 config/icon="res://icon.png"
 
 [autoload]

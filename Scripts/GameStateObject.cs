@@ -150,14 +150,14 @@ public class GameStateObject : Node
 	}
 
 	private string CompareGameStates(GameState firstGs, GameState secondGs)
-    {
+	{
 		string errMsg = "";
 		errMsg = AddError(errMsg, "Frame", firstGs.frame, secondGs.frame);
 		errMsg = AddError(errMsg, "HitStopRemaining", firstGs.hitStopRemaining, secondGs.hitStopRemaining);
 		string[] playerNames = { "p1", "p2" };
 		int i = 0;
 		foreach (Player.PlayerState[] pStates in new[]{ new[]{firstGs.P1State, secondGs.P1State}, new[]{firstGs.P2State, secondGs.P2State } })
-        {
+		{
 			errMsg = AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
 			errMsg = AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
 			errMsg = AddError(errMsg, playerNames[i] + " xPos", pStates[0].position[0], pStates[1].position[0]);
@@ -170,32 +170,32 @@ public class GameStateObject : Node
 			errMsg = AddError(errMsg, playerNames[i] + " health", pStates[0].health, pStates[1].health);
 			errMsg = AddError(errMsg, playerNames[i] + " proration", pStates[0].proration, pStates[1].proration);
 			i++;
-        }
+		}
 
 		for (int j = 0; j < firstGs.hadoukenStates.Count; j++)
-        {
+		{
 			errMsg = AddError(errMsg, $"Hadouken {j}" + " xPos", firstGs.hadoukenStates[j].pos[0], firstGs.hadoukenStates[j].pos[0]);
 			errMsg = AddError(errMsg, $"Hadouken {j}" + " active", firstGs.hadoukenStates[j].active, firstGs.hadoukenStates[j].active);
 		}
-        
+		
 
 
 
 		return errMsg;
-    }
+	}
 
 	private string AddError(string errMsg, string msg, int val1, int val2)
-    {
+	{
 
 		int val1c = val1;
 		int val2c = val2;
 		if (val1c != val2c)
-        {
+		{
 			errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
 		}
 		
 		return errMsg;
-    }
+	}
 
 	private string AddError(string errMsg, string msg, bool val1, bool val2)
 	{
@@ -273,7 +273,7 @@ public class GameStateObject : Node
 	}
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)
-    {
+	{
 		//GD.Print($"Synctesting on frame {Frame}");
 
 		Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
@@ -286,7 +286,7 @@ public class GameStateObject : Node
 			Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
 			string result = CompareGameStates(firstGS, GetGameState());
 			if (result != "")
-            {
+			{
 				GD.Print(result);
 			}
 			
@@ -301,10 +301,10 @@ public class GameStateObject : Node
 	/// For now, both players release all held keys
 	/// </summary>
 	public void EndGame()
-    {
+	{
 		P1.RemoveAllHeld();
 		P2.RemoveAllHeld();
-    }
+	}
 
 	/// <summary>
 	/// Updates the gamestate by one frame with the given inputs
@@ -363,9 +363,9 @@ public class GameStateObject : Node
 	}
 
 	public void ResetGameState()
-    {
+	{
 		SetGameState(resetState);
-    }
+	}
 
 	private char[] ConvertInput(int key, int press)
 	{
@@ -466,7 +466,7 @@ public class GameStateObject : Node
 	}
 
 	private void CleanupHadoukens()
-    {
+	{
 		foreach (HadoukenPart h in deleteQueued)
 		{
 			CleanupHadouken(h);

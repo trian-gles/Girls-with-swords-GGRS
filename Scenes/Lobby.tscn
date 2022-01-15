@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Button Check.gd" type="Script" id=4]
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
@@ -64,7 +65,16 @@ margin_right = 102.0
 margin_bottom = 116.0
 text = "Sync Test"
 
+[node name="Button Check" type="Button" parent="HBoxContainer/Buttons"]
+margin_top = 120.0
+margin_right = 102.0
+margin_bottom = 140.0
+text = "Button Check"
+script = ExtResource( 4 )
+
 [node name="Quit" parent="HBoxContainer/Buttons" instance=ExtResource( 3 )]
+margin_top = 144.0
+margin_bottom = 164.0
 
 [node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 106.0
@@ -131,5 +141,6 @@ __meta__ = {
 [connection signal="button_down" from="HBoxContainer/Buttons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Buttons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Buttons/SyncTest" to="." method="OnSyncTestButtonDown"]
+[connection signal="button_up" from="HBoxContainer/Buttons/Button Check" to="HBoxContainer/Buttons/Button Check" method="_on_Check_button_up"]
 [connection signal="button_down" from="HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="JoinTest" to="." method="OnJoinTestButtonDown"]

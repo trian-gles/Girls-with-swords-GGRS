@@ -1,0 +1,165 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://InputMapper/input_menu/InputMenu.gd" type="Script" id=1]
+[ext_resource path="res://InputMapper/input_menu/input_mapper/InputMapper.tscn" type="PackedScene" id=2]
+[ext_resource path="res://InputMapper/input_menu/input_line/ActionList.gd" type="Script" id=5]
+[ext_resource path="res://InputMapper/input_menu/KeySelectMenu.gd" type="Script" id=8]
+[ext_resource path="res://Fonts/montserrat-extra-bold-48px.tres" type="DynamicFont" id=9]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends OptionButton
+
+func initialize(input_mapper):
+	for profile_index in input_mapper.profiles:
+		var profile_name = input_mapper.profiles[profile_index].capitalize()
+		add_item(profile_name, profile_index)
+	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
+"
+
+[node name="InputMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -1.5
+margin_right = 1.0
+margin_bottom = -1.5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputMapper" parent="." instance=ExtResource( 2 )]
+
+[node name="Column" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 7.0
+margin_right = -9.0
+margin_bottom = -8.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Column"]
+margin_right = 463.0
+margin_bottom = 2.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0.596078, 0, 1 )
+custom_constants/shadow_offset_y = 5
+text = "Controls Menu"
+align = 1
+autowrap = true
+uppercase = true
+
+[node name="ProfilesMenu" type="OptionButton" parent="Column"]
+margin_left = 217.0
+margin_top = 27.0
+margin_right = 246.0
+margin_bottom = 47.0
+size_flags_horizontal = 4
+toggle_mode = false
+flat = true
+script = SubResource( 1 )
+
+[node name="Header" type="HBoxContainer" parent="Column"]
+margin_top = 72.0
+margin_right = 463.0
+margin_bottom = 86.0
+
+[node name="Action" type="Label" parent="Column/Header"]
+margin_right = 151.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color_shadow = Color( 0.67451, 0.435294, 0.0980392, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 4
+text = "Action"
+uppercase = true
+
+[node name="Control" type="Label" parent="Column/Header"]
+margin_left = 155.0
+margin_right = 307.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 4
+text = "Control"
+align = 1
+uppercase = true
+
+[node name="Change" type="Label" parent="Column/Header"]
+margin_left = 409.0
+margin_right = 463.0
+margin_bottom = 14.0
+size_flags_horizontal = 10
+size_flags_vertical = 3
+custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 4
+text = "Change"
+uppercase = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Column"]
+margin_top = 111.0
+margin_right = 463.0
+margin_bottom = 210.0
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="Column/ScrollContainer"]
+margin_right = 463.0
+margin_bottom = 99.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 15
+script = ExtResource( 5 )
+
+[node name="PlayButton" type="Button" parent="Column"]
+margin_left = 155.0
+margin_top = 235.0
+margin_right = 307.0
+margin_bottom = 255.0
+size_flags_horizontal = 4
+text = "Test Buttons In Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeySelectMenu" type="Panel" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.679569 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.667419
+margin_top = -0.667419
+margin_right = 0.667419
+margin_bottom = -0.667419
+script = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="KeySelectMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -50.0
+margin_right = 240.0
+margin_bottom = 50.0
+size_flags_vertical = 5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/shadow_offset_y = 5
+text = "Press a Button..."
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Column/PlayButton" to="." method="_on_PlayButton_pressed"]

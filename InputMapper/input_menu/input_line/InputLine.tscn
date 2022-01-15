@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://InputMapper/input_menu/input_line/InputLine.gd" type="Script" id=1]
+[ext_resource path="res://InputMapper/input_menu/fonts/montserrat-extra-bold-24px.tres" type="DynamicFont" id=2]
+
+[node name="InputLine" type="HBoxContainer"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -32.0
+margin_bottom = 32.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Action" type="Label" parent="."]
+margin_right = 207.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "Up"
+
+[node name="Key" type="Label" parent="."]
+margin_left = 211.0
+margin_right = 418.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "W Key"
+align = 1
+valign = 1
+
+[node name="ChangeButton" type="Button" parent="."]
+margin_left = 422.0
+margin_right = 480.0
+margin_bottom = 64.0
+text = "Change"
+
+[connection signal="pressed" from="ChangeButton" to="." method="_on_ChangeButton_pressed"]

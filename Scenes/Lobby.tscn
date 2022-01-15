@@ -65,10 +65,11 @@ margin_right = 102.0
 margin_bottom = 116.0
 text = "Sync Test"
 
-[node name="Button Check" type="Button" parent="HBoxContainer/Buttons"]
+[node name="ButtonCheck" type="Button" parent="HBoxContainer/Buttons"]
 margin_top = 120.0
 margin_right = 102.0
 margin_bottom = 140.0
+disabled = true
 text = "Button Check"
 script = ExtResource( 4 )
 
@@ -141,6 +142,6 @@ __meta__ = {
 [connection signal="button_down" from="HBoxContainer/Buttons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Buttons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Buttons/SyncTest" to="." method="OnSyncTestButtonDown"]
-[connection signal="button_up" from="HBoxContainer/Buttons/Button Check" to="HBoxContainer/Buttons/Button Check" method="_on_Check_button_up"]
+[connection signal="button_up" from="HBoxContainer/Buttons/ButtonCheck" to="HBoxContainer/Buttons/ButtonCheck" method="_on_Check_button_up"]
 [connection signal="button_down" from="HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="JoinTest" to="." method="OnJoinTestButtonDown"]

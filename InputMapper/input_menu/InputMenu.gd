@@ -1,11 +1,29 @@
 extends Control
 
-onready var _action_list = get_node("Column/ScrollContainer/ActionList")
+onready var scene_tree: = get_tree()
+onready var buttoncheck_overlay: ColorRect = get_node("ConfigOverlay")
+
+var paused: = false setget set_paused
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("buttonconfig"):
+		self.paused = not paused
+		scene_tree.set_input_as_handled()
+	
+	
+func set_paused(value: bool) -> void:
+	paused = value
+	scene_tree.paused = value
+	buttoncheck_overlay.visible = value
+	
+
+
+onready var _action_list = get_node("ConfigOverlay/Column/ScrollContainer/ActionList")
 
 func _ready():
 	$InputMapper.connect('profile_changed', self, 'rebuild')
-	$Column/ProfilesMenu.initialize($InputMapper)
-	$InputMapper.change_profile($Column/ProfilesMenu.selected)
+	$ConfigOverlay/Column/ProfilesMenu.initialize($InputMapper)
+	$InputMapper.change_profile($ConfigOverlay/Column/ProfilesMenu.selected)
 
 func rebuild(input_profile, is_customizable=false):
 	_action_list.clear()
@@ -26,9 +44,9 @@ func _on_InputLine_change_button_pressed(action_name, line):
 	
 	set_process_input(true)
 
-func _input(event):
-	if event.is_action_pressed('ui_cancel'):
-		get_tree().change_scene("res://Scenes/MainScene.tscn")
+#func _input(event):
+#	if event.is_action_pressed('ui_cancel'):
+#		get_tree().change_scene("res://Scenes/MainScene.tscn")
 
 func _on_PlayButton_pressed():
 	get_tree().change_scene("res://Scenes/MainScene.tscn")

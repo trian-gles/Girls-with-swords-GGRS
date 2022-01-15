@@ -53,17 +53,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Quit" parent="PauseOverlay/PauseMenu" instance=ExtResource( 1 )]
+[node name="Main Menu" parent="PauseOverlay/PauseMenu" instance=ExtResource( 2 )]
 margin_top = 0.0
-margin_right = 125.0
 margin_bottom = 20.0
 
-[node name="Main Menu" parent="PauseOverlay/PauseMenu" instance=ExtResource( 2 )]
+[node name="Button Config" type="Button" parent="PauseOverlay/PauseMenu"]
+margin_top = 24.0
+margin_right = 125.0
+margin_bottom = 44.0
+text = "Button Config"
 
 [node name="Reset" type="Button" parent="PauseOverlay/PauseMenu"]
 margin_top = 48.0
 margin_right = 125.0
 margin_bottom = 68.0
+disabled = true
 text = "Reset"
+
+[node name="Quit" parent="PauseOverlay/PauseMenu" instance=ExtResource( 1 )]
+margin_top = 72.0
+margin_right = 125.0
+margin_bottom = 92.0
 
 [connection signal="visibility_changed" from="PauseOverlay" to="PauseOverlay/PauseMenu/Main Menu" method="_on_PauseOverlay_visibility_changed"]

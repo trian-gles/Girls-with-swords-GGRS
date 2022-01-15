@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/BG Clouds/Cloud 1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/MainScene.cs" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=18]
 [ext_resource path="res://GodotGGRS.gdns" type="Script" id=19]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=20]
+[ext_resource path="res://InputMapper/input_menu/InputMenu.tscn" type="PackedScene" id=21]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )
@@ -36,6 +37,11 @@ default_font = ExtResource( 11 )
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 2 )
 p2InputLoop = PoolIntArray( 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+
+[node name="InputMenu" type="CanvasLayer" parent="."]
+layer = 105
+
+[node name="InputMenu" parent="InputMenu" instance=ExtResource( 21 )]
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 layer = 100

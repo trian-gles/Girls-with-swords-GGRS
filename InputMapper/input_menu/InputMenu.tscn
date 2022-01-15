@@ -2,9 +2,9 @@
 
 [ext_resource path="res://InputMapper/input_menu/InputMenu.gd" type="Script" id=1]
 [ext_resource path="res://InputMapper/input_menu/input_mapper/InputMapper.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://InputMapper/input_menu/input_line/ActionList.gd" type="Script" id=5]
 [ext_resource path="res://InputMapper/input_menu/KeySelectMenu.gd" type="Script" id=8]
-[ext_resource path="res://Fonts/montserrat-extra-bold-48px.tres" type="DynamicFont" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends OptionButton
@@ -17,12 +17,13 @@ func initialize(input_mapper):
 "
 
 [node name="InputMenu" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
-margin_top = -1.5
+margin_top = -2.16742
 margin_right = 1.0
-margin_bottom = -1.5
+margin_bottom = -2.16742
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -30,13 +31,24 @@ __meta__ = {
 
 [node name="InputMapper" parent="." instance=ExtResource( 2 )]
 
-[node name="Column" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="ConfigOverlay" type="ColorRect" parent="."]
 margin_left = 8.0
 margin_top = 7.0
-margin_right = -9.0
-margin_bottom = -8.0
+margin_right = 471.0
+margin_bottom = 259.0
+color = Color( 0.160784, 0.164706, 0.168627, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Column" type="VBoxContainer" parent="ConfigOverlay"]
+anchor_top = 0.032
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -0.0640001
+margin_right = -6.0
+margin_bottom = -4.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 25
@@ -44,10 +56,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="Column"]
-margin_right = 463.0
-margin_bottom = 2.0
-custom_fonts/font = ExtResource( 9 )
+[node name="Title" type="Label" parent="ConfigOverlay/Column"]
+margin_right = 452.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 1, 0.596078, 0, 1 )
 custom_constants/shadow_offset_y = 5
@@ -55,24 +67,27 @@ text = "Controls Menu"
 align = 1
 autowrap = true
 uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ProfilesMenu" type="OptionButton" parent="Column"]
-margin_left = 217.0
-margin_top = 27.0
-margin_right = 246.0
-margin_bottom = 47.0
+[node name="ProfilesMenu" type="OptionButton" parent="ConfigOverlay/Column"]
+margin_left = 211.0
+margin_top = 41.0
+margin_right = 240.0
+margin_bottom = 61.0
 size_flags_horizontal = 4
 toggle_mode = false
 flat = true
 script = SubResource( 1 )
 
-[node name="Header" type="HBoxContainer" parent="Column"]
-margin_top = 72.0
-margin_right = 463.0
-margin_bottom = 86.0
+[node name="Header" type="HBoxContainer" parent="ConfigOverlay/Column"]
+margin_top = 86.0
+margin_right = 452.0
+margin_bottom = 100.0
 
-[node name="Action" type="Label" parent="Column/Header"]
-margin_right = 151.0
+[node name="Action" type="Label" parent="ConfigOverlay/Column/Header"]
+margin_right = 148.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -82,9 +97,9 @@ custom_constants/shadow_offset_y = 4
 text = "Action"
 uppercase = true
 
-[node name="Control" type="Label" parent="Column/Header"]
-margin_left = 155.0
-margin_right = 307.0
+[node name="Control" type="Label" parent="ConfigOverlay/Column/Header"]
+margin_left = 152.0
+margin_right = 300.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -95,9 +110,9 @@ text = "Control"
 align = 1
 uppercase = true
 
-[node name="Change" type="Label" parent="Column/Header"]
-margin_left = 409.0
-margin_right = 463.0
+[node name="Change" type="Label" parent="ConfigOverlay/Column/Header"]
+margin_left = 398.0
+margin_right = 452.0
 margin_bottom = 14.0
 size_flags_horizontal = 10
 size_flags_vertical = 3
@@ -107,26 +122,27 @@ custom_constants/shadow_offset_y = 4
 text = "Change"
 uppercase = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Column"]
-margin_top = 111.0
-margin_right = 463.0
-margin_bottom = 210.0
+[node name="ScrollContainer" type="ScrollContainer" parent="ConfigOverlay/Column"]
+margin_top = 125.0
+margin_right = 452.0
+margin_bottom = 195.0
 size_flags_vertical = 3
 
-[node name="ActionList" type="VBoxContainer" parent="Column/ScrollContainer"]
-margin_right = 463.0
-margin_bottom = 99.0
+[node name="ActionList" type="VBoxContainer" parent="ConfigOverlay/Column/ScrollContainer"]
+margin_right = 452.0
+margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 15
 script = ExtResource( 5 )
 
-[node name="PlayButton" type="Button" parent="Column"]
-margin_left = 155.0
-margin_top = 235.0
-margin_right = 307.0
-margin_bottom = 255.0
+[node name="PlayButton" type="Button" parent="ConfigOverlay/Column"]
+margin_left = 150.0
+margin_top = 220.0
+margin_right = 302.0
+margin_bottom = 240.0
 size_flags_horizontal = 4
+disabled = true
 text = "Test Buttons In Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -162,4 +178,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="Column/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="ConfigOverlay/Column/PlayButton" to="." method="_on_PlayButton_pressed"]

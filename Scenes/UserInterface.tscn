@@ -61,6 +61,7 @@ margin_bottom = 20.0
 margin_top = 24.0
 margin_right = 125.0
 margin_bottom = 44.0
+disabled = true
 text = "Button Config"
 
 [node name="Reset" type="Button" parent="PauseOverlay/PauseMenu"]

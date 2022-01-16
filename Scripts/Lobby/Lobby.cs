@@ -70,6 +70,8 @@ public class Lobby : Node2D
 		buttons.GetNode<Button>("SyncTest").Visible = true;
 		buttons.GetNode<Button>("Local").Visible = true;
 		buttons.GetNode<Button>("Training").Visible = true;
+		buttons.GetNode<Button>("Quit").Visible = true;
+		buttons.GetNode<Button>("ButtonCheck").Visible = true;
 		entries.GetNode<LineEdit>("OpponentPort").Visible = true;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = true;
 		entries.GetNode<LineEdit>("LocalPort").Visible = true;

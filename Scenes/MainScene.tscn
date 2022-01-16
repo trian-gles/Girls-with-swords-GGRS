@@ -20,7 +20,7 @@
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=18]
 [ext_resource path="res://GodotGGRS.gdns" type="Script" id=19]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=20]
-[ext_resource path="res://InputMapper/input_menu/InputMenu.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=21]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )

@@ -1,6 +1,6 @@
 extends Control
 
-const InputLine = preload("res://InputMapper/input_menu/input_line/InputLine.tscn")
+const InputLine = preload("res://Scenes/InputMap/InputLine.tscn")
 
 func clear():
 	for child in get_children():

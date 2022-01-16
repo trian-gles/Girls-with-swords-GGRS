@@ -48,5 +48,5 @@ func _on_InputLine_change_button_pressed(action_name, line):
 #	if event.is_action_pressed('ui_cancel'):
 #		get_tree().change_scene("res://Scenes/MainScene.tscn")
 
-func _on_PlayButton_pressed():
-	get_tree().change_scene("res://Scenes/MainScene.tscn")
+#func _on_PlayButton_pressed():
+#	get_tree().change_scene("res://Scenes/MainScene.tscn")

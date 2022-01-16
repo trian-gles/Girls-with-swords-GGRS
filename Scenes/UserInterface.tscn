@@ -56,6 +56,7 @@ __meta__ = {
 [node name="Main Menu" parent="PauseOverlay/PauseMenu" instance=ExtResource( 2 )]
 margin_top = 0.0
 margin_bottom = 20.0
+mouse_filter = 1
 
 [node name="Button Config" type="Button" parent="PauseOverlay/PauseMenu"]
 margin_top = 24.0
@@ -75,5 +76,7 @@ text = "Reset"
 margin_top = 72.0
 margin_right = 125.0
 margin_bottom = 92.0
+mouse_filter = 1
 
-[connection signal="visibility_changed" from="PauseOverlay" to="PauseOverlay/PauseMenu/Main Menu" method="_on_PauseOverlay_visibility_changed"]
+[connection signal="visibility_changed" from="PauseOverlay" to="PauseOverlay/PauseMenu/Quit" method="_on_PauseOverlay_visibility_changed"]
+[connection signal="button_down" from="PauseOverlay/PauseMenu/Main Menu" to="PauseOverlay/PauseMenu/Main Menu" method="_on_Main_Menu_button_down"]

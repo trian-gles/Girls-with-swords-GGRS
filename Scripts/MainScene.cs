@@ -689,6 +689,6 @@ public class MainScene : Node2D
 		GD.Print("Emitting lobby return signal");
 		EmitSignal(nameof(LobbyReturn));
 		GD.Print("Emitted lobby return signal, queueing free");
-		QueueFree();
+		QueueFree();QueueFree();
 	}
 }

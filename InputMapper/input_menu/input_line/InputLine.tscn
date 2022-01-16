@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://InputMapper/input_menu/input_line/InputLine.gd" type="Script" id=1]
-[ext_resource path="res://InputMapper/input_menu/fonts/montserrat-extra-bold-24px.tres" type="DynamicFont" id=2]
 
 [node name="InputLine" type="HBoxContainer"]
 anchor_top = 0.5
@@ -15,11 +14,10 @@ __meta__ = {
 }
 
 [node name="Action" type="Label" parent="."]
-margin_right = 207.0
-margin_bottom = 64.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+margin_top = 25.0
+margin_right = 18.0
+margin_bottom = 39.0
+size_flags_horizontal = 2
 text = "Up"
 
 [node name="Key" type="Label" parent="."]
@@ -28,7 +26,6 @@ margin_right = 418.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
 text = "W Key"
 align = 1
 valign = 1

@@ -9,7 +9,7 @@ var profiles = {
 	2: 'profile_custom',
 }
 var profile_microdash = {
-	'p': JOY_BUTTON_0,
+	'p': JOY_BUTTON_0 & JOY_BUTTON_1,
 	'k': JOY_BUTTON_3,
 	's': JOY_BUTTON_4,
 }

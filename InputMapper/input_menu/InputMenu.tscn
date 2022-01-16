@@ -14,6 +14,11 @@ func initialize(input_mapper):
 		var profile_name = input_mapper.profiles[profile_index].capitalize()
 		add_item(profile_name, profile_index)
 	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
+
+
+func _on_ConfigOverlay_visibility_changed():
+	grab_focus()
+	
 "
 
 [node name="InputMenu" type="Control"]
@@ -179,4 +184,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="visibility_changed" from="ConfigOverlay" to="ConfigOverlay/Column/ProfilesMenu" method="_on_ConfigOverlay_visibility_changed"]
 [connection signal="pressed" from="ConfigOverlay/Column/PlayButton" to="." method="_on_PlayButton_pressed"]

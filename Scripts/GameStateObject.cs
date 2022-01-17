@@ -310,55 +310,15 @@ public class GameStateObject : Node
 	/// Updates the gamestate by one frame with the given inputs
 	/// </summary>
 	/// <param name="thisFrameInputs"></param>
-	public void Update(int p1InpInt, int p2InpInt)
+	public void Update(int p1inps, int p2inps)
 	{
 		Frame++;
 		//GD.Print($"Advancing frame to {Frame}");
 		Globals.frame++;
-		List<char[]> p1inps;
-		List<char[]> p2inps;
-
-		if (hosting)
-		{
-			p1inps = ConvertInputs((int)p1InpInt);
-			p2inps = ConvertInputs((int)p2InpInt);
-		}
-		else
-		{
-			p2inps = ConvertInputs((int)p1InpInt);
-			p1inps = ConvertInputs((int)p2InpInt);
-		}
-		
 
 		AdvanceFrameAndHitstop();
 		FrameAdvancePlayers(p1inps, p2inps);
 		
-
-	}
-
-	/// <summary>
-	/// Takes the inputs int and turns it back into List<char[]>
-	/// </summary>
-	/// <param name="inputs"></param>
-	/// <returns></returns>
-	private List<char[]> ConvertInputs(int inputs)
-	{
-		var convertedInputs = new List<char[]>();
-		if (inputs == 0)
-		{
-			return convertedInputs; //no inputs, don't do anything
-		}
-
-		string stringInputs = inputs.ToString();
-		int count = stringInputs.Length / 2;
-		for (int i = 0; i < count; i++)
-		{
-			int key = int.Parse(stringInputs[i * 2].ToString());
-			int press = int.Parse(stringInputs[i * 2 + 1].ToString());
-			char[] convertedInput = ConvertInput(key, press);
-			convertedInputs.Add(convertedInput);
-		}
-		return convertedInputs;
 
 	}
 
@@ -367,49 +327,6 @@ public class GameStateObject : Node
 		SetGameState(resetState);
 	}
 
-	private char[] ConvertInput(int key, int press)
-	{
-		var input = new char[2];
-		if (key == (int)Globals.Inputs.UP)
-		{
-			input[0] = '8';
-		}
-		else if (key == (int)Globals.Inputs.DOWN)
-		{
-			input[0] = '2';
-		}
-		else if (key == (int)Globals.Inputs.LEFT)
-		{
-			input[0] = '4';
-		}
-		else if (key == (int)Globals.Inputs.RIGHT)
-		{
-			input[0] = '6';
-		}
-		else if (key == (int)Globals.Inputs.PUNCH)
-		{
-			input[0] = 'p';
-		}
-		else if (key == (int)Globals.Inputs.KICK)
-		{
-			input[0] = 'k';
-		}
-		else if (key == (int)Globals.Inputs.SLASH)
-		{
-			input[0] = 's';
-		}
-
-		if (press == (int)Globals.Press.PRESS)
-		{
-			input[1] = 'p';
-		}
-		else
-		{
-			input[1] = 'r';
-		}
-
-		return input;
-	}
 
 	public void InformPlayersRollback()
 	{
@@ -428,15 +345,13 @@ public class GameStateObject : Node
 	/// <summary>
 	/// Note the movement step separated into two separate MoveSlide actions, for more accurate collision checking.
 	/// </summary>
-	private void FrameAdvancePlayers(List<char[]>p1inp, List<char[]>p2inp)
+	private void FrameAdvancePlayers(int p1inp, int p2inp)
 	{
 		Player hostPlayer = P1;
 		Player joinPlayer = P2;
-		List<char[]> hostPlayerinp = p1inp;
-		List<char[]> joinPlayerinp = p2inp;
 
-		hostPlayer.FrameAdvanceInputs(hitStopRemaining, hostPlayerinp);
-		joinPlayer.FrameAdvanceInputs(hitStopRemaining, joinPlayerinp);
+		hostPlayer.FrameAdvanceInputs(hitStopRemaining, p1inp);
+		joinPlayer.FrameAdvanceInputs(hitStopRemaining, p2inp);
 		hostPlayer.AlwaysFrameAdvance();
 		joinPlayer.AlwaysFrameAdvance();
 

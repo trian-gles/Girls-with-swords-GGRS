@@ -316,8 +316,82 @@ public class Player : Node2D
 			}
 		}
 
-		public void FrameAdvance(int hitStop, State currentState, List<char[]>unhandledInputs) 
+		private List<char[]> ConvertInputs(int inputs)
 		{
+			var unhandledInputs = new List<char[]>();
+			if ((inputs & 1) != 0 && !heldKeys.Contains('8'))
+			{
+				unhandledInputs.Add(new char[] { '8', 'p' });
+			}
+			else if ((inputs & 1) == 0 && heldKeys.Contains('8'))
+			{
+				unhandledInputs.Add(new char[] { '8', 'r' });
+			}
+
+			if ((inputs & 2) != 0 && !heldKeys.Contains('2'))
+			{
+				unhandledInputs.Add(new char[] { '2', 'p' });
+			}
+			else if ((inputs & 2) == 0 && heldKeys.Contains('2'))
+			{
+				unhandledInputs.Add(new char[] { '2', 'r' });
+			}
+
+			if ((inputs & 4) != 0 && !heldKeys.Contains('6'))
+			{
+				unhandledInputs.Add(new char[] { '6', 'p' });
+			}
+			else if ((inputs & 4) == 0 && heldKeys.Contains('6'))
+			{
+				unhandledInputs.Add(new char[] { '6', 'r' });
+			}
+
+			if ((inputs & 8) != 0 && !heldKeys.Contains('4'))
+			{
+				unhandledInputs.Add(new char[] { '4', 'p' });
+			}
+			else if ((inputs & 8) == 0 && heldKeys.Contains('4'))
+			{
+				unhandledInputs.Add(new char[] { '4', 'r' });
+			}
+
+			if ((inputs & 16) != 0 && !heldKeys.Contains('p'))
+			{
+				unhandledInputs.Add(new char[] { 'p', 'p' });
+			}
+			else if ((inputs & 16) == 0 && heldKeys.Contains('p'))
+			{
+				unhandledInputs.Add(new char[] { 'p', 'r' });
+			}
+
+			if ((inputs & 32) != 0 && !heldKeys.Contains('k'))
+			{
+				unhandledInputs.Add(new char[] { 'k', 'p' });
+			}
+			else if ((inputs & 32) == 0 && heldKeys.Contains('k'))
+			{
+				unhandledInputs.Add(new char[] { 'k', 'r' });
+			}
+
+			if ((inputs & 64) != 0 && !heldKeys.Contains('s'))
+			{
+				unhandledInputs.Add(new char[] { 's', 'p' });
+			}
+			else if ((inputs & 64) == 0 && heldKeys.Contains('s'))
+			{
+				unhandledInputs.Add(new char[] { 's', 'r' });
+			}
+
+
+			return unhandledInputs;
+		}
+
+		public void FrameAdvance(int hitStop, State currentState, int inputs) 
+		{
+			
+
+			List<char[]> unhandledInputs = ConvertInputs(inputs);
+
 			if (hitStop > 0) // delay the handling of inputs until after hitstop ends
 			{
 				AddHitStopBuffer(unhandledInputs);
@@ -445,7 +519,7 @@ public class Player : Node2D
 	/// passes any new inputs since the past frame to the input handler for buffering, withholding and passing to the current state
 	/// </summary>
 	/// <param name="hitStop"></param>
-	public void FrameAdvanceInputs(int hitStop, List<char[]> unhandledInputs)
+	public void FrameAdvanceInputs(int hitStop,int unhandledInputs)
 	{
 		inputHandler.FrameAdvance(hitStop, currentState, unhandledInputs);
 	}

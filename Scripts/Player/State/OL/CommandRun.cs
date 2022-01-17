@@ -30,7 +30,7 @@ public class CommandRun : State
 	}
 
 	public override Dictionary<string, int> Save()
-    {
+	{
 		var dict = new Dictionary<string, int>();
 		dict["oneHit"] = Convert.ToInt32(oneHit);
 		return dict;
@@ -72,7 +72,7 @@ public class CommandRun : State
 		}
 	}
 
-	public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
 	{
 		if (!oneHit)
 		{
@@ -82,7 +82,7 @@ public class CommandRun : State
 		}
 		else
 		{
-			base.ReceiveHit(rightAttack, height, hitPush, launch, knockdown);
+			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
 		}
 	}
 

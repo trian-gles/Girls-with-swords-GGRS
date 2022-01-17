@@ -55,14 +55,22 @@ public class HitStun : HitState
 		}
 	}
 	
-	public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
 	{
 		//GD.Print($"Received attack on side {rightAttack}");
 		bool launchBool = false;
-		if (!rightAttack)
+		switch (attackDir)
 		{
-			launch.x *= -1;
-			hitPush *= -1;
+			case BaseAttack.ATTACKDIR.RIGHT:
+				break;
+			case BaseAttack.ATTACKDIR.LEFT:
+				launch.x *= -1;
+				hitPush *= -1;
+				break;
+			case BaseAttack.ATTACKDIR.EQUAL:
+				launch.x = 0;
+				hitPush = 0;
+				break;
 		}
 		owner.hitPushRemaining = hitPush;
 		//GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");

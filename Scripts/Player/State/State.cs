@@ -319,14 +319,21 @@ public abstract class State : Node
 		}
 	}
 
-	public virtual void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
 	{
 		owner.velocity = new Vector2(0, 0);
-		
-		if (!rightAttack)
+		switch (attackDir)
 		{
-			launch.x *= -1;
-			hitPush *= -1;
+			case BaseAttack.ATTACKDIR.RIGHT:
+				break;
+			case BaseAttack.ATTACKDIR.LEFT:
+				launch.x *= -1;
+				hitPush *= -1;
+				break;
+			case BaseAttack.ATTACKDIR.EQUAL:
+				launch.x = 0;
+				hitPush = 0;
+				break;
 		}
 		
 
@@ -337,11 +344,16 @@ public abstract class State : Node
 		{
 			owner.grounded = false;
 		}
+
+		bool rightBlock = attackDir == BaseAttack.ATTACKDIR.RIGHT && owner.CheckHeldKey('6');
+		bool leftBlock = attackDir == BaseAttack.ATTACKDIR.LEFT && owner.CheckHeldKey('4');
+		bool anyBlock = attackDir == BaseAttack.ATTACKDIR.EQUAL && (owner.CheckHeldKey('4') || owner.CheckHeldKey('6'));
+
 		if (height == HEIGHT.HIGH) 
 		{
 			if (!owner.CheckHeldKey('2'))
 			{
-				if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
+				if (rightBlock || leftBlock || anyBlock)
 				{
 					EmitSignal(nameof(StateFinished), "Block");
 				}
@@ -360,7 +372,7 @@ public abstract class State : Node
 		{
 			if (owner.CheckHeldKey('2') && owner.grounded)
 			{
-				if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4')))
+				if (rightBlock || leftBlock || anyBlock)
 				{
 					EmitSignal(nameof(StateFinished), "CrouchBlock");
 				}
@@ -376,7 +388,7 @@ public abstract class State : Node
 		}
 		else
 		{
-			if ((rightAttack && owner.CheckHeldKey('6')) || (!rightAttack && owner.CheckHeldKey('4'))) 
+			if (rightBlock || leftBlock || anyBlock)
 			{
 				EmitSignal(nameof(StateFinished), "Block");
 			}

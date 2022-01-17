@@ -33,7 +33,12 @@ public abstract class BaseAttack : State
 	public delegate void OnHitConnected(int hitPush);
 
 	
-
+	public enum ATTACKDIR
+    {
+		RIGHT,
+		LEFT,
+		EQUAL
+    }
 	
 	public override void _Ready()
 	{
@@ -64,7 +69,18 @@ public abstract class BaseAttack : State
 		{
 			//GD.Print($"Hit connect on frame {frameCount}");
 			EmitSignal(nameof(OnHitConnected), hitPush);
-			owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
+			var direction = ATTACKDIR.EQUAL;
+
+			if (owner.OtherPlayerOnRight())
+            {
+				direction = ATTACKDIR.RIGHT;
+            }
+			else if(owner.OtherPlayerOnLeft())
+			{
+				direction = ATTACKDIR.LEFT;
+			}
+
+			owner.otherPlayer.ReceiveHit(direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
 			hitConnect = true;
 		}
 
@@ -80,12 +96,20 @@ public abstract class BaseAttack : State
 	}
 
 
-	public override void ReceiveHit(bool rightAttack, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
 	{
-		if (!rightAttack)
+		switch (attackDir)
 		{
-			launch.x *= -1;
-			hitPush *= -1;
+			case BaseAttack.ATTACKDIR.RIGHT:
+				break;
+			case BaseAttack.ATTACKDIR.LEFT:
+				launch.x *= -1;
+				hitPush *= -1;
+				break;
+			case BaseAttack.ATTACKDIR.EQUAL:
+				launch.x = 0;
+				hitPush = 0;
+				break;
 		}
 
 		owner.hitPushRemaining = hitPush;

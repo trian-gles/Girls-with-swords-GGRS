@@ -66,7 +66,18 @@ public class Grab : State
 				actualLaunch.x *= -1;
 			}
 
-			owner.otherPlayer.ReceiveHit(owner.OtherPlayerOnRight(), dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
+			var direction = BaseAttack.ATTACKDIR.EQUAL;
+
+			if (owner.OtherPlayerOnRight())
+			{
+				direction = BaseAttack.ATTACKDIR.RIGHT;
+			}
+			else if (owner.OtherPlayerOnLeft())
+			{
+				direction = BaseAttack.ATTACKDIR.LEFT;
+			}
+
+			owner.otherPlayer.ReceiveHit(direction, dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
 		}
 	}
 	public override void AnimationFinished()

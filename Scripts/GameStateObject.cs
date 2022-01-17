@@ -479,12 +479,23 @@ public class GameStateObject : Node
 
 	/// <summary>
 	/// Check if player collision boxes are colliding and adjust accordingly
+	/// If the players have equal x values, this is done via height to allow jump ins
 	/// </summary>
 	private void CheckFixCollision()
 	{
 		while (CheckRects())
 		{
-			if (P1.internalPos < P2.internalPos)
+			if (P1.internalPos.x < P2.internalPos.x)
+			{
+				P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
+				P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
+			}
+			else if (P1.internalPos.x > P2.internalPos.x)
+			{
+				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
+				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
+			}
+			else if (P1.internalPos.y < P2.internalPos.y)
 			{
 				P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);

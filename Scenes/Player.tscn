@@ -167,7 +167,7 @@ dmg = 4
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
-hitStun = 16
+hitStun = 18
 hitPush = 2000
 dmg = 8
 

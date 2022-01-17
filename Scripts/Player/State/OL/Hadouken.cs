@@ -11,7 +11,10 @@ public class Hadouken : State
 	{
 		base._Ready();
 		hadoukenScene = (PackedScene)GD.Load("res://Scenes/HadoukenPart.tscn");
-	}
+			var h = hadoukenScene.Instance() as HadoukenPart;
+			h.QueueFree();
+			// this looks silly but is necessary so that the hadouken loads at game start
+	}	
 
 	public override void Enter()
 	{

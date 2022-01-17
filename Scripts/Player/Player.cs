@@ -90,7 +90,7 @@ public class Player : Node2D
 
 	// components of a received attack
 	private bool wasHit = false;
-	private bool hit_rightAttack;
+	private BaseAttack.ATTACKDIR hit_rightAttack;
 	private int hit_dmg;
 	private int hit_blockStun;
 	private int hit_hitStun;
@@ -598,13 +598,25 @@ public class Player : Node2D
 
 	public bool OtherPlayerOnRight()
 	{
-		if (internalPos.x > otherPlayer.internalPos.x)
+		if (internalPos.x < otherPlayer.internalPos.x)
 		{
-			return false;
+			return true;
 		}
 		else
 		{
+			return false;
+		}
+	}
+
+	public bool OtherPlayerOnLeft()
+	{
+		if (internalPos.x > otherPlayer.internalPos.x)
+		{
 			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -617,7 +629,7 @@ public class Player : Node2D
 		{
 			return;
 		}
-		if (!OtherPlayerOnRight() && facingRight)
+		if (OtherPlayerOnLeft() && facingRight)
 		{
 			TurnLeft();
 		}
@@ -684,11 +696,11 @@ public class Player : Node2D
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
 	/// <param name="prorationLevel"></param>
-	public void ReceiveHit(bool rightAttack, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
+	public void ReceiveHit(BaseAttack.ATTACKDIR attackDir, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
 	{
 
 		wasHit = true;
-		hit_rightAttack = rightAttack;
+		hit_rightAttack = attackDir;
 		hit_dmg = dmg;
 		hit_blockStun = blockStun;
 		hit_hitStun = hitStun;
@@ -723,7 +735,7 @@ public class Player : Node2D
 			{
 				hitPushRemaining = -hitPush;
 			}
-			else
+			else if (OtherPlayerOnLeft())
 			{
 				hitPushRemaining = hitPush;
 			}

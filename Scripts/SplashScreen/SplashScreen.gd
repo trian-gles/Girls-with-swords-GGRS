@@ -13,5 +13,5 @@ func go_title_screen():
 	get_tree().change_scene("res://Scenes/Lobby.tscn")
 
 #when animation finishes go to title
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	go_title_screen()

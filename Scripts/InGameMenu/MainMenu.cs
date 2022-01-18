@@ -7,11 +7,9 @@ using System.Threading;
 
 public class MainMenu : Button
 {
-
 	[Signal]
 	public delegate void LobbyReturn();
 
-	
 	private void CloseMainscene()
 	{
 		GD.Print("Emitting lobby return signal");
@@ -20,10 +18,11 @@ public class MainMenu : Button
 		QueueFree();QueueFree();
 	}
 	
-	
-	private void _on_Main_Menu_button_down()
-	{
+	private void _on_button_down()
+	{	
+		GetTree().Paused = false;
 		CloseMainscene();
 	}
-
 }
+
+

@@ -19,6 +19,7 @@ public class MainScene : Node2D
 	private Label centerText;
 	private Label statsText;
 	private Node GGRS;
+	private Node mainMenuReturn;
 
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
@@ -537,7 +538,6 @@ public class MainScene : Node2D
 		GD.Print("RETURN TO LOBBY FUNCTION");
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
-
 			//GD.Print("Closing GGPO session");
 			//int closeResult = GGPO.CloseSession();
 			//GD.Print($"GGPO session closed with code {closeResult}");
@@ -552,4 +552,5 @@ public class MainScene : Node2D
 		GD.Print("Emitted lobby return signal, queueing free");
 		QueueFree();QueueFree();
 	}
+	
 }

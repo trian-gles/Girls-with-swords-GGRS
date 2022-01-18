@@ -10,9 +10,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		self.paused = not paused
 		scene_tree.set_input_as_handled()
 	
-	
 func set_paused(value: bool) -> void:
 	paused = value
 	scene_tree.paused = value
 	pause_overlay.visible = value
 	
+#func _on_MainMenu_button_down():
+#	scene_tree.paused = false
+	
+

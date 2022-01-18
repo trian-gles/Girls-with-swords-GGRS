@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/InGameMenu/MainMenu.cs" type="Script" id=1]
 
-[node name="Main Menu" type="Button"]
+[node name="MainMenu" type="Button"]
 margin_top = 24.0
 margin_right = 125.0
 margin_bottom = 44.0

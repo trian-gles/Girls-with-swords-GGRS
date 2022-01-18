@@ -6,23 +6,24 @@ public class Lobby : Node2D
 	HBoxContainer hbox;
 	VBoxContainer buttons;
 	VBoxContainer entries;
+	Control inputmenu;
+	
 	public override void _Ready()
 	{
 		hbox = GetNode<HBoxContainer>("HBoxContainer");
 		buttons = hbox.GetNode<VBoxContainer>("Buttons");
 		entries = hbox.GetNode<VBoxContainer>("Entries");
+		inputmenu = GetNode<Control>("InputMenu");
 		Globals.Tests();
 	}
 	public void OnHostButtonDown()
-	{
-		
+	{	
 		Globals.mode = Globals.Mode.GGPO;
 		Begin(true);
 	}
 
 	public void OnJoinButtonDown()
 	{
-		
 		Globals.mode = Globals.Mode.GGPO;
 		Begin(false);
 	}
@@ -40,7 +41,7 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentPort").Text = "7001";
 		entries.GetNode<LineEdit>("LocalPort").Text = "7000";
 	}
-
+	
 	public void OnLocalButtonDown()
 	{
 		Globals.mode = Globals.Mode.LOCAL;
@@ -53,7 +54,6 @@ public class Lobby : Node2D
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
 		Begin(true);
-		
 	}
 
 	public void OnSyncTestButtonDown()
@@ -61,6 +61,22 @@ public class Lobby : Node2D
 		Globals.mode = Globals.Mode.SYNCTEST;
 		GD.Print("Training mode selected");
 		Begin(true);
+	}
+	
+	public void OnButtonCheckDown()
+	{
+		buttons.GetNode<Button>("Host").Visible = false;
+		buttons.GetNode<Button>("Join").Visible = false;
+		buttons.GetNode<Button>("SyncTest").Visible = false;
+		buttons.GetNode<Button>("Local").Visible = false;
+		buttons.GetNode<Button>("Training").Visible = false;
+		buttons.GetNode<Button>("Quit").Visible = false;
+		buttons.GetNode<Button>("ButtonCheck").Visible = false;
+		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
+		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
+		entries.GetNode<LineEdit>("LocalPort").Visible = false;
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
+		
 	}
 
 	public void OnLobbyReset()
@@ -75,12 +91,10 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentPort").Visible = true;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = true;
 		entries.GetNode<LineEdit>("LocalPort").Visible = true;
-
 	}
 
 	public void Begin(bool host)
 	{
-
 		buttons.GetNode<Button>("Host").Visible = false;
 		buttons.GetNode<Button>("Join").Visible = false;
 		buttons.GetNode<Button>("SyncTest").Visible = false;
@@ -111,6 +125,12 @@ public class Lobby : Node2D
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 		mainInstance.Begin(ip, localPort, otherPort, host);
+		
+		//Connecting to Main Menu Button
+		var mainMenu = (PackedScene) ResourceLoader.Load("res://Scenes/MainMenu.tscn");
+		var mainMenuInstance = mainMenu.Instance() as MainMenu;
+		AddChild(mainMenuInstance);
+		mainMenuInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 	}
 }
 

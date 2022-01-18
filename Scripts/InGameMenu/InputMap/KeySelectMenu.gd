@@ -8,7 +8,11 @@ func _ready():
 func _input(event):
 	if not event.is_pressed():
 		return
-	emit_signal("key_selected", event.button_index)
+	if event is InputEventJoypadButton:
+		emit_signal("key_selected", event.button_index)
+	elif event is InputEventKey:
+		emit_signal("key_selected", event.scancode)
+
 	close()
 
 func open():

@@ -20,7 +20,7 @@ public class MainMenu : Button
 	
 	private void _on_button_down()
 	{	
-		GetTree().Paused = false;
+		//GetTree().Paused = false;
 		CloseMainscene();
 	}
 }

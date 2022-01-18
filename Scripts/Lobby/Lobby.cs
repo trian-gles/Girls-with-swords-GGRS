@@ -91,10 +91,14 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentPort").Visible = true;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = true;
 		entries.GetNode<LineEdit>("LocalPort").Visible = true;
+		GetNode<RichTextLabel>("Title").Visible = true;
+		entries.GetNode<Button>("AddFriend").Visible = true;
+		entries.GetNode<OptionButton>("FriendList").Visible = true;
 	}
 
 	public void Begin(bool host)
 	{
+		GetNode<RichTextLabel>("Title").Visible = false;
 		buttons.GetNode<Button>("Host").Visible = false;
 		buttons.GetNode<Button>("Join").Visible = false;
 		buttons.GetNode<Button>("SyncTest").Visible = false;
@@ -102,6 +106,8 @@ public class Lobby : Node2D
 		buttons.GetNode<Button>("Training").Visible = false;
 		buttons.GetNode<Button>("Quit").Visible = false;
 		buttons.GetNode<Button>("ButtonCheck").Visible = false;
+		entries.GetNode<Button>("AddFriend").Visible = false;
+		entries.GetNode<OptionButton>("FriendList").Visible = false;
 		GetNode<Button>("HostTest").Visible = false;
 		GetNode<Button>("JoinTest").Visible = false;
 
@@ -127,10 +133,10 @@ public class Lobby : Node2D
 		mainInstance.Begin(ip, localPort, otherPort, host);
 		
 		//Connecting to Main Menu Button
-		var mainMenu = (PackedScene) ResourceLoader.Load("res://Scenes/MainMenu.tscn");
-		var mainMenuInstance = mainMenu.Instance() as MainMenu;
-		AddChild(mainMenuInstance);
-		mainMenuInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
+		//var mainMenu = (PackedScene) ResourceLoader.Load("res://Scenes/MainMenu.tscn");
+		//var mainMenuInstance = mainMenu.Instance() as MainMenu;
+		//AddChild(mainMenuInstance);
+		//mainMenuInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 	}
 }
 

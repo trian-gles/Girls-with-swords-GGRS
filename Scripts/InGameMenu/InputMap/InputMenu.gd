@@ -7,20 +7,16 @@ signal QuitMainscene()
 
 var paused: = false setget set_paused
 
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("buttonconfig") and Globals.get("mode") != 2:
 		self.paused = not paused
 		scene_tree.set_input_as_handled()
-	
 	
 func set_paused(value: bool) -> void:
 	paused = value
 	scene_tree.paused = value
 	buttoncheck_overlay.visible = value
 	
-
-
 onready var _action_list = get_node("ConfigOverlay/Column/ScrollContainer/ActionList")
 
 func _ready():
@@ -33,7 +29,6 @@ func _ready():
 func on_quit_pressed():
 	scene_tree.paused = false
 	emit_signal("QuitMainscene")
-	#queue_free()
 	
 func rebuild(input_profile, is_customizable=false, id=0):
 	_action_list.clear()

@@ -67,6 +67,8 @@ public class MainScene : Node2D
 		//Basic config
 		camera = GetNode<Camera2D>("Camera2D");
 
+		GetNode<Control>("UserInterface/UserInterface").Connect("QuitMainscene", this, nameof(CloseMainscene));
+
 		P1 = GetNode<Player>("P1");
 		P2 = GetNode<Player>("P2");
 		
@@ -425,7 +427,7 @@ public class MainScene : Node2D
 		int postGameFrame = frame - gameFinishFrame;
 		if (postGameFrame > 200)
 		{
-			ReturnToLobby();
+			CloseMainscene();
 		}
 	}
 
@@ -529,28 +531,15 @@ public class MainScene : Node2D
 
 	public void OnHadoukenRemoved(HadoukenPart h)
 	{
-		
+
 		gsObj.RemoveHadouken(h);
 	}
-
-	private void ReturnToLobby()
-	{
-		GD.Print("RETURN TO LOBBY FUNCTION");
-		if (Globals.mode == Globals.Mode.GGPO)
-		{
-			//GD.Print("Closing GGPO session");
-			//int closeResult = GGPO.CloseSession();
-			//GD.Print($"GGPO session closed with code {closeResult}");
-		}
-		CloseMainscene();
-	}
-
 	private void CloseMainscene()
 	{
 		GD.Print("Emitting lobby return signal");
 		EmitSignal(nameof(LobbyReturn));
 		GD.Print("Emitted lobby return signal, queueing free");
-		QueueFree();QueueFree();
+		QueueFree();
 	}
 	
 }

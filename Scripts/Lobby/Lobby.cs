@@ -65,20 +65,8 @@ public class Lobby : Node2D
 	
 	public void OnButtonCheckDown()
 	{
-		buttons.GetNode<Button>("Host").Visible = false;
-		buttons.GetNode<Button>("Join").Visible = false;
-		buttons.GetNode<Button>("SyncTest").Visible = false;
-		buttons.GetNode<Button>("Local").Visible = false;
-		buttons.GetNode<Button>("Training").Visible = false;
-		buttons.GetNode<Button>("Quit").Visible = false;
-		buttons.GetNode<Button>("ButtonCheck").Visible = false;
-		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
-		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
-		entries.GetNode<LineEdit>("LocalPort").Visible = false;
-		entries.GetNode<Button>("AddFriend").Visible = false;
-		entries.GetNode<OptionButton>("FriendList").Visible = false;
+		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
-		GetNode<RichTextLabel>("Title").Visible = false;
 		
 	}
 
@@ -99,7 +87,7 @@ public class Lobby : Node2D
 		entries.GetNode<OptionButton>("FriendList").Visible = true;
 	}
 
-	public void Begin(bool host)
+	private void HideButtons()
 	{
 		GetNode<RichTextLabel>("Title").Visible = false;
 		buttons.GetNode<Button>("Host").Visible = false;
@@ -113,6 +101,11 @@ public class Lobby : Node2D
 		entries.GetNode<OptionButton>("FriendList").Visible = false;
 		GetNode<Button>("HostTest").Visible = false;
 		GetNode<Button>("JoinTest").Visible = false;
+	}
+
+	public void Begin(bool host)
+	{
+		HideButtons();
 
 		string ip = "127.0.0.1";
 		int localPort = 0;

@@ -77,4 +77,4 @@ margin_right = 125.0
 margin_bottom = 92.0
 mouse_filter = 1
 
-[connection signal="visibility_changed" from="PauseOverlay" to="PauseOverlay/PauseMenu/Quit" method="_on_PauseOverlay_visibility_changed"]
+[connection signal="visibility_changed" from="PauseOverlay" to="PauseOverlay/PauseMenu/MainMenu" method="_on_PauseOverlay_visibility_changed"]

@@ -8,21 +8,16 @@ using System.Threading;
 public class MainMenu : Button
 {
 	[Signal]
-	public delegate void LobbyReturn();
-
-	private void CloseMainscene()
-	{
-		GD.Print("Emitting lobby return signal");
-		EmitSignal(nameof(LobbyReturn));
-		GD.Print("Emitted lobby return signal, queueing free");
-		QueueFree();QueueFree();
-	}
+	public delegate void QuitPressed();
+	
 	
 	private void _on_button_down()
 	{	
-		//GetTree().Paused = false;
-		CloseMainscene();
+		EmitSignal(nameof(QuitPressed));
+	}
+	
+	public void _on_PauseOverlay_visibility_changed()
+	{
+		GrabFocus();
 	}
 }
-
-

@@ -101,6 +101,9 @@ public class Lobby : Node2D
 		entries.GetNode<OptionButton>("FriendList").Visible = false;
 		GetNode<Button>("HostTest").Visible = false;
 		GetNode<Button>("JoinTest").Visible = false;
+		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
+		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
+		entries.GetNode<LineEdit>("LocalPort").Visible = false;
 	}
 
 	public void Begin(bool host)
@@ -118,9 +121,7 @@ public class Lobby : Node2D
 			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
 			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 		}
-		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
-		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
-		entries.GetNode<LineEdit>("LocalPort").Visible = false;
+		
 
 		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;

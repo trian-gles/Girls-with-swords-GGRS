@@ -15,7 +15,7 @@ func on_quit_pressed():
 	emit_signal("QuitMainscene")
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
+	if event.is_action_pressed("pause") and Globals.get("mode") != 2:
 		self.paused = not paused
 		scene_tree.set_input_as_handled()
 	

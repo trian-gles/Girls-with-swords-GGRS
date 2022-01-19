@@ -92,6 +92,7 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("LocalPort").Visible = true;
 		GetNode<RichTextLabel>("Title").Visible = true;
 		entries.GetNode<Button>("AddFriend").Visible = true;
+		entries.GetNode<Button>("LoadFriend").Visible = true;
 		entries.GetNode<OptionButton>("FriendList").Visible = true;
 		
 	}
@@ -110,6 +111,7 @@ public class Lobby : Node2D
 		buttons.GetNode<Button>("ButtonCheck").Visible = false;
 		entries.GetNode<Button>("AddFriend").Visible = false;
 		entries.GetNode<OptionButton>("FriendList").Visible = false;
+		entries.GetNode<Button>("LoadFriend").Visible = false;
 		GetNode<Button>("HostTest").Visible = false;
 		GetNode<Button>("JoinTest").Visible = false;
 		entries.GetNode<LineEdit>("OpponentPort").Visible = false;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/InGameMenu/InputMap/ButtonCheck.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
@@ -95,6 +96,7 @@ margin_bottom = 174.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -164,16 +166,25 @@ __meta__ = {
 margin_top = 126.0
 margin_right = 300.0
 margin_bottom = 146.0
-disabled = true
 text = "Add Friend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FriendList" type="OptionButton" parent="HBoxContainer/Entries"]
+[node name="LoadFriend" type="Button" parent="HBoxContainer/Entries"]
 margin_top = 150.0
 margin_right = 300.0
 margin_bottom = 170.0
+text = "Load Friends..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FriendList" type="OptionButton" parent="HBoxContainer/Entries"]
+visible = false
+margin_top = 174.0
+margin_right = 300.0
+margin_bottom = 194.0
 disabled = true
 text = "Select Friend..."
 align = 1
@@ -205,6 +216,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Node" type="Node" parent="."]
+
 [connection signal="button_down" from="HBoxContainer/Buttons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="visibility_changed" from="HBoxContainer/Buttons/Local" to="HBoxContainer/Buttons/Local" method="_on_visibility_changed"]
 [connection signal="button_down" from="HBoxContainer/Buttons/Training" to="." method="OnTrainingButtonDown"]
@@ -212,5 +225,7 @@ __meta__ = {
 [connection signal="button_down" from="HBoxContainer/Buttons/SyncTest" to="." method="OnSyncTestButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="HBoxContainer/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
+[connection signal="button_down" from="HBoxContainer/Entries/AddFriend" to="HBoxContainer/Entries" method="_on_AddFriend_button_down"]
+[connection signal="button_down" from="HBoxContainer/Entries/LoadFriend" to="HBoxContainer/Entries" method="_on_LoadFriend_button_down"]
 [connection signal="button_down" from="HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="JoinTest" to="." method="OnJoinTestButtonDown"]

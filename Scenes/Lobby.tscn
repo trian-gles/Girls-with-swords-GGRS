@@ -34,7 +34,7 @@ __meta__ = {
 
 [node name="Buttons" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 102.0
-margin_bottom = 184.0
+margin_bottom = 174.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -99,7 +99,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HBoxContainer/Entries"]
+[node name="NetPlayLabel" type="Label" parent="HBoxContainer/Entries"]
 margin_right = 300.0
 margin_bottom = 14.0
 text = "Net Play"

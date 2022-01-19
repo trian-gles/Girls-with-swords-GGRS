@@ -25,11 +25,11 @@ func _ready():
 	$ConfigOverlay/Column/ProfilesMenu.initialize($InputMapper)
 	$InputMapper.change_profile($ConfigOverlay/Column/ProfilesMenu.selected)
 
-func rebuild(input_profile, is_customizable=false):
+func rebuild(input_profile, is_customizable=false, id=0):
 	_action_list.clear()
 	for input_action in input_profile.keys():
 		var line = _action_list.add_input_line(input_action, \
-			input_profile[input_action], is_customizable)
+			input_profile[input_action], is_customizable, id == 0)
 		if is_customizable:
 			line.connect('change_button_pressed', self, \
 				'_on_InputLine_change_button_pressed', [input_action, line])

@@ -6,7 +6,7 @@ onready var buttoncheck_overlay: ColorRect = get_node("ConfigOverlay")
 var paused: = false setget set_paused
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("buttonconfig"):
+	if event.is_action_pressed("buttonconfig") and Globals.get("mode") != 2:
 		self.paused = not paused
 		scene_tree.set_input_as_handled()
 	

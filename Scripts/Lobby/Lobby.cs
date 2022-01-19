@@ -75,7 +75,10 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
 		entries.GetNode<LineEdit>("LocalPort").Visible = false;
+		entries.GetNode<Button>("AddFriend").Visible = false;
+		entries.GetNode<OptionButton>("FriendList").Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
+		GetNode<RichTextLabel>("Title").Visible = false;
 		
 	}
 

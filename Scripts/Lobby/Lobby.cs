@@ -8,6 +8,7 @@ public class Lobby : Node2D
 	VBoxContainer entries;
 	Control inputmenu;
 	HBoxContainer netplaybuttons;
+	VBoxContainer column;
 	
 	public override void _Ready()
 	{
@@ -16,6 +17,7 @@ public class Lobby : Node2D
 		entries = hbox.GetNode<VBoxContainer>("Entries");
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
 		inputmenu = GetNode<Control>("InputMenu");
+		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 		Globals.Tests();
 	}
 	public void OnHostButtonDown()
@@ -69,10 +71,13 @@ public class Lobby : Node2D
 	{
 		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
+		column.GetNode<Button>("ReturnMainMenu").Visible = true;
+		GetNode<Control>("InputMenu").Connect("QuitMainscene", this, nameof(OnLobbyReset));
 	}
 
 	public void OnLobbyReset()
 	{
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		buttons.GetNode<Label>("LocalLabel").Visible = true;
 		entries.GetNode<Label>("NetPlayLabel").Visible = true;
 		netplaybuttons.GetNode<Button>("Host").Visible = true;
@@ -88,6 +93,7 @@ public class Lobby : Node2D
 		GetNode<RichTextLabel>("Title").Visible = true;
 		entries.GetNode<Button>("AddFriend").Visible = true;
 		entries.GetNode<OptionButton>("FriendList").Visible = true;
+		
 	}
 
 	private void HideButtons()

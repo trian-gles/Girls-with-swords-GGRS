@@ -2,12 +2,14 @@ extends HBoxContainer
 
 signal change_button_pressed
 
-func initialize(action_name, key, can_change):
+func initialize(action_name, key, can_change, keyboard_profile:bool):
 	$Action.text = action_name.capitalize()
-	#if key is InputEventJoypadButton:
-	$Key.text = OS.get_scancode_string(key)
-	#elif key is InputEventKey:
-	$Key.text = Input.get_joy_button_string(key)
+	print(key)
+	if keyboard_profile:
+		$Key.text = OS.get_scancode_string(key)
+	else:
+		$Key.text = Input.get_joy_button_string(key)
+	
 	$ChangeButton.disabled = not can_change
 
 func update_key(scancode):

@@ -7,7 +7,6 @@ func _input(event):
 		
 	if(event is InputEventJoypadButton):
 		go_title_screen()
-		
 
 func go_title_screen():
 	get_tree().change_scene("res://Scenes/Lobby.tscn")

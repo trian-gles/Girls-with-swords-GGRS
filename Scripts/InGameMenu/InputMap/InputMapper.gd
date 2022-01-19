@@ -1,6 +1,6 @@
 extends Node
 
-signal profile_changed(new_profile, is_customizable)
+signal profile_changed(new_profile, is_customizable, id)
 
 var current_profile_id = 0
 var profiles = {
@@ -25,7 +25,7 @@ var profile_fightstick = {
 	'k': JOY_BUTTON_3,
 	's': JOY_BUTTON_5,
 }
-var profile_custom = profile_keyboard
+var profile_custom = profile_fightstick
 
 func change_profile(id):
 	current_profile_id = id
@@ -34,7 +34,7 @@ func change_profile(id):
 	
 	for action_name in profile.keys():
 		change_action_key(action_name, profile[action_name])
-	emit_signal('profile_changed', profile, is_customizable)
+	emit_signal('profile_changed', profile, is_customizable, id)
 	return profile
 
 func change_action_key(action_name, key_scancode):

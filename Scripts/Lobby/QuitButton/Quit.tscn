@@ -7,10 +7,6 @@ script/source = "extends Button
 
 func _on_button_up():
 	get_tree().quit()
-
-
-func _on_PauseOverlay_visibility_changed():
-	grab_focus()
 "
 
 [node name="Quit" type="Button"]

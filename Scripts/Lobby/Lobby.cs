@@ -7,13 +7,17 @@ public class Lobby : Node2D
 	VBoxContainer buttons;
 	VBoxContainer entries;
 	Control inputmenu;
+	HBoxContainer netplaybuttons;
+	VBoxContainer column;
 	
 	public override void _Ready()
 	{
 		hbox = GetNode<HBoxContainer>("HBoxContainer");
 		buttons = hbox.GetNode<VBoxContainer>("Buttons");
 		entries = hbox.GetNode<VBoxContainer>("Entries");
+		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
 		inputmenu = GetNode<Control>("InputMenu");
+		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 		Globals.Tests();
 	}
 	public void OnHostButtonDown()
@@ -67,13 +71,17 @@ public class Lobby : Node2D
 	{
 		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
-		
+		column.GetNode<Button>("ReturnMainMenu").Visible = true;
+		GetNode<Control>("InputMenu").Connect("QuitMainscene", this, nameof(OnLobbyReset));
 	}
 
 	public void OnLobbyReset()
 	{
-		buttons.GetNode<Button>("Host").Visible = true;
-		buttons.GetNode<Button>("Join").Visible = true;
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
+		buttons.GetNode<Label>("LocalLabel").Visible = true;
+		entries.GetNode<Label>("NetPlayLabel").Visible = true;
+		netplaybuttons.GetNode<Button>("Host").Visible = true;
+		netplaybuttons.GetNode<Button>("Join").Visible = true;
 		buttons.GetNode<Button>("SyncTest").Visible = true;
 		buttons.GetNode<Button>("Local").Visible = true;
 		buttons.GetNode<Button>("Training").Visible = true;
@@ -85,13 +93,16 @@ public class Lobby : Node2D
 		GetNode<RichTextLabel>("Title").Visible = true;
 		entries.GetNode<Button>("AddFriend").Visible = true;
 		entries.GetNode<OptionButton>("FriendList").Visible = true;
+		
 	}
 
 	private void HideButtons()
 	{
+		buttons.GetNode<Label>("LocalLabel").Visible = false;
+		entries.GetNode<Label>("NetPlayLabel").Visible = false;
 		GetNode<RichTextLabel>("Title").Visible = false;
-		buttons.GetNode<Button>("Host").Visible = false;
-		buttons.GetNode<Button>("Join").Visible = false;
+		netplaybuttons.GetNode<Button>("Host").Visible = false;
+		netplaybuttons.GetNode<Button>("Join").Visible = false;
 		buttons.GetNode<Button>("SyncTest").Visible = false;
 		buttons.GetNode<Button>("Local").Visible = false;
 		buttons.GetNode<Button>("Training").Visible = false;
@@ -122,18 +133,12 @@ public class Lobby : Node2D
 			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 		}
 		
-
 		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 		mainInstance.Begin(ip, localPort, otherPort, host);
 		
-		//Connecting to Main Menu Button
-		//var mainMenu = (PackedScene) ResourceLoader.Load("res://Scenes/MainMenu.tscn");
-		//var mainMenuInstance = mainMenu.Instance() as MainMenu;
-		//AddChild(mainMenuInstance);
-		//mainMenuInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 	}
 }
 

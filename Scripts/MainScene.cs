@@ -67,8 +67,9 @@ public class MainScene : Node2D
 		//Basic config
 		camera = GetNode<Camera2D>("Camera2D");
 
-		GetNode<Control>("UserInterface/UserInterface").Connect("QuitMainscene", this, nameof(CloseMainscene));
-
+		//GetNode<Control>("UserInterface/UserInterface").Connect("QuitMainscene", this, nameof(CloseMainscene));
+		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
+		
 		P1 = GetNode<Player>("P1");
 		P2 = GetNode<Player>("P2");
 		

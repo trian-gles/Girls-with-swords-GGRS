@@ -141,7 +141,6 @@ public class Lobby : Node2D
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 		mainInstance.Begin(ip, localPort, otherPort, host);
-		
 	}
 }
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/InGameMenu/InputMap/ButtonCheck.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
@@ -11,15 +10,18 @@
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="InputMenu" parent="." instance=ExtResource( 5 )]
+[node name="InputMenu" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="InputMenu" parent="InputMenu" instance=ExtResource( 5 )]
 
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 125.0
 margin_top = 38.0
 margin_right = 404.0
 margin_bottom = 57.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/normal_font = ExtResource( 6 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Girls with Swords"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -69,7 +71,6 @@ margin_top = 66.0
 margin_right = 102.0
 margin_bottom = 86.0
 text = "Button Check"
-script = ExtResource( 4 )
 
 [node name="Quit" parent="HBoxContainer/Buttons" instance=ExtResource( 3 )]
 margin_top = 90.0
@@ -215,8 +216,6 @@ text = "JOINTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Node" type="Node" parent="."]
 
 [connection signal="button_down" from="HBoxContainer/Buttons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="visibility_changed" from="HBoxContainer/Buttons/Local" to="HBoxContainer/Buttons/Local" method="_on_visibility_changed"]

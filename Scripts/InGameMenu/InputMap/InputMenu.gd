@@ -4,33 +4,28 @@ onready var scene_tree: = get_tree()
 onready var buttoncheck_overlay: ColorRect = get_node("ConfigOverlay")
 
 signal QuitMainscene()
+#
+#var paused: = false setget set_paused
+##activated by select button
+#func _unhandled_input(event: InputEvent) -> void:
+#	if event.is_action_pressed("buttonconfig") and Globals.get("mode") != 2:
+#		self.paused = not paused
+#		scene_tree.set_input_as_handled()
+##Pausing game
+#func set_paused(value: bool) -> void:
+#	paused = value
+#	scene_tree.paused = value
+#	buttoncheck_overlay.visible = value
 
-var paused: = false setget set_paused
-#activated by select button
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("buttonconfig") and Globals.get("mode") != 2:
-		self.paused = not paused
-		scene_tree.set_input_as_handled()
-#Pausing game
-func set_paused(value: bool) -> void:
-	paused = value
-	scene_tree.paused = value
-	buttoncheck_overlay.visible = value
-	
 onready var _action_list = get_node("ConfigOverlay/Column/ScrollContainer/ActionList")
 
 func _ready():
-	$ConfigOverlay/Column/ReturnMainMenu.connect("QuitPressed", self, "on_quit_pressed")
+	Events.connect("BackPressed", self, "hide_overlay")
 	
 	$InputMapper.connect('profile_changed', self, 'rebuild')
 	$ConfigOverlay/Column/ProfilesMenu.initialize($InputMapper)
 	$InputMapper.change_profile($ConfigOverlay/Column/ProfilesMenu.selected)
 	
-#Exit button config
-func on_quit_pressed():
-	
-	scene_tree.paused = false
-	emit_signal("QuitMainscene")
 	
 func rebuild(input_profile, is_customizable=false, id=0):
 	_action_list.clear()
@@ -50,3 +45,8 @@ func _on_InputLine_change_button_pressed(action_name, line):
 	line.update_key(key_scancode)
 	
 	set_process_input(true)
+
+func hide_overlay():
+	$ConfigOverlay.visible = false
+	
+	

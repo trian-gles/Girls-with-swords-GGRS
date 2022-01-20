@@ -16,7 +16,7 @@ public class Lobby : Node2D
 		buttons = hbox.GetNode<VBoxContainer>("Buttons");
 		entries = hbox.GetNode<VBoxContainer>("Entries");
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
-		inputmenu = GetNode<Control>("InputMenu");
+		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 		Globals.Tests();
 	}
@@ -72,9 +72,18 @@ public class Lobby : Node2D
 		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
 		column.GetNode<Button>("ReturnMainMenu").Visible = true;
-		GetNode<Control>("InputMenu").Connect("QuitMainscene", this, nameof(OnLobbyReset));
+		column.GetNode<Button>("ReturnToInGameMenu").Visible = false;
+		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
 	}
-
+	
+	public void OnButtonCheckDownInGame()
+	{
+		HideButtons();
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
+		column.GetNode<Button>("ReturnToInGameMenu").Visible = true;
+		column.GetNode<Button>("ReturnMainMenu").Visible = false;
+	}
+	
 	public void OnLobbyReset()
 	{
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
@@ -123,7 +132,8 @@ public class Lobby : Node2D
 	public void Begin(bool host)
 	{
 		HideButtons();
-
+		GetNode("/root/Events").Connect("ButtonConfigPressed", this, nameof(OnButtonCheckDownInGame));
+		
 		string ip = "127.0.0.1";
 		int localPort = 0;
 		int otherPort = 0;
@@ -141,7 +151,6 @@ public class Lobby : Node2D
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
 		mainInstance.Begin(ip, localPort, otherPort, host);
-		
 	}
 }
 

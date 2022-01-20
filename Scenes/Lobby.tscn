@@ -10,7 +10,10 @@
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="InputMenu" parent="." instance=ExtResource( 5 )]
+[node name="InputMenu" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="InputMenu" parent="InputMenu" instance=ExtResource( 5 )]
 
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 125.0

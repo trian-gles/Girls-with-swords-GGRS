@@ -67,7 +67,7 @@ public class MainScene : Node2D
 		//Basic config
 		camera = GetNode<Camera2D>("Camera2D");
 
-		//GetNode<Control>("UserInterface/UserInterface").Connect("QuitMainscene", this, nameof(CloseMainscene));
+		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
 		
 		P1 = GetNode<Player>("P1");
@@ -140,8 +140,6 @@ public class MainScene : Node2D
 		}
 		
 	}
-
-
 
 	/// <summary>
 	/// Connect GGPO callbacks

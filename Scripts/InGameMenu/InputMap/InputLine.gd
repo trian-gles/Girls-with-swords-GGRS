@@ -19,6 +19,7 @@ func initialize(action_name, key, can_change, keyboard_profile:bool):
 func update_key(scancode):
 	$Key.text = OS.get_scancode_string(scancode)
 	$Key.text = Input.get_joy_button_string(scancode)
+	$Button1.frame = scancode
 
 func _on_ChangeButton_pressed():
 	emit_signal('change_button_pressed')

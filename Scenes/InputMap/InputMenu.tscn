@@ -72,7 +72,7 @@ margin_right = -6.0
 margin_bottom = -2.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_constants/separation = 25
+custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -80,6 +80,7 @@ __meta__ = {
 [node name="Title" type="Label" parent="ConfigOverlay/Column"]
 margin_right = 452.0
 margin_bottom = 16.0
+size_flags_vertical = 12
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 1, 0.596078, 0, 1 )
 custom_constants/shadow_offset_y = 5
@@ -94,19 +95,19 @@ __meta__ = {
 
 [node name="ProfilesMenu" type="OptionButton" parent="ConfigOverlay/Column"]
 margin_left = 211.0
-margin_top = 41.0
+margin_top = 31.0
 margin_right = 240.0
-margin_bottom = 61.0
+margin_bottom = 51.0
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 0
 toggle_mode = false
 flat = true
 script = SubResource( 1 )
 
 [node name="Header" type="HBoxContainer" parent="ConfigOverlay/Column"]
-margin_top = 86.0
+margin_top = 66.0
 margin_right = 452.0
-margin_bottom = 104.0
+margin_bottom = 84.0
 size_flags_vertical = 4
 
 [node name="Action" type="Label" parent="ConfigOverlay/Column/Header"]
@@ -143,14 +144,14 @@ custom_fonts/font = SubResource( 4 )
 text = "Change"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigOverlay/Column"]
-margin_top = 129.0
+margin_top = 99.0
 margin_right = 452.0
 margin_bottom = 257.0
 size_flags_vertical = 3
 
 [node name="ActionList" type="VBoxContainer" parent="ConfigOverlay/Column/ScrollContainer"]
 margin_right = 452.0
-margin_bottom = 128.0
+margin_bottom = 158.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 15

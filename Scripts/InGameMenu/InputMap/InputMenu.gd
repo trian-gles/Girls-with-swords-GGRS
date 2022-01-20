@@ -28,6 +28,7 @@ func _ready():
 	
 #Exit button config
 func on_quit_pressed():
+	
 	scene_tree.paused = false
 	emit_signal("QuitMainscene")
 	

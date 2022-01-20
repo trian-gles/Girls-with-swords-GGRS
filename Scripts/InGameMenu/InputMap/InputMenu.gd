@@ -6,12 +6,12 @@ onready var buttoncheck_overlay: ColorRect = get_node("ConfigOverlay")
 signal QuitMainscene()
 
 var paused: = false setget set_paused
-
+#activated by select button
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("buttonconfig") and Globals.get("mode") != 2:
 		self.paused = not paused
 		scene_tree.set_input_as_handled()
-	
+#Pausing game
 func set_paused(value: bool) -> void:
 	paused = value
 	scene_tree.paused = value
@@ -26,6 +26,7 @@ func _ready():
 	$ConfigOverlay/Column/ProfilesMenu.initialize($InputMapper)
 	$InputMapper.change_profile($ConfigOverlay/Column/ProfilesMenu.selected)
 	
+#Exit button config
 func on_quit_pressed():
 	scene_tree.paused = false
 	emit_signal("QuitMainscene")
@@ -48,10 +49,3 @@ func _on_InputLine_change_button_pressed(action_name, line):
 	line.update_key(key_scancode)
 	
 	set_process_input(true)
-
-#func _input(event):
-#	if event.is_action_pressed('ui_cancel'):
-#		get_tree().change_scene("res://Scenes/MainScene.tscn")
-
-#func _on_PlayButton_pressed():
-#	get_tree().change_scene("res://Scenes/MainScene.tscn")

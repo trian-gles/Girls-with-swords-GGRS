@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/InputMap/InputMapper.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/InGameMenu/InputMap/ActionList.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/InGameMenu/InputMap/InputMenu.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/InGameMenu/InputMap/ReturnMainMenu.cs" type="Script" id=6]
+[ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends OptionButton
@@ -22,14 +23,27 @@ func _on_ConfigOverlay_visibility_changed():
 	
 "
 
+[sub_resource type="DynamicFont" id=2]
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 7 )
+
 [node name="InputMenu" type="Control"]
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -2.16742
-margin_right = 1.0
-margin_bottom = -2.16742
+margin_left = 1.47195
+margin_top = -0.751618
+margin_right = 1.47195
+margin_bottom = -0.751617
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -80,9 +94,9 @@ __meta__ = {
 
 [node name="ProfilesMenu" type="OptionButton" parent="ConfigOverlay/Column"]
 margin_left = 211.0
-margin_top = 30.0
+margin_top = 41.0
 margin_right = 240.0
-margin_bottom = 50.0
+margin_bottom = 61.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 toggle_mode = false
@@ -90,53 +104,53 @@ flat = true
 script = SubResource( 1 )
 
 [node name="Header" type="HBoxContainer" parent="ConfigOverlay/Column"]
-margin_top = 60.0
+margin_top = 86.0
 margin_right = 452.0
-margin_bottom = 74.0
+margin_bottom = 104.0
 size_flags_vertical = 4
 
 [node name="Action" type="Label" parent="ConfigOverlay/Column/Header"]
 margin_right = 148.0
-margin_bottom = 14.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 custom_colors/font_color_shadow = Color( 0.67451, 0.435294, 0.0980392, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 2 )
 text = "Action"
-uppercase = true
 
 [node name="Control" type="Label" parent="ConfigOverlay/Column/Header"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 14.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 3 )
 text = "Control"
 align = 1
-uppercase = true
 
 [node name="Change" type="Label" parent="ConfigOverlay/Column/Header"]
-margin_left = 398.0
+margin_left = 404.0
 margin_right = 452.0
-margin_bottom = 14.0
+margin_bottom = 18.0
 size_flags_horizontal = 10
 custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 4 )
 text = "Change"
-uppercase = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigOverlay/Column"]
-margin_top = 125.0
+margin_top = 129.0
 margin_right = 452.0
 margin_bottom = 257.0
 size_flags_vertical = 3
 
 [node name="ActionList" type="VBoxContainer" parent="ConfigOverlay/Column/ScrollContainer"]
 margin_right = 452.0
-margin_bottom = 132.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 15
@@ -187,6 +201,7 @@ margin_bottom = 50.0
 size_flags_vertical = 5
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_y = 5
+custom_fonts/font = SubResource( 5 )
 text = "Press a Button..."
 align = 1
 autowrap = true

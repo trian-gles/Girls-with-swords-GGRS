@@ -43,9 +43,11 @@ func change_action_key(action_name, key_scancode):
 	var new_button = InputEventJoypadButton.new()
 	new_button.set_button_index(key_scancode)
 	InputMap.action_add_event(action_name, new_button)
+	
 	var new_key = InputEventKey.new()
 	new_key.set_scancode(key_scancode)
 	InputMap.action_add_event(action_name, new_key)
+	
 	get_selected_profile()[action_name] = key_scancode
 
 func erase_action_events(action_name):

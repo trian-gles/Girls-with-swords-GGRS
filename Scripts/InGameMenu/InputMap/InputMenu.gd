@@ -44,8 +44,8 @@ func rebuild(input_profile, is_customizable=false, id=0):
 func _on_InputLine_change_button_pressed(action_name, line):
 	set_process_input(false)
 	
-	$KeySelectMenu.open()
-	var key_scancode = yield($KeySelectMenu, "key_selected")
+	$ConfigOverlay/KeySelectMenu.open()
+	var key_scancode = yield($ConfigOverlay/KeySelectMenu, "key_selected")
 	$InputMapper.change_action_key(action_name, key_scancode)
 	line.update_key(key_scancode)
 	

@@ -179,18 +179,21 @@ size_flags_vertical = 4
 text = "Return to Main Menu"
 script = ExtResource( 6 )
 
-[node name="KeySelectMenu" type="Panel" parent="."]
+[node name="KeySelectMenu" type="Panel" parent="ConfigOverlay"]
 visible = false
-self_modulate = Color( 1, 1, 1, 0.679569 )
+self_modulate = Color( 1, 1, 1, 0.588235 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.667419
-margin_top = -0.667419
-margin_right = 0.667419
-margin_bottom = -0.667419
+margin_left = -7.33258
+margin_top = -7.66742
+margin_right = -7.33258
+margin_bottom = -7.66742
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="KeySelectMenu"]
+[node name="Label" type="Label" parent="ConfigOverlay/KeySelectMenu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

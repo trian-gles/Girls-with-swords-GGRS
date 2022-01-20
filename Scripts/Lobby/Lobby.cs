@@ -117,6 +117,7 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
 		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
 		entries.GetNode<LineEdit>("LocalPort").Visible = false;
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 	}
 
 	public void Begin(bool host)

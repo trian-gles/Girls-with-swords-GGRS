@@ -20,8 +20,8 @@ margin_left = 125.0
 margin_top = 38.0
 margin_right = 404.0
 margin_bottom = 57.0
-custom_fonts/normal_font = ExtResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = ExtResource( 6 )
 text = "Girls with Swords"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -135,7 +135,6 @@ __meta__ = {
 margin_top = 42.0
 margin_right = 300.0
 margin_bottom = 66.0
-focus_mode = 1
 placeholder_text = "Enter Opponent Port"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -146,7 +145,6 @@ margin_top = 70.0
 margin_right = 300.0
 margin_bottom = 94.0
 rect_pivot_offset = Vector2( 96, 40 )
-focus_mode = 1
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -157,7 +155,6 @@ margin_top = 98.0
 margin_right = 300.0
 margin_bottom = 122.0
 rect_pivot_offset = Vector2( 96, 40 )
-focus_mode = 1
 placeholder_text = "Enter Local Port"
 __meta__ = {
 "_edit_use_anchors_": false

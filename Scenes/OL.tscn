@@ -789,8 +789,9 @@ tracks/8/keys = {
 "values": [ Vector2( -1, -9 ) ]
 }
 
-[sub_resource type="Animation" id=8]
-length = 20.0
+[sub_resource type="Animation" id=36]
+resource_name = "CounterHit"
+length = 40.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -859,10 +860,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ false, true ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -4477,13 +4478,12 @@ gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( 0, 1 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 34, 26 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
-position = Vector2( 17, 7 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 38, 26 )
@@ -4495,7 +4495,7 @@ position = Vector2( -25, -15 )
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 150
-frame = 137
+frame = 51
 
 [node name="JumpC" parent="StateTree" index="16"]
 hitStun = 18
@@ -4544,7 +4544,7 @@ anims/Backdash = SubResource( 4 )
 anims/Block = SubResource( 5 )
 anims/CommandRun = SubResource( 6 )
 anims/CounterFloat = SubResource( 7 )
-anims/CounterHit = SubResource( 8 )
+anims/CounterHit = SubResource( 36 )
 anims/Crouch = SubResource( 9 )
 anims/CrouchA = SubResource( 10 )
 anims/CrouchB = SubResource( 11 )

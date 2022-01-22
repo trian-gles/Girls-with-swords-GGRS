@@ -227,8 +227,15 @@ public class MainScene : Node2D
 				waitFrames--;
 				return;
 			}
-
-			GGRS.Call("advance_frame", localPlayerHandle, inputs);
+			if (roundStarted)
+			{
+				GGRS.Call("advance_frame", localPlayerHandle, inputs);
+			}
+			else
+			{
+				GGRS.Call("advance_frame", 0, 0);
+			}
+			
 			var events = (Godot.Collections.Array) GGRS.Call("get_events");
 			foreach (var item in events)
 			{
@@ -266,7 +273,14 @@ public class MainScene : Node2D
 
 	public void LocalPhysicsProcess()
 	{
-		gsObj.Update(inputs, p2inputs);
+		if (roundStarted && !roundFinished)
+		{
+			gsObj.Update(inputs, p2inputs);
+		}
+		else if (!roundStarted || roundFinished)
+		{
+			gsObj.Update(0, 0);
+		}
 		ResetInputs();
 		UpdateTime();
 	}

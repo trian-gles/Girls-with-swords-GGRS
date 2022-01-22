@@ -46,7 +46,7 @@ public abstract class BaseAttack : State
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 	}
 
-	protected void AddJumpCancel()
+	protected virtual void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), "Jump", () => owner.velocity.x = owner.speed);
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), "Jump", () => owner.velocity.x = -owner.speed);

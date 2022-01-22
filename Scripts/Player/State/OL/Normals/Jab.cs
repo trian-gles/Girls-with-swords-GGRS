@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class OLJab : OLKick
+public class Jab : Kick
 {
 	
 	public override void _Ready()

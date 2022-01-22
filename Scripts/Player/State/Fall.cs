@@ -7,6 +7,10 @@ public class Fall : State
 	{
 		base._Ready();
 		loop = true;
+		AddGatling(new[] { 'p', 'p' }, "JumpA");
+		AddGatling(new[] { 'k', 'p' }, "JumpB");
+		AddGatling(new[] { 's', 'p' }, "JumpC");
+		AddGatling(new[] { '8', 'p' }, () => owner.canDoubleJump, "Jump", () => { owner.canDoubleJump = false; });
 	}
 	public override void FrameAdvance()
 	{
@@ -22,21 +26,5 @@ public class Fall : State
 
 	public override void PushMovement(float _xVel)
 	{
-	}
-
-	public override void HandleInput(char[] inputArr)
-	{
-		if (Globals.CheckKeyPress(inputArr, 'k'))
-		{
-			EmitSignal(nameof(StateFinished), "JumpB");
-		}
-		else if (Globals.CheckKeyPress(inputArr, 'p'))
-		{
-			EmitSignal(nameof(StateFinished), "JumpA");
-		}
-		else if (Globals.CheckKeyPress(inputArr, 's'))
-		{
-			EmitSignal(nameof(StateFinished), "JumpC");
-		}
 	}
 }

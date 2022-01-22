@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class OLJumpA : JumpB
+public class JumpA : JumpB
 {
 	public override void _Ready()
 	{

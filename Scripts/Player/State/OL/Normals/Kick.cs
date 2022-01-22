@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class OLKick : OLSlash
+public class Kick : Slash
 {
 	public override void _Ready()
 	{

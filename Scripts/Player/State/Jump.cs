@@ -13,6 +13,7 @@ public class Jump : State
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
 		AddGatling(new[] { 's', 'p' }, "JumpC");
+		AddGatling(new[] { '8', 'p' }, () => owner.canDoubleJump, "Jump", () => { owner.canDoubleJump = false; });
 	}
 
 	public override void FrameAdvance()

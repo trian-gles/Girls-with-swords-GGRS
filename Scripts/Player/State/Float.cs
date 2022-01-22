@@ -46,4 +46,13 @@ public class Float : HitStun
 
         ApplyGravity();
     }
+
+    public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+    {
+        if (launch.y == 0)
+        {
+            launch.y = -400;
+        }
+        base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
+    }
 }

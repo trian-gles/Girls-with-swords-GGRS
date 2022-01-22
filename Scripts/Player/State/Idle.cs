@@ -26,6 +26,7 @@ public class Idle : State
     public override void Enter()
     {
         base.Enter();
+        owner.canDoubleJump = true;
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         if (owner.CheckHeldKey('2'))

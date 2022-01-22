@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class AntiAir : BaseAttack
+public class AntiAir : AirAttack
 {
 
     [Export]
@@ -12,6 +12,7 @@ public class AntiAir : BaseAttack
         base._Ready();
         AddGatling(new char[] { 'p', 'p' }, "JumpA");
         AddGatling(new char[] { 'k', 'p' }, "JumpB");
+        AddJumpCancel();
     }
     public override void Enter()
     {

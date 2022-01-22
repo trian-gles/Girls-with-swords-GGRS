@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://Scripts/Player/State/CrouchBlock.cs" type="Script" id=18]
 [ext_resource path="res://Scripts/Player/State/Backdash.cs" type="Script" id=19]
 [ext_resource path="res://Scripts/Player/State/Knockdown.cs" type="Script" id=24]
-[ext_resource path="res://Scripts/Player/State/CrouchB.cs" type="Script" id=25]
 [ext_resource path="res://Scripts/Player/State/Run.cs" type="Script" id=27]
 [ext_resource path="res://Scripts/Player/State/Grab.cs" type="Script" id=29]
 [ext_resource path="res://Scripts/Player/State/Grabbed.cs" type="Script" id=30]
@@ -32,7 +31,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 38 )
+extents = Vector2( 17, 33 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 23, 11 )
@@ -41,10 +40,10 @@ extents = Vector2( 23, 11 )
 extents = Vector2( 6, 8 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 27, 13 )
+extents = Vector2( 25, 15 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 18 )
+extents = Vector2( 23, 20 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -107,7 +106,6 @@ hframes = 138
 frame = 124
 
 [node name="StateTree" type="Node" parent="."]
-script = ExtResource( 25 )
 
 [node name="Idle" type="Node" parent="StateTree"]
 script = ExtResource( 5 )

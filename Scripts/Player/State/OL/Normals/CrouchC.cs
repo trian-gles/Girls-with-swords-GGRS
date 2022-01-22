@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class OLCrouchC : BaseAttack
+public class CrouchC : BaseAttack
 {
 	public override void _Ready()
 	{

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class OLCrouchA : BaseAttack
+public class CrouchA : BaseAttack
 {
 	public override void _Ready()
 	{

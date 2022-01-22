@@ -10,15 +10,15 @@
 [ext_resource path="res://Scripts/Player/State/OL/Specials/CommandRun.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Movesets/OL Moveset Gray 1-13.png" type="Texture" id=10]
-[ext_resource path="res://Scripts/Player/State/CrouchB.cs" type="Script" id=11]
-[ext_resource path="res://Scripts/Player/State/Slash.cs" type="Script" id=12]
-[ext_resource path="res://Scripts/Player/State/CrouchA.cs" type="Script" id=13]
-[ext_resource path="res://Scripts/Player/State/JumpA.cs" type="Script" id=14]
-[ext_resource path="res://Scripts/Player/State/JumpB.cs" type="Script" id=15]
-[ext_resource path="res://Scripts/Player/State/Kick.cs" type="Script" id=16]
-[ext_resource path="res://Scripts/Player/State/CrouchC.cs" type="Script" id=17]
-[ext_resource path="res://Scripts/Player/State/Jab.cs" type="Script" id=18]
-[ext_resource path="res://Scripts/Player/State/JumpC.cs" type="Script" id=19]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/CrouchB.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/Slash.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/CrouchA.cs" type="Script" id=13]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/JumpA.cs" type="Script" id=14]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/JumpB.cs" type="Script" id=15]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/Kick.cs" type="Script" id=16]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/CrouchC.cs" type="Script" id=17]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/Jab.cs" type="Script" id=18]
+[ext_resource path="res://Scripts/Player/State/OL/Normals/JumpC.cs" type="Script" id=19]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -783,7 +783,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 35, 15 ) ]
+"values": [ Vector2( 35, 25 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HitBoxes/HitB1:position")
@@ -795,7 +795,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -1, -9 ) ]
+"values": [ Vector2( -1, -7 ) ]
 }
 
 [sub_resource type="Animation" id=36]
@@ -2078,7 +2078,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 35, 15 ) ]
+"values": [ Vector2( 35, 25 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
@@ -2102,7 +2102,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -1, -9 ) ]
+"values": [ Vector2( -1, -6 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
@@ -2755,7 +2755,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 6, 15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, true, true ]
+"values": [ true, false, true ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("HitBoxes/HitB3:disabled")
@@ -4486,25 +4486,16 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( 0, 1 )
-
-[node name="HitB2" parent="HitBoxes" index="1"]
-disabled = false
-
-[node name="HitB3" parent="HitBoxes" index="2"]
-disabled = false
+position = Vector2( -8, 8 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 38, 26 )
-
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( -25, -15 )
+disabled = false
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 150
-frame = 51
+frame = 130
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
@@ -4526,6 +4517,7 @@ launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
+minLen = 6
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 7 )
@@ -4543,60 +4535,55 @@ script = ExtResource( 5 )
 script = ExtResource( 18 )
 hitStun = 12
 hitPush = 2000
-dmg = 2
-prorationLevel = 1
+dmg = 4
 
 [node name="Kick" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 16 )
 hitStun = 14
-blockStun = 13
 hitPush = 2000
-dmg = 4
+dmg = 5
 
 [node name="Slash" type="Node" parent="StateTree" index="26"]
 script = ExtResource( 12 )
 hitStun = 18
 hitPush = 2000
-dmg = 8
+dmg = 7
 
 [node name="JumpA" type="Node" parent="StateTree" index="27"]
 script = ExtResource( 14 )
 hitStun = 12
 hitPush = 2000
-height = 2
-dmg = 2
+dmg = 4
 
 [node name="JumpB" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 15 )
-hitStun = 14
-hitPush = 3000
-height = 2
-dmg = 4
+hitStun = 16
+hitPush = 2000
+dmg = 5
 
 [node name="JumpC" type="Node" parent="StateTree" index="29"]
 script = ExtResource( 19 )
-hitStun = 18
-hitPush = 4000
-height = 2
+hitStun = 20
+blockStun = 18
+hitPush = 2000
 dmg = 7
 
 [node name="CrouchA" type="Node" parent="StateTree" index="30"]
 script = ExtResource( 13 )
 hitStun = 12
 hitPush = 2000
-dmg = 2
-prorationLevel = 2
+dmg = 4
 
 [node name="CrouchB" type="Node" parent="StateTree" index="31"]
 script = ExtResource( 11 )
 hitStun = 14
-hitPush = 300
+hitPush = 2000
 height = 0
-dmg = 4
+dmg = 6
 
 [node name="CrouchC" type="Node" parent="StateTree" index="32"]
 script = ExtResource( 17 )
-hitStun = 16
+hitStun = 18
 hitPush = 2000
 dmg = 7
 knockdown = true

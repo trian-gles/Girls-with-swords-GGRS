@@ -1,15 +1,24 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/ExampleCode.shader" type="Shader" id=3]
-[ext_resource path="res://Scripts/Player/State/OL/DP.cs" type="Script" id=4]
-[ext_resource path="res://Scripts/Player/State/OL/Hadouken.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/Player/State/OL/AntiAir.cs" type="Script" id=6]
-[ext_resource path="res://Scripts/Player/State/OL/Hojogiri.cs" type="Script" id=7]
-[ext_resource path="res://Scripts/Player/State/OL/CommandRun.cs" type="Script" id=8]
+[ext_resource path="res://Scripts/Player/State/OL/Specials/DP.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Player/State/OL/Specials/Hadouken.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Player/State/OL/Specials/AntiAir.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/Player/State/OL/Specials/Hojogiri.cs" type="Script" id=7]
+[ext_resource path="res://Scripts/Player/State/OL/Specials/CommandRun.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Movesets/OL Moveset Gray 1-13.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/Player/State/CrouchB.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Player/State/Slash.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Player/State/CrouchA.cs" type="Script" id=13]
+[ext_resource path="res://Scripts/Player/State/JumpA.cs" type="Script" id=14]
+[ext_resource path="res://Scripts/Player/State/JumpB.cs" type="Script" id=15]
+[ext_resource path="res://Scripts/Player/State/Kick.cs" type="Script" id=16]
+[ext_resource path="res://Scripts/Player/State/CrouchC.cs" type="Script" id=17]
+[ext_resource path="res://Scripts/Player/State/Jab.cs" type="Script" id=18]
+[ext_resource path="res://Scripts/Player/State/JumpC.cs" type="Script" id=19]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -4497,10 +4506,7 @@ texture = ExtResource( 10 )
 hframes = 150
 frame = 51
 
-[node name="JumpC" parent="StateTree" index="16"]
-hitStun = 18
-
-[node name="DP" type="Node" parent="StateTree" index="28"]
+[node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
 hitStun = 31
 opponentLaunch = Vector2( 0, -800 )
@@ -4509,7 +4515,7 @@ dmg = 8
 prorationLevel = 1
 launch = Vector2( 150, -800 )
 
-[node name="AntiAir" type="Node" parent="StateTree" index="29"]
+[node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 hitStun = 31
 opponentLaunch = Vector2( 0, -700 )
@@ -4518,10 +4524,10 @@ dmg = 7
 prorationLevel = 1
 launch = Vector2( 0, -400 )
 
-[node name="CommandRun" type="Node" parent="StateTree" index="30"]
+[node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
 
-[node name="Hojogiri" type="Node" parent="StateTree" index="31"]
+[node name="Hojogiri" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 7 )
 hitStun = 18
 blockStun = 18
@@ -4530,8 +4536,70 @@ dmg = 8
 knockdown = true
 prorationLevel = 1
 
-[node name="Hadouken" type="Node" parent="StateTree" index="32"]
+[node name="Hadouken" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 5 )
+
+[node name="Jab" type="Node" parent="StateTree" index="24"]
+script = ExtResource( 18 )
+hitStun = 12
+hitPush = 2000
+dmg = 2
+prorationLevel = 1
+
+[node name="Kick" type="Node" parent="StateTree" index="25"]
+script = ExtResource( 16 )
+hitStun = 14
+blockStun = 13
+hitPush = 2000
+dmg = 4
+
+[node name="Slash" type="Node" parent="StateTree" index="26"]
+script = ExtResource( 12 )
+hitStun = 18
+hitPush = 2000
+dmg = 8
+
+[node name="JumpA" type="Node" parent="StateTree" index="27"]
+script = ExtResource( 14 )
+hitStun = 12
+hitPush = 2000
+height = 2
+dmg = 2
+
+[node name="JumpB" type="Node" parent="StateTree" index="28"]
+script = ExtResource( 15 )
+hitStun = 14
+hitPush = 3000
+height = 2
+dmg = 4
+
+[node name="JumpC" type="Node" parent="StateTree" index="29"]
+script = ExtResource( 19 )
+hitStun = 18
+hitPush = 4000
+height = 2
+dmg = 7
+
+[node name="CrouchA" type="Node" parent="StateTree" index="30"]
+script = ExtResource( 13 )
+hitStun = 12
+hitPush = 2000
+dmg = 2
+prorationLevel = 2
+
+[node name="CrouchB" type="Node" parent="StateTree" index="31"]
+script = ExtResource( 11 )
+hitStun = 14
+hitPush = 300
+height = 0
+dmg = 4
+
+[node name="CrouchC" type="Node" parent="StateTree" index="32"]
+script = ExtResource( 17 )
+hitStun = 16
+hitPush = 2000
+dmg = 7
+knockdown = true
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )

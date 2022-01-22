@@ -104,7 +104,7 @@ public class MainScene : Node2D
 			//GGPO Config
 			//int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
-
+			statsText.Visible = true;
 			GGRS.Call("create_session", localPort, PLAYERNUMBERS);
 
 

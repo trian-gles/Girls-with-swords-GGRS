@@ -1,10 +1,11 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
 [ext_resource path="res://Scripts/Player/State/Walk.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Player/State/DoubleJump.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/Player/State/Idle.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Player/State/PostRun.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/State/HitStun.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/State/Block.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/State/Fall.cs" type="Script" id=9]
@@ -32,19 +33,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 35 )
+extents = Vector2( 14, 30 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23, 11 )
+extents = Vector2( 7, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 8 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 25, 15 )
+extents = Vector2( 30, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 23, 20 )
+extents = Vector2( 32, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -171,6 +172,9 @@ script = ExtResource( 41 )
 
 [node name="DoubleJump" type="Node" parent="StateTree"]
 script = ExtResource( 4 )
+
+[node name="PostRun" type="Node" parent="StateTree"]
+script = ExtResource( 6 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

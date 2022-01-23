@@ -10,7 +10,9 @@ public class Fall : State
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
 		AddGatling(new[] { 's', 'p' }, "JumpC");
-		AddGatling(new[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => { owner.canDoubleJump = false; });
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () => owner.velocity.x = owner.speed);
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () => owner.velocity.x = -owner.speed);
+		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump");
 	}
 	public override void FrameAdvance()
 	{

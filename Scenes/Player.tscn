@@ -1,8 +1,9 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
 [ext_resource path="res://Scripts/Player/State/Walk.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Player/State/DoubleJump.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/Player/State/Idle.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/State/HitStun.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/State/Block.cs" type="Script" id=8]
@@ -31,7 +32,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 33 )
+extents = Vector2( 14, 35 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 23, 11 )
@@ -52,7 +53,6 @@ extents = Vector2( 11, 20 )
 script = ExtResource( 1 )
 speed = 200
 dashSpeed = 400
-jumpForce = 900
 gravity = 100
 hitPushSpeed = 200
 
@@ -168,6 +168,9 @@ script = ExtResource( 40 )
 
 [node name="CounterFloat" type="Node" parent="StateTree"]
 script = ExtResource( 41 )
+
+[node name="DoubleJump" type="Node" parent="StateTree"]
+script = ExtResource( 4 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

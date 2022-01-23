@@ -3,18 +3,22 @@ using System;
 
 public class Jump : State
 {
+
+	[Export]
+	public int jumpForce = 700;
 	public override void Enter()
 	{
 		base.Enter();
-		owner.velocity.y = -1 * owner.jumpForce;
+		owner.velocity.y = -1 * jumpForce;
 		owner.grounded = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
 
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
 		AddGatling(new[] { 's', 'p' }, "JumpC");
-		AddGatling(new[] { '8', 'p' }, () => owner.canDoubleJump, "Jump", () => { owner.canDoubleJump = false; });
+		AddGatling(new[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => { owner.canDoubleJump = false; });
 	}
+
 
 	public override void FrameAdvance()
 	{

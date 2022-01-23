@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scripts/Player/State/Fall.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Player/State/MovingJump.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Player/State/Jump.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Player/State/AirDash.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Player/State/BaseAttack.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/Player/State/Crouch.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/State/CrouchBlock.cs" type="Script" id=18]
@@ -33,7 +34,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 30 )
+extents = Vector2( 15, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 10 )
@@ -175,6 +176,9 @@ script = ExtResource( 4 )
 
 [node name="PostRun" type="Node" parent="StateTree"]
 script = ExtResource( 6 )
+
+[node name="AirDash" type="Node" parent="StateTree"]
+script = ExtResource( 12 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

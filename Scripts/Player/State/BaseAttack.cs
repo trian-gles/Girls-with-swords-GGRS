@@ -127,7 +127,7 @@ public abstract class BaseAttack : State
 	protected override void EnterHitState(bool knockdown, Vector2 launch)
 	{
 		bool launchBool = false;
-
+		owner.ComboUp();
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
 		{
 			//GD.Print("Launch is not zero!");

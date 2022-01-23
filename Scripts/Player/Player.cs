@@ -830,12 +830,14 @@ public class Player : Node2D
 	{
 		combo = 0;
 		proration = 8;
+		GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void ComboUp()
 	{
 		combo++;
+		GD.Print($"combo {combo}");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 

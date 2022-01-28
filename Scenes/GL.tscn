@@ -18,9 +18,35 @@ resource_name = "AirKnockdown"
 
 [sub_resource type="Animation" id=3]
 resource_name = "Backdash"
+length = 14.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 14 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 95, 0 ), Vector2( 101, 0 ) ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Block"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 58, 0 ) ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "CounterFloat"
@@ -30,21 +56,100 @@ resource_name = "CounterHit"
 
 [sub_resource type="Animation" id=7]
 resource_name = "Crouch"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 140, 0 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 resource_name = "CrouchA"
+length = 8.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 133, 0 ), Vector2( 139, 0 ) ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "CrouchB"
+length = 12.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 119, 0 ), Vector2( 124, 0 ) ]
+}
 
 [sub_resource type="Animation" id=10]
 resource_name = "CrouchBlock"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 147, 0 ), Vector2( 148, 0 ) ]
+}
 
 [sub_resource type="Animation" id=11]
 resource_name = "CrouchC"
+length = 20.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 175, 0 ), Vector2( 186, 0 ) ]
+}
 
 [sub_resource type="Animation" id=12]
 resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 63, 0 ) ]
+}
 
 [sub_resource type="Animation" id=13]
 resource_name = "Float"
@@ -104,9 +209,10 @@ material = SubResource( 1 )
 position = Vector2( 1, -57 )
 texture = ExtResource( 2 )
 hframes = 215
-frame = 0
+frame = 63
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
+playback_speed = 60.0
 anims/AirKnockdown = SubResource( 2 )
 anims/Backdash = SubResource( 3 )
 anims/Block = SubResource( 4 )

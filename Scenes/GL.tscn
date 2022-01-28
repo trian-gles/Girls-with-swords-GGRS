@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Paletizer Exports/GL Gray 1-27.png" type="Texture" id=2]
@@ -488,6 +488,23 @@ tracks/0/keys = {
 "values": [ 35 ]
 }
 
+[sub_resource type="Animation" id=39]
+resource_name = "PreRun"
+length = 10.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 31, 40 ]
+}
+
 [sub_resource type="Animation" id=29]
 length = 0.001
 tracks/0/type = "value"
@@ -517,7 +534,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 90 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 31, 57 ]
+"values": [ 40, 57 ]
 }
 
 [sub_resource type="Animation" id=27]
@@ -597,6 +614,7 @@ anims/Kick = SubResource( 23 )
 anims/Knockdown = SubResource( 24 )
 anims/MovingJump = SubResource( 35 )
 anims/PostRun = SubResource( 36 )
+anims/PreRun = SubResource( 39 )
 anims/RESET = SubResource( 29 )
 anims/Run = SubResource( 26 )
 anims/Slash = SubResource( 27 )

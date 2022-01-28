@@ -4837,19 +4837,22 @@ tracks/8/keys = {
 gravity = 40
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -8, 8 )
+position = Vector2( -1, 12 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-disabled = false
+position = Vector2( 2, -16 )
+
+[node name="HurtB2" parent="HurtBoxes" index="1"]
+position = Vector2( -2, -31 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 150
-frame = 130
+frame = 28
 
 [node name="Jump" parent="StateTree" index="4"]
 jumpForce = 800
@@ -4877,7 +4880,7 @@ launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
-minLen = 6
+maxLen = 10
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 7 )

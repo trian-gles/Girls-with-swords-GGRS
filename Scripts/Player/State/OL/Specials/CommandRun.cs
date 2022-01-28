@@ -56,7 +56,7 @@ public class CommandRun : State
 		base.FrameAdvance();
 		if (frameCount > maxLen)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			EmitSignal(nameof(StateFinished), "Hojogiri");
 		}
 		
 	}

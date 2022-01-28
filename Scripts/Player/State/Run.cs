@@ -15,19 +15,20 @@ public class Run : Walk
 	public override void Enter()
 	{
 		base.Enter();
+		owner.velocity.x *= 2;
 		if (owner.CheckHeldKey('8'))
 		{
 			EmitSignal(nameof(StateFinished), "MovingJump");
+		}
+		if (!owner.CheckHeldKey('6') && !owner.CheckHeldKey('4')) // this will need to be fixed
+		{
+			EmitSignal(nameof(StateFinished), "PostRun");
 		}
 	}
 
 	public override void FrameAdvance()
 	{
 		frameCount++;
-		if (frameCount == 5)
-		{
-			owner.velocity.x *= 2;
-		}
 
 		if (frameCount % soundRate == 0)
 		{

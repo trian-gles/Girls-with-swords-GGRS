@@ -1,8 +1,14 @@
 using Godot;
 using System;
 
-public class JumpC : BaseAttack
+public class JumpC : AirAttack
 {
+
+	public override void Enter()
+	{
+		base.Enter();
+		AddJumpCancel();
+	}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();

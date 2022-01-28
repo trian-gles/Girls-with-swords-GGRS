@@ -46,7 +46,7 @@ public abstract class BaseAttack : State
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 	}
 
-	protected void AddJumpCancel()
+	protected virtual void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), "Jump", () => owner.velocity.x = owner.speed);
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), "Jump", () => owner.velocity.x = -owner.speed);
@@ -127,7 +127,7 @@ public abstract class BaseAttack : State
 	protected override void EnterHitState(bool knockdown, Vector2 launch)
 	{
 		bool launchBool = false;
-
+		owner.ComboUp();
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
 		{
 			//GD.Print("Launch is not zero!");

@@ -87,6 +87,7 @@ public abstract class State : Node
 		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
 		public PostInputCallback postCall;
 		public bool preventMash;
+		public bool flipInputs; // if this input should change depending on which way we are facing
 	}
 
 	protected char[] ReverseInput(char[] inp)
@@ -164,25 +165,41 @@ public abstract class State : Node
 		normalGatlings.Add(newGatling);
 	}
 
-	protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true)
+	protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
 		{
 			inputs = inputs,
 			state = state,
-			preventMash = preventMash
+			preventMash = preventMash,
+			flipInputs = flipInputs
 		};
 		commandGatlings.Add(newGatling);
 	}
 
-	protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall, bool preventMash = true)
+	protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
 		{
 			inputs = inputs,
 			state = state,
 			postCall = postCall,
-			preventMash = preventMash
+			preventMash = preventMash,
+			flipInputs = flipInputs
+		};
+		commandGatlings.Add(newGatling);
+	}
+
+	protected void AddGatling(List<char[]> inputs, RequiredConditionCallback reqCall, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
+	{
+		var newGatling = new CommandGatling
+		{
+			inputs = inputs,
+			state = state,
+			postCall = postCall,
+			preventMash = preventMash,
+			reqCall = reqCall,
+			flipInputs = flipInputs
 		};
 		commandGatlings.Add(newGatling);
 	}
@@ -191,7 +208,7 @@ public abstract class State : Node
 		foreach (CommandGatling comGat in commandGatlings)
 		{
 			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
-			if (!owner.facingRight)
+			if (!owner.facingRight && comGat.flipInputs)
 			{
 				firstInp = ReverseInput(firstInp);
 			}
@@ -200,7 +217,7 @@ public abstract class State : Node
 			{
 				List<char[]> testedInputs = comGat.inputs;
 
-				if (!owner.facingRight)
+				if (!owner.facingRight && comGat.flipInputs)
 				{
 					testedInputs = ReverseInputs(testedInputs);
 				}

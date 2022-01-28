@@ -1,28 +1,22 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
 [ext_resource path="res://Scripts/Player/State/Walk.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Player/State/DoubleJump.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/Player/State/Idle.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/Player/State/Kick.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/Player/State/PostRun.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/State/HitStun.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/State/Block.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/State/Fall.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Player/State/MovingJump.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Player/State/Jump.cs" type="Script" id=11]
-[ext_resource path="res://Scripts/Player/State/JumpB.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Player/State/AirDash.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Player/State/BaseAttack.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/Player/State/Crouch.cs" type="Script" id=14]
-[ext_resource path="res://Scripts/Player/State/CrouchA.cs" type="Script" id=15]
-[ext_resource path="res://Scripts/Player/State/CrouchC.cs" type="Script" id=16]
 [ext_resource path="res://Scripts/Player/State/CrouchBlock.cs" type="Script" id=18]
 [ext_resource path="res://Scripts/Player/State/Backdash.cs" type="Script" id=19]
-[ext_resource path="res://Scripts/Player/State/Jab.cs" type="Script" id=21]
-[ext_resource path="res://Scripts/Player/State/JumpA.cs" type="Script" id=22]
-[ext_resource path="res://Scripts/Player/State/JumpC.cs" type="Script" id=23]
 [ext_resource path="res://Scripts/Player/State/Knockdown.cs" type="Script" id=24]
-[ext_resource path="res://Scripts/Player/State/CrouchB.cs" type="Script" id=25]
-[ext_resource path="res://Scripts/Player/State/Slash.cs" type="Script" id=26]
 [ext_resource path="res://Scripts/Player/State/Run.cs" type="Script" id=27]
 [ext_resource path="res://Scripts/Player/State/Grab.cs" type="Script" id=29]
 [ext_resource path="res://Scripts/Player/State/Grabbed.cs" type="Script" id=30]
@@ -40,19 +34,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 38 )
+extents = Vector2( 15, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23, 11 )
+extents = Vector2( 7, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 8 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 27, 13 )
+extents = Vector2( 30, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 18 )
+extents = Vector2( 32, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -61,7 +55,6 @@ extents = Vector2( 11, 20 )
 script = ExtResource( 1 )
 speed = 200
 dashSpeed = 400
-jumpForce = 900
 gravity = 100
 hitPushSpeed = 200
 
@@ -115,7 +108,6 @@ hframes = 138
 frame = 124
 
 [node name="StateTree" type="Node" parent="."]
-script = ExtResource( 25 )
 
 [node name="Idle" type="Node" parent="StateTree"]
 script = ExtResource( 5 )
@@ -151,68 +143,6 @@ script = ExtResource( 18 )
 [node name="Crouch" type="Node" parent="StateTree"]
 script = ExtResource( 14 )
 
-[node name="Jab" type="Node" parent="StateTree"]
-script = ExtResource( 21 )
-hitStun = 12
-hitPush = 2000
-dmg = 2
-prorationLevel = 1
-
-[node name="Kick" type="Node" parent="StateTree"]
-script = ExtResource( 6 )
-hitStun = 14
-blockStun = 13
-hitPush = 2000
-dmg = 4
-
-[node name="Slash" type="Node" parent="StateTree"]
-script = ExtResource( 26 )
-hitStun = 18
-hitPush = 2000
-dmg = 8
-
-[node name="JumpA" type="Node" parent="StateTree"]
-script = ExtResource( 22 )
-hitStun = 12
-hitPush = 2000
-height = 2
-dmg = 2
-
-[node name="JumpB" type="Node" parent="StateTree"]
-script = ExtResource( 12 )
-hitStun = 14
-hitPush = 3000
-height = 2
-dmg = 4
-
-[node name="JumpC" type="Node" parent="StateTree"]
-script = ExtResource( 23 )
-hitStun = 16
-hitPush = 4000
-height = 2
-dmg = 7
-
-[node name="CrouchA" type="Node" parent="StateTree"]
-script = ExtResource( 15 )
-hitStun = 12
-hitPush = 2000
-dmg = 2
-prorationLevel = 2
-
-[node name="CrouchB" type="Node" parent="StateTree"]
-script = ExtResource( 25 )
-hitStun = 14
-hitPush = 300
-height = 0
-dmg = 4
-
-[node name="CrouchC" type="Node" parent="StateTree"]
-script = ExtResource( 16 )
-hitStun = 16
-hitPush = 2000
-dmg = 7
-knockdown = true
-
 [node name="Grab" type="Node" parent="StateTree"]
 script = ExtResource( 29 )
 releaseFrame = 45
@@ -240,6 +170,15 @@ script = ExtResource( 40 )
 
 [node name="CounterFloat" type="Node" parent="StateTree"]
 script = ExtResource( 41 )
+
+[node name="DoubleJump" type="Node" parent="StateTree"]
+script = ExtResource( 4 )
+
+[node name="PostRun" type="Node" parent="StateTree"]
+script = ExtResource( 6 )
+
+[node name="AirDash" type="Node" parent="StateTree"]
+script = ExtResource( 12 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

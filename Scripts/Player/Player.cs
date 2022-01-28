@@ -28,9 +28,6 @@ public class Player : Node2D
 	public int dashSpeed = 700;
 
 	[Export]
-	public int jumpForce = 700;
-
-	[Export]
 	public int gravity = 50; 
 
 	[Export]
@@ -59,6 +56,7 @@ public class Player : Node2D
 	public bool grounded;
 	private int combo = 0;
 	public int proration = 8;
+	public bool canDoubleJump;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -72,6 +70,7 @@ public class Player : Node2D
 		public List<char> heldKeys { get; set; }
 		public string currentState { get; set; }
 		public Dictionary<string, int> stateData { get; set; }
+		public bool canDoubleJump { get; set; }
 		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
@@ -207,7 +206,7 @@ public class Player : Node2D
 			pState.heldKeys.Add(c);
 		}
 
-
+		pState.canDoubleJump = canDoubleJump;
 		pState.currentState = currentState.Name;
 		pState.stateData = currentState.Save();
 		pState.frameCount = currentState.frameCount;
@@ -242,6 +241,7 @@ public class Player : Node2D
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;
+		canDoubleJump = pState.canDoubleJump;
 
 		health = pState.health;
 		EmitSignal(nameof(HealthChanged), Name, health);
@@ -830,12 +830,14 @@ public class Player : Node2D
 	{
 		combo = 0;
 		proration = 8;
+		GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void ComboUp()
 	{
 		combo++;
+		GD.Print($"combo {combo}");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GL Moveset 11-23.png-03ab2770bf317db1b93c8aa95e31d96b.stex"
+path="res://.import/GL Default Color 1-27.png-73001038fe209ba8c36e496bc30dfe8c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/GL Moveset 11-23.png"
-dest_files=[ "res://.import/GL Moveset 11-23.png-03ab2770bf317db1b93c8aa95e31d96b.stex" ]
+source_file="res://Sprites/Paletizer Exports/GL Default Color 1-27.png"
+dest_files=[ "res://.import/GL Default Color 1-27.png-73001038fe209ba8c36e496bc30dfe8c.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GL Moveset-Sheet.png-447e1db6a861da2f57bbeb55c057d74c.stex"
+path="res://.import/GL Gray 1-27.png-1017e045779baa2ffa196c77ceb0811a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/GL Moveset-Sheet.png"
-dest_files=[ "res://.import/GL Moveset-Sheet.png-447e1db6a861da2f57bbeb55c057d74c.stex" ]
+source_file="res://Sprites/Paletizer Exports/GL Gray 1-27.png"
+dest_files=[ "res://.import/GL Gray 1-27.png-1017e045779baa2ffa196c77ceb0811a.stex" ]
 
 [params]
 

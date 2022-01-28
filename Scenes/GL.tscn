@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Movesets/GL Moveset 11-23_gray.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Paletizer Exports/GL Gray 1-27.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Paletizer Exports/GL Default Color 1-27.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/ExampleCode.shader" type="Shader" id=4]
 [ext_resource path="res://Scripts/Player/AnimationPlayer.cs" type="Script" id=5]
 
@@ -13,6 +13,87 @@ shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 3 )
 
+[sub_resource type="Animation" id=2]
+resource_name = "AirKnockdown"
+
+[sub_resource type="Animation" id=3]
+resource_name = "Backdash"
+
+[sub_resource type="Animation" id=4]
+resource_name = "Block"
+
+[sub_resource type="Animation" id=5]
+resource_name = "CounterFloat"
+
+[sub_resource type="Animation" id=6]
+resource_name = "CounterHit"
+
+[sub_resource type="Animation" id=7]
+resource_name = "Crouch"
+
+[sub_resource type="Animation" id=8]
+resource_name = "CrouchA"
+
+[sub_resource type="Animation" id=9]
+resource_name = "CrouchB"
+
+[sub_resource type="Animation" id=10]
+resource_name = "CrouchBlock"
+
+[sub_resource type="Animation" id=11]
+resource_name = "CrouchC"
+
+[sub_resource type="Animation" id=12]
+resource_name = "Fall"
+
+[sub_resource type="Animation" id=13]
+resource_name = "Float"
+
+[sub_resource type="Animation" id=14]
+resource_name = "Grab"
+
+[sub_resource type="Animation" id=15]
+resource_name = "Grabbed"
+
+[sub_resource type="Animation" id=16]
+resource_name = "HitStun"
+
+[sub_resource type="Animation" id=17]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id=18]
+resource_name = "Jab"
+
+[sub_resource type="Animation" id=19]
+resource_name = "Jump"
+
+[sub_resource type="Animation" id=20]
+resource_name = "JumpA"
+
+[sub_resource type="Animation" id=21]
+resource_name = "JumpB"
+
+[sub_resource type="Animation" id=22]
+resource_name = "JumpC"
+
+[sub_resource type="Animation" id=23]
+resource_name = "Kick"
+
+[sub_resource type="Animation" id=24]
+resource_name = "Knockdown"
+
+[sub_resource type="Animation" id=25]
+resource_name = "MovingJump"
+
+[sub_resource type="Animation" id=26]
+resource_name = "Run"
+
+[sub_resource type="Animation" id=27]
+resource_name = "Slash"
+
+[sub_resource type="Animation" id=28]
+resource_name = "Walk"
+
 [node name="Player" instance=ExtResource( 1 )]
 
 [node name="HitB1" parent="HitBoxes" index="0"]
@@ -22,8 +103,35 @@ position = Vector2( 0, -2 )
 material = SubResource( 1 )
 position = Vector2( 1, -57 )
 texture = ExtResource( 2 )
-hframes = 118
+hframes = 215
 frame = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
+anims/AirKnockdown = SubResource( 2 )
+anims/Backdash = SubResource( 3 )
+anims/Block = SubResource( 4 )
+anims/CounterFloat = SubResource( 5 )
+anims/CounterHit = SubResource( 6 )
+anims/Crouch = SubResource( 7 )
+anims/CrouchA = SubResource( 8 )
+anims/CrouchB = SubResource( 9 )
+anims/CrouchBlock = SubResource( 10 )
+anims/CrouchC = SubResource( 11 )
+anims/Fall = SubResource( 12 )
+anims/Float = SubResource( 13 )
+anims/Grab = SubResource( 14 )
+anims/Grabbed = SubResource( 15 )
+anims/HitStun = SubResource( 16 )
+anims/Idle = SubResource( 17 )
+anims/Jab = SubResource( 18 )
+anims/Jump = SubResource( 19 )
+anims/JumpA = SubResource( 20 )
+anims/JumpB = SubResource( 21 )
+anims/JumpC = SubResource( 22 )
+anims/Kick = SubResource( 23 )
+anims/Knockdown = SubResource( 24 )
+anims/MovingJump = SubResource( 25 )
+anims/Run = SubResource( 26 )
+anims/Slash = SubResource( 27 )
+anims/Walk = SubResource( 28 )
 script = ExtResource( 5 )

@@ -121,7 +121,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=11]
 resource_name = "CrouchC"
-length = 20.0
+length = 25.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -130,7 +130,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 20 ),
+"times": PoolRealArray( 0, 25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 175, 0 ), Vector2( 186, 0 ) ]
@@ -209,7 +209,7 @@ material = SubResource( 1 )
 position = Vector2( 1, -57 )
 texture = ExtResource( 2 )
 hframes = 215
-frame = 63
+frame = 186
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

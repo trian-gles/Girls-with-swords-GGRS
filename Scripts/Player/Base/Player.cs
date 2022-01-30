@@ -28,6 +28,9 @@ public class Player : Node2D
 	public int dashSpeed = 700;
 
 	[Export]
+	public int jumpForce = 800;
+
+	[Export]
 	public int gravity = 50; 
 
 	[Export]
@@ -42,10 +45,14 @@ public class Player : Node2D
 	[Export]
 	public string debugKeys = "6";
 
+	[Export]
+	public string charName;
+
 	[Export(PropertyHint.Range, "0,3,0")]
 	private int colorScheme;
 
 	private InputHandler inputHandler;
+	private HashSet<string> altState = new HashSet<string>();
 
 	// All of these will be stored in gamestate
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
@@ -180,6 +187,7 @@ public class Player : Node2D
 		var resource = ResourceLoader.Load(path);
 		shaderMaterial.SetShaderParam("palette", resource);
 		GD.Print(shaderMaterial.GetShaderParam("palette"));
+		
 	}
 
 	public PlayerState GetState()
@@ -452,15 +460,18 @@ public class Player : Node2D
 	{
 		currentState.Exit();
 		animationPlayer.NewAnimation(nextStateName);
+		if (altState.Contains(nextStateName))
+			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
 		if (grounded)
 		{
 			CheckTurnAround();
 		}
 		currentState.Enter();
-		
-
 	}
+
+	protected void AddAltState(string baseState)
+	{ altState.Add(baseState); }
 
 	public void AnimationFinished(string animName) 
 	{

@@ -13,9 +13,6 @@ public class Crouch : State
         AddGatling(new[] { 'p', 'p' }, "CrouchA");
         AddGatling(new[] { 'k', 'p' }, "CrouchB");
         AddGatling(new[] { 's', 'p' }, "CrouchC");
-        AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP");
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] {'k', 'p' } }, "CommandRun");
-        AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "AntiAir");
     }
     public override void Enter()
     {

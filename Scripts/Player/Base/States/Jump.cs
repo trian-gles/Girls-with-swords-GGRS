@@ -4,13 +4,10 @@ using System.Collections.Generic;
 
 public class Jump : State
 {
-
-	[Export]
-	public int jumpForce = 700;
 	public override void Enter()
 	{
 		base.Enter();
-		owner.velocity.y = -1 * jumpForce;
+		owner.velocity.y = -1 * owner.jumpForce;
 		owner.grounded = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
 

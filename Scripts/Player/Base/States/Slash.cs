@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
-public class GLCrouchC : BaseAttack
+public class Slash : GroundAttack
 {
 	public override void _Ready()
 	{
 		base._Ready();
 		AddJumpCancel();
 	}
+
 }

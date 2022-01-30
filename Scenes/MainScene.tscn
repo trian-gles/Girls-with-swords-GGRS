@@ -13,13 +13,13 @@
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=12]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=13]
-[ext_resource path="res://Scenes/OL.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 2.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 5.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=18]
 [ext_resource path="res://GodotGGRS.gdns" type="Script" id=19]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scenes/GL.tscn" type="PackedScene" id=21]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 11 )
@@ -35,6 +35,10 @@ default_font = ExtResource( 11 )
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": "P1 - 133, 240
+P2 - 330, 240"
+}
 p2InputLoop = PoolIntArray( 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
@@ -199,12 +203,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="P1" parent="." instance=ExtResource( 14 )]
+[node name="P1" parent="." instance=ExtResource( 21 )]
 position = Vector2( 133, 240 )
+charName = "GL"
+colorScheme = 3
 
-[node name="P2" parent="." instance=ExtResource( 14 )]
+[node name="P2" parent="." instance=ExtResource( 21 )]
 position = Vector2( 330, 240 )
-colorScheme = 1
+charName = "GL"
+colorScheme = 3
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2( 240, 125 )

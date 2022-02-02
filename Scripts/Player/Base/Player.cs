@@ -717,10 +717,12 @@ public class Player : Node2D
 		if (OtherPlayerOnLeft() && facingRight)
 		{
 			TurnLeft();
+			GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
 		}
 		else if (OtherPlayerOnRight() && !facingRight) 
 		{
 			TurnRight();
+			GetNode<Sprite>("Sprite").Scale = new Vector2(3, 3);
 		}
 	}
 
@@ -728,7 +730,7 @@ public class Player : Node2D
 	{
 		facingRight = true;
 
-		GetNode<Sprite>("Sprite").FlipH = false;
+		//GetNode<Sprite>("Sprite").FlipH = false;
 
 		hurtBoxes.Scale = new Vector2(1, 1);
 		hitBoxes.Scale = new Vector2(1, 1);
@@ -738,7 +740,7 @@ public class Player : Node2D
 	{
 		facingRight = false;
 
-		GetNode<Sprite>("Sprite").FlipH = true;
+		//GetNode<Sprite>("Sprite").FlipH = true;
 
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);

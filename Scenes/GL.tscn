@@ -337,10 +337,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 16 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, -57 ) ]
+"values": [ Vector2( 1, -57 ), Vector2( 1, -47 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -366,10 +366,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, -57 ) ]
+"times": PoolRealArray( 0, 16, 19, 24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, -57 ), Vector2( 1, -54 ), Vector2( 1, -51 ), Vector2( 1, -45 ) ]
 }
 
 [sub_resource type="Animation" id=15]
@@ -602,10 +602,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, -57 ) ]
+"times": PoolRealArray( 0, 15, 18, 21, 24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, -57 ), Vector2( 1, -54 ), Vector2( 1, -51 ), Vector2( 1, -48 ), Vector2( 1, -44 ) ]
 }
 
 [sub_resource type="Animation" id=24]
@@ -771,10 +771,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, -57 ) ]
+"times": PoolRealArray( 0, 15, 18, 21, 24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, -57 ), Vector2( 1, -54 ), Vector2( 1, -50 ), Vector2( 1, -47 ), Vector2( 1, -44 ) ]
 }
 
 [sub_resource type="Animation" id=30]
@@ -954,10 +954,10 @@ visible = false
 [node name="Sprite" parent="." index="3"]
 show_behind_parent = true
 material = SubResource( 1 )
-position = Vector2( 2, -57 )
+position = Vector2( -1, -57 )
 texture = ExtResource( 2 )
 hframes = 215
-frame = 140
+frame = 62
 
 [node name="Grab" parent="StateTree" index="11"]
 releaseFrame = 20

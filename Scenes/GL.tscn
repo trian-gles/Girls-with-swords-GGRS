@@ -1935,10 +1935,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 6, 12 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 22, -24 ), Vector2( 18, -24 ), Vector2( -6, -38 ) ]
+"times": PoolRealArray( 0, 9, 12, 18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 35, -24 ), Vector2( 32, -34 ), Vector2( -6, -52 ), Vector2( -38, -52 ) ]
 }
 
 [sub_resource type="Animation" id=18]
@@ -4109,6 +4109,9 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 visible = false
 modulate = Color( 0, 1, 0.0156863, 1 )
 
+[node name="HurtBoxes" parent="." index="2"]
+visible = false
+
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
 position = Vector2( 12, -24 )
@@ -4125,16 +4128,16 @@ modulate = Color( 1, 0, 0, 1 )
 [node name="Sprite" parent="." index="3"]
 show_behind_parent = true
 material = SubResource( 1 )
-position = Vector2( 2, -54 )
+position = Vector2( 1, -57 )
 texture = ExtResource( 2 )
 hframes = 215
-frame = 114
+frame = 153
 
 [node name="Grab" parent="StateTree" index="11"]
 releaseFrame = 20
 
 [node name="GrabPos" parent="." index="6"]
-position = Vector2( 22, -24 )
+position = Vector2( -38, -52 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

@@ -47,11 +47,11 @@ public class Fall : State
 			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
 			EmitSignal(nameof(StateFinished), "Idle");
 		}
-		//owner.CheckTurnAround();
 		ApplyGravity();
 	}
 
 	public override void PushMovement(float _xVel)
 	{
 	}
+
 }

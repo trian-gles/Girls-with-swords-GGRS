@@ -3164,7 +3164,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 33 ),
+"times": PoolRealArray( 0, 34 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 201, 214 ]
@@ -3248,7 +3248,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 14, 22 ),
+"times": PoolRealArray( 0, 15, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -3260,7 +3260,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 14, 22 ),
+"times": PoolRealArray( 0, 15, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -3284,7 +3284,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 15 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 19, 16 ) ]
@@ -3296,7 +3296,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 15 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 55, 38 ) ]
@@ -3308,7 +3308,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 15 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 16, 19 ) ]
@@ -3320,7 +3320,7 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 15 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 37, 17 ) ]
@@ -4482,7 +4482,7 @@ visible = false
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 5 )
+position = Vector2( 2, 10 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 visible = false
@@ -4511,9 +4511,8 @@ modulate = Color( 1, 0, 0, 1 )
 [node name="Sprite" parent="." index="3"]
 show_behind_parent = true
 material = SubResource( 1 )
-position = Vector2( 0, -39 )
+position = Vector2( 0, -30 )
 texture = ExtResource( 2 )
-offset = Vector2( 1, 0 )
 hframes = 215
 frame = 149
 
@@ -4532,6 +4531,7 @@ hitPush = 6000
 dmg = 8
 prorationLevel = 1
 launch = Vector2( 150, -1000 )
+launchFrame = 10
 
 [node name="GLCrouch" type="Node" parent="StateTree" index="3"]
 script = ExtResource( 8 )

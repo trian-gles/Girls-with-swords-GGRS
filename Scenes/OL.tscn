@@ -4952,7 +4952,6 @@ script = ExtResource( 11 )
 speed = 200
 dashSpeed = 600
 hitPushSpeed = 200
-charName = "OL"
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -3, 7 )
@@ -4987,8 +4986,8 @@ launch = Vector2( 150, -800 )
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 hitStun = 31
-opponentLaunch = Vector2( 0, -700 )
-hitPush = 2000
+opponentLaunch = Vector2( 200, -700 )
+hitPush = 2500
 dmg = 7
 prorationLevel = 1
 launch = Vector2( 0, -400 )
@@ -5011,6 +5010,12 @@ script = ExtResource( 5 )
 
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )
+
+[node name="Kick" parent="StateTree" index="29"]
+hitPush = 2000
+
+[node name="Slash" parent="StateTree" index="30"]
+hitPush = 3000
 
 [node name="OLCrouchB" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 12 )

@@ -50,17 +50,18 @@ public class GameStateObject : Node
 		GD.Print("Starting GameState config");
 		this.P1 = P1;
 		this.P2 = P2;
+
 		this.mainScene = mainScene;
 		this.hosting = hosting;
 		P1.Connect("HitConfirm", this, nameof(HitStop));
 		P2.Connect("HitConfirm", this, nameof(HitStop));
 
+
 		P1.otherPlayer = P2;
 		P2.otherPlayer = P1;
 		P1.internalPos = P1.Position * 100;
-		GD.Print(P1.internalPos);
 		P2.internalPos = P2.Position * 100;
-		GD.Print(P2.internalPos);
+
 		P1.CheckTurnAround();
 		P2.CheckTurnAround();
 

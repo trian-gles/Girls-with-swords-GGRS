@@ -9,6 +9,9 @@ public class AirDash: Fall
 	[Export]
 	public int hopForce = 100;
 
+	[Export]
+	private int preAttackFrames = 6;
+
 	public override void Enter()
 	{
 		base.Enter();
@@ -24,4 +27,12 @@ public class AirDash: Fall
 			EmitSignal(nameof(StateFinished), "Fall");
 		}
 	}
+
+    public override void HandleInput(char[] inputArr)
+    {
+		if (frameCount > preAttackFrames)
+        {
+			base.HandleInput(inputArr);
+		}
+    }
 }

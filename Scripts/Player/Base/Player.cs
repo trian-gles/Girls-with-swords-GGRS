@@ -45,11 +45,10 @@ public class Player : Node2D
 	[Export]
 	public string debugKeys = "6";
 
-	[Export]
-	public string charName;
+	protected string charName;
 
 	[Export(PropertyHint.Range, "0,3,0")]
-	private int colorScheme;
+	public int colorScheme;
 
 	private InputHandler inputHandler;
 	private HashSet<string> altState = new HashSet<string>();
@@ -245,7 +244,14 @@ public class Player : Node2D
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
-		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
+
+		string animation = pState.currentState;
+		if (altState.Contains(animation.Substring(2)))
+		{
+			animation = animation.Substring(2);
+		}
+
+		animationPlayer.SetAnimationAndFrame(animation, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;
@@ -463,7 +469,7 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
-		if (grounded)
+		if (grounded && nextStateName != "Grab")
 		{
 			CheckTurnAround();
 		}
@@ -717,21 +723,17 @@ public class Player : Node2D
 		if (OtherPlayerOnLeft() && facingRight)
 		{
 			TurnLeft();
-			GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
 		}
 		else if (OtherPlayerOnRight() && !facingRight) 
 		{
 			TurnRight();
-			GetNode<Sprite>("Sprite").Scale = new Vector2(3, 3);
 		}
 	}
 
 	public void TurnRight()
 	{
 		facingRight = true;
-
-		//GetNode<Sprite>("Sprite").FlipH = false;
-
+		GetNode<Sprite>("Sprite").Scale = new Vector2(3, 3);
 		hurtBoxes.Scale = new Vector2(1, 1);
 		hitBoxes.Scale = new Vector2(1, 1);
 	}
@@ -739,9 +741,7 @@ public class Player : Node2D
 	public void TurnLeft()
 	{
 		facingRight = false;
-
-		//GetNode<Sprite>("Sprite").FlipH = true;
-
+		GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);
 	}

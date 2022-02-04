@@ -28,7 +28,7 @@ public class LaunchAttack : AirAttack
         ApplyGravity();
         if (owner.grounded)
         {
-            EmitSignal(nameof(StateFinished), "Idle");
+            owner.velocity.x = 0;
         }
     }
 

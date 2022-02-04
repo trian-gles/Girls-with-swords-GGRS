@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/BG Clouds/Cloud 1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/MainScene.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=12]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/OL.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 2.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 5.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=17]
@@ -208,10 +209,8 @@ position = Vector2( 133, 240 )
 charName = "GL"
 colorScheme = 3
 
-[node name="P2" parent="." instance=ExtResource( 21 )]
+[node name="P2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 330, 240 )
-charName = "GL"
-colorScheme = 3
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2( 240, 125 )

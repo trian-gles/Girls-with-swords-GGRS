@@ -4532,6 +4532,7 @@ hitPush = 6000
 dmg = 8
 prorationLevel = 1
 launch = Vector2( 150, -1000 )
+launchFrame = 10
 
 [node name="GLCrouch" type="Node" parent="StateTree" index="3"]
 script = ExtResource( 8 )

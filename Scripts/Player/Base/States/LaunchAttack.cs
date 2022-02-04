@@ -6,29 +6,30 @@ public class LaunchAttack : AirAttack
 
     [Export]
     protected Vector2 launch = new Vector2();
-    public override void Enter()
-    {
-        base.Enter();
-        owner.velocity = launch;
-        if (!owner.facingRight)
-        {
-            GD.Print("Flipping launch x coor");
-            owner.velocity.x *= -1;
-        }
-        owner.grounded = false;
-        if (owner.grounded)
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-    }
+
+    [Export]
+    protected int launchFrame = 1;
 
     public override void FrameAdvance()
     {
         base.FrameAdvance();
-        ApplyGravity();
-        if (owner.grounded)
+        if (frameCount == launchFrame)
         {
-            owner.velocity.x = 0;
+            owner.velocity = launch;
+            if (!owner.facingRight)
+            {
+                GD.Print("Flipping launch x coor");
+                owner.velocity.x *= -1;
+            }
+            owner.grounded = false;
+        }
+        else if (frameCount > launchFrame)
+        {
+            ApplyGravity();
+            if (owner.grounded)
+            {
+                owner.velocity.x = 0;
+            }
         }
     }
 

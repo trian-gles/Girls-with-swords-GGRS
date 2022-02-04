@@ -10,4 +10,10 @@ public class GLCrouch : Crouch
         AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP");
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        GD.Print("Entering GL crouch");
+    }
+
 }

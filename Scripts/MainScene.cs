@@ -21,6 +21,8 @@ public class MainScene : Node2D
 	private Node GGRS;
 	private Node mainMenuReturn;
 
+	private Dictionary<string, PackedScene> characterMap = new Dictionary<string,PackedScene>();
+
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
 	private int localPlayerHandle;
@@ -52,7 +54,13 @@ public class MainScene : Node2D
 	private bool roundStarted = false;
 
 	private int frameAhead = 0; //prevents one sided rollbacks
-	
+
+	public override void _Ready()
+	{
+		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
+		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
+	}
+
 	/// <summary>
 	/// Godot doesn't allow constructors so I have to do stuff like this instead
 	/// </summary>
@@ -69,10 +77,23 @@ public class MainScene : Node2D
 
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
+
+		P1 = characterMap["OL"].Instance() as Player;
+		P1.Name = "P1";
+		P1.Position = new Vector2(133, 240);
 		
-		P1 = GetNode<Player>("P1");
-		P2 = GetNode<Player>("P2");
+		AddChild(P1);
+		MoveChild(P1, 4);
 		
+
+		P2 = characterMap["OL"].Instance() as Player;
+		P2.Name = "P2";
+		P2.Position = new Vector2(330, 240);
+		P2.colorScheme = 3;
+		AddChild(P2);
+		MoveChild(P2, 5);
+
+
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P1.Connect("ComboSet", this, nameof(OnPlayerComboSet));

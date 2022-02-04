@@ -45,11 +45,10 @@ public class Player : Node2D
 	[Export]
 	public string debugKeys = "6";
 
-	[Export]
-	public string charName;
+	protected string charName;
 
 	[Export(PropertyHint.Range, "0,3,0")]
-	private int colorScheme;
+	public int colorScheme;
 
 	private InputHandler inputHandler;
 	private HashSet<string> altState = new HashSet<string>();
@@ -245,7 +244,14 @@ public class Player : Node2D
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
-		animationPlayer.SetAnimationAndFrame(pState.currentState, pState.frameCount);
+
+		string animation = pState.currentState;
+		if (altState.Contains(animation.Substring(2)))
+		{
+			animation = animation.Substring(2);
+		}
+
+		animationPlayer.SetAnimationAndFrame(animation, pState.frameCount);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;

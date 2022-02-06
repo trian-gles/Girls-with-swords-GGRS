@@ -15,14 +15,14 @@ public class Fall : State
 		// AIRDASH
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
 		{
-			owner.velocity.x = owner.speed * 2;
+			owner.velocity.x = owner.speed * 3;
 			owner.canDoubleJump = false;
 		}, false, false);
 
 
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
 		{
-			owner.velocity.x = owner.speed * -2;
+			owner.velocity.x = owner.speed * -3;
 			owner.canDoubleJump = false;
 		}, false, false);
 

@@ -34,11 +34,11 @@ public abstract class BaseAttack : State
 
 	
 	public enum ATTACKDIR
-    {
+	{
 		RIGHT,
 		LEFT,
 		EQUAL
-    }
+	}
 	
 	public override void _Ready()
 	{
@@ -72,9 +72,9 @@ public abstract class BaseAttack : State
 			var direction = ATTACKDIR.EQUAL;
 
 			if (owner.OtherPlayerOnRight())
-            {
+			{
 				direction = ATTACKDIR.RIGHT;
-            }
+			}
 			else if(owner.OtherPlayerOnLeft())
 			{
 				direction = ATTACKDIR.LEFT;

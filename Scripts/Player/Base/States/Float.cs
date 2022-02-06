@@ -55,4 +55,9 @@ public class Float : HitStun
         }
         base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
     }
+
+    public override bool LevelUp()
+    {
+        return (owner.velocity.y < -400);
+    }
 }

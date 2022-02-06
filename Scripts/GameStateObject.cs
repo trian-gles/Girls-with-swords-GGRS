@@ -53,8 +53,8 @@ public class GameStateObject : Node
 
 		this.mainScene = mainScene;
 		this.hosting = hosting;
-		P1.Connect("HitConfirm", this, nameof(HitStop));
-		P2.Connect("HitConfirm", this, nameof(HitStop));
+		P1.Connect("HitConfirm", this, nameof(HandleHitConfirm));
+		P2.Connect("HitConfirm", this, nameof(HandleHitConfirm));
 
 
 		P1.otherPlayer = P2;
@@ -433,10 +433,17 @@ public class GameStateObject : Node
 	/// <summary>
 	/// Reset the hitstop counter, called by player signals on hit
 	/// </summary>
-	public void HitStop()
+	public void HandleHitConfirm(bool levelUp)
 	{
-		hitStopRemaining = maxHitStop;
-		//GD.Print("HitStop");
+		if (!levelUp)
+        {
+			hitStopRemaining = maxHitStop;
+		}
+		else
+        {
+			hitStopRemaining = maxHitStop * 2;
+			GD.Print("LEVEL UP");
+		}
 	}
 
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken

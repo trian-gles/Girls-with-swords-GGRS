@@ -14,6 +14,9 @@ public class GameStateObject : Node
 	public Player P2;
 	private MainScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
 
+	[Signal]
+	public delegate void LevelUp();
+
 	private bool hosting;
 
 	public int Frame = 0;
@@ -21,6 +24,8 @@ public class GameStateObject : Node
 	private int hitStopRemaining = 0;
 
 	private int maxHitStop = 14;
+
+	private int levelUpHitStop = 60;
 
 	private GameState resetState;
 
@@ -55,6 +60,9 @@ public class GameStateObject : Node
 		this.hosting = hosting;
 		P1.Connect("HitConfirm", this, nameof(HandleHitConfirm));
 		P2.Connect("HitConfirm", this, nameof(HandleHitConfirm));
+
+		P1.Connect("LevelUp", this, nameof(OnLevelUp));
+		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 
 
 		P1.otherPlayer = P2;
@@ -433,18 +441,15 @@ public class GameStateObject : Node
 	/// <summary>
 	/// Reset the hitstop counter, called by player signals on hit
 	/// </summary>
-	public void HandleHitConfirm(bool levelUp)
+	public void HandleHitConfirm()
 	{
-		if (!levelUp)
-        {
-			hitStopRemaining = maxHitStop;
-		}
-		else
-        {
-			hitStopRemaining = maxHitStop * 2;
-			GD.Print("LEVEL UP");
-		}
+		hitStopRemaining = maxHitStop;
 	}
+
+	public void OnLevelUp()
+    {
+		hitStopRemaining = levelUpHitStop;
+    }
 
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{

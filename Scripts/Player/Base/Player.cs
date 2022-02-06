@@ -15,7 +15,9 @@ public class Player : Node2D
 	[Signal]
 	public delegate void ComboSet(string name, int combo);
 	[Signal]
-	public delegate void HitConfirm(bool levelUp);
+	public delegate void HitConfirm();
+	[Signal]
+	public delegate void LevelUp();
 	[Signal]
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
@@ -794,7 +796,8 @@ public class Player : Node2D
 		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown);
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
-		EmitSignal(nameof(HitConfirm), currentState.LevelUp());
+		EmitSignal(nameof(HitConfirm));
+		
 		wasHit = false;
 	}
 

@@ -42,6 +42,12 @@ public class Float : HitStun
             owner.ResetComboAndProration();
             EmitSignal(nameof(StateFinished), "Fall");
         }
+
+        if (frameCount == 9 && owner.internalPos.y < 16000 && owner.velocity.y < -300) 
+        {
+            owner.EmitSignal(nameof(Player.LevelUp));
+            EmitSignal(nameof(StateFinished), "AirKnockdown");
+        }
         
 
         ApplyGravity();
@@ -56,8 +62,4 @@ public class Float : HitStun
         base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
     }
 
-    public override bool LevelUp()
-    {
-        return (owner.velocity.y < -400);
-    }
 }

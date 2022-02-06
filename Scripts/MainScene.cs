@@ -78,7 +78,7 @@ public class MainScene : Node2D
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
 
-		P1 = characterMap["OL"].Instance() as Player;
+		P1 = characterMap["GL"].Instance() as Player;
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
 		

@@ -4808,6 +4808,7 @@ speed = 200
 dashSpeed = 500
 jumpForce = 900
 hitPushSpeed = 200
+shaders = [ ExtResource( 3 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
@@ -4845,19 +4846,23 @@ position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
 offset = Vector2( 1, 0 )
 hframes = 215
-frame = 187
+frame = 149
 
 [node name="GLWalk" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 7 )
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 10 )
+hitStun = 30
+blockStun = 18
+opponentLaunch = Vector2( 0, -500 )
+hitPush = 3000
 
 [node name="GLDP" type="Node" parent="StateTree" index="2"]
 script = ExtResource( 9 )
-hitStun = 31
+hitStun = 40
 blockStun = 16
-opponentLaunch = Vector2( 0, -900 )
+opponentLaunch = Vector2( 0, -1100 )
 hitPush = 6000
 dmg = 8
 prorationLevel = 1
@@ -4881,7 +4886,7 @@ releaseFrame = 20
 opponentLaunch = Vector2( 0, -500 )
 
 [node name="JumpC" parent="StateTree" index="33"]
-opponentLaunch = Vector2( 0, 300 )
+opponentLaunch = Vector2( 0, 500 )
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -6, -52 )

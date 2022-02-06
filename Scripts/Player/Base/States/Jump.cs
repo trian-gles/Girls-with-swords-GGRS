@@ -4,13 +4,9 @@ using System.Collections.Generic;
 
 public class Jump : State
 {
-	public override void Enter()
+	public override void _Ready()
 	{
-		base.Enter();
-		owner.velocity.y = -1 * owner.jumpForce;
-		owner.grounded = false;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
-
+		base._Ready();
 		// ATTACKS
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
@@ -20,29 +16,38 @@ public class Jump : State
 		// AIRDASH
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
 		{
-			owner.velocity.x = owner.speed * 2;
+			owner.velocity.x = owner.speed * 3;
 			owner.canDoubleJump = false;
 		}, false, false);
 
 
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
 		{
-			owner.velocity.x = owner.speed * -2;
+			owner.velocity.x = owner.speed * -3;
 			owner.canDoubleJump = false;
 		}, false, false);
 
 		// DOUBLE JUMP
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () => 
-		{ 
-			owner.velocity.x = owner.speed; 
-			owner.canDoubleJump = false; 
-		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () => 
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
-			owner.velocity.x = -owner.speed; 
+			owner.velocity.x = owner.speed;
+			owner.canDoubleJump = false;
+		});
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
+		{
+			owner.velocity.x = -owner.speed;
 			owner.canDoubleJump = false;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+	}
+	public override void Enter()
+	{
+		base.Enter();
+		owner.velocity.y = -1 * owner.jumpForce;
+		owner.grounded = false;
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
+
+		
 	}
 
 

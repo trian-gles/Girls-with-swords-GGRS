@@ -4808,6 +4808,7 @@ speed = 200
 dashSpeed = 500
 jumpForce = 900
 hitPushSpeed = 200
+shaders = [ ExtResource( 3 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true

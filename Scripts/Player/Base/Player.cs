@@ -45,6 +45,9 @@ public class Player : Node2D
 	[Export]
 	public string debugKeys = "6";
 
+	[Export]
+	protected Resource[] shaders;
+
 	protected string charName;
 
 	[Export(PropertyHint.Range, "0,3,0")]
@@ -164,27 +167,8 @@ public class Player : Node2D
 		}
 
 		var shaderMaterial = sprite.Material as ShaderMaterial;
-		
-		string path = "res://Sprites/Palettes/Default Palette.png";
-		if (colorScheme == 0)
-		{
-			path = "res://Sprites/Palettes/Default Palette.png";
-
-		}
-		else if (colorScheme == 1)
-		{
-			path = "res://Sprites/Palettes/Ky v2.png";
-		}
-		else if (colorScheme == 2)
-		{
-			path = "res://Sprites/Palettes/Shrek v1.png";
-		}
-		else if (colorScheme == 3)
-		{
-			path = "res://Sprites/Palettes/Sol v1.png";
-		}
-		var resource = ResourceLoader.Load(path);
-		shaderMaterial.SetShaderParam("palette", resource);
+		//var resource = ResourceLoader.Load(shaderPaths[colorScheme]);
+		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
 		GD.Print(shaderMaterial.GetShaderParam("palette"));
 		
 	}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Sprites/BG Assets/Buildings Back.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/BG Assets/Sky and Sun.png" type="Texture" id=2]
@@ -9,6 +9,22 @@
 [ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Shaders/mirror_y.shader" type="Shader" id=10]
+[ext_resource path="res://Sprites/BG Assets/mouse_cursor.png" type="Texture" id=11]
+[ext_resource path="res://Scripts/MainScene/MirrorYPlane.gd" type="Script" id=12]
+
+[sub_resource type="Gradient" id=1]
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 10 )
+shader_param/color = Color( 0.207843, 0.203922, 0.298039, 1 )
+shader_param/reflection_intensity = 0.763
+shader_param/scale_y = 1.0
+shader_param/zoom_y = 1.0
+shader_param/transition_gradient = SubResource( 2 )
 
 [node name="Background" type="Node2D"]
 position = Vector2( 240, 125 )
@@ -94,3 +110,12 @@ scale_amount_random = 0.84
 
 [node name="Office Interior" type="Sprite" parent="."]
 texture = ExtResource( 9 )
+
+[node name="MirrorYPlane" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.415686 )
+light_mask = 0
+material = SubResource( 3 )
+position = Vector2( 1.15107, 99.26 )
+scale = Vector2( 5.92327, 0.566472 )
+texture = ExtResource( 11 )
+script = ExtResource( 12 )

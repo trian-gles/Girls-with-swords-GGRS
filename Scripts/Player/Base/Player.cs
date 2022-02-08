@@ -17,6 +17,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void HitConfirm();
 	[Signal]
+	public delegate void LevelUp();
+	[Signal]
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
 	public delegate void HadoukenRemoved(HadoukenPart h);
@@ -795,6 +797,7 @@ public class Player : Node2D
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
 		EmitSignal(nameof(HitConfirm));
+		
 		wasHit = false;
 	}
 

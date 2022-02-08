@@ -430,4 +430,9 @@ public abstract class State : Node
 		owner.DeductHealth(dmg * owner.proration);
 		owner.Prorate(prorationLevel);
 	}
+
+	public virtual bool LevelUp()
+	{
+		return false;
+	}
 }

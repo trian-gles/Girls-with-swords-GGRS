@@ -20,6 +20,7 @@ public class MainScene : Node2D
 	private Label statsText;
 	private Node GGRS;
 	private Node mainMenuReturn;
+	private MainGFX mainGFX;
 
 	private Dictionary<string, PackedScene> characterMap = new Dictionary<string,PackedScene>();
 
@@ -78,9 +79,10 @@ public class MainScene : Node2D
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
 
-		P1 = characterMap["GL"].Instance() as Player;
+		P1 = characterMap["OL"].Instance() as Player;
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
+		P1.colorScheme = 0;
 		
 		AddChild(P1);
 		MoveChild(P1, 4);
@@ -104,6 +106,9 @@ public class MainScene : Node2D
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
+
+
+
 		GGRS = GetNode("GodotGGRS");
 		P1Combo = GetNode<Label>("HUD/P1Combo");
 		P2Combo = GetNode<Label>("HUD/P2Combo");
@@ -112,6 +117,7 @@ public class MainScene : Node2D
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
 		statsText = GetNode<Label>("HUD/NetStats");
+		mainGFX = GetNode<MainGFX>("MainGFX");
 		centerText.Visible = true;
 		
 		P1Combo.Text = "";
@@ -119,6 +125,8 @@ public class MainScene : Node2D
 
 		gsObj = new GameStateObject();
 		gsObj.config(P1, P2, this, hosting);
+		P1.Connect("LevelUp", this, nameof(OnLevelUp));
+		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
@@ -332,6 +340,7 @@ public class MainScene : Node2D
 		var buf = new StreamPeerBuffer();
 		buf.DataArray = buffer;
 		gsObj.LoadGameState(buf);
+		mainGFX.Rollback(frame);
 	}
 
 	public void OnResetButtonDown()
@@ -574,6 +583,13 @@ public class MainScene : Node2D
 		EmitSignal(nameof(LobbyReturn));
 		GD.Print("Emitted lobby return signal, queueing free");
 		QueueFree();
+	}
+
+	// BACKGROUND
+
+	public void OnLevelUp()
+	{
+		mainGFX.LevelUp(gsObj.Frame);
 	}
 	
 }

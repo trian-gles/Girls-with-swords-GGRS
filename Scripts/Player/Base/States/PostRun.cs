@@ -16,16 +16,16 @@ public class PostRun : State
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "CommandRun");
 	}
 
-    public override void Enter()
-    {
-        base.Enter();
+	public override void Enter()
+	{
+		base.Enter();
 		if (owner.velocity.x < 0) { owner.velocity.x = -owner.speed; }
 		else { owner.velocity.x = owner.speed; }
 	}
-    public override void FrameAdvance()
+	public override void FrameAdvance()
 	{
 		frameCount++;
-		if (frameCount  == 5)
+		if (frameCount  == 12)
 		{
 			EmitSignal(nameof(StateFinished), "Idle");
 		}

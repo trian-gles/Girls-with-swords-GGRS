@@ -20,6 +20,7 @@ public class MainScene : Node2D
 	private Label statsText;
 	private Node GGRS;
 	private Node mainMenuReturn;
+	private MainGFX mainGFX;
 
 	private Dictionary<string, PackedScene> characterMap = new Dictionary<string,PackedScene>();
 
@@ -116,6 +117,7 @@ public class MainScene : Node2D
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
 		statsText = GetNode<Label>("HUD/NetStats");
+		mainGFX = GetNode<MainGFX>("MainGFX");
 		centerText.Visible = true;
 		
 		P1Combo.Text = "";
@@ -338,6 +340,7 @@ public class MainScene : Node2D
 		var buf = new StreamPeerBuffer();
 		buf.DataArray = buffer;
 		gsObj.LoadGameState(buf);
+		mainGFX.Rollback(frame);
 	}
 
 	public void OnResetButtonDown()
@@ -586,7 +589,7 @@ public class MainScene : Node2D
 
 	public void OnLevelUp()
 	{
-		GetNode<Node2D>("Stages").Call("level_up");
+		mainGFX.LevelUp(gsObj.Frame);
 	}
 	
 }

@@ -22,8 +22,8 @@ gradient = SubResource( 1 )
 shader = ExtResource( 10 )
 shader_param/color = Color( 0.207843, 0.203922, 0.298039, 1 )
 shader_param/reflection_intensity = 0.763
-shader_param/scale_y = 1.0
-shader_param/zoom_y = 1.0
+shader_param/scale_y = 0.638957
+shader_param/zoom_y = 2.04784
 shader_param/transition_gradient = SubResource( 2 )
 
 [node name="Background" type="Node2D"]
@@ -115,7 +115,7 @@ texture = ExtResource( 9 )
 modulate = Color( 1, 1, 1, 0.415686 )
 light_mask = 0
 material = SubResource( 3 )
-position = Vector2( 1.15107, 99.26 )
-scale = Vector2( 5.92327, 0.566472 )
+position = Vector2( 1.15107, 103.899 )
+scale = Vector2( 5.92327, 0.638957 )
 texture = ExtResource( 11 )
 script = ExtResource( 12 )

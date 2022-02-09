@@ -13,14 +13,26 @@ public class Fall : State
 		AddGatling(new[] { 's', 'p' }, "JumpC");
 
 		// AIRDASH
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
+		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump && owner.facingRight, "AirDash", () =>
 		{
 			owner.velocity.x = owner.speed * 3;
 			owner.canDoubleJump = false;
 		}, false, false);
 
 
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump, "AirDash", () =>
+		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump && !owner.facingRight, "AirDash", () =>
+		{
+			owner.velocity.x = owner.speed * -3;
+			owner.canDoubleJump = false;
+		}, false, false);
+
+		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump && !owner.facingRight, "AirBackdash", () =>
+		{
+			owner.velocity.x = owner.speed * 3;
+			owner.canDoubleJump = false;
+		}, false, false);
+
+		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump && owner.facingRight, "AirBackdash", () =>
 		{
 			owner.velocity.x = owner.speed * -3;
 			owner.canDoubleJump = false;

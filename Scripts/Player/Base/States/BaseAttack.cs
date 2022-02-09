@@ -63,27 +63,38 @@ public abstract class BaseAttack : State
 		EmitSignal(nameof(StateFinished), "Idle");
 	}
 
-	public override void InHurtbox()
+	public override void FrameAdvance()
 	{
+		base.FrameAdvance();
 		if (!hitConnect)
 		{
-			//GD.Print($"Hit connect on frame {frameCount}");
-			EmitSignal(nameof(OnHitConnected), hitPush);
-			var direction = ATTACKDIR.EQUAL;
-
-			if (owner.OtherPlayerOnRight())
+			Vector2 collisionPnt = owner.CheckHurtRect();
+			if (collisionPnt != Vector2.Inf)
 			{
-				direction = ATTACKDIR.RIGHT;
-			}
-			else if(owner.OtherPlayerOnLeft())
-			{
-				direction = ATTACKDIR.LEFT;
+				InHurtbox(collisionPnt);
 			}
 
-			owner.otherPlayer.ReceiveHit(direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
-			hitConnect = true;
+		}
+		
+	}
+
+	public override void InHurtbox(Vector2 collisionPnt)
+	{
+		GD.Print($"Hit connect at point {collisionPnt}");
+		EmitSignal(nameof(OnHitConnected), hitPush);
+		var direction = ATTACKDIR.EQUAL;
+
+		if (owner.OtherPlayerOnRight())
+		{
+			direction = ATTACKDIR.RIGHT;
+		}
+		else if(owner.OtherPlayerOnLeft())
+		{
+			direction = ATTACKDIR.LEFT;
 		}
 
+		owner.otherPlayer.ReceiveHit(collisionPnt, direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
+		hitConnect = true;
 	}
 
 	public override void HandleInput(char[] inputArr)

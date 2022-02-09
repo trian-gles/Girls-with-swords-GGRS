@@ -294,7 +294,7 @@ public abstract class State : Node
 	/// <summary>
 	/// Called if the other player is found in this hurtbox
 	/// </summary>
-	public virtual void InHurtbox()
+	public virtual void InHurtbox(Vector2 collisionPnt)
 	{
 
 

@@ -3,21 +3,34 @@ using System;
 
 public class Lobby : Node2D
 {
-	HBoxContainer hbox;
-	VBoxContainer buttons;
+	Control menuroot;
+	MarginContainer mainmenu;
+	MarginContainer localmenu;
+	MarginContainer netplaymenu;
+	VBoxContainer mainmenubuttons;
+	VBoxContainer localmenubuttons;
 	VBoxContainer entries;
-	Control inputmenu;
 	HBoxContainer netplaybuttons;
+	
+	Control inputmenu;
 	VBoxContainer column;
 	
 	public override void _Ready()
 	{
-		hbox = GetNode<HBoxContainer>("HBoxContainer");
-		buttons = hbox.GetNode<VBoxContainer>("Buttons");
-		entries = hbox.GetNode<VBoxContainer>("Entries");
+		menuroot = GetNode<Control>("MenuRoot");
+		mainmenu = menuroot.GetNode<MarginContainer>("MainMenu");
+		mainmenubuttons = mainmenu.GetNode<VBoxContainer>("CenterContainer/MainMenuButtons");
+		localmenu = menuroot.GetNode<MarginContainer>("LocalMenu");
+		netplaymenu = menuroot.GetNode<MarginContainer>("NetPlayMenu");
+		localmenubuttons = localmenu.GetNode<VBoxContainer>("LocalButtons");
+		entries = netplaymenu.GetNode<VBoxContainer>("Entries");
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
+		
+		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
+		
+		
 		Globals.Tests();
 	}
 	public void OnHostButtonDown()
@@ -67,7 +80,7 @@ public class Lobby : Node2D
 		Begin(true);
 	}
 	
-	public void OnButtonCheckDown()
+	public void _on_ButtonConfig_pressed()
 	{
 		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
@@ -84,48 +97,38 @@ public class Lobby : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
+	public void LocalLobbyReturn()
+	{
+		OnLobbyReset();
+		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = true;
+		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = false;
+		localmenubuttons.GetNode<Button>("Local").GrabFocus();
+	}
+	
+	public void NetPlayLobbyReturn()
+	{
+		OnLobbyReset();
+		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = true;
+		netplaybuttons.GetNode<Button>("Host").GrabFocus();
+	}
+	
 	public void OnLobbyReset()
 	{
+		GetNode<Control>("MenuRoot").Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
-		buttons.GetNode<Label>("LocalLabel").Visible = true;
-		entries.GetNode<Label>("NetPlayLabel").Visible = true;
-		netplaybuttons.GetNode<Button>("Host").Visible = true;
-		netplaybuttons.GetNode<Button>("Join").Visible = true;
-		buttons.GetNode<Button>("SyncTest").Visible = true;
-		buttons.GetNode<Button>("Local").Visible = true;
-		buttons.GetNode<Button>("Training").Visible = true;
-		buttons.GetNode<Button>("Quit").Visible = true;
-		buttons.GetNode<Button>("ButtonCheck").Visible = true;
-		entries.GetNode<LineEdit>("OpponentPort").Visible = true;
-		entries.GetNode<LineEdit>("OpponentIp").Visible = true;
-		entries.GetNode<LineEdit>("LocalPort").Visible = true;
-		GetNode<RichTextLabel>("Title").Visible = true;
-		entries.GetNode<Button>("AddFriend").Visible = true;
-		entries.GetNode<Button>("LoadFriend").Visible = true;
-		entries.GetNode<OptionButton>("FriendList").Visible = true;
 		
+		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
+		{
+			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
+		}
 	}
 
 	private void HideButtons()
 	{
-		buttons.GetNode<Label>("LocalLabel").Visible = false;
-		entries.GetNode<Label>("NetPlayLabel").Visible = false;
-		GetNode<RichTextLabel>("Title").Visible = false;
-		netplaybuttons.GetNode<Button>("Host").Visible = false;
-		netplaybuttons.GetNode<Button>("Join").Visible = false;
-		buttons.GetNode<Button>("SyncTest").Visible = false;
-		buttons.GetNode<Button>("Local").Visible = false;
-		buttons.GetNode<Button>("Training").Visible = false;
-		buttons.GetNode<Button>("Quit").Visible = false;
-		buttons.GetNode<Button>("ButtonCheck").Visible = false;
-		entries.GetNode<Button>("AddFriend").Visible = false;
-		entries.GetNode<OptionButton>("FriendList").Visible = false;
-		entries.GetNode<Button>("LoadFriend").Visible = false;
-		GetNode<Button>("HostTest").Visible = false;
-		GetNode<Button>("JoinTest").Visible = false;
-		entries.GetNode<LineEdit>("OpponentPort").Visible = false;
-		entries.GetNode<LineEdit>("OpponentIp").Visible = false;
-		entries.GetNode<LineEdit>("LocalPort").Visible = false;
+		GetNode<Control>("MenuRoot").Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 	}
 
@@ -133,6 +136,8 @@ public class Lobby : Node2D
 	{
 		HideButtons();
 		GetNode("/root/Events").Connect("ButtonConfigPressed", this, nameof(OnButtonCheckDownInGame));
+		GetNode("/root/Globals").Connect("LocalLobbyReturn", this, nameof(LocalLobbyReturn));
+		GetNode("/root/Globals").Connect("NetPlayLobbyReturn", this, nameof(NetPlayLobbyReturn));
 		
 		string ip = "127.0.0.1";
 		int localPort = 0;

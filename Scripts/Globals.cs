@@ -12,6 +12,12 @@ public class Globals : Node
 {
 	[Signal]
 	public delegate void GhostEmitted(Player p);
+	
+	[Signal]
+	public delegate void LocalLobbyReturn();
+
+	[Signal]
+	public delegate void NetPlayLobbyReturn();
 
 	public static int frame = 0;
 	public enum Inputs

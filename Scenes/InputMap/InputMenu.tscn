@@ -147,29 +147,16 @@ text = "Change"
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigOverlay/Column"]
 margin_top = 99.0
 margin_right = 452.0
-margin_bottom = 222.0
+margin_bottom = 257.0
 size_flags_vertical = 3
 
 [node name="ActionList" type="VBoxContainer" parent="ConfigOverlay/Column/ScrollContainer"]
 margin_right = 452.0
-margin_bottom = 123.0
+margin_bottom = 158.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 15
 script = ExtResource( 4 )
-
-[node name="PlayButton" type="Button" parent="ConfigOverlay/Column"]
-visible = false
-margin_left = 150.0
-margin_top = 175.0
-margin_right = 302.0
-margin_bottom = 195.0
-size_flags_horizontal = 4
-disabled = true
-text = "Test Buttons In Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ReturnToInGameMenu" type="Button" parent="ConfigOverlay/Column"]
 visible = false
@@ -181,9 +168,9 @@ script = ExtResource( 8 )
 
 [node name="ReturnMainMenu" type="Button" parent="ConfigOverlay/Column"]
 visible = false
-margin_top = 220.0
+margin_top = 237.0
 margin_right = 452.0
-margin_bottom = 240.0
+margin_bottom = 257.0
 size_flags_vertical = 4
 text = "Return to Main Menu"
 script = ExtResource( 6 )
@@ -223,6 +210,5 @@ __meta__ = {
 }
 
 [connection signal="visibility_changed" from="ConfigOverlay" to="ConfigOverlay/Column/ProfilesMenu" method="_on_ConfigOverlay_visibility_changed"]
-[connection signal="pressed" from="ConfigOverlay/Column/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="button_down" from="ConfigOverlay/Column/ReturnToInGameMenu" to="ConfigOverlay/Column/ReturnToInGameMenu" method="_on_button_down"]
 [connection signal="button_down" from="ConfigOverlay/Column/ReturnMainMenu" to="ConfigOverlay/Column/ReturnMainMenu" method="_on_button_down"]

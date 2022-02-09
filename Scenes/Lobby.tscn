@@ -1,11 +1,65 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/MenuRoot.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "fade_in"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/GwSTitle:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -200 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/Local:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/NetPlay:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/Quit:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,104 +69,171 @@ layer = 128
 
 [node name="InputMenu" parent="InputMenu" instance=ExtResource( 5 )]
 
-[node name="Title" type="RichTextLabel" parent="."]
-margin_left = 125.0
-margin_top = 38.0
-margin_right = 404.0
-margin_bottom = 57.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 6 )
+[node name="MenuRoot" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 480.0
+margin_bottom = 270.0
+rect_min_size = Vector2( 480, 270 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="MenuRoot"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MenuRoot"]
+anims/fade_in = SubResource( 1 )
+
+[node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
+margin_right = 480.0
+margin_bottom = 270.0
+
+[node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
+margin_left = 104.0
+margin_top = 65.0
+margin_right = 376.0
+margin_bottom = 205.0
+size_flags_horizontal = 3
+custom_constants/separation = 20
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+margin_right = 272.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 6 )
 text = "Girls with Swords"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 53.0
-margin_top = 81.0
-margin_right = 406.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Buttons" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 102.0
-margin_bottom = 174.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LocalLabel" type="Label" parent="HBoxContainer/Buttons"]
-margin_right = 102.0
-margin_bottom = 14.0
+[node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+margin_top = 36.0
+margin_right = 272.0
+margin_bottom = 58.0
+action_mode = 0
 text = "Local"
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Local" type="Button" parent="HBoxContainer/Buttons"]
-margin_top = 18.0
-margin_right = 102.0
-margin_bottom = 38.0
+[node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+margin_top = 78.0
+margin_right = 272.0
+margin_bottom = 100.0
+text = "Net Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
+margin_right = 272.0
+
+[node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 480.0
+margin_right = 480.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalButtons" type="VBoxContainer" parent="MenuRoot/LocalMenu"]
+margin_left = 90.0
+margin_top = 50.0
+margin_right = 390.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 300, 170 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 28.0
+margin_right = 300.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 6 )
+text = "Local Mode"
+align = 1
+
+[node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 48.0
+margin_right = 300.0
+margin_bottom = 68.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Training" type="Button" parent="HBoxContainer/Buttons"]
-margin_top = 42.0
-margin_right = 102.0
-margin_bottom = 62.0
+[node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 72.0
+margin_right = 300.0
+margin_bottom = 92.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonCheck" type="Button" parent="HBoxContainer/Buttons"]
-margin_top = 66.0
-margin_right = 102.0
-margin_bottom = 86.0
+[node name="ButtonCheck" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 96.0
+margin_right = 300.0
+margin_bottom = 116.0
 text = "Button Check"
 
-[node name="Quit" parent="HBoxContainer/Buttons" instance=ExtResource( 3 )]
-margin_top = 90.0
-margin_bottom = 110.0
+[node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 120.0
+margin_right = 300.0
+margin_bottom = 142.0
+text = "Back"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Buttons"]
-margin_top = 114.0
-margin_right = 102.0
-margin_bottom = 118.0
+[node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 480.0
+margin_right = 480.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SyncTest" type="Button" parent="HBoxContainer/Buttons"]
-margin_top = 122.0
-margin_right = 102.0
-margin_bottom = 142.0
-text = "Sync Test"
-
-[node name="Entries" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 106.0
-margin_right = 406.0
-margin_bottom = 174.0
+[node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
+margin_left = 90.0
+margin_top = 24.0
+margin_right = 390.0
+margin_bottom = 246.0
 rect_min_size = Vector2( 300, 170 )
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NetPlayLabel" type="Label" parent="HBoxContainer/Entries"]
+[node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 14.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 6 )
 text = "Net Play"
 
-[node name="NetPlayButtons" type="HBoxContainer" parent="HBoxContainer/Entries"]
-margin_top = 18.0
+[node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 20.0
 margin_right = 300.0
-margin_bottom = 38.0
+margin_bottom = 40.0
 
-[node name="Host" type="Button" parent="HBoxContainer/Entries/NetPlayButtons"]
+[node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
@@ -121,7 +242,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Join" type="Button" parent="HBoxContainer/Entries/NetPlayButtons"]
+[node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 20.0
@@ -131,66 +252,72 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpponentPort" type="LineEdit" parent="HBoxContainer/Entries"]
-margin_top = 42.0
+[node name="OpponentPort" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 66.0
+margin_bottom = 68.0
 placeholder_text = "Enter Opponent Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpponentIp" type="LineEdit" parent="HBoxContainer/Entries"]
-margin_top = 70.0
+[node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 72.0
 margin_right = 300.0
-margin_bottom = 94.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LocalPort" type="LineEdit" parent="HBoxContainer/Entries"]
-margin_top = 98.0
+[node name="LocalPort" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 100.0
 margin_right = 300.0
-margin_bottom = 122.0
+margin_bottom = 124.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Local Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AddFriend" type="Button" parent="HBoxContainer/Entries"]
-margin_top = 126.0
+[node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 128.0
 margin_right = 300.0
-margin_bottom = 146.0
+margin_bottom = 148.0
 text = "Add Friend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LoadFriend" type="Button" parent="HBoxContainer/Entries"]
-margin_top = 150.0
+[node name="LoadFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 152.0
 margin_right = 300.0
-margin_bottom = 170.0
+margin_bottom = 172.0
 text = "Load Friends..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FriendList" type="OptionButton" parent="HBoxContainer/Entries"]
+[node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false
-margin_top = 174.0
+margin_top = 176.0
 margin_right = 300.0
-margin_bottom = 194.0
+margin_bottom = 196.0
 disabled = true
-text = "Select Friend..."
 align = 1
 
-[node name="HSplitContainer" type="HSplitContainer" parent="HBoxContainer/Entries"]
-margin_top = 174.0
+[node name="SyncTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 176.0
+margin_right = 480.0
+margin_bottom = 446.0
+text = "Sync Test"
+
+[node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 200.0
 margin_right = 300.0
-margin_bottom = 174.0
+margin_bottom = 222.0
+text = "Back"
 
 [node name="HostTest" type="Button" parent="."]
 visible = false
@@ -214,14 +341,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_down" from="HBoxContainer/Buttons/Local" to="." method="OnLocalButtonDown"]
-[connection signal="visibility_changed" from="HBoxContainer/Buttons/Local" to="HBoxContainer/Buttons/Local" method="_on_visibility_changed"]
-[connection signal="button_down" from="HBoxContainer/Buttons/Training" to="." method="OnTrainingButtonDown"]
-[connection signal="button_down" from="HBoxContainer/Buttons/ButtonCheck" to="." method="OnButtonCheckDown"]
-[connection signal="button_down" from="HBoxContainer/Buttons/SyncTest" to="." method="OnSyncTestButtonDown"]
-[connection signal="button_down" from="HBoxContainer/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
-[connection signal="button_down" from="HBoxContainer/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
-[connection signal="button_down" from="HBoxContainer/Entries/AddFriend" to="HBoxContainer/Entries" method="_on_AddFriend_button_down"]
-[connection signal="button_down" from="HBoxContainer/Entries/LoadFriend" to="HBoxContainer/Entries" method="_on_LoadFriend_button_down"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
+[connection signal="visibility_changed" from="MenuRoot/LocalMenu/LocalButtons/Local" to="MenuRoot/LocalMenu/LocalButtons/Local" method="_on_visibility_changed"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/ButtonCheck" to="." method="OnButtonCheckDown"]
+[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/LoadFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_LoadFriend_button_down"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/SyncTest" to="." method="OnSyncTestButtonDown"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="button_down" from="HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="JoinTest" to="." method="OnJoinTestButtonDown"]

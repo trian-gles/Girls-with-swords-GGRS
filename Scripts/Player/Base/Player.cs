@@ -109,6 +109,7 @@ public class Player : Node2D
 	private Vector2 hit_launch;
 	private bool hit_knockdown;
 	private int hit_prorationLevel;
+	private Vector2 hit_collisionPnt;
 
 	// Box colors
 	private Color hitColor = new Color(0, 0, 255, 0.5f);
@@ -122,7 +123,7 @@ public class Player : Node2D
 	public Area2D hurtBoxes;
 	private CollisionShape2D colBox;
 	public AnimationPlayer animationPlayer;
-	private Sprite sprite;
+	public Sprite sprite;
 	private EventScheduler eventSched;
 	private GFXHandler gfxHand;
 	private Label debugPos;
@@ -552,11 +553,6 @@ public class Player : Node2D
 		Update();
 		
 		animationPlayer.FrameAdvance();
-
-		if (CheckHurtRect() && (otherPlayer.currentState.Name != "Knockdown"))
-		{
-			currentState.InHurtbox();
-		}
 		currentState.FrameAdvance();
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
@@ -769,7 +765,7 @@ public class Player : Node2D
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
 	/// <param name="prorationLevel"></param>
-	public void ReceiveHit(BaseAttack.ATTACKDIR attackDir, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
+	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
 	{
 
 		wasHit = true;
@@ -782,7 +778,7 @@ public class Player : Node2D
 		hit_launch = launch;
 		hit_knockdown = knockdown;
 		hit_prorationLevel = prorationLevel;
-
+		hit_collisionPnt = collisionPnt;
 
 
 }
@@ -879,7 +875,7 @@ public class Player : Node2D
 		gfxHand.Effect(name, Position, facingRight);
 	}
 
-	public bool CheckHurtRect()
+	public Vector2 CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);
 		List<Rect2> otherRects = otherPlayer.GetRects(otherPlayer.hitBoxes, true);
@@ -889,11 +885,13 @@ public class Player : Node2D
 			{
 				if (hurtRect.Intersects(hitRect))
 				{
-					return true;
+					Rect2 clip = hurtRect.Clip(hitRect);
+					Vector2 center = (clip.Position + clip.End) / 2 + clip.Position;
+					return center;
 				}
 			}
 		}
-		return false;
+		return Vector2.Inf;
 	}
 
 	public List<Rect2> GetRects(Area2D area, bool globalPosition = false) 

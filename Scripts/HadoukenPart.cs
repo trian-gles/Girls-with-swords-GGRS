@@ -119,7 +119,7 @@ public class HadoukenPart : Node2D
 			direction = BaseAttack.ATTACKDIR.LEFT;
 		}
 
-		targetPlayer.ReceiveHit(direction, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false, 0);
+		targetPlayer.ReceiveHit(Vector2.Inf, direction, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false, 0);
 		MakeInactive();
 	}
 

@@ -3,11 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 /// <summary>
 /// Collection of constants and static functions
 /// </summary>
+/// 
 public class Globals : Node
 {
+	[Signal]
+	public delegate void GhostEmitted(Player p);
+
 	public static int frame = 0;
 	public enum Inputs
 	{

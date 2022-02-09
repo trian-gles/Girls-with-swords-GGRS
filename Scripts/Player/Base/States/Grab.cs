@@ -77,7 +77,7 @@ public class Grab : State
 				direction = BaseAttack.ATTACKDIR.LEFT;
 			}
 
-			owner.otherPlayer.ReceiveHit(direction, dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
+			owner.otherPlayer.ReceiveHit(Vector2.Inf, direction, dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
 		}
 	}
 	public override void AnimationFinished()

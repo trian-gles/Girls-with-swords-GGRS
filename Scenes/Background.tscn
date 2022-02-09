@@ -23,7 +23,7 @@ shader = ExtResource( 10 )
 shader_param/color = Color( 0.207843, 0.203922, 0.298039, 1 )
 shader_param/reflection_intensity = 0.763
 shader_param/scale_y = 0.638957
-shader_param/zoom_y = 2.04784
+shader_param/zoom_y = 2.66968
 shader_param/transition_gradient = SubResource( 2 )
 
 [node name="Background" type="Node2D"]

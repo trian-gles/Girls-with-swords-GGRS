@@ -108,7 +108,6 @@ public class MainScene : Node2D
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 
 
-
 		GGRS = GetNode("GodotGGRS");
 		P1Combo = GetNode<Label>("HUD/P1Combo");
 		P2Combo = GetNode<Label>("HUD/P2Combo");
@@ -590,6 +589,11 @@ public class MainScene : Node2D
 	public void OnLevelUp()
 	{
 		mainGFX.LevelUp(gsObj.Frame);
+	}
+
+	public void OnGhostEmitted()
+	{
+
 	}
 	
 }

@@ -47,6 +47,12 @@ public class MainScene : Node2D
 
 	[Signal]
 	public delegate void LobbyReturn();
+	
+	[Signal]
+	public delegate void LocalLobbyReturn();
+	
+	[Signal]
+	public delegate void NetPlayLobbyReturn();
 
 	private int inputs = 0; //Store all inputs on this frame as a single int because that's what GGPO accepts.
 	private int p2inputs = 0; //used only in local mode for local p2 inputs
@@ -578,8 +584,18 @@ public class MainScene : Node2D
 	}
 	private void CloseMainscene()
 	{
-		GD.Print("Emitting lobby return signal");
-		EmitSignal(nameof(LobbyReturn));
+//		GD.Print("Emitting lobby return signal");
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.LOCAL)
+		{
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(LocalLobbyReturn));
+			GD.Print("Emitting LOCAL lobby return signal");
+		}
+		else if (Globals.mode == Globals.Mode.GGPO)
+		{
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(NetPlayLobbyReturn));
+			GD.Print("Emitting NETPLAY lobby return signal");
+		}
+	
 		GD.Print("Emitted lobby return signal, queueing free");
 		QueueFree();
 	}

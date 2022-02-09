@@ -8,10 +8,9 @@ public class Lobby : Node2D
 	MarginContainer localmenu;
 	MarginContainer netplaymenu;
 	VBoxContainer mainmenubuttons;
-	VBoxContainer buttons;
+	VBoxContainer localmenubuttons;
 	VBoxContainer entries;
 	HBoxContainer netplaybuttons;
-	
 	
 	Control inputmenu;
 	VBoxContainer column;
@@ -23,7 +22,7 @@ public class Lobby : Node2D
 		mainmenubuttons = mainmenu.GetNode<VBoxContainer>("CenterContainer/MainMenuButtons");
 		localmenu = menuroot.GetNode<MarginContainer>("LocalMenu");
 		netplaymenu = menuroot.GetNode<MarginContainer>("NetPlayMenu");
-		buttons = localmenu.GetNode<VBoxContainer>("LocalButtons");
+		localmenubuttons = localmenu.GetNode<VBoxContainer>("LocalButtons");
 		entries = netplaymenu.GetNode<VBoxContainer>("Entries");
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
 		
@@ -81,7 +80,7 @@ public class Lobby : Node2D
 		Begin(true);
 	}
 	
-	public void OnButtonCheckDown()
+	public void _on_ButtonConfig_pressed()
 	{
 		HideButtons();
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
@@ -98,10 +97,33 @@ public class Lobby : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
+	public void LocalLobbyReturn()
+	{
+		OnLobbyReset();
+		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = true;
+		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = false;
+		localmenubuttons.GetNode<Button>("Local").GrabFocus();
+	}
+	
+	public void NetPlayLobbyReturn()
+	{
+		OnLobbyReset();
+		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = false;
+		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = true;
+		netplaybuttons.GetNode<Button>("Host").GrabFocus();
+	}
+	
 	public void OnLobbyReset()
 	{
 		GetNode<Control>("MenuRoot").Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
+		
+		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
+		{
+			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
+		}
 	}
 
 	private void HideButtons()
@@ -114,6 +136,8 @@ public class Lobby : Node2D
 	{
 		HideButtons();
 		GetNode("/root/Events").Connect("ButtonConfigPressed", this, nameof(OnButtonCheckDownInGame));
+		GetNode("/root/Globals").Connect("LocalLobbyReturn", this, nameof(LocalLobbyReturn));
+		GetNode("/root/Globals").Connect("NetPlayLobbyReturn", this, nameof(NetPlayLobbyReturn));
 		
 		string ip = "127.0.0.1";
 		int localPort = 0;

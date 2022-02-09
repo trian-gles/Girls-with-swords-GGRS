@@ -31,6 +31,7 @@ func move_to_next_menu(next_menu_id: String):
 	tween.start()
 	menu_stack.append(current_menu)
 	current_menu = next_menu
+	$MainMenu.visible = false
 	
 	
 func move_to_previous_menu():
@@ -40,6 +41,11 @@ func move_to_previous_menu():
 		tween.interpolate_property(current_menu, "rect_global_position", current_menu.rect_global_position, Vector2(menu_origin_size.x, 0), menu_transition_time)
 		tween.start()
 		current_menu = previous_menu
+		$MainMenu.visible = true
+		$LocalMenu.visible = false
+		$NetPlayMenu.visible = false
+		$MainMenu/CenterContainer/MainMenuButtons/Local.grab_focus()
+		
 	
 
 func get_menu_from_menu_id(menu_id: String) -> Control:
@@ -57,13 +63,12 @@ func get_menu_from_menu_id(menu_id: String) -> Control:
 func _on_Local_pressed():
 	$LocalMenu.visible = true
 	move_to_next_menu("localmenu")
-
-
+	$LocalMenu/LocalButtons/Local.grab_focus()
 
 func _on_BackButton_pressed():
 	move_to_previous_menu()
 
-
 func _on_NetPlay_pressed():
 	$NetPlayMenu.visible = true
 	move_to_next_menu("netplaymenu")
+	$NetPlayMenu/Entries/NetPlayButtons/Host.grab_focus()

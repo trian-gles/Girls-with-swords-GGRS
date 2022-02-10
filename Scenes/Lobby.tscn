@@ -128,7 +128,6 @@ custom_fonts/font = ExtResource( 6 )
 text = "Girls with Swords"
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 36.0
 margin_right = 272.0
 margin_bottom = 58.0
@@ -140,7 +139,6 @@ __meta__ = {
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 78.0
 margin_right = 272.0
 margin_bottom = 100.0
@@ -166,7 +164,6 @@ margin_bottom = 182.0
 text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 162.0
 margin_right = 272.0
 margin_bottom = 182.0
@@ -228,7 +225,6 @@ margin_bottom = 130.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -239,9 +235,9 @@ __meta__ = {
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 36.0
+margin_top = 22.0
 margin_right = 390.0
-margin_bottom = 234.0
+margin_bottom = 248.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -249,6 +245,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+dropdown_path = NodePath("FriendList")
 
 [node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
@@ -280,19 +277,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpponentPort" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
+[node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_top = 44.0
 margin_right = 300.0
 margin_bottom = 68.0
+placeholder_text = "Enter Friend Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpponentPort" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 72.0
+margin_right = 300.0
+margin_bottom = 96.0
 placeholder_text = "Enter Opponent Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 72.0
+margin_top = 100.0
 margin_right = 300.0
-margin_bottom = 96.0
+margin_bottom = 124.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -300,9 +306,9 @@ __meta__ = {
 }
 
 [node name="LocalPort" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 100.0
+margin_top = 128.0
 margin_right = 300.0
-margin_bottom = 124.0
+margin_bottom = 152.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Local Port"
 __meta__ = {
@@ -310,30 +316,31 @@ __meta__ = {
 }
 
 [node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 128.0
+margin_top = 156.0
 margin_right = 300.0
-margin_bottom = 148.0
+margin_bottom = 176.0
 text = "Add Friend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LoadFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 152.0
+visible = false
+margin_top = 180.0
 margin_right = 300.0
-margin_bottom = 172.0
+margin_bottom = 200.0
 text = "Load Friends..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-visible = false
-margin_top = 176.0
+margin_top = 180.0
 margin_right = 300.0
-margin_bottom = 196.0
-disabled = true
+margin_bottom = 200.0
+text = "Your Friends"
 align = 1
+selected = 0
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false
@@ -356,9 +363,9 @@ __meta__ = {
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 176.0
+margin_top = 204.0
 margin_right = 300.0
-margin_bottom = 198.0
+margin_bottom = 226.0
 text = "Back"
 
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
@@ -371,7 +378,6 @@ text = "Back"
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/LoadFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_LoadFriend_button_down"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]

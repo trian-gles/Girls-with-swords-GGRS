@@ -49,6 +49,7 @@ func change_action_key(action_name, key_scancode):
 	InputMap.action_add_event(action_name, new_key)
 	
 	get_selected_profile()[action_name] = key_scancode
+	
 
 func erase_action_events(action_name):
 	var input_events = InputMap.get_action_list(action_name)
@@ -57,6 +58,7 @@ func erase_action_events(action_name):
 
 func get_selected_profile():
 	return get(profiles[current_profile_id])
+	
 
 func _on_ProfilesMenu_item_selected(ID):
 	change_profile(ID)

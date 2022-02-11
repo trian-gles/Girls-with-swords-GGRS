@@ -359,7 +359,6 @@ margin_right = 300.0
 margin_bottom = 200.0
 text = "Item 0"
 align = 1
-selected = 0
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false

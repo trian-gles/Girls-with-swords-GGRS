@@ -14,8 +14,9 @@ public class Float : HitStun
     /// </summary>
     /// <param name="knockdown"></param>
     /// <param name="launch"></param>
-    protected override void EnterHitState(bool knockdown, Vector2 launch)
+    protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
     {
+        GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
         if (!(launch == Vector2.Zero))
         {
             owner.velocity = launch;
@@ -53,13 +54,13 @@ public class Float : HitStun
         ApplyGravity();
     }
 
-    public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+    public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
     {
         if (launch.y == 0)
         {
             launch.y = -400;
         }
-        base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
+        base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt);
     }
 
 }

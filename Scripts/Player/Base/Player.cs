@@ -779,9 +779,7 @@ public class Player : Node2D
 		hit_knockdown = knockdown;
 		hit_prorationLevel = prorationLevel;
 		hit_collisionPnt = collisionPnt;
-
-
-}
+	}
 
 	public void CalculateHit()
 	{
@@ -789,7 +787,7 @@ public class Player : Node2D
 		{
 			return;
 		}
-		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown);
+		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt);
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
 		EmitSignal(nameof(HitConfirm));
@@ -886,7 +884,7 @@ public class Player : Node2D
 				if (hurtRect.Intersects(hitRect))
 				{
 					Rect2 clip = hurtRect.Clip(hitRect);
-					Vector2 center = (clip.Position + clip.End) / 2 + clip.Position;
+					Vector2 center = (clip.End - clip.Position) / 2 + clip.Position;
 					return center;
 				}
 			}

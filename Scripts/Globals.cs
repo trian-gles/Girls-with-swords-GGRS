@@ -12,7 +12,10 @@ public class Globals : Node
 {
 	[Signal]
 	public delegate void GhostEmitted(Player p);
-	
+
+	[Signal]
+	public delegate void PlayerFXEmitted(Vector2 pos, string particleName);
+
 	[Signal]
 	public delegate void LocalLobbyReturn();
 

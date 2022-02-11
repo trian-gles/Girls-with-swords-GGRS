@@ -72,17 +72,18 @@ public class CommandRun : State
 		}
 	}
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
 	{
 		if (!oneHit)
 		{
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
 			owner.GFXEvent("Blood");
 			oneHit = true;
 		}
 		else
 		{
-			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown);
+			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt);
 		}
 	}
 

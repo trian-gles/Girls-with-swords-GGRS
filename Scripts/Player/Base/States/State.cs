@@ -14,6 +14,9 @@ public abstract class State : Node
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
 
+	[Signal]
+	public delegate void PlayerFXEmitted(Vector2 pos, ParticleSprite particle);
+
 	public int stunRemaining 
 	{ get; set; }
 	public bool loop = false;
@@ -250,7 +253,6 @@ public abstract class State : Node
 		}
 		foreach (NormalGatling normGat in normalGatlings)
 		{
-
 			char[] testInp = normGat.input;
 			testInp = ReverseInput(testInp);
 			if (Enumerable.SequenceEqual(normGat.input, inputArr))
@@ -305,8 +307,9 @@ public abstract class State : Node
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
-	protected virtual void EnterHitState(bool knockdown, Vector2 launch)
+	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
 	{
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
 		bool launchBool = false;
 		bool airState = (launchBool || !owner.grounded);
 		owner.ComboUp();
@@ -336,7 +339,13 @@ public abstract class State : Node
 		}
 	}
 
-	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt)
+	{
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block");
+		EmitSignal(nameof(StateFinished), stateName);
+	}
+
+	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
 	{
 		owner.velocity = new Vector2(0, 0);
 		switch (attackDir)
@@ -372,16 +381,16 @@ public abstract class State : Node
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EmitSignal(nameof(StateFinished), "Block");
+					EnterBlockState("Block", collisionPnt);
 				}
 				else
 				{
-					EnterHitState(knockdown, launch);
+					EnterHitState(knockdown, launch, collisionPnt);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch);
+				EnterHitState(knockdown, launch, collisionPnt);
 			}
 			
 		}
@@ -391,27 +400,27 @@ public abstract class State : Node
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EmitSignal(nameof(StateFinished), "CrouchBlock");
+					EnterBlockState("CrouchBlock", collisionPnt);
 				}
 				else
 				{
-					EnterHitState(knockdown, launch);
+					EnterHitState(knockdown, launch, collisionPnt);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch);
+				EnterHitState(knockdown, launch, collisionPnt);
 			}
 		}
 		else
 		{
 			if (rightBlock || leftBlock || anyBlock)
 			{
-				EmitSignal(nameof(StateFinished), "Block");
+				EnterBlockState("Block", collisionPnt);
 			}
 			else 
 			{
-				EnterHitState(knockdown, launch);
+				EnterHitState(knockdown, launch, collisionPnt);
 			}
 		}
 	}

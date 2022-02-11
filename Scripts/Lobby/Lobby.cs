@@ -14,6 +14,9 @@ public class Lobby : Node2D
 	
 	Control inputmenu;
 	VBoxContainer column;
+
+	[Export]
+	public bool syncTest = false;
 	
 	public override void _Ready()
 	{
@@ -29,9 +32,9 @@ public class Lobby : Node2D
 		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
-		
-		
-		Globals.Tests();
+
+		if (syncTest)
+			OnSyncTestButtonDown();
 	}
 	public void OnHostButtonDown()
 	{	

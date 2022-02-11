@@ -107,7 +107,7 @@ public abstract class BaseAttack : State
 	}
 
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
 	{
 		switch (attackDir)
 		{
@@ -130,13 +130,14 @@ public abstract class BaseAttack : State
 			owner.grounded = false;
 		}
 
-		EnterHitState(knockdown, launch);
+		EnterHitState(knockdown, launch, collisionPnt);
 	}
 
 	
 
-	protected override void EnterHitState(bool knockdown, Vector2 launch)
+	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
 	{
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
 		bool launchBool = false;
 		owner.ComboUp();
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK

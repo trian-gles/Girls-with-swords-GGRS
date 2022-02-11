@@ -225,6 +225,7 @@ margin_bottom = 130.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -356,8 +357,9 @@ __meta__ = {
 margin_top = 180.0
 margin_right = 300.0
 margin_bottom = 200.0
-text = "Friend List"
+text = "Item 0"
 align = 1
+selected = 0
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false
@@ -396,6 +398,7 @@ text = "Back"
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/RemoveFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_RemoveFriend_pressed"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/FriendList" to="MenuRoot/NetPlayMenu/Entries" method="_on_FriendList_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]

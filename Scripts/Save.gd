@@ -63,6 +63,7 @@ func _on_AddFriend_button_down():
 
 #dropdown calls this function
 func on_item_selected(id):
+#	print("Friend selected signal emitting")
 	var selectedfriend = (dropdown.get_item_text(id))
 	loadselectedfriend(selectedfriend)
 #finds friend key in file
@@ -105,3 +106,10 @@ func _on_RemoveFriend_pressed():
 	#reflect changes in dropdown
 	updatefriendlist()
 	
+
+#register friend when only one entry
+func _on_FriendList_pressed():
+	if dropdown.get_selected() >= 0:
+		var selectedid = dropdown.get_selected_id()
+		var selectedfriend = (dropdown.get_item_text(selectedid))
+		loadselectedfriend(selectedfriend)

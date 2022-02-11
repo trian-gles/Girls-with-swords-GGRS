@@ -1,7 +1,9 @@
 extends Node
 
 export (NodePath) var dropdown_path
+export (NodePath) var confirmremove_path
 onready var dropdown = get_node(dropdown_path)
+onready var confirmremove = get_node(confirmremove_path)
 
 onready var FriendName = $FriendName
 onready var OpponentPort =$OpponentPort
@@ -13,6 +15,7 @@ var save_path = "user://friends/friendlist.txt"
 
 func _ready():
 	dropdown.connect("item_selected", self, "on_item_selected")
+	confirmremove.connect("confirmed", self, "removefriend")
 	checkforfiles()
 
 func checkforfiles():
@@ -93,6 +96,16 @@ func _on_RemoveFriend_pressed():
 	#getting currently selected friend
 	var selectedid = dropdown.get_selected_id()
 	var selectedfriend = (dropdown.get_item_text(selectedid))
+	
+	#show remove confirmation dialog
+	confirmremove.visible = true
+	confirmremove.get_cancel().grab_focus()
+	confirmremove.dialog_text = ("Do you really want to remove " + str(selectedfriend))
+	
+func removefriend():
+	var selectedid = dropdown.get_selected_id()
+	var selectedfriend = (dropdown.get_item_text(selectedid))
+	
 	#loading and removing friend from dict
 	var file = File.new()
 	file.open(save_path, File.READ)
@@ -106,10 +119,14 @@ func _on_RemoveFriend_pressed():
 	#reflect changes in dropdown
 	updatefriendlist()
 	
-
 #register friend when only one entry
 func _on_FriendList_pressed():
 	if dropdown.get_selected() >= 0:
 		var selectedid = dropdown.get_selected_id()
 		var selectedfriend = (dropdown.get_item_text(selectedid))
 		loadselectedfriend(selectedfriend)
+
+#return focus to netplay buttons
+func _on_ConfirmationDialog_hide():
+	print(str("exited confirmation dialog"))
+	$NetPlayButtons/Host.grab_focus()

@@ -225,7 +225,6 @@ margin_bottom = 130.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -247,6 +246,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 dropdown_path = NodePath("FriendList")
+confirmremove_path = NodePath("../ConfirmationDialog")
 
 [node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
@@ -386,6 +386,15 @@ margin_right = 300.0
 margin_bottom = 226.0
 text = "Back"
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
+margin_left = 140.0
+margin_top = 100.0
+margin_right = 340.0
+margin_bottom = 170.0
+focus_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
@@ -401,3 +410,4 @@ text = "Back"
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
+[connection signal="hide" from="MenuRoot/NetPlayMenu/ConfirmationDialog" to="MenuRoot/NetPlayMenu/Entries" method="_on_ConfirmationDialog_hide"]

@@ -13,11 +13,16 @@ var save_path = "user://friends/friendlist.txt"
 
 func _ready():
 	dropdown.connect("item_selected", self, "on_item_selected")
-	loadfriendlist()
-			
-	pass
-	
-func loadfriendlist():
+	checkforfiles()
+
+func checkforfiles():
+	var dir = Directory.new()
+	if !dir.dir_exists(SAVE_DIR):
+		dir.make_dir_recursive(SAVE_DIR)	
+	updatefriendlist()
+		
+
+func updatefriendlist():
 	dropdown.clear()
 	var file = File.new()
 	if file.file_exists(save_path):
@@ -25,18 +30,17 @@ func loadfriendlist():
 		if error == OK:
 			var player_data = parse_json(file.get_line())
 			player_data = player_data.keys()
-			dropdown.add_item(player_data[0])
-
+			for players in player_data:
+				dropdown.add_item(players)
 	else:
-		var defaultfriend = {"Your friends" : "will appear here" }
+		var defaultfriend = {}
 		file.open(save_path, File.WRITE)
 		file.store_line(to_json(defaultfriend))
 	file.close()
 	
 func _on_AddFriend_button_down():
-	
+	#grabbing data from linedit boxes
 	var friendtext = FriendName.text
-	
 	var addedfriend = {
 		"Friend Name" : FriendName.text,
 		"Opponent Port" : OpponentPort.text,
@@ -44,37 +48,36 @@ func _on_AddFriend_button_down():
 		"Local Port" : LocalPort.text,
 	}
 		
-	var dir = Directory.new()
-	if !dir.dir_exists(SAVE_DIR):
-		dir.make_dir_recursive(SAVE_DIR)
-
 	var file = File.new()
+	#grabbing current list from file
 	file.open(save_path, File.READ)
 	var friendlist = parse_json(file.get_line())
+	#adding friend to current list
 	friendlist[friendtext] = addedfriend
-	
-	var error = file.open(save_path, File.WRITE)
-	if error == OK:
-		file.store_line(to_json(friendlist))
-		file.close()
-#
-#	console_write("Friend", "added","have","fun!")
-	
-	loadfriendlist()
+	#writing new list to file
+	file.open(save_path, File.WRITE)
+	file.store_line(to_json(friendlist))
+	file.close()
+	#update dropdown with newlist
+	updatefriendlist()
 
-func _on_LoadFriend_button_down(id):
+#dropdown calls this function
+func on_item_selected(id):
+	var selectedfriend = (dropdown.get_item_text(id))
+	loadselectedfriend(selectedfriend)
+#finds friend key in file
+func loadselectedfriend(id):
 	var file = File.new()
-
 	if file.file_exists(save_path):
 		var error = file.open(save_path, File.READ)
 		if error == OK:
 			var player_data = parse_json(file.get_line())
-			print("This is player_data printing ", str(player_data))
-			print("This is the passed argument ", str(id))
+#			print("This is player_data printing ", str(player_data))
+#			print("This is the passed argument ", str(id))
 			var loadedfriend = player_data[id]
 			file.close()
 			console_write(loadedfriend["Friend Name"],loadedfriend["Opponent Port"],loadedfriend["Opponent Ip"],loadedfriend["Local Port"])
-
+#writes friend data to linedit boxes
 func console_write(friendname,port,ip,homeport):
 	FriendName.clear()
 	OpponentPort.clear()
@@ -84,9 +87,21 @@ func console_write(friendname,port,ip,homeport):
 	OpponentPort.text += str(port) 
 	OpponentIp.text += str(ip)
 	LocalPort.text += str(homeport)
+
+func _on_RemoveFriend_pressed():
+	#getting currently selected friend
+	var selectedid = dropdown.get_selected_id()
+	var selectedfriend = (dropdown.get_item_text(selectedid))
+	#loading and removing friend from dict
+	var file = File.new()
+	file.open(save_path, File.READ)
+	var friendlist = parse_json(file.get_line())
+	friendlist.erase(selectedfriend)
+	#update file with new dict
+	var error = file.open(save_path, File.WRITE)
+	if error == OK:
+		file.store_line(to_json(friendlist))
+		file.close()
+	#reflect changes in dropdown
+	updatefriendlist()
 	
-func on_item_selected(id):
-#	print(str(dropdown.get_item_text(id)))
-	var selectedfriend = (dropdown.get_item_text(id))
-#	print(str(selectedfriend))
-	_on_LoadFriend_button_down(selectedfriend)

@@ -315,11 +315,29 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_top = 156.0
 margin_right = 300.0
 margin_bottom = 176.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
+margin_right = 148.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 text = "Add Friend"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
+margin_left = 152.0
+margin_right = 300.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Remove Friend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -338,9 +356,8 @@ __meta__ = {
 margin_top = 180.0
 margin_right = 300.0
 margin_bottom = 200.0
-text = "Your Friends"
+text = "Friend List"
 align = 1
-selected = 0
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false
@@ -377,7 +394,8 @@ text = "Back"
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/RemoveFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_RemoveFriend_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]

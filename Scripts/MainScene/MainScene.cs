@@ -94,10 +94,10 @@ public class MainScene : Node2D
 		MoveChild(P1, 4);
 		
 
-		P2 = characterMap["OL"].Instance() as Player;
+		P2 = characterMap["GL"].Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
-		P2.colorScheme = 3;
+		P2.colorScheme = 0;
 		AddChild(P2);
 		MoveChild(P2, 5);
 

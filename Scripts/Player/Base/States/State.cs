@@ -70,8 +70,7 @@ public abstract class State : Node
 		owner.velocity.y += owner.gravity;
 	}
 	public virtual void AnimationFinished() 
-	{ 
-	
+	{
 	}
 
 	

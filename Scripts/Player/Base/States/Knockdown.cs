@@ -3,10 +3,14 @@ using System;
 
 public class Knockdown : HitState
 {
+    public override void _Ready()
+    {
+        base._Ready();
+        loop = false;
+    }
     public override void Enter()
     {
         frameCount = 0;
-        loop = false;
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);

@@ -39,7 +39,7 @@ public class Player : Node2D
 	public bool dummy = false; //you can use this for testing with a dummy
 
 	[Export]
-	public int hitPushSpeed = 100;
+	public int hitPushSpeed = 300;
 
 	[Export]
 	public bool debugPress = false;

@@ -310,7 +310,7 @@ public abstract class State : Node
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
-		bool airState = (launchBool || !owner.grounded);
+		
 		owner.ComboUp();
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
 		{
@@ -319,8 +319,14 @@ public abstract class State : Node
 			launchBool = true;
 		}
 
-		if (launchBool && !knockdown)
+		bool airState = (launchBool || !owner.grounded);
+
+		if (airState && !knockdown)
 		{
+			if (launch.y == 0)
+			{
+				launch.y = -400;
+			}
 			EmitSignal(nameof(StateFinished), "Float");
 		}
 		else if (airState && knockdown)

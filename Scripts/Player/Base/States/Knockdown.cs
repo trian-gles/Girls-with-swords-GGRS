@@ -20,13 +20,6 @@ public class Knockdown : HitState
     {
 
         owner.ResetComboAndProration();
-        if (owner.grounded) 
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-        else
-        {
-            EmitSignal(nameof(StateFinished), "Fall");
-        }
+        EmitSignal(nameof(StateFinished), "Idle");
     }
 }

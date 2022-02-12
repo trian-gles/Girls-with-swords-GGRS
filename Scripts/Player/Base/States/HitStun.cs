@@ -29,20 +29,7 @@ public class HitStun : HitState
 
 		if (stunRemaining == 0)
 		{
-			owner.ResetComboAndProration();
-			if (owner.grounded)
-			{
-				EmitSignal(nameof(StateFinished), "Idle");
-			}
-			else
-			{
-				EmitSignal(nameof(StateFinished), "Fall");
-			}
-		}
-
-		if (!owner.grounded)
-		{
-			ApplyGravity();
+			EmitSignal(nameof(StateFinished), "Idle");
 		}
 
 	}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -37,6 +37,7 @@
 [ext_resource path="res://Scripts/Player/Base/GFXHandler.cs" type="Script" id=35]
 [ext_resource path="res://Scripts/Player/Base/Blood.cs" type="Script" id=36]
 [ext_resource path="res://Sprites/Atlas/OL Moveset Gray v2.png" type="Texture" id=37]
+[ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 
@@ -44,7 +45,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 32 )
+extents = Vector2( 12, 38 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 10 )
@@ -244,6 +245,10 @@ knockdown = true
 
 [node name="AirBackdash" type="Node" parent="StateTree"]
 script = ExtResource( 1 )
+
+[node name="Tech" type="Node" parent="StateTree"]
+script = ExtResource( 38 )
+techVector = Vector2( 200, -400 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

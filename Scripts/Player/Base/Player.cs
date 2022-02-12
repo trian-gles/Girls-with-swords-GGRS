@@ -95,6 +95,7 @@ public class Player : Node2D
 		public bool grounded { get; set; }
 		public int combo { get; set; }
 		public int proration { get; set; }
+		public int animationCursor { get; set; }
 
 	}
 
@@ -211,7 +212,7 @@ public class Player : Node2D
 		pState.health = health;
 		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
-
+		pState.animationCursor = animationPlayer.cursor;
 
 		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
 		pState.facingRight = facingRight;
@@ -237,8 +238,7 @@ public class Player : Node2D
 		{
 			animation = animation.Substring(2);
 		}
-
-		animationPlayer.SetAnimationAndFrame(animation, pState.frameCount);
+		animationPlayer.SetAnimationAndFrame(animation, pState.animationCursor);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;

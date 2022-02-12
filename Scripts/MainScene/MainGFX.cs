@@ -12,9 +12,13 @@ public class MainGFX : Node
 	{
 		GetNode("/root/Globals").Connect("GhostEmitted", this, nameof(OnGhostEmitted));
 		GetNode("/root/Globals").Connect("PlayerFXEmitted", this, nameof(OnGFXParticleEmitted));
+
+// store referencecs to all particles
 		particleSprites.Add("hit", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/HitFX.tscn"));
 		particleSprites.Add("block", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/BlockFX.tscn"));
+		particleSprites.Add("dust", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/DustFX.tscn"));
 
+// render all particles NOW since C# has no preload
 		var dummy = dashGhost.Instance();
 		dummy.QueueFree();
 
@@ -32,13 +36,17 @@ public class MainGFX : Node
 		lastLevelUp = frame;
 	}
 
-	public void OnGFXParticleEmitted(Vector2 location, string particleName)
+	public void OnGFXParticleEmitted(Vector2 location, string particleName, bool flipH)
 	{
 		location /= 100;
-		GD.Print($"Emitting {particleName} at {location}");
+		GD.Print($"Emitting {particleName} at {location} with flipH {flipH}");
 		var newPart = (ParticleSprite) particleSprites[particleName].Instance();
 		AddChild(newPart);
-		MoveChild(newPart, 0);
+		if (flipH)
+		{
+			newPart.FlipH = true;
+			newPart.Offset = new Vector2(newPart.Offset.x * -1, newPart.Offset.y);
+		}
 		newPart.Position = location;
 	}
 
@@ -47,8 +55,8 @@ public class MainGFX : Node
 		GD.Print("maingfx creating ghost");
 		var newGhost = (Sprite) dashGhost.Instance();
 		AddChild(newGhost);
-		MoveChild(newGhost, 0);
 		ghosts.Add(newGhost);
+		newGhost.ZIndex = -1;
 		newGhost.GlobalPosition = p.sprite.GlobalPosition;
 		newGhost.Texture = p.sprite.Texture;
 		newGhost.Vframes = p.sprite.Vframes;

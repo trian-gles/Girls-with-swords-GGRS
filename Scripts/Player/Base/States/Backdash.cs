@@ -20,6 +20,10 @@ public class Backdash: Walk
 		owner.velocity.y = -1 * hopForce;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 		owner.grounded = false;
+
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), 
+			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y), 
+			"dust", !owner.facingRight);
 	}
 
 	public override void HandleInput(char[] inputArr)

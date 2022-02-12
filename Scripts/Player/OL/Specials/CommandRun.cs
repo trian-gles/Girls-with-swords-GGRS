@@ -77,7 +77,7 @@ public class CommandRun : State
 		if (!oneHit)
 		{
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
-			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 			owner.GFXEvent("Blood");
 			oneHit = true;
 		}

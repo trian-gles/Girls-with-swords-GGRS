@@ -14,7 +14,7 @@ public class Globals : Node
 	public delegate void GhostEmitted(Player p);
 
 	[Signal]
-	public delegate void PlayerFXEmitted(Vector2 pos, string particleName);
+	public delegate void PlayerFXEmitted(Vector2 location, string particleName, bool flipH);
 
 	[Signal]
 	public delegate void LocalLobbyReturn();

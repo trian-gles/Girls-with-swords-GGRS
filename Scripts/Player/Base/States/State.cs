@@ -309,7 +309,7 @@ public abstract class State : Node
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
 		bool airState = (launchBool || !owner.grounded);
 		owner.ComboUp();
@@ -341,7 +341,7 @@ public abstract class State : Node
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block");
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", false);
 		EmitSignal(nameof(StateFinished), stateName);
 	}
 

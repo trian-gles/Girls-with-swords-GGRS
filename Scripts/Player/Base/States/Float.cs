@@ -16,7 +16,7 @@ public class Float : HitStun
     /// <param name="launch"></param>
     protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
     {
-        GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
+        GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
         if (!(launch == Vector2.Zero))
         {
             owner.velocity = launch;

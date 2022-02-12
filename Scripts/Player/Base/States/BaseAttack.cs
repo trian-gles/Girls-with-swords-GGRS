@@ -137,7 +137,7 @@ public abstract class BaseAttack : State
 
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit");
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
 		owner.ComboUp();
 		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK

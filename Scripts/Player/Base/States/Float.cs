@@ -17,10 +17,19 @@ public class Float : HitStun
     protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
     {
         GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+        
+
         if (!(launch == Vector2.Zero))
         {
             owner.velocity = launch;
         }
+
+        if (launch.y == 0)
+        {
+            owner.velocity.y = -400;
+        }
+
+
         owner.ComboUp();
 
         EmitSignal(nameof(StateFinished), "Float");
@@ -40,8 +49,7 @@ public class Float : HitStun
 
         if (stunRemaining == 0)
         {
-            owner.ResetComboAndProration();
-            EmitSignal(nameof(StateFinished), "Fall");
+            EmitSignal(nameof(StateFinished), "Tech");
         }
 
         if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300) 
@@ -52,15 +60,6 @@ public class Float : HitStun
         
 
         ApplyGravity();
-    }
-
-    public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
-    {
-        if (launch.y == 0)
-        {
-            launch.y = -400;
-        }
-        base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt);
     }
 
 }

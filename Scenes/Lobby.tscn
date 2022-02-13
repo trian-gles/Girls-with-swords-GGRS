@@ -387,10 +387,11 @@ margin_bottom = 226.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
-margin_left = 140.0
-margin_top = 100.0
-margin_right = 340.0
-margin_bottom = 170.0
+margin_left = 40.0
+margin_top = 65.0
+margin_right = 440.0
+margin_bottom = 205.0
+rect_min_size = Vector2( 400, 140 )
 focus_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Fall : State
+public class Fall : AirState
 {
 	public override void _Ready()
 	{

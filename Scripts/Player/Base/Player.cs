@@ -30,6 +30,9 @@ public class Player : Node2D
 	public int dashSpeed = 700;
 
 	[Export]
+	public int accel = 40;
+
+	[Export]
 	public int jumpForce = 800;
 
 	[Export]

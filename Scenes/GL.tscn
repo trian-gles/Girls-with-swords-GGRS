@@ -1994,7 +1994,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 25, 17 ) ]
+"values": [ Vector2( 25, 25 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HitBoxes/HitB1:position")
@@ -2006,7 +2006,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 12, 24 ) ]
+"values": [ Vector2( 12, 6 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB2:shape:extents")
@@ -2030,7 +2030,19 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -12, 0 ) ]
+"values": [ Vector2( -14, -20 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Sprite:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -69 ) ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -4949,15 +4961,14 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -2, 4 )
+position = Vector2( 12, 6 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-visible = false
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -13, 4 )
+position = Vector2( -14, -20 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
-visible = false
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
@@ -4965,20 +4976,17 @@ light_mask = 0
 position = Vector2( 30, -38 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-visible = false
 modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 37, 17 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
-visible = false
 modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
 show_behind_parent = true
 material = SubResource( 1 )
-position = Vector2( 0, -49 )
+position = Vector2( 0, -69 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
 hframes = 215
 frame = 149
 

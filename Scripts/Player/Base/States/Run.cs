@@ -1,14 +1,22 @@
 using Godot;
 using System;
 
-public class Run : Walk
+public class Run : MoveState
 {
+	protected int soundRate = 15;
 	public override void _Ready()
 	{
+		base._Ready();
+		loop = true;
+		AddGatling(new[] { 's', 'p' }, () => (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500) && owner.otherPlayer.IsGrabbable(), "Grab");
+		AddGatling(new[] { 'p', 'p' }, "Jab");
+		AddGatling(new[] { 'k', 'p' }, "Kick");
+		AddGatling(new[] { 's', 'p' }, "Slash");
+		AddGatling(new[] { '8', 'p' }, "MovingJump");
+
 		AddGatling(new[] { '6', 'r' }, "PostRun");
 		AddGatling(new[] { '4', 'r' }, "PostRun");
-		base._Ready();
-		
+
 		soundRate = 10;
 	}
 
@@ -36,5 +44,9 @@ public class Run : Walk
 		{
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Step", Name);
 		}
+	}
+
+	public override void PushMovement(float _xVel)
+	{
 	}
 }

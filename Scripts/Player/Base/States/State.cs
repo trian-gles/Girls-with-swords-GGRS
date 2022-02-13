@@ -11,6 +11,15 @@ public abstract class State : Node
 	public Player owner;
 	public int frameCount
 	{ get; set; }
+
+	/// <summary>
+	/// if this is true, the character immediately stops on entering the state
+	/// </summary>
+	protected bool stop = true;
+
+	protected int slowdownSpeed = 0;
+
+
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
 
@@ -55,6 +64,10 @@ public abstract class State : Node
 	public virtual void Enter() 
 	{
 		frameCount = 0;
+		if (stop)
+		{
+			owner.velocity.x = 0;
+		}
 	}
 
 	/// <summary>
@@ -281,6 +294,7 @@ public abstract class State : Node
 	public virtual void FrameAdvance()
 	{
 		frameCount++;
+		if (slowdownSpeed != 0) SlowDown();
 	}
 
 	/// <summary>
@@ -290,6 +304,20 @@ public abstract class State : Node
 	public virtual void PushMovement(float xVel) 
 	{
 		owner.velocity.x = xVel / 2;
+	}
+
+	protected virtual void SlowDown()
+	{
+		if (Math.Abs(owner.velocity.x) <= slowdownSpeed)
+		{
+			owner.velocity.x = 0;
+		}
+		else
+		{
+			int mod = (owner.velocity.x < 0) ? -1 : 1;
+			owner.velocity = new Vector2(owner.velocity.x - slowdownSpeed * mod, 0);
+
+		}
 	}
 
 	/// <summary>

@@ -3,6 +3,12 @@ using System;
 
 public class Float : HitStun
 {
+    public override void _Ready()
+    {
+        base._Ready();
+        stop = false;
+    }
+
     public override void Enter()
     {
         base.Enter();

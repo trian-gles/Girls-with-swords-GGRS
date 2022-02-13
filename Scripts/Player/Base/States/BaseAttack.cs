@@ -43,6 +43,8 @@ public abstract class BaseAttack : State
 	public override void _Ready()
 	{
 		base._Ready();
+		stop = false;
+		slowdownSpeed = 30;
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 	}
 

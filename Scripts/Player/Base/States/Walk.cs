@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Walk : State
+public class Walk : MoveState
 {
 	protected int soundRate = 15;
 	public override void _Ready()

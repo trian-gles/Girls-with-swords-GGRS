@@ -17,7 +17,7 @@ public class Idle : State
 		AddGatling(new[] { 'k', 'p' }, "Kick");
 		AddGatling(new[] { 's', 'p' }, "Slash");
 		
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "Run", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		
 	}
@@ -26,8 +26,6 @@ public class Idle : State
 		base.Enter();
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
-		owner.velocity.x = 0;
-		owner.velocity.y = 0;
 		if (owner.CheckHeldKey('2'))
 		{
 			EmitSignal(nameof(StateFinished), "Crouch");

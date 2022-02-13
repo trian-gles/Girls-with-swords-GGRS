@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Jump : State
+public class Jump : AirState
 {
 	public override void _Ready()
 	{

@@ -4678,7 +4678,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( -1, 0 ), Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=35]
 resource_name = "Tech"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -4813,7 +4813,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=36]
 length = 40.0
 step = 1.0
 tracks/0/type = "value"
@@ -4983,7 +4983,6 @@ position = Vector2( 37, 17 )
 modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
-show_behind_parent = true
 material = SubResource( 1 )
 position = Vector2( 0, -69 )
 texture = ExtResource( 2 )
@@ -5068,6 +5067,6 @@ anims/PreRun = SubResource( 31 )
 anims/RESET = SubResource( 32 )
 anims/Run = SubResource( 33 )
 anims/Slash = SubResource( 34 )
-anims/Tech = SubResource( 36 )
-anims/Walk = SubResource( 35 )
+anims/Tech = SubResource( 35 )
+anims/Walk = SubResource( 36 )
 script = ExtResource( 5 )

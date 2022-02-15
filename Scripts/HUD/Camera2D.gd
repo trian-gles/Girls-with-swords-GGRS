@@ -14,11 +14,20 @@ func _ready():
 func adjust(p1_pos : Vector2, p2_pos : Vector2):
 	camera_rect = Rect2(p1_pos, Vector2())
 	camera_rect = camera_rect.expand(p2_pos)
-	offset = calculate_center(camera_rect)
-	zoom = calculate_zoom(camera_rect, viewport_rect.size)
+	var desired_offset = calculate_center(camera_rect)
+	var desired_zoom = calculate_zoom(camera_rect, viewport_rect.size)
+	
+	offset = offset.linear_interpolate(desired_offset, 0.5)
+	zoom = zoom.linear_interpolate(desired_zoom, 0.5)
+	
+	
+	
 	var y_height = 270 * zoom.y
 	var y_bottom = y_height / 2 + offset.y
 	var y_below = 260 - y_bottom
+	
+	
+	
 	if y_below < 0:
 		offset.y += y_below
 		

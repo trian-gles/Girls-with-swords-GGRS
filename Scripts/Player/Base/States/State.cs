@@ -246,7 +246,7 @@ public abstract class State : Node
 	{
 		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
 		{
-			GD.Print(perm);
+			//GD.Print(perm);
 			AddGatling(new char[] {perm[0] ,'p' },  () => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]), 
 				cancelState, () => owner.GFXEvent("Cancel"));
 		}

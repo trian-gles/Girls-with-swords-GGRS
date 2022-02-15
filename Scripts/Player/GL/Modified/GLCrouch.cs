@@ -13,7 +13,7 @@ public class GLCrouch : Crouch
     public override void Enter()
     {
         base.Enter();
-        GD.Print("Entering GL crouch");
+        //GD.Print("Entering GL crouch");
     }
 
 }

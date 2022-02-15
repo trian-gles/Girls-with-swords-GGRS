@@ -82,7 +82,7 @@ public abstract class BaseAttack : State
 
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
-		GD.Print($"Hit connect at point {collisionPnt}");
+		//GD.Print($"Hit connect at point {collisionPnt}");
 		EmitSignal(nameof(OnHitConnected), hitPush);
 		var direction = ATTACKDIR.EQUAL;
 
@@ -153,17 +153,17 @@ public abstract class BaseAttack : State
 
 		if (launchBool && !knockdown)
 		{
-			GD.Print("Entering counterfloat from attack");
+			//GD.Print("Entering counterfloat from attack");
 			EmitSignal(nameof(StateFinished), "CounterFloat");
 		}
 		else if (airState && knockdown)
 		{
-			GD.Print("Entering airknockdown from attack");
+			//GD.Print("Entering airknockdown from attack");
 			EmitSignal(nameof(StateFinished), "AirKnockdown");
 		}
 		else if (!airState && knockdown)
 		{
-			GD.Print("Entering knockdown from attack");
+			//GD.Print("Entering knockdown from attack");
 			EmitSignal(nameof(StateFinished), "Knockdown");
 			
 		}

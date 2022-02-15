@@ -9,7 +9,8 @@ public abstract class AirAttack : BaseAttack
     {
         base._Ready();
 		slowdownSpeed = 0;
-    }
+		AddCancel("Fall");
+	}
     protected override void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>

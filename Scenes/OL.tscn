@@ -268,7 +268,8 @@ tracks/9/keys = {
 "values": [ Vector2( 18, 28 ), Vector2( 27, 25 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=43]
+resource_name = "AirKnockdown"
 loop = true
 step = 1.0
 tracks/0/type = "value"
@@ -284,7 +285,7 @@ tracks/0/keys = {
 "values": [ 137 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -292,11 +293,11 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 15, 38 ) ]
+"update": 1,
+"values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
+tracks/2/path = NodePath("HitBoxes/HitB2:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -308,7 +309,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("HitBoxes/HitB1:position")
+tracks/3/path = NodePath("HitBoxes/HitB3:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -316,11 +317,11 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 1 ) ]
+"update": 1,
+"values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
+tracks/4/path = NodePath("HurtBoxes/HurtB1:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -332,7 +333,7 @@ tracks/4/keys = {
 "values": [ true ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("HitBoxes/HitB3:disabled")
+tracks/5/path = NodePath("HurtBoxes/HurtB2:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -344,7 +345,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("HurtBoxes/HurtB1:disabled")
+tracks/6/path = NodePath("HurtBoxes/HurtB3:disabled")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -356,7 +357,7 @@ tracks/6/keys = {
 "values": [ true ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("HurtBoxes/HurtB2:disabled")
+tracks/7/path = NodePath("HitBoxes/HitB1:shape:extents")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -364,11 +365,11 @@ tracks/7/enabled = true
 tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Vector2( 35, 25 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("HurtBoxes/HurtB3:disabled")
+tracks/8/path = NodePath("HitBoxes/HitB1:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -376,8 +377,8 @@ tracks/8/enabled = true
 tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Vector2( -1, -7 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -5187,17 +5188,10 @@ dashSpeed = 600
 shaders = [ ExtResource( 2 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ) ]
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -3, 7 )
+position = Vector2( -1, -7 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-visible = false
 position = Vector2( 21, 14 )
-
-[node name="HitB3" parent="HitBoxes" index="2"]
-visible = false
-
-[node name="HurtBoxes" parent="." index="2"]
-visible = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 25, -20 )
@@ -5209,7 +5203,7 @@ position = Vector2( -2, -31 )
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 158
-frame = 47
+frame = 137
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 2 )
@@ -5238,7 +5232,7 @@ maxLen = 10
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 7 )
-hitStun = 18
+hitStun = 60
 blockStun = 18
 hitPush = 3000
 dmg = 8
@@ -5291,7 +5285,7 @@ position = Vector2( -25, 0 )
 playback_speed = 60.0
 anims/AirBackdash = SubResource( 3 )
 anims/AirDash = SubResource( 4 )
-anims/AirKnockdown = SubResource( 5 )
+anims/AirKnockdown = SubResource( 43 )
 anims/AntiAir = SubResource( 6 )
 anims/Backdash = SubResource( 7 )
 anims/Block = SubResource( 8 )

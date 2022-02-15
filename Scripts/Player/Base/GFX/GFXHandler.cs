@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 public class GFXHandler : Node
 {
-	private Blood blood;
+	private PlayerParticle blood;
+	private PlayerParticle cancel;
 
 	public override void _Ready()
 	{
-		blood = GetNode<Blood>("Blood");
+		blood = GetNode<PlayerParticle>("Blood");
+		cancel = GetNode<PlayerParticle>("Cancel");
 	}
 
 	public void Effect(string name, Vector2 pos, bool facingRight)
@@ -17,11 +19,16 @@ public class GFXHandler : Node
 		{
 			blood.Trigger(0, pos, facingRight);
 		}
+		else if (name == "Cancel")
+        {
+			cancel.Trigger(0, pos, false);
+        }
 	}
 
 	public void Rollback(int frame)
 	{
 		blood.Rollback(frame);
+		cancel.Rollback(frame);
 	}
 
 

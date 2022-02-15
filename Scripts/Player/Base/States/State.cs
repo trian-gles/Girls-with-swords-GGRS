@@ -218,6 +218,41 @@ public abstract class State : Node
 		};
 		commandGatlings.Add(newGatling);
 	}
+
+	private List<List<char>> Permutations(List<char> chars)
+	{
+		var res = new List<List<char>>();
+		var queue = new Queue<List<char>>();
+		queue.Enqueue(new List<char>() { });
+
+		foreach (char c in chars)
+		{
+			for (int i = 0; i < queue.Count(); i++)
+			{
+				var perm = queue.Dequeue();
+				var newPerm = new List<char>(perm);
+				newPerm.Insert(i, c);
+
+				if (newPerm.Count < chars.Count)
+					queue.Enqueue(newPerm);
+				else
+					res.Add(newPerm);
+			}
+		}
+		return res;
+	}
+
+	protected void AddCancel(string cancelState)
+	{
+		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
+		{
+			GD.Print(perm);
+			AddGatling(new char[] {perm[0] ,'p' },  () => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]), 
+				cancelState, () => owner.GFXEvent("Cancel"));
+		}
+		
+	}
+
 	public virtual void HandleInput(char[] inputArr)
 	{
 		foreach (CommandGatling comGat in commandGatlings)

@@ -22,8 +22,13 @@ public class Grab : State
 
 	public bool rightGrab = true;
 
+    public override void _Ready()
+    {
+        base._Ready();
+		AddCancel("Idle");
+    }
 
-	public override void Enter()
+    public override void Enter()
 	{
 		base.Enter();
 		owner.velocity = new Vector2(0, 0);
@@ -40,6 +45,15 @@ public class Grab : State
 			rightGrab = false;
 		}
 
+	}
+
+	public override void HandleInput(char[] inputArr)
+	{
+		if (frameCount < releaseFrame)
+		{
+			return;
+		}
+		base.HandleInput(inputArr);
 	}
 
 	public override void FrameAdvance()

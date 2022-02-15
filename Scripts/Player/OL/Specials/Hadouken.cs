@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Hadouken : State
+public class Hadouken : GroundAttack
 {
 	[Export]
 	public int releaseFrame = 18;

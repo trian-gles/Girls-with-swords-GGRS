@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -34,10 +34,11 @@
 [ext_resource path="res://Scripts/Player/Base/AudioStreamPlayer.cs" type="Script" id=32]
 [ext_resource path="res://Scripts/Player/Base/States/Float.cs" type="Script" id=33]
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
-[ext_resource path="res://Scripts/Player/Base/GFXHandler.cs" type="Script" id=35]
-[ext_resource path="res://Scripts/Player/Base/Blood.cs" type="Script" id=36]
+[ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
+[ext_resource path="res://Scripts/Player/Base/GFX/Blood.cs" type="Script" id=36]
 [ext_resource path="res://Sprites/Atlas/OL Moveset Gray v2.png" type="Texture" id=37]
 [ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
+[ext_resource path="res://Scripts/Player/Base/GFX/Cancel.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 
@@ -45,10 +46,10 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 38 )
+extents = Vector2( 25, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 10 )
+extents = Vector2( 12, 14 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 8 )
@@ -61,6 +62,10 @@ extents = Vector2( 16, 19 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
+
+[sub_resource type="Curve" id=8]
+max_value = 1024.0
+_data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Player" type="Node2D"]
 
@@ -293,3 +298,20 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 400.0
 color = Color( 1, 0.133333, 0.133333, 1 )
 script = ExtResource( 36 )
+
+[node name="Cancel" type="CPUParticles2D" parent="GFXHandler"]
+position = Vector2( 0, -8 )
+z_index = 1
+emitting = false
+amount = 500
+lifetime = 0.4
+one_shot = true
+preprocess = 0.3
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 302.2
+orbit_velocity_random = 1.0
+damping = 100.0
+damping_curve = SubResource( 8 )
+color = Color( 0.0470588, 0.945098, 1, 1 )
+script = ExtResource( 39 )

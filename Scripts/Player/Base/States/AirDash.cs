@@ -37,7 +37,7 @@ public class AirDash: Fall
 		}
 		if (frameCount % 5 == 0)
 		{
-			GD.Print("Airdash emitting ghost");
+			//GD.Print("Airdash emitting ghost");
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(GhostEmitted), (Player)owner);
 		}
 	}

@@ -16,7 +16,7 @@ public class PreRun : MoveState
 
 	public override void FrameAdvance()
 	{
-		GD.Print("PreRun frame advance");
+		//GD.Print("PreRun frame advance");
 		frameCount++;
 		int mod = (owner.velocity.x > 0) ? 1 : -1;
 		owner.velocity = new Vector2(owner.velocity.x + owner.accel * mod, 0);

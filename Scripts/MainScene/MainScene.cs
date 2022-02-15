@@ -78,7 +78,7 @@ public class MainScene : Node2D
 	public void Begin(string ip, int localPort, int remotePort, bool hosting)
 	{
 		this.hosting = hosting;
-		GD.Print("Starting Mainscene Config");
+		//GD.Print("Starting Mainscene Config");
 		//Basic config
 		camera = GetNode<Camera2D>("Camera2D");
 
@@ -153,7 +153,7 @@ public class MainScene : Node2D
 			GD.Print($"added other player with handle {otherPlayerHandle}");
 
 			
-			GD.Print("Setting callback node");
+			//GD.Print("Setting callback node");
 			GGRS.Call("set_callback_node", this);
 			GGRS.Call("set_frame_delay", 2, localPlayerHandle);
 			GGRS.Call("start_session");
@@ -588,15 +588,15 @@ public class MainScene : Node2D
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.LOCAL)
 		{
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(LocalLobbyReturn));
-			GD.Print("Emitting LOCAL lobby return signal");
+			//GD.Print("Emitting LOCAL lobby return signal");
 		}
 		else if (Globals.mode == Globals.Mode.GGPO)
 		{
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(NetPlayLobbyReturn));
-			GD.Print("Emitting NETPLAY lobby return signal");
+			//GD.Print("Emitting NETPLAY lobby return signal");
 		}
 	
-		GD.Print("Emitted lobby return signal, queueing free");
+		//GD.Print("Emitted lobby return signal, queueing free");
 		QueueFree();
 	}
 

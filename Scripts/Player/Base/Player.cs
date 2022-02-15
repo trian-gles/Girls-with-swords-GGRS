@@ -176,7 +176,7 @@ public class Player : Node2D
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		//var resource = ResourceLoader.Load(shaderPaths[colorScheme]);
 		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
-		GD.Print(shaderMaterial.GetShaderParam("palette"));
+		//GD.Print(shaderMaterial.GetShaderParam("palette"));
 		
 	}
 
@@ -497,7 +497,7 @@ public class Player : Node2D
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
-		GD.Print(buf[buf.Count - 1][0]);
+		//GD.Print(buf[buf.Count - 1][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
 	}
 
@@ -827,20 +827,20 @@ public class Player : Node2D
 	{
 		combo = 0;
 		proration = 8;
-		GD.Print("Combo over");
+		//GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void ComboUp()
 	{
 		combo++;
-		GD.Print($"combo {combo}");
+		//GD.Print($"combo {combo}");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void DeductHealth(int dmg)
 	{
-		GD.Print($"Receiving {dmg} damage");
+		//GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}

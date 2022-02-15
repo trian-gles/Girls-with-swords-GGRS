@@ -39,7 +39,7 @@ public class MainGFX : Node
 	public void OnGFXParticleEmitted(Vector2 location, string particleName, bool flipH)
 	{
 		location /= 100;
-		GD.Print($"Emitting {particleName} at {location} with flipH {flipH}");
+		//GD.Print($"Emitting {particleName} at {location} with flipH {flipH}");
 		var newPart = (ParticleSprite) particleSprites[particleName].Instance();
 		AddChild(newPart);
 		if (flipH)
@@ -52,7 +52,7 @@ public class MainGFX : Node
 
 	public void OnGhostEmitted(Player p)
 	{
-		GD.Print("maingfx creating ghost");
+		//GD.Print("maingfx creating ghost");
 		var newGhost = (Sprite) dashGhost.Instance();
 		AddChild(newGhost);
 		ghosts.Add(newGhost);

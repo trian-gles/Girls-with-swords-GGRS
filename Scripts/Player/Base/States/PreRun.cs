@@ -8,8 +8,8 @@ public class PreRun : MoveState
 	{
 		base._Ready();
 		loop = true;
-		AddGatling(new[] { '6', 'r' }, "Idle");
-		AddGatling(new[] { '4', 'r' }, "Idle");
+		AddGatling(new[] { '6', 'r' }, "PostRun");
+		AddGatling(new[] { '4', 'r' }, "PostRun");
 		AddGatling(new[] { '8', 'p' }, "MovingJump");
 	}
 

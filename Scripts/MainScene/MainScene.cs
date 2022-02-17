@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 public class MainScene : Node2D
 {
@@ -31,6 +32,7 @@ public class MainScene : Node2D
 	private int otherHand = 2;
 	private int waitFrames = 0;
 	bool hosting;
+	private Queue<int> queueLengths = new Queue<int>();
 
 
 	// Can be used to store inputs for synctesting, maybe later for training mode?
@@ -64,8 +66,8 @@ public class MainScene : Node2D
 
 	public override void _Ready()
 	{
-		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
-		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
+		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
+		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
 	}
 
 	/// <summary>
@@ -139,7 +141,7 @@ public class MainScene : Node2D
 			//int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
 			statsText.Visible = true;
-			GGRS.Call("create_session", localPort, PLAYERNUMBERS);
+			GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
 
 
 			//ConnectEvents();
@@ -280,9 +282,14 @@ public class MainScene : Node2D
 				}
 
 			}
-
+			
 			var netStats = (Godot.Collections.Array)GGRS.Call("get_network_stats", 1);
-			statsText.Text = $"Ping = {netStats[1]} \n ";
+			queueLengths.Enqueue((int)netStats[0]);
+			if (queueLengths.Count > 5)
+				queueLengths.Dequeue();
+			int maxQueueLen = queueLengths.Max();
+			
+			statsText.Text = $"send_queue_len = {maxQueueLen} \nPing = {netStats[1]} \n ";
 			
 		}
 		else if (roundFinished)
@@ -342,6 +349,7 @@ public class MainScene : Node2D
 
 	public void ggrs_load_game_state(int frame, byte[] buffer, int checksum)
 	{
+		GD.Print($"rollback from frame {gsObj.Frame} to frame {frame}");
 		var buf = new StreamPeerBuffer();
 		buf.DataArray = buffer;
 		gsObj.LoadGameState(buf);

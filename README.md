@@ -11,7 +11,7 @@ An online multiplayer 2d fighting game made with Godot Mono.  See the releases s
 ## Footage
 Live gameplay between NY and CA
 <br>
-[![Live Match](https://img.youtube.com/vi/a7L7UGM1E2E/0.jpg)](https://www.youtube.com/watch?v=a7L7UGM1E2E)
+[![Live Match](https://img.youtube.com/vi/a7L7UGM1E2E/0.jpg)](https://www.youtube.com/watch?v=TFJSpAqXtiI)
 
 
 

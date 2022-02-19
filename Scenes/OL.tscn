@@ -5234,6 +5234,7 @@ maxLen = 10
 script = ExtResource( 7 )
 hitStun = 60
 blockStun = 18
+opponentLaunch = Vector2( 0, -400 )
 hitPush = 3000
 dmg = 8
 knockdown = true

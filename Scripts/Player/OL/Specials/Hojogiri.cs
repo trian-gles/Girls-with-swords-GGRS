@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Hojogiri : GroundAttack
+public class Hojogiri : LaunchAttack
 {
 	
 

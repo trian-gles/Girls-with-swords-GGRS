@@ -34,6 +34,8 @@ public class MainScene : Node2D
 	bool hosting;
 	private Queue<int> queueLengths = new Queue<int>();
 
+	private UPNP upnp;
+	int port;
 
 	// Can be used to store inputs for synctesting, maybe later for training mode?
 	[Export]
@@ -141,6 +143,18 @@ public class MainScene : Node2D
 			//int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
 			statsText.Visible = true;
+			if (hosting)
+			{ 
+				localPort = 7070;
+				remotePort = 7071;
+			}
+			else
+			{
+				localPort = 7071;
+				remotePort = 7070;
+			}
+			port = localPort;
+			OpenPort();
 			GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
 
 
@@ -176,6 +190,39 @@ public class MainScene : Node2D
 		}
 		
 	}
+
+	private void OpenPort()
+	{
+		upnp = new UPNP();
+		int err = upnp.Discover();
+
+		if (err != 0)
+		{
+			GD.PushError(err.ToString());
+			return;
+		}
+
+		if ((upnp.GetGateway() != null) && upnp.GetGateway().IsValidGateway())
+		{
+			upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "UDP");
+			upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "TCP");
+		}
+	}
+
+	public override void _Notification(int what)
+	{
+		if (what == MainLoop.NotificationWmQuitRequest)
+		{
+			if (upnp != null)
+			{
+				upnp.DeletePortMapping(port);
+			}
+
+			GetTree().Quit();
+		}
+	}
+
+
 
 	/// <summary>
 	/// Connect GGPO callbacks
@@ -600,6 +647,7 @@ public class MainScene : Node2D
 		}
 		else if (Globals.mode == Globals.Mode.GGPO)
 		{
+			upnp.DeletePortMapping(port);
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(NetPlayLobbyReturn));
 			//GD.Print("Emitting NETPLAY lobby return signal");
 		}

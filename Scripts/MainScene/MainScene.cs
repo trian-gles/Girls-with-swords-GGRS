@@ -79,7 +79,7 @@ public class MainScene : Node2D
 	/// <param name="localPort"></param>
 	/// <param name="remotePort"></param>
 	/// <param name="hosting"></param>
-	public void Begin(string ip, int localPort, int remotePort, bool hosting)
+	public void Begin(string ip, bool hosting)
 	{
 		this.hosting = hosting;
 		//GD.Print("Starting Mainscene Config");
@@ -143,6 +143,7 @@ public class MainScene : Node2D
 			//int errorcode = GGPO.StartSession("ark", PLAYERNUMBERS, localPort);
 			//GD.Print($"Starting GGPO session, errorcode {errorcode}");
 			statsText.Visible = true;
+			int localPort, remotePort;
 			if (hosting)
 			{ 
 				localPort = 7070;

@@ -51,15 +51,11 @@ public class Lobby : Node2D
 	public void OnHostTestButtonDown()
 	{
 		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
-		entries.GetNode<LineEdit>("OpponentPort").Text = "7000";
-		entries.GetNode<LineEdit>("LocalPort").Text = "7001";
 	}
 
 	public void OnJoinTestButtonDown()
 	{
 		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
-		entries.GetNode<LineEdit>("OpponentPort").Text = "7001";
-		entries.GetNode<LineEdit>("LocalPort").Text = "7000";
 	}
 	
 	public void OnLocalButtonDown()
@@ -143,22 +139,17 @@ public class Lobby : Node2D
 		GetNode("/root/Globals").Connect("NetPlayLobbyReturn", this, nameof(NetPlayLobbyReturn));
 		
 		string ip = "127.0.0.1";
-		int localPort = 0;
-		int otherPort = 0;
 
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
 			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-
-			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
-			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 		}
 		
 		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");
 		var mainInstance = mainScene.Instance() as MainScene;
 		AddChild(mainInstance);
 		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
-		mainInstance.Begin(ip, localPort, otherPort, host);
+		mainInstance.Begin(ip, host);
 	}
 }
 

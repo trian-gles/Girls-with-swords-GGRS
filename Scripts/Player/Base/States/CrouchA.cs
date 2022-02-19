@@ -2,11 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class CrouchA : BaseAttack
+public class CrouchA : GroundAttack
 {
 	public override void _Ready()
 	{
 		base._Ready();
+		AddJumpCancel();
 		AddGatling(new char[] { '8', 'p' }, "Jump");
 		AddGatling(new char[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");

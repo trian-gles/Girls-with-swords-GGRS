@@ -369,7 +369,7 @@ public abstract class State : Node
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
-	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
+	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
@@ -384,7 +384,11 @@ public abstract class State : Node
 
 		bool airState = (launchBool || !owner.grounded);
 
-		if (airState && !knockdown)
+		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+		{
+			EmitSignal(nameof(StateFinished), "GroundBounce");
+		}
+		else if (airState && !knockdown)
 		{
 			if (launch.y == 0)
 			{
@@ -413,7 +417,7 @@ public abstract class State : Node
 		EmitSignal(nameof(StateFinished), stateName);
 	}
 
-	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		owner.velocity = new Vector2(0, 0);
 		switch (attackDir)
@@ -453,12 +457,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt);
+					EnterHitState(knockdown, launch, collisionPnt, effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 			
 		}
@@ -472,12 +476,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt);
+					EnterHitState(knockdown, launch, collisionPnt, effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 		}
 		else
@@ -488,7 +492,7 @@ public abstract class State : Node
 			}
 			else 
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 		}
 	}

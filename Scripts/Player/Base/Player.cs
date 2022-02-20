@@ -113,6 +113,7 @@ public class Player : Node2D
 	private Vector2 hit_launch;
 	private bool hit_knockdown;
 	private int hit_prorationLevel;
+	private BaseAttack.EXTRAEFFECT hit_effect;
 	private Vector2 hit_collisionPnt;
 
 	// Box colors
@@ -768,7 +769,9 @@ public class Player : Node2D
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
 	/// <param name="prorationLevel"></param>
-	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
+	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, 
+		int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, 
+		bool knockdown, int prorationLevel, BaseAttack.EXTRAEFFECT effect = BaseAttack.EXTRAEFFECT.NONE) 
 	{
 
 		wasHit = true;
@@ -782,6 +785,7 @@ public class Player : Node2D
 		hit_knockdown = knockdown;
 		hit_prorationLevel = prorationLevel;
 		hit_collisionPnt = collisionPnt;
+		hit_effect = effect;
 	}
 
 	public void CalculateHit()
@@ -790,7 +794,7 @@ public class Player : Node2D
 		{
 			return;
 		}
-		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt);
+		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt, hit_effect);
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
 		EmitSignal(nameof(HitConfirm));
@@ -948,6 +952,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
+		return;
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);

@@ -20,7 +20,7 @@ public class Float : HitStun
     /// </summary>
     /// <param name="knockdown"></param>
     /// <param name="launch"></param>
-    protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
+    protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
     {
         GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
         
@@ -37,8 +37,15 @@ public class Float : HitStun
 
 
         owner.ComboUp();
-
-        EmitSignal(nameof(StateFinished), "Float");
+        if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+        {
+            EmitSignal(nameof(StateFinished), "GroundBounce");
+        }
+        else
+        {
+            EmitSignal(nameof(StateFinished), "Float");
+        }
+        
     }
 
     public override void FrameAdvance()

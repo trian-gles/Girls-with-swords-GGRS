@@ -17,7 +17,7 @@ public class Grabbed : State
 	/// <param name="hitPush"></param>
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		switch (attackDir)
 		{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -41,12 +41,13 @@
 [ext_resource path="res://Scripts/Player/Base/GFX/Cancel.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
+[ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 25, 25 )
+extents = Vector2( 35, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12, 14 )
@@ -257,6 +258,9 @@ script = ExtResource( 1 )
 [node name="Tech" type="Node" parent="StateTree"]
 script = ExtResource( 38 )
 techVector = Vector2( 200, -400 )
+
+[node name="GroundBounce" type="Node" parent="StateTree"]
+script = ExtResource( 42 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

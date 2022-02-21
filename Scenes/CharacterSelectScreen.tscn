@@ -79,6 +79,7 @@ __meta__ = {
 [node name="OL" type="TextureRect" parent="GridContainer" groups=[
 "Characters",
 ]]
+visible = false
 margin_left = 1.0
 margin_top = 21.0
 margin_right = 101.0
@@ -88,19 +89,23 @@ size_flags_vertical = 4
 texture = SubResource( 1 )
 stretch_mode = 5
 
+[node name="TextureButton" type="TextureButton" parent="GridContainer/OL"]
+margin_right = 40.0
+margin_bottom = 40.0
+
 [node name="GL" type="TextureRect" parent="GridContainer" groups=[
 "Characters",
 ]]
-margin_left = 104.0
+visible = false
+margin_left = 1.0
 margin_top = 21.0
-margin_right = 204.0
+margin_right = 101.0
 margin_bottom = 121.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 texture = SubResource( 2 )
 
 [node name="OLSprite" type="Sprite" parent="GridContainer"]
-visible = false
 position = Vector2( 45.2946, 68.2175 )
 texture = ExtResource( 1 )
 hframes = 10

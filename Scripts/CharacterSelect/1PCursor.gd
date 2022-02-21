@@ -27,10 +27,29 @@ func _process(delta):
 		currentSelected += 1
 		currentColumnSpot += 1
 		
-		position.x += portraitOffset.x
+		if(currentColumnSpot > gridContainer.columns -1 && currentSelected < characters.size() - 1):
+			position.x -= (currentColumnSpot - 1) * portraitOffset.x
+			position.y += portraitOffset.y
+			
+			currentColumnSpot = 0
+			currentRowSpot += 1	
+#		elif(currentColumnSpot > gridContainer.columns - 1 && currentSelected > characters.size() - 1):
+#			position.x -= (currentColumnSpot - 1) * portraitOffset.x
+#			position.y -=
+#
+		else:
+			position.x += portraitOffset.x
+		
 	elif(Input.is_action_just_pressed("ui_left")):
 		currentSelected -= 1
 		currentColumnSpot -= 1
 		
-		position.x -= portraitOffset.x
+		if(currentColumnSpot < 0):
+			position.x += (gridContainer.columns - 1) * portraitOffset.x
+			position.y -= (amountOfRows) * portraitOffset.y
+			
+			currentColumnSpot = gridContainer.columns -1
+			currentRowSpot -= 1	
+		else:
+			position.x -= portraitOffset.x
 		

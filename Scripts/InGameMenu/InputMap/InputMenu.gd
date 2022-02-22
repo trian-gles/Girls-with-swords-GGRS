@@ -43,8 +43,8 @@ func _on_InputLine_change_button_pressed(action_name, line):
 	var key_scancode = yield($ConfigOverlay/KeySelectMenu, "key_selected")
 	$InputMapper.change_action_key(action_name, key_scancode)
 	line.update_key(key_scancode)
-	
 	set_process_input(true)
+
 
 func hide_overlay():
 	$ConfigOverlay.visible = false

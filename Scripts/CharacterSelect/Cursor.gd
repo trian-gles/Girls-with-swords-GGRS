@@ -28,11 +28,11 @@ func _ready():
 	print(characters)
 	texture = player1Text
 	
-func _process(delta):
+func _input(event):
 	if not active:
 		return
 	
-	if(Input.is_action_just_pressed("ui_right")):
+	if(event.is_action_pressed("ui_right")):
 		currentSelected += 1
 		currentColumnSpot += 1
 		
@@ -54,7 +54,7 @@ func _process(delta):
 		else:
 			position.x += portraitOffset.x
 		
-	elif(Input.is_action_just_pressed("ui_left")):
+	elif(event.is_action_pressed("ui_left")):
 		currentSelected -= 1
 		currentColumnSpot -= 1
 		
@@ -75,7 +75,7 @@ func _process(delta):
 		else:
 			position.x -= portraitOffset.x
 		
-	if(Input.is_action_just_pressed("ui_accept")):
+	if(event.is_action_pressed("ui_accept") and not event.is_echo()):
 		if(CharacterSelectionManager.playerone == null):
 			CharacterSelectionManager.playerone = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
 			texture = player2Text

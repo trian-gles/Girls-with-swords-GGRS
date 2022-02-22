@@ -83,5 +83,9 @@ func _process(delta):
 			CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
 			print(CharacterSelectionManager.playertwo)
 			print(CharacterSelectionManager.playerone)
+			
+			active = false
 			emit_signal("CharacterSelected")
+
+			
 		

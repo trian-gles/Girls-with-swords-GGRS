@@ -36,6 +36,7 @@ public class Lobby : Node2D
 		if (syncTest)
 			OnSyncTestButtonDown();
 	}
+	//netplay buttons
 	public void OnHostButtonDown()
 	{	
 		Globals.mode = Globals.Mode.GGPO;
@@ -62,23 +63,7 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("LocalPort").Text = "7000";
 	}
 	
-	public void CharactersSelectedStartGame()
-	{
-		GD.Print("characters were selected ready to hide");
-		GetNode<Control>("CharacterSelect/CharacterSelect").Visible = false;
-		Begin(true);	
-	}
-	
-	public void CharacterSelect()
-	{
-		HideButtons();
-		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
-		charselectoverlay.Visible = true;
-		Sprite cursor = charselectoverlay.GetNode<Sprite>("1PCursor");
-		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
-		cursor.Set("active",true);
-	}
-	
+	//local buttons
 	public void OnLocalButtonDown()
 	{
 		Globals.mode = Globals.Mode.LOCAL;
@@ -91,9 +76,30 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
-		Begin(true);
+		CharacterSelect();
+//		Begin(true);
 	}
+	
+	public void CharacterSelect()
+	{
+		HideButtons();
+		var CharacterSelectScene = (PackedScene) ResourceLoader.Load("res://Scenes/CharacterSelectScreen.tscn");
+		var CharacterSelectInstance = CharacterSelectScene.Instance();
+		AddChild(CharacterSelectInstance);
+//		GD.Print("Character Select Initiated");
 
+//		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
+		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
+		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
+		cursor.Set("active",true);
+	}
+	
+	public void CharactersSelectedStartGame()
+	{
+		Begin(true);	
+	}
+	
+	//sync test
 	public void OnSyncTestButtonDown()
 	{
 		Globals.mode = Globals.Mode.SYNCTEST;
@@ -101,6 +107,7 @@ public class Lobby : Node2D
 		Begin(true);
 	}
 	
+	//config
 	public void _on_ButtonConfig_pressed()
 	{
 		HideButtons();
@@ -118,6 +125,7 @@ public class Lobby : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
+	//quit game functions
 	public void LocalLobbyReturn()
 	{
 		OnLobbyReset();
@@ -168,7 +176,6 @@ public class Lobby : Node2D
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
 			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-
 			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
 			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 		}

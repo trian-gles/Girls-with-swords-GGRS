@@ -66,8 +66,8 @@ public class MainScene : Node2D
 
 	public override void _Ready()
 	{
-		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
-		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
+//		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
+//		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
 	}
 
 	/// <summary>
@@ -595,6 +595,12 @@ public class MainScene : Node2D
 	}
 	private void CloseMainscene()
 	{
+		//get characters
+		Node CharacterSelect = GetNode("/root/CharacterSelectionManager");
+		//reset characters before returning
+		CharacterSelect.Set("playerone",null);
+		CharacterSelect.Set("playertwo",null);
+		
 //		GD.Print("Emitting lobby return signal");
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.LOCAL)
 		{

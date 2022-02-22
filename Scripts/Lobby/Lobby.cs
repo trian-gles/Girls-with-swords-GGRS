@@ -62,11 +62,24 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("LocalPort").Text = "7000";
 	}
 	
+	public void CharactersSelectedStartGame()
+	{
+		Begin(true);	
+	}
+	
+	public void CharacterSelect()
+	{
+		HideButtons();
+		GetNode<Control>("CharacterSelect/CharacterSelect").Visible = true;
+		
+	}
+	
 	public void OnLocalButtonDown()
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		Begin(true);
+		
+//		Begin(true);
 	}
 
 	public void OnTrainingButtonDown()
@@ -123,6 +136,7 @@ public class Lobby : Node2D
 		GetNode<Control>("MenuRoot").Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
+		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
 		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();

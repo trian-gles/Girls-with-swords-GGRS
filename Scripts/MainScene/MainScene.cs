@@ -86,8 +86,8 @@ public class MainScene : Node2D
 
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
-
-		P1 = characterMap["GL"].Instance() as Player;
+		
+		P1 = GetNode("/root/CharacterSelectionManager").playerone.Instance() as Player;
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = 0;
@@ -96,7 +96,7 @@ public class MainScene : Node2D
 		MoveChild(P1, 4);
 		
 
-		P2 = characterMap["OL"].Instance() as Player;
+		P2 = GetNode("/root/CharacterSelectionManager").playertwo.Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = 0;

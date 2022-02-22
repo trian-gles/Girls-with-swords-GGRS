@@ -33,10 +33,15 @@ func _process(delta):
 			
 			currentColumnSpot = 0
 			currentRowSpot += 1	
-#		elif(currentColumnSpot > gridContainer.columns - 1 && currentSelected > characters.size() - 1):
-#			position.x -= (currentColumnSpot - 1) * portraitOffset.x
-#			position.y -=
-#
+			
+		elif(currentColumnSpot > gridContainer.columns - 1 && currentSelected > characters.size() - 1):
+			position.x -= (currentColumnSpot - 1) * portraitOffset.x
+			position.y -= currentRowSpot * portraitOffset.y
+			
+			currentColumnSpot = 0
+			currentRowSpot = 0
+			currentSelected = 0
+
 		else:
 			position.x += portraitOffset.x
 		
@@ -44,12 +49,29 @@ func _process(delta):
 		currentSelected -= 1
 		currentColumnSpot -= 1
 		
-		if(currentColumnSpot < 0):
+		if(currentColumnSpot < 0 && currentSelected > 0):
 			position.x += (gridContainer.columns - 1) * portraitOffset.x
 			position.y -= (amountOfRows) * portraitOffset.y
 			
 			currentColumnSpot = gridContainer.columns -1
 			currentRowSpot -= 1	
+		elif(currentColumnSpot < 0 && currentSelected < 0):
+			position.x += (gridContainer.columns -1) * portraitOffset.x
+			position.y += (amountOfRows -1) * portraitOffset.y
+			
+			currentColumnSpot = gridContainer.columns -1
+			currentRowSpot = amountOfRows -1
+			currentSelected = characters.size() - 1
+			
 		else:
 			position.x -= portraitOffset.x
+		
+	if(Input.is_action_just_pressed("ui_accept")):
+		if(CharacterSelectionManager.playerone == null):
+			CharacterSelectionManager.playerone = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
+			texture = player2Text
+		else:
+			CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
+			print(CharacterSelectionManager.playertwo)
+			print(CharacterSelectionManager.playerone)
 		

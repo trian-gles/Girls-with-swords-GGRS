@@ -401,7 +401,6 @@ size_flags_vertical = 4
 [node name="CharacterSelect" type="CanvasLayer" parent="."]
 
 [node name="CharacterSelect" parent="CharacterSelect" instance=ExtResource( 9 )]
-visible = false
 
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]

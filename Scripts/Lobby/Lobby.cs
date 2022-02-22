@@ -64,21 +64,26 @@ public class Lobby : Node2D
 	
 	public void CharactersSelectedStartGame()
 	{
+		GD.Print("characters were selected ready to hide");
+		GetNode<Control>("CharacterSelect/CharacterSelect").Visible = false;
 		Begin(true);	
 	}
 	
 	public void CharacterSelect()
 	{
 		HideButtons();
-		GetNode<Control>("CharacterSelect/CharacterSelect").Visible = true;
-		
+		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
+		charselectoverlay.Visible = true;
+		Sprite cursor = charselectoverlay.GetNode<Sprite>("1PCursor");
+		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
+		cursor.Set("active",true);
 	}
 	
 	public void OnLocalButtonDown()
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		
+		CharacterSelect();
 //		Begin(true);
 	}
 

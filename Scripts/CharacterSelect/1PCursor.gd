@@ -1,4 +1,7 @@
 extends Sprite
+
+var active: bool = false
+
 #object array
 var characters = []
 
@@ -16,6 +19,9 @@ export (Vector2) var portraitOffset
 #objects
 onready var gridContainer = get_parent().get_node("GridContainer")
 
+#signals
+signal CharacterSelected
+
 func _ready():
 	for nameOfCharacter in get_tree().get_nodes_in_group("Characters"):
 		characters.append(nameOfCharacter)
@@ -23,6 +29,9 @@ func _ready():
 	texture = player1Text
 	
 func _process(delta):
+	if not active:
+		return
+	
 	if(Input.is_action_just_pressed("ui_right")):
 		currentSelected += 1
 		currentColumnSpot += 1
@@ -74,4 +83,5 @@ func _process(delta):
 			CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
 			print(CharacterSelectionManager.playertwo)
 			print(CharacterSelectionManager.playerone)
+			emit_signal("CharacterSelected")
 		

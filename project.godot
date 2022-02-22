@@ -40,6 +40,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+CharacterSelectionManager="*res://Scripts/CharacterSelect/CharacterSelectionManager.gd"
 Globals="*res://Scripts/Globals.cs"
 Events="*res://Scripts/Events.gd"
 

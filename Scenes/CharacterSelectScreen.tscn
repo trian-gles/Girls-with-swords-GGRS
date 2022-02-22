@@ -54,13 +54,6 @@ player1Text = ExtResource( 4 )
 player2Text = ExtResource( 3 )
 portraitOffset = Vector2( 100, 100 )
 
-[node name="2PCursor" type="Sprite" parent="."]
-visible = false
-position = Vector2( 291.432, 143.064 )
-scale = Vector2( 2.5, 2.5 )
-z_index = 2
-texture = ExtResource( 3 )
-
 [node name="GridContainer" type="GridContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5

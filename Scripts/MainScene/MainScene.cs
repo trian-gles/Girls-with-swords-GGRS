@@ -87,7 +87,9 @@ public class MainScene : Node2D
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
 		
-		P1 = GetNode("/root/CharacterSelectionManager").playerone.Instance() as Player;
+		Node CharacterSelect = GetNode("/root/CharacterSelectionManager");
+		PackedScene playerone = (PackedScene)CharacterSelect.Get("playerone");
+		P1 = playerone.Instance() as Player;
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = 0;
@@ -95,8 +97,9 @@ public class MainScene : Node2D
 		AddChild(P1);
 		MoveChild(P1, 4);
 		
-
-		P2 = GetNode("/root/CharacterSelectionManager").playertwo.Instance() as Player;
+		
+		PackedScene playertwo = (PackedScene)CharacterSelect.Get("playertwo");
+		P2 = playertwo.Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = 0;

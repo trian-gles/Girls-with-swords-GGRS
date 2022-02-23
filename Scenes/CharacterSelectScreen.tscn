@@ -91,9 +91,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
-"Characters",
-]]
+[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
 margin_left = 1.0
 margin_top = 21.0
 margin_right = 101.0
@@ -103,9 +101,7 @@ size_flags_vertical = 4
 texture = SubResource( 1 )
 stretch_mode = 5
 
-[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
-"Characters",
-]]
+[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
 margin_left = 104.0
 margin_top = 21.0
 margin_right = 204.0

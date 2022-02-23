@@ -18,6 +18,8 @@ public class Lobby : Node2D
 	[Export]
 	public bool syncTest = false;
 	
+	public bool host = false;
+	
 	public override void _Ready()
 	{
 		menuroot = GetNode<Control>("MenuRoot");
@@ -40,13 +42,15 @@ public class Lobby : Node2D
 	public void OnHostButtonDown()
 	{	
 		Globals.mode = Globals.Mode.GGPO;
-		Begin(true);
+		CharacterSelect(true);
+//		Begin(true);
 	}
 
 	public void OnJoinButtonDown()
 	{
 		Globals.mode = Globals.Mode.GGPO;
-		Begin(false);
+		CharacterSelect(false);
+//		Begin(false);
 	}
 
 	public void OnHostTestButtonDown()
@@ -68,7 +72,7 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		CharacterSelect();
+		CharacterSelect(true);
 //		Begin(true);
 	}
 
@@ -76,18 +80,18 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
-		CharacterSelect();
+		CharacterSelect(true);
 //		Begin(true);
 	}
 	
-	public void CharacterSelect()
+	public void CharacterSelect(bool hosting)
 	{
 		HideButtons();
 		var CharacterSelectScene = (PackedScene) ResourceLoader.Load("res://Scenes/CharacterSelectScreen.tscn");
 		var CharacterSelectInstance = CharacterSelectScene.Instance();
 		AddChild(CharacterSelectInstance);
 //		GD.Print("Character Select Initiated");
-
+		host = hosting;
 //		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
 		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
 		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
@@ -96,7 +100,8 @@ public class Lobby : Node2D
 	
 	public void CharactersSelectedStartGame()
 	{
-		Begin(true);	
+		GD.Print("Host: ", host);
+		Begin(host);	
 	}
 	
 	//sync test

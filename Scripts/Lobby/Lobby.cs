@@ -175,8 +175,6 @@ public class Lobby : Node2D
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
 			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
-			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
 
 		}
 		

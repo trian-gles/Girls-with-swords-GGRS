@@ -61,12 +61,12 @@ var player2_profiles = {
 	3: profile_2pcustom
 }
 
-#triggered by ProfilesMenu, where ID is chosen profile
-func _on_ProfilesMenu_item_selected(ID):
+#triggered by ProfilesMenu
+func _on_ProfilesMenu_item_selected(profile_id):
 	#get whether p1 or p2
 	var player_id = playerselect.get_selected_id()
 	#pass arguments to change function
-	change_profile(ID, player_id)
+	change_profile(profile_id, player_id)
 	
 #main function that carries out profile change
 func change_profile(profile_id, player_id):
@@ -76,13 +76,16 @@ func change_profile(profile_id, player_id):
 	if player_id == 0:
 		current_profile_id = profile_id
 		profile = player1_profiles[profile_id]
+		print(player1_profiles)
+		print(profile)
 	else:
 		current_2p_profile_id = profile_id
 		profile = player2_profiles[profile_id]
+		print(profile)
 	
 	#check if remappable custom profile
 	var is_customizable = true if profile_id == 3 else false
-	
+
 #loop and add set profiles bindings
 	for action_name in profile.keys():
 		change_action_key(action_name, profile[action_name][0], profile[action_name][1], player_id)
@@ -110,6 +113,7 @@ func erase_action_events(action_name):
 	var input_events = InputMap.get_action_list(action_name)
 	for event in input_events:
 		InputMap.action_erase_event(action_name, event)
+		
 #called by change_action_key above
 func get_selected_profile(player_id):
 	if player_id == 0:

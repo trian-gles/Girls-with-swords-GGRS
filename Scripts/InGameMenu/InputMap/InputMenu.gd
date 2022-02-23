@@ -23,7 +23,7 @@ func _ready():
 	#change to profile_id 0
 	$InputMapper.change_profile($ConfigOverlay/Column/PlayerMenu/ProfilesMenu.selected, 0)
 
-#main rebuild function (called in by profile_changed)
+#main rebuild function (called by profile_changed)
 func rebuild(input_profile, is_customizable=false, id=0):
 	#clear moves out of actionlist
 	_action_list.clear()

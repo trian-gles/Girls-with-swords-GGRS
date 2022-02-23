@@ -40,11 +40,11 @@ autoplay = "Logo Animate"
 "anims/Logo Animate" = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 232.041, 138.266 )
 scale = Vector2( 2.52021, 2.52021 )
 texture = ExtResource( 2 )
 hframes = 28
-frame = 10
 
 [node name="BG Color" type="Sprite" parent="."]
 show_behind_parent = true

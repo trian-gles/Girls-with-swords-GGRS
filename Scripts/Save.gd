@@ -1,8 +1,9 @@
 extends Node
 
 export (NodePath) var dropdown_path
-export (NodePath) var confirmremove_path
 onready var dropdown = get_node(dropdown_path)
+
+export (NodePath) var confirmremove_path
 onready var confirmremove = get_node(confirmremove_path)
 
 onready var FriendName = $FriendName

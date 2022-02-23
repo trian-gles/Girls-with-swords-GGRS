@@ -12,6 +12,15 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends OptionButton
 
+#load inputmapper node
+export (NodePath) var inputmapper_path
+onready var inputmapper = get_node(inputmapper_path)
+
+#connect profile selection to inputmapper and trigger redraw of bindings
+func _ready():
+	self.connect(\"item_selected\", inputmapper, \"_on_ProfilesMenu_item_selected\")
+	pass
+	
 var profile_names = {
 	0: \"profile_keyboard\",
 	1: \"profile_fightstick\",
@@ -34,8 +43,8 @@ func initialize(input_mapper, player_id):
 		var profile_name = profile_names[profile_index].capitalize()
 		add_item(profile_name, profile_index)
 		
-	#selection triggers function in inputmapper.gd
-	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
+#	#selection triggers function in inputmapper.gd
+#	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
 
 #controller focuses buttons
 func _on_ConfigOverlay_visibility_changed():
@@ -146,6 +155,7 @@ toggle_mode = false
 flat = true
 align = 1
 script = SubResource( 1 )
+inputmapper_path = NodePath("../../../../InputMapper")
 
 [node name="Header" type="HBoxContainer" parent="ConfigOverlay/Column"]
 margin_top = 66.0

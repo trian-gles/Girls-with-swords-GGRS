@@ -12,13 +12,41 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends OptionButton
 
-func initialize(input_mapper):
-	for profile_index in input_mapper.profiles:
-		var profile_name = input_mapper.profiles[profile_index].capitalize()
+#load inputmapper node
+export (NodePath) var inputmapper_path
+onready var inputmapper = get_node(inputmapper_path)
+
+#connect profile selection to inputmapper and trigger redraw of bindings
+func _ready():
+	self.connect(\"item_selected\", inputmapper, \"_on_ProfilesMenu_item_selected\")
+	pass
+	
+var profile_names = {
+	0: \"profile_keyboard\",
+	1: \"profile_fightstick\",
+	2: \"profile_microdash\",
+	3: \"profile_custom\"
+}
+
+func initialize(input_mapper, player_id):
+	#clear to avoid duplicates
+	clear()
+	# set to p1 or p2
+	var profiles
+	if player_id == 0:
+		profiles = input_mapper.player1_profiles
+	else:
+		profiles = input_mapper.player2_profiles
+	
+	#loop and add names from profile list		
+	for profile_index in profiles:
+		var profile_name = profile_names[profile_index].capitalize()
 		add_item(profile_name, profile_index)
-	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
+		
+#	#selection triggers function in inputmapper.gd
+#	self.connect(\"item_selected\", input_mapper, \"_on_ProfilesMenu_item_selected\")
 
-
+#controller focuses buttons
 func _on_ConfigOverlay_visibility_changed():
 	grab_focus()
 	
@@ -49,8 +77,10 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+playerselect_path = NodePath("ConfigOverlay/Column/PlayerMenu/PlayerSelect")
 
 [node name="InputMapper" parent="." instance=ExtResource( 1 )]
+playerselect_path = NodePath("../ConfigOverlay/Column/PlayerMenu/PlayerSelect")
 
 [node name="ConfigOverlay" type="ColorRect" parent="."]
 visible = false
@@ -82,10 +112,10 @@ __meta__ = {
 margin_right = 452.0
 margin_bottom = 16.0
 size_flags_vertical = 12
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 1, 0.596078, 0, 1 )
 custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 2 )
 text = "Controls Menu"
 align = 1
 autowrap = true
@@ -94,16 +124,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ProfilesMenu" type="OptionButton" parent="ConfigOverlay/Column"]
-margin_left = 211.0
+[node name="PlayerMenu" type="HBoxContainer" parent="ConfigOverlay/Column"]
+margin_left = 187.0
 margin_top = 31.0
-margin_right = 240.0
+margin_right = 265.0
 margin_bottom = 51.0
 size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PlayerSelect" type="OptionButton" parent="ConfigOverlay/Column/PlayerMenu"]
+margin_right = 45.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "P1"
+align = 1
+items = [ "P1", null, false, 0, null, "P2", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProfilesMenu" type="OptionButton" parent="ConfigOverlay/Column/PlayerMenu"]
+margin_left = 49.0
+margin_right = 78.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
 size_flags_vertical = 0
 toggle_mode = false
 flat = true
+align = 1
 script = SubResource( 1 )
+inputmapper_path = NodePath("../../../../InputMapper")
 
 [node name="Header" type="HBoxContainer" parent="ConfigOverlay/Column"]
 margin_top = 66.0
@@ -115,10 +167,10 @@ size_flags_vertical = 4
 margin_right = 148.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0.67451, 0.435294, 0.0980392, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 2 )
 text = "Action"
 
 [node name="Control" type="Label" parent="ConfigOverlay/Column/Header"]
@@ -126,10 +178,10 @@ margin_left = 152.0
 margin_right = 300.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
 custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 3 )
 text = "Control"
 align = 1
 
@@ -138,10 +190,10 @@ margin_left = 404.0
 margin_right = 452.0
 margin_bottom = 18.0
 size_flags_horizontal = 10
-custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_shadow = Color( 1, 0.592157, 0, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 4 )
 text = "Change"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigOverlay/Column"]
@@ -199,9 +251,9 @@ margin_top = -50.0
 margin_right = 240.0
 margin_bottom = 50.0
 size_flags_vertical = 5
-custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_y = 5
+custom_fonts/font = SubResource( 5 )
 text = "Press a Button..."
 align = 1
 autowrap = true
@@ -209,6 +261,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="visibility_changed" from="ConfigOverlay" to="ConfigOverlay/Column/ProfilesMenu" method="_on_ConfigOverlay_visibility_changed"]
+[connection signal="visibility_changed" from="ConfigOverlay" to="ConfigOverlay/Column/PlayerMenu/ProfilesMenu" method="_on_ConfigOverlay_visibility_changed"]
+[connection signal="item_selected" from="ConfigOverlay/Column/PlayerMenu/PlayerSelect" to="." method="_on_PlayerSelect_item_selected"]
 [connection signal="button_down" from="ConfigOverlay/Column/ReturnToInGameMenu" to="ConfigOverlay/Column/ReturnToInGameMenu" method="_on_button_down"]
 [connection signal="button_down" from="ConfigOverlay/Column/ReturnMainMenu" to="ConfigOverlay/Column/ReturnMainMenu" method="_on_button_down"]

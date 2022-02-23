@@ -1,11 +1,10 @@
 using Godot;
 using System;
 
-public class CrouchC : BaseAttack
+public class CrouchC : GroundAttack
 {
 	public override void _Ready()
 	{
 		base._Ready();
-		AddJumpCancel();
 	}
 }

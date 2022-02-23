@@ -233,6 +233,7 @@ dmg = 7
 
 [node name="CrouchA" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
+hitPush = 2000
 
 [node name="CrouchB" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
@@ -244,7 +245,9 @@ dmg = 6
 [node name="CrouchC" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
 hitStun = 18
+opponentLaunch = Vector2( 0, -400 )
 hitPush = 2000
+height = 0
 dmg = 7
 knockdown = true
 

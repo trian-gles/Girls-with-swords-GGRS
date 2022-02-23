@@ -1,15 +1,13 @@
 extends Node
 
 export (NodePath) var dropdown_path
-export (NodePath) var confirmremove_path
 onready var dropdown = get_node(dropdown_path)
+
+export (NodePath) var confirmremove_path
 onready var confirmremove = get_node(confirmremove_path)
 
 onready var FriendName = $FriendName
-onready var OpponentPort =$OpponentPort
 onready var OpponentIp = $OpponentIp
-onready var LocalPort = $LocalPort
-
 const SAVE_DIR = "user://friends/"
 var save_path = "user://friends/friendlist.txt"
 
@@ -46,11 +44,8 @@ func _on_AddFriend_button_down():
 	var friendtext = FriendName.text
 	var addedfriend = {
 		"Friend Name" : FriendName.text,
-		"Opponent Port" : OpponentPort.text,
-		"Opponent Ip" : OpponentIp.text,
-		"Local Port" : LocalPort.text,
+		"Opponent Ip" : OpponentIp.text
 	}
-		
 	var file = File.new()
 	#grabbing current list from file
 	file.open(save_path, File.READ)
@@ -80,18 +75,14 @@ func loadselectedfriend(id):
 #			print("This is the passed argument ", str(id))
 			var loadedfriend = player_data[id]
 			file.close()
-			console_write(loadedfriend["Friend Name"],loadedfriend["Opponent Port"],loadedfriend["Opponent Ip"],loadedfriend["Local Port"])
+			console_write(loadedfriend["Friend Name"],loadedfriend["Opponent Ip"])
 #writes friend data to linedit boxes
-func console_write(friendname,port,ip,homeport):
+func console_write(friendname,ip):
 	FriendName.clear()
-	OpponentPort.clear()
 	OpponentIp.clear()
-	LocalPort.clear()
 	FriendName.text += str(friendname)
-	OpponentPort.text += str(port) 
 	OpponentIp.text += str(ip)
-	LocalPort.text += str(homeport)
-
+	
 func _on_RemoveFriend_pressed():
 	#getting currently selected friend
 	var selectedid = dropdown.get_selected_id()

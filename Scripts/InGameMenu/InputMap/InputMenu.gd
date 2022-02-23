@@ -23,13 +23,14 @@ func _ready():
 	#change to profile_id 0
 	$InputMapper.change_profile($ConfigOverlay/Column/PlayerMenu/ProfilesMenu.selected, 0)
 
-#main rebuild function (called by profile_changed)
+#main rebuild function (called by profile_changed in InputMapper)
 func rebuild(input_profile, is_customizable=false, id=0):
 	#clear moves out of actionlist
 	_action_list.clear()
 	for input_action in input_profile.keys():
+		#input_profile is the full profile dict., need to call subarray [0] which is a scancode
 		var line = _action_list.add_input_line(input_action, \
-			input_profile[input_action], is_customizable, id == 0)
+			input_profile[input_action][0], is_customizable, id == 0)
 		if is_customizable:
 			line.connect('change_button_pressed', self, \
 				'_on_InputLine_change_button_pressed', [input_action, line])

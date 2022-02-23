@@ -76,12 +76,12 @@ func change_profile(profile_id, player_id):
 	if player_id == 0:
 		current_profile_id = profile_id
 		profile = player1_profiles[profile_id]
-		print(player1_profiles)
-		print(profile)
+#		print(player1_profiles)
+#		print(profile)
 	else:
 		current_2p_profile_id = profile_id
 		profile = player2_profiles[profile_id]
-		print(profile)
+#		print(profile)
 	
 	#check if remappable custom profile
 	var is_customizable = true if profile_id == 3 else false
@@ -106,7 +106,7 @@ func change_action_key(action_name, key_scancode, device_id, player_id):
 	new_key.set_scancode(key_scancode)
 	InputMap.action_add_event(action_name, new_key)
 	
-	get_selected_profile(player_id)[action_name] = key_scancode
+	get_selected_profile(player_id)[action_name][0] = key_scancode
 
 #clears old action events called by change_action_key above
 func erase_action_events(action_name):

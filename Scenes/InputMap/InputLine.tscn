@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/InGameMenu/InputMap/InputLine.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Button Icons/PSButtons.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Button Icons/XboxButtons.png" type="Texture" id=4]
 
@@ -45,10 +46,19 @@ align = 1
 valign = 1
 
 [node name="Button1" type="Sprite" parent="."]
+visible = false
 position = Vector2( 231.902, 10.0537 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 4 )
+hframes = 101
+region_rect = Rect2( 0, 0, 1000, 16 )
+
+[node name="Button2" type="Sprite" parent="."]
+position = Vector2( 231.902, 10.0537 )
+scale = Vector2( 1.5, 1.5 )
+z_as_relative = false
+texture = ExtResource( 2 )
 hframes = 101
 region_rect = Rect2( 0, 0, 1000, 16 )
 

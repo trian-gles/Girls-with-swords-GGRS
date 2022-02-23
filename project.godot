@@ -42,6 +42,7 @@ config/icon="res://icon.png"
 
 Globals="*res://Scripts/Globals.cs"
 Events="*res://Scripts/Events.gd"
+CharacterSelectionManager="*res://Scripts/CharacterSelect/CharacterSelectionManager.gd"
 
 [display]
 

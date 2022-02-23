@@ -18,8 +18,6 @@ public class Lobby : Node2D
 	[Export]
 	public bool syncTest = false;
 	
-	public bool host = false;
-	
 	public override void _Ready()
 	{
 		menuroot = GetNode<Control>("MenuRoot");
@@ -38,19 +36,16 @@ public class Lobby : Node2D
 		if (syncTest)
 			OnSyncTestButtonDown();
 	}
-	//netplay buttons
 	public void OnHostButtonDown()
 	{	
 		Globals.mode = Globals.Mode.GGPO;
-		CharacterSelect(true);
-//		Begin(true);
+		Begin(true);
 	}
 
 	public void OnJoinButtonDown()
 	{
 		Globals.mode = Globals.Mode.GGPO;
-		CharacterSelect(false);
-//		Begin(false);
+		Begin(false);
 	}
 
 	public void OnHostTestButtonDown()
@@ -63,44 +58,20 @@ public class Lobby : Node2D
 		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
 	}
 	
-	//local buttons
 	public void OnLocalButtonDown()
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		CharacterSelect(true);
-//		Begin(true);
+		Begin(true);
 	}
 
 	public void OnTrainingButtonDown()
 	{
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
-		CharacterSelect(true);
-//		Begin(true);
+		Begin(true);
 	}
-	
-	public void CharacterSelect(bool hosting)
-	{
-		HideButtons();
-		var CharacterSelectScene = (PackedScene) ResourceLoader.Load("res://Scenes/CharacterSelectScreen.tscn");
-		var CharacterSelectInstance = CharacterSelectScene.Instance();
-		AddChild(CharacterSelectInstance);
-//		GD.Print("Character Select Initiated");
-		host = hosting;
-//		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
-		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
-		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
-		cursor.Set("active",true);
-	}
-	
-	public void CharactersSelectedStartGame()
-	{
-		GD.Print("Host: ", host);
-		Begin(host);	
-	}
-	
-	//sync test
+
 	public void OnSyncTestButtonDown()
 	{
 		Globals.mode = Globals.Mode.SYNCTEST;
@@ -108,7 +79,6 @@ public class Lobby : Node2D
 		Begin(true);
 	}
 	
-	//config
 	public void _on_ButtonConfig_pressed()
 	{
 		HideButtons();
@@ -126,7 +96,6 @@ public class Lobby : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
-	//quit game functions
 	public void LocalLobbyReturn()
 	{
 		OnLobbyReset();
@@ -151,7 +120,6 @@ public class Lobby : Node2D
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
 		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
-		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
@@ -175,9 +143,6 @@ public class Lobby : Node2D
 		if (Globals.mode == Globals.Mode.GGPO)
 		{
 			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-			otherPort = int.Parse(entries.GetNode<LineEdit>("OpponentPort").Text);
-			localPort = int.Parse(entries.GetNode<LineEdit>("LocalPort").Text);
-
 		}
 		
 		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");

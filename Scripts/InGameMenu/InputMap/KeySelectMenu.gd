@@ -1,10 +1,12 @@
 extends Panel
 
+#this signal is recieved in InputMenu.gd
 signal key_selected(scancode)
 
 func _ready():
 	set_process_input(false)
 
+#process inputs and pass them via signal
 func _input(event):
 	if not event.is_pressed():
 		return
@@ -15,6 +17,7 @@ func _input(event):
 
 	close()
 
+#for showing and hiding rebind menu
 func open():
 	show()
 	set_process_input(true)
@@ -22,4 +25,5 @@ func open():
 func close():
 	hide()
 	set_process_input(false)
+	
 

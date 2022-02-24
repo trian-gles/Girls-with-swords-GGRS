@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/XboxButtons.png-a69d250f38ceb7ca6ca6dd48f5b21ca5.stex"
+path="res://.import/Simpsons looking ass OL5.png-e07ff856b44e4f2102f0e0731b2e24f3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Button Icons/XboxButtons.png"
-dest_files=[ "res://.import/XboxButtons.png-a69d250f38ceb7ca6ca6dd48f5b21ca5.stex" ]
+source_file="res://Sprites/CharacterSelect/Simpsons looking ass OL5.png"
+dest_files=[ "res://.import/Simpsons looking ass OL5.png-e07ff856b44e4f2102f0e0731b2e24f3.stex" ]
 
 [params]
 

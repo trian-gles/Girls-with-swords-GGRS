@@ -68,8 +68,8 @@ public class MainScene : Node2D
 
 	public override void _Ready()
 	{
-		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
-		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
+//		characterMap.Add("GL", (PackedScene)ResourceLoader.Load("res://Scenes/OL.tscn"));
+//		characterMap.Add("OL", (PackedScene)ResourceLoader.Load("res://Scenes/GL.tscn"));
 	}
 
 	/// <summary>
@@ -88,17 +88,21 @@ public class MainScene : Node2D
 
 		//connect in-game menu buttons
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(CloseMainscene));
-
-		P1 = characterMap["OL"].Instance() as Player;
+		
+		//connect selected characters
+		Node CharacterSelect = GetNode("/root/CharacterSelectionManager");
+		PackedScene playerone = (PackedScene)CharacterSelect.Get("playerone");
+		PackedScene playertwo = (PackedScene)CharacterSelect.Get("playertwo");
+		//p1
+		P1 = playerone.Instance() as Player;
+		
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
-		P1.colorScheme = 0;
-		
+		P1.colorScheme = 0;		
 		AddChild(P1);
 		MoveChild(P1, 4);
-		
-
-		P2 = characterMap["GL"].Instance() as Player;
+		//p2
+		P2 = playertwo.Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = 0;
@@ -640,6 +644,12 @@ public class MainScene : Node2D
 	}
 	private void CloseMainscene()
 	{
+		//get characters
+		Node CharacterSelect = GetNode("/root/CharacterSelectionManager");
+		//reset characters before returning
+		CharacterSelect.Set("playerone",null);
+		CharacterSelect.Set("playertwo",null);
+		
 //		GD.Print("Emitting lobby return signal");
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.LOCAL)
 		{

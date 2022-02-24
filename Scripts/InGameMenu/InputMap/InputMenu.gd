@@ -27,13 +27,15 @@ func _ready():
 func rebuild(input_profile, is_customizable=false, id=0):
 	#clear moves out of actionlist
 	_action_list.clear()
-	for input_action in input_profile.keys():
+	
+	for action_name in input_profile.keys():
 		#input_profile is the full profile dict., need to call subarray [0] which is a scancode
-		var line = _action_list.add_input_line(input_action, \
-			input_profile[input_action][0], is_customizable, id == 0)
+		var line = _action_list.add_input_line(action_name, \
+			input_profile[action_name][0], is_customizable, id)
 		if is_customizable:
+			print("Move name sending to input change button pressed ",action_name)
 			line.connect('change_button_pressed', self, \
-				'_on_InputLine_change_button_pressed', [input_action, line])
+				'_on_InputLine_change_button_pressed', [action_name, line])
 	
 	
 #choosing player calls InputMapper intialize and change_profile
@@ -43,11 +45,19 @@ func _on_PlayerSelect_item_selected(index):
 
 #make key rebind menu active
 func _on_InputLine_change_button_pressed(action_name, line):
-	set_process_input(false)
-		
+#	set_process_input(false)
+#
+	#show rebind dialog
 	$ConfigOverlay/KeySelectMenu.open()
-	var key_scancode = yield($ConfigOverlay/KeySelectMenu, "key_selected")
-	$InputMapper.change_action_key(action_name, key_scancode)
+	#assign variables to arguments
+	var key_scancode = yield($ConfigOverlay/KeySelectMenu, "key_selected")[0]
+	var key_device = yield($ConfigOverlay/KeySelectMenu, "key_selected")[1]
+	var player_id = playerselect.get_selected_id()
+	#pass arguments to change function
+	print("Sending ",action_name," to change function.")
+	print(line)
+	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
+	
 	line.update_key(key_scancode)
 	set_process_input(true)
 

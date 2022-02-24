@@ -42,21 +42,22 @@ func initialize(action_name, key, can_change, keyboard_profile:bool):
 	$Action.text = action_name.capitalize()
 #	print(key)
 	if keyboard_profile:
-		$Key.text = OS.get_scancode_string(key)
+#		$Key.text = OS.get_scancode_string(key)
 		buttonicon.frame = key
 		buttoniconalt.frame = key
 	else:
-		$Key.text = Input.get_joy_button_string(key)
+#		$Key.text = Input.get_joy_button_string(key)
 		buttonicon.frame = key
 		buttoniconalt.frame = key
 	
 	$ChangeButton.disabled = not can_change
 
 func update_key(scancode):
-	$Key.text = OS.get_scancode_string(scancode)
-	$Key.text = Input.get_joy_button_string(scancode)
+#	$Key.text = OS.get_scancode_string(scancode)
+#	$Key.text = Input.get_joy_button_string(scancode)
 	buttonicon.frame = scancode
 	buttoniconalt.frame = scancode
+	
 	scene_tree.set_input_as_handled()
 
 

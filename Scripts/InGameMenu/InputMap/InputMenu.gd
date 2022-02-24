@@ -45,20 +45,22 @@ func _on_PlayerSelect_item_selected(index):
 
 #make key rebind menu active
 func _on_InputLine_change_button_pressed(action_name, line):
-#	set_process_input(false)
-#
+	set_process_input(false)
+
 	#show rebind dialog
 	$ConfigOverlay/KeySelectMenu.open()
 	#assign variables to arguments
-	var key_scancode = yield($ConfigOverlay/KeySelectMenu, "key_selected")[0]
-	var key_device = yield($ConfigOverlay/KeySelectMenu, "key_selected")[1]
+	var key_arguments = yield($ConfigOverlay/KeySelectMenu, "key_selected")
+	var key_scancode = key_arguments[0]
+	var key_device = key_arguments[1]
 	var player_id = playerselect.get_selected_id()
 	#pass arguments to change function
 	print("Sending ",action_name," to change function.")
 	print(line)
-	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
 	
+	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
 	line.update_key(key_scancode)
+	
 	set_process_input(true)
 
 #hide overlay when done

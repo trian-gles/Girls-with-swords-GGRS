@@ -6,7 +6,6 @@ var device_id = -1
 onready var buttonicon = $Button1
 onready var buttoniconalt = $Button2
 
-
 func _ready():
 	Input.connect("joy_connection_changed", self, "_joy_connection_changed")
 #	if Input.get_connected_joypads().size() > 0:
@@ -59,7 +58,6 @@ func update_key(scancode):
 	buttoniconalt.frame = scancode
 	
 	scene_tree.set_input_as_handled()
-
 
 func _on_ChangeButton_pressed():
 	emit_signal('change_button_pressed')

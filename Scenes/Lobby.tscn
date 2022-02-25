@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
+[ext_resource path="res://Themes/startmenu.theme" type="Theme" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -87,6 +88,7 @@ anchor_bottom = 1.0
 margin_right = 480.0
 margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
+theme = ExtResource( 9 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -107,15 +109,17 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
 margin_right = 480.0
 margin_bottom = 270.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
 margin_left = 104.0
-margin_top = 44.0
+margin_top = 61.0
 margin_right = 376.0
-margin_bottom = 226.0
+margin_bottom = 209.0
 mouse_filter = 0
 size_flags_horizontal = 3
-custom_constants/separation = 20
+custom_constants/separation = 10
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -128,30 +132,34 @@ custom_fonts/font = ExtResource( 6 )
 text = "Girls with Swords"
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_top = 36.0
+margin_top = 26.0
 margin_right = 272.0
-margin_bottom = 58.0
+margin_bottom = 49.0
+size_flags_vertical = 4
 action_mode = 0
 text = "Local"
+flat = false
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_top = 78.0
+margin_top = 59.0
 margin_right = 272.0
-margin_bottom = 100.0
+margin_bottom = 82.0
 text = "Net Play"
+flat = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_top = 120.0
+margin_top = 92.0
 margin_right = 272.0
-margin_bottom = 142.0
+margin_bottom = 115.0
 text = "Button Configuration"
+flat = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -164,9 +172,9 @@ margin_bottom = 182.0
 text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
-margin_top = 162.0
+margin_top = 125.0
 margin_right = 272.0
-margin_bottom = 182.0
+margin_bottom = 148.0
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
 visible = false
@@ -192,17 +200,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 40.0
+margin_top = 30.0
 margin_right = 300.0
-margin_bottom = 56.0
+margin_bottom = 46.0
 custom_fonts/font = ExtResource( 6 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 60.0
+margin_top = 50.0
 margin_right = 300.0
-margin_bottom = 80.0
+margin_bottom = 77.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -210,18 +218,18 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 84.0
+margin_top = 81.0
 margin_right = 300.0
-margin_bottom = 104.0
+margin_bottom = 108.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 108.0
+margin_top = 112.0
 margin_right = 300.0
-margin_bottom = 130.0
+margin_bottom = 139.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -236,9 +244,9 @@ __meta__ = {
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 50.0
+margin_top = 40.0
 margin_right = 390.0
-margin_bottom = 220.0
+margin_bottom = 230.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -258,11 +266,11 @@ text = "Net Play"
 [node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_top = 20.0
 margin_right = 300.0
-margin_bottom = 40.0
+margin_bottom = 47.0
 
 [node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
-margin_bottom = 20.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 text = "Host"
 __meta__ = {
@@ -272,7 +280,7 @@ __meta__ = {
 [node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 20.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 text = "Join"
 __meta__ = {
@@ -280,18 +288,18 @@ __meta__ = {
 }
 
 [node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 44.0
+margin_top = 51.0
 margin_right = 300.0
-margin_bottom = 68.0
+margin_bottom = 80.0
 placeholder_text = "Enter Friend Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 72.0
+margin_top = 84.0
 margin_right = 300.0
-margin_bottom = 96.0
+margin_bottom = 113.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -299,16 +307,16 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 100.0
+margin_top = 117.0
 margin_right = 300.0
-margin_bottom = 120.0
+margin_bottom = 144.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_right = 148.0
-margin_bottom = 20.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 text = "Add Friend"
 __meta__ = {
@@ -318,7 +326,7 @@ __meta__ = {
 [node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 20.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 text = "Remove Friend"
 __meta__ = {
@@ -336,9 +344,9 @@ __meta__ = {
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 124.0
+margin_top = 148.0
 margin_right = 300.0
-margin_bottom = 144.0
+margin_bottom = 175.0
 text = "Item 0"
 align = 1
 
@@ -363,9 +371,9 @@ __meta__ = {
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 148.0
+margin_top = 179.0
 margin_right = 300.0
-margin_bottom = 170.0
+margin_bottom = 206.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]

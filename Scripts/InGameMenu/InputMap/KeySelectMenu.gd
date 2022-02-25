@@ -11,9 +11,9 @@ func _input(event):
 	if not event.is_pressed():
 		return
 	if event is InputEventJoypadButton:
-		emit_signal("key_selected", event.button_index)
+		emit_signal("key_selected", event.button_index, event.device)
 	elif event is InputEventKey:
-		emit_signal("key_selected", event.scancode)
+		emit_signal("key_selected", event.scancode, event.device)
 
 	close()
 

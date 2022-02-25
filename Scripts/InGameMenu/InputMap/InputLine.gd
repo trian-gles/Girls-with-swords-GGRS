@@ -6,7 +6,6 @@ var device_id = -1
 onready var buttonicon = $Button1
 onready var buttoniconalt = $Button2
 
-
 func _ready():
 	Input.connect("joy_connection_changed", self, "_joy_connection_changed")
 #	if Input.get_connected_joypads().size() > 0:
@@ -42,23 +41,23 @@ func initialize(action_name, key, can_change, keyboard_profile:bool):
 	$Action.text = action_name.capitalize()
 #	print(key)
 	if keyboard_profile:
-		$Key.text = OS.get_scancode_string(key)
+#		$Key.text = OS.get_scancode_string(key)
 		buttonicon.frame = key
 		buttoniconalt.frame = key
 	else:
-		$Key.text = Input.get_joy_button_string(key)
+#		$Key.text = Input.get_joy_button_string(key)
 		buttonicon.frame = key
 		buttoniconalt.frame = key
 	
 	$ChangeButton.disabled = not can_change
 
 func update_key(scancode):
-	$Key.text = OS.get_scancode_string(scancode)
-	$Key.text = Input.get_joy_button_string(scancode)
+#	$Key.text = OS.get_scancode_string(scancode)
+#	$Key.text = Input.get_joy_button_string(scancode)
 	buttonicon.frame = scancode
 	buttoniconalt.frame = scancode
+	
 	scene_tree.set_input_as_handled()
-
 
 func _on_ChangeButton_pressed():
 	emit_signal('change_button_pressed')

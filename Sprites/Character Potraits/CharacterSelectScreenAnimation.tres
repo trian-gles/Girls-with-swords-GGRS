@@ -1,0 +1,45 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=10 format=2]
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "CursorFadeIn"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "GLBlink"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "GLFadeIn"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "Init"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "OLFadeIn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+auto_advance = true
+
+[resource]
+states/CursorFadeIn/node = SubResource( 17 )
+states/CursorFadeIn/position = Vector2( 631, 52 )
+states/GLBlink/node = SubResource( 6 )
+states/GLBlink/position = Vector2( 824, 52 )
+states/GLFadeIn/node = SubResource( 7 )
+states/GLFadeIn/position = Vector2( 434, 52 )
+states/Init/node = SubResource( 20 )
+states/Init/position = Vector2( 98, 52 )
+states/OLFadeIn/node = SubResource( 9 )
+states/OLFadeIn/position = Vector2( 230, 52 )
+transitions = [ "GLFadeIn", "CursorFadeIn", SubResource( 18 ), "Init", "OLFadeIn", SubResource( 21 ), "OLFadeIn", "GLFadeIn", SubResource( 24 ), "CursorFadeIn", "GLBlink", SubResource( 26 ) ]
+start_node = "Init"

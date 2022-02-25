@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
 [ext_resource path="res://Themes/startmenu.theme" type="Theme" id=9]
+[ext_resource path="res://Scripts/UISFX.gd" type="Script" id=10]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -385,6 +386,9 @@ rect_min_size = Vector2( 400, 140 )
 focus_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+
+[node name="UISFX" type="AudioStreamPlayer" parent="."]
+script = ExtResource( 10 )
 
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]

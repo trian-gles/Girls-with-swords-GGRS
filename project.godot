@@ -34,9 +34,9 @@ Test_Metadata_Directory="res://tests"
 
 [application]
 
-config/name="GWS-GGPO"
+config/name="GwS"
 run/main_scene="res://Scenes/SplashScreen.tscn"
-config/icon="res://icon.png"
+config/icon="res://OL_icon.png"
 
 [autoload]
 

@@ -26,7 +26,7 @@ public abstract class AirAttack : BaseAttack
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
 	}
 
-	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
+	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;

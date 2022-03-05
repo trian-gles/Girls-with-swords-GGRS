@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -41,24 +41,25 @@
 [ext_resource path="res://Scripts/Player/Base/GFX/Cancel.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
+[ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 35 )
+extents = Vector2( 35, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23, 11 )
+extents = Vector2( 12, 14 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 20, 22 )
+extents = Vector2( 19, 16 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 23, 20 )
+extents = Vector2( 16, 19 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -228,7 +229,7 @@ dmg = 5
 script = ExtResource( 26 )
 hitStun = 20
 blockStun = 18
-hitPush = 5000
+hitPush = 3500
 dmg = 7
 
 [node name="CrouchA" type="Node" parent="StateTree"]
@@ -257,6 +258,9 @@ script = ExtResource( 1 )
 [node name="Tech" type="Node" parent="StateTree"]
 script = ExtResource( 38 )
 techVector = Vector2( 200, -400 )
+
+[node name="GroundBounce" type="Node" parent="StateTree"]
+script = ExtResource( 42 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

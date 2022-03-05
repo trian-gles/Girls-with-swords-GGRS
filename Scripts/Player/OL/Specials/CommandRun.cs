@@ -72,7 +72,7 @@ public class CommandRun : State
 		}
 	}
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		if (!oneHit)
 		{
@@ -83,7 +83,7 @@ public class CommandRun : State
 		}
 		else
 		{
-			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt);
+			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt, effect);
 		}
 	}
 

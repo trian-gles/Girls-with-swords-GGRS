@@ -219,34 +219,43 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
-	private List<List<char>> Permutations(List<char> chars)
+	internal static List<List<char>> Permutations(List<char> chars)
 	{
-		var res = new List<List<char>>();
-		var queue = new Queue<List<char>>();
-		queue.Enqueue(new List<char>() { });
-
+		var result = new List<List<char>>();
 		foreach (char c in chars)
 		{
-			for (int i = 0; i < queue.Count(); i++)
-			{
-				var perm = queue.Dequeue();
-				var newPerm = new List<char>(perm);
-				newPerm.Insert(i, c);
-
-				if (newPerm.Count < chars.Count)
-					queue.Enqueue(newPerm);
-				else
-					res.Add(newPerm);
-			}
+			// move c from basket to current result
+			var currRes = new List<char>() { c };
+			var currBasket = chars.Where((char ch) =>  ch != c ).ToList();
+			Helper(currRes, currBasket, result);
+			
 		}
-		return res;
+		return result;
 	}
+
+	internal static void Helper(List<char> currRes, List<char> currBasket, List<List<char>> result)
+	{
+		if (currBasket.Count == 0)
+		{
+			result.Add(currRes.Select(x => x).ToList());
+			return;
+		}
+
+		foreach (char c in currBasket)
+		{
+			currRes.Add(c);
+			var nextBasket = currBasket.Where((char ch) => ch != c).ToList();
+			Helper(currRes, nextBasket, result);
+			currRes.RemoveAt(currRes.Count - 1);
+		}
+	}
+
+	
 
 	protected void AddCancel(string cancelState)
 	{
 		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
 		{
-			//GD.Print(perm);
 			AddGatling(new char[] {perm[0] ,'p' },  () => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]), 
 				cancelState, () => owner.GFXEvent("Cancel"));
 		}
@@ -317,7 +326,9 @@ public abstract class State : Node
 					normGat.postCall();
 				}
 
+				
 				EmitSignal(nameof(StateFinished), normGat.state);
+				
 				return;
 			}
 		}
@@ -369,22 +380,25 @@ public abstract class State : Node
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
-	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
+	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
 		
 		owner.ComboUp();
-		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+		if (!(launch == Vector2.Zero))
 		{
-			//GD.Print("Launch is not zero!");
 			owner.velocity = launch;
 			launchBool = true;
 		}
 
 		bool airState = (launchBool || !owner.grounded);
 
-		if (airState && !knockdown)
+		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+		{
+			EmitSignal(nameof(StateFinished), "GroundBounce");
+		}
+		else if (airState && !knockdown)
 		{
 			if (launch.y == 0)
 			{
@@ -406,6 +420,7 @@ public abstract class State : Node
 			EmitSignal(nameof(StateFinished), "HitStun");
 		}
 	}
+	
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt)
 	{
@@ -413,7 +428,7 @@ public abstract class State : Node
 		EmitSignal(nameof(StateFinished), stateName);
 	}
 
-	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		owner.velocity = new Vector2(0, 0);
 		switch (attackDir)
@@ -432,7 +447,6 @@ public abstract class State : Node
 		
 
 		owner.hitPushRemaining = hitPush;
-		//GD.Print($"Setting hitPush in {Name} to {owner.hitPushRemaining}");
 
 		if (owner.velocity.y < 0)
 		{
@@ -453,12 +467,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt);
+					EnterHitState(knockdown, launch, collisionPnt, effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 			
 		}
@@ -472,12 +486,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt);
+					EnterHitState(knockdown, launch, collisionPnt, effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 		}
 		else
@@ -488,7 +502,7 @@ public abstract class State : Node
 			}
 			else 
 			{
-				EnterHitState(knockdown, launch, collisionPnt);
+				EnterHitState(knockdown, launch, collisionPnt, effect);
 			}
 		}
 	}

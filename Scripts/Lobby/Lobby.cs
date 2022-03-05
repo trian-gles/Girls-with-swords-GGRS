@@ -91,7 +91,7 @@ public class Lobby : Node2D
 //		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
 		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
 		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
-		cursor.Set("active",true);
+
 	}
 	
 	public void CharactersSelectedStartGame()
@@ -105,7 +105,8 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.SYNCTEST;
 		GD.Print("Training mode selected");
-		Begin(true);
+		CharacterSelect(true);
+		//Begin(true);
 	}
 	
 	//config

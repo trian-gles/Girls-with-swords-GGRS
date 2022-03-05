@@ -24,6 +24,8 @@ public class Idle : State
 	public override void Enter()
 	{
 		base.Enter();
+		// THIS NEEDS TO BE FIXED ASAP
+		owner.velocity.y = 0;
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		if (owner.CheckHeldKey('2'))

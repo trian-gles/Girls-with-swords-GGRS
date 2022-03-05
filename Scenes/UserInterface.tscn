@@ -66,7 +66,6 @@ script = ExtResource( 6 )
 margin_top = 27.0
 margin_right = 125.0
 margin_bottom = 50.0
-disabled = true
 text = "Button Config"
 script = ExtResource( 5 )
 

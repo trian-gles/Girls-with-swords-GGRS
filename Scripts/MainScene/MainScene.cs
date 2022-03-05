@@ -95,6 +95,7 @@ public class MainScene : Node2D
 		PackedScene playertwo = (PackedScene)CharacterSelect.Get("playertwo");
 		//p1
 		P1 = playerone.Instance() as Player;
+		
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = 0;		

@@ -21,6 +21,9 @@ public abstract class BaseAttack : State
 	protected HEIGHT height = HEIGHT.MID;
 
 	[Export]
+	protected EXTRAEFFECT effect = EXTRAEFFECT.NONE;
+
+	[Export]
 	protected int dmg = 1;
 
 	[Export]
@@ -31,6 +34,13 @@ public abstract class BaseAttack : State
 
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
+
+	public enum EXTRAEFFECT
+	{
+		NONE,
+		GROUNDBOUNCE,
+		WALLBOUNCE
+	}
 
 	
 	public enum ATTACKDIR
@@ -95,7 +105,7 @@ public abstract class BaseAttack : State
 			direction = ATTACKDIR.LEFT;
 		}
 
-		owner.otherPlayer.ReceiveHit(collisionPnt, direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel);
+		owner.otherPlayer.ReceiveHit(collisionPnt, direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel, effect);
 		hitConnect = true;
 	}
 
@@ -109,7 +119,7 @@ public abstract class BaseAttack : State
 	}
 
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		switch (attackDir)
 		{
@@ -132,12 +142,12 @@ public abstract class BaseAttack : State
 			owner.grounded = false;
 		}
 
-		EnterHitState(knockdown, launch, collisionPnt);
+		EnterHitState(knockdown, launch, collisionPnt, effect);
 	}
 
 	
 
-	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt)
+	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;

@@ -99,6 +99,7 @@ public class Player : Node2D
 		public int combo { get; set; }
 		public int proration { get; set; }
 		public int animationCursor { get; set; }
+		public int lastFrameInputs { get; set; }
 
 	}
 
@@ -113,6 +114,7 @@ public class Player : Node2D
 	private Vector2 hit_launch;
 	private bool hit_knockdown;
 	private int hit_prorationLevel;
+	private BaseAttack.EXTRAEFFECT hit_effect;
 	private Vector2 hit_collisionPnt;
 
 	// Box colors
@@ -222,6 +224,7 @@ public class Player : Node2D
 		pState.grounded = grounded;
 		pState.combo = combo;
 		pState.proration = proration;
+		pState.lastFrameInputs = inputHandler.lastFrameInputs;
 		return pState;
 	}
 
@@ -232,6 +235,7 @@ public class Player : Node2D
 		inputHandler.hitStopInputs = pState.hitStopInputs;
 		inputHandler.heldKeys = pState.heldKeys;
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
+		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
@@ -255,6 +259,7 @@ public class Player : Node2D
 		grounded = pState.grounded;
 		combo = pState.combo;
 		proration = pState.proration;
+		inputHandler.lastFrameInputs = pState.lastFrameInputs;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -268,6 +273,17 @@ public class Player : Node2D
 		gfxHand.Rollback(frame);
 	}
 
+	public void PrintBuffer()
+	{
+		GD.Print("Buffer ----");
+		foreach (char[] inp in inputHandler.inBuf2)
+		{
+			GD.Print(string.Join(",", inp));
+		}
+		GD.Print("----");
+		
+	}
+
 	/// <summary>
 	/// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
 	/// </summary>
@@ -278,27 +294,27 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 8;
 		public int inBuf2Timer = 8;
 		public List<char> heldKeys = new List<char>();
+		public State playerState;
+		/// <summary>
+		/// Used for checking if a key has been pressed or released
+		/// </summary>
+		public int lastFrameInputs;
 
-		public void Buf2AddInputs(List<char[]> newInputs) 
-		{ 
-			if (!newInputs.Any())
+		private void BufAddInput(char[] input)
+		{
+			inBuf2Timer = inBuf2TimerMax;
+			inBuf2.Add(input);
+		}
+
+		private void BufTimerDecrement()
+		{
+			if (inBuf2Timer > 0)
 			{
-				if (inBuf2Timer > 0)
-				{
-					inBuf2Timer--;
-				}
-				else
-				{
-					inBuf2 = new List<char[]>();
-				}
+				inBuf2Timer--;
 			}
 			else
-			{ // would it be faster with concat
-				foreach (char[] newInput in newInputs)
-				{
-					inBuf2Timer = inBuf2TimerMax;
-					inBuf2.Add(newInput);
-				}
+			{
+				inBuf2 = new List<char[]>();
 			}
 		}
 
@@ -323,65 +339,65 @@ public class Player : Node2D
 		private List<char[]> ConvertInputs(int inputs)
 		{
 			var unhandledInputs = new List<char[]>();
-			if ((inputs & 1) != 0 && !heldKeys.Contains('8'))
+			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
 				unhandledInputs.Add(new char[] { '8', 'p' });
 			}
-			else if ((inputs & 1) == 0 && heldKeys.Contains('8'))
+			else if ((inputs & 1) == 0 && (lastFrameInputs & 1) != 0)
 			{
 				unhandledInputs.Add(new char[] { '8', 'r' });
 			}
 
-			if ((inputs & 2) != 0 && !heldKeys.Contains('2'))
+			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
 			{
 				unhandledInputs.Add(new char[] { '2', 'p' });
 			}
-			else if ((inputs & 2) == 0 && heldKeys.Contains('2'))
+			else if ((inputs & 2) == 0 && (lastFrameInputs & 2) != 0)
 			{
 				unhandledInputs.Add(new char[] { '2', 'r' });
 			}
 
-			if ((inputs & 4) != 0 && !heldKeys.Contains('6'))
+			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
 			{
 				unhandledInputs.Add(new char[] { '6', 'p' });
 			}
-			else if ((inputs & 4) == 0 && heldKeys.Contains('6'))
+			else if ((inputs & 4) == 0 && (lastFrameInputs & 4) != 0)
 			{
 				unhandledInputs.Add(new char[] { '6', 'r' });
 			}
 
-			if ((inputs & 8) != 0 && !heldKeys.Contains('4'))
+			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
 			{
 				unhandledInputs.Add(new char[] { '4', 'p' });
 			}
-			else if ((inputs & 8) == 0 && heldKeys.Contains('4'))
+			else if ((inputs & 8) == 0 && (lastFrameInputs & 8) != 0)
 			{
 				unhandledInputs.Add(new char[] { '4', 'r' });
 			}
 
-			if ((inputs & 16) != 0 && !heldKeys.Contains('p'))
+			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
 			{
 				unhandledInputs.Add(new char[] { 'p', 'p' });
 			}
-			else if ((inputs & 16) == 0 && heldKeys.Contains('p'))
+			else if ((inputs & 16) == 0 && (lastFrameInputs & 16) != 0)
 			{
 				unhandledInputs.Add(new char[] { 'p', 'r' });
 			}
 
-			if ((inputs & 32) != 0 && !heldKeys.Contains('k'))
+			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
 			{
 				unhandledInputs.Add(new char[] { 'k', 'p' });
 			}
-			else if ((inputs & 32) == 0 && heldKeys.Contains('k'))
+			else if ((inputs & 32) == 0 && (lastFrameInputs & 32) != 0)
 			{
 				unhandledInputs.Add(new char[] { 'k', 'r' });
 			}
 
-			if ((inputs & 64) != 0 && !heldKeys.Contains('s'))
+			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
 			{
 				unhandledInputs.Add(new char[] { 's', 'p' });
 			}
-			else if ((inputs & 64) == 0 && heldKeys.Contains('s'))
+			else if ((inputs & 64) == 0 && (lastFrameInputs & 64) != 0)
 			{
 				unhandledInputs.Add(new char[] { 's', 'r' });
 			}
@@ -392,10 +408,12 @@ public class Player : Node2D
 
 		public void FrameAdvance(int hitStop, State currentState, int inputs) 
 		{
-			
+			if (inputs == 0)
+				BufTimerDecrement();
 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
-
+			lastFrameInputs = inputs;
+			
 			if (hitStop > 0) // delay the handling of inputs until after hitstop ends
 			{
 				AddHitStopBuffer(unhandledInputs);
@@ -404,40 +422,28 @@ public class Player : Node2D
 
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
 			hitStopInputs = new List<char[]>();
-			List<char[]> curBufStep = new List<char[]>();
+
 			foreach (char[] inputArr in unhandledInputs)
 			{
+				GD.Print(string.Join(",", inputArr));
 				
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
-					if (!heldKeys.Contains(inputArr[0]))
-					{
-						heldKeys.Add(inputArr[0]);
-					}
-					
+					heldKeys.Add(inputArr[0]);
 					
 				}
 				else if (inputArr[1] == 'r')
 				{
-					if (heldKeys.Contains(inputArr[0]))
-					{
-						bool removeResult = heldKeys.Remove(inputArr[0]);
-					}
-					
-					
+					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
 				
-				
-				curBufStep.Add(inputArr);
-			}
+				BufAddInput(inputArr);
 
-			Buf2AddInputs(curBufStep); // new better input buffer
-			
-			foreach (char[] inputArr in unhandledInputs)
-			{
-				currentState.HandleInput(inputArr);
+				playerState.HandleInput(inputArr);
 			}
+			
+			
 			unhandledInputs.Clear();
 			
 		}
@@ -459,6 +465,7 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
+		inputHandler.playerState = currentState;
 		if (grounded && nextStateName != "Grab")
 		{
 			CheckTurnAround();
@@ -768,7 +775,9 @@ public class Player : Node2D
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
 	/// <param name="prorationLevel"></param>
-	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, bool knockdown, int prorationLevel) 
+	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, 
+		int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, 
+		bool knockdown, int prorationLevel, BaseAttack.EXTRAEFFECT effect = BaseAttack.EXTRAEFFECT.NONE) 
 	{
 
 		wasHit = true;
@@ -782,6 +791,7 @@ public class Player : Node2D
 		hit_knockdown = knockdown;
 		hit_prorationLevel = prorationLevel;
 		hit_collisionPnt = collisionPnt;
+		hit_effect = effect;
 	}
 
 	public void CalculateHit()
@@ -790,7 +800,7 @@ public class Player : Node2D
 		{
 			return;
 		}
-		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt);
+		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt, hit_effect);
 		currentState.receiveStun(hit_hitStun, hit_blockStun);
 		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
 		EmitSignal(nameof(HitConfirm));
@@ -948,6 +958,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
+		return;
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);

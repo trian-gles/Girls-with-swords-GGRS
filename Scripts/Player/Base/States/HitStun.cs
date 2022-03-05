@@ -42,7 +42,7 @@ public class HitStun : HitState
 		}
 	}
 	
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt)
+	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		//GD.Print($"Received attack on side {rightAttack}");
 		bool launchBool = false;
@@ -74,7 +74,7 @@ public class HitStun : HitState
 		}
 		
 		
-		EnterHitState(knockdown, launch, collisionPnt);
+		EnterHitState(knockdown, launch, collisionPnt, effect);
 
 	}
 }

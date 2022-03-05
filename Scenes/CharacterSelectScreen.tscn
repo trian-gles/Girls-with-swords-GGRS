@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Sprites/Character Potraits/OL Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Character Potraits/ScenesOLBlink.tres" type="Animation" id=2]
@@ -72,6 +72,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Cursor:active")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -179,6 +191,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 2 ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Cursor:active")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "OLFadeIn"
@@ -208,6 +232,21 @@ tracks/1/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=22]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cursor:active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
 [sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
 [node name="Control" type="Control"]
@@ -223,11 +262,13 @@ __meta__ = {
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 185.835, 143.717 )
-scale = Vector2( 2.5, 2.5 )
+scale = Vector2( 10, 10 )
 z_index = 1
 texture = ExtResource( 4 )
 script = ExtResource( 7 )
+active = true
 player1Text = ExtResource( 4 )
 player2Text = ExtResource( 3 )
 portraitOffset = Vector2( 100, 100 )
@@ -246,17 +287,19 @@ __meta__ = {
 }
 
 [node name="OLSprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 188.404, 130.131 )
 texture = ExtResource( 1 )
 hframes = 10
-frame = 3
+frame = 4
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 20 )
 position = Vector2( 288.125, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
-frame = 3
+frame = 4
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
@@ -274,9 +317,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
-"Characters",
-]]
+[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 1.0
 margin_top = 21.0
@@ -287,9 +328,7 @@ size_flags_vertical = 4
 texture = SubResource( 2 )
 stretch_mode = 5
 
-[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
-"Characters",
-]]
+[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 104.0
 margin_top = 21.0
@@ -307,6 +346,7 @@ anims/GLSelect = SubResource( 21 )
 anims/Init = SubResource( 19 )
 anims/OLBlink = ExtResource( 2 )
 anims/OLFadeIn = SubResource( 5 )
+anims/RESET = SubResource( 22 )
 
 [node name="AnimationTree" type="AnimationTree" parent="CanvasLayer"]
 tree_root = ExtResource( 17 )

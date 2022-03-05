@@ -105,7 +105,8 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.SYNCTEST;
 		GD.Print("Training mode selected");
-		Begin(true);
+		CharacterSelect(true);
+		//Begin(true);
 	}
 	
 	//config

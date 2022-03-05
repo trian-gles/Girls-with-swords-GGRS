@@ -1,7 +1,7 @@
 extends Node
 
-var playerone
-var playertwo
+var playerone: PackedScene
+var playertwo: PackedScene
 
 var selectableCharacters = {
 	"OL" : preload("res://Scenes/OL.tscn"),

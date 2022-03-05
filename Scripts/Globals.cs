@@ -50,7 +50,7 @@ public class Globals : Node
 
 	public override void _Ready()
 	{
-		
+		Tests();
 	}
 
 	static public Mode mode;
@@ -154,5 +154,13 @@ public class Globals : Node
 		elements.Add(new char[] { 's', 'p' });
 		bool result = (ArrOfArraysComplexInList(arr, elements) == false);
 		GD.Print($"Result of testing nonexistant elements in array = {result}");
+
+		var perms = State.Permutations(new List<char> {'a', 'b', 'c'});
+		GD.Print($"Permutations of abc = ");
+		foreach (List<char> perm in perms)
+        {
+			var thing = string.Join(",", perm);
+			GD.Print(thing);
+        }
 	}
 }

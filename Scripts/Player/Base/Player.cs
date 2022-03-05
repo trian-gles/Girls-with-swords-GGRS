@@ -233,6 +233,7 @@ public class Player : Node2D
 		inputHandler.hitStopInputs = pState.hitStopInputs;
 		inputHandler.heldKeys = pState.heldKeys;
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
+		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
@@ -279,6 +280,7 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 8;
 		public int inBuf2Timer = 8;
 		public List<char> heldKeys = new List<char>();
+		public State playerState;
 
 		public void Buf2AddInputs(List<char[]> newInputs) 
 		{ 
@@ -437,7 +439,7 @@ public class Player : Node2D
 			
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				currentState.HandleInput(inputArr);
+				playerState.HandleInput(inputArr);
 			}
 			unhandledInputs.Clear();
 			
@@ -460,6 +462,7 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
+		inputHandler.playerState = currentState;
 		if (grounded && nextStateName != "Grab")
 		{
 			CheckTurnAround();

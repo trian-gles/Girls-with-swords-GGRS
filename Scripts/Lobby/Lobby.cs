@@ -91,7 +91,7 @@ public class Lobby : Node2D
 //		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
 		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
 		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
-		cursor.Set("active",true);
+
 	}
 	
 	public void CharactersSelectedStartGame()

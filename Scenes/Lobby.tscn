@@ -78,7 +78,7 @@ tracks/4/keys = {
 script = ExtResource( 1 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
-layer = 0
+layer = 9
 
 [node name="InputMenu" parent="InputMenu" instance=ExtResource( 5 )]
 

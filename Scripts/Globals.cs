@@ -97,6 +97,8 @@ public class Globals : Node
 			{
 				if (index > cursor)
 				{
+					if (cursor >= 0 && index - cursor > 5) // the buffer is too long.  Prevents unwanted specials
+						return false;
 					cursor = index;
 					indexFound = true;
 					break;

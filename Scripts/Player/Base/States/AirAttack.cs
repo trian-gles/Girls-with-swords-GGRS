@@ -37,6 +37,11 @@ public abstract class AirAttack : BaseAttack
 			launchBool = true;
 		}
 
+		if (launch.y == 0)
+		{
+			owner.velocity.y = -400;
+		}
+
 		bool airState = (launchBool || !owner.grounded);
 
 		if (!knockdown)

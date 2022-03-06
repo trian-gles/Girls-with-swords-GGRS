@@ -84,6 +84,10 @@ public class Globals : Node
 	/// <returns></returns>
 	public static bool ArrOfArraysComplexInList(List<char[]> arr, List<char[]> elements)
 	{
+		if (arr.Count > 9) // prevents huge buffers
+        {
+			arr = arr.GetRange(arr.Count - 9, 9);
+        }
 		int cursor = -1; // used to make sure moves are in the correct order
 		foreach (char[] element in elements)
 		{
@@ -97,6 +101,10 @@ public class Globals : Node
 			{
 				if (index > cursor)
 				{
+					
+					if (cursor >= 0 && index - cursor > 5) // the buffer is too long.  Prevents unwanted specials
+						return false;
+					GD.Print(index - cursor);
 					cursor = index;
 					indexFound = true;
 					break;

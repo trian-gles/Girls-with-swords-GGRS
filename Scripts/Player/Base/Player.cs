@@ -304,6 +304,8 @@ public class Player : Node2D
 		{
 			inBuf2Timer = inBuf2TimerMax;
 			inBuf2.Add(input);
+			if (inBuf2.Count > 50)
+				inBuf2 = new List<char[]>();
 		}
 
 		private void BufTimerDecrement()
@@ -425,7 +427,7 @@ public class Player : Node2D
 
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				GD.Print(string.Join(",", inputArr));
+				//GD.Print(string.Join(",", inputArr));
 				
 				// Hold or release keys
 				if (inputArr[1] == 'p')

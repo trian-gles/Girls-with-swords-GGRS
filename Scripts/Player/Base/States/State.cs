@@ -250,6 +250,16 @@ public abstract class State : Node
 		}
 	}
 
+	protected void AddNormals()
+	{
+		AddGatling(new[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
+		AddGatling(new[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
+		AddGatling(new[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+		AddGatling(new[] { 'p', 'p' }, "Jab");
+		AddGatling(new[] { 'k', 'p' }, "Kick");
+		AddGatling(new[] { 's', 'p' }, "Slash");
+	}
+
 	
 
 	protected void AddCancel(string cancelState)

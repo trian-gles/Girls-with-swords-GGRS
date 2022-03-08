@@ -9,9 +9,14 @@ public class PostRun : MoveState
 		base._Ready();
 		loop = true;
 		slowdownSpeed = 30;
-		AddGatling(new[] { 'p', 'p' }, "Jab");
-		AddGatling(new[] { 'k', 'p' }, "Kick");
-		AddGatling(new[] { 's', 'p' }, "Slash");
+		AddGatling(new[] { 's', 'p' }, () => {
+			bool pos = Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500;
+			bool grabbable = owner.otherPlayer.IsGrabbable();
+			bool heldKey = owner.CheckHeldKey('4') || owner.CheckHeldKey('6');
+			return pos && grabbable && heldKey;
+
+		}, "Grab");
+		AddNormals();
 	}
 	public override void FrameAdvance()
 	{

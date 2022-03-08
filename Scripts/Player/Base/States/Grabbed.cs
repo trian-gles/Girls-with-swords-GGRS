@@ -33,7 +33,7 @@ public class Grabbed : State
 				break;
 		}
 		owner.velocity = launch;
-
+		owner.ComboUp();
 		owner.grounded = false;
 
 		EmitSignal(nameof(StateFinished), "AirKnockdown");

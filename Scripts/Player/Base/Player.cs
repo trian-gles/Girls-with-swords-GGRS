@@ -59,7 +59,17 @@ public class Player : Node2D
 	public int colorScheme;
 
 	private InputHandler inputHandler;
+
+	/// <summary>
+	/// stores states for which their is a specific object for this player.
+	/// </summary>
 	private HashSet<string> altState = new HashSet<string>();
+
+	/// <summary>
+	/// Certain states will automatically setup gatlings if they are in this list
+	/// </summary>
+	public List<Special> groundSpecials = new List<Special>();
+	public List<Special> airSpecials = new List<Special>();
 
 	// All of these will be stored in gamestate
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
@@ -101,6 +111,21 @@ public class Player : Node2D
 		public int animationCursor { get; set; }
 		public int lastFrameInputs { get; set; }
 
+	}
+
+	/// <summary>
+	/// Info about a special
+	/// </summary>
+	public struct Special
+	{
+		public List<char[]> inputs;
+		public string state;
+
+		public Special(List<char[]> inputsList, string newState) 
+		{
+			inputs = inputsList;
+			state = newState;
+		}
 	}
 
 	// components of a received attack

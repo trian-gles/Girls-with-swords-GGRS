@@ -16,6 +16,7 @@ public class PostRun : MoveState
 			return pos && grabbable && heldKey;
 
 		}, "Grab");
+		AddSpecials(owner.groundSpecials);
 		AddNormals();
 	}
 	public override void FrameAdvance()

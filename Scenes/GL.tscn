@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Paletizer Exports/GL Gray 1-27.png" type="Texture" id=2]
@@ -6,11 +6,8 @@
 [ext_resource path="res://Scripts/Player/New Palette Swapper/ExampleCode.shader" type="Shader" id=4]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/GL/GL.cs" type="Script" id=6]
-[ext_resource path="res://Scripts/Player/GL/Modified/GLWalk.cs" type="Script" id=7]
-[ext_resource path="res://Scripts/Player/GL/Modified/GLCrouch.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/GL/Specials/GLDP.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Player/GL/Specials/Gunblazed.cs" type="Script" id=10]
-[ext_resource path="res://Scripts/Player/GL/Modified/GLSlash.cs" type="Script" id=11]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -5114,17 +5111,14 @@ offset = Vector2( 0.5, 0 )
 hframes = 215
 frame = 149
 
-[node name="GLWalk" type="Node" parent="StateTree" index="0"]
-script = ExtResource( 7 )
-
-[node name="GunBlazed" type="Node" parent="StateTree" index="1"]
+[node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
 hitStun = 30
 blockStun = 18
 opponentLaunch = Vector2( 0, -500 )
 hitPush = 3000
 
-[node name="GLDP" type="Node" parent="StateTree" index="2"]
+[node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
 hitStun = 40
 blockStun = 16
@@ -5135,23 +5129,13 @@ prorationLevel = 1
 launch = Vector2( 150, -1000 )
 launchFrame = 7
 
-[node name="GLCrouch" type="Node" parent="StateTree" index="3"]
-script = ExtResource( 8 )
-
-[node name="GLSlash" type="Node" parent="StateTree" index="4"]
-script = ExtResource( 11 )
-hitStun = 18
-blockStun = 17
-hitPush = 4000
-dmg = 7
-
-[node name="Grab" parent="StateTree" index="16"]
+[node name="Grab" parent="StateTree" index="13"]
 releaseFrame = 20
 
-[node name="Kick" parent="StateTree" index="29"]
+[node name="Kick" parent="StateTree" index="26"]
 opponentLaunch = Vector2( 0, -500 )
 
-[node name="JumpC" parent="StateTree" index="33"]
+[node name="JumpC" parent="StateTree" index="30"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
 

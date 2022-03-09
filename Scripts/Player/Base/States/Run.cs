@@ -11,7 +11,8 @@ public class Run : MoveState
 		
 		AddNormals();
 		AddGatling(new[] { '8', 'p' }, "MovingJump");
-
+		AddSpecials(owner.groundSpecials);
+		AddNormals();
 		AddGatling(new[] { '6', 'r' }, "PostRun");
 		AddGatling(new[] { '4', 'r' }, "PostRun");
 

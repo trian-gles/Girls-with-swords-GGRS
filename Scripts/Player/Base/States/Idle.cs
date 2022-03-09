@@ -6,6 +6,7 @@ public class Idle : State
 {
 	public override void _Ready()
 	{
+		
 		base._Ready();
 		loop = true;
 		
@@ -13,10 +14,9 @@ public class Idle : State
 		AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
 		AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
 		AddGatling(new[] { '8', 'p' }, "Jump");
-		AddGatling(new[] { 'p', 'p' }, "Jab");
-		AddGatling(new[] { 'k', 'p' }, "Kick");
-		AddGatling(new[] { 's', 'p' }, "Slash");
-		
+		AddNormals();
+		AddSpecials(owner.groundSpecials);
+
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		

@@ -10,13 +10,12 @@ public class Walk : MoveState
 		base._Ready();
 		loop = true;
 		AddGatling(new[] { 's', 'p' }, () => (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500) && owner.otherPlayer.IsGrabbable(), "Grab");
-		AddGatling(new[] { 'p', 'p' }, "Jab");
-		AddGatling(new[] { 'k', 'p' }, "Kick");
-		AddGatling(new[] { 's', 'p' }, "Slash");
 		AddGatling(new[] { '8', 'p' }, "MovingJump");
 		AddGatling(new[] { '2', 'p' }, "Crouch");
 		AddGatling(new[] { '6', 'r' }, "Idle");
 		AddGatling(new[] { '4', 'r' }, "Idle");
+		AddSpecials(owner.groundSpecials);
+		AddNormals();
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 	}

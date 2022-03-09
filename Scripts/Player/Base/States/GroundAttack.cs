@@ -8,9 +8,5 @@ public class GroundAttack : BaseAttack
         base._Ready();
         AddCancel("Idle");
     }
-    public override void Enter()
-	{
-		base.Enter();
-	}
 }
 

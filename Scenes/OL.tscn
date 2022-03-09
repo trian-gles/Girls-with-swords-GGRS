@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=2]
@@ -11,11 +11,6 @@
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Paletizer Exports/OL Gray 3-5.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
-[ext_resource path="res://Scripts/Player/OL/Modified/OLCrouchB.cs" type="Script" id=12]
-[ext_resource path="res://Scripts/Player/OL/Modified/OLSlash.cs" type="Script" id=13]
-[ext_resource path="res://Scripts/Player/OL/Modified/OLWalk.cs" type="Script" id=14]
-[ext_resource path="res://Scripts/Player/OL/Modified/OLIdle.cs" type="Script" id=15]
-[ext_resource path="res://Scripts/Player/OL/Modified/OLCrouch.cs" type="Script" id=16]
 [ext_resource path="res://Sprites/Palettes/Ky v2.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/Palettes/Shrek v1.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/Palettes/Sol v1.png" type="Texture" id=19]
@@ -5973,30 +5968,6 @@ hitPush = 3000
 
 [node name="JumpB" parent="StateTree" index="32"]
 hitPush = 3500
-
-[node name="OLCrouchB" type="Node" parent="StateTree" index="37"]
-script = ExtResource( 12 )
-hitStun = 14
-blockStun = 14
-hitPush = 2000
-height = 0
-dmg = 6
-
-[node name="OLSlash" type="Node" parent="StateTree" index="38"]
-script = ExtResource( 13 )
-hitStun = 19
-blockStun = 19
-hitPush = 4000
-dmg = 7
-
-[node name="OLWalk" type="Node" parent="StateTree" index="39"]
-script = ExtResource( 14 )
-
-[node name="OLIdle" type="Node" parent="StateTree" index="40"]
-script = ExtResource( 15 )
-
-[node name="OLCrouch" type="Node" parent="StateTree" index="41"]
-script = ExtResource( 16 )
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )

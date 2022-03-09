@@ -8,6 +8,7 @@ public abstract class AirAttack : BaseAttack
     public override void _Ready()
     {
         base._Ready();
+		AddSpecials(owner.airSpecials);
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 	}

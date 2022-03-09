@@ -260,6 +260,15 @@ public abstract class State : Node
 		AddGatling(new[] { 's', 'p' }, "Slash");
 	}
 
+	protected void AddSpecials(List<Player.Special> specials)
+	{
+		foreach (var special in specials)
+		{
+			GD.Print(special.state);
+			AddGatling(special.inputs, special.state);
+		}
+	}
+
 	
 
 	protected void AddCancel(string cancelState)

@@ -217,12 +217,14 @@ dmg = 7
 script = ExtResource( 20 )
 hitStun = 12
 hitPush = 2000
+height = 2
 dmg = 4
 
 [node name="JumpB" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
 hitStun = 16
 hitPush = 3000
+height = 2
 dmg = 5
 
 [node name="JumpC" type="Node" parent="StateTree"]
@@ -230,6 +232,7 @@ script = ExtResource( 26 )
 hitStun = 20
 blockStun = 18
 hitPush = 3500
+height = 2
 dmg = 7
 
 [node name="CrouchA" type="Node" parent="StateTree"]

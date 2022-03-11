@@ -1,37 +1,20 @@
 using Godot;
 using System;
 
-public class CrouchBlock : State
+public class CrouchBlock : Block
 {
-    public override void _Ready()
-    {
-        base._Ready();
-        loop = true;
-    }
-    public override void FrameAdvance()
-    {
-        base.FrameAdvance();
-        stunRemaining--;
-        if (stunRemaining == 0)
-        {
-            if (owner.grounded)
-            {
-                EmitSignal(nameof(StateFinished), "Crouch");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "Fall");
-            }
+	public override void FrameAdvance()
+	{
+		frameCount++;
+		if (slowdownSpeed != 0) SlowDown();
+		stunRemaining--;
+		if (stunRemaining == 0)
+		{
+			if (owner.CheckHeldKey('2'))
+				EmitSignal(nameof(StateFinished), "Crouch");
+			else
+				EmitSignal(nameof(StateFinished), "Idle");
 
-        }
-        if (!owner.grounded)
-        {
-            ApplyGravity();
-        }
-    }
-
-    public override void receiveDamage(int dmg, int prorationLevel)
-    {
-        owner.DeductHealth(dmg);
-    }
+		}
+	}
 }

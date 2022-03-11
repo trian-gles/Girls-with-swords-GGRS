@@ -11,9 +11,8 @@ public class CommandRun : State
 	public int maxLen = 80;
 
 	[Export]
-	public int speed = 500;
+	public int speed = 450;
 
-	//THIS IS NOT GGPO FRIENDLY
 	private bool oneHit = false;
 
 	public override void _Ready()

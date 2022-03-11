@@ -42,11 +42,8 @@ public class AirDash: Fall
 		}
 	}
 
-	public override void HandleInput(char[] inputArr)
+	public override bool DelayInputs()
 	{
-		if (frameCount > preAttackFrames)
-		{
-			base.HandleInput(inputArr);
-		}
+		return frameCount < 10;
 	}
 }

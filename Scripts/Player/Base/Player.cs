@@ -354,6 +354,11 @@ public class Player : Node2D
 			}
 		}
 
+		public void EmptyHitStop()
+		{
+			hitStopInputs.Clear();
+		}
+
 		private void AddHitStopBuffer(List<char[]> unhandledInputs)
 		{
 			foreach (char[] inputArr in unhandledInputs)
@@ -433,15 +438,20 @@ public class Player : Node2D
 			return unhandledInputs;
 		}
 
-		public void FrameAdvance(int hitStop, State currentState, int inputs) 
-		{
-			if (inputs == 0)
-				BufTimerDecrement();
-
+		public void FrameAdvance(int hitStop, State currentState, int inputs)
+		{ 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
-			
-			if (hitStop > 0) // delay the handling of inputs until after hitstop ends
+			foreach (char[] inputArr in unhandledInputs)
+			{
+				BufAddInput(inputArr);
+			}
+
+
+			if (unhandledInputs.Count == 0)
+				BufTimerDecrement();
+
+			if (hitStop > 0 || currentState.DelayInputs()) // delay the handling of inputs until after hitstop ends
 			{
 				AddHitStopBuffer(unhandledInputs);
 				return;
@@ -465,7 +475,7 @@ public class Player : Node2D
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
 				
-				BufAddInput(inputArr);
+				
 
 				playerState.HandleInput(inputArr);
 			}
@@ -521,6 +531,11 @@ public class Player : Node2D
 	public void RemoveAllHeld()
 	{
 		inputHandler.heldKeys.Clear();
+	}
+
+	public void ClearUnhandled()
+	{
+		inputHandler.EmptyHitStop();
 	}
 
 	public bool CheckHeldKey(char key) 

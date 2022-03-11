@@ -5942,7 +5942,7 @@ launch = Vector2( 0, -400 )
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
 maxLen = 10
-speed = 600
+speed = 500
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 7 )

@@ -5082,7 +5082,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 0, -2 )
+position = Vector2( -1, 12 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5094,7 +5094,6 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
 position = Vector2( 22, -26 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Knockdown : HitState
+public class Knockdown : State
 {
     public override void _Ready()
     {

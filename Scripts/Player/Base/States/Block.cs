@@ -12,7 +12,7 @@ public class Block : HitState
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
 	}
 	public override void FrameAdvance()
 	{

@@ -354,6 +354,15 @@ public abstract class State : Node
 	}
 
 	/// <summary>
+	/// If the current state should keep inputs in the unhandled buffer
+	/// </summary>
+	/// <returns></returns>
+	public virtual bool DelayInputs()
+	{
+		return false;
+	}
+
+	/// <summary>
 	/// Just advances the frameCount, please make a base. call anyways though!
 	/// </summary>
 	public virtual void FrameAdvance()

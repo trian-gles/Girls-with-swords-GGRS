@@ -64,7 +64,7 @@ public class Jump : AirState
 
 	public override bool DelayInputs()
 	{
-		return frameCount < 7 && owner.canDoubleJump;
+		return frameCount < 10 && owner.canDoubleJump;
 	}
 
 

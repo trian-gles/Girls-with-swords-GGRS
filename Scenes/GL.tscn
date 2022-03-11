@@ -5112,9 +5112,9 @@ frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
-hitStun = 30
+hitStun = 36
 blockStun = 18
-opponentLaunch = Vector2( 0, -500 )
+opponentLaunch = Vector2( 0, -600 )
 hitPush = 3000
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]

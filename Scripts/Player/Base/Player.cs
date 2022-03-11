@@ -448,8 +448,7 @@ public class Player : Node2D
 			}
 
 
-			if (unhandledInputs.Count == 0)
-				BufTimerDecrement();
+			
 
 			if (hitStop > 0 || currentState.DelayInputs()) // delay the handling of inputs until after hitstop ends
 			{
@@ -457,12 +456,15 @@ public class Player : Node2D
 				return;
 			}
 
+			if (unhandledInputs.Count == 0)
+				BufTimerDecrement();
+
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
 			hitStopInputs = new List<char[]>();
 
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				//GD.Print(string.Join(",", inputArr));
+				GD.Print(string.Join(",", inputArr));
 				
 				// Hold or release keys
 				if (inputArr[1] == 'p')

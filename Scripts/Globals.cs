@@ -104,7 +104,6 @@ public class Globals : Node
 					
 					if (cursor >= 0 && index - cursor > 5) // the buffer is too long.  Prevents unwanted specials
 						return false;
-					GD.Print(index - cursor);
 					cursor = index;
 					indexFound = true;
 					break;

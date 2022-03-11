@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Jump : AirState
 {
+	[Export]
+	public int startupFrames = 8;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -58,13 +60,20 @@ public class Jump : AirState
 		owner.velocity.y = -1 * owner.jumpForce;
 		owner.grounded = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
+		GD.Print("Jump");
 
 		
 	}
 
+	public override void Exit()
+	{
+		base.Exit();
+		GD.Print(frameCount);
+	}
+
 	public override bool DelayInputs()
 	{
-		return frameCount < 10 && owner.canDoubleJump;
+		return frameCount < startupFrames && owner.canDoubleJump;
 	}
 
 

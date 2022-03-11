@@ -136,9 +136,11 @@ hopForce = 250
 
 [node name="Jump" type="Node" parent="StateTree"]
 script = ExtResource( 11 )
+startupFrames = 7
 
 [node name="MovingJump" type="Node" parent="StateTree"]
 script = ExtResource( 10 )
+startupFrames = 7
 
 [node name="Fall" type="Node" parent="StateTree"]
 script = ExtResource( 9 )

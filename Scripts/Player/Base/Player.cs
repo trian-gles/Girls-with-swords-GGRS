@@ -438,7 +438,7 @@ public class Player : Node2D
 			return unhandledInputs;
 		}
 
-		public void FrameAdvance(int hitStop, State currentState, int inputs)
+		public void FrameAdvance(int hitStop, int inputs)
 		{ 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
@@ -448,9 +448,9 @@ public class Player : Node2D
 			}
 
 
-			
+				
 
-			if (hitStop > 0 || currentState.DelayInputs()) // delay the handling of inputs until after hitstop ends
+			if (hitStop > 0 || playerState.DelayInputs()) // delay the handling of inputs until after hitstop ends
 			{
 				AddHitStopBuffer(unhandledInputs);
 				return;
@@ -461,10 +461,14 @@ public class Player : Node2D
 
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
 			hitStopInputs = new List<char[]>();
-
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				GD.Print(string.Join(",", inputArr));
+				if (playerState.DelayInputs())
+				{
+					hitStopInputs.Add(inputArr);
+					continue;
+				}
+				
 				
 				// Hold or release keys
 				if (inputArr[1] == 'p')
@@ -579,7 +583,7 @@ public class Player : Node2D
 	/// <param name="hitStop"></param>
 	public void FrameAdvanceInputs(int hitStop,int unhandledInputs)
 	{
-		inputHandler.FrameAdvance(hitStop, currentState, unhandledInputs);
+		inputHandler.FrameAdvance(hitStop, unhandledInputs);
 	}
 
 	/// <summary>

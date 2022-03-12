@@ -9,16 +9,7 @@ public class JumpC : AirAttack
 		base.Enter();
 		AddJumpCancel();
 	}
-	public override void FrameAdvance()
-	{
-		base.FrameAdvance();
-		if (owner.grounded && frameCount > 1)
-		{
-			EmitSignal(nameof(StateFinished), "Idle");
-		}
-
-		ApplyGravity();
-	}
+	
 
 
 

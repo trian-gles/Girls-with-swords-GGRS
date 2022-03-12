@@ -35,10 +35,9 @@ public class GroundBounce : Float
             }
             else
             {
-                GD.Print("BOUNCE");
                 bounced = true;
                 owner.grounded = false;
-                owner.velocity.y = owner.velocity.y * -1;
+                owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 4);
             }
             
         }

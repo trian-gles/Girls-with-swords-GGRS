@@ -10,9 +10,13 @@ public class LaunchAttack : AirAttack
     [Export]
     protected int launchFrame = 1;
 
+    /// <summary>
+    /// This doesn't call base.FrameAdvance() because that state includes things we don't want
+    /// </summary>
     public override void FrameAdvance()
     {
-        base.FrameAdvance();
+        frameCount++;
+        if (slowdownSpeed != 0) SlowDown();
         if (frameCount == launchFrame)
         {
             owner.velocity = launch;

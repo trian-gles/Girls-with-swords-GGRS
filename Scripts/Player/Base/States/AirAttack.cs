@@ -54,4 +54,15 @@ public abstract class AirAttack : BaseAttack
 			EmitSignal(nameof(StateFinished), "AirKnockdown");
 		}
 	}
+
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
+		if (owner.grounded && frameCount > 1)
+		{
+			EmitSignal(nameof(StateFinished), "Idle");
+		}
+
+		ApplyGravity();
+	}
 }

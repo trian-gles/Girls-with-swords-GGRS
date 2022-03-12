@@ -434,10 +434,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 6 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true, false ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -5895,19 +5895,18 @@ shaders = [ ExtResource( 2 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource(
 visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -1, 16 )
+position = Vector2( -4, 14 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 17, 7 )
 
-[node name="HurtBoxes" parent="." index="2"]
-visible = false
-
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 2, -16 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -2, -31 )
@@ -5916,7 +5915,7 @@ position = Vector2( -2, -31 )
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 hframes = 176
-frame = 28
+frame = 29
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 2 )

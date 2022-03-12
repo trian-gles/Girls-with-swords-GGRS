@@ -670,6 +670,14 @@ public class Player : Node2D
 	}
 
 	/// <summary>
+	/// Hitboxes are checked AFTER FrameAdvance()
+	/// </summary>
+	public void CheckHit()
+	{
+		currentState.CheckHit();
+	}
+
+	/// <summary>
 	/// Adapts the 100x position to the visualized position
 	/// </summary>
 	public void RenderPosition()

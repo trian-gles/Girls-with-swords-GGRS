@@ -371,6 +371,11 @@ public abstract class State : Node
 		if (slowdownSpeed != 0) SlowDown();
 	}
 
+	public virtual void CheckHit()
+	{
+
+	}
+
 	/// <summary>
 	/// Get pushed by the opposing player from pure movement
 	/// </summary>

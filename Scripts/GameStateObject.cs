@@ -375,7 +375,8 @@ public class GameStateObject : Node
 			}
 
 			CleanupHadoukens();
-
+			hostPlayer.CheckHit();
+			joinPlayer.CheckHit();
 			hostPlayer.CalculateHit();
 			joinPlayer.CalculateHit();
 			CheckFixCollision();

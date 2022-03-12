@@ -75,9 +75,8 @@ public abstract class BaseAttack : State
 		EmitSignal(nameof(StateFinished), "Idle");
 	}
 
-	public override void FrameAdvance()
+	public override void CheckHit()
 	{
-		base.FrameAdvance();
 		if (!hitConnect)
 		{
 			Vector2 collisionPnt = owner.CheckHurtRect();
@@ -87,7 +86,6 @@ public abstract class BaseAttack : State
 			}
 
 		}
-		
 	}
 
 	public override void InHurtbox(Vector2 collisionPnt)

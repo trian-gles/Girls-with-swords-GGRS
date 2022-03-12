@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Paletizer Exports/GL Gray 1-27.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/Player/New Palette Swapper/ExampleCode.shader" type="Shader" id=4]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/GL/GL.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/Player/GL/Modified/GLJumpC.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/GL/Specials/GLDP.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Player/GL/Specials/Gunblazed.cs" type="Script" id=10]
 
@@ -1147,7 +1148,7 @@ tracks/12/keys = {
 }
 
 [sub_resource type="Animation" id=10]
-length = 12.0
+length = 21.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -1442,7 +1443,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=12]
-length = 25.0
+length = 31.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -3623,7 +3624,7 @@ tracks/12/keys = {
 }
 
 [sub_resource type="Animation" id=26]
-length = 37.0
+length = 31.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -3632,10 +3633,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 34 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 21, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 201, 214 ]
+"values": [ 201, 212, 214 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:position")
@@ -3716,7 +3717,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 15, 23 ),
+"times": PoolRealArray( 0, 15, 20 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -3728,7 +3729,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 15, 23 ),
+"times": PoolRealArray( 0, 15, 20 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -3767,7 +3768,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 15 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 55, 38 ) ]
+"values": [ Vector2( 44, 28 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("HurtBoxes/HurtB2:shape:extents")
@@ -5082,7 +5083,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 12 )
+position = Vector2( -1, 5 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5093,7 +5094,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 22, -26 )
+position = Vector2( 44, 28 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5104,9 +5105,9 @@ modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-position = Vector2( 0, -57 )
+position = Vector2( 0, -39 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( 1, 0 )
 hframes = 215
 frame = 149
 
@@ -5137,6 +5138,15 @@ opponentLaunch = Vector2( 0, -500 )
 [node name="JumpC" parent="StateTree" index="30"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
+
+[node name="GLJumpC" type="Node" parent="StateTree" index="37"]
+script = ExtResource( 7 )
+hitStun = 34
+opponentLaunch = Vector2( 0, 1200 )
+hitPush = 3500
+height = 2
+effect = 1
+dmg = 7
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -6, -52 )

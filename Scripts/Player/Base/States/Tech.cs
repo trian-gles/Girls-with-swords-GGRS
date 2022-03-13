@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class Tech : Fall
 {
@@ -14,11 +15,29 @@ public class Tech : Fall
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.CheckTurnAround();
+
 		if (owner.CheckHeldKey('6'))
 			owner.velocity = techVector;
 		else if (owner.CheckHeldKey('4'))
 			owner.velocity = new Vector2(-techVector.x, techVector.y);
 		else
 			owner.velocity = new Vector2(0, techVector.y);
+	}
+
+	public override void HandleInput(char[] inputArr)
+	{
+		if (frameCount == 0)
+		{
+			if (inputArr.SequenceEqual(new char[] { '6', 'p' }))
+			{
+				owner.velocity = techVector;
+			}
+				
+			else if (inputArr.SequenceEqual(new char[] { '4', 'p' }))
+				owner.velocity = new Vector2(-techVector.x, techVector.y);
+				
+		}
+		
+		base.HandleInput(inputArr);
 	}
 }

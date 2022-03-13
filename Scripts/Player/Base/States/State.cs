@@ -435,7 +435,7 @@ public abstract class State : Node
 		{
 			if (launch.y == 0)
 			{
-				launch.y = -400;
+				owner.velocity.y = -400;
 			}
 			EmitSignal(nameof(StateFinished), "Float");
 		}

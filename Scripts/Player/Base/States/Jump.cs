@@ -60,7 +60,7 @@ public class Jump : AirState
 		owner.velocity.y = -1 * owner.jumpForce;
 		owner.grounded = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
-		GD.Print("Jump");
+		//GD.Print("Jump");
 
 		
 	}
@@ -68,7 +68,7 @@ public class Jump : AirState
 	public override void Exit()
 	{
 		base.Exit();
-		GD.Print(frameCount);
+		//GD.Print(frameCount);
 	}
 
 	public override bool DelayInputs()

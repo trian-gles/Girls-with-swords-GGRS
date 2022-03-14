@@ -159,7 +159,11 @@ public abstract class BaseAttack : State
 
 		bool airState = (launchBool || !owner.grounded);
 
-		if (launchBool && !knockdown)
+		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+		{
+			EmitSignal(nameof(StateFinished), "GroundBounce");
+		}
+		else if (launchBool && !knockdown)
 		{
 			//GD.Print("Entering counterfloat from attack");
 			EmitSignal(nameof(StateFinished), "CounterFloat");

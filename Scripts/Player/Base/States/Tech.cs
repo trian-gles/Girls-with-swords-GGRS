@@ -15,6 +15,7 @@ public class Tech : Fall
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.CheckTurnAround();
+		owner.invulnFrames = length;
 
 		if (owner.CheckHeldKey('6'))
 			owner.velocity = techVector;

@@ -81,6 +81,7 @@ public class Player : Node2D
 	private int combo = 0;
 	public int proration = 8;
 	public bool canDoubleJump;
+	public int invulnFrames = 0;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -110,6 +111,7 @@ public class Player : Node2D
 		public int proration { get; set; }
 		public int animationCursor { get; set; }
 		public int lastFrameInputs { get; set; }
+		public int invulnFrames { get; set; }
 
 	}
 
@@ -250,6 +252,7 @@ public class Player : Node2D
 		pState.combo = combo;
 		pState.proration = proration;
 		pState.lastFrameInputs = inputHandler.lastFrameInputs;
+		pState.invulnFrames = invulnFrames;
 		return pState;
 	}
 
@@ -285,6 +288,7 @@ public class Player : Node2D
 		combo = pState.combo;
 		proration = pState.proration;
 		inputHandler.lastFrameInputs = pState.lastFrameInputs;
+		invulnFrames = pState.invulnFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -612,6 +616,11 @@ public class Player : Node2D
 		
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
+		if (invulnFrames > 0)
+		{
+			invulnFrames--;
+		}
+
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
@@ -674,7 +683,8 @@ public class Player : Node2D
 	/// </summary>
 	public void CheckHit()
 	{
-		currentState.CheckHit();
+		if (!otherPlayer.IsInvuln())
+			currentState.CheckHit();
 	}
 
 	/// <summary>
@@ -942,6 +952,10 @@ public class Player : Node2D
 		gfxHand.Effect(name, Position, facingRight);
 	}
 
+	public bool IsInvuln()
+	{
+		return invulnFrames > 0;
+	}
 	public Vector2 CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);

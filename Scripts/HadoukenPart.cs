@@ -7,20 +7,42 @@ public class HadoukenPart : Node2D
 	[Signal]
 	public delegate void OnHadoukenOffscreen();
 
-	[Export]
-	public int hitStun = 10;
 
 	[Export]
-	public int blockStun = 10;
+	protected int level = 0;
+
+	protected Globals.AttackDetails hitDetails;
+	protected Globals.AttackDetails chDetails;
 
 	[Export]
-	public Vector2 launch = new Vector2();
+	protected int modifiedHitStun = 0;
 
 	[Export]
-	public int hitPush = 0;
+	protected int modifiedCounterHitStun = 0;
 
 	[Export]
-	public int dmg = 1;
+	protected Vector2 opponentLaunch = Vector2.Zero;
+
+	[Export]
+	protected Vector2 chLaunch = Vector2.Zero;
+
+	[Export]
+	protected int modifiedHitPush = 0;
+
+	[Export]
+	protected int hitPush = 0;
+
+	[Export]
+	protected State.HEIGHT height = State.HEIGHT.MID;
+
+	[Export]
+	protected BaseAttack.EXTRAEFFECT effect = BaseAttack.EXTRAEFFECT.NONE;
+
+	[Export]
+	protected BaseAttack.EXTRAEFFECT chEffect = BaseAttack.EXTRAEFFECT.NONE;
+
+	[Export]
+	protected bool knockdown = false;
 
 	[Export]
 	public Vector2 speed;
@@ -34,6 +56,36 @@ public class HadoukenPart : Node2D
 	public int creationFrame;
 
 	static private int totalHads;
+
+
+	public override void _Ready()
+	{
+		hitDetails = Globals.attackLevels[level].hit;
+		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.opponentLaunch = opponentLaunch;
+		if (chLaunch != Vector2.Zero)
+			chDetails.opponentLaunch = chLaunch;
+
+		hitDetails.effect = effect;
+		chDetails.effect = chEffect;
+		hitDetails.knockdown = knockdown;
+		chDetails.knockdown = knockdown;
+		hitDetails.height = height;
+		chDetails.height = height;
+
+		if (modifiedHitStun != 0)
+			hitDetails.hitStun = modifiedHitStun;
+		if (modifiedCounterHitStun != 0)
+			chDetails.hitStun = modifiedCounterHitStun;
+
+		if (modifiedHitPush != 0)
+		{
+			hitDetails.hitPush = modifiedHitPush;
+			chDetails.hitPush = modifiedHitPush;
+
+		}
+	}
 
 	/// <summary>
 	/// Method to be called right after instantiation by the player
@@ -108,18 +160,19 @@ public class HadoukenPart : Node2D
 	private void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
-		if (targetPlayer.currentState.Name == "Knockdown") // must be a better way to do this.  for now, hadoukens go through knocked down opponent
+		if (targetPlayer.currentState.Name == "Knockdown" || targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
 		{
 			return;
 		}
-		var direction = BaseAttack.ATTACKDIR.RIGHT;
-
+		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
+		chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		if (!movingRight)
 		{
-			direction = BaseAttack.ATTACKDIR.LEFT;
+			hitDetails.dir = BaseAttack.ATTACKDIR.LEFT;
+			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
 
-		targetPlayer.ReceiveHit(Vector2.Inf, direction, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false, 0);
+		targetPlayer.ReceiveHit(hitDetails, chDetails);
 		MakeInactive();
 	}
 

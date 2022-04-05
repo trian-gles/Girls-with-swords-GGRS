@@ -15,6 +15,8 @@ public class CommandRun : State
 
 	private bool oneHit = false;
 
+	new protected bool isCounter = true;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -71,18 +73,18 @@ public class CommandRun : State
 		}
 	}
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+    public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		if (!oneHit)
 		{
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
-			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), details.collisionPnt, "hit", false);
 			owner.GFXEvent("Blood");
 			oneHit = true;
 		}
 		else
 		{
-			base.ReceiveHit(attackDir, height, hitPush, launch, knockdown, collisionPnt, effect);
+			base.ReceiveHit(details);
 		}
 	}
 

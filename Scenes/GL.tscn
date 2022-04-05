@@ -4641,7 +4641,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=34]
-length = 25.0
+length = 36.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -5083,7 +5083,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 5 )
+position = Vector2( -1, 12 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5094,7 +5094,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 44, 28 )
+position = Vector2( 30, -38 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5105,27 +5105,26 @@ modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-position = Vector2( 0, -39 )
+position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 1, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 215
 frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
-hitStun = 36
-blockStun = 18
+level = 3
+modifiedHitStun = 40
+modifiedCounterHitStun = 60
 opponentLaunch = Vector2( 0, -600 )
-hitPush = 3000
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
-hitStun = 40
-blockStun = 16
+level = 3
+modifiedHitStun = 47
+modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 0, -1100 )
 hitPush = 6000
-dmg = 8
-prorationLevel = 1
 launch = Vector2( 150, -1000 )
 launchFrame = 7
 
@@ -5135,18 +5134,22 @@ releaseFrame = 20
 [node name="Kick" parent="StateTree" index="26"]
 opponentLaunch = Vector2( 0, -500 )
 
+[node name="JumpB" parent="StateTree" index="29"]
+modifiedHitStun = 17
+
 [node name="JumpC" parent="StateTree" index="30"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
-hitStun = 34
+level = 3
+modifiedHitStun = 35
+modifiedCounterHitStun = 45
 opponentLaunch = Vector2( 0, 1200 )
 hitPush = 3500
 height = 2
 effect = 1
-dmg = 7
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -6, -52 )

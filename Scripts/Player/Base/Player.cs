@@ -81,6 +81,7 @@ public class Player : Node2D
 	private int combo = 0;
 	public int proration = 8;
 	public bool canDoubleJump;
+	public int invulnFrames = 0;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -110,6 +111,7 @@ public class Player : Node2D
 		public int proration { get; set; }
 		public int animationCursor { get; set; }
 		public int lastFrameInputs { get; set; }
+		public int invulnFrames { get; set; }
 
 	}
 
@@ -130,6 +132,9 @@ public class Player : Node2D
 
 	// components of a received attack
 	private bool wasHit = false;
+	private Globals.AttackDetails receivedHit;
+	private Globals.AttackDetails receivedCHit;
+
 	private BaseAttack.ATTACKDIR hit_rightAttack;
 	private int hit_dmg;
 	private int hit_blockStun;
@@ -250,6 +255,7 @@ public class Player : Node2D
 		pState.combo = combo;
 		pState.proration = proration;
 		pState.lastFrameInputs = inputHandler.lastFrameInputs;
+		pState.invulnFrames = invulnFrames;
 		return pState;
 	}
 
@@ -285,6 +291,7 @@ public class Player : Node2D
 		combo = pState.combo;
 		proration = pState.proration;
 		inputHandler.lastFrameInputs = pState.lastFrameInputs;
+		invulnFrames = pState.invulnFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -612,6 +619,11 @@ public class Player : Node2D
 		
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
+		if (invulnFrames > 0)
+		{
+			invulnFrames--;
+		}
+
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
@@ -674,7 +686,8 @@ public class Player : Node2D
 	/// </summary>
 	public void CheckHit()
 	{
-		currentState.CheckHit();
+		if (!otherPlayer.IsInvuln())
+			currentState.CheckHit();
 	}
 
 	/// <summary>
@@ -831,23 +844,11 @@ public class Player : Node2D
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
 	/// <param name="prorationLevel"></param>
-	public void ReceiveHit(Vector2 collisionPnt, BaseAttack.ATTACKDIR attackDir, int dmg, 
-		int blockStun, int hitStun, State.HEIGHT height, int hitPush, Vector2 launch, 
-		bool knockdown, int prorationLevel, BaseAttack.EXTRAEFFECT effect = BaseAttack.EXTRAEFFECT.NONE) 
+	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
-
+		receivedHit = hitDetails;
+		receivedCHit = chDetails;
 		wasHit = true;
-		hit_rightAttack = attackDir;
-		hit_dmg = dmg;
-		hit_blockStun = blockStun;
-		hit_hitStun = hitStun;
-		hit_height = height;
-		hit_hitPush = hitPush;
-		hit_launch = launch;
-		hit_knockdown = knockdown;
-		hit_prorationLevel = prorationLevel;
-		hit_collisionPnt = collisionPnt;
-		hit_effect = effect;
 	}
 
 	public void CalculateHit()
@@ -856,9 +857,14 @@ public class Player : Node2D
 		{
 			return;
 		}
-		currentState.ReceiveHit(hit_rightAttack, hit_height, hit_hitPush, hit_launch, hit_knockdown, hit_collisionPnt, hit_effect);
-		currentState.receiveStun(hit_hitStun, hit_blockStun);
-		currentState.receiveDamage(hit_dmg, hit_prorationLevel);
+		Globals.AttackDetails details = receivedHit;
+		if (currentState.isCounter)
+			details = receivedCHit;
+
+		// I separate this into two pieces so that the next entered state can handle stun and damage
+		currentState.ReceiveHit(details);
+		GD.Print(currentState.Name);
+		currentState.ReceiveStunDamage(details);
 		EmitSignal(nameof(HitConfirm));
 		
 		wasHit = false;
@@ -942,6 +948,10 @@ public class Player : Node2D
 		gfxHand.Effect(name, Position, facingRight);
 	}
 
+	public bool IsInvuln()
+	{
+		return invulnFrames > 0;
+	}
 	public Vector2 CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);
@@ -1031,7 +1041,8 @@ public class Player : Node2D
 			{
 				DrawRect(rect, hurtColor);
 			}
-
+			if (IsInvuln())
+				return;
 			DrawRect(colRect, colColor);
 		}
 

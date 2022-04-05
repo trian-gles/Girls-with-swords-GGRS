@@ -6,5 +6,6 @@ public class CrouchC : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		AddSpecials(owner.groundSpecials);
 	}
 }

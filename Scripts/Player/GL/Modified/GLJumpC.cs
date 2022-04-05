@@ -49,11 +49,11 @@ public class GLJumpC : BaseAttack
 	{
 		if (owner.grounded)
         {
-			height = HEIGHT.MID;
+			hitDetails.height = HEIGHT.MID;
         }
         else
         {
-			height = HEIGHT.HIGH;
+			hitDetails.height = HEIGHT.HIGH;
         }
 		base.InHurtbox(collisionPnt);
 	}

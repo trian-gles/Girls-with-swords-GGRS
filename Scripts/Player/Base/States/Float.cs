@@ -14,6 +14,7 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
+		stunRemaining += 2;
 	}
 
 	/// <summary>
@@ -24,7 +25,7 @@ public class Float : HitStun
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-		
+		GD.Print(launch.y);
 
 		if (!(launch == Vector2.Zero))
 		{

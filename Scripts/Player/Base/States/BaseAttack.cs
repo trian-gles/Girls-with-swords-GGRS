@@ -6,13 +6,28 @@ using System.Collections.Generic;
 public abstract class BaseAttack : State
 {
 	[Export]
-	protected int hitStun = 10;
+	protected int level = 0;
+
+	protected Globals.AttackDetails hitDetails;
+	protected Globals.AttackDetails chDetails;
+
+	new protected bool isCounter = true;
+
 
 	[Export]
-	protected int blockStun = 11;
+	protected int modifiedHitStun = 0;
 
 	[Export]
-	protected Vector2 opponentLaunch = new Vector2();
+	protected int modifiedCounterHitStun = 0;
+
+	[Export]
+	protected Vector2 opponentLaunch = Vector2.Zero;
+
+	[Export]
+	protected Vector2 chLaunch = Vector2.Zero;
+
+	[Export]
+	protected int modifiedHitPush = 0;
 
 	[Export]
 	protected int hitPush = 0;
@@ -24,13 +39,10 @@ public abstract class BaseAttack : State
 	protected EXTRAEFFECT effect = EXTRAEFFECT.NONE;
 
 	[Export]
-	protected int dmg = 1;
+	protected EXTRAEFFECT chEffect = EXTRAEFFECT.NONE;
 
 	[Export]
 	protected bool knockdown = false;
-
-	[Export]
-	protected int prorationLevel = 0;
 
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
@@ -39,7 +51,8 @@ public abstract class BaseAttack : State
 	{
 		NONE,
 		GROUNDBOUNCE,
-		WALLBOUNCE
+		WALLBOUNCE,
+		STAGGER
 	}
 
 	
@@ -56,6 +69,33 @@ public abstract class BaseAttack : State
 		stop = false;
 		slowdownSpeed = 30;
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
+		hitDetails = Globals.attackLevels[level].hit;
+		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.opponentLaunch = opponentLaunch;
+		if (chLaunch != Vector2.Zero)
+			chDetails.opponentLaunch = chLaunch;
+
+		hitDetails.effect = effect;
+		chDetails.effect = chEffect;
+		hitDetails.knockdown = knockdown;
+		chDetails.knockdown = knockdown;
+		hitDetails.height = height;
+		chDetails.height = height;
+
+		if (modifiedHitStun != 0)
+			hitDetails.hitStun = modifiedHitStun;
+		GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
+		if (modifiedCounterHitStun != 0)
+			chDetails.hitStun = modifiedCounterHitStun;
+
+		if (modifiedHitPush != 0)
+		{
+			hitDetails.hitPush = modifiedHitPush;
+			chDetails.hitPush = modifiedHitPush;
+
+		}
+			
 	}
 
 	protected virtual void AddJumpCancel()
@@ -91,7 +131,7 @@ public abstract class BaseAttack : State
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 		//GD.Print($"Hit connect at point {collisionPnt}");
-		EmitSignal(nameof(OnHitConnected), hitPush);
+		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;
 
 		if (owner.OtherPlayerOnRight())
@@ -102,8 +142,12 @@ public abstract class BaseAttack : State
 		{
 			direction = ATTACKDIR.LEFT;
 		}
-
-		owner.otherPlayer.ReceiveHit(collisionPnt, direction, dmg, blockStun, hitStun, height, hitPush, opponentLaunch, knockdown, prorationLevel, effect);
+		
+		hitDetails.dir = direction;
+		chDetails.dir = direction;
+		hitDetails.collisionPnt = collisionPnt;
+		chDetails.collisionPnt = collisionPnt;
+		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		hitConnect = true;
 	}
 
@@ -117,30 +161,30 @@ public abstract class BaseAttack : State
 	}
 
 
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		switch (attackDir)
+		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
 				break;
 			case BaseAttack.ATTACKDIR.LEFT:
-				launch.x *= -1;
-				hitPush *= -1;
+				details.opponentLaunch.x *= -1;
+				details.hitPush *= -1;
 				break;
 			case BaseAttack.ATTACKDIR.EQUAL:
-				launch.x = 0;
-				hitPush = 0;
+				details.opponentLaunch.x = 0;
+				details.hitPush = 0;
 				break;
 		}
 
-		owner.hitPushRemaining = hitPush;
+		owner.hitPushRemaining = details.hitPush;
 
 		if (owner.velocity.y < 0)
 		{
 			owner.grounded = false;
 		}
 
-		EnterHitState(knockdown, launch, collisionPnt, effect);
+		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 	}
 
 	
@@ -159,7 +203,11 @@ public abstract class BaseAttack : State
 
 		bool airState = (launchBool || !owner.grounded);
 
-		if (launchBool && !knockdown)
+		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+		{
+			EmitSignal(nameof(StateFinished), "GroundBounce");
+		}
+		else if (launchBool && !knockdown)
 		{
 			//GD.Print("Entering counterfloat from attack");
 			EmitSignal(nameof(StateFinished), "CounterFloat");

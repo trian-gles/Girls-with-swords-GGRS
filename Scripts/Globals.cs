@@ -48,6 +48,146 @@ public class Globals : Node
 		SYNCTEST = 3
 	}
 
+	public struct AttackDetails
+	{
+		public int hitStun;
+		public int blockStun;
+		public int dmg;
+		public int hitPush;
+		public int prorationLevel;
+		public bool knockdown;
+		public Vector2 collisionPnt;
+		public Vector2 opponentLaunch;
+		public BaseAttack.EXTRAEFFECT effect;
+		public BaseAttack.HEIGHT height;
+		public BaseAttack.ATTACKDIR dir;
+	}
+
+	public struct AttackLevel
+	{
+		public AttackDetails hit;
+		public AttackDetails counterHit;
+	}
+
+	public static AttackLevel[] attackLevels = new AttackLevel[]
+	{
+		// LVL 1
+		new AttackLevel {
+			hit = new AttackDetails{
+				hitStun = 12,
+				blockStun = 11,
+				dmg = 4,
+				hitPush = 2000,
+				prorationLevel = 2,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+
+			}, 
+			counterHit = new AttackDetails{
+				hitStun = 16,
+				blockStun = 11,
+				dmg = 4,
+				hitPush = 2000,
+				prorationLevel = 2,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+			}
+		},
+		
+		// LVL 2
+		new AttackLevel {
+			hit = new AttackDetails{
+				hitStun = 14,
+				blockStun = 13,
+				dmg = 5,
+				hitPush = 2500,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+
+			},
+			counterHit = new AttackDetails{
+				hitStun = 18,
+				blockStun = 13,
+				dmg = 5,
+				hitPush = 2500,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+			}
+		},
+		
+		// LVL 3
+		new AttackLevel {
+			hit = new AttackDetails{
+				hitStun = 17,
+				blockStun = 16,
+				dmg = 5,
+				hitPush = 3200,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+
+			},
+			counterHit = new AttackDetails{
+				hitStun = 34,
+				blockStun = 16,
+				dmg = 7,
+				hitPush = 3200,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.STAGGER,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+			}
+		},
+		
+		// LVL 4
+		new AttackLevel {
+			hit = new AttackDetails{
+				hitStun = 19,
+				blockStun = 18,
+				dmg = 5,
+				hitPush = 4000,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+
+			},
+			counterHit = new AttackDetails{
+				hitStun = 38,
+				blockStun = 18,
+				dmg = 7,
+				hitPush = 4000,
+				prorationLevel = 1,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+			}
+		}
+	};
+
 	public override void _Ready()
 	{
 		Tests();
@@ -85,9 +225,9 @@ public class Globals : Node
 	public static bool ArrOfArraysComplexInList(List<char[]> arr, List<char[]> elements)
 	{
 		if (arr.Count > 9) // prevents huge buffers
-        {
+		{
 			arr = arr.GetRange(arr.Count - 9, 9);
-        }
+		}
 		int cursor = -1; // used to make sure moves are in the correct order
 		foreach (char[] element in elements)
 		{
@@ -165,9 +305,9 @@ public class Globals : Node
 		var perms = State.Permutations(new List<char> {'a', 'b', 'c'});
 		GD.Print($"Permutations of abc = ");
 		foreach (List<char> perm in perms)
-        {
+		{
 			var thing = string.Join(",", perm);
 			GD.Print(thing);
-        }
+		}
 	}
 }

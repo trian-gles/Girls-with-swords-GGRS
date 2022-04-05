@@ -12,7 +12,6 @@
 	  <PackageReference Include="System.Text.Json" Version="5.0.2" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Scripts\Player\GL\Modified\" />
 	  <Folder Include="Scripts\Player\OL\Modified\" />
 	</ItemGroup>
 </Project>

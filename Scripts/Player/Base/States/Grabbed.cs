@@ -17,22 +17,22 @@ public class Grabbed : State
 	/// <param name="hitPush"></param>
 	/// <param name="launch"></param>
 	/// <param name="knockdown"></param>
-	public override void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		switch (attackDir)
+		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
 				break;
 			case BaseAttack.ATTACKDIR.LEFT:
-				launch.x *= -1;
-				hitPush *= -1;
+				details.opponentLaunch.x *= -1;
+				details.hitPush *= -1;
 				break;
 			case BaseAttack.ATTACKDIR.EQUAL:
-				launch.x = 0;
-				hitPush = 0;
+				details.opponentLaunch.x = 0;
+				details.hitPush = 0;
 				break;
 		}
-		owner.velocity = launch;
+		owner.velocity = details.opponentLaunch;
 		owner.ComboUp();
 		owner.grounded = false;
 

@@ -10,7 +10,7 @@ public class Kick : Slash
 		AddJumpCancel();
 		AddGatling(new char[] { 's', 'p' }, "Slash");
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
-		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 	}
 }
 

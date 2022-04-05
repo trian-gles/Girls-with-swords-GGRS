@@ -4,6 +4,12 @@ using System;
 public class Grab : State
 {
 	[Export]
+	protected int level = 0;
+
+	protected Globals.AttackDetails hitDetails;
+	protected Globals.AttackDetails chDetails;
+
+	[Export]
 	public int releaseFrame = 10;
 
 	[Export]
@@ -75,10 +81,10 @@ public class Grab : State
 		else if ((frameCount == releaseFrame) && !released)
 		{
 			Vector2 actualLaunch = launch;
-			if (!rightGrab)
-			{
-				actualLaunch.x *= -1;
-			}
+			//if (!rightGrab)
+			//{
+			//	actualLaunch.x *= -1;
+			//}
 
 			var direction = BaseAttack.ATTACKDIR.EQUAL;
 
@@ -91,7 +97,12 @@ public class Grab : State
 				direction = BaseAttack.ATTACKDIR.LEFT;
 			}
 
-			owner.otherPlayer.ReceiveHit(Vector2.Inf, direction, dmg, hitStun, hitStun, HEIGHT.MID, 0, launch, false, prorationLevel);
+			hitDetails.dir = direction;
+			chDetails.dir = direction;
+			hitDetails.opponentLaunch = actualLaunch;
+			chDetails.opponentLaunch = actualLaunch;
+
+			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		}
 	}
 	public override void AnimationFinished()

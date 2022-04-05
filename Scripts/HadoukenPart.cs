@@ -7,6 +7,13 @@ public class HadoukenPart : Node2D
 	[Signal]
 	public delegate void OnHadoukenOffscreen();
 
+
+	[Export]
+	protected int level = 0;
+
+	protected Globals.AttackDetails hitDetails;
+	protected Globals.AttackDetails chDetails;
+
 	[Export]
 	public int hitStun = 10;
 
@@ -108,18 +115,19 @@ public class HadoukenPart : Node2D
 	private void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
-		if (targetPlayer.currentState.Name == "Knockdown") // must be a better way to do this.  for now, hadoukens go through knocked down opponent
+		if (targetPlayer.currentState.Name == "Knockdown" || targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
 		{
 			return;
 		}
-		var direction = BaseAttack.ATTACKDIR.RIGHT;
-
+		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
+		chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		if (!movingRight)
 		{
-			direction = BaseAttack.ATTACKDIR.LEFT;
+			hitDetails.dir = BaseAttack.ATTACKDIR.LEFT;
+			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
 
-		targetPlayer.ReceiveHit(Vector2.Inf, direction, dmg, blockStun, hitStun, State.HEIGHT.MID, hitPush, launch, false, 0);
+		targetPlayer.ReceiveHit(hitDetails, chDetails);
 		MakeInactive();
 	}
 

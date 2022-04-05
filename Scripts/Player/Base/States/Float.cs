@@ -14,6 +14,7 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
+		stunRemaining += 2;
 	}
 
 	/// <summary>

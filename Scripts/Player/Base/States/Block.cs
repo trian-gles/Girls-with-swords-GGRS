@@ -12,7 +12,8 @@ public class Block : HitState
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
+		GD.Print("Blocking");
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block", owner.currentState.Name); // this will be inherited by crouchblock
 	}
 	public override void FrameAdvance()
 	{
@@ -39,7 +40,15 @@ public class Block : HitState
 
 	public override void receiveStun(int hitStun, int blockStun)
 	{
+		
 		stunRemaining = blockStun;
+	}
+	
+	public override void ReceiveStunDamage(Globals.AttackDetails details)
+	{
+		GD.Print(details.blockStun);
+		stunRemaining = details.blockStun;
+		owner.DeductHealth(details.dmg);
 	}
 
 	/// <summary>

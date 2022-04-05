@@ -19,6 +19,16 @@ public abstract class State : Node
 
 	protected int slowdownSpeed = 0;
 
+	/// <summary>
+	/// Whether this state receives counter hits
+	/// </summary>
+	public bool isCounter = false;
+
+	/// <summary>
+	/// If the character should change animations for this state
+	/// </summary>
+	public bool hasAntimation = true;
+
 
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
@@ -461,83 +471,93 @@ public abstract class State : Node
 		EmitSignal(nameof(StateFinished), stateName);
 	}
 
-	public virtual void ReceiveHit(BaseAttack.ATTACKDIR attackDir, HEIGHT height, int hitPush, Vector2 launch, bool knockdown, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	public virtual void ReceiveHit(Globals.AttackDetails details)
 	{
 		owner.velocity = new Vector2(0, 0);
-		switch (attackDir)
+		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
 				break;
 			case BaseAttack.ATTACKDIR.LEFT:
-				launch.x *= -1;
-				hitPush *= -1;
+				details.opponentLaunch.x *= -1;
+				details.hitPush *= -1;
 				break;
 			case BaseAttack.ATTACKDIR.EQUAL:
-				launch.x = 0;
-				hitPush = 0;
+				details.opponentLaunch.x = 0;
+				details.hitPush = 0;
 				break;
 		}
 		
 
-		owner.hitPushRemaining = hitPush;
+		owner.hitPushRemaining = details.hitPush;
 
 		if (owner.velocity.y < 0)
 		{
 			owner.grounded = false;
 		}
 
-		bool rightBlock = attackDir == BaseAttack.ATTACKDIR.RIGHT && owner.CheckHeldKey('6');
-		bool leftBlock = attackDir == BaseAttack.ATTACKDIR.LEFT && owner.CheckHeldKey('4');
-		bool anyBlock = attackDir == BaseAttack.ATTACKDIR.EQUAL && (owner.CheckHeldKey('4') || owner.CheckHeldKey('6'));
+		bool rightBlock = details.dir == BaseAttack.ATTACKDIR.RIGHT && owner.CheckHeldKey('6');
+		bool leftBlock = details.dir == BaseAttack.ATTACKDIR.LEFT && owner.CheckHeldKey('4');
+		bool anyBlock = details.dir == BaseAttack.ATTACKDIR.EQUAL && (owner.CheckHeldKey('4') || owner.CheckHeldKey('6'));
 
-		if (height == HEIGHT.HIGH) 
+		if (details.height == HEIGHT.HIGH) 
 		{
 			if (!owner.CheckHeldKey('2'))
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EnterBlockState("Block", collisionPnt);
+					EnterBlockState("Block", details.collisionPnt);
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt, effect);
+					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt, effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 			}
 			
 		}
-		else if (height == HEIGHT.LOW) 
+		else if (details.height == HEIGHT.LOW) 
 		{
 			if (owner.CheckHeldKey('2') && owner.grounded)
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EnterBlockState("CrouchBlock", collisionPnt);
+					EnterBlockState("CrouchBlock", details.collisionPnt);
 				}
 				else
 				{
-					EnterHitState(knockdown, launch, collisionPnt, effect);
+					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 				}
 			}
 			else
 			{
-				EnterHitState(knockdown, launch, collisionPnt, effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 			}
 		}
 		else
 		{
 			if (rightBlock || leftBlock || anyBlock)
 			{
-				EnterBlockState("Block", collisionPnt);
+				if (owner.CheckHeldKey('2') && owner.grounded)
+					EnterBlockState("CrouchBlock", details.collisionPnt);
+				else
+					EnterBlockState("Block", details.collisionPnt);
 			}
 			else 
 			{
-				EnterHitState(knockdown, launch, collisionPnt, effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
 			}
 		}
+	}
+
+	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
+	{
+		stunRemaining = details.hitStun;
+		owner.DeductHealth(details.dmg * owner.proration);
+		owner.Prorate(details.prorationLevel);
 	}
 
 	public virtual void receiveStun(int hitStun, int blockStun)

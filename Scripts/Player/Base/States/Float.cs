@@ -67,11 +67,11 @@ public class Float : HitStun
 			EmitSignal(nameof(StateFinished), "Tech");
 		}
 
-		if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300) 
-		{
-			owner.EmitSignal(nameof(Player.LevelUp));
-			EmitSignal(nameof(StateFinished), "AirKnockdown");
-		}
+		//if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300) 
+		//{
+		//	owner.EmitSignal(nameof(Player.LevelUp));
+		//	EmitSignal(nameof(StateFinished), "AirKnockdown");
+		//}
 		
 
 		ApplyGravity();

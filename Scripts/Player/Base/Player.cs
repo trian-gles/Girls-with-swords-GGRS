@@ -511,11 +511,14 @@ public class Player : Node2D
 	public void ChangeState(string nextStateName) 
 	{
 		currentState.Exit();
-		animationPlayer.NewAnimation(nextStateName);
+		
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
+		GD.Print($"Entering animation {currentState.animationName}");
+		animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
+		
 		if (grounded && nextStateName != "Grab")
 		{
 			CheckTurnAround();
@@ -704,19 +707,21 @@ public class Player : Node2D
 	/// </summary>
 	private void CorrectPositionBounds()
 	{
-		if (internalPos.y > 22000)
+		if (internalPos.y > Globals.floor)
 		{
-			internalPos= new Vector2(internalPos.x, 22000);
+			internalPos= new Vector2(internalPos.x, Globals.floor);
 			grounded = true;
 		}
 
-		if (internalPos.x > 46500)
+		if (internalPos.x > Globals.rightWall)
 		{
-			internalPos = new Vector2(46500, internalPos.y);
+			internalPos = new Vector2(Globals.rightWall, internalPos.y);
+			currentState.HitWall();
 		}
-		else if (internalPos.x < 1500)
+		else if (internalPos.x < Globals.leftWall)
 		{
-			internalPos = new Vector2(1500, internalPos.y);
+			internalPos = new Vector2(Globals.leftWall, internalPos.y);
+			currentState.HitWall();
 		}
 	}
 
@@ -847,7 +852,12 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
-		receivedCHit = chDetails;
+		GD.Print("HIT DURING ", currentState.Name, currentState.isCounter);
+		if (currentState.isCounter)
+		{
+			receivedHit = chDetails;
+			GD.Print("COUNTER");
+		}
 		wasHit = true;
 	}
 
@@ -858,8 +868,7 @@ public class Player : Node2D
 			return;
 		}
 		Globals.AttackDetails details = receivedHit;
-		if (currentState.isCounter)
-			details = receivedCHit;
+		
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
 		currentState.ReceiveHit(details);

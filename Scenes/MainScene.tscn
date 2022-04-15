@@ -32,7 +32,7 @@ __meta__ = {
 "_editor_description_": "P1 - 133, 240
 P2 - 330, 240"
 }
-p2InputLoop = PoolIntArray( 6, 6 )
+p2InputLoop = PoolIntArray( 1, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 layer = 100

@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -42,12 +42,13 @@
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
+[ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 33 )
+extents = Vector2( 12, 20 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 10 )
@@ -56,7 +57,7 @@ extents = Vector2( 7, 10 )
 extents = Vector2( 6, 8 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 20, 40 )
+extents = Vector2( 38, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 15 )
@@ -247,6 +248,9 @@ length = 7
 
 [node name="GroundBounce" type="Node" parent="StateTree"]
 script = ExtResource( 42 )
+
+[node name="WallBounce" type="Node" parent="StateTree"]
+script = ExtResource( 43 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

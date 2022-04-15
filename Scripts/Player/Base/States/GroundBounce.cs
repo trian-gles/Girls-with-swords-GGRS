@@ -6,6 +6,12 @@ public class GroundBounce : Float
 {
 	private bool bounced = false;
 
+    public override void _Ready()
+    {
+        base._Ready();
+        animationName = "Float";
+    }
+
     public override void Enter()
     {
         base.Enter();

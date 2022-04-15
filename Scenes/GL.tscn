@@ -5083,11 +5083,12 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 12 )
+position = Vector2( 12, 6 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( -14, -20 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5105,9 +5106,8 @@ modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
-position = Vector2( 0, -57 )
+position = Vector2( 0, -69 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
 hframes = 215
 frame = 149
 
@@ -5145,11 +5145,12 @@ effect = 1
 script = ExtResource( 7 )
 level = 3
 modifiedHitStun = 35
-modifiedCounterHitStun = 45
+modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 0, 1200 )
 hitPush = 3500
 height = 2
 effect = 1
+chEffect = 1
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -6, -52 )

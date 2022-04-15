@@ -9,6 +9,7 @@ public class GLJumpC : BaseAttack
 		AddSpecials(owner.airSpecials);
 		slowdownSpeed = 0;
 		AddCancel("Fall");
+		animationName = "JumpC";
 	}
 	public override void FrameAdvance()
 	{

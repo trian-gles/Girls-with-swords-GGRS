@@ -11,8 +11,6 @@ public abstract class BaseAttack : State
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
 
-	new protected bool isCounter = true;
-
 
 	[Export]
 	protected int modifiedHitStun = 0;
@@ -67,6 +65,7 @@ public abstract class BaseAttack : State
 	{
 		base._Ready();
 		stop = false;
+		isCounter = true;
 		slowdownSpeed = 30;
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		hitDetails = Globals.attackLevels[level].hit;
@@ -75,6 +74,8 @@ public abstract class BaseAttack : State
 		hitDetails.opponentLaunch = opponentLaunch;
 		if (chLaunch != Vector2.Zero)
 			chDetails.opponentLaunch = chLaunch;
+		else
+			chDetails.opponentLaunch = opponentLaunch;
 
 		hitDetails.effect = effect;
 		chDetails.effect = chEffect;
@@ -189,45 +190,49 @@ public abstract class BaseAttack : State
 
 	
 
-	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-		bool launchBool = false;
-		owner.ComboUp();
-		if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
-		{
-			//GD.Print("Launch is not zero!");
-			owner.velocity = launch;
-			launchBool = true;
-		}
+	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	//{
+	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+	//	bool launchBool = false;
+	//	owner.ComboUp();
+	//	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+	//	{
+	//		GD.Print("Launch is not zero!");
+	//		owner.velocity = launch;
+	//		launchBool = true;
+	//	}
 
-		bool airState = (launchBool || !owner.grounded);
+	//	bool airState = (launchBool || !owner.grounded);
 
-		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
-		{
-			EmitSignal(nameof(StateFinished), "GroundBounce");
-		}
-		else if (launchBool && !knockdown)
-		{
-			//GD.Print("Entering counterfloat from attack");
-			EmitSignal(nameof(StateFinished), "CounterFloat");
-		}
-		else if (airState && knockdown)
-		{
-			//GD.Print("Entering airknockdown from attack");
-			EmitSignal(nameof(StateFinished), "AirKnockdown");
-		}
-		else if (!airState && knockdown)
-		{
-			//GD.Print("Entering knockdown from attack");
-			EmitSignal(nameof(StateFinished), "Knockdown");
+	//	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+	//	{
+	//		EmitSignal(nameof(StateFinished), "GroundBounce");
+	//	}
+	//	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
+	//	{
+	//		EmitSignal(nameof(StateFinished), "WallBounce");
+	//	}
+	//	else if (launchBool && !knockdown)
+	//	{
+	//		GD.Print("Entering counterfloat from attack");
+	//		EmitSignal(nameof(StateFinished), "CounterFloat");
+	//	}
+	//	else if (airState && knockdown)
+	//	{
+	//		GD.Print("Entering airknockdown from attack");
+	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
+	//	}
+	//	else if (!airState && knockdown)
+	//	{
+	//		GD.Print("Entering knockdown from attack");
+	//		EmitSignal(nameof(StateFinished), "Knockdown");
 			
-		}
-		else
-		{
-			EmitSignal(nameof(StateFinished), "CounterHit");
-		}
-	}
+	//	}
+	//	else
+	//	{
+	//		EmitSignal(nameof(StateFinished), "CounterHit");
+	//	}
+	//}
 
 
 }

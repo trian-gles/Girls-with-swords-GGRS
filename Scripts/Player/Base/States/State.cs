@@ -29,6 +29,8 @@ public abstract class State : Node
 	/// </summary>
 	public bool hasAntimation = true;
 
+	public string animationName;
+
 
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
@@ -56,6 +58,7 @@ public abstract class State : Node
 	public override void _Ready()
 	{
 		owner = GetOwner<Player>();
+		animationName = Name;
 	}
 
 	public virtual void Load(Dictionary<string, int> loadData)
@@ -441,6 +444,11 @@ public abstract class State : Node
 		{
 			EmitSignal(nameof(StateFinished), "GroundBounce");
 		}
+		else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
+		{
+			EmitSignal(nameof(StateFinished), "WallBounce");
+		}
+
 		else if (airState && !knockdown)
 		{
 			if (launch.y == 0)
@@ -456,12 +464,17 @@ public abstract class State : Node
 		else if (!airState && knockdown)
 		{
 			EmitSignal(nameof(StateFinished), "Knockdown");
-			
+
 		}
 		else
 		{
 			EmitSignal(nameof(StateFinished), "HitStun");
 		}
+	}
+
+	public virtual void HitWall()
+	{
+
 	}
 	
 

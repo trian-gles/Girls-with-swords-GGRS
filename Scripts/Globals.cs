@@ -23,6 +23,10 @@ public class Globals : Node
 	public delegate void NetPlayLobbyReturn();
 
 	public static int frame = 0;
+
+	public const int rightWall = 46500;
+	public const int leftWall = 1500;
+	public const int floor = 22000;
 	public enum Inputs
 	{
 		UP = 1,

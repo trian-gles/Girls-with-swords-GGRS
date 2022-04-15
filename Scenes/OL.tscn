@@ -485,7 +485,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 6, 11, 12, 20, 21, 26 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 30, 12 ), Vector2( 30, 12 ), Vector2( 11, 29 ), Vector2( 11, 29 ), Vector2( 15, 14 ), Vector2( 15, 14 ) ]
+"values": [ Vector2( 38, 12 ), Vector2( 38, 12 ), Vector2( 40, 29 ), Vector2( 40, 29 ), Vector2( 15, 14 ), Vector2( 15, 14 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("HurtBoxes/HurtB1:position")
@@ -497,7 +497,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 6, 11, 12, 20, 21, 26 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 2, -16 ), Vector2( 2, -16 ), Vector2( -25, -13 ), Vector2( -25, -13 ), Vector2( -28, -10 ), Vector2( -28, -10 ) ]
+"values": [ Vector2( 2, -16 ), Vector2( 2, -16 ), Vector2( -4, -24 ), Vector2( -4, -24 ), Vector2( -28, -10 ), Vector2( -28, -10 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -2628,7 +2628,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 35, 25 ) ]
+"values": [ Vector2( 25, 25 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
@@ -2652,7 +2652,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -1, -6 ) ]
+"values": [ Vector2( 12, 6 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
@@ -2664,7 +2664,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("HitBoxes/HitB3:disabled")
@@ -2724,7 +2724,31 @@ tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 2 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("HitBoxes/HitB2:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -14, -20 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("HitBoxes/HitB2:shape:extents")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 12, 14 ) ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -5922,17 +5946,22 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 22, 35 )
+position = Vector2( 13, 17 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 33, 17 )
+position = Vector2( 2, -16 )
+disabled = false
+
+[node name="HurtB2" parent="HurtBoxes" index="1"]
+position = Vector2( -2, -31 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 1 )
 texture = ExtResource( 10 )
 offset = Vector2( 10, 0 )
 hframes = 176
-frame = 169
+frame = 29
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 2 )
@@ -5943,15 +5972,18 @@ level = 3
 modifiedHitStun = 25
 opponentLaunch = Vector2( 150, -800 )
 modifiedHitPush = 6000
-launch = Vector2( 150, -800 )
+launch = Vector2( 200, -800 )
 
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 level = 3
 modifiedHitStun = 35
+modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 200, -700 )
+chLaunch = Vector2( 600, -800 )
 modifiedHitPush = 2500
 hitPush = 2500
+chEffect = 2
 launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
@@ -5964,7 +5996,9 @@ script = ExtResource( 7 )
 level = 3
 modifiedHitStun = 35
 opponentLaunch = Vector2( 0, -400 )
+chLaunch = Vector2( 0, 800 )
 hitPush = 3000
+chEffect = 1
 knockdown = true
 
 [node name="Hadouken" type="Node" parent="StateTree" index="23"]

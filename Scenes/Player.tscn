@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -45,7 +45,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
 [ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
-[ext_resource path="res://Sprites/GFX Textures/64/effect_1.png" type="Texture" id=46]
+[ext_resource path="res://Sprites/GFX Textures/64/spotlight_8.png" type="Texture" id=46]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -75,6 +75,8 @@ _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.
 [sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
 
+[sub_resource type="CurveTexture" id=19]
+
 [sub_resource type="Gradient" id=10]
 colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
 
@@ -83,7 +85,7 @@ gradient = SubResource( 10 )
 
 [sub_resource type="Curve" id=12]
 max_value = 5.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 2.52162 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.35, 2.27304 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=13]
 curve = SubResource( 12 )
@@ -91,10 +93,13 @@ curve = SubResource( 12 )
 [sub_resource type="ParticlesMaterial" id=14]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
+angular_velocity = 5.0
+angular_velocity_curve = SubResource( 19 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale_curve = SubResource( 13 )
 color_ramp = SubResource( 11 )
+hue_variation = 0.09
 
 [sub_resource type="CanvasItemMaterial" id=15]
 blend_mode = 1
@@ -362,8 +367,8 @@ position = Vector2( 48, 0 )
 material = SubResource( 9 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
-amount = 2
-lifetime = 3.64
+amount = 1
+lifetime = 7.0
 speed_scale = 4.95
 process_material = SubResource( 14 )
 texture = ExtResource( 46 )

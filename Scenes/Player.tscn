@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -43,24 +43,25 @@
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
+[ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 20 )
+extents = Vector2( 35, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 10 )
+extents = Vector2( 12, 14 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 6, 8 )
+extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 38, 12 )
+extents = Vector2( 19, 16 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 32, 15 )
+extents = Vector2( 16, 19 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -68,6 +69,19 @@ extents = Vector2( 11, 20 )
 [sub_resource type="Curve" id=8]
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CanvasItemMaterial" id=9]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticlesMaterial" id=10]
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 
 [node name="Player" type="Node2D"]
 
@@ -137,11 +151,9 @@ hopForce = 250
 
 [node name="Jump" type="Node" parent="StateTree"]
 script = ExtResource( 11 )
-startupFrames = 7
 
 [node name="MovingJump" type="Node" parent="StateTree"]
 script = ExtResource( 10 )
-startupFrames = 7
 
 [node name="Fall" type="Node" parent="StateTree"]
 script = ExtResource( 9 )
@@ -203,11 +215,9 @@ script = ExtResource( 22 )
 
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
-level = 1
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 28 )
-level = 2
 
 [node name="JumpA" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
@@ -215,12 +225,10 @@ height = 2
 
 [node name="JumpB" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
-level = 1
 height = 2
 
 [node name="JumpC" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
-level = 2
 height = 2
 
 [node name="CrouchA" type="Node" parent="StateTree"]
@@ -228,12 +236,10 @@ script = ExtResource( 17 )
 
 [node name="CrouchB" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
-level = 1
 height = 0
 
 [node name="CrouchC" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
-level = 2
 opponentLaunch = Vector2( 0, -400 )
 height = 0
 knockdown = true
@@ -312,3 +318,8 @@ damping = 100.0
 damping_curve = SubResource( 8 )
 color = Color( 0.0470588, 0.945098, 1, 1 )
 script = ExtResource( 39 )
+
+[node name="Particles2D" type="Particles2D" parent="GFXHandler"]
+material = SubResource( 9 )
+process_material = SubResource( 10 )
+texture = ExtResource( 44 )

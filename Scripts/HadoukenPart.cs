@@ -165,7 +165,7 @@ public class HadoukenPart : Node2D
 			return;
 		}
 		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
-		chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
+		chDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		if (!movingRight)
 		{
 			hitDetails.dir = BaseAttack.ATTACKDIR.LEFT;

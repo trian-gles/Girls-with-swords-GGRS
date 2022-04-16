@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -44,6 +44,9 @@
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
 [ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
+
+[ext_resource path="res://Scripts/Player/Base/GFX/Light.cs" type="Script" id=45]
+[ext_resource path="res://Sprites/GFX Textures/64/effect_1.png" type="Texture" id=46]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
 [ext_resource path="res://Sprites/GFX Textures/64/spotlight_8.png" type="Texture" id=46]
 
@@ -51,19 +54,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 35, 25 )
+extents = Vector2( 12, 20 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 12, 14 )
+extents = Vector2( 7, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 6, 5 )
+extents = Vector2( 6, 8 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 19, 16 )
+extents = Vector2( 38, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 16, 19 )
+extents = Vector2( 32, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -74,6 +77,10 @@ _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.
 
 [sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
 [sub_resource type="CurveTexture" id=19]
 
@@ -81,7 +88,6 @@ blend_mode = 1
 colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
 
 [sub_resource type="GradientTexture" id=11]
-gradient = SubResource( 10 )
 
 [sub_resource type="Curve" id=12]
 max_value = 5.0
@@ -373,7 +379,7 @@ speed_scale = 4.95
 process_material = SubResource( 14 )
 texture = ExtResource( 46 )
 
-[node name="LightSparks" type="Particles2D" parent="GFXHandler"]
+[node name="Light" type="Particles2D" parent="GFXHandler"]
 material = SubResource( 15 )
 position = Vector2( 48, 0 )
 emitting = false

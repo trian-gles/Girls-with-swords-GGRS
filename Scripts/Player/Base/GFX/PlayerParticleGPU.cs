@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PlayerParticle : Particles2D
+public class PlayerParticleGPU : Particles2D
 {
 	public int startFrame = 0;
 
@@ -10,11 +10,11 @@ public class PlayerParticle : Particles2D
 		startFrame = frame;
 		if (facingRight)
 		{
-			Direction = new Vector2(-1, 0);
+			//Direction = new Vector2(-1, 0);
 		}
 		else 
 		{
-			Direction = new Vector2(1, 0);
+			//Direction = new Vector2(1, 0);
 		}
 		Emitting = true;
 		

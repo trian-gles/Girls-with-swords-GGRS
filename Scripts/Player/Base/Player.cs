@@ -271,7 +271,7 @@ public class Player : Node2D
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
 
-		string animation = pState.currentState;
+		string animation = currentState.animationName;
 		if (altState.Contains(animation.Substring(2)))
 		{
 			animation = animation.Substring(2);

@@ -515,6 +515,7 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
+		GD.Print($"Entering animation {currentState.animationName}");
 		animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
 		
@@ -954,11 +955,6 @@ public class Player : Node2D
 	public void GFXEvent(string name)
 	{
 		gfxHand.Effect(name, Position, facingRight);
-	}
-
-	public void GFXEvent(string name, Vector2 pos)
-	{
-		gfxHand.Effect(name, pos, facingRight);
 	}
 
 	public bool IsInvuln()

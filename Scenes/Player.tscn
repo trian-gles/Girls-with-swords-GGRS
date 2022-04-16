@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -44,6 +44,8 @@
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
 [ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
+[ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
+[ext_resource path="res://Sprites/GFX Textures/64/effect_1.png" type="Texture" id=46]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -72,16 +74,50 @@ _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.
 
 [sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
 
-[sub_resource type="ParticlesMaterial" id=10]
+[sub_resource type="Gradient" id=10]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="Curve" id=12]
+max_value = 5.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 2.52162 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=13]
+curve = SubResource( 12 )
+
+[sub_resource type="ParticlesMaterial" id=14]
 flag_disable_z = true
-gravity = Vector3( 0, 98, 0 )
+gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+scale_curve = SubResource( 13 )
+color_ramp = SubResource( 11 )
+
+[sub_resource type="CanvasItemMaterial" id=15]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 7
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=16]
+offsets = PoolRealArray( 0, 0.00168919, 0.521959, 1 )
+colors = PoolColorArray( 0.982806, 1, 0, 0.317647, 1, 0.956863, 0, 1, 1, 0.542681, 0, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+flag_disable_z = true
+orbit_velocity = 258.68
+orbit_velocity_random = 0.13
+angle_random = 0.27
+color_ramp = SubResource( 17 )
+hue_variation = -0.06
+anim_speed = 1.62
 
 [node name="Player" type="Node2D"]
 
@@ -319,7 +355,27 @@ damping_curve = SubResource( 8 )
 color = Color( 0.0470588, 0.945098, 1, 1 )
 script = ExtResource( 39 )
 
-[node name="Particles2D" type="Particles2D" parent="GFXHandler"]
+[node name="Node2D" type="Node2D" parent="GFXHandler"]
+position = Vector2( 48, 0 )
+
+[node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
 material = SubResource( 9 )
-process_material = SubResource( 10 )
+position = Vector2( -59, 4 )
+scale = Vector2( 0.75, 0.75 )
+amount = 2
+lifetime = 3.64
+speed_scale = 4.95
+process_material = SubResource( 14 )
+texture = ExtResource( 46 )
+
+[node name="LightSparks" type="Particles2D" parent="GFXHandler"]
+material = SubResource( 15 )
+position = Vector2( 48, 0 )
+emitting = false
+amount = 3
+one_shot = true
+speed_scale = 1.59
+randomness = 0.08
+process_material = SubResource( 18 )
 texture = ExtResource( 44 )
+script = ExtResource( 45 )

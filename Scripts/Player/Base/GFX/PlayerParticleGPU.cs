@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PlayerParticle : CPUParticles2D
+public class PlayerParticle : Particles2D
 {
 	public int startFrame = 0;
 

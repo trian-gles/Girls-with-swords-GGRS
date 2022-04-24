@@ -64,12 +64,14 @@ public class Jump : AirState
 
 		if (owner.CheckHeldKey('6'))
 		{
+			GD.Print("moving 6 jump");
 			owner.velocity.x = Mathf.Max(owner.speed, owner.velocity.x);
 		}
 
 		else if (owner.CheckHeldKey('4'))
 		{
-			owner.velocity.x = Mathf.Min(-owner.speed, -owner.velocity.x);
+			GD.Print("moving 4 jump");
+			owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 		}
 
 

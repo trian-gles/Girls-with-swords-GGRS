@@ -509,7 +509,7 @@ public class Player : Node2D
 			var otherInputs = new List<char[]>();
 			foreach (char[] inputArr in inputs)
 			{
-				if (inputArr[0] == '6')
+				if (inputArr == new char[] {'6', 'p'} || inputArr == new char[] { '4', 'p' })
 					jumpInputs.Add(inputArr);
 				else
 					otherInputs.Add(inputArr);

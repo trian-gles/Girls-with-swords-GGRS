@@ -5132,14 +5132,26 @@ launchFrame = 7
 releaseFrame = 20
 
 [node name="Kick" parent="StateTree" index="26"]
+level = 1
 opponentLaunch = Vector2( 0, -500 )
 
+[node name="Slash" parent="StateTree" index="27"]
+level = 2
+
 [node name="JumpB" parent="StateTree" index="29"]
+level = 1
 modifiedHitStun = 17
 
 [node name="JumpC" parent="StateTree" index="30"]
+level = 2
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
+
+[node name="CrouchB" parent="StateTree" index="32"]
+level = 1
+
+[node name="CrouchC" parent="StateTree" index="33"]
+level = 2
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )

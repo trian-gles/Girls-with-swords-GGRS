@@ -5970,6 +5970,7 @@ script = SubResource( 2 )
 script = ExtResource( 4 )
 level = 3
 modifiedHitStun = 25
+modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 150, -800 )
 modifiedHitPush = 6000
 launch = Vector2( 200, -800 )
@@ -5977,7 +5978,7 @@ launch = Vector2( 200, -800 )
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 level = 3
-modifiedHitStun = 35
+modifiedHitStun = 30
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 200, -700 )
 chLaunch = Vector2( 600, -800 )
@@ -5995,6 +5996,7 @@ speed = 500
 script = ExtResource( 7 )
 level = 3
 modifiedHitStun = 35
+modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 0, -400 )
 chLaunch = Vector2( 0, 800 )
 hitPush = 3000
@@ -6007,8 +6009,24 @@ script = ExtResource( 5 )
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )
 
+[node name="Kick" parent="StateTree" index="29"]
+level = 1
+
+[node name="Slash" parent="StateTree" index="30"]
+level = 2
+
 [node name="JumpB" parent="StateTree" index="32"]
+level = 1
 hitPush = 3500
+
+[node name="JumpC" parent="StateTree" index="33"]
+level = 2
+
+[node name="CrouchB" parent="StateTree" index="35"]
+level = 1
+
+[node name="CrouchC" parent="StateTree" index="36"]
+level = 2
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )

@@ -1037,7 +1037,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
-		return;
+		//return;
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);

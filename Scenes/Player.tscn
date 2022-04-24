@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -35,10 +35,9 @@
 [ext_resource path="res://Scripts/Player/Base/States/Float.cs" type="Script" id=33]
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
 [ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
-[ext_resource path="res://Scripts/Player/Base/GFX/Blood.cs" type="Script" id=36]
+[ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticle.cs" type="Script" id=36]
 [ext_resource path="res://Sprites/Atlas/OL Moveset Gray v2.png" type="Texture" id=37]
 [ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
-[ext_resource path="res://Scripts/Player/Base/GFX/Cancel.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
@@ -353,7 +352,7 @@ orbit_velocity_random = 1.0
 damping = 100.0
 damping_curve = SubResource( 8 )
 color = Color( 0.0470588, 0.945098, 1, 1 )
-script = ExtResource( 39 )
+script = ExtResource( 36 )
 
 [node name="Node2D" type="Node2D" parent="GFXHandler"]
 position = Vector2( 48, 0 )

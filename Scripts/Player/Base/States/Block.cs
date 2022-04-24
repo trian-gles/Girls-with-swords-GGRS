@@ -46,7 +46,7 @@ public class Block : HitState
 	
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		owner.GFXEvent("Light", details.collisionPnt);
+		owner.GFXEvent("Light", details.collisionPnt / 100);
 		stunRemaining = details.blockStun;
 		owner.DeductHealth(details.dmg);
 	}

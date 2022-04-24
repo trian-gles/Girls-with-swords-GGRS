@@ -50,19 +50,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 20 )
+extents = Vector2( 35, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 10 )
+extents = Vector2( 12, 14 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 6, 8 )
+extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 38, 12 )
+extents = Vector2( 19, 16 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 32, 15 )
+extents = Vector2( 16, 19 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -71,29 +71,44 @@ extents = Vector2( 11, 20 )
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CanvasItemMaterial" id=9]
+[sub_resource type="CanvasItemMaterial" id=19]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="GradientTexture" id=11]
+[sub_resource type="Curve" id=20]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=21]
+curve = SubResource( 20 )
+
+[sub_resource type="Gradient" id=10]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=22]
+gradient = SubResource( 10 )
 
 [sub_resource type="Curve" id=12]
 max_value = 5.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 2.52162 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.35, 2.27304 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=13]
+[sub_resource type="CurveTexture" id=23]
 curve = SubResource( 12 )
 
 [sub_resource type="ParticlesMaterial" id=14]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
+angular_velocity = 5.0
+angular_velocity_curve = SubResource( 21 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale_curve = SubResource( 13 )
-color_ramp = SubResource( 11 )
+scale_curve = SubResource( 23 )
+color_ramp = SubResource( 22 )
+hue_variation = 0.09
 
 [sub_resource type="CanvasItemMaterial" id=15]
 blend_mode = 1
@@ -358,7 +373,7 @@ script = ExtResource( 36 )
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
-material = SubResource( 9 )
+material = SubResource( 19 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
 amount = 1

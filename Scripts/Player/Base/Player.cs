@@ -323,6 +323,9 @@ public class Player : Node2D
 	{
 		public List<char[]> inBuf2 = new List<char[]>();
 		public List<char[]> hitStopInputs = new List<char[]>();
+
+		//private List<char> order = new List<char>() { 's', 'k', 'p', '6', '4', ''}; consider input priority later
+
 		public int inBuf2TimerMax = 8;
 		public int inBuf2Timer = 8;
 		public List<char> heldKeys = new List<char>();
@@ -453,8 +456,6 @@ public class Player : Node2D
 			{
 				BufAddInput(inputArr);
 			}
-
-
 				
 
 			if (hitStop > 0 || playerState.DelayInputs()) // delay the handling of inputs until after hitstop ends
@@ -467,6 +468,7 @@ public class Player : Node2D
 				BufTimerDecrement();
 
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
+			unhandledInputs = SortInputs(unhandledInputs);
 			hitStopInputs = new List<char[]>();
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -496,6 +498,20 @@ public class Player : Node2D
 			
 			unhandledInputs.Clear();
 			
+		}
+
+		public List<char[]> SortInputs(List<char[]> inputs)
+		{
+			var jumpInputs = new List<char[]>();
+			var otherInputs = new List<char[]>();
+			foreach (char[] inputArr in inputs)
+			{
+				if (inputArr[0] == '6')
+					jumpInputs.Add(inputArr);
+				else
+					otherInputs.Add(inputArr);
+			}
+			return jumpInputs.Concat(otherInputs).ToList();
 		}
 
 		public List<char[]> GetBuffer() 

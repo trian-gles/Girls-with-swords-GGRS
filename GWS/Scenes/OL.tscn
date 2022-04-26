@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Paletizer Exports/OL Gray 3-5.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
+[ext_resource path="res://Scenes/Projectiles/OLProjectile.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Sprites/Palettes/Ky v2.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/Palettes/Shrek v1.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/Palettes/Sol v1.png" type="Texture" id=19]
@@ -6005,6 +6006,7 @@ knockdown = true
 
 [node name="Hadouken" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 5 )
+hadoukenScene = ExtResource( 12 )
 
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )

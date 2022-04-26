@@ -6,14 +6,15 @@ public class Hadouken : GroundAttack
 	[Export]
 	public int releaseFrame = 18;
 
-	private PackedScene hadoukenScene;
+	[Export]
+	public PackedScene hadoukenScene;
 	public override void _Ready()
 	{
 		base._Ready();
-		hadoukenScene = (PackedScene)GD.Load("res://Scenes/HadoukenPart.tscn");
-			var h = hadoukenScene.Instance() as HadoukenPart;
-			h.QueueFree();
-			// this looks silly but is necessary so that the hadouken loads at game start
+		
+		var h = hadoukenScene.Instance() as HadoukenPart;
+		h.QueueFree();
+		// this looks silly but is necessary so that the hadouken loads at game start
 	}	
 
 	public override void Enter()

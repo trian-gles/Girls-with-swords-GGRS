@@ -36,7 +36,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
 [ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticle.cs" type="Script" id=36]
-[ext_resource path="res://Sprites/Atlas/OL Moveset Gray v2.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/Movesets/OL Moveset/OL Gray 3-5.png" type="Texture" id=37]
 [ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
 [ext_resource path="res://Scripts/Player/Base/States/PreJump.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
@@ -182,7 +182,7 @@ material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 37 )
-hframes = 138
+hframes = 176
 frame = 124
 
 [node name="StateTree" type="Node" parent="."]

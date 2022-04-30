@@ -1,19 +1,18 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Palettes/Default Palette.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/OL/Specials/AntiAir.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRun.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
-[ext_resource path="res://Sprites/Paletizer Exports/OL Gray 3-5.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Palettes/OL/Sol v1.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
 [ext_resource path="res://Scenes/Projectiles/OLProjectile.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Sprites/Palettes/Ky v2.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/Palettes/Shrek v1.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/Palettes/Sol v1.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/Palettes/OL/Ky v2.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/Player/Base/States/Jump.cs" type="Script" id=20]
 
 [sub_resource type="Shader" id=1]
@@ -41,7 +40,7 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 2 )
+shader_param/palette = ExtResource( 3 )
 
 [sub_resource type="CSharpScript" id=3]
 resource_name = "OLWalk"
@@ -5952,7 +5951,7 @@ tracks/9/keys = {
 script = ExtResource( 11 )
 speed = 200
 dashSpeed = 600
-shaders = [ ExtResource( 2 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ) ]
+shaders = [ ExtResource( 3 ), ExtResource( 13 ), ExtResource( 2 ), ExtResource( 10 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
@@ -5971,8 +5970,6 @@ position = Vector2( -2, -31 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
-texture = ExtResource( 10 )
-hframes = 176
 frame = 153
 
 [node name="StateTree" parent="." index="4"]

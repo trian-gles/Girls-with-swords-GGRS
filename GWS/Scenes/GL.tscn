@@ -1,8 +1,8 @@
 [gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Paletizer Exports/GL Gray 4-30.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Paletizer Exports/GL Default Color 1-27.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/GL Gray 4-30.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Palettes/GL/GL Default Color 4-30.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/GL/GL.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/GL/Modified/GLJumpC.cs" type="Script" id=7]
@@ -29,14 +29,14 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=37]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 3 )
 
-[sub_resource type="Animation" id=38]
+[sub_resource type="Animation" id=3]
 resource_name = "AirDash"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -171,8 +171,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "AirKnockdown"
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -318,7 +317,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 length = 14.0
 step = 1.0
 tracks/0/type = "value"
@@ -454,7 +453,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 2, 0 ), Vector2( 2, 0 ), Vector2( 3, 0 ), Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 7, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -588,8 +587,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "CounterFloat"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -735,8 +733,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "CounterHit"
+[sub_resource type="Animation" id=8]
 length = 5.0
 step = 1.0
 tracks/0/type = "value"
@@ -872,7 +869,7 @@ tracks/10/keys = {
 "values": [ Vector2( -0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -1006,7 +1003,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=10]
 length = 8.0
 step = 1.0
 tracks/0/type = "value"
@@ -1166,7 +1163,7 @@ tracks/12/keys = {
 "values": [ Vector2( 1.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 length = 21.0
 step = 1.0
 tracks/0/type = "value"
@@ -1326,7 +1323,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=12]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -1461,7 +1458,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=13]
 length = 31.0
 step = 1.0
 tracks/0/type = "value"
@@ -1621,8 +1618,7 @@ tracks/12/keys = {
 "values": [ Vector2( -1.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "DoubleJump"
+[sub_resource type="Animation" id=14]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -1758,7 +1754,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=15]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -1892,8 +1888,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=14]
-resource_name = "Float"
+[sub_resource type="Animation" id=16]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -2039,7 +2034,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=17]
 length = 54.0
 step = 1.0
 tracks/0/type = "value"
@@ -2199,7 +2194,7 @@ tracks/12/keys = {
 "values": [ Vector2( -2, -3 ), Vector2( -2, 5 ) ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=18]
 length = 35.0
 step = 1.0
 tracks/0/type = "value"
@@ -2323,7 +2318,7 @@ tracks/9/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=19]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -2433,8 +2428,7 @@ tracks/8/keys = {
 "values": [ Vector2( -0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
-resource_name = "GroundBounce"
+[sub_resource type="Animation" id=20]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -2580,7 +2574,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=21]
 length = 35.0
 step = 1.0
 tracks/0/type = "value"
@@ -2752,7 +2746,7 @@ tracks/13/keys = {
 "values": [ Vector2( 18, -14 ), Vector2( 0, -15 ), Vector2( 0, -19 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 5.0
 step = 1.0
 tracks/0/type = "value"
@@ -2888,7 +2882,7 @@ tracks/10/keys = {
 "values": [ Vector2( -0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 length = 48.0
 loop = true
 step = 1.0
@@ -3025,7 +3019,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=24]
 length = 15.0
 step = 1.0
 tracks/0/type = "value"
@@ -3185,7 +3179,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=25]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -3321,7 +3315,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=26]
 length = 17.0
 step = 1.0
 tracks/0/type = "value"
@@ -3481,7 +3475,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=27]
 length = 25.0
 step = 1.0
 tracks/0/type = "value"
@@ -3641,7 +3635,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=28]
 length = 31.0
 step = 1.0
 tracks/0/type = "value"
@@ -3825,7 +3819,7 @@ tracks/14/keys = {
 "values": [ Vector2( 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=29]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -3985,7 +3979,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=30]
 length = 50.0
 step = 1.0
 tracks/0/type = "value"
@@ -4097,7 +4091,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=31]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -4233,7 +4227,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=32]
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4368,7 +4362,7 @@ tracks/10/keys = {
 "values": [ Vector2( -1.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=33]
 length = 10.0
 step = 1.0
 tracks/0/type = "value"
@@ -4504,7 +4498,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( -1.5, 0 ), Vector2( -3.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=34]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4519,7 +4513,7 @@ tracks/0/keys = {
 "values": [ 149 ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=35]
 length = 90.0
 step = 1.0
 tracks/0/type = "value"
@@ -4655,7 +4649,7 @@ tracks/10/keys = {
 "values": [ Vector2( -3, 0 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=36]
 length = 36.0
 step = 1.0
 tracks/0/type = "value"
@@ -4815,7 +4809,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( -1, 0 ), Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=37]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -4949,7 +4943,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=38]
 length = 40.0
 step = 1.0
 tracks/0/type = "value"
@@ -5118,7 +5112,7 @@ position = Vector2( 37, 17 )
 modulate = Color( 1, 0, 0, 1 )
 
 [node name="Sprite" parent="." index="3"]
-material = SubResource( 37 )
+material = SubResource( 2 )
 position = Vector2( 0, -30 )
 texture = ExtResource( 2 )
 hframes = 240
@@ -5189,40 +5183,40 @@ visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
-anims/AirDash = SubResource( 38 )
-anims/AirKnockdown = SubResource( 2 )
-anims/Backdash = SubResource( 3 )
-anims/Block = SubResource( 4 )
-anims/CounterFloat = SubResource( 5 )
-anims/CounterHit = SubResource( 6 )
-anims/Crouch = SubResource( 7 )
-anims/CrouchA = SubResource( 8 )
-anims/CrouchB = SubResource( 9 )
-anims/CrouchBlock = SubResource( 10 )
-anims/CrouchC = SubResource( 11 )
-anims/DoubleJump = SubResource( 12 )
-anims/Fall = SubResource( 13 )
-anims/Float = SubResource( 14 )
-anims/GLDP = SubResource( 15 )
-anims/Grab = SubResource( 16 )
-anims/Grabbed = SubResource( 17 )
-anims/GroundBounce = SubResource( 18 )
-anims/GunBlazed = SubResource( 19 )
-anims/HitStun = SubResource( 20 )
-anims/Idle = SubResource( 21 )
-anims/Jab = SubResource( 22 )
-anims/Jump = SubResource( 23 )
-anims/JumpA = SubResource( 24 )
-anims/JumpB = SubResource( 25 )
-anims/JumpC = SubResource( 26 )
-anims/Kick = SubResource( 27 )
-anims/Knockdown = SubResource( 28 )
-anims/MovingJump = SubResource( 29 )
-anims/PostRun = SubResource( 30 )
-anims/PreRun = SubResource( 31 )
-anims/RESET = SubResource( 32 )
-anims/Run = SubResource( 33 )
-anims/Slash = SubResource( 34 )
-anims/Tech = SubResource( 35 )
-anims/Walk = SubResource( 36 )
+anims/AirDash = SubResource( 3 )
+anims/AirKnockdown = SubResource( 4 )
+anims/Backdash = SubResource( 5 )
+anims/Block = SubResource( 6 )
+anims/CounterFloat = SubResource( 7 )
+anims/CounterHit = SubResource( 8 )
+anims/Crouch = SubResource( 9 )
+anims/CrouchA = SubResource( 10 )
+anims/CrouchB = SubResource( 11 )
+anims/CrouchBlock = SubResource( 12 )
+anims/CrouchC = SubResource( 13 )
+anims/DoubleJump = SubResource( 14 )
+anims/Fall = SubResource( 15 )
+anims/Float = SubResource( 16 )
+anims/GLDP = SubResource( 17 )
+anims/Grab = SubResource( 18 )
+anims/Grabbed = SubResource( 19 )
+anims/GroundBounce = SubResource( 20 )
+anims/GunBlazed = SubResource( 21 )
+anims/HitStun = SubResource( 22 )
+anims/Idle = SubResource( 23 )
+anims/Jab = SubResource( 24 )
+anims/Jump = SubResource( 25 )
+anims/JumpA = SubResource( 26 )
+anims/JumpB = SubResource( 27 )
+anims/JumpC = SubResource( 28 )
+anims/Kick = SubResource( 29 )
+anims/Knockdown = SubResource( 30 )
+anims/MovingJump = SubResource( 31 )
+anims/PostRun = SubResource( 32 )
+anims/PreRun = SubResource( 33 )
+anims/RESET = SubResource( 34 )
+anims/Run = SubResource( 35 )
+anims/Slash = SubResource( 36 )
+anims/Tech = SubResource( 37 )
+anims/Walk = SubResource( 38 )
 script = ExtResource( 5 )

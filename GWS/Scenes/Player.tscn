@@ -51,7 +51,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 35, 25 )
+extents = Vector2( 14, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12, 14 )
@@ -72,65 +72,65 @@ extents = Vector2( 11, 20 )
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CanvasItemMaterial" id=19]
+[sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Curve" id=20]
+[sub_resource type="Curve" id=10]
 min_value = -360.0
 max_value = 360.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=21]
-curve = SubResource( 20 )
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=12]
 colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=22]
-gradient = SubResource( 10 )
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=14]
 max_value = 5.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.35, 2.27304 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=23]
-curve = SubResource( 12 )
+[sub_resource type="CurveTexture" id=15]
+curve = SubResource( 14 )
 
-[sub_resource type="ParticlesMaterial" id=14]
+[sub_resource type="ParticlesMaterial" id=16]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 5.0
-angular_velocity_curve = SubResource( 21 )
+angular_velocity_curve = SubResource( 11 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale_curve = SubResource( 23 )
-color_ramp = SubResource( 22 )
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 13 )
 hue_variation = 0.09
 
-[sub_resource type="CanvasItemMaterial" id=15]
+[sub_resource type="CanvasItemMaterial" id=17]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 7
 particles_anim_v_frames = 7
 particles_anim_loop = false
 
-[sub_resource type="Gradient" id=16]
+[sub_resource type="Gradient" id=18]
 offsets = PoolRealArray( 0, 0.00168919, 0.521959, 1 )
 colors = PoolColorArray( 0.982806, 1, 0, 0.317647, 1, 0.956863, 0, 1, 1, 0.542681, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=17]
-gradient = SubResource( 16 )
+[sub_resource type="GradientTexture" id=19]
+gradient = SubResource( 18 )
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=20]
 flag_disable_z = true
 orbit_velocity = 258.68
 orbit_velocity_random = 0.13
 angle_random = 0.27
-color_ramp = SubResource( 17 )
+color_ramp = SubResource( 19 )
 hue_variation = -0.06
 anim_speed = 1.62
 
@@ -377,23 +377,23 @@ script = ExtResource( 36 )
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
-material = SubResource( 19 )
+material = SubResource( 9 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
 amount = 1
 lifetime = 7.0
 speed_scale = 4.95
-process_material = SubResource( 14 )
+process_material = SubResource( 16 )
 texture = ExtResource( 46 )
 
 [node name="Light" type="Particles2D" parent="GFXHandler"]
-material = SubResource( 15 )
+material = SubResource( 17 )
 position = Vector2( 48, 0 )
 emitting = false
 amount = 3
 one_shot = true
 speed_scale = 1.59
 randomness = 0.08
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 44 )
 script = ExtResource( 45 )

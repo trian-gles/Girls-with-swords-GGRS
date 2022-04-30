@@ -1,45 +1,45 @@
 [gd_resource type="AnimationNodeStateMachine" load_steps=10 format=2]
 
-[sub_resource type="AnimationNodeAnimation" id=17]
+[sub_resource type="AnimationNodeAnimation" id=1]
 animation = "CursorFadeIn"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=2]
 animation = "GLBlink"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=3]
 animation = "GLFadeIn"
 
-[sub_resource type="AnimationNodeAnimation" id=20]
+[sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Init"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "OLFadeIn"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+[sub_resource type="AnimationNodeStateMachineTransition" id=6]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+[sub_resource type="AnimationNodeStateMachineTransition" id=7]
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
 switch_mode = 2
 auto_advance = true
 
 [resource]
-states/CursorFadeIn/node = SubResource( 17 )
+states/CursorFadeIn/node = SubResource( 1 )
 states/CursorFadeIn/position = Vector2( 631, 52 )
-states/GLBlink/node = SubResource( 6 )
+states/GLBlink/node = SubResource( 2 )
 states/GLBlink/position = Vector2( 824, 52 )
-states/GLFadeIn/node = SubResource( 7 )
+states/GLFadeIn/node = SubResource( 3 )
 states/GLFadeIn/position = Vector2( 434, 52 )
-states/Init/node = SubResource( 20 )
+states/Init/node = SubResource( 4 )
 states/Init/position = Vector2( 98, 52 )
-states/OLFadeIn/node = SubResource( 9 )
+states/OLFadeIn/node = SubResource( 5 )
 states/OLFadeIn/position = Vector2( 230, 52 )
-transitions = [ "GLFadeIn", "CursorFadeIn", SubResource( 18 ), "Init", "OLFadeIn", SubResource( 21 ), "OLFadeIn", "GLFadeIn", SubResource( 24 ), "CursorFadeIn", "GLBlink", SubResource( 26 ) ]
+transitions = [ "GLFadeIn", "CursorFadeIn", SubResource( 6 ), "Init", "OLFadeIn", SubResource( 7 ), "OLFadeIn", "GLFadeIn", SubResource( 8 ), "CursorFadeIn", "GLBlink", SubResource( 9 ) ]
 start_node = "Init"

@@ -5133,6 +5133,7 @@ releaseFrame = 20
 
 [node name="Kick" parent="StateTree" index="26"]
 level = 1
+modifiedHitStun = 22
 opponentLaunch = Vector2( 0, -500 )
 
 [node name="Slash" parent="StateTree" index="27"]

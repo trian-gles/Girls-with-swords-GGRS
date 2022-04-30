@@ -178,6 +178,7 @@ public class GameStateObject : Node
 			errMsg = AddError(errMsg, playerNames[i] + " yvel", pStates[0].velocity[1], pStates[1].velocity[1]);
 			errMsg = AddError(errMsg, playerNames[i] + " health", pStates[0].health, pStates[1].health);
 			errMsg = AddError(errMsg, playerNames[i] + " proration", pStates[0].proration, pStates[1].proration);
+			errMsg = AddError(errMsg, playerNames[i] + " stun remaining", pStates[0].stunRemaining, pStates[1].stunRemaining);
 			i++;
 		}
 

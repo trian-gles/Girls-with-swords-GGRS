@@ -14,7 +14,8 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
-		stunRemaining += 2;
+		stunRemaining += 4;
+		GD.Print($"Stun remaining for float = {stunRemaining}");
 	}
 
 	/// <summary>

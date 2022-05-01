@@ -60,7 +60,7 @@ public abstract class AirAttack : BaseAttack
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			EmitSignal(nameof(StateFinished), "Landing");
 		}
 
 		ApplyGravity();

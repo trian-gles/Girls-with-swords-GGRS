@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -47,12 +47,14 @@
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
 [ext_resource path="res://Sprites/GFX Textures/64/spotlight_8.png" type="Texture" id=46]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
+[ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
+[ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 41 )
+extents = Vector2( 16, 41 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 11, 16 )
@@ -270,6 +272,7 @@ script = ExtResource( 21 )
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 28 )
+chEffect = 3
 
 [node name="JumpA" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
@@ -282,6 +285,7 @@ height = 2
 [node name="JumpC" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
 height = 2
+chEffect = 3
 
 [node name="CrouchA" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
@@ -315,6 +319,12 @@ script = ExtResource( 39 )
 
 [node name="Hadouken" type="Node" parent="StateTree"]
 script = ExtResource( 47 )
+
+[node name="Landing" type="Node" parent="StateTree"]
+script = ExtResource( 48 )
+
+[node name="Stagger" type="Node" parent="StateTree"]
+script = ExtResource( 49 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

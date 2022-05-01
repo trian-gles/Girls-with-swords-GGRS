@@ -1,10 +1,9 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
-[ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Player/OL/Specials/AntiAir.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRun.cs" type="Script" id=8]
@@ -5957,7 +5956,7 @@ shaders = [ ExtResource( 3 ), ExtResource( 13 ), ExtResource( 2 ), ExtResource( 
 visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
-position = Vector2( -2, -1 )
+position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
@@ -5970,6 +5969,7 @@ position = Vector2( -2, -31 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
+offset = Vector2( 10, 0 )
 frame = 153
 
 [node name="StateTree" parent="." index="4"]
@@ -6012,31 +6012,30 @@ hitPush = 3000
 chEffect = 1
 knockdown = true
 
-[node name="Hadouken" type="Node" parent="StateTree" index="23"]
-script = ExtResource( 5 )
-hadoukenScene = ExtResource( 12 )
-
-[node name="DoubleJump" parent="StateTree" index="24"]
+[node name="DoubleJump" parent="StateTree" index="23"]
 script = ExtResource( 20 )
 
-[node name="Kick" parent="StateTree" index="29"]
+[node name="Kick" parent="StateTree" index="28"]
 level = 1
 
-[node name="Slash" parent="StateTree" index="30"]
+[node name="Slash" parent="StateTree" index="29"]
 level = 2
 
-[node name="JumpB" parent="StateTree" index="32"]
+[node name="JumpB" parent="StateTree" index="31"]
 level = 1
 hitPush = 3500
 
-[node name="JumpC" parent="StateTree" index="33"]
+[node name="JumpC" parent="StateTree" index="32"]
 level = 2
 
-[node name="CrouchB" parent="StateTree" index="35"]
+[node name="CrouchB" parent="StateTree" index="34"]
 level = 1
 
-[node name="CrouchC" parent="StateTree" index="36"]
+[node name="CrouchC" parent="StateTree" index="35"]
 level = 2
+
+[node name="Hadouken" parent="StateTree" index="41"]
+hadoukenScene = ExtResource( 12 )
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )

@@ -46,6 +46,11 @@ public class HadoukenPart : Node2D
 
 	[Export]
 	public Vector2 speed;
+	
+	[Export]
+	public int duration;
+	
+	private int frame = 0;
 
 	private bool movingRight;
 
@@ -94,6 +99,7 @@ public class HadoukenPart : Node2D
 	/// <param name="targetPlayer"> the targeted player </param>
 	public void Spawn(bool movingRight, Player targetPlayer)
 	{
+		GetNode<AnimatedSprite>("AnimatedSprite").Playing = true;
 		this.movingRight = movingRight;
 		this.targetPlayer = targetPlayer;
 		if (!movingRight) 
@@ -110,7 +116,7 @@ public class HadoukenPart : Node2D
 		public int[] pos { get; set; }
 		public bool active { get; set; }
 		public string name { get; set; }
-
+		public int frame { get; set; }
 	}
 	
 	public void FrameAdvance()
@@ -131,12 +137,12 @@ public class HadoukenPart : Node2D
 		}
 		if (active)
 		{
-			if (CheckRect())
+			if (CheckRect() && frame < duration)
 			{
 				HurtPlayer();
 			}
 		}
-		
+		frame++;
 	}
 
 	/// <summary>
@@ -208,6 +214,7 @@ public class HadoukenPart : Node2D
 		hadState.pos = new int[] {(int) Position.x, (int) Position.y};
 		hadState.active = active;
 		hadState.name = Name;
+		hadState.frame = frame;
 		return hadState;
 	}
 
@@ -216,6 +223,7 @@ public class HadoukenPart : Node2D
 		Position = new Vector2(newState.pos[0], newState.pos[1]);
 		active = newState.active;
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
+		frame = newState.frame;
 	}
 
 	

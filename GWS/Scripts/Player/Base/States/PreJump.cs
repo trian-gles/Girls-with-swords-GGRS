@@ -39,40 +39,9 @@ public class PreJump : State
 			owner.velocity.x = -owner.speed;
 	}
 
-	public override void ReceiveHit(Globals.AttackDetails details) // no blocking during prejump
+	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		//GD.Print($"Received attack on side {rightAttack}");
-		bool launchBool = false;
-		switch (details.dir)
-		{
-			case BaseAttack.ATTACKDIR.RIGHT:
-				break;
-			case BaseAttack.ATTACKDIR.LEFT:
-				details.opponentLaunch.x *= -1;
-				details.hitPush *= -1;
-				break;
-			case BaseAttack.ATTACKDIR.EQUAL:
-				details.opponentLaunch.x = 0;
-				details.hitPush = 0;
-				break;
-		}
-		owner.hitPushRemaining = details.hitPush;
-		//GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");
-		owner.velocity = details.opponentLaunch;
-		if (!(details.opponentLaunch == Vector2.Zero))
-		{
-			owner.velocity = details.opponentLaunch;
-			launchBool = true;
-		}
-
-		if (owner.velocity.y < 0) // make sure the player is registered as in the air if launched 
-		{
-			owner.grounded = false;
-		}
-
-
-		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
-
+		ReceiveHitNoBlock(details);
 	}
 }
 

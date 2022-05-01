@@ -15,7 +15,7 @@ public class Float : HitStun
 		owner.grounded = false;
 		owner.CheckTurnAround();
 		stunRemaining += 4;
-		GD.Print($"Stun remaining for float = {stunRemaining}");
+		//GD.Print($"Stun remaining for float = {stunRemaining}");
 	}
 
 	/// <summary>

@@ -40,4 +40,9 @@ public class Backdash: Walk
 		}
 		ApplyGravity();
 	}
+
+	public override void ReceiveHit(Globals.AttackDetails details)
+	{
+		ReceiveHitNoBlock(details);
+	}
 }

@@ -26,5 +26,10 @@ public class PreRun : MoveState
 		}
 	}
 
+	public override void ReceiveHit(Globals.AttackDetails details)
+	{
+		ReceiveHitNoBlock(details);
+	}
+
 }
 

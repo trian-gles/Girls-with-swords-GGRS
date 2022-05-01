@@ -3,6 +3,8 @@
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=1]
 
 [node name="OLProjectile" instance=ExtResource( 1 )]
+duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]
-frame = 1
+animation = "OLProjectile"
+frame = 3

@@ -1,6 +1,3 @@
-# Import cache
-.import/
-
 # Binaries
 bin/
 build/
@@ -559,5 +556,3 @@ packages/MSTest.TestFramework.2.2.7/.signature.p7s
 packages/MSTest.TestFramework.2.2.7/Icon.png
 packages/MSTest.TestFramework.2.2.7/Icon.png.import
 packages/MSTest.TestFramework.2.2.7/MSTest.TestFramework.2.2.7.nupkg
-*.import
-*.import

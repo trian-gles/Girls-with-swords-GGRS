@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -46,24 +46,25 @@
 [ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
 [ext_resource path="res://Sprites/GFX Textures/64/spotlight_8.png" type="Texture" id=46]
+[ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 32 )
+extents = Vector2( 14, 41 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 12, 14 )
+extents = Vector2( 11, 16 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 19, 16 )
+extents = Vector2( 10, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 16, 19 )
+extents = Vector2( 10, 18 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -311,6 +312,9 @@ script = ExtResource( 43 )
 
 [node name="PreJump" type="Node" parent="StateTree"]
 script = ExtResource( 39 )
+
+[node name="Hadouken" type="Node" parent="StateTree"]
+script = ExtResource( 47 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

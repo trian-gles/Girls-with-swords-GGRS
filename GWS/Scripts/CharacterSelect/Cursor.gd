@@ -74,18 +74,27 @@ func _input(event):
 			
 		else:
 			position.x -= portraitOffset.x
-		
-	if(event.is_action_pressed("ui_accept") and not event.is_echo()):
-		if(CharacterSelectionManager.playerone == null):
-			CharacterSelectionManager.playerone = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
-			texture = player2Text
-		else:
-			CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
-			print(CharacterSelectionManager.playertwo)
-			print(CharacterSelectionManager.playerone)
 			
-			active = false
-			emit_signal("CharacterSelected")
+			
+	var p1keys = ["p","k","s"]
+	var p2keys = ["pb","kb","sb"]
+	
+	if(CharacterSelectionManager.playerone == null):
+		for i in range(len(p1keys)):
+			if(event.is_action_pressed(p1keys[i]) and not event.is_echo()):
+				CharacterSelectionManager.p1color = i
+				CharacterSelectionManager.playerone = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
+				texture = player2Text
 
+	if(CharacterSelectionManager.playerone != null):
+		for i in range(len(p2keys)):
+			if(event.is_action_pressed(p2keys[i]) and not event.is_echo()):
+				CharacterSelectionManager.p2color = i
+				CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
+				print(CharacterSelectionManager.playertwo)
+				print(CharacterSelectionManager.playerone)
 			
+				active = false
+				emit_signal("CharacterSelected")
+
 		

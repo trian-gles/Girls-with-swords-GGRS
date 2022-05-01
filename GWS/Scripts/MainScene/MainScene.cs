@@ -93,19 +93,21 @@ public class MainScene : Node2D
 		Node CharacterSelect = GetNode("/root/CharacterSelectionManager");
 		PackedScene playerone = (PackedScene)CharacterSelect.Get("playerone");
 		PackedScene playertwo = (PackedScene)CharacterSelect.Get("playertwo");
+		int p1color = (int)CharacterSelect.Get("p1color");
+		int p2color = (int)CharacterSelect.Get("p2color");
 		//p1
 		P1 = playerone.Instance() as Player;
 		
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
-		P1.colorScheme = 0;		
+		P1.colorScheme = p1color;		
 		AddChild(P1);
 		MoveChild(P1, 4);
 		//p2
 		P2 = playertwo.Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
-		P2.colorScheme = 0;
+		P2.colorScheme = p2color;
 		AddChild(P2);
 		MoveChild(P2, 5);
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL Gray 4-30.png" type="Texture" id=2]
@@ -4809,6 +4809,24 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( -1, 0 ), Vector2( 0.5, 0 ) ]
 }
 
+[sub_resource type="Animation" id=39]
+resource_name = "Stagger"
+length = 24.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 19, 24 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 236, 239, 239 ]
+}
+
 [sub_resource type="Animation" id=37]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -4941,6 +4959,23 @@ tracks/10/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 0 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "Tinder"
+length = 60.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 17, 60 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 215, 225, 235 ]
 }
 
 [sub_resource type="Animation" id=38]
@@ -5084,7 +5119,7 @@ script = ExtResource( 6 )
 speed = 200
 dashSpeed = 500
 jumpForce = 900
-shaders = [ ExtResource( 3 ) ]
+shaders = [ ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
@@ -5102,7 +5137,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 30, -38 )
+position = Vector2( 44, 28 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5116,7 +5151,7 @@ material = SubResource( 2 )
 position = Vector2( 0, -30 )
 texture = ExtResource( 2 )
 hframes = 240
-frame = 130
+frame = 235
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -5217,6 +5252,8 @@ anims/PreRun = SubResource( 33 )
 anims/RESET = SubResource( 34 )
 anims/Run = SubResource( 35 )
 anims/Slash = SubResource( 36 )
+anims/Stagger = SubResource( 39 )
 anims/Tech = SubResource( 37 )
+anims/Tinder = SubResource( 40 )
 anims/Walk = SubResource( 38 )
 script = ExtResource( 5 )

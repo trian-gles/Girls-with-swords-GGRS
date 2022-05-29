@@ -93,7 +93,7 @@ public abstract class State : Node
 
 	protected void ApplyGravity()
 	{
-		owner.velocity.y += owner.gravity;
+		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1400);
 	}
 	public virtual void AnimationFinished() 
 	{

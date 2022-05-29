@@ -5271,16 +5271,17 @@ modulate = Color( 1, 0, 0, 1 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( 4, 0 )
 hframes = 240
 frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
 level = 3
-modifiedHitStun = 40
-modifiedCounterHitStun = 60
-opponentLaunch = Vector2( 0, -600 )
+modifiedHitStun = 26
+modifiedCounterHitStun = 50
+opponentLaunch = Vector2( 0, -700 )
+chLaunch = Vector2( 0, -1200 )
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
@@ -5296,27 +5297,15 @@ launchFrame = 7
 releaseFrame = 20
 
 [node name="Kick" parent="StateTree" index="26"]
-level = 1
 modifiedHitStun = 22
-opponentLaunch = Vector2( 0, -500 )
-
-[node name="Slash" parent="StateTree" index="27"]
-level = 2
+opponentLaunch = Vector2( 0, -600 )
 
 [node name="JumpB" parent="StateTree" index="29"]
-level = 1
 modifiedHitStun = 17
 
 [node name="JumpC" parent="StateTree" index="30"]
-level = 2
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
-
-[node name="CrouchB" parent="StateTree" index="32"]
-level = 1
-
-[node name="CrouchC" parent="StateTree" index="33"]
-level = 2
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
@@ -5324,6 +5313,7 @@ level = 3
 modifiedHitStun = 35
 modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 0, 1200 )
+chLaunch = Vector2( 0, 1600 )
 hitPush = 3500
 height = 2
 effect = 1

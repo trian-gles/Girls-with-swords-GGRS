@@ -54,16 +54,16 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 16, 41 )
+extents = Vector2( 19, 28 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 11, 16 )
+extents = Vector2( 8, 4 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 10, 9 )
+extents = Vector2( 12, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -269,9 +269,11 @@ script = ExtResource( 22 )
 
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
+level = 1
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 28 )
+level = 2
 chEffect = 3
 
 [node name="JumpA" type="Node" parent="StateTree"]
@@ -280,10 +282,12 @@ height = 2
 
 [node name="JumpB" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
+level = 1
 height = 2
 
 [node name="JumpC" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
+level = 2
 height = 2
 chEffect = 3
 
@@ -292,10 +296,12 @@ script = ExtResource( 17 )
 
 [node name="CrouchB" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
+level = 1
 height = 0
 
 [node name="CrouchC" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
+level = 2
 opponentLaunch = Vector2( 0, -400 )
 height = 0
 knockdown = true

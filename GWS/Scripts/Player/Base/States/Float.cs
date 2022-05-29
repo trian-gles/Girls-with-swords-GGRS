@@ -18,6 +18,13 @@ public class Float : HitStun
 		//GD.Print($"Stun remaining for float = {stunRemaining}");
 	}
 
+	public override void ReceiveStunDamage(Globals.AttackDetails details)
+	{
+		GD.Print($"Float stun before increase = {details.hitStun}");
+		details.hitStun += 4;
+		base.ReceiveStunDamage(details);
+	}
+
 	/// <summary>
 	/// I have to override this because float always goes into float!
 	/// </summary>
@@ -35,7 +42,7 @@ public class Float : HitStun
 
 		if (launch.y == 0)
 		{
-			owner.velocity.y = -400;
+			owner.velocity.y = -438;
 		}
 
 

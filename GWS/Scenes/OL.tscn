@@ -4011,7 +4011,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 4, 5 ),
+"times": PoolRealArray( 0, 3, 4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 19, 28 ), Vector2( 19, 28 ), Vector2( 19, 28 ) ]
@@ -4035,7 +4035,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 4, 5 ),
+"times": PoolRealArray( 0, 3, 4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -4, -1 ), Vector2( -4, -1 ), Vector2( -10, 2 ) ]
@@ -4047,7 +4047,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 6, 17 ),
+"times": PoolRealArray( 0, 4, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4059,7 +4059,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 6, 17 ),
+"times": PoolRealArray( 0, 4, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4071,7 +4071,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 6 ),
+"times": PoolRealArray( 4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 12, 9 ) ]
@@ -4083,7 +4083,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 6 ),
+"times": PoolRealArray( 4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 15, 3 ) ]
@@ -4095,7 +4095,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 6, 16 ),
+"times": PoolRealArray( 4, 16 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 8, 4 ), Vector2( 8, 4 ) ]
@@ -4107,7 +4107,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 6, 16 ),
+"times": PoolRealArray( 4, 16 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 14, -1 ), Vector2( 14, -1 ) ]
@@ -6084,10 +6084,10 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 13, 17 )
+position = Vector2( 14, -1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 2, -16 )
+position = Vector2( 15, 3 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -2, -31 )
@@ -6095,7 +6095,7 @@ position = Vector2( -2, -31 )
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 offset = Vector2( 10, 0 )
-frame = 32
+frame = 56
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -6140,24 +6140,8 @@ knockdown = true
 [node name="DoubleJump" parent="StateTree" index="23"]
 script = ExtResource( 20 )
 
-[node name="Kick" parent="StateTree" index="28"]
-level = 1
-
-[node name="Slash" parent="StateTree" index="29"]
-level = 2
-
 [node name="JumpB" parent="StateTree" index="31"]
-level = 1
 hitPush = 3500
-
-[node name="JumpC" parent="StateTree" index="32"]
-level = 2
-
-[node name="CrouchB" parent="StateTree" index="34"]
-level = 1
-
-[node name="CrouchC" parent="StateTree" index="35"]
-level = 2
 
 [node name="Hadouken" parent="StateTree" index="41"]
 hadoukenScene = ExtResource( 12 )

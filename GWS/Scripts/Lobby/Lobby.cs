@@ -151,8 +151,7 @@ public class Lobby : Node2D
 		GetNode<Control>("MenuRoot").Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
-		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
-		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible = true)
+		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible == true)
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}

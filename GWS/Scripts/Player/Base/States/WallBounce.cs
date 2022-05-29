@@ -17,6 +17,22 @@ public class WallBounce : Float
 		base.Enter();
 		bounced = false;
 		owner.velocity.x = CalcXVel();
+		if (Math.Abs(owner.velocity.x) < 200)
+		{
+			int sign = Math.Sign(owner.velocity.x);
+			owner.velocity.x = 200;
+			if (sign != 0)
+				owner.velocity.x *= sign;
+			GD.Print("Lower than min vel");
+		}
+		
+		GD.Print($"Wallbounce with vel {owner.velocity.x}");
+		//if (owner.CheckTouchingWall())
+		//{
+		//	owner.velocity.x *= -1;
+		//}
+		
+			
 	}
 	public override void Load(Dictionary<string, int> loadData)
 	{

@@ -9,6 +9,20 @@ public class Jump : AirState
 	public override void _Ready()
 	{
 		base._Ready();
+
+		// AIRGRAB
+		AddGatling(new[] { 's', 'p' },
+			() =>
+			{
+				GD.Print("Checking for airgrab");
+				GD.Print($"y close enough =  {Mathf.Abs(owner.internalPos.y - owner.otherPlayer.internalPos.y) < 3500}");
+
+				return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500
+				&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 1500
+				&& owner.internalPos.y - owner.otherPlayer.internalPos.y > 0
+				&& owner.otherPlayer.IsAirGrabbable());
+			}, "AirGrab");
+
 		// ATTACKS
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
@@ -44,15 +58,17 @@ public class Jump : AirState
 		// DOUBLE JUMP
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
-			owner.velocity.x = owner.speed;
+			owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
-			owner.velocity.x = -owner.speed;
+			owner.velocity.x = Math.Min(owner.speed, -owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+
+		
 	}
 	public override void Enter()
 	{

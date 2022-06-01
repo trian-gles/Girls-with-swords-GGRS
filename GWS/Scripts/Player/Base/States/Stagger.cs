@@ -4,12 +4,11 @@ using System;
 public class Stagger : HitStun
 {
 	[Export]
-	public int dur = 30;
+	public int dur = 40;
 	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
-		animationName = "HitStun";
 	}
 
 	/// <summary>

@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -49,15 +49,16 @@
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
 [ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
 [ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
+[ext_resource path="res://Scripts/Player/Base/States/AirGrab.cs" type="Script" id=50]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 19, 28 )
+extents = Vector2( 15, 29 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 8, 4 )
+extents = Vector2( 7, 7 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
@@ -331,6 +332,9 @@ script = ExtResource( 48 )
 
 [node name="Stagger" type="Node" parent="StateTree"]
 script = ExtResource( 49 )
+
+[node name="AirGrab" type="Node" parent="StateTree"]
+script = ExtResource( 50 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

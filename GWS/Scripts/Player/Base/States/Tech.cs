@@ -27,7 +27,7 @@ public class Tech : Fall
 
 	public override void HandleInput(char[] inputArr)
 	{
-		if (frameCount == 0)
+		if (frameCount == 0 && !owner.grounded)
 		{
 			if (inputArr.SequenceEqual(new char[] { '6', 'p' }))
 			{

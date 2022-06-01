@@ -851,6 +851,22 @@ public class Player : Node2D
 		}
 	}
 
+	public bool IsAirGrabbable()
+	{
+		if (currentState.GetType().IsSubclassOf(typeof(HitState)))
+		{
+			return false;
+		}
+		else if (grounded)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
@@ -871,12 +887,13 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
-		GD.Print("HIT DURING ", currentState.Name, currentState.isCounter);
+		//GD.Print("HIT DURING ", currentState.Name, currentState.isCounter);
 		if (currentState.isCounter)
 		{
 			receivedHit = chDetails;
-			GD.Print("COUNTER");
+			//GD.Print("COUNTER");
 		}
+		velocity = new Vector2(0, 0);
 		wasHit = true;
 	}
 

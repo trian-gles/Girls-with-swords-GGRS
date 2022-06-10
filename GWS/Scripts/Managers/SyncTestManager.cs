@@ -42,11 +42,15 @@ class SyncTestManager : BaseManager
 	[Export]
 	public int DEPTH = 3;
 
+	private const int WAITBEFORECHANGEMAX = 12;
+	private int waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
+	private bool readyForChange = false;
+
 	public FixedSizedQueue<byte[]> serializedStates;
 	public FixedSizedQueue<int[]> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private int frame = 0;
+	
 
 	public override void _Ready()
 	{
@@ -58,6 +62,13 @@ class SyncTestManager : BaseManager
 	public override void _PhysicsProcess(float _delta)
 	{
 		int[] combinedInps;
+		frame++;
+		if (readyForChange && --waitBeforeChangeFrames < 0)
+		{
+			OnGameFinished("Game");
+			readyForChange = false;
+		}
+			
 
 		if (currGame.AcceptingInputs())
 			combinedInps = new int[] { GetInputs(""), GetInputs("b") };
@@ -66,7 +77,6 @@ class SyncTestManager : BaseManager
 		
 		currGame.AdvanceFrame(combinedInps[0], combinedInps[1]);
 		byte[] serializedGamestate = currGame.SaveState(frame);
-
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
@@ -76,10 +86,9 @@ class SyncTestManager : BaseManager
 
 		if (!pastInputAcceptance[0]) // as this frame was not accepting inputs, we do not need to and should not test rolling back from it
 		{
-			GD.Print("Ignoring rollback as it would break stuff!");
 			return;
 		}
-
+		
 		currGame.LoadState(frame - (DEPTH), serializedStates[0], 0);
 
 		for (int i = 1; i < DEPTH + 1; i++)
@@ -89,5 +98,17 @@ class SyncTestManager : BaseManager
 			currGame.AdvanceFrame(tempInputs[0], tempInputs[1]);
 		}
 		currGame.CompareStates(serializedGamestate);
+	}
+
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	{
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		ReadyForChange();
+	}
+
+	private void ReadyForChange()
+	{
+		readyForChange = true;
+		waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
 	}
 }

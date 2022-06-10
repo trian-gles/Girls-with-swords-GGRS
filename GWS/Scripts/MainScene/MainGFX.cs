@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MainGFX : Node
 {
-	private int lastLevelUp = 0;
+	private int lastLevelUp = -100;
 	private List<Sprite> ghosts = new List<Sprite>();
 	private PackedScene dashGhost = (PackedScene) ResourceLoader.Load("res://Scenes/DashGhost.tscn");
 	private Dictionary<string, PackedScene> particleSprites = new Dictionary<string, PackedScene>();
@@ -32,6 +32,7 @@ public class MainGFX : Node
 
 	public void LevelUp(int frame)
 	{
+		GD.Print("level up bitch");
 		GetNode<Node2D>("Stages").Call("level_up");
 		lastLevelUp = frame;
 	}

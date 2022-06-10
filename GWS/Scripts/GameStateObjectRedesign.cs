@@ -111,38 +111,14 @@ public class GameStateObjectRedesign : Node
 
 		return gState;
 	}
-	private StreamPeerBuffer SerializeGamestate(GameState gameState)
-	{
-		
-		byte[] arr = Serialize(gameState);
-
-		
-
-		var stream = new StreamPeerBuffer();
-		stream.Clear();
-		stream.Put32(0); // for the checksum
-		stream.Put32(arr.Length); // to know how much data to pull out
-
-		foreach (byte b in arr)
-		{
-			stream.PutU8(b);
-		}
-
-		int checkSum = CalcFletcher32(stream);
-		stream.Seek(0);
-		stream.Put32(checkSum);
-
-		return stream;
-
-	}
 
 	/// <summary>
 	/// Return the serialized game state for GGPO to hold on to
 	/// </summary>
 	/// <returns></returns>
-	public StreamPeerBuffer SaveGameState()
+	public byte[] SaveGameState()
 	{
-		return SerializeGamestate(GetGameState());
+		return Serialize<GameState>(GetGameState());
 	}
 	private int CalcFletcher32(StreamPeerBuffer stream)
 	{
@@ -263,29 +239,14 @@ public class GameStateObjectRedesign : Node
 		CleanupHadoukens();
 
 	}
-	private GameState DeserializeGamestate(StreamPeerBuffer stream)
-	{
-		stream.Seek(0);
-		stream.Get32();
-		int length = stream.Get32();
-		byte[] arr = new byte[length];
-		for (int i = 0; i < length; i++)
-		{
-			arr[i] = stream.GetU8();
-		}
-
-		var retrievedGamestate = Deserialize<GameState>(arr);
-
-		return retrievedGamestate;
-	}
 
 	/// <summary>
 	/// Load the game state provided by GGPO
 	/// </summary>
 	/// <param name="stream"></param>
-	public void LoadGameState(StreamPeerBuffer stream)
+	public void LoadGameState(byte[] stream)
 	{
-		SetGameState(DeserializeGamestate(stream));
+		SetGameState(Deserialize<GameState>(stream));
 	}
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)

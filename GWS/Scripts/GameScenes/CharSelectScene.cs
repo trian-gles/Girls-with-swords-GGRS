@@ -32,7 +32,7 @@ public class CharSelectScene : BaseGame
 	private int p1Color;
 	private int p2Color;
 	private int[] lastInputs;
-	private int extraFrames = 10;
+	private int extraFrames = 12;
 
 	[Serializable]
 	private struct GameState
@@ -143,12 +143,6 @@ public class CharSelectScene : BaseGame
 			}
 		}
 		lastInputs = combinedInputs;
-
-		if (p1Selected && p2Selected)
-		{
-			if (--extraFrames < 0)
-				EmitSignal("Finished", "Game");
-		}
 	}
 
 	/// <summary>

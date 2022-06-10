@@ -5619,7 +5619,6 @@ visible = true
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 2, 10 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5643,7 +5642,6 @@ modulate = Color( 1, 0, 0, 1 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
 hframes = 240
 frame = 149
 

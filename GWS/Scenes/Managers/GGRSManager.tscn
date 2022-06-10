@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Managers/BaseManager.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Managers/GGRSManager.cs" type="Script" id=2]
+[ext_resource path="res://GodotGGRS.gdns" type="Script" id=3]
+[ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Scenes/Games/CharSelectScreen.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 4 )
+
+[node name="GGRSManager" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+gameMapping = {
+"CharacterSelect": ExtResource( 5 )
+}
+
+[node name="StatsText" type="Label" parent="." index="0"]
+margin_right = 40.0
+margin_bottom = 14.0
+theme = SubResource( 1 )
+text = "Ping:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GodotGGRS" type="Node" parent="." index="1"]
+script = ExtResource( 3 )

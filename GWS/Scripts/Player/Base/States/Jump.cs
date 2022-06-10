@@ -14,8 +14,8 @@ public class Jump : AirState
 		AddGatling(new[] { 's', 'p' },
 			() =>
 			{
-				GD.Print("Checking for airgrab");
-				GD.Print($"y close enough =  {Mathf.Abs(owner.internalPos.y - owner.otherPlayer.internalPos.y) < 3500}");
+				//GD.Print("Checking for airgrab");
+				//GD.Print($"y close enough =  {Mathf.Abs(owner.internalPos.y - owner.otherPlayer.internalPos.y) < 3500}");
 
 				return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500
 				&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 1500

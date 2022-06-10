@@ -8,11 +8,11 @@ using System.Linq;
 /// <summary>
 /// This object controls all the actual management of gameplay, and passes this information to GGPO
 /// </summary>
-public class GameStateObject : Node
+public class GameStateObjectRedesign : Node
 {
 	public Player P1;
 	public Player P2;
-	private MainScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
+	private GameScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
 
 	[Signal]
 	public delegate void LevelUp();
@@ -50,7 +50,7 @@ public class GameStateObject : Node
 
 	private Dictionary<string, HadoukenPart> hadoukens;
 	private List<HadoukenPart> deleteQueued;
-	public void config(Player P1, Player P2, MainScene mainScene, bool hosting)
+	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
 	{
 		GD.Print("Starting GameState config");
 		this.P1 = P1;

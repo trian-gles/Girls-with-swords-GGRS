@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Scenes/InputMap/InputMapper.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/InputMapper.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/InGameMenu/InputMap/KeySelectMenu.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/InGameMenu/InputMap/ActionList.gd" type="Script" id=4]

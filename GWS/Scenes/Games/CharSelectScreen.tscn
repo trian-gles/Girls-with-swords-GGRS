@@ -1,23 +1,25 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Sprites/Character Potraits/OL Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Character Potraits/ScenesOLBlink.tres" type="Animation" id=2]
-[ext_resource path="res://Sprites/CharacterSelect/SelectionCursorPlayer2.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/CharacterSelect/SelectionCursorPlayer1.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/CharacterSelect/Curors1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/CharacterSelect/Curors2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Character Potraits/GL Sheet.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Character Potraits/GLBlink.tres" type="Animation" id=6]
-[ext_resource path="res://Scripts/CharacterSelect/Cursor.gd" type="Script" id=7]
+[ext_resource path="res://Sprites/CharacterSelect/Curors3.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL2.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL3.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL3.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL1.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL2.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL1.png" type="Texture" id=13]
-[ext_resource path="res://Scripts/CharacterSelect/CharacterSelectScreen.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://Sprites/Character Potraits/CharacterSelectScreenAnimation.tres" type="AnimationNodeStateMachine" id=17]
 [ext_resource path="res://Sprites/Shaders/white.shader" type="Shader" id=18]
+[ext_resource path="res://Scenes/GL.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/OL.tscn" type="PackedScene" id=20]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 16 )
@@ -50,7 +52,7 @@ frame_2/delay_sec = 0.0
 resource_name = "CursorFadeIn"
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cursor:scale")
+tracks/0/path = NodePath("P1Cursor:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -62,7 +64,7 @@ tracks/0/keys = {
 "values": [ Vector2( 10, 10 ), Vector2( 2.5, 2.5 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Cursor:modulate")
+tracks/1/path = NodePath("P1Cursor:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -74,7 +76,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Cursor:active")
+tracks/2/path = NodePath("P1Cursor:active")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -143,7 +145,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Cursor:modulate")
+tracks/1/path = NodePath("P1Cursor:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -191,7 +193,7 @@ tracks/4/keys = {
 "values": [ 2 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Cursor:active")
+tracks/5/path = NodePath("P1Cursor:active")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -233,7 +235,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=10]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Cursor:active")
+tracks/0/path = NodePath("P1Cursor:active")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -247,31 +249,26 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=11]
 
-[node name="Control" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 0.246551
-margin_right = 0.246552
+[node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+P1Texture = ExtResource( 3 )
+BothTexture = ExtResource( 7 )
+OLScene = ExtResource( 20 )
+GLScene = ExtResource( 19 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-
-[node name="Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 185.835, 143.717 )
+position = Vector2( 185, 143.717 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
 texture = ExtResource( 4 )
-script = ExtResource( 7 )
-player1Text = ExtResource( 4 )
-player2Text = ExtResource( 3 )
-portraitOffset = Vector2( 100, 100 )
+
+[node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 185, 143.717 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 3 )
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
 visible = false

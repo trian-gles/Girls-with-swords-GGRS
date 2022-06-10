@@ -24,11 +24,13 @@ public class GameScene : BaseGame
 	private Node GGRS;
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
+	private int frame;
 
 	private Dictionary<string, PackedScene> characterMap = new Dictionary<string, PackedScene>();
 
-	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting)
+	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
 	{
+		this.frame = frame;
 
 		//p1
 		P1 = playerOne.Instance() as Player;
@@ -99,15 +101,13 @@ public class GameScene : BaseGame
 
 	public override byte[] SaveState(int frame)
 	{
-		return gsObj.SaveGameState().DataArray;
+		return gsObj.SaveGameState();
 	}
 
 	public override void LoadState(int frame, byte[] buffer, int checksum)
 	{
 		// GD.Print($"rollback from frame {gsObj.Frame} to frame {frame}");
-		var buf = new StreamPeerBuffer();
-		buf.DataArray = buffer;
-		gsObj.LoadGameState(buf);
+		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
 	}
 

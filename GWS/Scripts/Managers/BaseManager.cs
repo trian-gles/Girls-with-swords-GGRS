@@ -22,6 +22,7 @@ class BaseManager : Node2D
 
 	PackedScene playerOne, playerTwo;
 	int colorOne, colorTwo;
+	protected int frame = 0;
 
 	public override void _Ready()
 	{
@@ -50,10 +51,10 @@ class BaseManager : Node2D
 		AddChild(currGame);
 		currGame.Connect("Finished", this, nameof(OnGameFinished));
 		if (currGame.Name == "GameScene") // I HATE THE WAY THIS LOOKS
-			((GameScene)currGame).config(playerOne, playerTwo, colorOne, colorTwo, hosting);
+			((GameScene)currGame).config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame);
 	}
 
-	public void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	public virtual void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
 	{
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;

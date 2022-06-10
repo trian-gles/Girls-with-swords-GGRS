@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
 [ext_resource path="res://Themes/startmenu.theme" type="Theme" id=9]
 [ext_resource path="res://Scenes/Managers/LocalManager.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Managers/TrainingManager.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Managers/GGRSManager.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Managers/SyncTestManager.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -75,9 +78,14 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Lobby" type="Node2D"]
+[node name="LobbyRedesign" type="Node2D"]
+position = Vector2( 1, 0 )
 script = ExtResource( 1 )
+syncTest = true
 localManager = ExtResource( 10 )
+trainingManager = ExtResource( 11 )
+ggrsManager = ExtResource( 12 )
+syncTestManager = ExtResource( 13 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
 layer = 9

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class LobbyRedesign : Node2D
+public class Lobby : Node2D
 {
 	Control menuroot;
 	MarginContainer mainmenu;
@@ -17,7 +17,19 @@ public class LobbyRedesign : Node2D
 
 	[Export]
 	public bool syncTest = false;
-	
+
+	[Export]
+	public PackedScene localManager;
+
+	[Export]
+	public PackedScene trainingManager;
+
+	[Export]
+	public PackedScene ggrsManager;
+
+	[Export]
+	public PackedScene syncTestManager;
+
 	public bool host = false;
 	
 	public override void _Ready()
@@ -36,21 +48,33 @@ public class LobbyRedesign : Node2D
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 
 		if (syncTest)
-			OnSyncTestButtonDown();
+			syncTestBegin();
 	}
+
+	private void syncTestBegin()
+    {
+		var syncTestScene = syncTestManager.Instance<SyncTestManager>();
+		AddChild(syncTestScene);
+		HideButtons();
+	}
+
 	//netplay buttons
 	public void OnHostButtonDown()
-	{	
-		Globals.mode = Globals.Mode.GGPO;
-		CharacterSelect(true);
-//		Begin(true);
+	{
+		string ip = "127.0.0.1";
+		var ggrsScene = ggrsManager.Instance<GGRSManager>();
+		AddChild(ggrsScene);
+		HideButtons();
+		ggrsScene.Config(ip, true);
 	}
 
 	public void OnJoinButtonDown()
 	{
-		Globals.mode = Globals.Mode.GGPO;
-		CharacterSelect(false);
-//		Begin(false);
+		string ip = "127.0.0.1";
+		var ggrsScene = ggrsManager.Instance<GGRSManager>();
+		AddChild(ggrsScene);
+		HideButtons();
+		ggrsScene.Config(ip, false);
 	}
 
 	public void OnHostTestButtonDown()
@@ -68,15 +92,18 @@ public class LobbyRedesign : Node2D
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		
+		var localScene = localManager.Instance<LocalManager>();
+		AddChild(localScene);
+		HideButtons();
 	}
 
 	public void OnTrainingButtonDown()
 	{
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
-		CharacterSelect(true);
-//		Begin(true);
+		var trainingScene = trainingManager.Instance<TrainingManager>();
+		AddChild(trainingScene);
+		HideButtons();
 	}
 	
 	public void CharacterSelect(bool hosting)

@@ -18,7 +18,11 @@ public class Landing : State
 	//{
 	//	return true;
 	//}
-
+	public override void Enter()
+    {
+		base.Enter();
+		owner.canDoubleJump = true;
+	}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();

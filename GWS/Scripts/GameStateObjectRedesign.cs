@@ -215,15 +215,18 @@ public class GameStateObjectRedesign : Node
 	private void SetGameState(GameState gState)
 	{
 		Frame = gState.frame;
-		//GD.Print($"Rolling back to frame {Frame}");
+		// GD.Print($"Rolling back to frame {Frame}");
 		Globals.frame = Frame;
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
+		// GD.Print($"Rolling back to frame {Frame}");
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
+			// GD.Print($"Loading state for hadouken {hState.name}");
 			if (hadoukens.ContainsKey(hState.name))
 			{
+				// GD.Print($"Rolling back {hState.name} to frame {Frame}");
 				hadoukens[hState.name].SetState(hState);
 			}
 		}
@@ -233,6 +236,7 @@ public class GameStateObjectRedesign : Node
 
 			if (thisHadouken.creationFrame > Frame)
 			{
+				// GD.Print($"deleting hadouken created on frame {thisHadouken.creationFrame}");
 				deleteQueued.Add(thisHadouken);
 			}
 		}
@@ -423,6 +427,7 @@ public class GameStateObjectRedesign : Node
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{
 		hadoukens.Remove(h.Name);
+		h.RemoveNum();
 		h.QueueFree();
 		mainScene.RemoveChild(h);
 		
@@ -430,7 +435,7 @@ public class GameStateObjectRedesign : Node
 	public void NewHadouken(HadoukenPart h)
 	{
 		hadoukens.Add(h.Name, h); 
-		//GD.Print($"New hadouken on frame {Frame}");
+		GD.Print($"New hadouken on frame {Frame}");
 		h.creationFrame = Frame;
 	}
 

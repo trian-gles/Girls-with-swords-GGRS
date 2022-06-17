@@ -5,39 +5,40 @@ using System.Collections.Generic;
 public class AudioStreamPlayer : Godot.AudioStreamPlayer
 {
 
-	private Dictionary<string, AudioStream> soundDict = new Dictionary<string, AudioStream>();
-	int timeSinceLastSound = 0;
+	private Dictionary<string, Sound> soundDict = new Dictionary<string, Sound>();
 
+	class Sound { public AudioStream audio; public int lastPlayedFrame; }
+
+	private void AddSound(string name, AudioStream stream)
+    {
+		soundDict.Add(name, new Sound() { audio = stream , lastPlayedFrame = - 1000});
+
+	}
 	public override void _Ready()
 	{
-		soundDict.Add("HitStun", LoadAudio("res://Sounds/hit.ogg"));
-		soundDict.Add("Block", LoadAudio("res://Sounds/block.ogg"));
-		soundDict.Add("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
-		soundDict.Add("Jump", LoadAudio("res://Sounds/jump.ogg"));
-		soundDict.Add("MovingJump", LoadAudio("res://Sounds/jump.ogg"));
-		soundDict.Add("Step", LoadAudio("res://Sounds/walk.ogg"));
-		soundDict.Add("Backdash", LoadAudio("res://Sounds/dash.ogg"));
-		soundDict.Add("Hadouken", LoadAudio("res://Sounds/hadouken.ogg"));
-		soundDict.Add("Landing", LoadAudio("res://Sounds/landing.ogg"));
-		soundDict.Add("Whiff", LoadAudio("res://Sounds/whiff.ogg"));
-	}
-
-	public void TimeAdvance()
-	{
-		timeSinceLastSound--;
-		timeSinceLastSound = Math.Max(0, timeSinceLastSound);
+		AddSound("HitStun", LoadAudio("res://Sounds/hit.ogg"));
+		AddSound("Block", LoadAudio("res://Sounds/block.ogg"));
+		AddSound("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
+		AddSound("Jump", LoadAudio("res://Sounds/jump.ogg"));
+		AddSound("MovingJump", LoadAudio("res://Sounds/jump.ogg"));
+		AddSound("Step", LoadAudio("res://Sounds/walk.ogg"));
+		AddSound("Backdash", LoadAudio("res://Sounds/dash.ogg"));
+		AddSound("Hadouken", LoadAudio("res://Sounds/hadouken.ogg"));
+		AddSound("Landing", LoadAudio("res://Sounds/landing.ogg"));
+		AddSound("Whiff", LoadAudio("res://Sounds/whiff.ogg"));
 	}
 	public void PlaySound(string name)
 	{
-		// will prevent double sounds on rollback
-		if (timeSinceLastSound > 0)
-		{
+		Sound queuedSound = soundDict[name];
+		int frame = Globals.frame;
+		if (frame < queuedSound.lastPlayedFrame + 10)
+        {
 			return;
 		}
 
-		Stream = soundDict[name];
+		Stream = queuedSound.audio;
 		Play();
-		timeSinceLastSound = 5;
+		queuedSound.lastPlayedFrame = frame;
 	}
 
 	private AudioStream LoadAudio(string path)

@@ -246,6 +246,7 @@ public class GameStateObject : Node
 		P2.SetState(gState.P2State);
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
+			GD.Print($"Loading state for hadouken {hState.name}");
 			if (hadoukens.ContainsKey(hState.name))
 			{
 				hadoukens[hState.name].SetState(hState);

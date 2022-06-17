@@ -29,7 +29,6 @@ class BaseManager : Node2D
 		GD.Print(gameMapping["CharacterSelect"]);
 		currGame = gameMapping["CharacterSelect"].Instance() as BaseGame;
 		AddChild(currGame);
-		currGame.Connect("Finished", this, nameof(OnGameFinished));
 		currGame.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
 	}
 
@@ -49,9 +48,21 @@ class BaseManager : Node2D
 		var nextGame = gameMapping[nextGameName];
 		currGame = nextGame.Instance() as BaseGame;
 		AddChild(currGame);
-		currGame.Connect("Finished", this, nameof(OnGameFinished));
-		if (currGame.Name == "GameScene") // I HATE THE WAY THIS LOOKS
+		if (nextGameName == "Game") // I HATE THE WAY THIS LOOKS
+		{
+			currGame.Connect("RoundFinished", this, nameof(OnRoundFinished));
 			((GameScene)currGame).config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame);
+		}
+			
+	}
+
+	/// <summary>
+	/// Eventually this should handle keeping score
+	/// </summary>
+	/// <param name="winner"></param>
+	public virtual void OnRoundFinished(string winner)
+	{
+		
 	}
 
 	public virtual void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)

@@ -11,3 +11,4 @@ gameMapping = {
 "CharacterSelect": ExtResource( 5 ),
 "Game": ExtResource( 3 )
 }
+DEPTH = 8

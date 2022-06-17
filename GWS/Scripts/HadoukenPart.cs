@@ -60,7 +60,9 @@ public class HadoukenPart : Node2D
 
 	public int creationFrame;
 
-	static private int totalHads;
+	static private HashSet<int> hadoukenNums = new HashSet<int>();
+
+	private int num;
 
 
 	public override void _Ready()
@@ -106,8 +108,20 @@ public class HadoukenPart : Node2D
 		{
 			GetNode<AnimatedSprite>("AnimatedSprite").FlipH = true;
 		}
-		Name = "Had" + totalHads.ToString(); // provides a unique name for each hadouken that can be accessed by the gamestateobj
-		totalHads += 1;
+
+		int i = 0;
+
+		while (hadoukenNums.Contains(i))
+			i++;
+
+		hadoukenNums.Add(i);
+		Name = "Had" + i.ToString(); // provides a unique name for each hadouken that can be accessed by the gamestateobj
+		num = i;
+	}
+
+	public void RemoveNum()
+	{
+		hadoukenNums.Remove(num);
 	}
 
 	[Serializable]
@@ -119,17 +133,23 @@ public class HadoukenPart : Node2D
 		public int frame { get; set; }
 	}
 	
-	public void FrameAdvance()
+	public void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
-		if (movingRight)
+		if (frame > 0)
 		{
-			Position += speed;
-		}
+			if (movingRight)
+			{
+				Position += speed;
+			}
 
-		else
-		{
-			Position -= speed;
+			else
+			{
+				Position -= speed;
+			}
+			// GD.Print($"Moving {Name} to X position {Position.x} on global frame {Globals.frame}, hadouken frame {frame}");
 		}
+		
+		
 
 		if (Position.x > 600 || Position.x < -200) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
 		{
@@ -224,6 +244,7 @@ public class HadoukenPart : Node2D
 		active = newState.active;
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
 		frame = newState.frame;
+		// GD.Print($"Loading hadouken state: frame {frame} position {Position.x}");
 	}
 
 	

@@ -354,6 +354,7 @@ position = Vector2( 10, -50 )
 
 [node name="EventScheduler" type="Node" parent="."]
 script = ExtResource( 31 )
+frameDelay = 10
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler"]
 script = ExtResource( 32 )

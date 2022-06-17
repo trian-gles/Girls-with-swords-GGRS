@@ -329,8 +329,8 @@ public class Player : Node2D
 
 		//private List<char> order = new List<char>() { 's', 'k', 'p', '6', '4', ''}; consider input priority later
 
-		public int inBuf2TimerMax = 8;
-		public int inBuf2Timer = 8;
+		public int inBuf2TimerMax = 5;
+		public int inBuf2Timer = 5;
 		public List<char> heldKeys = new List<char>();
 		public State playerState;
 		/// <summary>

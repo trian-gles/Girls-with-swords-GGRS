@@ -33,7 +33,7 @@ public class Walk : MoveState
 	{
 		base.FrameAdvance();
 		owner.CheckTurnAround();
-		if (frameCount % soundRate == 0)
+		if ((frameCount - 3) % soundRate == 0)
 		{
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Step", Name);
 		}

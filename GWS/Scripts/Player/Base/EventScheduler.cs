@@ -15,6 +15,7 @@ public class EventScheduler : Node
 		public string expectedState;
 		public EventType type;
 		public int scheduledFrame;
+		public int creationFrame;
 	}
 
 	private List<Event> scheduledEvents = new List<Event>();
@@ -22,7 +23,7 @@ public class EventScheduler : Node
 
 
 	[Export]
-	public int frameDelay = 7;
+	public int frameDelay = 4;
 
 	public override void _Ready()
 	{
@@ -31,14 +32,13 @@ public class EventScheduler : Node
 
 	public void TimeAdvance()
 	{
-		audioPlay.TimeAdvance();
 	}
 
 	/// <summary>
 	/// Schedule a GFX/SFX event to take place provided rollbacks don't interfere (the past is rewritten)
 	/// </summary>
 	/// <param name="name">Either the name of the current state, or the name of the inherited state that was used to store the expected effect</param>
-	/// <param name="expectedState">The state the player SHOULD be in following the frame delay</param>
+	/// <param name="expectedState">UNUSED.  IGNORE THIS</param>
 	/// <param name="type">audio or graphic</param>
 	public void ScheduleEvent(string name, string expectedState, EventType type)
 	{
@@ -47,11 +47,15 @@ public class EventScheduler : Node
 		ev.expectedState = expectedState;
 		ev.type = type;
 		ev.scheduledFrame = Globals.frame + frameDelay;
+		ev.creationFrame = Globals.frame;
 		scheduledEvents.Add(ev);
+
+		// GD.Print($"Scheduling {name} on frame {ev.creationFrame} for frame {ev.scheduledFrame}");
 	}
 
 	public void FrameAdvance()
 	{
+		// GD.Print($"frame in event scheduler {Globals.frame}");
 		List<Event> removeEvents = new List<Event>();
 		foreach (Event @event in scheduledEvents)
 		{
@@ -69,16 +73,13 @@ public class EventScheduler : Node
 		if ((Globals.frame == @event.scheduledFrame))
 			
 		{
-			Type sType = ((Player)Owner).currentState.GetType();
-			if (sType.ToString() ==  @event.expectedState)
-			{
-				ExecuteEvent(@event);
-			}
+			ExecuteEvent(@event);
 			removeEvents.Add(@event);
 		}
 
-		else if ((Globals.frame >= @event.scheduledFrame + frameDelay))
+		else if ((Globals.frame < @event.creationFrame))
 		{
+			// GD.Print($"Removing event {@event.name}, created on frame {@event.creationFrame} scheduled for frame {@event.scheduledFrame} on frame {Globals.frame}");
 			removeEvents.Add(@event);
 		}
 	}

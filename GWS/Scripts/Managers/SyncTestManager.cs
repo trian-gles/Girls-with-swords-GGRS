@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-class SyncTestManager : BaseManager
+class SyncTestManager : StateManager
 {
 	/// <summary>
 	/// Yeah Enqueue is O(N) but whatever nerds...
@@ -42,9 +42,7 @@ class SyncTestManager : BaseManager
 	[Export]
 	public int DEPTH = 3;
 
-	private const int WAITBEFORECHANGEMAX = 12;
-	private int waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
-	private bool readyForChange = false;
+	
 
 	public FixedSizedQueue<byte[]> serializedStates;
 	public FixedSizedQueue<int[]> pastInputs;
@@ -106,9 +104,11 @@ class SyncTestManager : BaseManager
 		ReadyForChange();
 	}
 
-	private void ReadyForChange()
+	public override void OnRoundFinished(string winner)
 	{
-		readyForChange = true;
-		waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
+		base.OnRoundFinished(winner);
+		ReadyForChange();
 	}
+
+	
 }

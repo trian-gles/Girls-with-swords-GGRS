@@ -3,11 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class GGRSManager : BaseManager
+class GGRSManager : StateManager
 {
-	private const int maxWaitChangeSceneFrames = 10;
-	private int waitChangeSceneFrames = 0;
-	private bool sceneFinished = false;
 
 	// Networking Objs
 	private Node GGRS;
@@ -62,6 +59,19 @@ class GGRSManager : BaseManager
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
 	}
+
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	{
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		ReadyForChange();
+	}
+
+	public override void OnRoundFinished(string winner)
+	{
+		base.OnRoundFinished(winner);
+		ReadyForChange();
+	}
+
 	public override void _Process(float delta)
 	{
 		GGRS.Call("poll_remote_clients");
@@ -97,12 +107,9 @@ class GGRSManager : BaseManager
 			GetNetStats();
 
 		}
-		else if (currGame.IsFinished())
+		else if (!currGame.AcceptingInputs() && (bool)GGRS.Call("is_running"))
 		{
 			GGRS.Call("advance_frame", localPlayerHandle, 0);
-			TryAdvanceScene();
-
-
 		}
 		else
 		{
@@ -121,18 +128,6 @@ class GGRSManager : BaseManager
 		statsText.Text = $"Ping = {netStats[1]} \n ";
 	}
 
-	/// <summary>
-	/// For netplay we need to wait extra frames after a scene ends to make sure all rollbacks have been handled
-	/// </summary>
-	private void TryAdvanceScene()
-	{
-		if (waitChangeSceneFrames++ >= maxWaitChangeSceneFrames)
-		{
-			waitChangeSceneFrames = 0;
-			ChangeGame();
-		}
-	}
-
 	// ----------------
 	// GGRS Callbacks
 	// ----------------
@@ -148,6 +143,13 @@ class GGRSManager : BaseManager
 
 	public void ggrs_advance_frame(Godot.Collections.Array<Godot.Collections.Array> combinedInputs)
 	{
+		frame++;
+		if (readyForChange && --waitBeforeChangeFrames < 0)
+		{
+			OnGameFinished("Game");
+			readyForChange = false;
+		}
+
 		int p1Inps = (int)combinedInputs[0][2];
 		int p2Inps = (int)combinedInputs[1][2];
 		if (hosting)

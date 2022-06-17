@@ -55,9 +55,6 @@ public class CharSelectScene : BaseGame
 	[Signal]
 	public delegate void CharacterSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo);
 
-	[Signal]
-	public delegate void Finished(string nextGameName);
-
 	private List<PackedScene> characterScenes;
 
 	public override void _Ready()

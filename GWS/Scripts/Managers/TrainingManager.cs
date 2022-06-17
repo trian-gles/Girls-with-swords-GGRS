@@ -43,4 +43,15 @@ class TrainingManager : BaseManager
 		}
 			
 	}
+
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	{
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		OnGameFinished("Game");
+	}
+
+	public override void OnRoundFinished(string winner)
+	{
+		OnGameFinished("Game");
+	}
 }

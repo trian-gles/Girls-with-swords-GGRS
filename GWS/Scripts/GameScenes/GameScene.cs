@@ -396,7 +396,7 @@ public class GameScene : BaseGame
 
 	public void ResetHealth(string player)
 	{
-		OnPlayerHealthChange(player, 800);
+		OnPlayerHealthChange(player, 1600);
 
 		if (player == "P1")
 		{

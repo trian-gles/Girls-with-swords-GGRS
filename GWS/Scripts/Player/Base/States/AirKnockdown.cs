@@ -6,6 +6,12 @@ using System;
 /// </summary>
 public class AirKnockdown : Float
 {
+
+    public override void _Ready()
+    {
+        base._Ready();
+        animationName = "Float";
+    }
     public override void FrameAdvance()
     {
         frameCount++;

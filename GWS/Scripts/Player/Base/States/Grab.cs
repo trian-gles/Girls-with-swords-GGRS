@@ -32,7 +32,15 @@ public class Grab : State
     {
         base._Ready();
 		AddCancel("Idle");
-    }
+
+		isCounter = true;
+		hitDetails = Globals.attackLevels[level].hit;
+		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.opponentLaunch = launch;
+		hitDetails.hitStun = hitStun;
+		chDetails.hitStun = hitStun;
+	}
 
     public override void Enter()
 	{
@@ -85,7 +93,7 @@ public class Grab : State
 			//{
 			//	actualLaunch.x *= -1;
 			//}
-
+			GD.Print("Grab hitting other player");
 			var direction = BaseAttack.ATTACKDIR.EQUAL;
 
 			if (owner.OtherPlayerOnRight())
@@ -103,6 +111,8 @@ public class Grab : State
 			chDetails.opponentLaunch = actualLaunch;
 
 			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
+			released = true;
+			
 		}
 	}
 	public override void AnimationFinished()

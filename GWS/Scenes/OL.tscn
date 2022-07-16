@@ -6545,7 +6545,7 @@ hitPush = 3500
 hadoukenScene = ExtResource( 12 )
 
 [node name="AirGrab" parent="StateTree" index="44"]
-level = 3
+level = 0
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 

@@ -612,6 +612,7 @@ public abstract class State : Node
 
 	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
 	{
+		GD.Print($"Receiving damage {details.dmg}");
 		stunRemaining = details.hitStun;
 		owner.DeductHealth(details.dmg * owner.proration);
 		owner.Prorate(details.prorationLevel);

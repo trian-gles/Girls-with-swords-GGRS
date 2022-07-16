@@ -232,6 +232,7 @@ script = ExtResource( 14 )
 
 [node name="Grab" type="Node" parent="StateTree"]
 script = ExtResource( 29 )
+level = 3
 releaseFrame = 45
 launch = Vector2( 600, -200 )
 dmg = 5
@@ -340,7 +341,6 @@ script = ExtResource( 49 )
 
 [node name="AirGrab" type="Node" parent="StateTree"]
 script = ExtResource( 50 )
-level = 4
 dmg = 5
 
 [node name="AirGrabStart" type="Node" parent="StateTree"]

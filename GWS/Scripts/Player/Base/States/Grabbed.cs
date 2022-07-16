@@ -23,20 +23,20 @@ public class Grabbed : State
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
 				break;
-			case BaseAttack.ATTACKDIR.LEFT:
-				details.opponentLaunch.x *= -1;
-				details.hitPush *= -1;
-				break;
-			case BaseAttack.ATTACKDIR.EQUAL:
-				details.opponentLaunch.x = 0;
-				details.hitPush = 0;
-				break;
-		}
-		owner.velocity = details.opponentLaunch;
-		owner.ComboUp();
-		owner.grounded = false;
-		ReceiveHitNoBlock(details);
+            case BaseAttack.ATTACKDIR.LEFT:
+                details.opponentLaunch.x *= -1;
+                details.hitPush *= -1;
+                break;
+            case BaseAttack.ATTACKDIR.EQUAL:
+                details.opponentLaunch.x = 0;
+                details.hitPush = 0;
+                break;
+        }
+        owner.velocity = details.opponentLaunch;
+        owner.ComboUp();
+        owner.grounded = false;
 
-		EmitSignal(nameof(StateFinished), "AirKnockdown");
+
+        EmitSignal(nameof(StateFinished), "AirKnockdown");
 	}
 }

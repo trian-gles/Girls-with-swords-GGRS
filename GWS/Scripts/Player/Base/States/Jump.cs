@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Jump : AirState
 {
@@ -60,15 +61,21 @@ public class Jump : AirState
 		// DOUBLE JUMP
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
+			owner.CheckTurnAround();
 			owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
-			owner.velocity.x = Math.Min(owner.speed, -owner.velocity.x);
+			owner.CheckTurnAround();
+			owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
+		{
+			owner.velocity.x = 0;
+			owner.canDoubleJump = false;
+		});
 
 		
 	}
@@ -82,13 +89,11 @@ public class Jump : AirState
 
 		if (owner.CheckHeldKey('6'))
 		{
-			GD.Print("moving 6 jump");
 			owner.velocity.x = Mathf.Max(owner.speed, owner.velocity.x);
 		}
 
 		else if (owner.CheckHeldKey('4'))
 		{
-			GD.Print("moving 4 jump");
 			owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 		}
 
@@ -106,8 +111,28 @@ public class Jump : AirState
 		return frameCount < startupFrames && owner.canDoubleJump;
 	}
 
+    public override void HandleInput(char[] inputArr)
+    {
+        base.HandleInput(inputArr);
+		if (frameCount < 3)
+		{
+			if (Enumerable.SequenceEqual(inputArr, new char[] { '6', 'p' }))
+            {
+				owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
+				GD.Print($"Using delayed input from 6 press, vel is now {owner.velocity.x}");
+			}
+				
+			else if (Enumerable.SequenceEqual(inputArr, new char[] { '4', 'p' }))
+            {
+				owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
+				GD.Print("Using delayed input");
+			}
+				
+		}
+    }
 
-	public override void FrameAdvance()
+
+    public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 0) 
@@ -115,6 +140,10 @@ public class Jump : AirState
 			EmitSignal(nameof(StateFinished), "Idle");
 		}
 		ApplyGravity();
+		if (!owner.canDoubleJump)
+        {
+			owner.CheckTurnAround();
+        }
 		
 	}
 

@@ -178,9 +178,23 @@ class GGRSManager : StateManager
 
 		if ((upnp.GetGateway() != null) && upnp.GetGateway().IsValidGateway())
 		{
-			upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "UDP");
-			upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "TCP");
+			err = upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "UDP");
+			if (err != 0)
+			{
+				GD.PushError(err.ToString());
+				return;
+			}
+			else
+			{
+				GD.Print($"Port {port} opened by UPNP");
+			}
 		}
+		else
+		{
+			GD.Print("Unable to add UPNP for some reason");
+		}
+
+		
 	}
 
 	public override void _Notification(int what)

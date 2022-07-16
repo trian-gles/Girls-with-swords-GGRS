@@ -59,12 +59,14 @@ public class CharSelectScene : BaseGame
 
 	public override void _Ready()
 	{
+		HUDText = GetNode<Label>("CanvasLayer/DebugText");
 		base._Ready();
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
 		lastInputs = new int[2] { 0, 0 };
 		P1Cursor = GetNode<Sprite>("CanvasLayer/P1Cursor");
 		P2Cursor = GetNode<Sprite>("CanvasLayer/P2Cursor");
 		CheckOverlap();
+
 	}
 
 	public override void CompareStates(byte[] serializedOldState)
@@ -200,8 +202,20 @@ public class CharSelectScene : BaseGame
 			p2Color = color;
 		}
 		if (p1Selected && p2Selected)
+		{
+			GD.Print("both selected");
+			if (p2Color == p1Color)
+			{
+				GD.Print("colors match");
+				if (p2Color == 0)
+					p2Color = 1;
+				else
+					p2Color = 0;
+			}
 			// This may be called multiple times during rollbacks but it isn't a huge issue
 			EmitSignal("CharacterSelected", characterScenes[p1Pos], characterScenes[p2Pos],
 				p1Color, p2Color);
+		}
+			
 	}
 }

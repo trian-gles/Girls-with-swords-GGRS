@@ -11,17 +11,19 @@ public class Jump : AirState
 		base._Ready();
 
 		// AIRGRAB
-		AddGatling(new[] { 's', 'p' },
-			() =>
-			{
-				//GD.Print("Checking for airgrab");
-				//GD.Print($"y close enough =  {Mathf.Abs(owner.internalPos.y - owner.otherPlayer.internalPos.y) < 3500}");
+		//AddGatling(new[] { 's', 'p' },
+		//	() =>
+		//	{
+		//		return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 4000
+		//		&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 2000
+		//		&& owner.internalPos.y - owner.otherPlayer.internalPos.y > -500
+		//		&& owner.otherPlayer.IsAirGrabbable());
+		//	}, "AirGrab");
 
-				return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500
-				&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 1500
-				&& owner.internalPos.y - owner.otherPlayer.internalPos.y > 0
-				&& owner.otherPlayer.IsAirGrabbable());
-			}, "AirGrab");
+
+		// NEW AIRGRAB
+		AddGatling(new[] { 's', 'p' },
+			() => owner.CheckHeldKey('4') || owner.CheckHeldKey('6'), "AirGrabStart");
 
 		// ATTACKS
 		AddGatling(new[] { 'p', 'p' }, "JumpA");

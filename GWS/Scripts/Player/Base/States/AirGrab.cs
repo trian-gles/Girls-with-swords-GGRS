@@ -65,6 +65,7 @@ public class AirGrab : State
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+
 		if (frameCount < releaseFrame)
 		{
 			Vector2 relGrabPosition = owner.grabPos.Position * 100;

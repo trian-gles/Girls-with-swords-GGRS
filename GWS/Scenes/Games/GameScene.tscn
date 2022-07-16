@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -24,6 +24,9 @@ default_font = ExtResource( 8 )
 default_font = ExtResource( 8 )
 
 [sub_resource type="Theme" id=4]
+default_font = ExtResource( 8 )
+
+[sub_resource type="Theme" id=5]
 default_font = ExtResource( 8 )
 
 [node name="GameScene" type="Node2D"]
@@ -188,6 +191,15 @@ margin_bottom = -12.9999
 theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "PING: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugText" type="Label" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 16.0
+theme = SubResource( 5 )
+text = "P1"
 __meta__ = {
 "_edit_use_anchors_": false
 }

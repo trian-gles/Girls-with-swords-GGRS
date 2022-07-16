@@ -5,12 +5,12 @@ using System.Collections.Generic;
 class TrainingManager : BaseManager
 {
 	private bool flippedPlayers = false;
-	private Label controlledText;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		controlledText = GetNode<Label>("ControlledText");
+		charSelectScene.ChangeHUDText("P1");
+		gameScene.ChangeHUDText("P1");
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -36,10 +36,18 @@ class TrainingManager : BaseManager
 		if (@event.IsActionPressed("switch_players"))
 		{
 			flippedPlayers = !flippedPlayers;
+			string newText;
 			if (flippedPlayers)
-				controlledText.Text = "P2";
+				newText = "P2";
 			else
-				controlledText.Text = "P1";
+				newText = "P1";
+
+			charSelectScene.ChangeHUDText(newText);
+			gameScene.ChangeHUDText(newText);
+		}
+		else if (@event.IsActionPressed("reset_training"))
+		{
+			gameScene.ResetAll();
 		}
 			
 	}
@@ -53,5 +61,11 @@ class TrainingManager : BaseManager
 	public override void OnRoundFinished(string winner)
 	{
 		OnGameFinished("Game");
+	}
+
+	public override void OnComboFinished(string player)
+	{
+		string targetPlayer = (player == "P2") ? "P1" : "P2";
+		gameScene.ResetHealth(targetPlayer);
 	}
 }

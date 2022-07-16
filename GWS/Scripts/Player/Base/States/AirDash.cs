@@ -46,4 +46,10 @@ public class AirDash: Fall
 	{
 		return frameCount < 10;
 	}
+
+	public override void Exit()
+	{
+		base.Exit();
+		owner.airDashFrames = len - frameCount;
+	}
 }

@@ -12,6 +12,7 @@ public class Tech : Fall
 	public override void Enter()
 	{
 		base.Enter();
+		owner.GFXEvent("Tech");
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.CheckTurnAround();

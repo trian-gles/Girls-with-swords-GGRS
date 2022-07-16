@@ -12,13 +12,23 @@ class BaseManager : Node2D
 	/// </summary>
 	protected bool hosting;
 
+	protected bool usesHUDNode;
+	protected Control HUDNode;
+
 	[Export]
-	public Dictionary<string, PackedScene> gameMapping = new Dictionary<string, PackedScene>();
+	protected PackedScene packedGameScene;
+	[Export]
+	protected PackedScene packedCharSelectScene;
+
+	protected GameScene gameScene;
+	protected CharSelectScene charSelectScene;
 
 	[Signal]
 	public delegate void Finished(string nextGame);
 
 	protected BaseGame currGame;
+
+	
 
 	PackedScene playerOne, playerTwo;
 	int colorOne, colorTwo;
@@ -26,11 +36,26 @@ class BaseManager : Node2D
 
 	public override void _Ready()
 	{
-		GD.Print(gameMapping["CharacterSelect"]);
-		currGame = gameMapping["CharacterSelect"].Instance() as BaseGame;
-		AddChild(currGame);
-		currGame.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
-	}
+		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
+		AddChild(charSelectScene);
+		charSelectScene.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
+		currGame = charSelectScene;
+		
+		gameScene = packedGameScene.Instance() as GameScene;
+		gameScene.Connect("RoundFinished", this, nameof(OnRoundFinished));
+		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
+		AddChild(gameScene);
+
+
+
+		charSelectScene.ChangeHUDText("");
+		gameScene.ChangeHUDText("");
+
+	//gameScene.Visible = false;
+
+
+
+}
 
 	protected virtual void ChangeGame()
 	{
@@ -44,14 +69,18 @@ class BaseManager : Node2D
 	public virtual void OnGameFinished(string nextGameName)
 	{
 		GD.Print($"Scene finished, moving to {nextGameName}");
-		currGame.QueueFree();
-		var nextGame = gameMapping[nextGameName];
-		currGame = nextGame.Instance() as BaseGame;
-		AddChild(currGame);
-		if (nextGameName == "Game") // I HATE THE WAY THIS LOOKS
+		if (currGame.Name == "CharSelectScreen") // I HATE THE WAY THIS LOOKS
 		{
-			currGame.Connect("RoundFinished", this, nameof(OnRoundFinished));
-			((GameScene)currGame).config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame);
+			
+			currGame = gameScene;
+			MoveChild(charSelectScene, 0);
+
+			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame);
+			charSelectScene.HideAll();
+		}
+		else
+		{
+			gameScene.ResetAll();
 		}
 			
 	}
@@ -71,12 +100,16 @@ class BaseManager : Node2D
 		this.playerTwo = playerTwo;
 		this.colorOne = colorOne;
 		this.colorTwo = colorTwo;
-		GD.Print("Characters selected");
+		GD.Print($"Characters selected.  P1 = {playerOne}");
 	}
 
 	public virtual void OnQuit()
 	{
 		QueueFree();
+	}
+
+	public virtual void OnComboFinished(string player)
+	{
 	}
 
 	protected int GetInputs(string end)

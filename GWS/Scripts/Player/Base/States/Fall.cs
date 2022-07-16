@@ -8,6 +8,17 @@ public class Fall : AirState
 	{
 		base._Ready();
 		loop = true;
+
+		// AIRGRAB
+		AddGatling(new[] { 's', 'p' },
+			() =>
+			{
+				return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 4000
+				&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 2000
+				&& owner.internalPos.y - owner.otherPlayer.internalPos.y > -500
+				&& owner.otherPlayer.IsAirGrabbable());
+			}, "AirGrab");
+
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");
 		AddGatling(new[] { 's', 'p' }, "JumpC");

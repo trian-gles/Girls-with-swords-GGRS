@@ -63,6 +63,9 @@ public abstract class AirAttack : BaseAttack
 			EmitSignal(nameof(StateFinished), "Landing");
 		}
 
-		ApplyGravity();
+		if (owner.airDashFrames > 0)
+			owner.airDashFrames--;
+		else
+			ApplyGravity();
 	}
 }

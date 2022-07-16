@@ -20,7 +20,6 @@ public class Float : HitStun
 
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		GD.Print($"Float stun before increase = {details.hitStun}");
 		details.hitStun += 4;
 		base.ReceiveStunDamage(details);
 	}

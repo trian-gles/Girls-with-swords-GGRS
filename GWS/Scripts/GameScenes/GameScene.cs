@@ -10,6 +10,11 @@ using System.Linq;
 /// 
 public class GameScene : BaseGame
 {
+	/// <summary>
+	/// Used to prevent physics process
+	/// </summary>
+	private bool configured = false;
+
 	public Player P1;
 	public Player P2;
 	private Label P1Combo;
@@ -24,6 +29,7 @@ public class GameScene : BaseGame
 	private Node GGRS;
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
+	private CanvasLayer HUD;
 	private int frame;
 
 
@@ -40,6 +46,13 @@ public class GameScene : BaseGame
 	[Signal]
 	public delegate void RoundFinished(string winner);
 
+	/// <summary>
+	/// Used for training mode, where after a combo health will reset
+	/// </summary>
+	/// <param name="player"></param>
+	[Signal]
+	public delegate void ComboFinished(string player);
+
 	private enum TimeStatus
 	{
 		PREROUND,
@@ -50,15 +63,21 @@ public class GameScene : BaseGame
 
 	private Dictionary<string, PackedScene> characterMap = new Dictionary<string, PackedScene>();
 
+	public override void _Ready()
+	{
+		HUDText = GetNode<Label>("HUD/DebugText");
+		base._Ready();
+
+		// used to hide behind the char select screen
+		HUD = GetNode<CanvasLayer>("HUD");
+		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Zero, Vector2.Zero);
+	}
+
 	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
 	{
-		GD.Print($"Starting game config on frame {frame}");
-
+		Globals.Log($"Starting game config on frame {frame}");
 		this.frame = frame;
-		readyFrame = frame;
-		startFrame = frame + 60 * 3;
-		timeOutFrame = startFrame + 60 * 99;
-		currTime = TimeStatus.PREROUND;
+		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
 
 		//p1
 		P1 = playerOne.Instance() as Player;
@@ -107,6 +126,9 @@ public class GameScene : BaseGame
 		gsObj.config(P1, P2, this, hosting);
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
+
+		ConfigTime();
+		configured = true;
 		
 	}
 
@@ -142,6 +164,8 @@ public class GameScene : BaseGame
 	// ----------------
 	public override void _PhysicsProcess(float delta)
 	{
+		if (!configured)
+			return;
 		camera.Call("adjust", P1.Position, P2.Position);
 	}
 
@@ -157,6 +181,8 @@ public class GameScene : BaseGame
 
 	public override void LoadState(int frame, byte[] buffer, int checksum)
 	{
+		if (Math.Abs(this.frame - frame) > 8)
+			Globals.Log($"Suspicious rollback from {this.frame} to {frame}");
 		// GD.Print($"rollback from frame {gsObj.Frame} to frame {frame}");
 		this.frame = frame;
 
@@ -183,6 +209,7 @@ public class GameScene : BaseGame
 	// ----------------
 	public void OnPlayerComboChange(string name, int combo)
 	{
+		GD.Print($"Combo change for {name} to combo {combo}");
 		if (name == "P2")
 		{
 			if (combo > 1)
@@ -192,6 +219,7 @@ public class GameScene : BaseGame
 			else
 			{
 				P1Combo.Call("off");
+				EmitSignal("ComboFinished", "P1");
 			}
 		}
 
@@ -204,6 +232,7 @@ public class GameScene : BaseGame
 			else
 			{
 				P2Combo.Call("off");
+				EmitSignal("ComboFinished", "P2");
 			}
 		}
 	}
@@ -273,6 +302,15 @@ public class GameScene : BaseGame
 	// ----------------
 	// Time Handling
 	// ----------------
+	private void ConfigTime()
+	{
+		readyFrame = frame;
+		startFrame = frame + 60 * 3;
+		timeOutFrame = startFrame + 60 * 99;
+		currTime = TimeStatus.PREROUND;
+		timer.Text = "99";
+	}
+
 	private void HandleTime()
 	{
 		switch (currTime)
@@ -352,5 +390,36 @@ public class GameScene : BaseGame
 	{
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = frame + 180;
+	}
+
+	// ----------------
+	// Special Tools
+	// ----------------
+
+	public void ResetHealth(string player)
+	{
+		OnPlayerHealthChange(player, 800);
+
+		if (player == "P1")
+		{
+			P1.ResetHealth();
+		}
+		else
+		{
+			P2.ResetHealth();
+		}
+			
+	}
+
+	public void ResetAll()
+	{
+		ResetHealth("P1");
+		ResetHealth("P2");
+		P1.Reset();
+		P2.Reset();
+
+		P1.internalPos = new Vector2(13300, 24000);
+		P2.internalPos = new Vector2(33000, 24000);
+		ConfigTime();
 	}
 }

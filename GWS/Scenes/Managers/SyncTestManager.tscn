@@ -7,8 +7,6 @@
 
 [node name="SyncTestManager" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-gameMapping = {
-"CharacterSelect": ExtResource( 5 ),
-"Game": ExtResource( 3 )
-}
+packedGameScene = ExtResource( 3 )
+packedCharSelectScene = ExtResource( 5 )
 DEPTH = 8

@@ -9,7 +9,6 @@ class GGRSManager : StateManager
 	// Networking Objs
 	private Node GGRS;
 	private UPNP upnp;
-	private Label statsText;
 	int port;
 
 	private const int MAXPLAYERS = 2;
@@ -23,26 +22,26 @@ class GGRSManager : StateManager
 	public override void _Ready()
 	{
 		base._Ready();
-		statsText = GetNode<Label>("StatsText");
 		GGRS = GetNode("GodotGGRS");
 	}
 
 
 	public void Config(string ip, bool hosting)
 	{
-		statsText.Text = $"Waiting for connection...\n ";
+		charSelectScene.ChangeHUDText("Waiting for connection...\n ");
 		this.hosting = hosting;
-		statsText.Visible = true;
 		int localPort, remotePort;
 		if (hosting)
 		{
 			localPort = 7070;
 			remotePort = 7071;
+			Globals.SetLogging("P1");
 		}
 		else
 		{
 			localPort = 7071;
 			remotePort = 7070;
+			Globals.SetLogging("P2");
 		}
 		port = localPort;
 		OpenPort();
@@ -125,7 +124,8 @@ class GGRSManager : StateManager
 		if (queueLengths.Count > 5)
 			queueLengths.Dequeue();
 
-		statsText.Text = $"Ping = {netStats[1]} \n ";
+		charSelectScene.ChangeHUDText($"Ping = { netStats[1]}");
+		gameScene.ChangeHUDText($"Ping = { netStats[1]}");
 	}
 
 	// ----------------

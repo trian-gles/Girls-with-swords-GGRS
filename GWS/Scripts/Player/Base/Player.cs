@@ -79,9 +79,10 @@ public class Player : Node2D
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
-	public int proration = 8;
+	public int proration = 16;
 	public bool canDoubleJump;
 	public int invulnFrames = 0;
+	public int airDashFrames = 0;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -113,6 +114,7 @@ public class Player : Node2D
 		public int animationCursor { get; set; }
 		public int lastFrameInputs { get; set; }
 		public int invulnFrames { get; set; }
+		public int airDashFrames { get; set; }
 
 	}
 
@@ -213,6 +215,12 @@ public class Player : Node2D
 		
 	}
 
+	public void Reset()
+	{
+		ResetComboAndProration();
+		ChangeState("Idle");
+	}
+
 	public PlayerState GetState()
 	{
 		var pState = new PlayerState();
@@ -259,6 +267,7 @@ public class Player : Node2D
 		pState.proration = proration;
 		pState.lastFrameInputs = inputHandler.lastFrameInputs;
 		pState.invulnFrames = invulnFrames;
+		pState.airDashFrames = airDashFrames;
 		return pState;
 	}
 
@@ -295,6 +304,7 @@ public class Player : Node2D
 		proration = pState.proration;
 		inputHandler.lastFrameInputs = pState.lastFrameInputs;
 		invulnFrames = pState.invulnFrames;
+		airDashFrames = pState.airDashFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -827,8 +837,10 @@ public class Player : Node2D
 	{
 		facingRight = false;
 		GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
+		GD.Print($"Now turning the hitboxes for {Name}");
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);
+		GD.Print("Hitboxes turnt");
 	}
 
 	/// <summary>
@@ -1002,6 +1014,26 @@ public class Player : Node2D
 	{
 		return invulnFrames > 0;
 	}
+
+	/// <summary>
+	/// Checks if the opponent's collision box is in our hurtbox.  Used for airgrabs
+	/// </summary>
+	/// <returns></returns>
+	public Vector2 CheckHurtRectGrab()
+	{
+		List<Rect2> myRects = GetRects(hurtBoxes, true);
+		Rect2 otherRect = otherPlayer.GetCollisionRect();
+		foreach (Rect2 hurtRect in myRects)
+		{
+			if (hurtRect.Intersects(otherRect))
+			{
+				Rect2 clip = hurtRect.Clip(otherRect);
+				Vector2 center = (clip.End - clip.Position) / 2 + clip.Position;
+				return center;
+			}
+		}
+		return Vector2.Inf;
+	}
 	public Vector2 CheckHurtRect()
 	{
 		List<Rect2> myRects = GetRects(hurtBoxes, true);
@@ -1062,6 +1094,14 @@ public class Player : Node2D
 		Vector2 start = new Vector2(internalPos.x - 700, internalPos.y - 900);
 		Vector2 size = new Vector2(1400, 4800);
 		return new Rect2(start, size);
+	}
+
+	/// <summary>
+	/// Used for training mode
+	/// </summary>
+	public void ResetHealth()
+	{
+		health = 800;
 	}
 
 	public void DebugDisplay()

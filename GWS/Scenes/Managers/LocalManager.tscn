@@ -7,7 +7,5 @@
 
 [node name="LocalManager" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-gameMapping = {
-"CharacterSelect": ExtResource( 3 ),
-"Game": ExtResource( 4 )
-}
+packedGameScene = ExtResource( 4 )
+packedCharSelectScene = ExtResource( 3 )

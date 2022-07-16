@@ -6,18 +6,18 @@ using System.IO;
 using System.Linq;
 
 
-/// <summary>
-/// Collection of constants and static functions
-/// </summary>
-/// 
+
 public abstract class BaseGame : Node2D
 {
-	/// <summary>
-	/// Used only by local game modes
-	/// </summary>
-	/// <param name="p1Inps"></param>
-	/// <param name="p2Inps"></param>
-	public virtual void AdvanceFrame(int p1Inputs, int p2Inputs){}
+
+	protected Label HUDText;
+
+    /// <summary>
+    /// Used only by local game modes
+    /// </summary>
+    /// <param name="p1Inps"></param>
+    /// <param name="p2Inps"></param>
+    public virtual void AdvanceFrame(int p1Inputs, int p2Inputs){}
 
 	/// <summary>
 	/// Used for time based changes not called during rollbacks (such as visual and audio effects)
@@ -27,7 +27,34 @@ public abstract class BaseGame : Node2D
 
 	}
 
+	public void HideAll()
+    {
+		var queue = new Queue<Node>();
+		queue.Enqueue(this);
+		while (queue.Count > 0)
+        {
+			
+			var node = queue.Dequeue();
+			foreach (Node child in node.GetChildren())
+            {
+				queue.Enqueue(child);
+            }
+			if (node.GetType().GetProperty("Visible") != null)
+            {
+				((CanvasItem) node).Visible = false;
+            }
+        }
+    }
+
 	public virtual void Reset() { }
+
+	public void ChangeHUDText(string msg) {
+		HUDText.Text = msg;
+	}
+
+	// ----------------
+	// Private methods
+	// ----------------
 
 	protected byte[] Serialize<T>(T data)
 	where T : struct

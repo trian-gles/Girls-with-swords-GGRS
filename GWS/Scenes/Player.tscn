@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -50,21 +50,22 @@
 [ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
 [ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
 [ext_resource path="res://Scripts/Player/Base/States/AirGrab.cs" type="Script" id=50]
+[ext_resource path="res://Scripts/Player/Base/States/AirGrabStart.cs" type="Script" id=51]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 29 )
+extents = Vector2( 12, 31 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 7 )
+extents = Vector2( 5, 4 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 12, 9 )
+extents = Vector2( 14, 30 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -75,6 +76,10 @@ extents = Vector2( 11, 20 )
 [sub_resource type="Curve" id=8]
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=21]
+max_value = 2.0
+_data = [ Vector2( 0.0253623, 0.222597 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.981232 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
@@ -335,6 +340,11 @@ script = ExtResource( 49 )
 
 [node name="AirGrab" type="Node" parent="StateTree"]
 script = ExtResource( 50 )
+level = 4
+dmg = 5
+
+[node name="AirGrabStart" type="Node" parent="StateTree"]
+script = ExtResource( 51 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false
@@ -363,6 +373,7 @@ script = ExtResource( 32 )
 script = ExtResource( 35 )
 
 [node name="Blood" type="CPUParticles2D" parent="GFXHandler"]
+visible = false
 position = Vector2( 0, -8 )
 z_index = 1
 emitting = false
@@ -385,17 +396,38 @@ script = ExtResource( 36 )
 position = Vector2( 0, -8 )
 z_index = 1
 emitting = false
-amount = 500
-lifetime = 0.4
+amount = 300
+lifetime = 0.45
 one_shot = true
 preprocess = 0.3
+explosiveness = 0.35
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 302.2
-orbit_velocity_random = 1.0
 damping = 100.0
 damping_curve = SubResource( 8 )
+scale_amount = 2.0
 color = Color( 0.0470588, 0.945098, 1, 1 )
+script = ExtResource( 36 )
+
+[node name="Tech" type="CPUParticles2D" parent="GFXHandler"]
+position = Vector2( 0, -8 )
+z_index = 1
+emitting = false
+amount = 80
+lifetime = 0.3
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.1
+lifetime_randomness = 0.5
+emission_shape = 2
+emission_rect_extents = Vector2( 40, 40 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+damping = 100.0
+damping_curve = SubResource( 8 )
+scale_amount = 2.0
+scale_amount_curve = SubResource( 21 )
 script = ExtResource( 36 )
 
 [node name="Node2D" type="Node2D" parent="GFXHandler"]

@@ -384,6 +384,9 @@ public abstract class State : Node
 		if (slowdownSpeed != 0) SlowDown();
 	}
 
+	/// <summary>
+	/// Called by parent
+	/// </summary>
 	public virtual void CheckHit()
 	{
 

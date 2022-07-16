@@ -26,7 +26,6 @@ public class GameScene : BaseGame
 	private Label timer;
 	private Label centerText;
 	private Label statsText;
-	private Node GGRS;
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
 	private CanvasLayer HUD;
@@ -107,7 +106,6 @@ public class GameScene : BaseGame
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 
 
-		GGRS = GetNode("GodotGGRS");
 		P1Combo = GetNode<Label>("HUD/P1Combo");
 		P2Combo = GetNode<Label>("HUD/P2Combo");
 		P1Health = GetNode<TextureProgress>("HUD/P1Health");

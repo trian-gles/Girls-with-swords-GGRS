@@ -1,9 +1,8 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Background.tscn" type="PackedScene" id=3]
-[ext_resource path="res://GodotGGRS.gdns" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD/Camera2D.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/MainScene/Stages.gd" type="Script" id=7]
@@ -36,9 +35,6 @@ script = ExtResource( 1 )
 layer = 100
 
 [node name="UserInterface" parent="UserInterface" instance=ExtResource( 2 )]
-
-[node name="GodotGGRS" type="Node" parent="."]
-script = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 240, 127 )

@@ -278,6 +278,7 @@ z_index = 1
 texture = ExtResource( 4 )
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 185, 143.717 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
@@ -300,14 +301,15 @@ __meta__ = {
 position = Vector2( 188.404, 130.131 )
 texture = ExtResource( 1 )
 hframes = 10
-frame = 4
+frame = 2
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.898098 )
 material = SubResource( 2 )
 position = Vector2( 288.125, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
-frame = 4
+frame = 2
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5

@@ -45,8 +45,9 @@ class GGRSManager : StateManager
 		}
 		port = localPort;
 		OpenPort();
+		GD.Print("Creating new session");
 		GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
-
+		GD.Print("Created new session");
 		localPlayerHandle = (int)GGRS.Call("add_local_player");
 		GD.Print($"added local player with handle {localPlayerHandle}");
 		var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{ip}:{remotePort}");

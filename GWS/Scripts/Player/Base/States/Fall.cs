@@ -52,15 +52,21 @@ public class Fall : AirState
 		// DOUBLEJUMP
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
+			owner.CheckTurnAround();
 			owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
-			owner.velocity.x = Math.Min(owner.speed, -owner.velocity.x);
+			owner.CheckTurnAround();
+			owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
+		{
+			owner.velocity.x = 0;
+			owner.canDoubleJump = false;
+		});
 	}
 	public override void FrameAdvance()
 	{
@@ -69,6 +75,10 @@ public class Fall : AirState
 		{
 			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
 			EmitSignal(nameof(StateFinished), "Landing");
+		}
+		if (!owner.canDoubleJump)
+		{
+			owner.CheckTurnAround();
 		}
 		ApplyGravity();
 	}

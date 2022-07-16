@@ -74,12 +74,12 @@ public class Player : Node2D
 	// All of these will be stored in gamestate
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
-	private int health = 800;
+	private int health = 1600;
 	public Vector2 velocity = new Vector2(0, 0);
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
-	public int proration = 16;
+	public int proration = 32;
 	public bool canDoubleJump;
 	public int invulnFrames = 0;
 	public int airDashFrames = 0;
@@ -955,7 +955,7 @@ public class Player : Node2D
 	public void ResetComboAndProration()
 	{
 		combo = 0;
-		proration = 8;
+		proration = 16;
 		//GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
@@ -969,7 +969,7 @@ public class Player : Node2D
 
 	public void DeductHealth(int dmg)
 	{
-		//GD.Print($"Receiving {dmg} damage");
+		GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
@@ -1101,7 +1101,7 @@ public class Player : Node2D
 	/// </summary>
 	public void ResetHealth()
 	{
-		health = 800;
+		health = 1600;
 	}
 
 	public void DebugDisplay()

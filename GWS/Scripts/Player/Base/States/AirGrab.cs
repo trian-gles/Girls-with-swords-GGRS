@@ -28,13 +28,21 @@ public class AirGrab : State
 
 	public bool rightGrab = true;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		AddCancel("Fall");
-    }
 
-    public override void Enter()
+		isCounter = true;
+		hitDetails = Globals.attackLevels[level].hit;
+		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.opponentLaunch = launch;
+		hitDetails.hitStun = hitStun;
+		chDetails.hitStun = hitStun;
+	}
+
+	public override void Enter()
 	{
 		base.Enter();
 		owner.velocity = new Vector2(0, 0);

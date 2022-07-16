@@ -86,7 +86,7 @@ public abstract class BaseAttack : State
 
 		if (modifiedHitStun != 0)
 			hitDetails.hitStun = modifiedHitStun;
-		GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
+		
 		if (modifiedCounterHitStun != 0)
 			chDetails.hitStun = modifiedCounterHitStun;
 
@@ -96,7 +96,9 @@ public abstract class BaseAttack : State
 			chDetails.hitPush = modifiedHitPush;
 
 		}
-			
+
+		//GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
+
 	}
 
 	protected virtual void AddJumpCancel()

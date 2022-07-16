@@ -51,7 +51,7 @@ class GGRSManager : StateManager
 		localPlayerHandle = (int)GGRS.Call("add_local_player");
 		GD.Print($"added local player with handle {localPlayerHandle}");
 		var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{ip}:{remotePort}");
-		GD.Print($"added other player with handle {otherPlayerHandle}");
+		GD.Print($"added other player with handle {otherPlayerHandle} at {ip}:{remotePort}");
 
 
 		GGRS.Call("set_callback_node", this);

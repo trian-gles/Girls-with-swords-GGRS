@@ -64,7 +64,7 @@ public class Lobby : Node2D
 	//netplay buttons
 	public void OnHostButtonDown()
 	{
-		string ip = "127.0.0.1";
+		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
 		var ggrsScene = ggrsManager.Instance<GGRSManager>();
 		AddChild(ggrsScene);
 		HideButtons();
@@ -73,7 +73,7 @@ public class Lobby : Node2D
 
 	public void OnJoinButtonDown()
 	{
-		string ip = "127.0.0.1";
+		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
 		var ggrsScene = ggrsManager.Instance<GGRSManager>();
 		AddChild(ggrsScene);
 		HideButtons();

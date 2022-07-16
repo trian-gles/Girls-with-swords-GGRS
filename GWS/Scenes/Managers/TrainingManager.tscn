@@ -11,10 +11,8 @@ default_font = ExtResource( 4 )
 
 [node name="TrainingManager" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-gameMapping = {
-"CharacterSelect": ExtResource( 3 ),
-"Game": ExtResource( 5 )
-}
+packedGameScene = ExtResource( 5 )
+packedCharSelectScene = ExtResource( 3 )
 
 [node name="ControlledText" type="Label" parent="." index="0"]
 margin_right = 40.0

@@ -12,10 +12,8 @@ default_font = ExtResource( 4 )
 
 [node name="GGRSManager" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-gameMapping = {
-"CharacterSelect": ExtResource( 5 ),
-"Game": ExtResource( 6 )
-}
+packedGameScene = ExtResource( 6 )
+packedCharSelectScene = ExtResource( 5 )
 
 [node name="StatsText" type="Label" parent="." index="0"]
 margin_right = 40.0

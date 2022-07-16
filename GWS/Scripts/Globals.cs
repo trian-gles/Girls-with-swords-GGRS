@@ -24,6 +24,21 @@ public class Globals : Node
 
 	public static int frame = 0;
 
+	private static string loggingName;
+	private static bool logOn = false;
+
+	public static void SetLogging(string loggingName)
+	{
+		Globals.loggingName = loggingName;
+		logOn = true;
+	}
+
+	public static void Log(string msg)
+	{
+		if (logOn)
+			GD.Print(loggingName + " : " + msg);
+	}
+
 	public const int rightWall = 46500;
 	public const int leftWall = 1500;
 	public const int floor = 22000;
@@ -169,7 +184,7 @@ public class Globals : Node
 				blockStun = 18,
 				dmg = 5,
 				hitPush = 4000,
-				prorationLevel = 1,
+				prorationLevel = 0,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -182,7 +197,7 @@ public class Globals : Node
 				blockStun = 18,
 				dmg = 7,
 				hitPush = 4000,
-				prorationLevel = 1,
+				prorationLevel = 0,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -194,7 +209,7 @@ public class Globals : Node
 
 	public override void _Ready()
 	{
-		Tests();
+		//Tests();
 	}
 
 	static public Mode mode;

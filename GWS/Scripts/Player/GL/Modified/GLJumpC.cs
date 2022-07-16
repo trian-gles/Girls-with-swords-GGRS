@@ -14,8 +14,10 @@ public class GLJumpC : BaseAttack
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
-
-		ApplyGravity();
+		if (owner.airDashFrames > 0)
+			owner.airDashFrames--;
+		else
+			ApplyGravity();
 	}
 
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)

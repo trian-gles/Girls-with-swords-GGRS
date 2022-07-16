@@ -19,6 +19,9 @@ public class Lobby : Node2D
 	public bool syncTest = false;
 
 	[Export]
+	public bool log = false;
+
+	[Export]
 	public PackedScene localManager;
 
 	[Export]

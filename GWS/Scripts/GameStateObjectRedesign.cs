@@ -52,7 +52,6 @@ public class GameStateObjectRedesign : Node
 	private List<HadoukenPart> deleteQueued;
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
 	{
-		GD.Print("Starting GameState config");
 		this.P1 = P1;
 		this.P2 = P2;
 

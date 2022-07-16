@@ -35,6 +35,7 @@ public class Grabbed : State
 		owner.velocity = details.opponentLaunch;
 		owner.ComboUp();
 		owner.grounded = false;
+		ReceiveHitNoBlock(details);
 
 		EmitSignal(nameof(StateFinished), "AirKnockdown");
 	}

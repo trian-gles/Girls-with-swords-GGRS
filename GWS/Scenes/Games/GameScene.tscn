@@ -200,6 +200,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="InputText" type="Label" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 16.0
+theme = SubResource( 5 )
+text = "P1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )
 

@@ -352,7 +352,7 @@ public class Player : Node2D
 		{
 			inBuf2Timer = inBuf2TimerMax;
 			inBuf2.Add(input);
-			if (inBuf2.Count > 50)
+			if (inBuf2.Count > 55)
 				inBuf2 = new List<char[]>();
 		}
 

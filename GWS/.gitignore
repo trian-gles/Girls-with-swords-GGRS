@@ -5,7 +5,7 @@ lib/
 
 .mono/
 data_*/
-
+mono_crash.*
 synclogs/
 
 .vs/

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 public abstract class BaseAttack : State
@@ -156,6 +157,34 @@ public abstract class BaseAttack : State
 
 	public override void HandleInput(char[] inputArr)
 	{
+		if (frameCount < 3)
+		{
+
+			foreach (KaraGatling karaGat in karaGatlings)
+			{
+				GD.Print($"Testing kara gatling {karaGat.state}");
+				char[] testInp = karaGat.input;
+				testInp = ReverseInput(testInp);
+				if (Enumerable.SequenceEqual(karaGat.input, inputArr))
+				{
+					if (karaGat.reqCall != null)
+					{
+						if (!karaGat.reqCall())
+						{
+							continue;
+						}
+					}
+
+					karaGat.postCall?.Invoke();
+
+
+					EmitSignal(nameof(StateFinished), karaGat.state);
+
+					return;
+				}
+			}
+		}
+
 		if (!hitConnect)
 		{
 			return;

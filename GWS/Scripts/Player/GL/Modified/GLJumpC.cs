@@ -10,6 +10,7 @@ public class GLJumpC : BaseAttack
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 		animationName = "JumpC";
+		AddKara(new char[] { 'k', 'p' }, "AirGrabStart");
 	}
 	public override void FrameAdvance()
 	{

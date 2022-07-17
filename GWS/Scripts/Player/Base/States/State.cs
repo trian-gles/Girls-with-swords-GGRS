@@ -53,6 +53,7 @@ public abstract class State : Node
 
 	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
+	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
 	protected delegate bool RequiredConditionCallback();
 	protected delegate void PostInputCallback();
 	public override void _Ready()
@@ -118,6 +119,14 @@ public abstract class State : Node
 		public bool flipInputs; // if this input should change depending on which way we are facing
 	}
 
+	protected struct KaraGatling
+	{
+		public char[] input;
+		public string state;
+		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
+		public PostInputCallback postCall;
+	}
+
 	protected char[] ReverseInput(char[] inp)
 	{
 		char[] newInp = new char[2];
@@ -148,6 +157,13 @@ public abstract class State : Node
 
 		return newInputs;
 	}
+
+
+	//////////
+    /// GATLINGS
+    //////////
+    ///
+
 
 	protected void AddGatling(char[] input, string state)
 	{
@@ -191,6 +207,27 @@ public abstract class State : Node
 			reqCall = reqCall
 		};
 		normalGatlings.Add(newGatling);
+	}
+
+	protected void AddKara(char[] input, string state)
+    {
+		var newGatling = new KaraGatling
+		{
+			input = input,
+			state = state
+		};
+		karaGatlings.Add(newGatling);
+	}
+
+	protected void AddKara(char[] input, RequiredConditionCallback reqCall, string state)
+	{
+		var newGatling = new KaraGatling
+		{
+			input = input,
+			state = state,
+			reqCall = reqCall
+		};
+		karaGatlings.Add(newGatling);
 	}
 
 	protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true, bool flipInputs = true)
@@ -277,7 +314,6 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			GD.Print(special.state);
 			AddGatling(special.inputs, special.state);
 		}
 	}
@@ -353,13 +389,10 @@ public abstract class State : Node
 					}
 				}
 
-				if (normGat.postCall != null)
-				{
-					normGat.postCall();
-				}
+                normGat.postCall?.Invoke();
 
-				
-				EmitSignal(nameof(StateFinished), normGat.state);
+
+                EmitSignal(nameof(StateFinished), normGat.state);
 				
 				return;
 			}

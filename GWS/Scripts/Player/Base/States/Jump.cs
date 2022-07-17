@@ -24,7 +24,9 @@ public class Jump : AirState
 
 		// NEW AIRGRAB
 		AddGatling(new[] { 's', 'p' },
-			() => owner.CheckHeldKey('4') || owner.CheckHeldKey('6'), "AirGrabStart");
+			() => owner.CheckHeldKey('k'), "AirGrabStart");
+		AddGatling(new[] { 'k', 'p' },
+			() => owner.CheckHeldKey('s'), "AirGrabStart");
 
 		// ATTACKS
 		AddGatling(new[] { 'p', 'p' }, "JumpA");

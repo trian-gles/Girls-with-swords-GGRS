@@ -79,9 +79,8 @@ tracks/4/keys = {
 }
 
 [node name="LobbyRedesign" type="Node2D"]
-position = Vector2( 1, 0 )
+position = Vector2( 2, -1 )
 script = ExtResource( 1 )
-log = true
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )
 ggrsManager = ExtResource( 12 )

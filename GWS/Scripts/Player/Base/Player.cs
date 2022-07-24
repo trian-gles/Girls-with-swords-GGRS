@@ -531,7 +531,12 @@ public class Player : Node2D
 		{
 			return inBuf2;
 		}
-	}//input buffer needs to be tested with GGPO!!!
+
+		public List<char[]> GetHitStopBuffer()
+		{
+			return hitStopInputs;
+		}
+	}
 
 	/// <summary>
 	/// Call the Enter() and Exit() methods of the current state and go to a new one
@@ -604,6 +609,11 @@ public class Player : Node2D
 	{
 		
 		return Globals.ArrayInList(inputHandler.GetBuffer(), key);
+	}
+
+	public bool CheckHitStopBuffer(char[] key)
+	{
+		return Globals.ArrayInList(inputHandler.GetHitStopBuffer(), key);
 	}
 
 	/// <summary>
@@ -837,10 +847,10 @@ public class Player : Node2D
 	{
 		facingRight = false;
 		GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
-		GD.Print($"Now turning the hitboxes for {Name}");
+		//GD.Print($"Now turning the hitboxes for {Name}");
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);
-		GD.Print("Hitboxes turnt");
+		//GD.Print("Hitboxes turnt");
 	}
 
 	/// <summary>
@@ -920,7 +930,7 @@ public class Player : Node2D
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
 		currentState.ReceiveHit(details);
-		GD.Print(currentState.Name);
+		//GD.Print(currentState.Name);
 		currentState.ReceiveStunDamage(details);
 		EmitSignal(nameof(HitConfirm));
 		
@@ -969,7 +979,7 @@ public class Player : Node2D
 
 	public void DeductHealth(int dmg)
 	{
-		GD.Print($"Receiving {dmg} damage");
+		//GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}

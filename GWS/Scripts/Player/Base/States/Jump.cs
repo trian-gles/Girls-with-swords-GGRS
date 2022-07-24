@@ -116,18 +116,20 @@ public class Jump : AirState
     public override void HandleInput(char[] inputArr)
     {
         base.HandleInput(inputArr);
+
+		// Allows the user to choose direction slightly into the jump
 		if (frameCount < 3)
 		{
 			if (Enumerable.SequenceEqual(inputArr, new char[] { '6', 'p' }))
             {
 				owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
-				GD.Print($"Using delayed input from 6 press, vel is now {owner.velocity.x}");
+				//GD.Print($"Using delayed input from 6 press, vel is now {owner.velocity.x}");
 			}
 				
 			else if (Enumerable.SequenceEqual(inputArr, new char[] { '4', 'p' }))
             {
 				owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
-				GD.Print("Using delayed input");
+				//GD.Print("Using delayed input");
 			}
 				
 		}
@@ -146,6 +148,11 @@ public class Jump : AirState
         {
 			owner.CheckTurnAround();
         }
+
+		if (DelayInputs() && owner.CheckHitStopBuffer(new char[] { 'k', 'p' }) && owner.CheckHitStopBuffer(new char[] { 's', 'p' }))
+		{
+			EmitSignal(nameof(StateFinished), "AirGrabStart");
+		}
 		
 	}
 

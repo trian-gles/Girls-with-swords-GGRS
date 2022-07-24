@@ -4,13 +4,13 @@ using System;
 public class JumpC : AirAttack
 {
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		AddKara(new char[] { 'k', 'p' }, "AirGrabStart");
-    }
+	}
 
-    public override void Enter()
+	public override void Enter()
 	{
 		base.Enter();
 		AddJumpCancel();

@@ -160,9 +160,9 @@ public abstract class State : Node
 
 
 	//////////
-    /// GATLINGS
-    //////////
-    ///
+	/// GATLINGS
+	//////////
+	///
 
 
 	protected void AddGatling(char[] input, string state)
@@ -210,7 +210,7 @@ public abstract class State : Node
 	}
 
 	protected void AddKara(char[] input, string state)
-    {
+	{
 		var newGatling = new KaraGatling
 		{
 			input = input,
@@ -389,10 +389,10 @@ public abstract class State : Node
 					}
 				}
 
-                normGat.postCall?.Invoke();
+				normGat.postCall?.Invoke();
 
 
-                EmitSignal(nameof(StateFinished), normGat.state);
+				EmitSignal(nameof(StateFinished), normGat.state);
 				
 				return;
 			}

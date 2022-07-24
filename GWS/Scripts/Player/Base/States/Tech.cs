@@ -24,6 +24,11 @@ public class Tech : Fall
 			owner.velocity = new Vector2(-techVector.x, techVector.y);
 		else
 			owner.velocity = new Vector2(0, techVector.y);
+
+		if (owner.grounded)
+		{
+			EmitSignal(nameof(StateFinished), "Knockdown");
+		}
 	}
 
 	public override void HandleInput(char[] inputArr)

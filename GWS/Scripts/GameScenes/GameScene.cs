@@ -33,6 +33,8 @@ public class GameScene : BaseGame
 
 
 	// TIME HANDLING
+	public bool ignoreTime = false;
+
 	private int readyFrame;
 	private int startFrame;
 	private int timeOutFrame;
@@ -207,7 +209,7 @@ public class GameScene : BaseGame
 	// ----------------
 	public void OnPlayerComboChange(string name, int combo)
 	{
-		GD.Print($"Combo change for {name} to combo {combo}");
+		//GD.Print($"Combo change for {name} to combo {combo}");
 		if (name == "P2")
 		{
 			if (combo > 1)
@@ -347,6 +349,11 @@ public class GameScene : BaseGame
 
 	private void HandleGameTime()
 	{
+		if (ignoreTime)
+		{
+			centerText.Visible = false;
+			return;
+		}
 		if (frame == timeOutFrame)
 		{
 			EndRound();

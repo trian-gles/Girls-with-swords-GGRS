@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class AirGrab : State
 {
@@ -40,6 +41,19 @@ public class AirGrab : State
 		hitDetails.opponentLaunch = launch;
 		hitDetails.hitStun = hitStun;
 		chDetails.hitStun = hitStun;
+	}
+
+	public override void Load(Dictionary<string, int> loadData)
+	{
+		released = Convert.ToBoolean(loadData["released"]);
+	}
+
+	public override Dictionary<string, int> Save()
+	{
+		var dict = new Dictionary<string, int>();
+		dict["released"] = Convert.ToInt32(released);
+		return dict;
+
 	}
 
 	public override void Enter()

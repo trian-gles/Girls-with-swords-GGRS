@@ -56,6 +56,7 @@ class TrainingManager : BaseManager
 	{
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
 		OnGameFinished("Game");
+		gameScene.ignoreTime = true;
 	}
 
 	public override void OnRoundFinished(string winner)

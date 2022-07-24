@@ -162,7 +162,7 @@ public abstract class BaseAttack : State
 
 			foreach (KaraGatling karaGat in karaGatlings)
 			{
-				GD.Print($"Testing kara gatling {karaGat.state}");
+				// GD.Print($"Testing kara gatling {karaGat.state}");
 				char[] testInp = karaGat.input;
 				testInp = ReverseInput(testInp);
 				if (Enumerable.SequenceEqual(karaGat.input, inputArr))

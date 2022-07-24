@@ -100,7 +100,6 @@ class BaseManager : Node2D
 		this.playerTwo = playerTwo;
 		this.colorOne = colorOne;
 		this.colorTwo = colorTwo;
-		GD.Print($"Characters selected.  P1 = {playerOne}");
 	}
 
 	public virtual void OnQuit()

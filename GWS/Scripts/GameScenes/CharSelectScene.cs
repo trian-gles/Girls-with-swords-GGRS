@@ -203,10 +203,10 @@ public class CharSelectScene : BaseGame
 		}
 		if (p1Selected && p2Selected)
 		{
-			GD.Print("both selected");
+			//GD.Print("both selected");
 			if (p2Color == p1Color)
 			{
-				GD.Print("colors match");
+				//GD.Print("colors match");
 				if (p2Color == 0)
 					p2Color = 1;
 				else

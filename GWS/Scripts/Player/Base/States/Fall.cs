@@ -9,6 +9,8 @@ public class Fall : AirState
 		base._Ready();
 		loop = true;
 
+		AddSpecials(owner.airSpecials);
+
 		// AIRGRAB
 		AddGatling(new[] { 's', 'p' },
 			() =>

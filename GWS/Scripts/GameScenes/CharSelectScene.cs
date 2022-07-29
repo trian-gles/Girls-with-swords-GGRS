@@ -25,8 +25,10 @@ public class CharSelectScene : BaseGame
 	private Sprite P1Cursor;
 	private Sprite P2Cursor;
 
-	private int p1Pos;
-	private int p2Pos;
+	private List<List<Sprite>> charImages;
+
+	private int p1Pos = 0;
+	private int p2Pos = 0;
 	private bool p1Selected = false;
 	private bool p2Selected = false;
 	private int p1Color;
@@ -65,6 +67,19 @@ public class CharSelectScene : BaseGame
 		lastInputs = new int[2] { 0, 0 };
 		P1Cursor = GetNode<Sprite>("CanvasLayer/P1Cursor");
 		P2Cursor = GetNode<Sprite>("CanvasLayer/P2Cursor");
+
+		var p1CharImages = new List<Sprite>() {
+			GetNode<Sprite>("CanvasLayer/P1Selected/OLSprite"),
+			GetNode<Sprite>("CanvasLayer/P1Selected/GLSprite")
+		};
+
+		var p2CharImages = new List<Sprite>() {
+			GetNode<Sprite>("CanvasLayer/P2Selected/OLSprite"),
+			GetNode<Sprite>("CanvasLayer/P2Selected/GLSprite")
+		};
+
+		charImages = new List<List<Sprite>>() { p1CharImages, p2CharImages };
+
 		CheckOverlap();
 
 	}
@@ -104,6 +119,14 @@ public class CharSelectScene : BaseGame
 		p1Pos = state.p1Pos;
 		p2Pos = state.p2Pos;
 		lastInputs = state.lastFrameInputs;
+
+		// Cleanup selection images
+		charImages[0][p1Pos].Visible = true;
+		charImages[0][(p1Pos + 1) % 2].Visible = false;
+		charImages[1][p2Pos].Visible = true;
+		charImages[1][(p2Pos + 1) % 2].Visible = false;
+
+		CheckOverlap();
 	}
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
@@ -155,7 +178,7 @@ public class CharSelectScene : BaseGame
 
 	private void CheckOverlap()
 	{
-		if (p1Pos == p2Pos)
+		if (p1Pos == p2Pos && !p1Selected && !p2Selected)
 		{
 			P1Cursor.Texture = BothTexture;
 			P2Cursor.Visible = false;
@@ -163,7 +186,8 @@ public class CharSelectScene : BaseGame
 		else
 		{
 			P1Cursor.Texture = P1Texture;
-			P2Cursor.Visible = true;
+			if (!p2Selected)
+				P2Cursor.Visible = true;
 		}
 	}
 
@@ -176,13 +200,17 @@ public class CharSelectScene : BaseGame
 			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 1);
 			
 			P1Cursor.Position = new Vector2(CENTER + p1Pos * 100, P1Cursor.Position.y);
-			
+			charImages[0][p1Pos].Visible = true;
+			charImages[0][(p1Pos + 1) % 2].Visible = false;
 		}
 			
 		else if (playerNum == 1 && !p2Selected)
 		{
 			p2Pos = Math.Min(Math.Max(0, p2Pos + direction), 1);
 			P2Cursor.Position = new Vector2(CENTER + p2Pos * 100, P2Cursor.Position.y);
+
+			charImages[1][p2Pos].Visible = true;
+			charImages[1][(p2Pos + 1) % 2].Visible = false;
 		}
 			
 
@@ -193,11 +221,13 @@ public class CharSelectScene : BaseGame
 	{
 		if (playerNum == 0 && !p1Selected)
 		{
+			P1Cursor.Visible = false;
 			p1Selected = true;
 			p1Color = color;
 		}
 		else if (playerNum == 1 && !p2Selected)
 		{
+			P2Cursor.Visible = false;
 			p2Selected = true;
 			p2Color = color;
 		}

@@ -34,6 +34,12 @@ public class Landing : State
 	{
 		ReceiveHitNoBlock(details);
 	}
+
+    public override void Exit()
+    {
+        base.Exit();
+		owner.velocity.x = 0;
+    }
 }
 
 

@@ -224,6 +224,10 @@ public class CharSelectScene : BaseGame
 			P1Cursor.Visible = false;
 			p1Selected = true;
 			p1Color = color;
+			if (!p2Selected)
+			{
+				P2Cursor.Visible = true;
+			}
 		}
 		else if (playerNum == 1 && !p2Selected)
 		{

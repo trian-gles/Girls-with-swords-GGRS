@@ -1,6 +1,6 @@
 [gd_scene load_steps=65 format=2]
 
-[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
@@ -6545,7 +6545,6 @@ hitPush = 3500
 hadoukenScene = ExtResource( 12 )
 
 [node name="AirGrab" parent="StateTree" index="44"]
-level = 0
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 

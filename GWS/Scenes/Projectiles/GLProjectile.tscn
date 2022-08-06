@@ -4,6 +4,8 @@
 
 [node name="GLProjectile" instance=ExtResource( 1 )]
 chEffect = 3
+speed = Vector2( 5, 0 )
+duration = 55
 
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "GLProjectile"

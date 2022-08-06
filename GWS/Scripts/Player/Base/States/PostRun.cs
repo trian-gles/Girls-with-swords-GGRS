@@ -10,7 +10,7 @@ public class PostRun : MoveState
 		loop = true;
 		slowdownSpeed = 30;
 		AddGatling(new[] { 's', 'p' }, () => {
-			bool pos = Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3500;
+			bool pos = Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3000;
 			bool grabbable = owner.otherPlayer.IsGrabbable();
 			bool heldKey = owner.CheckHeldKey('4') || owner.CheckHeldKey('6');
 			return pos && grabbable && heldKey;

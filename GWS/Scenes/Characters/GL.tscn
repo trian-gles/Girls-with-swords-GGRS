@@ -369,7 +369,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 8, 13 ),
+"times": PoolRealArray( 0, 2, 4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -429,10 +429,10 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 8 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 8, 14 ) ]
+"values": [ Vector2( 18, 20 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("HurtBoxes/HurtB1:position")
@@ -441,10 +441,10 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 8 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 23, -3 ) ]
+"values": [ Vector2( -1, -4 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -5827,19 +5827,19 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 14 )
+position = Vector2( -1, 7 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 0, -15 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 64, 13 )
+position = Vector2( -1, -4 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5847,12 +5847,13 @@ position = Vector2( 37, 17 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 86, 6 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( -1.5, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -5911,7 +5912,7 @@ hadoukenScene = ExtResource( 4 )
 script = ExtResource( 8 )
 
 [node name="GrabPos" parent="." index="6"]
-position = Vector2( 30, 34 )
+position = Vector2( 35, -24 )
 
 [node name="Cancel" parent="GFXHandler" index="1"]
 explosiveness = 0.34

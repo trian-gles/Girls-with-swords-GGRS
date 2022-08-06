@@ -1180,7 +1180,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, -57 ) ]
+"values": [ Vector2( 0.5, -57 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
@@ -1288,7 +1288,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0 ) ]
+"values": [ Vector2( -1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -1436,7 +1436,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 3 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 22, 8 ) ]
+"values": [ Vector2( 32, 8 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -3441,7 +3441,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -0.5, 0 ) ]
+"values": [ Vector2( 2, 0 ) ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -5827,19 +5827,18 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 7 )
+position = Vector2( -1, 12 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 0, -15 )
+position = Vector2( 41, 26 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( -1, -4 )
-disabled = false
+position = Vector2( 22, -26 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5853,7 +5852,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( -1, 0 )
 hframes = 255
 vframes = 2
 frame = 149

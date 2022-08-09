@@ -27,8 +27,10 @@ class TrainingManager : BaseManager
 			p1Inputs = GetInputs("");
 			p2Inputs = 0;
 		}
-		
+
+		gameScene.DisplayInputs(p1Inputs, p2Inputs);
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
+		
 	}
 
 	public override void _Input(InputEvent @event)
@@ -57,6 +59,7 @@ class TrainingManager : BaseManager
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
 		OnGameFinished("Game");
 		gameScene.ignoreTime = true;
+		gameScene.SetDebugVisibility(true);
 	}
 
 	public override void OnRoundFinished(string winner)

@@ -11,13 +11,14 @@ public abstract class BaseGame : Node2D
 {
 
 	protected Label HUDText;
+	protected Label inputText;
 
-    /// <summary>
-    /// Used only by local game modes
-    /// </summary>
-    /// <param name="p1Inps"></param>
-    /// <param name="p2Inps"></param>
-    public virtual void AdvanceFrame(int p1Inputs, int p2Inputs){}
+	/// <summary>
+	/// Used only by local game modes
+	/// </summary>
+	/// <param name="p1Inps"></param>
+	/// <param name="p2Inps"></param>
+	public virtual void AdvanceFrame(int p1Inputs, int p2Inputs){}
 
 	/// <summary>
 	/// Used for time based changes not called during rollbacks (such as visual and audio effects)

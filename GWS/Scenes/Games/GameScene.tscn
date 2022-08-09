@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Games/InputsText.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD/Camera2D.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/MainScene/Stages.gd" type="Script" id=7]
@@ -73,6 +74,9 @@ texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
 tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="P2Health" type="TextureProgress" parent="HUD"]
 margin_left = 286.975
@@ -188,11 +192,51 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DebugBack" type="ColorRect" parent="HUD"]
+margin_top = -2.0
+margin_right = 33.0
+margin_bottom = 17.0
+color = Color( 0, 0, 0, 0.435294 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DebugText" type="Label" parent="HUD"]
 margin_right = 40.0
 margin_bottom = 16.0
 theme = SubResource( 5 )
 text = "P1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputBack" type="ColorRect" parent="HUD"]
+margin_top = 22.0
+margin_right = 20.0
+margin_bottom = 218.0
+color = Color( 0, 0, 0, 0.435294 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputText" type="Label" parent="HUD"]
+anchor_top = 0.101
+anchor_bottom = 0.223
+margin_right = 40.0
+margin_bottom = 16.0
+theme = SubResource( 5 )
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+"
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -68,6 +68,7 @@ public class Player : Node2D
 	/// <summary>
 	/// Certain states will automatically setup gatlings if they are in this list
 	/// </summary>
+	public List<CommandSpecial> commandSpecials = new List<CommandSpecial>();
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 
@@ -132,6 +133,18 @@ public class Player : Node2D
 			state = newState;
 		}
 	}
+
+	public struct CommandSpecial
+    {
+		public List<char> heldKeys;
+		public char input;
+
+		public CommandSpecial(List<char> heldKeys, char input)
+        {
+			this.heldKeys = heldKeys;
+			this.input = input;
+        }
+    }
 
 	// components of a received attack
 	private bool wasHit = false;

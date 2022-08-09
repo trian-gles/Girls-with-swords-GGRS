@@ -67,11 +67,17 @@ public class GameScene : BaseGame
 	public override void _Ready()
 	{
 		HUDText = GetNode<Label>("HUD/DebugText");
+		inputText = GetNode<Label>("HUD/InputText");
+		GD.Print("Acquired input text node");
 		base._Ready();
-
+		
+		
 		// used to hide behind the char select screen
 		HUD = GetNode<CanvasLayer>("HUD");
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Zero, Vector2.Zero);
+
+		// the default, which will be changed for certain modes
+		SetDebugVisibility(false);
 	}
 
 	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
@@ -118,6 +124,7 @@ public class GameScene : BaseGame
 		mainGFX = GetNode<MainGFX>("MainGFX");
 		camera = GetNode<Camera2D>("Camera2D");
 		centerText.Visible = true;
+		inputText.Call("clear");
 		
 		P1Combo.Text = "";
 		P2Combo.Text = "";
@@ -132,6 +139,11 @@ public class GameScene : BaseGame
 		
 	}
 
+	public void SetDebugVisibility(bool visible)
+	{
+		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/DebugText" })
+			((Control)GetNode(path)).Visible = visible;
+	}
 	
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
@@ -157,6 +169,12 @@ public class GameScene : BaseGame
 	public override bool AcceptingInputs()
 	{
 		return (currTime == TimeStatus.GAME || currTime == TimeStatus.FAKEEND);
+	}
+
+	public void DisplayInputs(int p1Inps, int p2Inps)
+	{
+		if (configured)
+			inputText.Call("inputs", p1Inps, p2Inps);
 	}
 
 	// ----------------

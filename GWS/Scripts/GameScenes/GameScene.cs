@@ -31,6 +31,9 @@ public class GameScene : BaseGame
 	private CanvasLayer HUD;
 	private int frame;
 
+	private Label recordingText;
+	private ColorRect recordingBack;
+
 
 	// TIME HANDLING
 	public bool ignoreTime = false;
@@ -68,9 +71,12 @@ public class GameScene : BaseGame
 	{
 		HUDText = GetNode<Label>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
-		GD.Print("Acquired input text node");
+		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
+		recordingText = GetNode<Label>("HUD/RecordingText");
 		base._Ready();
-		
+
+		// hide the recording text
+		SetRecordingText("");
 		
 		// used to hide behind the char select screen
 		HUD = GetNode<CanvasLayer>("HUD");
@@ -143,6 +149,21 @@ public class GameScene : BaseGame
 	{
 		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/DebugText" })
 			((Control)GetNode(path)).Visible = visible;
+	}
+
+	public void SetRecordingText(string msg)
+	{
+		if (msg == "")
+		{
+			recordingBack.Visible = false;
+			recordingText.Visible = false;
+		}
+		else
+		{
+			recordingBack.Visible = true;
+			recordingText.Visible = true;
+			recordingText.Text = msg;
+		}
 	}
 	
 	public override void AdvanceFrame(int p1Inps, int p2Inps)

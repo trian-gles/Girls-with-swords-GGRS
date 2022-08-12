@@ -88,6 +88,8 @@ func inputs(p1inps, p2inps):
 		elif (p1inps & 2):
 			display_input('2')
 			
+	# BUTTONS
+			
 	if (p1inps & 16) and not (p1_last_inputs & 16):
 		display_input('p')
 		

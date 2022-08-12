@@ -17,20 +17,68 @@ class TrainingManager : BaseManager
 	{
 		int p1Inputs;
 		int p2Inputs;
+		int playerInputs = GetInputs("");
+		int otherInputs = 0;
+
+		if (recordingInputs)
+			recordedInputs.Add(playerInputs);
+
+		if (playbackInputs)
+		{
+			if (inputHead < recordedInputs.Count)
+			{
+				otherInputs = recordedInputs[inputHead];
+			}
+			else
+			{
+				StopInputPlayback();
+			}
+		}
+			
+
 		if (flippedPlayers)
 		{
-			p1Inputs = 0;
-			p2Inputs = GetInputs("");
+			p1Inputs = otherInputs;
+			p2Inputs = playerInputs;
 		}
 		else
 		{
-			p1Inputs = GetInputs("");
-			p2Inputs = 0;
+			p1Inputs = playerInputs;
+			p2Inputs = otherInputs;
 		}
 
 		gameScene.DisplayInputs(p1Inputs, p2Inputs);
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
-		
+		if (recordingInputs || playbackInputs)
+			inputHead++;
+	}
+
+	void StartInputRecord()
+	{
+		GD.Print("Recording inputs");
+		inputHead = 0;
+		recordedInputs.Clear();
+		recordingInputs = true;
+		gameScene.SetRecordingText("REC");
+	}
+
+	void StopInputRecord()
+	{
+		recordingInputs = false;
+		gameScene.SetRecordingText("");
+	}
+
+	void StartInputPlayback()
+	{
+		inputHead = 0;
+		playbackInputs = true;
+		gameScene.SetRecordingText("PLAY");
+	}
+
+	void StopInputPlayback()
+	{
+		playbackInputs = false;
+		gameScene.SetRecordingText("");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -51,7 +99,25 @@ class TrainingManager : BaseManager
 		{
 			gameScene.ResetAll();
 		}
-			
+		else if (@event.IsActionPressed("record_inputs"))
+		{
+			if (playbackInputs)
+				StopInputPlayback();
+			if (recordingInputs)
+				StopInputRecord();
+			else
+				StartInputRecord();
+		}
+		else if (@event.IsActionPressed("playback_inputs"))
+		{
+			if (recordingInputs)
+				StopInputRecord();
+			if (playbackInputs)
+				StopInputPlayback();
+			else
+				StartInputPlayback();
+		}
+
 	}
 
 	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)

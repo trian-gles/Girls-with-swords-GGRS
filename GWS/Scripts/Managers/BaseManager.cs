@@ -12,6 +12,15 @@ class BaseManager : Node2D
 	/// </summary>
 	protected bool hosting;
 
+
+	/// <summary>
+	/// All used for playback of inputs
+	/// </summary>
+	protected List<int> recordedInputs = new List<int>();
+	protected bool recordingInputs = false;
+	protected bool playbackInputs = false;
+	protected int inputHead = 0;
+
 	protected bool usesHUDNode;
 	protected Control HUDNode;
 

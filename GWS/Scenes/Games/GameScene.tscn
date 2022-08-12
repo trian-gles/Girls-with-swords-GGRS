@@ -210,6 +210,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="RecordingBack" type="ColorRect" parent="HUD"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -35.0
+margin_right = 35.0
+margin_bottom = 19.0
+color = Color( 0, 0, 0, 0.435294 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RecordingText" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -117.0
+margin_top = 2.0
+margin_right = 124.0
+margin_bottom = 18.0
+theme = SubResource( 5 )
+text = "REC"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="InputBack" type="ColorRect" parent="HUD"]
 margin_top = 22.0
 margin_right = 20.0

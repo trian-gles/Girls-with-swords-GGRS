@@ -13,7 +13,7 @@ public abstract class AirGrabStart : AirState
 	public override void CheckHit()
 	{
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
-		if (collisionPnt != Vector2.Inf)
+		if (collisionPnt != Vector2.Inf && owner.otherPlayer.IsAirGrabbable())
 		{
 			EmitSignal(nameof(StateFinished), "AirGrab");
 		}

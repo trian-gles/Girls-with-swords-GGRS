@@ -84,6 +84,7 @@ public class Player : Node2D
 	public bool canDoubleJump;
 	public int invulnFrames = 0;
 	public int airDashFrames = 0;
+	public int grabInvulnFrames = 0;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -116,6 +117,7 @@ public class Player : Node2D
 		public int lastFrameInputs { get; set; }
 		public int invulnFrames { get; set; }
 		public int airDashFrames { get; set; }
+		public int grabInvulnFrames { get; set; }
 
 	}
 
@@ -281,6 +283,7 @@ public class Player : Node2D
 		pState.lastFrameInputs = inputHandler.lastFrameInputs;
 		pState.invulnFrames = invulnFrames;
 		pState.airDashFrames = airDashFrames;
+		pState.grabInvulnFrames = grabInvulnFrames;
 		return pState;
 	}
 
@@ -318,6 +321,7 @@ public class Player : Node2D
 		inputHandler.lastFrameInputs = pState.lastFrameInputs;
 		invulnFrames = pState.invulnFrames;
 		airDashFrames = pState.airDashFrames;
+		grabInvulnFrames = pState.grabInvulnFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
 
 	}
@@ -675,9 +679,9 @@ public class Player : Node2D
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
 		if (invulnFrames > 0)
-		{
 			invulnFrames--;
-		}
+		if (grabInvulnFrames > 0)
+			grabInvulnFrames--;
 
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
@@ -872,34 +876,12 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool IsGrabbable()
 	{
-		if (currentState.GetType().IsSubclassOf(typeof(HitState)))
-		{
-			return false;
-		}
-		else if (!grounded)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return (!(grabInvulnFrames > 0 || currentState.GetType().IsSubclassOf(typeof(HitState)) || !grounded));
 	}
 
 	public bool IsAirGrabbable()
 	{
-		if (currentState.GetType().IsSubclassOf(typeof(HitState)))
-		{
-			return false;
-		}
-		else if (grounded)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return (!(grabInvulnFrames > 0 || currentState.GetType().IsSubclassOf(typeof(HitState)) || grounded));
 	}
 
 	public void Prorate(int prorationLevel)

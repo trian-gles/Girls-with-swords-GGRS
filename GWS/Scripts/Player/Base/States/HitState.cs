@@ -11,4 +11,10 @@ public class HitState : State
 	{
 		return frameCount > 0;
 	}
+
+    public override void Exit()
+    {
+        base.Exit();
+		owner.grabInvulnFrames = 5;
+    }
 }

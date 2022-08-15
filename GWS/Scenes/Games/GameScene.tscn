@@ -245,10 +245,50 @@ __meta__ = {
 }
 
 [node name="InputText" type="Label" parent="HUD"]
+anchor_left = 0.006
 anchor_top = 0.101
+anchor_right = 0.054
 anchor_bottom = 0.223
 margin_right = 40.0
 margin_bottom = 16.0
+theme = SubResource( 5 )
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputBackP2" type="ColorRect" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -113.0
+margin_bottom = 83.0
+color = Color( 0, 0, 0, 0.435294 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputTextP2" type="Label" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -17.0
+margin_top = -108.0
+margin_bottom = 98.0
 theme = SubResource( 5 )
 text = "1
 2

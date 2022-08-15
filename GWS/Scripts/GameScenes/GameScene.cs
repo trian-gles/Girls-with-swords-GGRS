@@ -71,6 +71,7 @@ public class GameScene : BaseGame
 	{
 		HUDText = GetNode<Label>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
+		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		base._Ready();
@@ -131,7 +132,8 @@ public class GameScene : BaseGame
 		camera = GetNode<Camera2D>("Camera2D");
 		centerText.Visible = true;
 		inputText.Call("clear");
-		
+		inputTextP2.Call("clear");
+
 		P1Combo.Text = "";
 		P2Combo.Text = "";
 
@@ -147,7 +149,7 @@ public class GameScene : BaseGame
 
 	public void SetDebugVisibility(bool visible)
 	{
-		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/DebugText" })
+		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText" })
 			((Control)GetNode(path)).Visible = visible;
 	}
 
@@ -195,7 +197,11 @@ public class GameScene : BaseGame
 	public void DisplayInputs(int p1Inps, int p2Inps)
 	{
 		if (configured)
-			inputText.Call("inputs", p1Inps, p2Inps);
+		{
+			inputText.Call("inputs", p1Inps);
+			inputTextP2.Call("inputs", p2Inps);
+		}
+			
 	}
 
 	// ----------------

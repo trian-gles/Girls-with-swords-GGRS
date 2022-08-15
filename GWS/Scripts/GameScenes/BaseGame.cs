@@ -12,6 +12,7 @@ public abstract class BaseGame : Node2D
 
 	protected Label HUDText;
 	protected Label inputText;
+	protected Label inputTextP2;
 
 	/// <summary>
 	/// Used only by local game modes

@@ -6833,11 +6833,10 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 14, -23 )
+position = Vector2( 14, -18 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 24, -23 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -2, -31 )
@@ -6847,7 +6846,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 204
-frame = 14
+frame = 15
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -6855,9 +6854,9 @@ script = SubResource( 3 )
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
 level = 3
-modifiedHitStun = 25
+modifiedHitStun = 35
 modifiedCounterHitStun = 55
-opponentLaunch = Vector2( 150, -800 )
+opponentLaunch = Vector2( 150, -1000 )
 modifiedHitPush = 6000
 launch = Vector2( 200, -800 )
 
@@ -6875,7 +6874,7 @@ launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
-maxLen = 14
+maxLen = 10
 speed = 700
 
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="22"]
@@ -6897,8 +6896,33 @@ knockdown = true
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )
 
+[node name="Jab" parent="StateTree" index="28"]
+gatlingWinEnd = 9
+
+[node name="Kick" parent="StateTree" index="29"]
+gatlingWinEnd = 12
+
+[node name="Slash" parent="StateTree" index="30"]
+gatlingWinEnd = 14
+
+[node name="JumpA" parent="StateTree" index="31"]
+gatlingWinEnd = 10
+
 [node name="JumpB" parent="StateTree" index="32"]
 hitPush = 3500
+gatlingWinEnd = 14
+
+[node name="JumpC" parent="StateTree" index="33"]
+gatlingWinEnd = 16
+
+[node name="CrouchA" parent="StateTree" index="34"]
+gatlingWinEnd = 10
+
+[node name="CrouchB" parent="StateTree" index="35"]
+gatlingWinEnd = 12
+
+[node name="CrouchC" parent="StateTree" index="36"]
+gatlingWinEnd = 14
 
 [node name="Hadouken" parent="StateTree" index="42"]
 hadoukenScene = ExtResource( 12 )

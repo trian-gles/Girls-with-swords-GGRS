@@ -5881,16 +5881,37 @@ releaseFrame = 20
 [node name="AirDash" parent="StateTree" index="23"]
 len = 14
 
+[node name="Jab" parent="StateTree" index="25"]
+gatlingWinEnd = 9
+
 [node name="Kick" parent="StateTree" index="26"]
 modifiedHitStun = 19
 opponentLaunch = Vector2( 0, -600 )
+gatlingWinEnd = 16
+
+[node name="Slash" parent="StateTree" index="27"]
+gatlingWinEnd = 14
+
+[node name="JumpA" parent="StateTree" index="28"]
+gatlingWinEnd = 10
 
 [node name="JumpB" parent="StateTree" index="29"]
 modifiedHitStun = 17
+gatlingWinEnd = 12
 
 [node name="JumpC" parent="StateTree" index="30"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
+gatlingWinEnd = 14
+
+[node name="CrouchA" parent="StateTree" index="31"]
+gatlingWinEnd = 9
+
+[node name="CrouchB" parent="StateTree" index="32"]
+gatlingWinEnd = 12
+
+[node name="CrouchC" parent="StateTree" index="33"]
+gatlingWinEnd = 14
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )

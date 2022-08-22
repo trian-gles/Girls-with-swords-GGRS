@@ -43,6 +43,12 @@ public abstract class BaseAttack : State
 	[Export]
 	protected bool knockdown = false;
 
+	/// <summary>
+	/// Gatlings must be input before this window closes
+	/// </summary>
+	[Export]
+	protected int gatlingWinEnd = 0;
+
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
@@ -189,7 +195,8 @@ public abstract class BaseAttack : State
 		{
 			return;
 		}
-		base.HandleInput(inputArr);
+		if (gatlingWinEnd == 0 || frameCount < gatlingWinEnd)
+			base.HandleInput(inputArr);
 	}
 
 

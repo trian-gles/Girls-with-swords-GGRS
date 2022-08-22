@@ -22,4 +22,10 @@ public class Knockdown : HitState
         owner.ResetComboAndProration();
         EmitSignal(nameof(StateFinished), "Idle");
     }
+
+    public override void Exit()
+    {
+        base.Exit();
+        owner.invulnFrames = 2;
+    }
 }

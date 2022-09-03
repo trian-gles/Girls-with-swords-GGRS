@@ -472,4 +472,18 @@ public class GameScene : BaseGame
 		P2.internalPos = new Vector2(33000, 24000);
 		ConfigTime();
 	}
+
+	/// <summary>
+	/// Doesn't reset time for easy resets
+	/// </summary>
+	public void ResetTraining()
+	{
+		ResetHealth("P1");
+		ResetHealth("P2");
+		P1.Reset();
+		P2.Reset();
+
+		P1.internalPos = new Vector2(13300, 24000);
+		P2.internalPos = new Vector2(33000, 24000);
+	}
 }

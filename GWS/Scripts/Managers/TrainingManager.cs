@@ -97,7 +97,7 @@ class TrainingManager : BaseManager
 		}
 		else if (@event.IsActionPressed("reset_training"))
 		{
-			gameScene.ResetAll();
+			gameScene.ResetTraining();
 		}
 		else if (@event.IsActionPressed("record_inputs"))
 		{

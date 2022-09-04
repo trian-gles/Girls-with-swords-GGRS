@@ -1397,10 +1397,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2, 3, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -1, 12 ) ]
+"values": [ Vector2( -1, 12 ), Vector2( -1, 12 ), Vector2( 12, 12 ), Vector2( 12, 12 ), Vector2( 3, 12 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -1445,10 +1445,10 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2, 3, 6, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.5, 0 ) ]
+"values": [ Vector2( -1.5, 0 ), Vector2( -1.5, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( -1.5, 0 ) ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -1783,7 +1783,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 24, 29 ) ]
+"values": [ Vector2( 18, 29 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:disabled")
@@ -1816,7 +1816,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 8, 12 ),
+"times": PoolRealArray( 0, 4, 12 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4418,7 +4418,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 12, 35 ) ]
+"values": [ Vector2( 12, 21 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:position")
@@ -4430,7 +4430,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -1, 4 ) ]
+"values": [ Vector2( -1, 18 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB1:disabled")
@@ -5827,7 +5827,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 12 )
+position = Vector2( -1, 10 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -5838,7 +5838,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 22, -26 )
+position = Vector2( 46, 21 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -5852,7 +5852,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( -1, 0 )
+offset = Vector2( -1.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149

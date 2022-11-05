@@ -2,9 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-class TrainingManager : BaseManager
+public class TrainingManager : BaseManager
 {
-	private bool flippedPlayers = false;
+	
+	private bool inputsOnRecovery = false;
 
 	public override void _Ready()
 	{
@@ -53,71 +54,23 @@ class TrainingManager : BaseManager
 			inputHead++;
 	}
 
-	void StartInputRecord()
-	{
-		GD.Print("Recording inputs");
-		inputHead = 0;
-		recordedInputs.Clear();
-		recordingInputs = true;
-		gameScene.SetRecordingText("REC");
-	}
-
-	void StopInputRecord()
-	{
-		recordingInputs = false;
-		gameScene.SetRecordingText("");
-	}
-
-	void StartInputPlayback()
-	{
-		inputHead = 0;
-		playbackInputs = true;
-		gameScene.SetRecordingText("PLAY");
-	}
-
-	void StopInputPlayback()
-	{
-		playbackInputs = false;
-		gameScene.SetRecordingText("");
-	}
+	
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("switch_players"))
-		{
-			flippedPlayers = !flippedPlayers;
-			string newText;
-			if (flippedPlayers)
-				newText = "P2";
-			else
-				newText = "P1";
+		HandleSpecialInputs(@event);
 
-			charSelectScene.ChangeHUDText(newText);
-			gameScene.ChangeHUDText(newText);
-		}
-		else if (@event.IsActionPressed("reset_training"))
-		{
-			gameScene.ResetTraining();
-		}
-		else if (@event.IsActionPressed("record_inputs"))
-		{
-			if (playbackInputs)
-				StopInputPlayback();
-			if (recordingInputs)
-				StopInputRecord();
-			else
-				StartInputRecord();
-		}
-		else if (@event.IsActionPressed("playback_inputs"))
-		{
-			if (recordingInputs)
-				StopInputRecord();
-			if (playbackInputs)
-				StopInputPlayback();
-			else
-				StartInputPlayback();
-		}
+	}
 
+	public void OnCharacterRecovery(string name)
+	{
+		GD.Print($"{name} recovery!");
+		if ((name == "P1") == (flippedPlayers))
+		{
+			GD.Print($"recovery playback");
+			StartInputPlayback();
+		}
+			
 	}
 
 	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
@@ -126,6 +79,7 @@ class TrainingManager : BaseManager
 		OnGameFinished("Game");
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);
+		gameScene.ConnectTrainingSignals(this);
 	}
 
 	public override void OnRoundFinished(string winner)

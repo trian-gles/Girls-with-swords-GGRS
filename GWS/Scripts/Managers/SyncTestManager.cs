@@ -42,6 +42,9 @@ class SyncTestManager : StateManager
 	[Export]
 	public int DEPTH = 3;
 
+	[Export]
+	public bool trainingMode = false;
+
 	
 
 	public FixedSizedQueue<byte[]> serializedStates;
@@ -57,6 +60,53 @@ class SyncTestManager : StateManager
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
 		pastInputs = new FixedSizedQueue<int[]>(DEPTH + 1);
 	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (trainingMode)
+			HandleSpecialInputs(@event);
+	}
+
+	private int[] GetTrainingModeInputs()
+	{
+		int p1Inputs;
+		int p2Inputs;
+		int playerInputs = GetInputs("");
+		int otherInputs = 0;
+
+		if (recordingInputs)
+			recordedInputs.Add(playerInputs);
+
+		if (playbackInputs)
+		{
+			if (inputHead < recordedInputs.Count)
+			{
+				otherInputs = recordedInputs[inputHead];
+			}
+			else
+			{
+				StopInputPlayback();
+			}
+		}
+
+
+		if (flippedPlayers)
+		{
+			p1Inputs = otherInputs;
+			p2Inputs = playerInputs;
+		}
+		else
+		{
+			p1Inputs = playerInputs;
+			p2Inputs = otherInputs;
+		}
+
+		if (recordingInputs || playbackInputs)
+			inputHead++;
+
+		return new int[] { p1Inputs, p2Inputs };
+	}
+
 	public override void _PhysicsProcess(float _delta)
 	{
 		int[] combinedInps;
@@ -66,10 +116,15 @@ class SyncTestManager : StateManager
 			OnGameFinished("Game");
 			readyForChange = false;
 		}
-			
+
 
 		if (currGame.AcceptingInputs())
-			combinedInps = new int[] { GetInputs(""), GetInputs("b") };
+		{
+			if (trainingMode)
+				combinedInps = GetTrainingModeInputs();
+			else
+				combinedInps = new int[] { GetInputs(""), GetInputs("b") };
+		}
 		else
 			combinedInps = new int[] { 0, 0 };
 		
@@ -95,6 +150,7 @@ class SyncTestManager : StateManager
 
 			currGame.AdvanceFrame(tempInputs[0], tempInputs[1]);
 		}
+
 		currGame.CompareStates(serializedGamestate);
 	}
 

@@ -10,3 +10,4 @@ script = ExtResource( 2 )
 packedGameScene = ExtResource( 3 )
 packedCharSelectScene = ExtResource( 5 )
 DEPTH = 8
+trainingMode = true

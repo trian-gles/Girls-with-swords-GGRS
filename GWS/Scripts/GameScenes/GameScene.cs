@@ -29,6 +29,8 @@ public class GameScene : BaseGame
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
 	private CanvasLayer HUD;
+	private Label P1Counter;
+	private Label P2Counter;
 	private int frame;
 
 	private Label recordingText;
@@ -72,6 +74,8 @@ public class GameScene : BaseGame
 		HUDText = GetNode<Label>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
+		P1Counter = GetNode<Label>("HUD/P1Counter");
+		P2Counter = GetNode<Label>("HUD/P2Counter");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		base._Ready();
@@ -119,6 +123,8 @@ public class GameScene : BaseGame
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
+		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
+		P2.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 
 
 		P1Combo = GetNode<Label>("HUD/P1Combo");
@@ -237,6 +243,8 @@ public class GameScene : BaseGame
 		
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
+		P1Counter.Call("rollback", frame);
+		P2Counter.Call("rollback", frame);
 	}
 
 	public override void GGRSAdvanceFrame(int p1Inps, int p2Inps)
@@ -294,6 +302,15 @@ public class GameScene : BaseGame
 			P2Combo.Call("combo_set", combo);
 		}
 	}
+
+	public void OnPlayerCounterHit(string name)
+	{
+		if (name == "P1")
+			P1Counter.Call("display", frame);
+		else
+			P2Counter.Call("display", frame);
+	}
+
 	public void OnPlayerHealthChange(string name, int health)
 	{
 		if (name == "P1")
@@ -485,5 +502,11 @@ public class GameScene : BaseGame
 
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);
+	}
+
+	public void ConnectTrainingSignals(TrainingManager manager)
+	{
+		P1.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
+		P2.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
 	}
 }

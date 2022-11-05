@@ -3,13 +3,16 @@ using System;
 
 public class HitState : State
 {
-	public override void Enter()
-	{
-		base.Enter();
-	}
 	public override bool DelayInputs()
 	{
 		return frameCount > 0;
+	}
+
+    public override void FrameAdvance()
+    {
+        base.FrameAdvance();
+		if (frameCount == 1)
+			owner.EmitSignal("Recovery", owner.Name);
 	}
 
     public override void Exit()

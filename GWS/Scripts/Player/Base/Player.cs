@@ -15,6 +15,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void ComboSet(string name, int combo);
 	[Signal]
+	public delegate void CounterHit(string name);
+	[Signal]
 	public delegate void HitConfirm();
 	[Signal]
 	public delegate void LevelUp();
@@ -22,6 +24,9 @@ public class Player : Node2D
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
 	public delegate void HadoukenRemoved(HadoukenPart h);
+
+	[Signal]
+	public delegate void Recovery(string name);
 
 	[Export]
 	public int speed = 400;
@@ -72,6 +77,11 @@ public class Player : Node2D
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 
+	/// <summary>
+	/// States that cannot be cancelled into grab, for reasons...
+	/// </summary>
+	public HashSet<string> noGrabStates = new HashSet<string>(){ "Jab", "Run", "PreRun", "CrouchA" };
+
 	// All of these will be stored in gamestate
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
@@ -85,6 +95,8 @@ public class Player : Node2D
 	public int invulnFrames = 0;
 	public int airDashFrames = 0;
 	public int grabInvulnFrames = 0;
+	public string lastStateName = "Idle";
+	public int counterStopFrames = 0;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -118,6 +130,8 @@ public class Player : Node2D
 		public int invulnFrames { get; set; }
 		public int airDashFrames { get; set; }
 		public int grabInvulnFrames { get; set; }
+		public string lastStateName { get; set; }
+		public int counterStopFrames { get; set; }
 
 	}
 
@@ -284,6 +298,8 @@ public class Player : Node2D
 		pState.invulnFrames = invulnFrames;
 		pState.airDashFrames = airDashFrames;
 		pState.grabInvulnFrames = grabInvulnFrames;
+		pState.lastStateName = lastStateName;
+		pState.counterStopFrames = counterStopFrames;
 		return pState;
 	}
 
@@ -323,6 +339,8 @@ public class Player : Node2D
 		airDashFrames = pState.airDashFrames;
 		grabInvulnFrames = pState.grabInvulnFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
+		lastStateName = pState.lastStateName;
+		counterStopFrames = pState.counterStopFrames;
 
 	}
 
@@ -562,7 +580,7 @@ public class Player : Node2D
 	public void ChangeState(string nextStateName) 
 	{
 		currentState.Exit();
-		
+		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
@@ -678,11 +696,17 @@ public class Player : Node2D
 		
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
+		
 		if (invulnFrames > 0)
 			invulnFrames--;
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
 
+		if (counterStopFrames > 0)
+		{
+			counterStopFrames--;
+			return;
+		}
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
@@ -734,6 +758,10 @@ public class Player : Node2D
 	/// </summary>
 	public void MoveSlideDeterministicTwo()
 	{
+		if (counterStopFrames > 0)
+        {
+			return;
+        }
 		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
 		internalPos += new Vector2(xChange, yChange);
@@ -884,6 +912,14 @@ public class Player : Node2D
 		return (!(grabInvulnFrames > 0 || currentState.GetType().IsSubclassOf(typeof(HitState)) || grounded));
 	}
 
+	/// <summary>
+	/// Checks if we can grab the opposing player
+	/// </summary>
+	/// <returns></returns>
+	public bool CanGrab()
+    {
+		return !noGrabStates.Contains(lastStateName);
+    }
 	public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
@@ -908,7 +944,8 @@ public class Player : Node2D
 		if (currentState.isCounter)
 		{
 			receivedHit = chDetails;
-			//GD.Print("COUNTER");
+			otherPlayer.EmitSignal("CounterHit", otherPlayer.Name);
+			counterStopFrames = 10; // shouldn't be hardcoded
 		}
 		velocity = new Vector2(0, 0);
 		wasHit = true;
@@ -931,6 +968,17 @@ public class Player : Node2D
 		
 		wasHit = false;
 	}
+
+	public bool HurtboxesInactive()
+    {
+		foreach (var hurtBox in hurtBoxes.GetChildren())
+        {
+			if (!((CollisionShape2D)hurtBox).Disabled){
+				return false;
+            }
+        }
+		return true;
+    }
 
 	public void OnHitConnected(int hitPush) 
 	{
@@ -1126,19 +1174,19 @@ public class Player : Node2D
 			List<Rect2> hurtRects = GetRects(hurtBoxes);
 			Rect2 colRect = GetRect(colBox);
 
-
+			DrawRect(colRect, colColor);
 			foreach (Rect2 rect in hitRects)
 			{
 				DrawRect(rect, hitColor);
 			}
-
+			if (IsInvuln())
+				return;
 			foreach (Rect2 rect in hurtRects)
 			{
 				DrawRect(rect, hurtColor);
 			}
-			if (IsInvuln())
-				return;
-			DrawRect(colRect, colColor);
+			
+			
 		}
 
 		

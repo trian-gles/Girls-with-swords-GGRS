@@ -161,7 +161,12 @@ public abstract class BaseAttack : State
 		hitConnect = true;
 	}
 
-	public override void HandleInput(char[] inputArr)
+    public override bool DelayInputs()
+    {
+		return (frameCount >= 3 && !hitConnect && owner.HurtboxesInactive());
+    }
+
+    public override void HandleInput(char[] inputArr)
 	{
 		if (frameCount < 3)
 		{

@@ -62,17 +62,8 @@ public class Grab : State
 		owner.velocity = new Vector2(0, 0);
 		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
-		if (owner.CheckHeldKey('6'))
-		{
-			owner.TurnRight();
-			rightGrab = true;
-		}
-		else
-		{
-			owner.TurnLeft();
-			rightGrab = false;
-		}
 
+		rightGrab = owner.facingRight;
 	}
 
 	public override void HandleInput(char[] inputArr)
@@ -89,6 +80,20 @@ public class Grab : State
 		base.FrameAdvance();
 		if (frameCount < releaseFrame)
 		{
+			if (frameCount < 3)
+            {
+				if (owner.CheckHeldKey('6'))
+				{
+					owner.TurnRight();
+					rightGrab = true;
+				}
+				if (owner.CheckHeldKey('4'))
+				{
+					owner.TurnLeft();
+					rightGrab = false;
+				}
+			}
+
 			Vector2 relGrabPosition = owner.grabPos.Position * 100;
 			if (!rightGrab)
 			{

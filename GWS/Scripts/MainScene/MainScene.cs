@@ -632,6 +632,11 @@ public class MainScene : Node2D
 			centerText.Text = "P2 WINS";
 		}
 	}
+
+	public void OnPlayerCounterHit(string name)
+    {
+
+    }
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
 		AddChild(h); // Add the hadouken as a child

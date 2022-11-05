@@ -25,5 +25,4 @@ hframes = 2
 vframes = 2
 
 [node name="AnimationPlayer" parent="." index="0"]
-playback_speed = 60.0
 anims/Animation = SubResource( 1 )

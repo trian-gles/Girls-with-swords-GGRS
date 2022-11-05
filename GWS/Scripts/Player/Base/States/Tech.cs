@@ -7,11 +7,10 @@ public class Tech : Fall
 	[Export]
 	public Vector2 techVector = new Vector2(0, 0);
 
-	public int length = 60;
+	public int length = 15;
 	public override void Enter()
 	{
 		base.Enter();
-		GD.Print("Entering tech");
 		owner.GFXEvent("Tech");
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
@@ -30,12 +29,6 @@ public class Tech : Fall
 			EmitSignal(nameof(StateFinished), "Knockdown");
 		}
 	}
-
-    public override void Exit()
-    {
-        base.Exit();
-		GD.Print("Exiting Tech on frame ", frameCount);
-    }
 
     public override void HandleInput(char[] inputArr)
 	{

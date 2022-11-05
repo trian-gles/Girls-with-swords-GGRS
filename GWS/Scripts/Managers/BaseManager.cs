@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-class BaseManager : Node2D
+public class BaseManager : Node2D
 {
 
 	protected bool currGameFinished;
@@ -20,6 +20,11 @@ class BaseManager : Node2D
 	protected bool recordingInputs = false;
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
+	
+	/// <summary>
+	/// Shared by training and synctest
+	/// </summary>
+	protected bool flippedPlayers = false;
 
 	protected bool usesHUDNode;
 	protected Control HUDNode;
@@ -159,5 +164,75 @@ class BaseManager : Node2D
 		}
 
 		return inputs;
+	}
+
+
+	////////
+	// TRAINING AND SYNCTEST
+	//////// 
+	protected void StartInputRecord()
+	{
+		//GD.Print("Recording inputs");
+		inputHead = 0;
+		recordedInputs.Clear();
+		recordingInputs = true;
+		gameScene.SetRecordingText("REC");
+	}
+
+	protected void StopInputRecord()
+	{
+		recordingInputs = false;
+		gameScene.SetRecordingText("");
+	}
+
+	protected void StartInputPlayback()
+	{
+		inputHead = 0;
+		playbackInputs = true;
+		gameScene.SetRecordingText("PLAY");
+	}
+
+	protected void StopInputPlayback()
+	{
+		playbackInputs = false;
+		gameScene.SetRecordingText("");
+	}
+
+	protected void HandleSpecialInputs(InputEvent @event)
+    {
+		if (@event.IsActionPressed("switch_players"))
+		{
+			flippedPlayers = !flippedPlayers;
+			string newText;
+			if (flippedPlayers)
+				newText = "P2";
+			else
+				newText = "P1";
+
+			charSelectScene.ChangeHUDText(newText);
+			gameScene.ChangeHUDText(newText);
+		}
+		else if (@event.IsActionPressed("reset_training"))
+		{
+			gameScene.ResetTraining();
+		}
+		else if (@event.IsActionPressed("record_inputs"))
+		{
+			if (playbackInputs)
+				StopInputPlayback();
+			if (recordingInputs)
+				StopInputRecord();
+			else
+				StartInputRecord();
+		}
+		else if (@event.IsActionPressed("playback_inputs"))
+		{
+			if (recordingInputs)
+				StopInputRecord();
+			if (playbackInputs)
+				StopInputPlayback();
+			else
+				StartInputPlayback();
+		}
 	}
 }

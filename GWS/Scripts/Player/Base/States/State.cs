@@ -95,9 +95,9 @@ public abstract class State : Node
 	protected void ApplyGravity()
 	{
 		if (owner.counterStopFrames > 0)
-        {
+		{
 			return;
-        }
+		}
 		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1400);
 	}
 	public virtual void AnimationFinished() 
@@ -427,6 +427,10 @@ public abstract class State : Node
 	public virtual void CheckHit()
 	{
 
+	}
+	
+	public void TryRhythm(){
+		owner.EmitSignal("RhythmHitTry", owner.Name);
 	}
 
 	/// <summary>

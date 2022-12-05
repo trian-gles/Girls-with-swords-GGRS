@@ -12,6 +12,7 @@ public class GameStateObjectRedesign : Node
 {
 	public Player P1;
 	public Player P2;
+	private RhythmTrack rhythmTrack;
 	private GameScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
 
 	[Signal]
@@ -54,6 +55,8 @@ public class GameStateObjectRedesign : Node
 	{
 		this.P1 = P1;
 		this.P2 = P2;
+		
+		rhythmTrack = (RhythmTrack)mainScene.GetNode("HUD/RhythmTrack");
 
 		this.mainScene = mainScene;
 		this.hosting = hosting;
@@ -62,6 +65,9 @@ public class GameStateObjectRedesign : Node
 
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
+		
+		P1.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
+		P2.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
 
 
 		P1.otherPlayer = P2;
@@ -74,6 +80,7 @@ public class GameStateObjectRedesign : Node
 
 		hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
 		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
+		rhythmTrack.Config();
 		GD.Print("GameState config finished");
 		// Use this below code to make P2 hold a button
 		// P2.SetUnhandledInputs(new List<char[]>() { new char[] { '8', 'p' } });
@@ -134,10 +141,10 @@ public class GameStateObjectRedesign : Node
 	}
 
 	 public void RedesignCompareStates(byte[] buffer)
-    {
+	{
 		GameState oldState = Deserialize<GameState>(buffer);
 		CompareGameStates(oldState, GetGameState());
-    }
+	}
 
 	private string CompareGameStates(GameState firstGs, GameState secondGs)
 	{
@@ -298,6 +305,7 @@ public class GameStateObjectRedesign : Node
 
 		AdvanceFrameAndHitstop();
 		FrameAdvancePlayers(p1inps, p2inps);
+		rhythmTrack.AdvanceFrame(Frame);
 		
 
 	}
@@ -417,11 +425,17 @@ public class GameStateObjectRedesign : Node
 	{
 		hitStopRemaining = maxHitStop;
 	}
+	
+	public void OnRhythmHitTry(string playerName){
+		if (rhythmTrack.TryHit(playerName)){
+			GD.Print($"SUCCESSFUL RHYTHM HIT BY {playerName}");
+		}
+	}
 
 	public void OnLevelUp()
-    {
+	{
 		hitStopRemaining = levelUpHitStop;
-    }
+	}
 
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{

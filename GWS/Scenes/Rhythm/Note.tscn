@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Rhythm/Note.cs" type="Script" id=1]
+
+[node name="Note" type="Polygon2D"]
+scale = Vector2( 2.71429, 3.16667 )
+color = Color( 0, 1, 1, 1 )
+polygon = PoolVector2Array( 6.06667, 0.8, 7, 3, 6.06667, 5.2, 3.5, 6, 0.933333, 5.2, 0, 3, 0.933333, 0.8, 3.5, 0 )
+script = ExtResource( 1 )

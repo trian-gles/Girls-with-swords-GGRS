@@ -24,6 +24,8 @@ public class Player : Node2D
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
 	public delegate void HadoukenRemoved(HadoukenPart h);
+	[Signal]
+	public delegate void RhythmHitTry(string name);
 
 	[Signal]
 	public delegate void Recovery(string name);
@@ -151,16 +153,16 @@ public class Player : Node2D
 	}
 
 	public struct CommandSpecial
-    {
+	{
 		public List<char> heldKeys;
 		public char input;
 
 		public CommandSpecial(List<char> heldKeys, char input)
-        {
+		{
 			this.heldKeys = heldKeys;
 			this.input = input;
-        }
-    }
+		}
+	}
 
 	// components of a received attack
 	private bool wasHit = false;
@@ -502,6 +504,7 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
+				playerState.TryRhythm();
 				BufAddInput(inputArr);
 			}
 				
@@ -759,9 +762,9 @@ public class Player : Node2D
 	public void MoveSlideDeterministicTwo()
 	{
 		if (counterStopFrames > 0)
-        {
+		{
 			return;
-        }
+		}
 		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
 		internalPos += new Vector2(xChange, yChange);
@@ -917,9 +920,9 @@ public class Player : Node2D
 	/// </summary>
 	/// <returns></returns>
 	public bool CanGrab()
-    {
+	{
 		return !noGrabStates.Contains(lastStateName);
-    }
+	}
 	public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
@@ -970,15 +973,15 @@ public class Player : Node2D
 	}
 
 	public bool HurtboxesInactive()
-    {
+	{
 		foreach (var hurtBox in hurtBoxes.GetChildren())
-        {
+		{
 			if (!((CollisionShape2D)hurtBox).Disabled){
 				return false;
-            }
-        }
+			}
+		}
 		return true;
-    }
+	}
 
 	public void OnHitConnected(int hitPush) 
 	{

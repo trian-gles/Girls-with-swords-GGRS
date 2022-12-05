@@ -20,6 +20,11 @@ public class GLJumpC : BaseAttack
 		else
 			ApplyGravity();
 	}
+	
+	public override void Enter(){
+		base.Enter();
+		//owner.velocity.y = -200; // This is kinda interesting
+	}
 
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{
@@ -52,13 +57,13 @@ public class GLJumpC : BaseAttack
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 		if (owner.grounded)
-        {
+		{
 			hitDetails.height = HEIGHT.MID;
-        }
-        else
-        {
+		}
+		else
+		{
 			hitDetails.height = HEIGHT.HIGH;
-        }
+		}
 		base.InHurtbox(collisionPnt);
 	}
 

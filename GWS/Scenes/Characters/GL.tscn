@@ -6044,6 +6044,7 @@ releaseFrame = 20
 len = 14
 
 [node name="Jab" parent="StateTree" index="25"]
+jumpCancelable = true
 gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="26"]
@@ -6051,16 +6052,19 @@ modifiedHitStun = 19
 modifiedCounterHitStun = 30
 opponentLaunch = Vector2( 0, -600 )
 chLaunch = Vector2( 0, -700 )
+jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="Slash" parent="StateTree" index="27"]
 gatlingWinEnd = 17
 
 [node name="JumpA" parent="StateTree" index="28"]
+jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="JumpB" parent="StateTree" index="29"]
 modifiedHitStun = 17
+jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="JumpC" parent="StateTree" index="30"]
@@ -6069,6 +6073,7 @@ effect = 1
 gatlingWinEnd = 14
 
 [node name="CrouchA" parent="StateTree" index="31"]
+jumpCancelable = true
 gatlingWinEnd = 9
 
 [node name="CrouchB" parent="StateTree" index="32"]

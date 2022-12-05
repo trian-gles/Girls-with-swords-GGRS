@@ -33,6 +33,10 @@ public abstract class BaseAttack : State
 
 	[Export]
 	protected HEIGHT height = HEIGHT.MID;
+	
+	[Export]
+	protected bool jumpCancelable = false;
+	
 
 	[Export]
 	protected EXTRAEFFECT effect = EXTRAEFFECT.NONE;
@@ -161,12 +165,12 @@ public abstract class BaseAttack : State
 		hitConnect = true;
 	}
 
-    public override bool DelayInputs()
-    {
+	public override bool DelayInputs()
+	{
 		return (frameCount >= 3 && !hitConnect && owner.HurtboxesInactive());
-    }
+	}
 
-    public override void HandleInput(char[] inputArr)
+	public override void HandleInput(char[] inputArr)
 	{
 		if (frameCount < 3)
 		{

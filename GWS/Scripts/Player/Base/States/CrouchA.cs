@@ -7,9 +7,7 @@ public class CrouchA : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
-		AddJumpCancel();
 		AddSpecials(owner.groundSpecials);
-		AddGatling(new char[] { '8', 'p' }, "Jump");
 		AddGatling(new char[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");

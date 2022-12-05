@@ -8,7 +8,6 @@ public class Jab : GroundAttack
 	{
 		base._Ready();
 		AddSpecials(owner.groundSpecials);
-		AddJumpCancel();
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 		AddGatling(new char[] { 'p', 'p' }, "Jab");

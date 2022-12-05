@@ -7070,9 +7070,11 @@ knockdown = true
 script = ExtResource( 20 )
 
 [node name="Jab" parent="StateTree" index="28"]
+jumpCancelable = true
 gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="29"]
+jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="Slash" parent="StateTree" index="30"]
@@ -7089,12 +7091,15 @@ gatlingWinEnd = 14
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="34"]
+jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="CrouchB" parent="StateTree" index="35"]
+jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="36"]
+jumpCancelable = true
 gatlingWinEnd = 18
 
 [node name="Hadouken" parent="StateTree" index="42"]

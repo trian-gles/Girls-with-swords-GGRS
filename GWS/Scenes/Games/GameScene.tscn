@@ -13,7 +13,7 @@
 [ext_resource path="res://Sprites/Overlay/Name Example.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/Overlay/Health.png" type="Texture" id=12]
 [ext_resource path="res://Scripts/MainScene/MainGFX.cs" type="Script" id=13]
-[ext_resource path="res://Scripts/HUD/CounterText.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/HUD/FlashText.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Theme" id=1]
@@ -48,10 +48,10 @@ zoom_offset = 0.104
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="RhythmTrack" parent="HUD" instance=ExtResource( 15 )]
-margin_left = -4.0
-margin_top = 32.0
-margin_right = 58.92
-margin_bottom = 32.03
+margin_left = -5.0
+margin_top = 145.0
+margin_right = 57.92
+margin_bottom = 145.03
 
 [node name="HealthTexture" type="TextureRect" parent="HUD"]
 margin_right = 40.0
@@ -325,9 +325,6 @@ theme = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "COUNTER"
 script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="HUD/P1Counter"]
 wait_time = 0.5
@@ -350,6 +347,36 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="HUD/P2Counter"]
 wait_time = 0.5
 
+[node name="P1Rhythm" type="Label" parent="HUD"]
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = -35.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SWINGIN"
+script = ExtResource( 14 )
+
+[node name="Timer" type="Timer" parent="HUD/P1Rhythm"]
+wait_time = 0.5
+
+[node name="P2Rhythm" type="Label" parent="HUD"]
+anchor_top = 0.583
+anchor_bottom = 0.583
+margin_left = 330.0
+margin_top = -35.0
+margin_right = 442.0
+margin_bottom = -19.0
+theme = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SWINGIN"
+script = ExtResource( 14 )
+
+[node name="Timer" type="Timer" parent="HUD/P2Rhythm"]
+wait_time = 0.5
+
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )
 
@@ -364,3 +391,5 @@ position = Vector2( 0, 270 )
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Counter/Timer" to="HUD/P1Counter" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P2Counter/Timer" to="HUD/P2Counter" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Rhythm/Timer" to="HUD/P1Rhythm" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Rhythm/Timer" to="HUD/P2Rhythm" method="_on_Timer_timeout"]

@@ -349,6 +349,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
+			GD.Print($"Adding special {special.state} with input {special.inputs.Last()[0]}");
 			AddRhythmGatling(special.inputs, special.state);
 		}
 	}
@@ -440,7 +441,7 @@ public abstract class State : Node
 	/// <param name="inputArr"></param>
 	public void HandleRhythmInput(char[] inputArr)
     {
-		
+
 		foreach (RhythmGatling rhythmGatling in rhythmGatlings)
 		{
 			char[] firstInp = rhythmGatling.inputs[rhythmGatling.inputs.Count - 1];
@@ -449,8 +450,11 @@ public abstract class State : Node
 				firstInp = ReverseInput(firstInp);
 			}
 
+			
+
 			if (Enumerable.SequenceEqual(firstInp, inputArr))
 			{
+
 				List<char[]> testedInputs = rhythmGatling.inputs;
 
 				if (!owner.facingRight && rhythmGatling.flipInputs)
@@ -458,9 +462,10 @@ public abstract class State : Node
 					testedInputs = ReverseInputs(testedInputs);
 				}
 
-
-				if (owner.CheckBufferComplex(testedInputs))
+				if (owner.CheckRhythmHeldKey(testedInputs[0][0]))
 				{
+					
+
 					if (rhythmGatling.reqCall != null) // check the required callback
 					{
 						if (!rhythmGatling.reqCall())
@@ -469,16 +474,16 @@ public abstract class State : Node
 						}
 					}
 
-					if (rhythmGatling.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input
+					if (rhythmGatling.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input, fix this!!
 					{
 						continue;
 					}
+					
 
 					if (rhythmGatling.postCall != null)
 					{
 						rhythmGatling.postCall();
 					}
-					Globals.Log("Attempting rhythm gatlings");
 					owner.rhythmState = rhythmGatling.state;
 					owner.EmitSignal(nameof(Player.RhythmHitTry), owner.Name);
 					

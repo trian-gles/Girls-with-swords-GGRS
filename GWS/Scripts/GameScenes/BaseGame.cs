@@ -30,23 +30,25 @@ public abstract class BaseGame : Node2D
 	}
 
 	public void HideAll()
-    {
+	{
 		var queue = new Queue<Node>();
 		queue.Enqueue(this);
 		while (queue.Count > 0)
-        {
+		{
 			
 			var node = queue.Dequeue();
 			foreach (Node child in node.GetChildren())
-            {
+			{
 				queue.Enqueue(child);
-            }
+			}
 			if (node.GetType().GetProperty("Visible") != null)
-            {
+			{
+				GD.Print("TEST");
+				GD.Print(node);
 				((CanvasItem) node).Visible = false;
-            }
-        }
-    }
+			}
+		}
+	}
 
 	public virtual void Reset() { }
 
@@ -75,12 +77,12 @@ public abstract class BaseGame : Node2D
 	}
 
 	protected void CompareValues(int valueA, int valueB, string name)
-    {
+	{
 		if (valueA != valueB)
-        {
+		{
 			GD.Print($"{name} does not match! new: {valueA}, old: {valueB}");
-        }
-    }
+		}
+	}
 
 	protected void CompareValues(bool valueA, bool valueB, string name)
 	{
@@ -114,18 +116,18 @@ public abstract class BaseGame : Node2D
 	/// </summary>
 	/// <param name="serializedNewState"></param>
 	public virtual void CompareStates(byte[] serializedOldState)
-    {
+	{
 
-    }
+	}
 
 	/// <summary>
 	/// Give the game control of whether it accepts inputs.  This is necessary to avoid unneccesary rollbacks.
 	/// </summary>
 	/// <returns></returns>
 	public virtual bool AcceptingInputs()
-    {
+	{
 		return true;
-    }
+	}
 
 	/// <summary>
 	/// Again, gives the game control.  Used instead of a signal.

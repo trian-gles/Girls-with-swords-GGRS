@@ -5,8 +5,5 @@ margin_top = 24.0
 margin_right = 125.0
 margin_bottom = 44.0
 text = "Main Menu"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]

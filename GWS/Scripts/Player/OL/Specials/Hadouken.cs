@@ -16,7 +16,7 @@ public class Hadouken : GroundAttack
 		h.QueueFree();
 		// this looks silly but is necessary so that the hadouken loads at game start
 
-		AddRhythmSpecials(owner.groundSpecials);
+		AddRhythmSpecials(owner.rhythmSpecials);
 	}	
 
 	public override void Enter()

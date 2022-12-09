@@ -23,7 +23,7 @@ public class RhythmTrack : ReferenceRect
 			return;
 
 		audioStreamPlayer = GetNode<Godot.AudioStreamPlayer>("AudioStreamPlayer");
-		for (int i = 0; i < 200; i++){
+		for (int i = 0; i < 500; i++){
 			var note = noteScene.Instance() as Note;
 			AddChild(note);
 			note.Name = $"note{i}";

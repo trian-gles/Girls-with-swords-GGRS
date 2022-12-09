@@ -392,6 +392,7 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 5;
 		public int inBuf2Timer = 5;
 		public List<char> heldKeys = new List<char>();
+		public List<char> rhythmHeldKeys = new List<char>();
 		public State playerState;
 		/// <summary>
 		/// Used for checking if a key has been pressed or released
@@ -507,6 +508,15 @@ public class Player : Node2D
 				unhandledInputs.Add(new char[] { 's', 'r' });
 			}
 
+			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
+			{
+				unhandledInputs.Add(new char[] { 'r', 'p' });
+			}
+			else if ((inputs & 128) == 0 && (lastFrameInputs & 128) != 0)
+			{
+				unhandledInputs.Add(new char[] { 's', 'r' });
+			}
+
 
 			return unhandledInputs;
 		}
@@ -517,6 +527,17 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
+				// Hold or release keys for rhythm during or out of hitstop
+				if (inputArr[1] == 'p')
+				{
+					rhythmHeldKeys.Add(inputArr[0]);
+
+				}
+				else if (inputArr[1] == 'r')
+				{
+					rhythmHeldKeys.Remove(inputArr[0]);
+				}
+
 				playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
 				BufAddInput(inputArr);
 			}
@@ -545,20 +566,20 @@ public class Player : Node2D
 					hitStopInputs.Add(inputArr);
 					continue;
 				}
-				
-				
+
+
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
 					heldKeys.Add(inputArr[0]);
-					
+
 				}
 				else if (inputArr[1] == 'r')
 				{
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
-				
-				
+
+
 
 				playerState.HandleInput(inputArr);
 			}
@@ -650,10 +671,15 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public bool CheckRhythmHeldKey(char key)
+	{
+		return (inputHandler.rhythmHeldKeys.Contains(key));
+	}
+
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
-		//GD.Print(buf[buf.Count - 1][0]);
+		GD.Print(buf[buf.Count - 2][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
 	}
 

@@ -429,12 +429,14 @@ public class GameStateObjectRedesign : Node
 	public void OnRhythmHitTry(string playerName){
 		if (rhythmTrack.TryHit(playerName)){
 			if (playerName == "P1")
-            {
+			{
 				P1.ConfirmRhythmHit();
-            }
+				mainScene.P1Rhythm.Call("display", Frame);
+			}
 			else
-            {
+			{
 				P2.ConfirmRhythmHit();
+				mainScene.P2Rhythm.Call("display", Frame);
 			}
 		}
 	}

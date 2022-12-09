@@ -21,12 +21,11 @@ public class OL : Player
 
 		
 
-		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new[] { 'p', 'p' } }, "Hadouken"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new[] { 'r', 'p' } }, "Hadouken"));
 
-		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '8', 'p' }, new char[] { 'p', 'p' } }, "DP"));
-		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '8', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP"));
-		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new[] { 'k', 'p' } }, "CommandRun"));
-		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { 's', 'p' } }, "AntiAir"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '8', 'p' }, new char[] { 'r', 'p' } }, "DP"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { 'r', 'p' } }, "CommandRun"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { 'r', 'p' } }, "AntiAir"));
 	}
 	public override void _Ready()
 	{

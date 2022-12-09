@@ -6,8 +6,13 @@ public class Note : Polygon2D
 	// Declare member variables here. Examples:
 	// private int a = 2;
 	// private string b = "text";
+
+	[Signal]
+	public delegate void NoteLand();
 	
 	private int timing;
+
+	private int window = 5;
 	private enum Status {
 		waiting,
 		missed,
@@ -40,7 +45,6 @@ public class Note : Polygon2D
 	private void SetTarget(){
 		Color = new Color(255, 255, 255, 255);
 		status = Status.onTarget;
-		GD.Print("Setting Target ON");
 	}
 	
 	private void SetMissed(){
@@ -63,19 +67,30 @@ public class Note : Polygon2D
 		status = Status.bothHit;
 	}
 
-	// will return 1 if out of bounds and should be deleted
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="frame"></param>
+	/// <returns>true if the note should be deleted</returns>
 	public bool AdvanceFrame(int frame){
 		Position = new Vector2(Position.x - rate, 6);
-		
-		if (Position.x < (rate * 3 + 60) && Position.x >= (rate * 2 + 60)){
+
+		if (Position.x < (rate * window + 60) && Position.x >= (rate * (window - 1) + 60)) // this needs to be made more efficient
+		{
 			SetTarget();
 		}
-		
-		else if (status == Status.onTarget && Position.x < (60 - rate * 3)){
+
+		else if (Position.x < 60 && Position.x >= (60 - rate)) 
+		{
+			EmitSignal("NoteLand");
+		}
+
+		else if (status == Status.onTarget && Position.x < (60 - rate * window))
+		{
 			SetMissed();
 		}
 		
-		return (Position.x < (-1 * rate * 12));
+		return (Position.x < (-1 * rate * 15));
 	}
 	
 	public bool TryHit(string playerName){
@@ -84,7 +99,8 @@ public class Note : Polygon2D
 				SetP1Hit();
 				return true;
 			}
-			else if (status == Status.p2Hit){
+			else if (status == Status.p2Hit && Position.x >= (60 - rate * 3))
+			{
 				SetBothHit();
 				return true;
 			}
@@ -97,7 +113,8 @@ public class Note : Polygon2D
 				SetP2Hit();
 				return true;
 			}
-			else if (status == Status.p1Hit){
+			else if (status == Status.p1Hit && Position.x >= (60 - rate * 3))
+			{
 				SetBothHit();
 				return true;
 			}

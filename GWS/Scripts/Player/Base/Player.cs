@@ -79,12 +79,17 @@ public class Player : Node2D
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 
+	public List<Special> rhythmSpecials = new List<Special>();
+	public List<Special> airRhythmSpecials = new List<Special>();
+
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
 	public HashSet<string> noGrabStates = new HashSet<string>(){ "Jab", "Run", "PreRun", "CrouchA" };
 
+	///
 	// All of these will be stored in gamestate
+	///
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 1600;
@@ -99,6 +104,14 @@ public class Player : Node2D
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
+	/// <summary>
+	/// The rhythm state to enter, which might be stored during hitstop
+	/// </summary>
+	public string rhythmState = "";
+	/// <summary>
+	/// The rhythm game will set this to `true` allowing us to enter our rhythm state
+	/// </summary>
+	public bool rhythmStateConfirmed = false;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -504,7 +517,7 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				playerState.TryRhythm();
+				playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
 				BufAddInput(inputArr);
 			}
 				
@@ -514,6 +527,10 @@ public class Player : Node2D
 				AddHitStopBuffer(unhandledInputs);
 				return;
 			}
+			else
+            {
+				playerState.TryEnterRhythmState(); // only enter rhythm gatlings outside of hitstop
+            }
 
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
@@ -620,6 +637,8 @@ public class Player : Node2D
 	{
 		inputHandler.heldKeys.Clear();
 	}
+
+
 
 	public void ClearUnhandled()
 	{
@@ -1029,6 +1048,11 @@ public class Player : Node2D
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
+
+	public void ConfirmRhythmHit()
+    {
+		rhythmStateConfirmed = true;
+    }
 
 	/// <summary>
 	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)

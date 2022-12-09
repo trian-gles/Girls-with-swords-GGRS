@@ -428,7 +428,14 @@ public class GameStateObjectRedesign : Node
 	
 	public void OnRhythmHitTry(string playerName){
 		if (rhythmTrack.TryHit(playerName)){
-			GD.Print($"SUCCESSFUL RHYTHM HIT BY {playerName}");
+			if (playerName == "P1")
+            {
+				P1.ConfirmRhythmHit();
+            }
+			else
+            {
+				P2.ConfirmRhythmHit();
+			}
 		}
 	}
 

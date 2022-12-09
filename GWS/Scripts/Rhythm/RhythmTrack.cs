@@ -9,6 +9,7 @@ public class RhythmTrack : ReferenceRect
 	// private string b = "text";
 	
 	private List<Note> notes = new List<Note>();
+	private Godot.AudioStreamPlayer audioStreamPlayer;
 
 	public int noteRate = 4;
 	
@@ -20,8 +21,9 @@ public class RhythmTrack : ReferenceRect
 	{
 		if (!Globals.rhythmGame)
 			return;
-		
-		for (int i = 0; i < 50; i++){
+
+		audioStreamPlayer = GetNode<Godot.AudioStreamPlayer>("AudioStreamPlayer");
+		for (int i = 0; i < 200; i++){
 			var note = noteScene.Instance() as Note;
 			AddChild(note);
 			note.Name = $"note{i}";
@@ -29,6 +31,7 @@ public class RhythmTrack : ReferenceRect
 			note.Init(i * 20);
 			notes.Add(note);
 			note.Visible = true;
+			note.Connect("NoteLand", this, nameof(OnNoteLand));
 			
 		}
 	}
@@ -68,6 +71,11 @@ public class RhythmTrack : ReferenceRect
 		}
 		
 		return false;
+	}
+
+	public void OnNoteLand()
+	{
+		audioStreamPlayer.Play();
 	}
 
 	

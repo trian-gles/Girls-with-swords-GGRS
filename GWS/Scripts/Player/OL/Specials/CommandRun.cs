@@ -23,7 +23,9 @@ public class CommandRun : GroundAttack
 		base._Ready();
 		loop = true;
 		exitState = "Hojogiri";
-		
+
+		AddRhythmSpecials(owner.groundSpecials);
+
 	}
 	public override void Enter()
 	{

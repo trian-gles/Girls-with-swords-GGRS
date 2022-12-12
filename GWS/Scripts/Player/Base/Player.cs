@@ -1080,6 +1080,11 @@ public class Player : Node2D
 		rhythmStateConfirmed = true;
     }
 
+	public void RhythmHitFailure()
+    {
+		currentState.EmitSignal(nameof(State.StateFinished), "Jive");
+    }
+
 	/// <summary>
 	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)
 	/// </summary>

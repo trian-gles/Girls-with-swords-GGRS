@@ -431,11 +431,28 @@ public class GameStateObjectRedesign : Node
 			if (playerName == "P1")
 			{
 				P1.ConfirmRhythmHit();
+				mainScene.P1Rhythm.Text = "SWINGIN";
 				mainScene.P1Rhythm.Call("display", Frame);
 			}
 			else
 			{
 				P2.ConfirmRhythmHit();
+				mainScene.P2Rhythm.Text = "SWINGIN";
+				mainScene.P2Rhythm.Call("display", Frame);
+			}
+		}
+		else
+        {
+			if (playerName == "P1")
+			{
+				P1.RhythmHitFailure();
+				mainScene.P1Rhythm.Text = "JIVE";
+				mainScene.P1Rhythm.Call("display", Frame);
+			}
+			else
+			{
+				P2.RhythmHitFailure();
+				mainScene.P2Rhythm.Text = "JIVE";
 				mainScene.P2Rhythm.Call("display", Frame);
 			}
 		}

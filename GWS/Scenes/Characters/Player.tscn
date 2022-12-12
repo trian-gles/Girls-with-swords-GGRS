@@ -57,7 +57,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 29 )
+extents = Vector2( 14, 41 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 6 )
@@ -348,6 +348,9 @@ script = ExtResource( 51 )
 
 [node name="GrabStart" type="Node" parent="StateTree"]
 script = ExtResource( 52 )
+
+[node name="Jive" type="Node" parent="StateTree"]
+script = ExtResource( 49 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

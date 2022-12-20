@@ -22,10 +22,14 @@ public class OL : Player
 		
 
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new[] { 'r', 'p' } }, "Hadouken"));
-
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '8', 'p' }, new char[] { 'r', 'p' } }, "DP"));
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { 'r', 'p' } }, "CommandRun"));
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { 'r', 'p' } }, "AntiAir"));
+
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new[] { '6', 'p' } }, "Hadouken"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '8', 'p' } }, "DP"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '4', 'p' } }, "CommandRun"));
+		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '2', 'p' } }, "AntiAir"));
 	}
 	public override void _Ready()
 	{

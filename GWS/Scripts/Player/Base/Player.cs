@@ -527,18 +527,21 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				// Hold or release keys for rhythm during or out of hitstop
-				if (inputArr[1] == 'p')
+				if (Globals.rhythmGame)
 				{
-					rhythmHeldKeys.Add(inputArr[0]);
+					// Hold or release keys for rhythm during or out of hitstop
+					if (inputArr[1] == 'p')
+					{
+						rhythmHeldKeys.Add(inputArr[0]);
 
+					}
+					else if (inputArr[1] == 'r')
+					{
+						rhythmHeldKeys.Remove(inputArr[0]);
+					}
+					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
 				}
-				else if (inputArr[1] == 'r')
-				{
-					rhythmHeldKeys.Remove(inputArr[0]);
-				}
-
-				playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
+					
 				BufAddInput(inputArr);
 			}
 				
@@ -839,7 +842,7 @@ public class Player : Node2D
 	/// </summary>
 	private void CorrectPositionBounds()
 	{
-		if (internalPos.y > Globals.floor)
+		if (internalPos.y >= Globals.floor)
 		{
 			internalPos= new Vector2(internalPos.x, Globals.floor);
 			grounded = true;
@@ -867,6 +870,14 @@ public class Player : Node2D
 		{
 			return false;
 		}
+	}
+
+	/// <summary>
+	/// Recheck the grounded status.  Required for Rhythm cancels which can cancel launch moves
+	/// </summary>
+	public void CorrectGrounded()
+	{
+		grounded = !(internalPos.y < Globals.floor);
 	}
 
 	public void SlideAway() //MAKE SURE THIS WORKS

@@ -93,6 +93,8 @@ public class GameScene : BaseGame
 
 		// the default, which will be changed for certain modes
 		SetDebugVisibility(false);
+
+		SetRhythmVisibility(Globals.rhythmGame);
 	}
 
 	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
@@ -161,6 +163,11 @@ public class GameScene : BaseGame
 	{
 		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText" })
 			((Control)GetNode(path)).Visible = visible;
+	}
+
+	public void SetRhythmVisibility(bool visible)
+	{
+		((Control)GetNode("HUD/RhythmTrack")).Visible = visible;
 	}
 
 	public void SetRecordingText(string msg)

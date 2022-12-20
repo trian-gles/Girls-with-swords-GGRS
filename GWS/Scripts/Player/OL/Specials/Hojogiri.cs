@@ -8,7 +8,6 @@ public class Hojogiri : GroundAttack
         base._Ready();
         stop = false;
         slowdownSpeed = 30;
-        AddRhythmSpecials(owner.rhythmSpecials);
     }
 
 }

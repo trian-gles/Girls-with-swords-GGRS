@@ -12,7 +12,7 @@ public class Stagger : HitStun
 	}
 
 	public override void Enter()
-    {
+	{
 		stunRemaining = dur;
 	}
 

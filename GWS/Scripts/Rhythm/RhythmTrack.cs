@@ -28,7 +28,7 @@ public class RhythmTrack : ReferenceRect
 			AddChild(note);
 			note.Name = $"note{i}";
 			note.rate = noteRate;
-			note.Init(i * 20);
+			note.Init(i * 30);
 			notes.Add(note);
 			note.Visible = true;
 			note.Connect("NoteLand", this, nameof(OnNoteLand));

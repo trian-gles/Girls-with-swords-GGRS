@@ -442,10 +442,13 @@ public abstract class State : Node
 	public void HandleRhythmInput(char[] inputArr)
     {
 
+		if (frameCount < 4 || owner.rhythmState != "") // better way to handle this probs
+			return;
+
 		foreach (RhythmGatling rhythmGatling in rhythmGatlings)
 		{
 			char[] firstInp = rhythmGatling.inputs[rhythmGatling.inputs.Count - 1];
-			if (!owner.facingRight && rhythmGatling.flipInputs)
+			if (!owner.facingRight)
 			{
 				firstInp = ReverseInput(firstInp);
 			}
@@ -457,14 +460,14 @@ public abstract class State : Node
 
 				List<char[]> testedInputs = rhythmGatling.inputs;
 
-				if (!owner.facingRight && rhythmGatling.flipInputs)
+				if (!owner.facingRight)
 				{
 					testedInputs = ReverseInputs(testedInputs);
 				}
 
 				if (owner.CheckRhythmHeldKey(testedInputs[0][0]))
 				{
-					
+					GD.Print($"Properly holding key {testedInputs[0][0]}");
 
 					if (rhythmGatling.reqCall != null) // check the required callback
 					{
@@ -500,10 +503,10 @@ public abstract class State : Node
     {
 		if (owner.rhythmStateConfirmed)
         {
-			GD.Print("ENTERING RHYTHM STATE");
 			string enterState = String.Copy(owner.rhythmState);
 			owner.rhythmState = "";
 			owner.rhythmStateConfirmed = false;
+			owner.CorrectGrounded(); // We may be in the air from a launching attack
 			EmitSignal(nameof(StateFinished), enterState);
 
 		}

@@ -1,16 +1,28 @@
 using Godot;
 using System;
 
-public class GroundAttack : BaseAttack
+/// <summary>
+/// Attacks that may be grounded or aerial
+/// </summary>
+public class AmbigAttack : BaseAttack
 {
 	
 	public override void _Ready()
 	{
 		base._Ready();
-		AddCancel("Idle");
+		AddCancel("Fall"); // will need to be fixed
 		
 		if (jumpCancelable){
 			AddJumpCancel();
+		}
+	}
+
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
+		if (!owner.grounded)
+		{
+			ApplyGravity();
 		}
 	}
 }

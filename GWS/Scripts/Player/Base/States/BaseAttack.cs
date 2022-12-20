@@ -108,6 +108,8 @@ public abstract class BaseAttack : State
 
 		}
 
+		AddRhythmSpecials(owner.rhythmSpecials);
+
 		//GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
 
 	}

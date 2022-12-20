@@ -73,14 +73,24 @@ public class Note : Polygon2D
 	/// <param name="frame"></param>
 	/// <returns>true if the note should be deleted</returns>
 	public bool AdvanceFrame(int frame){
-		Position = new Vector2(Position.x - rate, 6);
+		
+
+		if (status == Status.p1Hit || status == Status.p2Hit || status == Status.bothHit)
+		{
+			Position = new Vector2(45, Position.y - rate);
+			return Position.y < -400;
+		}
+		else
+		{
+			Position = new Vector2(Position.x - rate, 6);
+		}
 
 		if (Position.x < (rate * window + 60) && Position.x >= (rate * (window - 1) + 60)) // this needs to be made more efficient
 		{
 			SetTarget();
 		}
 
-		else if (Position.x < 60 && Position.x >= (60 - rate)) 
+		else if (Position.x < 60 + rate && Position.x >= (60)) 
 		{
 			EmitSignal("NoteLand");
 		}

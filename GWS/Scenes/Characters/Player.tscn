@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -52,6 +52,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/AirGrab.cs" type="Script" id=50]
 [ext_resource path="res://Scripts/Player/Base/States/AirGrabStart.cs" type="Script" id=51]
 [ext_resource path="res://Scripts/Player/Base/States/GrabStart.cs" type="Script" id=52]
+[ext_resource path="res://Scripts/Player/Base/States/Jive.cs" type="Script" id=53]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -350,7 +351,7 @@ script = ExtResource( 51 )
 script = ExtResource( 52 )
 
 [node name="Jive" type="Node" parent="StateTree"]
-script = ExtResource( 49 )
+script = ExtResource( 53 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

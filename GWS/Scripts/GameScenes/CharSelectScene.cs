@@ -161,7 +161,7 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
 			{
-				SelectPlayer(i, 3);
+				SelectPlayer(i, 2);
 			}
 		}
 		lastInputs = combinedInputs;

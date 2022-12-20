@@ -31,6 +31,8 @@ public class GameScene : BaseGame
 	private CanvasLayer HUD;
 	private Label P1Counter;
 	private Label P2Counter;
+	public Label P1Rhythm;
+	public Label P2Rhythm;
 	private int frame;
 
 	private Label recordingText;
@@ -76,6 +78,8 @@ public class GameScene : BaseGame
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
 		P1Counter = GetNode<Label>("HUD/P1Counter");
 		P2Counter = GetNode<Label>("HUD/P2Counter");
+		P1Rhythm = GetNode<Label>("HUD/P1Rhythm");
+		P2Rhythm = GetNode<Label>("HUD/P2Rhythm");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		base._Ready();
@@ -89,6 +93,8 @@ public class GameScene : BaseGame
 
 		// the default, which will be changed for certain modes
 		SetDebugVisibility(false);
+
+		SetRhythmVisibility(Globals.rhythmGame);
 	}
 
 	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
@@ -157,6 +163,11 @@ public class GameScene : BaseGame
 	{
 		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText" })
 			((Control)GetNode(path)).Visible = visible;
+	}
+
+	public void SetRhythmVisibility(bool visible)
+	{
+		((Control)GetNode("HUD/RhythmTrack")).Visible = visible;
 	}
 
 	public void SetRecordingText(string msg)
@@ -245,6 +256,8 @@ public class GameScene : BaseGame
 		mainGFX.Rollback(frame);
 		P1Counter.Call("rollback", frame);
 		P2Counter.Call("rollback", frame);
+		P1Rhythm.Call("rollback", frame);
+		P2Rhythm.Call("rollback", frame);
 	}
 
 	public override void GGRSAdvanceFrame(int p1Inps, int p2Inps)

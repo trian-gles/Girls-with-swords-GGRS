@@ -11,6 +11,11 @@ public class Stagger : HitStun
 		loop = true;
 	}
 
+	public override void Enter()
+	{
+		stunRemaining = dur;
+	}
+
 	/// <summary>
 	/// all staggers are the same length
 	/// </summary>

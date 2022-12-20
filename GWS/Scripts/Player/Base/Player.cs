@@ -24,6 +24,8 @@ public class Player : Node2D
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
 	public delegate void HadoukenRemoved(HadoukenPart h);
+	[Signal]
+	public delegate void RhythmHitTry(string name);
 
 	[Signal]
 	public delegate void Recovery(string name);
@@ -77,12 +79,17 @@ public class Player : Node2D
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 
+	public List<Special> rhythmSpecials = new List<Special>();
+	public List<Special> airRhythmSpecials = new List<Special>();
+
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
 	public HashSet<string> noGrabStates = new HashSet<string>(){ "Jab", "Run", "PreRun", "CrouchA" };
 
+	///
 	// All of these will be stored in gamestate
+	///
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 1600;
@@ -97,6 +104,14 @@ public class Player : Node2D
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
+	/// <summary>
+	/// The rhythm state to enter, which might be stored during hitstop
+	/// </summary>
+	public string rhythmState = "";
+	/// <summary>
+	/// The rhythm game will set this to `true` allowing us to enter our rhythm state
+	/// </summary>
+	public bool rhythmStateConfirmed = false;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -151,16 +166,16 @@ public class Player : Node2D
 	}
 
 	public struct CommandSpecial
-    {
+	{
 		public List<char> heldKeys;
 		public char input;
 
 		public CommandSpecial(List<char> heldKeys, char input)
-        {
+		{
 			this.heldKeys = heldKeys;
 			this.input = input;
-        }
-    }
+		}
+	}
 
 	// components of a received attack
 	private bool wasHit = false;
@@ -377,6 +392,7 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 5;
 		public int inBuf2Timer = 5;
 		public List<char> heldKeys = new List<char>();
+		public List<char> rhythmHeldKeys = new List<char>();
 		public State playerState;
 		/// <summary>
 		/// Used for checking if a key has been pressed or released
@@ -492,6 +508,15 @@ public class Player : Node2D
 				unhandledInputs.Add(new char[] { 's', 'r' });
 			}
 
+			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
+			{
+				unhandledInputs.Add(new char[] { 'r', 'p' });
+			}
+			else if ((inputs & 128) == 0 && (lastFrameInputs & 128) != 0)
+			{
+				unhandledInputs.Add(new char[] { 's', 'r' });
+			}
+
 
 			return unhandledInputs;
 		}
@@ -502,6 +527,21 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
+				if (Globals.rhythmGame)
+				{
+					// Hold or release keys for rhythm during or out of hitstop
+					if (inputArr[1] == 'p')
+					{
+						rhythmHeldKeys.Add(inputArr[0]);
+
+					}
+					else if (inputArr[1] == 'r')
+					{
+						rhythmHeldKeys.Remove(inputArr[0]);
+					}
+					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
+				}
+					
 				BufAddInput(inputArr);
 			}
 				
@@ -511,6 +551,10 @@ public class Player : Node2D
 				AddHitStopBuffer(unhandledInputs);
 				return;
 			}
+			else
+            {
+				playerState.TryEnterRhythmState(); // only enter rhythm gatlings outside of hitstop
+            }
 
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
@@ -525,20 +569,20 @@ public class Player : Node2D
 					hitStopInputs.Add(inputArr);
 					continue;
 				}
-				
-				
+
+
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
 					heldKeys.Add(inputArr[0]);
-					
+
 				}
 				else if (inputArr[1] == 'r')
 				{
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
-				
-				
+
+
 
 				playerState.HandleInput(inputArr);
 			}
@@ -618,6 +662,8 @@ public class Player : Node2D
 		inputHandler.heldKeys.Clear();
 	}
 
+
+
 	public void ClearUnhandled()
 	{
 		inputHandler.EmptyHitStop();
@@ -628,10 +674,15 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public bool CheckRhythmHeldKey(char key)
+	{
+		return (inputHandler.rhythmHeldKeys.Contains(key));
+	}
+
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
-		//GD.Print(buf[buf.Count - 1][0]);
+		GD.Print(buf[buf.Count - 2][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
 	}
 
@@ -759,9 +810,9 @@ public class Player : Node2D
 	public void MoveSlideDeterministicTwo()
 	{
 		if (counterStopFrames > 0)
-        {
+		{
 			return;
-        }
+		}
 		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
 		internalPos += new Vector2(xChange, yChange);
@@ -791,7 +842,7 @@ public class Player : Node2D
 	/// </summary>
 	private void CorrectPositionBounds()
 	{
-		if (internalPos.y > Globals.floor)
+		if (internalPos.y >= Globals.floor)
 		{
 			internalPos= new Vector2(internalPos.x, Globals.floor);
 			grounded = true;
@@ -819,6 +870,14 @@ public class Player : Node2D
 		{
 			return false;
 		}
+	}
+
+	/// <summary>
+	/// Recheck the grounded status.  Required for Rhythm cancels which can cancel launch moves
+	/// </summary>
+	public void CorrectGrounded()
+	{
+		grounded = !(internalPos.y < Globals.floor);
 	}
 
 	public void SlideAway() //MAKE SURE THIS WORKS
@@ -917,9 +976,9 @@ public class Player : Node2D
 	/// </summary>
 	/// <returns></returns>
 	public bool CanGrab()
-    {
+	{
 		return !noGrabStates.Contains(lastStateName);
-    }
+	}
 	public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
@@ -970,15 +1029,15 @@ public class Player : Node2D
 	}
 
 	public bool HurtboxesInactive()
-    {
+	{
 		foreach (var hurtBox in hurtBoxes.GetChildren())
-        {
+		{
 			if (!((CollisionShape2D)hurtBox).Disabled){
 				return false;
-            }
-        }
+			}
+		}
 		return true;
-    }
+	}
 
 	public void OnHitConnected(int hitPush) 
 	{
@@ -1026,6 +1085,16 @@ public class Player : Node2D
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
+
+	public void ConfirmRhythmHit()
+    {
+		rhythmStateConfirmed = true;
+    }
+
+	public void RhythmHitFailure()
+    {
+		currentState.EmitSignal(nameof(State.StateFinished), "Jive");
+    }
 
 	/// <summary>
 	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)

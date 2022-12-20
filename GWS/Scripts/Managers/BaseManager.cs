@@ -163,6 +163,11 @@ public class BaseManager : Node2D
 			inputs |= 64;
 		}
 
+		if (Input.IsActionPressed("r" + end))
+		{
+			inputs |= 128;
+		}
+
 		return inputs;
 	}
 
@@ -199,7 +204,7 @@ public class BaseManager : Node2D
 	}
 
 	protected void HandleSpecialInputs(InputEvent @event)
-    {
+	{
 		if (@event.IsActionPressed("switch_players"))
 		{
 			flippedPlayers = !flippedPlayers;

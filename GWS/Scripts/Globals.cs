@@ -38,6 +38,8 @@ public class Globals : Node
 		if (logOn)
 			GD.Print(loggingName + " : " + msg);
 	}
+	
+	public const bool rhythmGame = false;
 
 	public const int rightWall = 46500;
 	public const int leftWall = 1500;

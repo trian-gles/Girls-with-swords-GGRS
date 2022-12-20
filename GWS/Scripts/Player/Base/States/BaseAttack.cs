@@ -108,6 +108,8 @@ public abstract class BaseAttack : State
 
 		}
 
+		AddRhythmSpecials(owner.rhythmSpecials);
+
 		//GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
 
 	}
@@ -126,7 +128,10 @@ public abstract class BaseAttack : State
 	}
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Idle");
+		if (owner.grounded)
+			EmitSignal(nameof(StateFinished), "Idle");
+		else
+			EmitSignal(nameof(StateFinished), "Fall");
 	}
 
 	public override void CheckHit()
@@ -167,7 +172,7 @@ public abstract class BaseAttack : State
 
 	public override bool DelayInputs()
 	{
-		return (frameCount >= 3 && !hitConnect && owner.HurtboxesInactive());
+		return false;
 	}
 
 	public override void HandleInput(char[] inputArr)

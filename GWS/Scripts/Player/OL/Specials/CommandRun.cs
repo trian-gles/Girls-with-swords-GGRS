@@ -23,7 +23,7 @@ public class CommandRun : GroundAttack
 		base._Ready();
 		loop = true;
 		exitState = "Hojogiri";
-		
+
 	}
 	public override void Enter()
 	{

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Hadouken : GroundAttack
+public class Hadouken : AmbigAttack
 {
 	[Export]
 	public int releaseFrame = 18;
@@ -30,11 +30,6 @@ public class Hadouken : GroundAttack
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 			EmitHadouken();
 		}
-	}
-
-	public override void AnimationFinished()
-	{
-		EmitSignal(nameof(StateFinished), "Idle");
 	}
 
 	private void EmitHadouken()

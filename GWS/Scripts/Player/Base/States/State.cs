@@ -29,8 +29,10 @@ public abstract class State : Node
 	/// </summary>
 	public bool hasAntimation = true;
 
+	/// <summary>
+	/// The animation that should be called upon entering
+	/// </summary>
 	public string animationName;
-
 
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
@@ -54,6 +56,7 @@ public abstract class State : Node
 	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
+	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
 	protected delegate bool RequiredConditionCallback();
 	protected delegate void PostInputCallback();
 	public override void _Ready()
@@ -95,9 +98,9 @@ public abstract class State : Node
 	protected void ApplyGravity()
 	{
 		if (owner.counterStopFrames > 0)
-        {
+		{
 			return;
-        }
+		}
 		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1400);
 	}
 	public virtual void AnimationFinished() 
@@ -129,6 +132,16 @@ public abstract class State : Node
 		public string state;
 		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
 		public PostInputCallback postCall;
+	}
+
+	protected struct RhythmGatling
+	{
+		public List<char[]> inputs;
+		public string state;
+		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
+		public PostInputCallback postCall;
+		public bool preventMash;
+		public bool flipInputs; // if this input should change depending on which way we are facing
 	}
 
 	protected char[] ReverseInput(char[] inp)
@@ -273,6 +286,16 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
+	protected void AddRhythmGatling(List<char[]> inputs, string state)
+	{
+		var newGatling = new RhythmGatling
+		{
+			inputs = inputs,
+			state = state
+		};
+		rhythmGatlings.Add(newGatling);
+	}
+
 	internal static List<List<char>> Permutations(List<char> chars)
 	{
 		var result = new List<List<char>>();
@@ -322,7 +345,16 @@ public abstract class State : Node
 		}
 	}
 
-	
+	protected void AddRhythmSpecials(List<Player.Special> specials)
+	{
+		foreach (var special in specials)
+		{
+			GD.Print($"Adding special {special.state} with input {special.inputs.Last()[0]}");
+			AddRhythmGatling(special.inputs, special.state);
+		}
+	}
+
+
 
 	protected void AddCancel(string cancelState)
 	{
@@ -404,6 +436,83 @@ public abstract class State : Node
 	}
 
 	/// <summary>
+	/// Rhythm inputs need to be handled during hitstop
+	/// </summary>
+	/// <param name="inputArr"></param>
+	public void HandleRhythmInput(char[] inputArr)
+    {
+
+		if (frameCount < 4 || owner.rhythmState != "") // better way to handle this probs
+			return;
+
+		foreach (RhythmGatling rhythmGatling in rhythmGatlings)
+		{
+			char[] firstInp = rhythmGatling.inputs[rhythmGatling.inputs.Count - 1];
+			if (!owner.facingRight)
+			{
+				firstInp = ReverseInput(firstInp);
+			}
+
+			
+
+			if (Enumerable.SequenceEqual(firstInp, inputArr))
+			{
+
+				List<char[]> testedInputs = rhythmGatling.inputs;
+
+				if (!owner.facingRight)
+				{
+					testedInputs = ReverseInputs(testedInputs);
+				}
+
+				if (owner.CheckRhythmHeldKey(testedInputs[0][0]))
+				{
+					GD.Print($"Properly holding key {testedInputs[0][0]}");
+
+					if (rhythmGatling.reqCall != null) // check the required callback
+					{
+						if (!rhythmGatling.reqCall())
+						{
+							continue;
+						}
+					}
+
+					if (rhythmGatling.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input, fix this!!
+					{
+						continue;
+					}
+					
+
+					if (rhythmGatling.postCall != null)
+					{
+						rhythmGatling.postCall();
+					}
+					owner.rhythmState = rhythmGatling.state;
+					owner.EmitSignal(nameof(Player.RhythmHitTry), owner.Name);
+					
+					return;
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Called at the end of hitstop.  Stored in state because the input manager has access to it
+	/// </summary>
+	public void TryEnterRhythmState()
+    {
+		if (owner.rhythmStateConfirmed)
+        {
+			string enterState = String.Copy(owner.rhythmState);
+			owner.rhythmState = "";
+			owner.rhythmStateConfirmed = false;
+			owner.CorrectGrounded(); // We may be in the air from a launching attack
+			EmitSignal(nameof(StateFinished), enterState);
+
+		}
+    }
+
+	/// <summary>
 	/// If the current state should keep inputs in the unhandled buffer
 	/// </summary>
 	/// <returns></returns>
@@ -427,6 +536,10 @@ public abstract class State : Node
 	public virtual void CheckHit()
 	{
 
+	}
+	
+	public void TryRhythm(){
+		owner.EmitSignal("RhythmHitTry", owner.Name);
 	}
 
 	/// <summary>

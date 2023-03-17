@@ -28,6 +28,9 @@ public class Lobby : Node2D
 	public PackedScene trainingManager;
 
 	[Export]
+	public PackedScene aiManager;
+
+	[Export]
 	public PackedScene ggrsManager;
 
 	[Export]
@@ -55,7 +58,7 @@ public class Lobby : Node2D
 	}
 
 	private void syncTestBegin()
-    {
+	{
 		var syncTestScene = syncTestManager.Instance<SyncTestManager>();
 		AddChild(syncTestScene);
 		HideButtons();
@@ -108,7 +111,16 @@ public class Lobby : Node2D
 		AddChild(trainingScene);
 		HideButtons();
 	}
-	
+
+	public void OnCPUButtonDown()
+	{
+		Globals.mode = Globals.Mode.CPU;
+		GD.Print("CPU mode selected");
+		var aiScene = aiManager.Instance<AIManager>();
+		AddChild(aiScene);
+		HideButtons();
+	}
+
 	public void CharacterSelect(bool hosting)
 	{
 		HideButtons();

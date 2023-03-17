@@ -634,9 +634,9 @@ public class MainScene : Node2D
 	}
 
 	public void OnPlayerCounterHit(string name)
-    {
+	{
 
-    }
+	}
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
 		AddChild(h); // Add the hadouken as a child

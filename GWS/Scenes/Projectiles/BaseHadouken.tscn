@@ -1,8 +1,24 @@
 [gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://Scripts/HadoukenPart.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Projectiles/HadoukenPart.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Spritesheet/Hadouken.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL Fireball Only-Sheet.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 32, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 3 )
@@ -88,44 +104,25 @@ region = Rect2( 1216, 0, 64, 64 )
 atlas = ExtResource( 3 )
 region = Rect2( 1280, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 2 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 2 )
-region = Rect2( 32, 32, 32, 32 )
-
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), null ],
-"loop": false,
-"name": "GLProjectile",
-"speed": 10.0
-}, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
 "name": "OLProjectile",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), null ],
+"loop": false,
+"name": "GLProjectile",
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 18, 10 )
+extents = Vector2( 1, 1 )
 
 [node name="HadoukenPart" type="Node2D"]
 position = Vector2( 0, -1 )
 script = ExtResource( 1 )
-level = 2
-speed = Vector2( 4, 0 )
-duration = 40
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )

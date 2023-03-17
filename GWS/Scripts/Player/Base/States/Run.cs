@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Run : MoveState
 {
@@ -8,13 +9,16 @@ public class Run : MoveState
 	{
 		base._Ready();
 		loop = true;
-		
+		foreach (Player.Special dashSpecial in owner.dashSpecials)
+			AddGatling(dashSpecial.inputs[0], dashSpecial.state);
 		AddNormals();
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddSpecials(owner.groundSpecials);
 		AddNormals();
 		AddGatling(new[] { '6', 'r' }, "PostRun");
 		AddGatling(new[] { '4', 'r' }, "PostRun");
+		foreach (Player.Special dashSpecial in owner.dashSpecials)
+			AddGatling(dashSpecial.inputs[0], dashSpecial.state);
 
 		soundRate = 10;
 	}

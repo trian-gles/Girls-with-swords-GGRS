@@ -39,7 +39,7 @@ public class GameStateObjectRedesign : Node
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
 	[Serializable]
-	private struct GameState
+	public struct GameState
 	{
 		public int frame { get; set; }
 		public Player.PlayerState P1State { get; set; }
@@ -101,7 +101,7 @@ public class GameStateObjectRedesign : Node
 		var formatter = new BinaryFormatter();
 		return (T)formatter.Deserialize(stream);
 	}
-	private GameState GetGameState()
+	public GameState GetGameState()
 	{
 		GameState gState = new GameState();
 		gState.frame = Frame;

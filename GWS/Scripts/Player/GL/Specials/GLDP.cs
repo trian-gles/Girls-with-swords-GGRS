@@ -6,6 +6,6 @@ public class GLDP : LaunchAttack
     public override void Enter()
     {
         base.Enter();
-        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Fire1", Name);
     }
 }

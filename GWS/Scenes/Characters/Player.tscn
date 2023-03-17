@@ -58,7 +58,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 41 )
+extents = Vector2( 35, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 6 )
@@ -67,7 +67,7 @@ extents = Vector2( 5, 6 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 10, 1 )
+extents = Vector2( 14, 20 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -461,3 +461,8 @@ randomness = 0.08
 process_material = SubResource( 20 )
 texture = ExtResource( 44 )
 script = ExtResource( 45 )
+
+[node name="GroundBounce" type="CPUParticles2D" parent="GFXHandler"]
+emitting = false
+one_shot = true
+scale_amount = 2.0

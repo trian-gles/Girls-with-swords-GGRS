@@ -349,7 +349,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			GD.Print($"Adding special {special.state} with input {special.inputs.Last()[0]}");
+			// GD.Print($"Adding special {special.state} with input {special.inputs.Last()[0]}");
 			AddRhythmGatling(special.inputs, special.state);
 		}
 	}

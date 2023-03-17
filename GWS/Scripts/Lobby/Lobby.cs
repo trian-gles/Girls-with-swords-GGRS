@@ -107,7 +107,8 @@ public class LobbyRedesign : Node2D
 		CharacterSelect(true);
 		//Begin(true);
 	}
-	
+
+
 	//config
 	public void _on_ButtonConfig_pressed()
 	{
@@ -183,4 +184,7 @@ public class LobbyRedesign : Node2D
 		mainInstance.Begin(ip, host);
 	}
 }
+
+
+
 

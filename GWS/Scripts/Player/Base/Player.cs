@@ -78,7 +78,7 @@ public class Player : Node2D
 	public List<CommandSpecial> commandSpecials = new List<CommandSpecial>();
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
-
+	public List<Special> dashSpecials = new List<Special>();
 	public List<Special> rhythmSpecials = new List<Special>();
 	public List<Special> airRhythmSpecials = new List<Special>();
 
@@ -682,7 +682,7 @@ public class Player : Node2D
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
-		GD.Print(buf[buf.Count - 2][0]);
+		// GD.Print(buf[buf.Count - 2][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
 	}
 

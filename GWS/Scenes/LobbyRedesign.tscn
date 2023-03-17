@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/Managers/TrainingManager.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Managers/GGRSManager.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/Managers/SyncTestManager.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Managers/AIManager.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -84,6 +85,7 @@ script = ExtResource( 1 )
 log = true
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )
+aiManager = ExtResource( 14 )
 ggrsManager = ExtResource( 12 )
 syncTestManager = ExtResource( 13 )
 
@@ -210,17 +212,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 30.0
+margin_top = 36.0
 margin_right = 300.0
-margin_bottom = 46.0
+margin_bottom = 52.0
 custom_fonts/font = ExtResource( 6 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 50.0
+margin_top = 56.0
 margin_right = 300.0
-margin_bottom = 77.0
+margin_bottom = 79.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -228,18 +230,27 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 81.0
+margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 108.0
+margin_bottom = 106.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 112.0
+[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 139.0
+margin_bottom = 106.0
+text = "CPU Match"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 110.0
+margin_right = 300.0
+margin_bottom = 133.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -402,6 +413,7 @@ size_flags_vertical = 4
 [connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="." method="OnSyncTestButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]

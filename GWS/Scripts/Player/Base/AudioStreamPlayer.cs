@@ -29,6 +29,8 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 	}
 	public void PlaySound(string name)
 	{
+		if (!soundDict.ContainsKey(name))
+			return;
 		Sound queuedSound = soundDict[name];
 		int frame = Globals.frame;
 		if (frame < queuedSound.lastPlayedFrame + 10)

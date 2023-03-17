@@ -50,19 +50,19 @@ public class HadoukenPart : Node2D
 	[Export]
 	public int duration;
 	
-	private int frame = 0;
+	protected int frame = 0;
 
-	private bool movingRight;
+	protected bool movingRight;
 
-	private Player targetPlayer;
+	protected Player targetPlayer;
 
-	private bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
+	protected bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
 
 	public int creationFrame;
 
-	static private HashSet<int> hadoukenNums = new HashSet<int>();
+	static protected HashSet<int> hadoukenNums = new HashSet<int>();
 
-	private int num;
+	protected int num;
 
 
 	public override void _Ready()
@@ -133,7 +133,7 @@ public class HadoukenPart : Node2D
 		public int frame { get; set; }
 	}
 	
-	public void FrameAdvance() // wait till the turn after it was created to move the hadouken
+	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > 0)
 		{
@@ -169,7 +169,7 @@ public class HadoukenPart : Node2D
 	/// checks if the targeted player is inside the collision box
 	/// </summary>
 	/// <returns></returns>
-	private bool CheckRect()
+	protected bool CheckRect()
 	{
 		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
 		List<Rect2> otherRects = targetPlayer.GetRects(targetPlayer.hitBoxes, true);
@@ -183,7 +183,7 @@ public class HadoukenPart : Node2D
 		return false;
 	}
 
-	private void HurtPlayer()
+	protected void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
 		if (targetPlayer.currentState.Name == "Knockdown" || targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
@@ -202,7 +202,7 @@ public class HadoukenPart : Node2D
 		MakeInactive();
 	}
 
-	private void MakeInactive()
+	protected virtual void MakeInactive()
 	{
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
 		active = false;
@@ -238,7 +238,7 @@ public class HadoukenPart : Node2D
 		return hadState;
 	}
 
-	public void SetState(HadoukenState newState) 
+	public virtual void SetState(HadoukenState newState) 
 	{
 		Position = new Vector2(newState.pos[0], newState.pos[1]);
 		active = newState.active;

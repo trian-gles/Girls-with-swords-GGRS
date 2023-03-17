@@ -29,7 +29,7 @@ public class CharSelectScene : BaseGame
 
 	private int p1Pos = 0;
 	private int p2Pos = 0;
-	private bool p1Selected = false;
+	public bool p1Selected = false; // public as this is required for AI selection
 	private bool p2Selected = false;
 	private int p1Color;
 	private int p2Color;

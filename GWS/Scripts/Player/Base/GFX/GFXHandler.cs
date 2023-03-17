@@ -21,7 +21,7 @@ public class GFXHandler : Node
 			GD.Print(node.GetType());
 			if (node.GetType() == typeof(PlayerParticle))
 			{
-				GD.Print("adding to particles CPU");
+				// GD.Print("adding to particles CPU");
 				particlesCPU.Add(((PlayerParticle)node).Name, (PlayerParticle)node);
 			}
 			else if (node.GetType() == typeof(PlayerParticleGPU))

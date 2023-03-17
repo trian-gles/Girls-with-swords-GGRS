@@ -30,6 +30,8 @@ public class OL : Player
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '8', 'p' } }, "DP"));
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '4', 'p' } }, "CommandRun"));
 		rhythmSpecials.Add(new Special(new List<char[]>() { new char[] { 'r', 'p' }, new char[] { '2', 'p' } }, "AntiAir"));
+
+		dashSpecials.Add(new Special(new List<char[]>() { new char[] { 's', 'p' } }, "InstantOverhead"));
 	}
 	public override void _Ready()
 	{

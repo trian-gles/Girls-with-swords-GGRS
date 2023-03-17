@@ -522,4 +522,14 @@ public class GameScene : BaseGame
 		P1.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
 		P2.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
 	}
+
+
+	////
+	// Specifically for AI
+	////
+	
+	public GameStateObjectRedesign.GameState GetGameState()
+	{
+		return gsObj.GetGameState();
+	}
 }

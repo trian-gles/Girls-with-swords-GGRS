@@ -3,8 +3,9 @@ using System;
 
 public class Gunblazed : GroundAttack
 {
-	public override void _Ready()
-	{
-		base._Ready();
-	}
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Fire2", Name);
+    }
 }

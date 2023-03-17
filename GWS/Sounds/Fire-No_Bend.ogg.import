@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Fire-No_Bend.ogg-f29f75181fe796a35c4ae1fa7542cb2a.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Fire-No_Bend.ogg"
+dest_files=[ "res://.import/Fire-No_Bend.ogg-f29f75181fe796a35c4ae1fa7542cb2a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

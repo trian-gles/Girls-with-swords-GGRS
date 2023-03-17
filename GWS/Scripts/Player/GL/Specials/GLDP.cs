@@ -3,4 +3,9 @@ using System;
 
 public class GLDP : LaunchAttack
 {
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
+    }
 }

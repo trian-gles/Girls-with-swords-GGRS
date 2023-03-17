@@ -7309,7 +7309,7 @@ position = Vector2( -2, 0 )
 position = Vector2( 12, -14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 32, 1 )
+position = Vector2( 17, -4 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -2, -31 )

@@ -31,6 +31,9 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 		AddSound("Stagger1", LoadAudio("res://Sounds/lick1.ogg"));
 		AddSound("Stagger2", LoadAudio("res://Sounds/lick2.ogg"));
 		AddSound("Stagger3", LoadAudio("res://Sounds/lick3.ogg"));
+		AddSound("Fire1", LoadAudio("res://Sounds/Fire-High.ogg"));
+		AddSound("Fire2", LoadAudio("res://Sounds/Fire-Low.ogg"));
+		AddSound("Fire3", LoadAudio("res://Sounds/Fire-No_Bend.ogg"));
 	}
 	public void PlaySound(string name)
 	{

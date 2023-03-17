@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/lick1.ogg-c0ce3b67e7abafd8834566cfbe13e315.oggstr"
+
+[deps]
+
+source_file="res://Sounds/lick1.ogg"
+dest_files=[ "res://.import/lick1.ogg-c0ce3b67e7abafd8834566cfbe13e315.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -6923,7 +6923,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 56 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 175, 182 ]
+"values": [ 176, 182 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -7319,7 +7319,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 204
-frame = 27
+frame = 176
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )

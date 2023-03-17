@@ -9,6 +9,8 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 
 	class Sound { public AudioStream audio; public int lastPlayedFrame; }
 
+	private Random random = new Random();
+
 	private void AddSound(string name, AudioStream stream)
     {
 		soundDict.Add(name, new Sound() { audio = stream , lastPlayedFrame = - 1000});
@@ -26,9 +28,15 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 		AddSound("Hadouken", LoadAudio("res://Sounds/hadouken.ogg"));
 		AddSound("Landing", LoadAudio("res://Sounds/landing.ogg"));
 		AddSound("Whiff", LoadAudio("res://Sounds/whiff.ogg"));
+		AddSound("Stagger1", LoadAudio("res://Sounds/lick1.ogg"));
+		AddSound("Stagger2", LoadAudio("res://Sounds/lick2.ogg"));
+		AddSound("Stagger3", LoadAudio("res://Sounds/lick3.ogg"));
 	}
 	public void PlaySound(string name)
 	{
+		if (name == "Stagger")
+			name = name + random.Next(1, 4).ToString();
+
 		if (!soundDict.ContainsKey(name))
 			return;
 		Sound queuedSound = soundDict[name];

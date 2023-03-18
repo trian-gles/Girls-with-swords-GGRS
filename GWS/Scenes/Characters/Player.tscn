@@ -441,6 +441,7 @@ script = ExtResource( 36 )
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
+visible = false
 material = SubResource( 9 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
@@ -451,6 +452,7 @@ process_material = SubResource( 16 )
 texture = ExtResource( 46 )
 
 [node name="Light" type="Particles2D" parent="GFXHandler"]
+visible = false
 material = SubResource( 17 )
 position = Vector2( 48, 0 )
 emitting = false
@@ -463,6 +465,5 @@ texture = ExtResource( 44 )
 script = ExtResource( 45 )
 
 [node name="GroundBounce" type="CPUParticles2D" parent="GFXHandler"]
-emitting = false
-one_shot = true
+visible = false
 scale_amount = 2.0

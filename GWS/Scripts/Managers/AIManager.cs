@@ -17,27 +17,27 @@ class AIManager : LocalManager
 		
 
 		if (currGame.Name == "GameScene")
-        {
+		{
 			p1Inputs = GetInputs("");
 			p2Inputs = ai.Poll(gameScene.GetGameState());
 		}
-        else
-        {
+		else
+		{
 			if (charSelectScene.p1Selected)
-            {
+			{
 				if (p1KeyReleased)
-                {
+				{
 					p2Inputs = GetInputs("");
 				}
 				else
-                {
+				{
 					p1KeyReleased = (GetInputs("") != lastP1Key);
-                }
+				}
 			}
 				
 
-            else
-            {
+			else
+			{
 				p1Inputs = GetInputs("");
 				lastP1Key = p1Inputs;
 			}
@@ -48,9 +48,9 @@ class AIManager : LocalManager
 
 	}
 
-    public override void OnGameFinished(string nextGameName)
-    {
-        base.OnGameFinished(nextGameName);
+	public override void OnGameFinished(string nextGameName)
+	{
+		base.OnGameFinished(nextGameName);
 		ai = new AIBehaviour();
-    }
+	}
 }

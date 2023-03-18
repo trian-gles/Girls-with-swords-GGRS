@@ -7319,7 +7319,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 204
-frame = 176
+frame = 137
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )

@@ -11,5 +11,5 @@ dest_files=[ "res://.import/Warp_Pull.ogg-19d3b1b5dc1a7af1ee1846e7e5d5288a.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

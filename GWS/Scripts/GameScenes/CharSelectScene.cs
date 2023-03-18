@@ -25,6 +25,8 @@ public class CharSelectScene : BaseGame
 	private Sprite P1Cursor;
 	private Sprite P2Cursor;
 
+	private CharSelectAudio audio;
+
 	private List<List<Sprite>> charImages;
 
 	private int p1Pos = 0;
@@ -67,6 +69,8 @@ public class CharSelectScene : BaseGame
 		lastInputs = new int[2] { 0, 0 };
 		P1Cursor = GetNode<Sprite>("CanvasLayer/P1Cursor");
 		P2Cursor = GetNode<Sprite>("CanvasLayer/P2Cursor");
+
+		audio = GetNode<CharSelectAudio>("CharSelectAudio");
 
 		var p1CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P1Selected/OLSprite"),
@@ -196,7 +200,7 @@ public class CharSelectScene : BaseGame
 		
 		if (playerNum == 0 && !p1Selected)
 		{
-
+			
 			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 1);
 			
 			P1Cursor.Position = new Vector2(CENTER + p1Pos * 100, P1Cursor.Position.y);
@@ -219,6 +223,8 @@ public class CharSelectScene : BaseGame
 
 	private void SelectPlayer(int playerNum, int color)
 	{
+		audio.PlaySound("CharSelect");
+
 		if (playerNum == 0 && !p1Selected)
 		{
 			P1Cursor.Visible = false;

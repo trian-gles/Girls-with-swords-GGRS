@@ -19,19 +19,6 @@ public class BlackHole : HadoukenPart
 	}
 	public override void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
-		if (frame > 0)
-		{
-			if (movingRight)
-			{
-				Position += speed;
-			}
-
-			else
-			{
-				Position -= speed;
-			}
-			// GD.Print($"Moving {Name} to X position {Position.x} on global frame {Globals.frame}, hadouken frame {frame}");
-		}
 
 		if (active && frame > startUp)
 		{
@@ -53,29 +40,36 @@ public class BlackHole : HadoukenPart
 			if (playerLeft) { pushVec.x *= -1; }
 
 			targetPlayer.velocity += pushVec;
-
+			
+			//GD.Print("Setting velocity to " + targetPlayer.velocity + " on frame " + frame);
 
 
 			if (CheckRect())
 			{
 				HurtPlayer();
+				GD.Print("Hurting player on frame " + frame);
 			}
 		}
 
 		if (frame > duration + 12) // far past rollback limit
 			targetPlayer.DeleteHadouken(this);
 		frame++;
+		//GD.Print(frame);
 	}
 
 	protected override void MakeInactive()
 	{
 		base.MakeInactive();
 		particles2D.Emitting = false;
+		
 	}
 
 	public override void SetState(HadoukenState newState)
 	{
-		base.SetState(newState);
-		particles2D.Emitting = active;
+		active = newState.active;
+		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
+		frame = newState.frame;
+		if (particles2D.Emitting != active)
+			particles2D.Emitting = active;
 	}
 }

@@ -244,7 +244,7 @@ public class HadoukenPart : Node2D
 		active = newState.active;
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
 		frame = newState.frame;
-		// GD.Print($"Loading hadouken state: frame {frame} position {Position.x}");
+		//GD.Print($"Loading hadouken state: frame {frame} active {active}");
 	}
 
 	

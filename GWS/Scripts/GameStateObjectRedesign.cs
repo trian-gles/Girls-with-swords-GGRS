@@ -143,7 +143,9 @@ public class GameStateObjectRedesign : Node
 	 public void RedesignCompareStates(byte[] buffer)
 	{
 		GameState oldState = Deserialize<GameState>(buffer);
-		CompareGameStates(oldState, GetGameState());
+		string error = CompareGameStates(oldState, GetGameState());
+		if (error != "")
+			GD.Print(error);
 	}
 
 	private string CompareGameStates(GameState firstGs, GameState secondGs)
@@ -172,7 +174,9 @@ public class GameStateObjectRedesign : Node
 
 		for (int j = 0; j < firstGs.hadoukenStates.Count; j++)
 		{
+			errMsg = AddError(errMsg, $"Hadouken {j}" + " frame", firstGs.hadoukenStates[j].frame, firstGs.hadoukenStates[j].frame);
 			errMsg = AddError(errMsg, $"Hadouken {j}" + " xPos", firstGs.hadoukenStates[j].pos[0], firstGs.hadoukenStates[j].pos[0]);
+			errMsg = AddError(errMsg, $"Hadouken {j}" + " yPos", firstGs.hadoukenStates[j].pos[1], firstGs.hadoukenStates[j].pos[1]);
 			errMsg = AddError(errMsg, $"Hadouken {j}" + " active", firstGs.hadoukenStates[j].active, firstGs.hadoukenStates[j].active);
 		}
 		
@@ -442,7 +446,7 @@ public class GameStateObjectRedesign : Node
 			}
 		}
 		else
-        {
+		{
 			if (playerName == "P1")
 			{
 				P1.RhythmHitFailure();

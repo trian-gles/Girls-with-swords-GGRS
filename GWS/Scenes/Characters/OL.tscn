@@ -7331,6 +7331,7 @@ modifiedHitStun = 35
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 300, -1000 )
 modifiedHitPush = 6000
+sound = "Slash"
 launch = Vector2( 200, -800 )
 
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
@@ -7343,6 +7344,7 @@ chLaunch = Vector2( 600, -800 )
 modifiedHitPush = 2500
 hitPush = 2500
 chEffect = 2
+sound = "Slash"
 launch = Vector2( 0, -400 )
 
 [node name="CommandRun" type="Node" parent="StateTree" index="21"]
@@ -7365,6 +7367,7 @@ chLaunch = Vector2( 0, 1000 )
 hitPush = 3000
 chEffect = 1
 knockdown = true
+sound = "Slash"
 
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )
@@ -7378,6 +7381,7 @@ jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="Slash" parent="StateTree" index="30"]
+sound = "Slash"
 gatlingWinEnd = 17
 
 [node name="JumpA" parent="StateTree" index="31"]
@@ -7388,6 +7392,7 @@ hitPush = 3500
 gatlingWinEnd = 14
 
 [node name="JumpC" parent="StateTree" index="33"]
+sound = "Slash"
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="34"]
@@ -7400,6 +7405,7 @@ gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="36"]
 jumpCancelable = true
+sound = "Slash"
 gatlingWinEnd = 18
 
 [node name="Hadouken" parent="StateTree" index="42"]
@@ -7411,6 +7417,7 @@ launch = Vector2( 400, 0 )
 
 [node name="HojogiriCharge" type="Node" parent="StateTree" index="47"]
 script = ExtResource( 14 )
+sound = ""
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 15 )
@@ -7420,6 +7427,7 @@ modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 100, -500 )
 chLaunch = Vector2( 100, -500 )
 hitPush = 500
+sound = "Slash"
 
 [node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 16 )
@@ -7428,6 +7436,7 @@ opponentLaunch = Vector2( 300, -350 )
 chLaunch = Vector2( 50, -350 )
 modifiedHitPush = 100
 hitPush = 100
+sound = "Slash"
 
 [node name="InstantOverhead" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 18 )
@@ -7438,6 +7447,7 @@ modifiedHitPush = 1000
 height = 2
 effect = 3
 chEffect = 3
+sound = "Slash"
 launch = Vector2( 400, -300 )
 
 [node name="GrabPos" parent="." index="6"]

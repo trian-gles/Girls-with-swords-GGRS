@@ -47,6 +47,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected bool knockdown = false;
 
+	[Export]
+	protected string sound = "Whiff";
+
 	/// <summary>
 	/// Gatlings must be input before this window closes
 	/// </summary>
@@ -124,7 +127,7 @@ public abstract class BaseAttack : State
 	{
 		base.Enter();
 		hitConnect = false;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Whiff", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, sound, Name);
 	}
 	public override void AnimationFinished()
 	{

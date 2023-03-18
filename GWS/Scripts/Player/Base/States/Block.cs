@@ -12,8 +12,7 @@ public class Block : HitState
 	public override void Enter()
 	{
 		base.Enter();
-		GD.Print("Blocking");
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block", owner.currentState.Name); // this will be inherited by crouchblock
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
 	}
 	public override void FrameAdvance()
 	{

@@ -35,6 +35,10 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 		AddSound("Fire2", LoadAudio("res://Sounds/Fire-Low.ogg"));
 		AddSound("Fire3", LoadAudio("res://Sounds/Fire-No_Bend.ogg"));
 		AddSound("WarpSpawn", LoadAudio("res://Sounds/Warp_Spawn.ogg"));
+		AddSound("LampFire", LoadAudio("res://Sounds/LampSwing-Fire.ogg"));
+		AddSound("LampNoFire", LoadAudio("res://Sounds/LampSwing-NoFire.ogg"));
+		AddSound("Slash", LoadAudio("res://Sounds/slash1.ogg"));
+		AddSound("Punch", LoadAudio("res://Sounds/Punch1.ogg"));
 	}
 	public void PlaySound(string name)
 	{

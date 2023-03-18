@@ -20,11 +20,6 @@ public class GLJumpC : BaseAttack
 		else
 			ApplyGravity();
 	}
-	
-	public override void Enter(){
-		base.Enter();
-		//owner.velocity.y = -200; // This is kinda interesting
-}
 
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	{

@@ -6324,6 +6324,7 @@ len = 14
 
 [node name="Jab" parent="StateTree" index="25"]
 jumpCancelable = true
+sound = "Punch"
 gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="26"]
@@ -6335,6 +6336,7 @@ jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="Slash" parent="StateTree" index="27"]
+sound = "LampNoFire"
 gatlingWinEnd = 17
 
 [node name="JumpA" parent="StateTree" index="28"]
@@ -6353,12 +6355,14 @@ gatlingWinEnd = 14
 
 [node name="CrouchA" parent="StateTree" index="31"]
 jumpCancelable = true
+sound = "Punch"
 gatlingWinEnd = 9
 
 [node name="CrouchB" parent="StateTree" index="32"]
 gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="33"]
+sound = "LampNoFire"
 gatlingWinEnd = 17
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
@@ -6372,6 +6376,7 @@ hitPush = 3500
 height = 2
 effect = 1
 chEffect = 1
+sound = "LampFire"
 
 [node name="Hadouken" parent="StateTree" index="40"]
 hadoukenScene = ExtResource( 4 )
@@ -6388,9 +6393,6 @@ position = Vector2( 35, -24 )
 
 [node name="Cancel" parent="GFXHandler" index="1"]
 explosiveness = 0.34
-
-[node name="exflash" parent="GFXHandler/Node2D" index="0"]
-visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

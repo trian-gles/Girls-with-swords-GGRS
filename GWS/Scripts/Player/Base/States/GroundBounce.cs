@@ -50,10 +50,7 @@ public class GroundBounce : Float
 
         stunRemaining--;
 
-        if (stunRemaining == 0)
-        {
-            EmitSignal(nameof(StateFinished), "Tech");
-        }
+        TryTech();
 
         if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300)
         {

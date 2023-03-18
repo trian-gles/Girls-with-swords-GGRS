@@ -80,6 +80,7 @@ public class TrainingManager : BaseManager
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
+		gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
 	}
 
 	public override void OnRoundFinished(string winner)

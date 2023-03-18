@@ -216,6 +216,7 @@ public class BaseManager : Node2D
 
 			charSelectScene.ChangeHUDText(newText);
 			gameScene.ChangeHUDText(newText);
+			gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
 		}
 		else if (@event.IsActionPressed("reset_training"))
 		{

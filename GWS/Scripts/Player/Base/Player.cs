@@ -104,6 +104,11 @@ public class Player : Node2D
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
+
+
+	public bool trainingControlledPlayer;
+
+
 	/// <summary>
 	/// The rhythm state to enter, which might be stored during hitstop
 	/// </summary>

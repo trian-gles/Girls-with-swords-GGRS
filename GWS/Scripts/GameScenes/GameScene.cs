@@ -184,6 +184,15 @@ public class GameScene : BaseGame
 			recordingText.Text = msg;
 		}
 	}
+
+	public void SetTrainingControlledPlayer(bool p1Control, bool p2Control)
+	{
+		if (P1 != null) // this may be called before players are instantiated
+		{
+			P1.trainingControlledPlayer = p1Control;
+			P2.trainingControlledPlayer = p2Control;
+		}
+	}
 	
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{

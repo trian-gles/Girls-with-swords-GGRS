@@ -9,6 +9,11 @@ public class Float : HitStun
 		stop = false;
 	}
 
+	public override bool DelayInputs()
+	{
+		return false; // this messes up teching
+	}
+
 	public override void Enter()
 	{
 		base.Enter();
@@ -69,10 +74,7 @@ public class Float : HitStun
 
 		stunRemaining--;
 
-		if (stunRemaining == 0)
-		{
-			EmitSignal(nameof(StateFinished), "Tech");
-		}
+		TryTech();
 
 		//if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300) 
 		//{
@@ -82,6 +84,15 @@ public class Float : HitStun
 		
 
 		ApplyGravity();
+	}
+
+	protected void TryTech()
+	{
+		if (stunRemaining == 0)
+		{
+			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+				EmitSignal(nameof(StateFinished), "Tech");
+		}
 	}
 
 }

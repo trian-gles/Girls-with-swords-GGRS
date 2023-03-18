@@ -22,6 +22,12 @@ public class Lobby : Node2D
 	public bool log = false;
 
 	[Export]
+	public bool alwaysBlock = false;
+
+	[Export]
+	public bool autoTech = false;
+
+	[Export]
 	public PackedScene localManager;
 
 	[Export]
@@ -52,6 +58,10 @@ public class Lobby : Node2D
 		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
+
+		// set up debug globals
+		Globals.autoTech = autoTech;
+		Globals.alwaysBlock = alwaysBlock;
 
 		if (syncTest)
 			syncTestBegin();

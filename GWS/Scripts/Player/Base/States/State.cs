@@ -673,7 +673,9 @@ public abstract class State : Node
 
 		if (details.height == HEIGHT.HIGH) 
 		{
-			if (!owner.CheckHeldKey('2'))
+			if (!owner.trainingControlledPlayer && Globals.alwaysBlock)
+				EnterBlockState("Block", details.collisionPnt);
+			else if (!owner.CheckHeldKey('2'))
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
@@ -692,7 +694,9 @@ public abstract class State : Node
 		}
 		else if (details.height == HEIGHT.LOW) 
 		{
-			if (owner.CheckHeldKey('2') && owner.grounded)
+			if (!owner.trainingControlledPlayer && Globals.alwaysBlock && owner.grounded)
+				EnterBlockState("CrouchBlock", details.collisionPnt);
+			else if (owner.CheckHeldKey('2') && owner.grounded)
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
@@ -710,7 +714,10 @@ public abstract class State : Node
 		}
 		else
 		{
-			if (rightBlock || leftBlock || anyBlock)
+			if (!owner.trainingControlledPlayer && Globals.alwaysBlock)
+				EnterBlockState("Block", details.collisionPnt);
+
+			else if (rightBlock || leftBlock || anyBlock)
 			{
 				if (owner.CheckHeldKey('2') && owner.grounded)
 					EnterBlockState("CrouchBlock", details.collisionPnt);

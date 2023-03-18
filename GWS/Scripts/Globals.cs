@@ -27,6 +27,8 @@ public class Globals : Node
 	private static string loggingName;
 	private static bool logOn = false;
 
+	public static bool alwaysBlock = false;
+	public static bool autoTech = false;
 	public static void SetLogging(string loggingName)
 	{
 		Globals.loggingName = loggingName;

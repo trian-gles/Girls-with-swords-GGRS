@@ -7443,9 +7443,6 @@ launch = Vector2( 400, -300 )
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )
 
-[node name="exflash" parent="GFXHandler/Node2D" index="0"]
-visible = false
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
 anims/AirBackdash = SubResource( 4 )

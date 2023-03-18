@@ -77,7 +77,7 @@ public abstract class BaseAttack : State
 		base._Ready();
 		stop = false;
 		isCounter = true;
-		slowdownSpeed = 30;
+		slowdownSpeed = 45;
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;

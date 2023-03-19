@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scripts/MainScene/MainGFX.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/HUD/FlashText.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 8 )
@@ -46,6 +47,18 @@ script = ExtResource( 5 )
 zoom_offset = 0.104
 
 [node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="P1Meter" parent="HUD" instance=ExtResource( 16 )]
+margin_left = 42.0
+margin_top = 31.0
+margin_right = 161.0
+margin_bottom = 37.0
+
+[node name="P2Meter" parent="HUD" instance=ExtResource( 16 )]
+margin_left = 319.0
+margin_top = 31.0
+margin_right = 438.0
+margin_bottom = 37.0
 
 [node name="RhythmTrack" parent="HUD" instance=ExtResource( 15 )]
 margin_left = -5.0

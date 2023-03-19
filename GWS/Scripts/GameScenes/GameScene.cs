@@ -33,6 +33,8 @@ public class GameScene : BaseGame
 	private Label P2Counter;
 	public Label P1Rhythm;
 	public Label P2Rhythm;
+	private Control P1Meter;
+	private Control P2Meter;
 	private int frame;
 
 	private Label recordingText;
@@ -80,6 +82,8 @@ public class GameScene : BaseGame
 		P2Counter = GetNode<Label>("HUD/P2Counter");
 		P1Rhythm = GetNode<Label>("HUD/P1Rhythm");
 		P2Rhythm = GetNode<Label>("HUD/P2Rhythm");
+		P1Meter = GetNode<Control>("HUD/P1Meter");
+		P2Meter = GetNode<Control>("HUD/P2Meter");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		base._Ready();
@@ -125,6 +129,8 @@ public class GameScene : BaseGame
 		P2.Connect("ComboSet", this, nameof(OnPlayerComboSet));
 		P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
+		P1.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
+		P2.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
@@ -360,6 +366,13 @@ public class GameScene : BaseGame
 		}
 		
 	}
+	public void OnPlayerMeterChange(string name, int meter){
+		if (name == "P1")
+			P1Meter.Call("set_meter", (int)Math.Floor((double)meter/100));
+		else
+			P2Meter.Call("set_meter", (int)Math.Floor((double)meter /100));
+	}
+	
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
 		AddChild(h); // Add the hadouken as a child

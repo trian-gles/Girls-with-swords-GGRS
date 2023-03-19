@@ -9,6 +9,7 @@ public abstract class AirNormal : AirAttack
     {
         base._Ready();
         AddSpecials(owner.airSpecials);
+        AddExSpecials(owner.airExSpecials);
     }
 
     public override void AnimationFinished()

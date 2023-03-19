@@ -10,6 +10,7 @@ public class Fall : AirState
 		loop = true;
 
 		AddSpecials(owner.airSpecials);
+		AddExSpecials(owner.airExSpecials);
 
 		// AIRGRAB
 		AddGatling(new[] { 's', 'p' },

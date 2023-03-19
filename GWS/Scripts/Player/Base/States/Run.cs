@@ -14,6 +14,7 @@ public class Run : MoveState
 		AddNormals();
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddSpecials(owner.groundSpecials);
+		AddSpecials(owner.groundExSpecials);
 		AddNormals();
 		AddGatling(new[] { '6', 'r' }, "PostRun");
 		AddGatling(new[] { '4', 'r' }, "PostRun");
@@ -28,6 +29,8 @@ public class Run : MoveState
 		base.Enter();
 		if (owner.velocity.x < 0) { owner.velocity.x = -owner.dashSpeed;}
 		else { owner.velocity.x = owner.dashSpeed;}
+
+		owner.GainMeter(500);
 
 		if (owner.CheckHeldKey('8'))
 		{

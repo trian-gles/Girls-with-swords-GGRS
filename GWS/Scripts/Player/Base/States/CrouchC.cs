@@ -7,6 +7,7 @@ public class CrouchC : GroundAttack
 	{
 		base._Ready();
 		AddSpecials(owner.groundSpecials);
+		AddExSpecials(owner.groundExSpecials);
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

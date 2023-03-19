@@ -9,6 +9,7 @@ public class Crouch : State
         base._Ready();
         loop = true;
         AddSpecials(owner.groundSpecials);
+        AddExSpecials(owner.groundExSpecials);
         AddGatling(new[] { '2', 'r' }, "Idle");
         AddGatling(new[] { 'p', 'p' }, "CrouchA");
         AddGatling(new[] { 'k', 'p' }, "CrouchB");

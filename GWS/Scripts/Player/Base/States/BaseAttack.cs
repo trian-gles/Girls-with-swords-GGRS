@@ -153,6 +153,7 @@ public abstract class BaseAttack : State
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 		//GD.Print($"Hit connect at point {collisionPnt}");
+		owner.GainMeter(400);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;
 

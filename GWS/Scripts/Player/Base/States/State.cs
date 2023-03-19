@@ -345,6 +345,14 @@ public abstract class State : Node
 		}
 	}
 
+	protected void AddExSpecials(List<Player.Special> specials)
+	{
+		foreach (var special in specials)
+		{
+			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { }); // last function does nothing, I'm lazy...
+		}
+	}
+
 	protected void AddRhythmSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)
@@ -360,7 +368,8 @@ public abstract class State : Node
 	{
 		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
 		{
-			AddGatling(new char[] {perm[0] ,'p' },  () => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]), 
+			AddGatling(new char[] {perm[0] ,'p' },  
+				() => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter(), 
 				cancelState, () => owner.GFXEvent("Cancel"));
 		}
 		

@@ -7,6 +7,7 @@ public class GLJumpC : BaseAttack
 	{
 		base._Ready();
 		AddSpecials(owner.airSpecials);
+		AddExSpecials(owner.airExSpecials);
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 		animationName = "JumpC";

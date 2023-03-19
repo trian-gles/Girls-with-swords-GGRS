@@ -11,6 +11,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void HealthChanged(string name, int health);
 	[Signal]
+	public delegate void MeterChanged(string name, int meter);
+	[Signal]
 	public delegate void ComboChanged(string name, int combo);
 	[Signal]
 	public delegate void ComboSet(string name, int combo);
@@ -81,6 +83,8 @@ public class Player : Node2D
 	public List<Special> dashSpecials = new List<Special>();
 	public List<Special> rhythmSpecials = new List<Special>();
 	public List<Special> airRhythmSpecials = new List<Special>();
+	public List<Special> groundExSpecials = new List<Special>();
+	public List<Special> airExSpecials = new List<Special>();
 
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
@@ -90,9 +94,12 @@ public class Player : Node2D
 	///
 	// All of these will be stored in gamestate
 	///
+
+	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	private int health = 1600;
+	private int meter = 0;
 	public Vector2 velocity = new Vector2(0, 0);
 	public bool facingRight = true;
 	public bool grounded;
@@ -137,6 +144,7 @@ public class Player : Node2D
 		public int hitPushRemaining { get; set; }
 		public bool flipH { get; set; }
 		public int health { get; set; }
+		public int meter { get; set; }
 		public int[] position { get; set; }
 		public int[] velocity { get; set; }
 		public bool facingRight { get; set; }
@@ -261,6 +269,8 @@ public class Player : Node2D
 		//var resource = ResourceLoader.Load(shaderPaths[colorScheme]);
 		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
 		//GD.Print(shaderMaterial.GetShaderParam("palette"));
+
+		EmitSignal(nameof(MeterChanged), Name, 0);
 		
 	}
 
@@ -303,6 +313,7 @@ public class Player : Node2D
 		pState.flipH = sprite.FlipH;
 		pState.hitPushRemaining = hitPushRemaining;
 		pState.health = health;
+		pState.meter = meter;
 		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 		pState.animationCursor = animationPlayer.cursor;
@@ -347,7 +358,9 @@ public class Player : Node2D
 		canDoubleJump = pState.canDoubleJump;
 
 		health = pState.health;
+		meter = pState.meter;
 		EmitSignal(nameof(HealthChanged), Name, health);
+		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
 		facingRight = pState.facingRight;
@@ -1089,6 +1102,26 @@ public class Player : Node2D
 		//GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
+	}
+
+	public void GainMeter(int gains)
+    {
+		meter = Math.Min(meter + gains, 10000);
+		EmitSignal(nameof(MeterChanged), Name, meter);
+	}
+
+	public bool TrySpendMeter(int cost = 5000)
+	{
+		if (meter >= cost)
+		{
+			meter -= cost;
+			EmitSignal(nameof(MeterChanged), Name, meter);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public void ConfirmRhythmHit()

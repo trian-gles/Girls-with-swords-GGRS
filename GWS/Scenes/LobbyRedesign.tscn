@@ -84,7 +84,6 @@ tracks/4/keys = {
 position = Vector2( 2, -1 )
 script = ExtResource( 1 )
 log = true
-alwaysBlock = true
 autoTech = true
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )

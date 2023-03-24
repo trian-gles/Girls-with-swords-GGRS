@@ -2,8 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class AudioStreamPlayer : Godot.AudioStreamPlayer
+public class CharacterAudio : Node
 {
+	private List<AudioStreamPlayer> _players = new List<AudioStreamPlayer>();
 
 	private Dictionary<string, Sound> soundDict = new Dictionary<string, Sound>();
 
@@ -12,7 +13,7 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 	private Random random = new Random();
 
 	private void AddSound(string name, AudioStream stream)
-    {
+	{
 		soundDict.Add(name, new Sound() { audio = stream , lastPlayedFrame = - 1000});
 
 	}
@@ -35,10 +36,21 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 		AddSound("Fire2", LoadAudio("res://Sounds/Fire-Low.ogg"));
 		AddSound("Fire3", LoadAudio("res://Sounds/Fire-No_Bend.ogg"));
 		AddSound("WarpSpawn", LoadAudio("res://Sounds/Warp_Spawn.ogg"));
-		AddSound("LampFire", LoadAudio("res://Sounds/LampSwing-Fire.ogg"));
-		AddSound("LampNoFire", LoadAudio("res://Sounds/LampSwing-NoFire.ogg"));
-		AddSound("Slash", LoadAudio("res://Sounds/slash1.ogg"));
-		AddSound("Punch", LoadAudio("res://Sounds/Punch1.ogg"));
+
+		AddSound("LampFireWhiff", LoadAudio("res://Sounds/Lamp-FireWoosh.ogg"));
+		AddSound("LampWhiff", LoadAudio("res://Sounds/Lamp-Woosh.ogg"));
+		AddSound("LampHit", LoadAudio("res://Sounds/Lamp-Hit.ogg"));
+
+		AddSound("PunchWhiff", LoadAudio("res://Sounds/Punch-Woosh.ogg"));
+		AddSound("PunchHit", LoadAudio("res://Sounds/Punch-Impact.ogg"));
+
+		AddSound("SlashWhiff", LoadAudio("res://Sounds/Slash-Woosh.ogg"));
+		AddSound("SlashHit", LoadAudio("res://Sounds/Slash-Hit.ogg"));
+
+		foreach (var child in GetChildren())
+		{
+			_players.Add((AudioStreamPlayer)child);
+		}
 	}
 	public void PlaySound(string name)
 	{
@@ -50,12 +62,20 @@ public class AudioStreamPlayer : Godot.AudioStreamPlayer
 		Sound queuedSound = soundDict[name];
 		int frame = Globals.frame;
 		if (frame < queuedSound.lastPlayedFrame + 10)
-        {
+		{
 			return;
 		}
 
-		Stream = queuedSound.audio;
-		Play();
+
+		foreach (var player in _players)
+		{
+			if (!player.Playing)
+			{
+				player.Stream = queuedSound.audio;
+				player.Play();
+				break;
+			}
+		}
 		queuedSound.lastPlayedFrame = frame;
 	}
 

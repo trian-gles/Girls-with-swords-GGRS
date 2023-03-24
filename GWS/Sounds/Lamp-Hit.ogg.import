@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Lamp-Hit.ogg-12159769791d055ace8cb07e732cf800.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Lamp-Hit.ogg"
+dest_files=[ "res://.import/Lamp-Hit.ogg-12159769791d055ace8cb07e732cf800.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

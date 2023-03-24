@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Lamp-FireWoosh.ogg-6b7aaad14d15658cda10d0c78131008f.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Lamp-FireWoosh.ogg"
+dest_files=[ "res://.import/Lamp-FireWoosh.ogg-6b7aaad14d15658cda10d0c78131008f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

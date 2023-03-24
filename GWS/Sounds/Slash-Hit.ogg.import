@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Slash-Hit.ogg-48e7867dab6b6a0ffb691fd79064e22b.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Slash-Hit.ogg"
+dest_files=[ "res://.import/Slash-Hit.ogg-48e7867dab6b6a0ffb691fd79064e22b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -6305,6 +6305,8 @@ opponentLaunch = Vector2( 300, -800 )
 chLaunch = Vector2( 300, -1100 )
 hitPush = 100
 chEffect = 2
+whiffSound = ""
+hitSound = ""
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
@@ -6313,6 +6315,8 @@ modifiedHitStun = 33
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 300, -1100 )
 hitPush = 6000
+whiffSound = ""
+hitSound = ""
 launch = Vector2( 150, -1000 )
 launchFrame = 7
 
@@ -6324,7 +6328,6 @@ len = 14
 
 [node name="Jab" parent="StateTree" index="25"]
 jumpCancelable = true
-sound = "Punch"
 gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="26"]
@@ -6336,7 +6339,8 @@ jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="Slash" parent="StateTree" index="27"]
-sound = "LampNoFire"
+whiffSound = "LampWhiff"
+hitSound = "LampHit"
 gatlingWinEnd = 17
 
 [node name="JumpA" parent="StateTree" index="28"]
@@ -6355,14 +6359,14 @@ gatlingWinEnd = 14
 
 [node name="CrouchA" parent="StateTree" index="31"]
 jumpCancelable = true
-sound = "Punch"
 gatlingWinEnd = 9
 
 [node name="CrouchB" parent="StateTree" index="32"]
 gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="33"]
-sound = "LampNoFire"
+whiffSound = "LampWhiff"
+hitSound = "LampHit"
 gatlingWinEnd = 17
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
@@ -6376,7 +6380,8 @@ hitPush = 3500
 height = 2
 effect = 1
 chEffect = 1
-sound = "LampFire"
+whiffSound = "LampFireWhiff"
+hitSound = "LampHit"
 
 [node name="Hadouken" parent="StateTree" index="40"]
 hadoukenScene = ExtResource( 4 )

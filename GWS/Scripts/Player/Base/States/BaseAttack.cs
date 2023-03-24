@@ -48,7 +48,10 @@ public abstract class BaseAttack : State
 	protected bool knockdown = false;
 
 	[Export]
-	protected string sound = "Whiff";
+	protected string whiffSound = "Whiff";
+
+	[Export]
+	protected string hitSound = "Hit";
 
 	/// <summary>
 	/// Gatlings must be input before this window closes
@@ -127,7 +130,7 @@ public abstract class BaseAttack : State
 	{
 		base.Enter();
 		hitConnect = false;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, sound, Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 	}
 	public override void AnimationFinished()
 	{
@@ -172,6 +175,7 @@ public abstract class BaseAttack : State
 		chDetails.collisionPnt = collisionPnt;
 		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		hitConnect = true;
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 	}
 
 	public override bool DelayInputs()

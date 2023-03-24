@@ -19,7 +19,7 @@ public class EventScheduler : Node
 	}
 
 	private List<Event> scheduledEvents = new List<Event>();
-	private AudioStreamPlayer audioPlay;
+	private CharacterAudio audioPlay;
 
 
 	[Export]
@@ -27,7 +27,7 @@ public class EventScheduler : Node
 
 	public override void _Ready()
 	{
-		audioPlay = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		audioPlay = GetNode<CharacterAudio>("CharacterAudioHandler");
 	}
 
 	public void TimeAdvance()

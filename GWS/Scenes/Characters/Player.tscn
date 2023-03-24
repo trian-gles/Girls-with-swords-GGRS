@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -31,7 +31,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/Grab.cs" type="Script" id=29]
 [ext_resource path="res://Scripts/Player/Base/States/Grabbed.cs" type="Script" id=30]
 [ext_resource path="res://Scripts/Player/Base/EventScheduler.cs" type="Script" id=31]
-[ext_resource path="res://Scripts/Player/Base/AudioStreamPlayer.cs" type="Script" id=32]
+[ext_resource path="res://Scripts/Player/Base/CharacterAudio.cs" type="Script" id=32]
 [ext_resource path="res://Scripts/Player/Base/States/Float.cs" type="Script" id=33]
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
 [ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
@@ -53,12 +53,14 @@
 [ext_resource path="res://Scripts/Player/Base/States/AirGrabStart.cs" type="Script" id=51]
 [ext_resource path="res://Scripts/Player/Base/States/GrabStart.cs" type="Script" id=52]
 [ext_resource path="res://Scripts/Player/Base/States/Jive.cs" type="Script" id=53]
+[ext_resource path="res://Sounds/clap.ogg" type="AudioStream" id=54]
+[ext_resource path="res://Scripts/Player/Base/AudioStreamPlayer.gd" type="Script" id=55]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 35, 25 )
+extents = Vector2( 11, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 6 )
@@ -67,7 +69,7 @@ extents = Vector2( 5, 6 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 14, 20 )
+extents = Vector2( 14, 30 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 18 )
@@ -275,38 +277,54 @@ script = ExtResource( 15 )
 
 [node name="Jab" type="Node" parent="StateTree"]
 script = ExtResource( 22 )
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="Kick" type="Node" parent="StateTree"]
 script = ExtResource( 21 )
 level = 1
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="Slash" type="Node" parent="StateTree"]
 script = ExtResource( 28 )
 level = 2
 chEffect = 3
+whiffSound = "SlashWhiff"
+hitSound = "SlashHit"
 
 [node name="JumpA" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
 height = 2
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="JumpB" type="Node" parent="StateTree"]
 script = ExtResource( 25 )
 level = 1
 height = 2
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="JumpC" type="Node" parent="StateTree"]
 script = ExtResource( 26 )
 level = 2
 height = 2
 chEffect = 3
+whiffSound = "SlashWhiff"
+hitSound = "SlashHit"
 
 [node name="CrouchA" type="Node" parent="StateTree"]
 script = ExtResource( 17 )
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="CrouchB" type="Node" parent="StateTree"]
 script = ExtResource( 16 )
 level = 1
 height = 0
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 
 [node name="CrouchC" type="Node" parent="StateTree"]
 script = ExtResource( 23 )
@@ -314,6 +332,8 @@ level = 2
 opponentLaunch = Vector2( 0, -400 )
 height = 0
 knockdown = true
+whiffSound = "SlashWhiff"
+hitSound = "SlashHit"
 
 [node name="AirBackdash" type="Node" parent="StateTree"]
 script = ExtResource( 1 )
@@ -373,8 +393,33 @@ position = Vector2( 10, -50 )
 script = ExtResource( 31 )
 frameDelay = 10
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler"]
+[node name="CharacterAudioHandler" type="Node" parent="EventScheduler"]
 script = ExtResource( 32 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+stream = ExtResource( 54 )
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
+
+[node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+script = ExtResource( 55 )
 
 [node name="GFXHandler" type="Node" parent="."]
 script = ExtResource( 35 )
@@ -467,3 +512,12 @@ script = ExtResource( 45 )
 [node name="GroundBounce" type="CPUParticles2D" parent="GFXHandler"]
 visible = false
 scale_amount = 2.0
+
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer3" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer3" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer4" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer4" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer5" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer5" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer6" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer6" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer7" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer7" method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer8" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer8" method="_on_AudioStreamPlayer_finished"]

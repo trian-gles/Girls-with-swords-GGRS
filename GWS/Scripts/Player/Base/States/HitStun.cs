@@ -12,7 +12,6 @@ public class HitStun : HitState
 	{
 		base.Enter();
 		
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "HitStun", Name);
 		owner.GFXEvent("Blood");
 	}
 

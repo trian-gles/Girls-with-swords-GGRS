@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Punch-Woosh.ogg-d84e5c642cc80e2c9f71495c7f692386.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Punch-Woosh.ogg"
+dest_files=[ "res://.import/Punch-Woosh.ogg-d84e5c642cc80e2c9f71495c7f692386.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -9,6 +9,7 @@ public class Walk : MoveState
 	{
 		base._Ready();
 		loop = true;
+		AddExSpecials(owner.groundExSpecials);
 		// AddGatling(new[] { 's', 'p' }, () => (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 2000) && owner.otherPlayer.IsGrabbable(), "Grab");
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddGatling(new[] { '2', 'p' }, "Crouch");

@@ -6305,8 +6305,8 @@ opponentLaunch = Vector2( 300, -800 )
 chLaunch = Vector2( 300, -1100 )
 hitPush = 100
 chEffect = 2
-whiffSound = ""
-hitSound = ""
+whiffSound = "LampFireWhiff"
+hitSound = "LampHit"
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
@@ -6315,8 +6315,8 @@ modifiedHitStun = 33
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 300, -1100 )
 hitPush = 6000
-whiffSound = ""
-hitSound = ""
+whiffSound = "LampFireWhiff"
+hitSound = "LampHit"
 launch = Vector2( 150, -1000 )
 launchFrame = 7
 

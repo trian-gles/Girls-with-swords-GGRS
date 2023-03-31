@@ -1,10 +1,10 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
-[ext_resource path="res://Sprites/Movesets/OL Moveset/OL_Gray-210.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Movesets/OL Moveset/OL-full-moveset-3-30-gray.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Player/OL/Specials/AntiAir.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRun.cs" type="Script" id=8]
@@ -4492,7 +4492,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=55]
 resource_name = "InstantOverhead"
-length = 28.0
+length = 35.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4501,10 +4501,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 13, 18, 25 ),
+"times": PoolRealArray( 0, 8, 20, 29 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 204, 206, 207, 209 ]
+"values": [ 204, 208, 209, 213 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
@@ -4561,7 +4561,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 18, 22 ),
+"times": PoolRealArray( 0, 20, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4621,7 +4621,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 18, 22 ),
+"times": PoolRealArray( 0, 20, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -7034,6 +7034,179 @@ tracks/9/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
+[sub_resource type="Animation" id=56]
+resource_name = "Super"
+length = 50.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 35 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 215, 229 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 14 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 9 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 17, 33 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HitBoxes/HitB1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 9, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 48, 8 ), Vector2( 70, 8 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("HurtBoxes/HurtB1:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 15, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("HurtBoxes/HurtB1:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 20, -3 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("HurtBoxes/HurtB1:shape:extents")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 25, 15 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("HurtBoxes/HurtB2:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 6, 28 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 100, 0 ), Vector2( 127, 8 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("HurtBoxes/HurtB2:shape:extents")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 6, 28 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 40, 20 ), Vector2( 40, 14 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("HurtBoxes/HurtB2:disabled")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 10, 15, 30, 34 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("HitBoxes/HitB3:disabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("HurtBoxes/HurtB3:disabled")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Sprite:offset")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 10, 29, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 20, 0 ), Vector2( 20, 0 ) ]
+}
+
 [sub_resource type="Animation" id=48]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -7309,17 +7482,17 @@ position = Vector2( -2, 0 )
 position = Vector2( 12, -14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 20, -4 )
+position = Vector2( 20, -3 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 32, -6 )
+position = Vector2( 100, 0 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
-hframes = 210
-frame = 204
+hframes = 230
+frame = 221
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7458,6 +7631,19 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 launch = Vector2( 400, -600 )
 
+[node name="Super" type="Node" parent="StateTree" index="53"]
+script = ExtResource( 18 )
+level = 3
+modifiedHitStun = 40
+modifiedCounterHitStun = 40
+opponentLaunch = Vector2( 100, -500 )
+modifiedHitPush = 1
+hitPush = 1
+whiffSound = "SlashWhiff"
+hitSound = "SlashHit"
+restoreHitFrames = PoolIntArray( 18 )
+launch = Vector2( 200, 0 )
+
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( -25, 0 )
 
@@ -7513,6 +7699,7 @@ anims/Run = SubResource( 44 )
 anims/Slash = SubResource( 45 )
 anims/Slash(OLD) = SubResource( 46 )
 anims/Stagger = SubResource( 47 )
+anims/Super = SubResource( 56 )
 anims/Tech = SubResource( 48 )
 anims/Walk = SubResource( 49 )
 script = ExtResource( 9 )

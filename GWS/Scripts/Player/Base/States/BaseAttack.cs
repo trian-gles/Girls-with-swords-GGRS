@@ -59,6 +59,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected int gatlingWinEnd = 0;
 
+	[Export]
+	public int[] restoreHitFrames;
+
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
@@ -132,7 +135,14 @@ public abstract class BaseAttack : State
 		hitConnect = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 	}
-	public override void AnimationFinished()
+
+    public override void FrameAdvance()
+    {
+        base.FrameAdvance();
+		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
+			hitConnect = false;
+    }
+    public override void AnimationFinished()
 	{
 		if (owner.grounded)
 			EmitSignal(nameof(StateFinished), "Idle");

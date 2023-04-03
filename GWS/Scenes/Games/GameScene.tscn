@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scripts/HUD/FlashText.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg" type="AudioStream" id=17]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 8 )
@@ -399,6 +400,9 @@ script = ExtResource( 7 )
 
 [node name="Background" parent="MainGFX/Stages" instance=ExtResource( 3 )]
 position = Vector2( 0, 270 )
+
+[node name="BkgMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]

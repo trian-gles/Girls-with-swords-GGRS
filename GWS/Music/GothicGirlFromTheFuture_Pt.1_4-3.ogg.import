@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/GothicGirlFromTheFuture_Pt.1_4-3.ogg-3d64b9be7d15c2247cff82c9c7559071.oggstr"
+
+[deps]
+
+source_file="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg"
+dest_files=[ "res://.import/GothicGirlFromTheFuture_Pt.1_4-3.ogg-3d64b9be7d15c2247cff82c9c7559071.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

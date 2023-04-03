@@ -35,6 +35,7 @@ public class GameScene : BaseGame
 	public Label P2Rhythm;
 	private Control P1Meter;
 	private Control P2Meter;
+	private AudioStreamPlayer music;
 	private int frame;
 
 	private Label recordingText;
@@ -86,6 +87,7 @@ public class GameScene : BaseGame
 		P2Meter = GetNode<Control>("HUD/P2Meter");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
+		music = GetNode<AudioStreamPlayer>("BkgMusic");
 		base._Ready();
 
 		// hide the recording text
@@ -160,6 +162,7 @@ public class GameScene : BaseGame
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 
+		music.Play();
 		ConfigTime();
 		configured = true;
 		

@@ -3,7 +3,7 @@
 [ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 21
+size = 14
 outline_size = 1
 outline_color = Color( 0.0941176, 0.0784314, 0.145098, 1 )
 extra_spacing_space = 1

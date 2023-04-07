@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -15,10 +15,11 @@
 [ext_resource path="res://Scenes/Managers/SyncTestManager.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/Managers/AIManager.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Lobby/LobbySounds.gd" type="Script" id=15]
+[ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=16]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
-length = 3.0
+length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/GwSTitle:rect_position")
 tracks/0/interp = 1
@@ -62,7 +63,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 2, 2.6 ),
+"times": PoolRealArray( 0, 2.7, 3.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -79,6 +80,21 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/AVConfig:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 16 )
 
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 2, -1 )
@@ -128,9 +144,9 @@ size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
 margin_left = 104.0
-margin_top = 61.0
+margin_top = 44.0
 margin_right = 376.0
-margin_bottom = 209.0
+margin_bottom = 225.0
 mouse_filter = 0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -178,17 +194,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SyncTest" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-visible = false
-margin_top = 162.0
-margin_right = 272.0
-margin_bottom = 182.0
-text = "Sync Test"
-
-[node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
+[node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 margin_top = 125.0
 margin_right = 272.0
 margin_bottom = 148.0
+text = "Adult Video"
+flat = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SyncTest" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+visible = false
+margin_top = 125.0
+margin_right = 272.0
+margin_bottom = 148.0
+text = "Sync Test"
+
+[node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 158.0
+margin_right = 272.0
+margin_bottom = 181.0
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
 visible = false
@@ -214,17 +241,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 36.0
+margin_top = 23.0
 margin_right = 300.0
-margin_bottom = 52.0
+margin_bottom = 39.0
 custom_fonts/font = ExtResource( 6 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 56.0
+margin_top = 43.0
 margin_right = 300.0
-margin_bottom = 79.0
+margin_bottom = 66.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -232,27 +259,27 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 83.0
+margin_top = 70.0
 margin_right = 300.0
-margin_bottom = 106.0
+margin_bottom = 93.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 83.0
+margin_top = 97.0
 margin_right = 300.0
-margin_bottom = 106.0
+margin_bottom = 120.0
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 110.0
+margin_top = 124.0
 margin_right = 300.0
-margin_bottom = 133.0
+margin_bottom = 147.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -289,11 +316,11 @@ text = "Net Play"
 [node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_top = 20.0
 margin_right = 300.0
-margin_bottom = 47.0
+margin_bottom = 43.0
 
 [node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
-margin_bottom = 27.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 text = "Host"
 __meta__ = {
@@ -303,7 +330,7 @@ __meta__ = {
 [node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 27.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 text = "Join"
 __meta__ = {
@@ -311,18 +338,18 @@ __meta__ = {
 }
 
 [node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 51.0
+margin_top = 47.0
 margin_right = 300.0
-margin_bottom = 80.0
+margin_bottom = 76.0
 placeholder_text = "Enter Friend Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 84.0
+margin_top = 80.0
 margin_right = 300.0
-margin_bottom = 113.0
+margin_bottom = 109.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -330,16 +357,16 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 117.0
+margin_top = 113.0
 margin_right = 300.0
-margin_bottom = 144.0
+margin_bottom = 136.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_right = 148.0
-margin_bottom = 27.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 text = "Add Friend"
 __meta__ = {
@@ -349,7 +376,7 @@ __meta__ = {
 [node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 27.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 text = "Remove Friend"
 __meta__ = {
@@ -367,9 +394,9 @@ __meta__ = {
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 148.0
+margin_top = 140.0
 margin_right = 300.0
-margin_bottom = 175.0
+margin_bottom = 163.0
 text = "Item 0"
 align = 1
 
@@ -394,9 +421,9 @@ __meta__ = {
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 179.0
+margin_top = 167.0
 margin_right = 300.0
-margin_bottom = 206.0
+margin_bottom = 190.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
@@ -409,18 +436,141 @@ focus_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
+[node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
+margin_left = 480.0
+margin_right = 960.0
+margin_bottom = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
+margin_left = 90.0
+margin_top = 31.0
+margin_right = 390.0
+margin_bottom = 238.0
+rect_min_size = Vector2( 300, 170 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_right = 300.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 6 )
+text = "Audio"
+align = 1
+
+[node name="MasterVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 20.0
+margin_right = 300.0
+margin_bottom = 37.0
+theme = SubResource( 2 )
+text = "Master Volume"
+
+[node name="MasterVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 41.0
+margin_right = 300.0
+margin_bottom = 57.0
+min_value = -50.0
+max_value = 0.0
+step = 2.5
+tick_count = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 61.0
+margin_right = 300.0
+margin_bottom = 78.0
+theme = SubResource( 2 )
+text = "Music Volume"
+
+[node name="MusicVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 82.0
+margin_right = 300.0
+margin_bottom = 98.0
+min_value = -50.0
+max_value = 0.0
+step = 2.5
+tick_count = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameFXVoumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 102.0
+margin_right = 300.0
+margin_bottom = 119.0
+theme = SubResource( 2 )
+text = "Game FX"
+
+[node name="GameFXVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 123.0
+margin_right = 300.0
+margin_bottom = 139.0
+min_value = -50.0
+max_value = 0.0
+step = 2.5
+tick_count = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UIVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 143.0
+margin_right = 300.0
+margin_bottom = 160.0
+theme = SubResource( 2 )
+text = "UI"
+
+[node name="UIVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 164.0
+margin_right = 300.0
+margin_bottom = 180.0
+min_value = -50.0
+max_value = 0.0
+step = 2.5
+tick_count = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+visible = false
+margin_top = 184.0
+margin_right = 300.0
+margin_bottom = 200.0
+custom_fonts/font = ExtResource( 6 )
+text = "Video"
+align = 1
+
+[node name="BackButton" type="ToolButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 184.0
+margin_right = 300.0
+margin_bottom = 207.0
+text = "Back"
+
 [node name="LobbySounds" type="AudioStreamPlayer" parent="."]
+bus = "UI"
 script = ExtResource( 15 )
 
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="MenuRoot" method="_on_AVConfig_pressed"]
 [connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="." method="OnSyncTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Quit" to="LobbySounds" method="focus_entered"]
@@ -434,8 +584,8 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="focus_entered"]
@@ -456,6 +606,17 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="hide" from="MenuRoot/NetPlayMenu/ConfirmationDialog" to="MenuRoot/NetPlayMenu/Entries" method="_on_ConfirmationDialog_hide"]
+[connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="LobbySounds" method="focus_entered"]
+[connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="MenuRoot" method="_on_MasterVolume_value_changed"]
+[connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MusicVolume" to="LobbySounds" method="focus_entered"]
+[connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/MusicVolume" to="MenuRoot" method="_on_MusicVolume_value_changed"]
+[connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/GameFXVolume" to="LobbySounds" method="focus_entered"]
+[connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/GameFXVolume" to="MenuRoot" method="_on_GameFXVolume_value_changed"]
+[connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="LobbySounds" method="focus_entered"]
+[connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="MenuRoot" method="_on_UIVolume_value_changed"]
+[connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]

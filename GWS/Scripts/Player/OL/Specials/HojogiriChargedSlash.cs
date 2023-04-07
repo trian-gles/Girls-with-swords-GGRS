@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class HojogiriChargedSlash : GroundAttack
+public class HojogiriChargedSlash : MovingAttack
 {
 
     public override void _Ready()

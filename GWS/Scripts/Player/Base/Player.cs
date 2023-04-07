@@ -28,6 +28,8 @@ public class Player : Node2D
 	public delegate void HadoukenRemoved(HadoukenPart h);
 	[Signal]
 	public delegate void RhythmHitTry(string name);
+	[Signal]
+	public delegate void SuperFlash();
 
 	[Signal]
 	public delegate void Recovery(string name);

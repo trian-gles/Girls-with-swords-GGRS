@@ -65,6 +65,9 @@ public abstract class BaseAttack : State
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
+	[Export]
+	public int superFrame = 0;
+
 	public enum EXTRAEFFECT
 	{
 		NONE,
@@ -139,6 +142,12 @@ public abstract class BaseAttack : State
     public override void FrameAdvance()
     {
         base.FrameAdvance();
+		if (frameCount > 0 && frameCount == superFrame)
+        {
+			owner.EmitSignal("SuperFlash");
+			owner.GFXEvent("SuperPowerUp");
+        } 
+
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
 			hitConnect = false;
     }

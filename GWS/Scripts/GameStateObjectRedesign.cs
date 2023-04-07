@@ -429,6 +429,11 @@ public class GameStateObjectRedesign : Node
 	{
 		hitStopRemaining = maxHitStop;
 	}
+
+	public void SuperFreeze()
+	{
+		hitStopRemaining = 30;
+	}
 	
 	public void OnRhythmHitTry(string playerName){
 		if (rhythmTrack.TryHit(playerName)){

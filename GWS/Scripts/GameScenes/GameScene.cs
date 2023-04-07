@@ -33,6 +33,7 @@ public class GameScene : BaseGame
 	private Label P2Counter;
 	public Label P1Rhythm;
 	public Label P2Rhythm;
+	private Label superText;
 	private Control P1Meter;
 	private Control P2Meter;
 	private AudioStreamPlayer music;
@@ -88,6 +89,7 @@ public class GameScene : BaseGame
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		music = GetNode<AudioStreamPlayer>("BkgMusic");
+		superText = GetNode<Label>("HUD/OhShit");
 		base._Ready();
 
 		// hide the recording text
@@ -139,6 +141,9 @@ public class GameScene : BaseGame
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P2.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
+		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
+		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
+		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
 
 
 		P1Combo = GetNode<Label>("HUD/P1Combo");
@@ -399,6 +404,12 @@ public class GameScene : BaseGame
 
 	}
 
+	public void OnSuperActivate()
+	{
+		superText.Call("display", frame);
+		gsObj.SuperFreeze();
+	}
+
 	// ----------------
 	// Time Handling
 	// ----------------
@@ -526,6 +537,8 @@ public class GameScene : BaseGame
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);
 		ConfigTime();
+		P1Meter.Call("set_meter", 0);
+		P2Meter.Call("set_meter", 0);
 	}
 
 	/// <summary>

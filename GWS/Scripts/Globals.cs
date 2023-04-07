@@ -158,7 +158,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 17,
 				blockStun = 16,
-				dmg = 5,
+				dmg = 6,
 				hitPush = 3200,
 				prorationLevel = 1,
 				knockdown = false,
@@ -171,7 +171,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 34,
 				blockStun = 16,
-				dmg = 7,
+				dmg = 6,
 				hitPush = 3200,
 				prorationLevel = 1,
 				knockdown = false,
@@ -187,7 +187,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 19,
 				blockStun = 18,
-				dmg = 5,
+				dmg = 7,
 				hitPush = 4000,
 				prorationLevel = 0,
 				knockdown = false,
@@ -202,6 +202,34 @@ public class Globals : Node
 				blockStun = 18,
 				dmg = 7,
 				hitPush = 4000,
+				prorationLevel = 0,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+			}
+		},
+		// LVL 5
+		new AttackLevel {
+			hit = new AttackDetails{
+				hitStun = 19,
+				blockStun = 18,
+				dmg = 9,
+				hitPush = 5000,
+				prorationLevel = 0,
+				knockdown = false,
+				opponentLaunch = Vector2.Zero,
+				effect = BaseAttack.EXTRAEFFECT.NONE,
+				height = State.HEIGHT.MID,
+				dir = BaseAttack.ATTACKDIR.EQUAL
+
+			},
+			counterHit = new AttackDetails{
+				hitStun = 38,
+				blockStun = 18,
+				dmg = 9,
+				hitPush = 5000,
 				prorationLevel = 0,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,

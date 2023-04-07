@@ -25,17 +25,17 @@
 [ext_resource path="res://Scenes/Characters/OLSprite.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scripts/CharacterSelect/CharSelectAudio.cs" type="Script" id=24]
 
-[sub_resource type="Theme" id=12]
+[sub_resource type="Theme" id=1]
 default_font = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 16 )
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 18 )
 shader_param/whitening = 0.0
 
-[sub_resource type="AnimatedTexture" id=3]
+[sub_resource type="AnimatedTexture" id=4]
 frames = 3
 fps = 15.0
 frame_0/texture = ExtResource( 13 )
@@ -45,7 +45,7 @@ frame_1/delay_sec = 0.0
 frame_2/texture = ExtResource( 9 )
 frame_2/delay_sec = 0.0
 
-[sub_resource type="AnimatedTexture" id=4]
+[sub_resource type="AnimatedTexture" id=5]
 frames = 3
 fps = 15.0
 frame_0/texture = ExtResource( 11 )
@@ -55,8 +55,7 @@ frame_1/delay_sec = 0.0
 frame_2/texture = ExtResource( 10 )
 frame_2/delay_sec = 0.0
 
-[sub_resource type="Animation" id=5]
-resource_name = "CursorFadeIn"
+[sub_resource type="Animation" id=6]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("P1Cursor:scale")
@@ -95,7 +94,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("GLSprite:modulate")
@@ -122,8 +121,7 @@ tracks/1/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "GLSelect"
+[sub_resource type="Animation" id=8]
 tracks/0/type = "value"
 tracks/0/path = NodePath("GLSprite:modulate")
 tracks/0/interp = 1
@@ -137,8 +135,7 @@ tracks/0/keys = {
 "values": [  ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "Init"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("GLSprite:modulate")
 tracks/0/interp = 1
@@ -212,7 +209,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("OLSprite:modulate")
@@ -239,7 +236,7 @@ tracks/1/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("P1Cursor:active")
@@ -254,7 +251,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=12]
 
 [node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
@@ -268,7 +265,7 @@ GLScene = ExtResource( 19 )
 [node name="DebugText" type="Label" parent="CanvasLayer"]
 margin_right = 40.0
 margin_bottom = 16.0
-theme = SubResource( 12 )
+theme = SubResource( 1 )
 text = "P1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -290,7 +287,7 @@ texture = ExtResource( 3 )
 visible = false
 anchor_right = 1.0
 margin_bottom = 14.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Please select your character..."
 align = 1
 percent_visible = 0.0
@@ -306,7 +303,7 @@ hframes = 10
 frame = 4
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
-material = SubResource( 2 )
+material = SubResource( 3 )
 position = Vector2( 288.125, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
@@ -328,7 +325,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
+[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
+"Characters",
+]]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 1.0
 margin_top = 21.0
@@ -336,10 +335,12 @@ margin_right = 101.0
 margin_bottom = 121.0
 size_flags_horizontal = 6
 size_flags_vertical = 4
-texture = SubResource( 3 )
+texture = SubResource( 4 )
 stretch_mode = 5
 
-[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
+[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=[
+"Characters",
+]]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 104.0
 margin_top = 21.0
@@ -347,23 +348,23 @@ margin_right = 204.0
 margin_bottom = 121.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = SubResource( 4 )
+texture = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
-anims/CursorFadeIn = SubResource( 5 )
+anims/CursorFadeIn = SubResource( 6 )
 anims/GLBlink = ExtResource( 6 )
-anims/GLFadeIn = SubResource( 6 )
-anims/GLSelect = SubResource( 7 )
-anims/Init = SubResource( 8 )
+anims/GLFadeIn = SubResource( 7 )
+anims/GLSelect = SubResource( 8 )
+anims/Init = SubResource( 9 )
 anims/OLBlink = ExtResource( 2 )
-anims/OLFadeIn = SubResource( 9 )
-anims/RESET = SubResource( 10 )
+anims/OLFadeIn = SubResource( 10 )
+anims/RESET = SubResource( 11 )
 
 [node name="AnimationTree" type="AnimationTree" parent="CanvasLayer"]
 tree_root = ExtResource( 17 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 11 )
+parameters/playback = SubResource( 12 )
 
 [node name="P2Selected" type="Position2D" parent="CanvasLayer"]
 position = Vector2( 410, 145 )
@@ -392,4 +393,5 @@ __meta__ = {
 }
 
 [node name="CharSelectAudio" type="AudioStreamPlayer" parent="."]
+bus = "UI"
 script = ExtResource( 24 )

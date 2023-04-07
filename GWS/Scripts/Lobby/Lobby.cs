@@ -119,6 +119,15 @@ public class LobbyRedesign : Node2D
 		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
 	}
 	
+	public void _on_AVConfig_pressed()
+	{
+		HideButtons();
+		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
+		column.GetNode<Button>("ReturnMainMenu").Visible = true;
+		column.GetNode<Button>("ReturnToInGameMenu").Visible = false;
+		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
+	}
+	
 	public void OnButtonCheckDownInGame()
 	{
 		HideButtons();

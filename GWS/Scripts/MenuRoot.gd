@@ -12,8 +12,13 @@ var menu_stack := []
 onready var mainmenu = $MainMenu
 onready var localmenu = $LocalMenu
 onready var netplaymenu = $NetPlayMenu
+onready var avconfigmenu = $AVConfigMenu
 onready var tween = $Tween
 onready var anim = $AnimationPlayer
+
+const MUSIC_BUS = "Music"
+const FX_BUS = "GameFX"
+const UI_BUS = "UI"
 
 
 
@@ -56,6 +61,8 @@ func get_menu_from_menu_id(menu_id: String) -> Control:
 			return localmenu
 		"netplaymenu":
 			return netplaymenu
+		"avconfigmenu":
+			return avconfigmenu
 		_:
 			return mainmenu
 	
@@ -72,3 +79,35 @@ func _on_NetPlay_pressed():
 	$NetPlayMenu.visible = true
 	move_to_next_menu("netplaymenu")
 	$NetPlayMenu/Entries/NetPlayButtons/Host.grab_focus()
+	
+func _on_AVConfig_pressed():
+	$AVConfigMenu.visible = true
+	move_to_next_menu("avconfigmenu")
+	$AVConfigMenu/AVConfigButtons/BackButton.grab_focus()
+	
+	
+	
+
+
+func _on_MasterVolume_value_changed(value):
+	# var linearValue = linear2db(abs(value))
+	# print(linearValue)
+	
+	if value == -50:
+		AudioServer.set_bus_mute(0,true)
+	else:
+		AudioServer.set_bus_mute(0,false)
+		AudioServer.set_bus_volume_db(0,value)
+
+
+func _on_MusicVolume_value_changed(value):	
+	var BusInt = AudioServer.get_bus_index(MUSIC_BUS)
+	AudioServer.set_bus_volume_db(BusInt,value)
+
+func _on_GameFXVolume_value_changed(value):
+	var BusInt = AudioServer.get_bus_index(FX_BUS)
+	AudioServer.set_bus_volume_db(BusInt,value)
+
+func _on_UIVolume_value_changed(value):
+	var BusInt = AudioServer.get_bus_index(UI_BUS)
+	AudioServer.set_bus_volume_db(BusInt,value)

@@ -425,6 +425,7 @@ position = Vector2( 0, 270 )
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 volume_db = -6.265
+bus = "Music"
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]

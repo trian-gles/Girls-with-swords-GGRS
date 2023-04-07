@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -60,7 +60,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 33 )
+extents = Vector2( 11, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 6 )
@@ -69,10 +69,10 @@ extents = Vector2( 5, 6 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 25, 15 )
+extents = Vector2( 14, 30 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 40, 20 )
+extents = Vector2( 10, 18 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -80,10 +80,6 @@ extents = Vector2( 11, 20 )
 [sub_resource type="Curve" id=8]
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Curve" id=21]
-max_value = 2.0
-_data = [ Vector2( 0.0253623, 0.222597 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.981232 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CanvasItemMaterial" id=9]
 blend_mode = 1
@@ -131,7 +127,7 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 7
 particles_anim_loop = false
 
-[sub_resource type="ParticlesMaterial" id=20]
+[sub_resource type="ParticlesMaterial" id=18]
 emission_shape = 1
 emission_sphere_radius = 59.86
 flag_disable_z = true
@@ -392,27 +388,35 @@ script = ExtResource( 32 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
 stream = ExtResource( 54 )
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="EventScheduler/CharacterAudioHandler"]
+bus = "GameFX"
 script = ExtResource( 55 )
 
 [node name="GFXHandler" type="Node" parent="."]
@@ -473,7 +477,6 @@ gravity = Vector2( 0, 0 )
 damping = 100.0
 damping_curve = SubResource( 8 )
 scale_amount = 2.0
-scale_amount_curve = SubResource( 21 )
 script = ExtResource( 36 )
 
 [node name="Node2D" type="Node2D" parent="GFXHandler"]
@@ -499,7 +502,7 @@ amount = 3
 one_shot = true
 speed_scale = 1.59
 randomness = 0.08
-process_material = SubResource( 20 )
+process_material = SubResource( 18 )
 texture = ExtResource( 44 )
 script = ExtResource( 45 )
 

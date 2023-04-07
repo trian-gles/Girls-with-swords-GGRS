@@ -437,6 +437,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 margin_left = 480.0
 margin_right = 960.0
 margin_bottom = 270.0

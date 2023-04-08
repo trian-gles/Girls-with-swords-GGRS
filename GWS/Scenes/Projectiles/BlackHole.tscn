@@ -18,13 +18,13 @@ pullStrength = 20
 position = Vector2( 0, 0 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." index="2"]
-amount = 40
+amount = 90
 emission_shape = 1
-emission_sphere_radius = 36.46
+emission_sphere_radius = 55.79
 gravity = Vector2( 0, 0 )
 orbit_velocity = 0.1
 radial_accel = -48.64
-scale_amount = 2.0
+scale_amount = 3.0
 scale_amount_random = 0.14
 color = Color( 0.709804, 0, 1, 1 )
 color_ramp = SubResource( 1 )

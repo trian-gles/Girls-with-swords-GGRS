@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Lobby : Node2D
+public class LobbyRedesign : Node2D
 {
 	Control menuroot;
 	MarginContainer mainmenu;
@@ -43,6 +43,8 @@ public class Lobby : Node2D
 	public PackedScene syncTestManager;
 
 	public bool host = false;
+	
+	private BaseManager activeManager;
 	
 	public override void _Ready()
 	{
@@ -108,56 +110,27 @@ public class Lobby : Node2D
 	{
 		Globals.mode = Globals.Mode.LOCAL;
 		GD.Print("Local mode selected");
-		var localScene = localManager.Instance<LocalManager>();
-		AddChild(localScene);
-		HideButtons();
+		BeginManager(localManager);
 	}
 
 	public void OnTrainingButtonDown()
 	{
 		Globals.mode = Globals.Mode.TRAINING;
 		GD.Print("Training mode selected");
-		var trainingScene = trainingManager.Instance<TrainingManager>();
-		AddChild(trainingScene);
-		HideButtons();
+		BeginManager(trainingManager);
 	}
 
 	public void OnCPUButtonDown()
 	{
 		Globals.mode = Globals.Mode.CPU;
 		GD.Print("CPU mode selected");
-		var aiScene = aiManager.Instance<AIManager>();
-		AddChild(aiScene);
-		HideButtons();
-	}
-
-	public void CharacterSelect(bool hosting)
-	{
-		HideButtons();
-		var CharacterSelectScene = (PackedScene) ResourceLoader.Load("res://Scenes/CharacterSelectScreen.tscn");
-		var CharacterSelectInstance = CharacterSelectScene.Instance();
-		AddChild(CharacterSelectInstance);
-//		GD.Print("Character Select Initiated");
-		host = hosting;
-//		Control charselectoverlay = GetNode<Control>("CharacterSelect/CharacterSelect");
-		Sprite cursor = CharacterSelectInstance.GetNode<Sprite>("CanvasLayer/Cursor");
-		cursor.Connect("CharacterSelected",this,nameof(CharactersSelectedStartGame));
-
+		BeginManager(aiManager);
 	}
 	
-	public void CharactersSelectedStartGame()
-	{
-		GD.Print("Host: ", host);
-		Begin(host);	
-	}
-	
-	//sync test
-	public void OnSyncTestButtonDown()
-	{
-		Globals.mode = Globals.Mode.SYNCTEST;
-		GD.Print("Training mode selected");
-		CharacterSelect(true);
-		//Begin(true);
+	private void BeginManager(PackedScene managerScene){
+		var manager = managerScene.Instance<BaseManager>();
+		AddChild(manager);
+		HideButtons();
 	}
 	
 	//config
@@ -178,27 +151,9 @@ public class Lobby : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
-	//quit game functions
-	public void LocalLobbyReturn()
-	{
-		OnLobbyReset();
-		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
-		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = true;
-		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = false;
-		localmenubuttons.GetNode<Button>("Local").GrabFocus();
-	}
-	
-	public void NetPlayLobbyReturn()
-	{
-		OnLobbyReset();
-		menuroot.GetNode<MarginContainer>("MainMenu").Visible = false;
-		menuroot.GetNode<MarginContainer>("LocalMenu").Visible = false;
-		menuroot.GetNode<MarginContainer>("NetPlayMenu").Visible = true;
-		netplaybuttons.GetNode<Button>("Host").GrabFocus();
-	}
-	
 	public void OnLobbyReset()
 	{
+		activeManager.QueueFree();
 		GetNode<Control>("MenuRoot").Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
@@ -212,27 +167,6 @@ public class Lobby : Node2D
 	{
 		GetNode<Control>("MenuRoot").Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
-	}
-
-	public void Begin(bool host)
-	{
-		HideButtons();
-		GetNode("/root/Events").Connect("ButtonConfigPressed", this, nameof(OnButtonCheckDownInGame));
-		GetNode("/root/Globals").Connect("LocalLobbyReturn", this, nameof(LocalLobbyReturn));
-		GetNode("/root/Globals").Connect("NetPlayLobbyReturn", this, nameof(NetPlayLobbyReturn));
-		
-		string ip = "127.0.0.1";
-
-		if (Globals.mode == Globals.Mode.GGPO)
-		{
-			ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		}
-		
-		var mainScene = (PackedScene) ResourceLoader.Load("res://Scenes/MainScene.tscn");
-		var mainInstance = mainScene.Instance() as MainScene;
-		AddChild(mainInstance);
-		mainInstance.Connect("LobbyReturn", this, nameof(OnLobbyReset));
-		mainInstance.Begin(ip, host);
 	}
 }
 

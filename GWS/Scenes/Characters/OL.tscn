@@ -7529,14 +7529,14 @@ script = ExtResource( 8 )
 whiffSound = ""
 hitSound = ""
 maxLen = 10
-speed = 700
+speed = 900
 
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 17 )
 whiffSound = ""
 hitSound = ""
 maxLen = 10
-speed = 700
+speed = 900
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 7 )

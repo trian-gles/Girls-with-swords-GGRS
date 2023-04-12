@@ -61,6 +61,9 @@ public class LobbyRedesign : Node2D
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 
+		// connect in game menu
+		GetNode<Node>("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
+
 		// set up debug globals
 		Globals.autoTech = autoTech;
 		Globals.alwaysBlock = alwaysBlock;
@@ -80,10 +83,10 @@ public class LobbyRedesign : Node2D
 	public void OnHostButtonDown()
 	{
 		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		var ggrsScene = ggrsManager.Instance<GGRSManager>();
-		AddChild(ggrsScene);
+		activeManager = ggrsManager.Instance<GGRSManager>();
+		AddChild(activeManager);
 		HideButtons();
-		ggrsScene.Config(ip, true);
+		((GGRSManager)activeManager).Config(ip, true);
 	}
 
 	public void OnJoinButtonDown()
@@ -128,8 +131,8 @@ public class LobbyRedesign : Node2D
 	}
 	
 	private void BeginManager(PackedScene managerScene){
-		var manager = managerScene.Instance<BaseManager>();
-		AddChild(manager);
+		activeManager = managerScene.Instance<BaseManager>();
+		AddChild(activeManager);
 		HideButtons();
 	}
 	
@@ -154,13 +157,16 @@ public class LobbyRedesign : Node2D
 	public void OnLobbyReset()
 	{
 		activeManager.QueueFree();
-		GetNode<Control>("MenuRoot").Visible = true;
+		var menu = GetNode<Control>("MenuRoot");
+		menu.Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
 		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible == true)
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
+
+		menu.Call("_on_BackButton_pressed");
 	}
 
 	private void HideButtons()

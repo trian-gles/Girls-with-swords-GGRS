@@ -22,7 +22,8 @@ public class Landing : State
     {
 		base.Enter();
 		owner.canDoubleJump = true;
-	}
+        owner.canAirDash = true;
+    }
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();

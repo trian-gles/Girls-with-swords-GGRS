@@ -46,7 +46,10 @@ public class Player : Node2D
 	[Export]
 	public int jumpForce = 800;
 
-	[Export]
+    [Export]
+    public int superJumpForce = 1100;
+
+    [Export]
 	public int gravity = 50; 
 
 	[Export]
@@ -108,7 +111,8 @@ public class Player : Node2D
 	private int combo = 0;
 	public int proration = 32;
 	public bool canDoubleJump;
-	public int invulnFrames = 0;
+    public bool canAirDash;
+    public int invulnFrames = 0;
 	public int airDashFrames = 0;
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
@@ -140,7 +144,8 @@ public class Player : Node2D
 		public string currentState { get; set; }
 		public Dictionary<string, int> stateData { get; set; }
 		public bool canDoubleJump { get; set; }
-		public bool hitConnect { get; set; }
+        public bool canAirDash { get; set; }
+        public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
 		public int hitPushRemaining { get; set; }
@@ -309,6 +314,7 @@ public class Player : Node2D
 		}
 
 		pState.canDoubleJump = canDoubleJump;
+        pState.canAirDash = canAirDash;
 		pState.currentState = currentState.Name;
 		pState.stateData = currentState.Save();
 		pState.frameCount = currentState.frameCount;
@@ -323,7 +329,6 @@ public class Player : Node2D
 		pState.animationCursor = animationPlayer.cursor;
 		
 		pState.animationName = animationPlayer.AssignedAnimation;
-		//GD.Print($"saving animation {pState.animationName}");
 		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
@@ -349,18 +354,13 @@ public class Player : Node2D
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		currentState.Load(pState.stateData);
-
 		string animation = pState.animationName;
-		//if (altState.Contains(animation.Substring(2)))
-		//{
-		//	animation = animation.Substring(2);
-		//}
 		animationPlayer.SetAnimationAndFrame(animation, pState.animationCursor);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;
 		canDoubleJump = pState.canDoubleJump;
-
+        canAirDash = pState.canAirDash;
 		health = pState.health;
 		meter = pState.meter;
 		EmitSignal(nameof(HealthChanged), Name, health);

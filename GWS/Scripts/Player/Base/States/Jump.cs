@@ -38,30 +38,34 @@ public class Jump : AirState
 
 		// AIRDASH
 		// AIRDASH
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump && owner.facingRight, "AirDash", () =>
+		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canAirDash && owner.facingRight, "AirDash", () =>
 		{
 			owner.velocity.x = owner.speed * 3;
 			owner.canDoubleJump = false;
-		}, false, false);
+            owner.canAirDash = false;
+        }, false, false);
 
 
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump && !owner.facingRight, "AirDash", () =>
+		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canAirDash && !owner.facingRight, "AirDash", () =>
 		{
 			owner.velocity.x = owner.speed * -3;
 			owner.canDoubleJump = false;
-		}, false, false);
+            owner.canAirDash = false;
+        }, false, false);
 
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canDoubleJump && !owner.facingRight, "AirBackdash", () =>
+		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, () => owner.canAirDash && !owner.facingRight, "AirBackdash", () =>
 		{
 			owner.velocity.x = owner.speed * 3;
 			owner.canDoubleJump = false;
-		}, false, false);
+            owner.canAirDash = false;
+        }, false, false);
 
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canDoubleJump && owner.facingRight, "AirBackdash", () =>
+		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, () => owner.canAirDash && owner.facingRight, "AirBackdash", () =>
 		{
 			owner.velocity.x = owner.speed * -3;
 			owner.canDoubleJump = false;
-		}, false, false);
+            owner.canAirDash = false;
+        }, false, false);
 
 		// DOUBLE JUMP
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
@@ -69,18 +73,21 @@ public class Jump : AirState
 			owner.CheckTurnAround();
 			owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
-		});
+            owner.canAirDash = false;
+        });
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.CheckTurnAround();
 			owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 			owner.canDoubleJump = false;
-		});
+            owner.canAirDash = false;
+        });
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.velocity.x = 0;
 			owner.canDoubleJump = false;
-		});
+            owner.canAirDash = false;
+        });
 
 		
 	}

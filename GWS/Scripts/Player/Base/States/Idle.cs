@@ -29,7 +29,8 @@ public class Idle : State
 		owner.velocity.y = 0;
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
-		if (owner.CheckHeldKey('2'))
+        owner.canAirDash = true;
+        if (owner.CheckHeldKey('2'))
 		{
 			EmitSignal(nameof(StateFinished), "Crouch");
 			return;

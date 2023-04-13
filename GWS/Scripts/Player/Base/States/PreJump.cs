@@ -21,7 +21,17 @@ public class PreJump : State
 	{
 		base.FrameAdvance();
 		if (frameCount == len)
-			EmitSignal(nameof(StateFinished), "Jump");
+        {
+            if (owner.CheckBuffer(new[] { '2', 'r' }))
+            {
+                EmitSignal(nameof(StateFinished), "SuperJump");
+            }
+            else
+            {
+                EmitSignal(nameof(StateFinished), "Jump");
+            }
+        }
+			
 	}
 
     public override void HandleInput(char[] inputArr)

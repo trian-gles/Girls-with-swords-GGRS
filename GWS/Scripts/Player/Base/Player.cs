@@ -79,7 +79,7 @@ public class Player : Node2D
 	/// <summary>
 	/// Certain states will automatically setup gatlings if they are in this list
 	/// </summary>
-	public List<CommandSpecial> commandSpecials = new List<CommandSpecial>();
+	public List<CommandNormal> commandNormals = new List<CommandNormal>();
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 	public List<Special> dashSpecials = new List<Special>();
@@ -180,15 +180,17 @@ public class Player : Node2D
 		}
 	}
 
-	public struct CommandSpecial
+	public struct CommandNormal
 	{
 		public List<char> heldKeys;
 		public char input;
+		public string state;
 
-		public CommandSpecial(List<char> heldKeys, char input)
+		public CommandNormal(List<char> heldKeys, char input, string newState)
 		{
 			this.heldKeys = heldKeys;
 			this.input = input;
+			this.state = newState;
 		}
 	}
 
@@ -978,7 +980,7 @@ public class Player : Node2D
 	}
 
 	/// <summary>
-	/// Checks if this player is not in a hitstate so they can be grabbed.  Will eventually check for if they've only recently recovered.
+	/// Checks if this player is not in a hitstate so they can be grabbed
 	/// </summary>
 	/// <returns></returns>
 	public bool IsGrabbable()

@@ -15,6 +15,7 @@ public class Idle : State
 		AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddNormals();
+		AddCommandNormals(owner.commandNormals);
 		AddSpecials(owner.groundSpecials);
 
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);

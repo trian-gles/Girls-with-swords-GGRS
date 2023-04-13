@@ -68,6 +68,9 @@ public abstract class BaseAttack : State
 	[Export]
 	public int superFrame = 0;
 
+	[Export]
+	public int grabInvulnFrames = 0;
+
 	public enum EXTRAEFFECT
 	{
 		NONE,
@@ -136,6 +139,7 @@ public abstract class BaseAttack : State
 	{
 		base.Enter();
 		hitConnect = false;
+		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 	}
 

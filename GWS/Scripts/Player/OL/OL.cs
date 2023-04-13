@@ -11,6 +11,10 @@ public class OL : Player
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'r' }, new char[] { '6', 'p' },  new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
 
+		//6k
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
+
+
 		//DP
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "DP"));

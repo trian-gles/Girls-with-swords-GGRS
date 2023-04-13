@@ -341,8 +341,8 @@ public abstract class State : Node
 	{
 		foreach (var cn in commandNormals)
 		{
-			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]), cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]), cn.state);
+			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2'), cn.state);
+			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2'), cn.state);
 		}
 	}
 

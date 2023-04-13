@@ -6335,14 +6335,14 @@ launchFrame = 7
 [node name="Grab" parent="StateTree" index="13"]
 releaseFrame = 20
 
-[node name="AirDash" parent="StateTree" index="23"]
+[node name="AirDash" parent="StateTree" index="24"]
 len = 14
 
-[node name="Jab" parent="StateTree" index="25"]
+[node name="Jab" parent="StateTree" index="26"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="26"]
+[node name="Kick" parent="StateTree" index="27"]
 modifiedHitStun = 19
 modifiedCounterHitStun = 30
 opponentLaunch = Vector2( 0, -600 )
@@ -6350,36 +6350,39 @@ chLaunch = Vector2( 0, -700 )
 jumpCancelable = true
 gatlingWinEnd = 16
 
-[node name="Slash" parent="StateTree" index="27"]
+[node name="Slash" parent="StateTree" index="28"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
 
-[node name="JumpA" parent="StateTree" index="28"]
+[node name="JumpA" parent="StateTree" index="29"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="29"]
+[node name="JumpB" parent="StateTree" index="30"]
 modifiedHitStun = 17
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="JumpC" parent="StateTree" index="30"]
+[node name="JumpC" parent="StateTree" index="31"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
 gatlingWinEnd = 14
 
-[node name="CrouchA" parent="StateTree" index="31"]
+[node name="CrouchA" parent="StateTree" index="32"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="CrouchB" parent="StateTree" index="32"]
+[node name="CrouchB" parent="StateTree" index="33"]
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="33"]
+[node name="CrouchC" parent="StateTree" index="34"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
+
+[node name="AirBackdash" parent="StateTree" index="35"]
+len = 10
 
 [node name="GLJumpC" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
@@ -6395,7 +6398,7 @@ chEffect = 1
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
 
-[node name="Hadouken" parent="StateTree" index="40"]
+[node name="Hadouken" parent="StateTree" index="41"]
 hadoukenScene = ExtResource( 4 )
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]

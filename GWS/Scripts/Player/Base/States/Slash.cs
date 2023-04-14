@@ -8,9 +8,9 @@ public class Slash : GroundAttack
 	{
 		base._Ready();
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
-
-		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
+		AddSpecials(owner.groundSpecials);
+		
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

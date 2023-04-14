@@ -7643,7 +7643,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 72
+frame = 233
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7703,46 +7703,43 @@ hitSound = "SlashHit"
 [node name="DoubleJump" parent="StateTree" index="24"]
 script = ExtResource( 20 )
 
-[node name="Jab" parent="StateTree" index="29"]
+[node name="Jab" parent="StateTree" index="28"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="30"]
+[node name="Kick" parent="StateTree" index="29"]
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="Slash" parent="StateTree" index="31"]
+[node name="Slash" parent="StateTree" index="30"]
 gatlingWinEnd = 17
 
-[node name="JumpA" parent="StateTree" index="32"]
+[node name="JumpA" parent="StateTree" index="31"]
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="33"]
+[node name="JumpB" parent="StateTree" index="32"]
 hitPush = 3500
 gatlingWinEnd = 14
 
-[node name="JumpC" parent="StateTree" index="34"]
+[node name="JumpC" parent="StateTree" index="33"]
 gatlingWinEnd = 16
 
-[node name="CrouchA" parent="StateTree" index="35"]
+[node name="CrouchA" parent="StateTree" index="34"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="CrouchB" parent="StateTree" index="36"]
+[node name="CrouchB" parent="StateTree" index="35"]
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="37"]
+[node name="CrouchC" parent="StateTree" index="36"]
 jumpCancelable = true
 gatlingWinEnd = 18
 
-[node name="AirBackdash" parent="StateTree" index="38"]
-len = 10
-
-[node name="Hadouken" parent="StateTree" index="43"]
+[node name="Hadouken" parent="StateTree" index="42"]
 hadoukenScene = ExtResource( 12 )
 
-[node name="AirGrab" parent="StateTree" index="46"]
+[node name="AirGrab" parent="StateTree" index="45"]
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 

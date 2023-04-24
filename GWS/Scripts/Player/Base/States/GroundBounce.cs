@@ -39,11 +39,17 @@ public class GroundBounce : Float
                 EmitSignal(nameof(StateFinished), "Knockdown");
                 owner.ResetComboAndProration();
             }
-            else
+            else if (owner.canGroundbounce)
             {
                 bounced = true;
                 owner.grounded = false;
                 owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 4);
+                owner.canGroundbounce = false;
+            }
+            else
+            {
+                owner.grounded = false;
+                EmitSignal(nameof(StateFinished), "Tech");
             }
             
         }

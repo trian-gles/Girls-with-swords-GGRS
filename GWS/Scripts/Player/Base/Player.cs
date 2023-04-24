@@ -117,6 +117,7 @@ public class Player : Node2D
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
+	public bool canGroundbounce = true;
 
 
 	public bool trainingControlledPlayer;
@@ -167,6 +168,7 @@ public class Player : Node2D
 		public int grabInvulnFrames { get; set; }
 		public string lastStateName { get; set; }
 		public int counterStopFrames { get; set; }
+		public bool canGroundbounce { get; set; }
 
 	}
 
@@ -340,6 +342,7 @@ public class Player : Node2D
 		pState.grabInvulnFrames = grabInvulnFrames;
 		pState.lastStateName = lastStateName;
 		pState.counterStopFrames = counterStopFrames;
+		pState.canGroundbounce = canGroundbounce;
 		return pState;
 	}
 
@@ -378,7 +381,7 @@ public class Player : Node2D
 		EmitSignal(nameof(ComboSet), Name, combo);
 		lastStateName = pState.lastStateName;
 		counterStopFrames = pState.counterStopFrames;
-
+		canGroundbounce = pState.canGroundbounce;
 	}
 
 	/// <summary>
@@ -1090,6 +1093,7 @@ public class Player : Node2D
 	{
 		combo = 0;
 		proration = 16;
+		canGroundbounce = true;
 		//GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}

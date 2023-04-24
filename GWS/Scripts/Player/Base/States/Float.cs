@@ -68,7 +68,14 @@ public class Float : HitStun
 		if (owner.grounded)
 		{
 			//GD.Print("On ground, knocking down");
-			EmitSignal(nameof(StateFinished), "Knockdown");
+			if (stunRemaining > 20)
+				EmitSignal(nameof(StateFinished), "Knockdown");
+			else
+			{
+				owner.grounded = false;
+				EmitSignal(nameof(StateFinished), "Tech");
+			}
+				
 			owner.ResetComboAndProration();
 		}
 

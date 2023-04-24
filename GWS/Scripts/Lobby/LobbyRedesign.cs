@@ -156,7 +156,8 @@ public class LobbyRedesign : Node2D
 	
 	public void OnLobbyReset()
 	{
-		activeManager.QueueFree();
+		if (activeManager != null)
+			activeManager.QueueFree();
 		var menu = GetNode<Control>("MenuRoot");
 		menu.Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;

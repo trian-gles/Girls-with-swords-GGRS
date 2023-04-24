@@ -16,10 +16,12 @@ public abstract class GrabStart : State
 	public override void Enter()
     {
 		base.Enter();
-		if ((Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 2000) && owner.otherPlayer.IsGrabbable())
-        {
-			EmitSignal(nameof(StateFinished), "Grab");
-		}
+		CheckHit();
+		
+		//if ((Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 2000) && owner.otherPlayer.IsGrabbable())
+        //{
+		//	EmitSignal(nameof(StateFinished), "Grab");
+		//}
 
 	}
 

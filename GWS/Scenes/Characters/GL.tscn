@@ -3040,7 +3040,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 10, 1 ) ]
+"values": [ Vector2( 18, 1 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -6277,19 +6277,19 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 10, 14 )
+position = Vector2( 0, -2 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 8, -15 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 88, 13 )
+position = Vector2( 0, 8 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -6303,7 +6303,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 4, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -6335,14 +6335,14 @@ launchFrame = 7
 [node name="Grab" parent="StateTree" index="13"]
 releaseFrame = 20
 
-[node name="AirDash" parent="StateTree" index="23"]
+[node name="AirDash" parent="StateTree" index="24"]
 len = 14
 
-[node name="Jab" parent="StateTree" index="25"]
+[node name="Jab" parent="StateTree" index="26"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="26"]
+[node name="Kick" parent="StateTree" index="27"]
 modifiedHitStun = 19
 modifiedCounterHitStun = 30
 opponentLaunch = Vector2( 0, -600 )
@@ -6350,33 +6350,33 @@ chLaunch = Vector2( 0, -700 )
 jumpCancelable = true
 gatlingWinEnd = 16
 
-[node name="Slash" parent="StateTree" index="27"]
+[node name="Slash" parent="StateTree" index="28"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
 
-[node name="JumpA" parent="StateTree" index="28"]
+[node name="JumpA" parent="StateTree" index="29"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="29"]
+[node name="JumpB" parent="StateTree" index="30"]
 modifiedHitStun = 17
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="JumpC" parent="StateTree" index="30"]
+[node name="JumpC" parent="StateTree" index="31"]
 opponentLaunch = Vector2( 0, 500 )
 effect = 1
 gatlingWinEnd = 14
 
-[node name="CrouchA" parent="StateTree" index="31"]
+[node name="CrouchA" parent="StateTree" index="32"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="CrouchB" parent="StateTree" index="32"]
+[node name="CrouchB" parent="StateTree" index="33"]
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="33"]
+[node name="CrouchC" parent="StateTree" index="34"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
@@ -6395,7 +6395,7 @@ chEffect = 1
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
 
-[node name="Hadouken" parent="StateTree" index="40"]
+[node name="Hadouken" parent="StateTree" index="41"]
 hadoukenScene = ExtResource( 4 )
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]

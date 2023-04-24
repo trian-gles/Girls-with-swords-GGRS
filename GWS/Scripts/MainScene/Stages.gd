@@ -4,10 +4,17 @@ var background = preload("res://Scenes/Backgrounds/Office.tscn")
 var desired_pos = -145;
 var last_stage = 270
 
+var backgrounds = [
+	preload("res://Scenes/Backgrounds/Office.tscn"),
+	preload("res://Scenes/Backgrounds/Cathedral.tscn"),
+	preload("res://Scenes/Backgrounds/Clocktower.tscn")
+]
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
+	
+func set_bkg(index: int):
+	add_child((backgrounds[index].instance()))
 
 func _physics_process(delta):
 	if position.y < desired_pos:

@@ -28,6 +28,8 @@ public class CharSelectScene : BaseGame
 	private CharSelectAudio audio;
 
 	private List<List<Sprite>> charImages;
+	
+	private Godot.Collections.Array bkgImages;
 
 	private int p1Pos = 0;
 	private int p2Pos = 0;
@@ -37,6 +39,7 @@ public class CharSelectScene : BaseGame
 	private int p2Color;
 	private int[] lastInputs;
 	private int extraFrames = 12;
+	private int selectedStage = 0;
 
 	[Serializable]
 	private struct GameState
@@ -49,6 +52,7 @@ public class CharSelectScene : BaseGame
 		public int p2Color	{ get; set; }
 		public int[] lastFrameInputs { get; set; }
 		public int extraFrames { get; set; }
+		public int selectedStage { get; set; }
 
 	}
 
@@ -84,6 +88,8 @@ public class CharSelectScene : BaseGame
 
 		charImages = new List<List<Sprite>>() { p1CharImages, p2CharImages };
 
+		bkgImages = GetNode("CanvasLayer/Bkgs").GetChildren();
+
 		CheckOverlap();
 
 	}
@@ -110,6 +116,7 @@ public class CharSelectScene : BaseGame
 		state.p1Selected = p1Selected;
 		state.p2Selected = p2Selected;
 		state.lastFrameInputs = lastInputs;
+		state.selectedStage = selectedStage;
 		return Serialize<GameState>(state);
 	}
 
@@ -124,11 +131,18 @@ public class CharSelectScene : BaseGame
 		p2Pos = state.p2Pos;
 		lastInputs = state.lastFrameInputs;
 
+		// Cleanup background selection
+		((Sprite)bkgImages[selectedStage]).Visible = false;
+		selectedStage = state.selectedStage;
+		((Sprite)bkgImages[selectedStage]).Visible = true;
+
 		// Cleanup selection images
 		charImages[0][p1Pos].Visible = true;
 		charImages[0][(p1Pos + 1) % 2].Visible = false;
 		charImages[1][p2Pos].Visible = true;
 		charImages[1][(p2Pos + 1) % 2].Visible = false;
+
+		
 
 		CheckOverlap();
 	}
@@ -141,7 +155,16 @@ public class CharSelectScene : BaseGame
 		{
 			int inputs = combinedInputs[i];
 			int lastFrameInputs = lastInputs[i];
-			
+
+			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
+			{
+				MoveStageSelection(-1);
+			}
+
+			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
+			{
+				MoveStageSelection(1);
+			}
 
 			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
 			{
@@ -195,6 +218,12 @@ public class CharSelectScene : BaseGame
 		}
 	}
 
+	int Mod(int x, int m)
+	{
+		int r = x % m;
+		return r < 0 ? r + m : r;
+	}
+
 	private void MoveCursor(int playerNum, int direction)
 	{
 		
@@ -219,6 +248,14 @@ public class CharSelectScene : BaseGame
 			
 
 		CheckOverlap();
+	}
+
+	private void MoveStageSelection(int direction)
+	{
+
+		((Sprite) bkgImages[selectedStage]).Visible = false;
+		selectedStage = Mod(selectedStage + direction, bkgImages.Count);
+		((Sprite)bkgImages[selectedStage]).Visible = true;
 	}
 
 	private void SelectPlayer(int playerNum, int color)
@@ -254,7 +291,7 @@ public class CharSelectScene : BaseGame
 			}
 			// This may be called multiple times during rollbacks but it isn't a huge issue
 			EmitSignal("CharacterSelected", characterScenes[p1Pos], characterScenes[p2Pos],
-				p1Color, p2Color);
+				p1Color, p2Color, selectedStage);
 		}
 			
 	}

@@ -10,6 +10,7 @@ using System.Linq;
 /// 
 public class GameScene : BaseGame
 {
+
 	/// <summary>
 	/// Used to prevent physics process
 	/// </summary>
@@ -105,9 +106,10 @@ public class GameScene : BaseGame
 		SetRhythmVisibility(Globals.rhythmGame);
 	}
 
-	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame)
+	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
 	{
 		Globals.Log($"Starting game config on frame {frame}");
+		((MainGFX)GetNode("MainGFX")).Init(bkg);
 		this.frame = frame;
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
 

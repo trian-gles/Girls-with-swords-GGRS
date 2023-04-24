@@ -12,9 +12,9 @@ class LocalManager : BaseManager
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 	}
 
-	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
-		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		OnGameFinished("Game");
 	}
 

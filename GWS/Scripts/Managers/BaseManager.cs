@@ -46,6 +46,7 @@ public class BaseManager : Node2D
 
 	PackedScene playerOne, playerTwo;
 	int colorOne, colorTwo;
+	int bkgIndex;
 	protected int frame = 0;
 
 	public override void _Ready()
@@ -89,7 +90,7 @@ public class BaseManager : Node2D
 			currGame = gameScene;
 			MoveChild(charSelectScene, 0);
 
-			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame);
+			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame, bkgIndex);
 			charSelectScene.HideAll();
 		}
 		else
@@ -108,12 +109,13 @@ public class BaseManager : Node2D
 		
 	}
 
-	public virtual void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	public virtual void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
 		this.colorOne = colorOne;
 		this.colorTwo = colorTwo;
+		this.bkgIndex = bkgIndex;
 	}
 
 	public virtual void OnQuit()

@@ -1,8 +1,7 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Backgrounds/Cathedral.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/GameScenes/InputsText.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD/Camera2D.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=6]
@@ -416,11 +415,7 @@ wait_time = 0.5
 script = ExtResource( 13 )
 
 [node name="Stages" type="Node2D" parent="MainGFX"]
-position = Vector2( 240, -145 )
 script = ExtResource( 7 )
-
-[node name="Background" parent="MainGFX/Stages" instance=ExtResource( 3 )]
-position = Vector2( 0, 270 )
 
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )

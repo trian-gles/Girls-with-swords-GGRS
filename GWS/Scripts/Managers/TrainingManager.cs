@@ -73,9 +73,9 @@ public class TrainingManager : BaseManager
 			
 	}
 
-	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
-		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		OnGameFinished("Game");
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);

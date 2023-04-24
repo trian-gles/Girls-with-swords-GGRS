@@ -60,9 +60,9 @@ class GGRSManager : StateManager
 		GD.Print("Settup finished");
 	}
 
-	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo)
+	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
-		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo);
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		ReadyForChange();
 	}
 

@@ -29,6 +29,10 @@ public class MainGFX : Node
 		}
 
 	}
+	
+	public void Init(int background){
+		GetNode("Stages").Call("set_bkg", background);
+	}
 
 	public void LevelUp(int frame)
 	{

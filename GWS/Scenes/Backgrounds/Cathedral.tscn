@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Sprites/BG Assets/Cathedral_Full.png" type="Texture" id=1]
+
+[node name="Background" type="Node2D"]
+position = Vector2( 240, 125 )
+z_index = -1
+
+[node name="Sky and Sun" type="Sprite" parent="."]
+position = Vector2( 0, 0.396851 )
+texture = ExtResource( 1 )

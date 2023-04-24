@@ -1,6 +1,6 @@
 extends Node2D
 
-var background = preload("res://Scenes/Background.tscn")
+var background = preload("res://Scenes/Backgrounds/Office.tscn")
 var desired_pos = -145;
 var last_stage = 270
 

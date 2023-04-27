@@ -2030,7 +2030,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 46, 24 ) ]
+"values": [ Vector2( 46, 30 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -6325,18 +6325,18 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 15 )
+position = Vector2( -1, 10 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 5, -18 )
+position = Vector2( 41, 26 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 12, -24 )
+position = Vector2( 46, 30 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -6350,7 +6350,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( -1.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149

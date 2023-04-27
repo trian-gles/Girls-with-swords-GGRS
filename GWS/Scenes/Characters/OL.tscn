@@ -4207,8 +4207,8 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 17, 33 ) ]
+"update": 1,
+"values": [ Vector2( 17, 25 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:position")
@@ -4219,8 +4219,8 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -8, 8 ) ]
+"update": 1,
+"values": [ Vector2( -8, 0 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
@@ -7632,19 +7632,11 @@ position = Vector2( -2, 0 )
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 12, -14 )
 
-[node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 0, 8 )
-disabled = false
-
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 69, 0 )
-
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 50
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )

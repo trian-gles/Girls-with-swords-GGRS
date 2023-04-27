@@ -10,6 +10,7 @@ public abstract class AirAttack : BaseAttack
         base._Ready();
 		slowdownSpeed = 0;
 		AddCancel("Fall");
+		hitDetails.airBlockable = true;
 	}
     protected override void AddJumpCancel()
 	{
@@ -26,6 +27,12 @@ public abstract class AirAttack : BaseAttack
             owner.canAirDash = false;
         });
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+	}
+
+	public override bool DelayInputs()
+	{
+		return owner.internalPos.y > 19000;
+
 	}
 
 	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)

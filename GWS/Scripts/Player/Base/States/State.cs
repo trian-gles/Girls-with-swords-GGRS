@@ -101,7 +101,7 @@ public abstract class State : Node
 		{
 			return;
 		}
-		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1400);
+		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1100);
 	}
 	public virtual void AnimationFinished() 
 	{

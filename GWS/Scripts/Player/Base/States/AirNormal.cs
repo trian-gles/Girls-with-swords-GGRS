@@ -8,6 +8,7 @@ public abstract class AirNormal : AirAttack
     public override void _Ready()
     {
         base._Ready();
+        
         AddSpecials(owner.airSpecials);
         AddExSpecials(owner.airExSpecials);
     }

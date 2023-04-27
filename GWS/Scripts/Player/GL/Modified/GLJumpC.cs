@@ -12,6 +12,7 @@ public class GLJumpC : BaseAttack
 		AddCancel("Fall");
 		animationName = "JumpC";
 		AddKara(new char[] { 'k', 'p' }, "AirGrabStart");
+		hitDetails.airBlockable = true;
 	}
 	public override void FrameAdvance()
 	{

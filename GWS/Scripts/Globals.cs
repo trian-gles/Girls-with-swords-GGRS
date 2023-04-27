@@ -85,6 +85,7 @@ public class Globals : Node
 		public BaseAttack.EXTRAEFFECT effect;
 		public BaseAttack.HEIGHT height;
 		public BaseAttack.ATTACKDIR dir;
+		public bool airBlockable;
 	}
 
 	public struct AttackLevel

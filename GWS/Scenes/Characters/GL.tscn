@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL Full Moveset-Sheet 6-9_gray.png" type="Texture" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://Scripts/Player/GL/Specials/Gunblazed.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Player/GL/Specials/BlackHolePlace.cs" type="Script" id=11]
 [ext_resource path="res://Scenes/Projectiles/BlackHole.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=13]
+[ext_resource path="res://Scenes/Projectiles/GLProjectileArc.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -2341,7 +2343,7 @@ tracks/10/keys = {
 
 [sub_resource type="Animation" id=17]
 resource_name = "Feint"
-length = 40.0
+length = 13.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -2350,10 +2352,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 17, 39 ),
+"times": PoolRealArray( 0, 12, 39 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 215, 225, 235 ]
+"values": [ 215, 223, 235 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:position")
@@ -3497,7 +3499,7 @@ tracks/14/keys = {
 
 [sub_resource type="Animation" id=24]
 resource_name = "Hadouken"
-length = 60.0
+length = 40.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -3506,7 +3508,132 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 17, 60 ),
+"times": PoolRealArray( 0, 15, 38 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 215, 225, 235 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -48 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HurtBoxes/HurtB2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("HurtBoxes/HurtB3:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite:offset")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 14, 41 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("HitBoxes/HitB2:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("HitBoxes/HitB3:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=47]
+resource_name = "HadoukenAir"
+length = 48.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 24, 47 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 215, 225, 235 ]
@@ -6325,7 +6452,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 10 )
+position = Vector2( 2, 10 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -6350,7 +6477,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( -1.5, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -6443,6 +6570,7 @@ whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
 
 [node name="Hadouken" parent="StateTree" index="41"]
+releaseFrame = 14
 hadoukenScene = ExtResource( 4 )
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]
@@ -6451,6 +6579,11 @@ script = ExtResource( 8 )
 [node name="BlackHolePlace" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 11 )
 hadoukenScene = ExtResource( 12 )
+
+[node name="HadoukenAir" type="Node" parent="StateTree" index="50"]
+script = ExtResource( 13 )
+releaseFrame = 24
+hadoukenScene = ExtResource( 14 )
 
 [node name="GrabPos" parent="." index="6"]
 position = Vector2( 35, -24 )
@@ -6485,6 +6618,7 @@ anims/Grabbed = SubResource( 21 )
 anims/GroundBounce = SubResource( 22 )
 anims/GunBlazed = SubResource( 23 )
 anims/Hadouken = SubResource( 24 )
+anims/HadoukenAir = SubResource( 47 )
 anims/HitStun = SubResource( 25 )
 anims/Idle = SubResource( 26 )
 anims/Jab = SubResource( 27 )

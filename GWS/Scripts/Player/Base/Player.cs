@@ -83,6 +83,7 @@ public class Player : Node2D
 	/// Certain states will automatically setup gatlings if they are in this list
 	/// </summary>
 	public List<CommandNormal> commandNormals = new List<CommandNormal>();
+	public List<CommandNormal> airCommandNormals = new List<CommandNormal>();
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 	public List<Special> dashSpecials = new List<Special>();

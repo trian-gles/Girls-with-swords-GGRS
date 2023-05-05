@@ -140,12 +140,12 @@ public class BaseManager : Node2D
 			inputs |= 2;
 		}
 
-		if (Input.IsActionPressed("6" + end))
+		if (Input.IsActionPressed("6" + end) && !Input.IsActionPressed("4" + end))
 		{
 			inputs |= 4;
 		}
 
-		if (Input.IsActionPressed("4" + end))
+		if (Input.IsActionPressed("4" + end) && !Input.IsActionPressed("6" + end))
 		{
 			inputs |= 8;
 		}

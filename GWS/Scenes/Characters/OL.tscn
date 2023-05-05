@@ -63,7 +63,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 12, 16, 19 ),
+"times": PoolRealArray( 0, 14, 18, 21 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 230, 231, 232, 233 ]
@@ -75,7 +75,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 12 ),
+"times": PoolRealArray( 14 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 15, 9 ) ]
@@ -87,7 +87,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 12, 19 ),
+"times": PoolRealArray( 0, 14, 21 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -99,7 +99,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 12 ),
+"times": PoolRealArray( 14 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 25, 12 ) ]
@@ -7628,14 +7628,13 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 2, -16 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -2, -31 )
@@ -7645,7 +7644,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 29
+frame = 28
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7664,10 +7663,10 @@ launch = Vector2( 200, -800 )
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 level = 3
-modifiedHitStun = 30
+modifiedHitStun = 38
 modifiedCounterHitStun = 55
-opponentLaunch = Vector2( 200, -700 )
-chLaunch = Vector2( 600, -800 )
+opponentLaunch = Vector2( 200, -900 )
+chLaunch = Vector2( 600, -1000 )
 modifiedHitPush = 2500
 hitPush = 2500
 chEffect = 2
@@ -7714,16 +7713,19 @@ jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="Slash" parent="StateTree" index="31"]
-gatlingWinEnd = 17
+gatlingWinEnd = 20
 
 [node name="JumpA" parent="StateTree" index="32"]
+jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="JumpB" parent="StateTree" index="33"]
 hitPush = 3500
+jumpCancelable = true
 gatlingWinEnd = 14
 
 [node name="JumpC" parent="StateTree" index="34"]
+jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="35"]
@@ -7736,7 +7738,7 @@ gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="37"]
 jumpCancelable = true
-gatlingWinEnd = 18
+gatlingWinEnd = 19
 
 [node name="Hadouken" parent="StateTree" index="43"]
 hadoukenScene = ExtResource( 12 )
@@ -7802,6 +7804,7 @@ moveSpeed = 200
 script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18
+modifiedHitPush = 3500
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 grabInvulnFrames = 14

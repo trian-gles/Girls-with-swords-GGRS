@@ -12,21 +12,26 @@ public abstract class AirAttack : BaseAttack
 		AddCancel("Fall");
 		hitDetails.airBlockable = true;
 	}
-    protected override void AddJumpCancel()
+	protected override void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.velocity.x = owner.speed;
 			owner.canDoubleJump = false;
-            owner.canAirDash = false;
-        });
+			owner.canAirDash = false;
+		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.velocity.x = -owner.speed;
 			owner.canDoubleJump = false;
-            owner.canAirDash = false;
-        });
-		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () => owner.canDoubleJump = false);
+			owner.canAirDash = false;
+		});
+		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
+		{
+			owner.canDoubleJump = false;
+			owner.canAirDash = false;
+
+		});
 	}
 
 	public override bool DelayInputs()

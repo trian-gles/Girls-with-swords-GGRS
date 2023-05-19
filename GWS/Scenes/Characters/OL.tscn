@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://Sprites/Movesets/OL Moveset/OL-full-moveset-4-12-gray.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Player/OL/Specials/AntiAir.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
-[ext_resource path="res://Scripts/Player/OL/Specials/CommandRun.cs" type="Script" id=8]
+[ext_resource path="res://Scripts/Player/OL/Specials/CommandRunTurn.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Palettes/OL/Sol v1.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/MovingAttack.cs" type="Script" id=19]
 [ext_resource path="res://Scripts/Player/Base/States/Jump.cs" type="Script" id=20]
 [ext_resource path="res://Scripts/Player/OL/Specials/SixK.cs" type="Script" id=21]
+[ext_resource path="res://Scripts/Player/OL/Specials/CommandRunFirst.cs" type="Script" id=22]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -4652,7 +4653,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 8, 20, 29 ),
+"times": PoolRealArray( 0, 8, 20, 35 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 204, 208, 209, 213 ]
@@ -4679,7 +4680,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 11, 25 ) ]
+"values": [ Vector2( 11, 32 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:position")
@@ -4688,10 +4689,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 13, 25 ),
+"times": PoolRealArray( 0, 13, 31 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -4, 15 ), Vector2( 4, 6 ), Vector2( 4, 18 ) ]
+"values": [ Vector2( -4, 12 ), Vector2( 12, 6 ), Vector2( 12, 12 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
@@ -4712,7 +4713,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 20, 23 ),
+"times": PoolRealArray( 0, 20, 25 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -4727,7 +4728,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 14 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 20, -4 ) ]
+"values": [ Vector2( 30, -4 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HurtBoxes/HurtB1:shape:extents")
@@ -4739,7 +4740,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 14 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 14, 30 ) ]
+"values": [ Vector2( 22, 30 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HurtBoxes/HurtB2:position")
@@ -4760,10 +4761,10 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 14 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ Vector2( 30, 18 ) ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -4772,7 +4773,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 20, 23 ),
+"times": PoolRealArray( 0, 20, 25 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -7628,23 +7629,19 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 2, -16 )
-
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( -2, -31 )
+disabled = false
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 28
+frame = 130
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7674,21 +7671,22 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 launch = Vector2( 0, -400 )
 
-[node name="CommandRun" type="Node" parent="StateTree" index="21"]
+[node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
-whiffSound = ""
-hitSound = ""
-maxLen = 10
-speed = 900
+len = 25
+speed = 1000
+turnFrame = 13
 
-[node name="CommandRunCharged" type="Node" parent="StateTree" index="22"]
+[node name="CommandRun" type="Node" parent="StateTree" index="22"]
+script = ExtResource( 22 )
+speed = 900
+checkTurnFrame = 5
+
+[node name="CommandRunCharged" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 17 )
-whiffSound = ""
-hitSound = ""
-maxLen = 10
-speed = 900
+speed = 1000
 
-[node name="Hojogiri" type="Node" parent="StateTree" index="23"]
+[node name="Hojogiri" type="Node" parent="StateTree" index="24"]
 script = ExtResource( 7 )
 level = 3
 modifiedHitStun = 65
@@ -7701,58 +7699,58 @@ knockdown = true
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="DoubleJump" parent="StateTree" index="24"]
+[node name="DoubleJump" parent="StateTree" index="25"]
 script = ExtResource( 20 )
 
-[node name="Jab" parent="StateTree" index="29"]
+[node name="Jab" parent="StateTree" index="30"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="30"]
+[node name="Kick" parent="StateTree" index="31"]
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="Slash" parent="StateTree" index="31"]
+[node name="Slash" parent="StateTree" index="32"]
 gatlingWinEnd = 20
 
-[node name="JumpA" parent="StateTree" index="32"]
+[node name="JumpA" parent="StateTree" index="33"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="33"]
+[node name="JumpB" parent="StateTree" index="34"]
 hitPush = 3500
 jumpCancelable = true
 gatlingWinEnd = 14
 
-[node name="JumpC" parent="StateTree" index="34"]
+[node name="JumpC" parent="StateTree" index="35"]
 jumpCancelable = true
 gatlingWinEnd = 16
 
-[node name="CrouchA" parent="StateTree" index="35"]
+[node name="CrouchA" parent="StateTree" index="36"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="CrouchB" parent="StateTree" index="36"]
+[node name="CrouchB" parent="StateTree" index="37"]
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="37"]
+[node name="CrouchC" parent="StateTree" index="38"]
 jumpCancelable = true
 gatlingWinEnd = 19
 
-[node name="Hadouken" parent="StateTree" index="43"]
+[node name="Hadouken" parent="StateTree" index="44"]
 hadoukenScene = ExtResource( 12 )
 
-[node name="AirGrab" parent="StateTree" index="46"]
+[node name="AirGrab" parent="StateTree" index="47"]
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 
-[node name="HojogiriCharge" type="Node" parent="StateTree" index="47"]
+[node name="HojogiriCharge" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 14 )
 whiffSound = ""
 hitSound = ""
 
-[node name="HojogiriCharged" type="Node" parent="StateTree" index="48"]
+[node name="HojogiriCharged" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 15 )
 level = 3
 modifiedHitStun = 35
@@ -7763,7 +7761,7 @@ hitPush = 500
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="49"]
+[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 16 )
 level = 3
 opponentLaunch = Vector2( 300, -350 )
@@ -7775,7 +7773,7 @@ hitSound = "SlashHit"
 moveSpeed = 200
 stopFrame = 15
 
-[node name="InstantOverhead" type="Node" parent="StateTree" index="52"]
+[node name="InstantOverhead" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 26
@@ -7786,9 +7784,9 @@ effect = 3
 chEffect = 3
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
-launch = Vector2( 400, -600 )
+launch = Vector2( 400, -500 )
 
-[node name="Super" type="Node" parent="StateTree" index="53"]
+[node name="Super" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 19 )
 level = 4
 modifiedHitStun = 80
@@ -7800,7 +7798,7 @@ restoreHitFrames = PoolIntArray( 18 )
 superFrame = 7
 moveSpeed = 200
 
-[node name="6K" type="Node" parent="StateTree" index="54"]
+[node name="6K" type="Node" parent="StateTree" index="55"]
 script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18

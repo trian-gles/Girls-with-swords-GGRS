@@ -46,4 +46,9 @@ public class Tech : Fall
 		
 		base.HandleInput(inputArr);
 	}
+
+	public override bool CollisionActive()
+    {
+		return false;
+    }
 }

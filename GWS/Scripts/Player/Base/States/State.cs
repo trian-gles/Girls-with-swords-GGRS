@@ -46,6 +46,9 @@ public abstract class State : Node
 
 	public bool hitConnect = false;
 
+	public bool turnAroundOnExit = true;
+
+
 	public enum HEIGHT
 	{
 		LOW,
@@ -547,6 +550,11 @@ public abstract class State : Node
 	{
 		return false;
 	}
+
+	public virtual bool CollisionActive()
+    {
+		return true;
+    }
 
 	/// <summary>
 	/// Just advances the frameCount, please make a base. call anyways though!

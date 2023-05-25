@@ -666,6 +666,17 @@ public class Player : Node2D
 		currentState.Enter();
 	}
 
+	public float GetAnimationLength(string anim)
+    {
+		if (animationPlayer is null)
+			animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
+		var foundAnim = animationPlayer.GetAnimation(anim);
+		if (foundAnim is object)
+			return foundAnim.Length;
+		else
+			return 0;
+    }
+
 	protected void AddAltState(string baseState)
 	{ altState.Add(baseState); }
 

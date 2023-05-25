@@ -4,20 +4,16 @@ using System.Collections.Generic;
 
 public class GroundBounce : Float
 {
+	public override string animationName { get { return "Float"; } }
 	private bool bounced = false;
 
-    public override void _Ready()
-    {
-        base._Ready();
-        animationName = "Float";
-    }
 
-    public override void Enter()
-    {
-        base.Enter();
+	public override void Enter()
+	{
+		base.Enter();
 		bounced = false;
-    }
-    public override void Load(Dictionary<string, int> loadData)
+	}
+	public override void Load(Dictionary<string, int> loadData)
 	{
 		bounced = Convert.ToBoolean(loadData["bounced"]);
 	}
@@ -29,43 +25,43 @@ public class GroundBounce : Float
 		return dict;
 	}
 
-    public override void FrameAdvance()
-    {
-        frameCount++;
-        if (owner.grounded)
-        {
-            if (bounced)
-            {
-                EmitSignal(nameof(StateFinished), "Knockdown");
-                owner.ResetComboAndProration();
-            }
-            else if (owner.canGroundbounce)
-            {
-                bounced = true;
-                owner.grounded = false;
-                owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 4);
-                owner.canGroundbounce = false;
-            }
-            else
-            {
-                owner.grounded = false;
-                EmitSignal(nameof(StateFinished), "Tech");
-            }
-            
-        }
+	public override void FrameAdvance()
+	{
+		frameCount++;
+		if (owner.grounded)
+		{
+			if (bounced)
+			{
+				EmitSignal(nameof(StateFinished), "Knockdown");
+				owner.ResetComboAndProration();
+			}
+			else if (owner.canGroundbounce)
+			{
+				bounced = true;
+				owner.grounded = false;
+				owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 4);
+				owner.canGroundbounce = false;
+			}
+			else
+			{
+				owner.grounded = false;
+				EmitSignal(nameof(StateFinished), "Tech");
+			}
+			
+		}
 
-        stunRemaining--;
+		stunRemaining--;
 
-        TryTech();
+		TryTech();
 
-        if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300)
-        {
-            owner.EmitSignal(nameof(Player.LevelUp));
-            EmitSignal(nameof(StateFinished), "AirKnockdown");
-        }
+		if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300)
+		{
+			owner.EmitSignal(nameof(Player.LevelUp));
+			EmitSignal(nameof(StateFinished), "AirKnockdown");
+		}
 
 
-        ApplyGravity();
-    }
+		ApplyGravity();
+	}
 }
 

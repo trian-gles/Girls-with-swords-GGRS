@@ -6,10 +6,11 @@ public class Landing : State
 {
 	[Export]
 	public int len = 3;
+
+	public override string animationName { get { return "None"; } }
 	public override void _Ready()
 	{
 		base._Ready();
-		animationName = "None";
 		stop = false;
 		AddNormals();
 		AddSpecials(owner.groundSpecials);
@@ -19,11 +20,11 @@ public class Landing : State
 	//	return true;
 	//}
 	public override void Enter()
-    {
+	{
 		base.Enter();
 		owner.canDoubleJump = true;
-        owner.canAirDash = true;
-    }
+		owner.canAirDash = true;
+	}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
@@ -36,11 +37,11 @@ public class Landing : State
 		ReceiveHitNoBlock(details);
 	}
 
-    public override void Exit()
-    {
-        base.Exit();
+	public override void Exit()
+	{
+		base.Exit();
 		owner.velocity.x = 0;
-    }
+	}
 }
 
 

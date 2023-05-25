@@ -32,7 +32,12 @@ public abstract class State : Node
 	/// <summary>
 	/// The animation that should be called upon entering
 	/// </summary>
-	public string animationName;
+	public virtual string animationName
+    {
+		get { return Name;  }
+    }
+
+	protected float animationLength;
 
 	[Signal]
 	public delegate void StateFinished(string nextStateName);
@@ -65,7 +70,7 @@ public abstract class State : Node
 	public override void _Ready()
 	{
 		owner = GetOwner<Player>();
-		animationName = Name;
+		animationLength = owner.GetAnimationLength(animationName);
 	}
 
 	public virtual void Load(Dictionary<string, int> loadData)

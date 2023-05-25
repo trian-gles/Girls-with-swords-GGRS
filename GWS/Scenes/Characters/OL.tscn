@@ -7634,14 +7634,14 @@ position = Vector2( -2, 0 )
 position = Vector2( 13, 17 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-disabled = false
+position = Vector2( 25, 12 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 130
+frame = 86
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )

@@ -5611,7 +5611,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 28, 9 ) ]
+"values": [ Vector2( 32, 13 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -6928,6 +6928,7 @@ tracks/10/keys = {
 script = ExtResource( 6 )
 speed = 200
 dashSpeed = 500
+accel = 60
 jumpForce = 900
 shaders = [ ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ) ]
 
@@ -6940,7 +6941,7 @@ position = Vector2( 3, -2 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 18, 4 )
+position = Vector2( 28, 4 )
 disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
@@ -6949,6 +6950,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
 position = Vector2( 28, 0 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -6970,7 +6972,7 @@ frame = 149
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
 level = 3
-modifiedHitStun = 34
+modifiedHitStun = 37
 modifiedCounterHitStun = 81
 opponentLaunch = Vector2( 300, -800 )
 chLaunch = Vector2( 300, -1100 )

@@ -28,8 +28,6 @@ public class GameStateObjectRedesign : Node
 
 	private int levelUpHitStop = 60;
 
-	private int firstAtWall = 0;
-
 	private GameState resetState;
 
 	/// <summary>
@@ -49,8 +47,6 @@ public class GameStateObjectRedesign : Node
 
 		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
 		public int hitStopRemaining { get; set; }
-
-		public int firstAtWall { get; set; }
 	}
 
 	private Dictionary<string, HadoukenPart> hadoukens;
@@ -118,7 +114,7 @@ public class GameStateObjectRedesign : Node
 			gState.hadoukenStates.Add(entry.Value.GetState());
 		}
 		gState.hitStopRemaining = hitStopRemaining;
-		gState.firstAtWall = firstAtWall;
+
 		return gState;
 	}
 
@@ -234,7 +230,6 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
-		firstAtWall = gState.firstAtWall;
 		// GD.Print($"Rolling back to frame {Frame}");
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
@@ -408,7 +403,7 @@ public class GameStateObjectRedesign : Node
 				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
 			}
-			else if (P1.internalPos.y > P2.internalPos.y || P2.currentState.Name == "Float")
+			else if (P1.internalPos.y < P2.internalPos.y)
 			{
 				P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
@@ -490,6 +485,7 @@ public class GameStateObjectRedesign : Node
 	public void NewHadouken(HadoukenPart h)
 	{
 		hadoukens.Add(h.Name, h); 
+		GD.Print($"New hadouken on frame {Frame}");
 		h.creationFrame = Frame;
 	}
 

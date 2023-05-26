@@ -140,7 +140,6 @@ public abstract class BaseAttack : State
 		base.Enter();
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
-		owner.ClearBuffer();
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 	}
 

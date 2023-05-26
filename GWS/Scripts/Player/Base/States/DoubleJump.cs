@@ -3,11 +3,7 @@ using System;
 
 public class SuperJump : Jump
 {
-    public override void _Ready()
-    {
-        base._Ready();
-        animationName = "Jump";
-    }
+    public override string animationName { get { return "Jump"; } }
 
     public override void Enter()
     {

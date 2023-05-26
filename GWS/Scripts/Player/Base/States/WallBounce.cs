@@ -6,11 +6,8 @@ public class WallBounce : Float
 {
 	private bool bounced = false;
 
-	public override void _Ready()
-	{
-		base._Ready();
-		animationName = "Float";
-	}
+	public override string animationName { get { return "Float"; } }
+
 
 	public override void Enter()
 	{

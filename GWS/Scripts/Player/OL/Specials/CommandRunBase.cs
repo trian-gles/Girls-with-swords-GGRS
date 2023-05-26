@@ -2,13 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class CommandRun : GroundAttack
+public class CommandRunBase : GroundAttack
 {
-	[Export]
-	public int minLen = 10;
 
 	[Export]
-	public int maxLen = 80;
+	public int len = 10;
+
 
 	[Export]
 	public int speed = 450;
@@ -18,11 +17,15 @@ public class CommandRun : GroundAttack
 	/// </summary>
 	protected string exitState;
 
-	public override void _Ready()
+    public override string animationName { get { return "CommandRun"; } }
+
+
+    public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
 		exitState = "Hojogiri";
+		turnAroundOnExit = false;
 
 	}
 	public override void Enter()
@@ -42,10 +45,10 @@ public class CommandRun : GroundAttack
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
-		if (frameCount > maxLen)
+		if (frameCount > len)
 		{
 			EmitSignal(nameof(StateFinished), exitState);
 		}
-		
+
 	}
 }

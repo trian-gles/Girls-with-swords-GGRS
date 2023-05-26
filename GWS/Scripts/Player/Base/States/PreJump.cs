@@ -6,10 +6,11 @@ public class PreJump : State
 {
 	[Export]
 	public int len = 3;
+
+	public override string animationName { get { return "None"; } }
 	public override void _Ready()
 	{
 		base._Ready();
-		animationName = "None";
 		stop = false;
 	}
 	//public override bool DelayInputs()
@@ -21,26 +22,26 @@ public class PreJump : State
 	{
 		base.FrameAdvance();
 		if (frameCount == len)
-        {
-            if (owner.CheckBuffer(new[] { '2', 'p' }))
-            {
-                EmitSignal(nameof(StateFinished), "SuperJump");
-            }
-            else
-            {
-                EmitSignal(nameof(StateFinished), "Jump");
-            }
-        }
+		{
+			if (owner.CheckBuffer(new[] { '2', 'p' }))
+			{
+				EmitSignal(nameof(StateFinished), "SuperJump");
+			}
+			else
+			{
+				EmitSignal(nameof(StateFinished), "Jump");
+			}
+		}
 			
 	}
 
-    public override void HandleInput(char[] inputArr)
-    {
+	public override void HandleInput(char[] inputArr)
+	{
 		//GD.Print(inputArr);
 		base.HandleInput(inputArr);
 		
 		if (inputArr == new char[] {'6', 'p'})
-        {
+		{
 			owner.velocity.x = owner.speed;
 			//GD.Print("6p during prejump");
 		}

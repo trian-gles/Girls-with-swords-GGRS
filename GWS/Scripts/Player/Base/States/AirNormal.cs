@@ -11,6 +11,9 @@ public abstract class AirNormal : AirAttack
         
         AddSpecials(owner.airSpecials);
         AddExSpecials(owner.airExSpecials);
+
+        if (jumpCancelable)
+            AddJumpCancel();
     }
 
     public override void AnimationFinished()
@@ -21,6 +24,6 @@ public abstract class AirNormal : AirAttack
     public override void Enter()
     {
         base.Enter();
-        AddJumpCancel();
+        
     }
 }

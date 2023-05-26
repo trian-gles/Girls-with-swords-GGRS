@@ -83,6 +83,7 @@ public class Player : Node2D
 	/// Certain states will automatically setup gatlings if they are in this list
 	/// </summary>
 	public List<CommandNormal> commandNormals = new List<CommandNormal>();
+	public List<CommandNormal> airCommandNormals = new List<CommandNormal>();
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 	public List<Special> dashSpecials = new List<Special>();
@@ -648,6 +649,7 @@ public class Player : Node2D
 	/// <param name="nextStateName"></param>
 	public void ChangeState(string nextStateName) 
 	{
+		var previousState = currentState;
 		currentState.Exit();
 		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
@@ -657,12 +659,23 @@ public class Player : Node2D
 			animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
 		
-		if (grounded && nextStateName != "Grab")
+		if (grounded && nextStateName != "Grab" && previousState.turnAroundOnExit)
 		{
 			CheckTurnAround();
 		}
 		currentState.Enter();
 	}
+
+	public float GetAnimationLength(string anim)
+    {
+		if (animationPlayer is null)
+			animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
+		var foundAnim = animationPlayer.GetAnimation(anim);
+		if (foundAnim is object)
+			return foundAnim.Length;
+		else
+			return 0;
+    }
 
 	protected void AddAltState(string baseState)
 	{ altState.Add(baseState); }
@@ -1263,6 +1276,11 @@ public class Player : Node2D
 		Vector2 size = new Vector2(1400, 4800);
 		return new Rect2(start, size);
 	}
+
+	public bool CheckCollisionRectActive()
+    {
+		return currentState.CollisionActive();
+    }
 
 	/// <summary>
 	/// Used for training mode

@@ -3,11 +3,7 @@ using System;
 
 public class HojogiriCharged : Hojogiri
 {
-    public override void _Ready()
-    {
-        base._Ready();
-        animationName = "Hojogiri";
-    }
+    public override string animationName { get { return "Hojogiri"; } }
 
     public override void FrameAdvance()
     {

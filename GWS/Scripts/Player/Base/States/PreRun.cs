@@ -8,9 +8,11 @@ public class PreRun : MoveState
 	{
 		base._Ready();
 		loop = true;
-		AddGatling(new[] { '6', 'r' }, "PostRun");
-		AddGatling(new[] { '4', 'r' }, "PostRun");
+		AddGatling(new[] { '6', 'r' }, () => frameCount > 1, "PostRun");
+		AddGatling(new[] { '4', 'r' }, () => frameCount > 1, "PostRun");
 		AddGatling(new[] { '8', 'p' }, "MovingJump");
+		AddCommandNormals(owner.commandNormals);
+		AddNormals();
 	}
 
 

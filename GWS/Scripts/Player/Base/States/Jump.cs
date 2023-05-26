@@ -30,7 +30,7 @@ public class Jump : AirState
 
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
-
+		AddAirCommandNormals(owner.airCommandNormals);
 		// ATTACKS
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");

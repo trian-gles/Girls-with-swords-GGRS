@@ -11,7 +11,7 @@ public class Fall : AirState
 
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
-
+		AddAirCommandNormals(owner.airCommandNormals);
 		// AIRGRAB
 		AddGatling(new[] { 's', 'p' },
 			() =>

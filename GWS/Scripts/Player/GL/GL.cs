@@ -6,6 +6,12 @@ public class GL : Player
 {
 	public override void _EnterTree()
 	{
+		//j2C
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
+
+		//6k
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
+
 		//DP
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
@@ -34,7 +40,6 @@ public class GL : Player
 	public override void _Ready()
 	{
 		base._Ready();
-		AddAltState("JumpC");
 		charName = "GL";
 	}
 }

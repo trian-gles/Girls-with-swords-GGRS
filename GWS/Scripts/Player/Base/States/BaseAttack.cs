@@ -201,9 +201,13 @@ public abstract class BaseAttack : State
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 	}
 
+	/// <summary>
+	/// short input buffer for links and microdashes
+	/// </summary>
+	/// <returns></returns>
 	public override bool DelayInputs()
 	{
-		return false;
+		return (frameCount > animationLength - 5);
 	}
 
 	public override void HandleInput(char[] inputArr)

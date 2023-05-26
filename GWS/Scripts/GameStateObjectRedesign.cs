@@ -417,6 +417,8 @@ public class GameStateObjectRedesign : Node
 	}
 	private bool CheckRects()
 	{
+		if (!P1.CheckCollisionRectActive() || !P2.CheckCollisionRectActive())
+			return false;
 		Rect2 P1rect = P1.GetCollisionRect();
 		Rect2 P2rect = P2.GetCollisionRect();
 		return P1rect.Intersects(P2rect);

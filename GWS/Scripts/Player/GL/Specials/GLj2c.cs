@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GLJumpC : BaseAttack
+public class GLj2c : BaseAttack
 {
 	public override void _Ready()
 	{
@@ -10,7 +10,6 @@ public class GLJumpC : BaseAttack
 		AddExSpecials(owner.airExSpecials);
 		slowdownSpeed = 0;
 		AddCancel("Fall");
-		animationName = "JumpC";
 		AddKara(new char[] { 'k', 'p' }, "AirGrabStart");
 		hitDetails.airBlockable = true;
 	}

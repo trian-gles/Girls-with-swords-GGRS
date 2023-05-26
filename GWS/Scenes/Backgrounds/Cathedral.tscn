@@ -29,6 +29,7 @@ texture = ExtResource( 1 )
 hframes = 18
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Animation"
 anims/Animation = SubResource( 1 )
 
 [node name="Interior" type="Sprite" parent="."]

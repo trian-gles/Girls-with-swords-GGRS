@@ -209,9 +209,9 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Witch" type="AnimatedSprite" parent="."]
-position = Vector2( -17.0468, 55.4317 )
+position = Vector2( -280, 100 )
 frames = SubResource( 6 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="Buildings Front" type="Sprite" parent="."]
@@ -262,7 +262,7 @@ anims/Witch = SubResource( 9 )
 
 [node name="BigArm" type="Sprite" parent="."]
 position = Vector2( 0, 7 )
-rotation = -0.673991
+rotation = 1.17293
 scale = Vector2( 1, 1.1 )
 texture = ExtResource( 14 )
 offset = Vector2( 0, 16 )
@@ -273,7 +273,7 @@ anims/ArmAnim = SubResource( 11 )
 
 [node name="SmallArm" type="Sprite" parent="."]
 position = Vector2( 0, 7 )
-rotation = -2.88216
+rotation = -3.34373
 texture = ExtResource( 13 )
 offset = Vector2( 0, -16 )
 

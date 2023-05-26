@@ -119,6 +119,7 @@ public class Player : Node2D
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
 	public bool canGroundbounce = true;
+	public bool touchingWall = false;
 
 
 	public bool trainingControlledPlayer;
@@ -344,6 +345,7 @@ public class Player : Node2D
 		pState.lastStateName = lastStateName;
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
+		pState.touchingWall = touchingWall;
 		return pState;
 	}
 
@@ -383,6 +385,7 @@ public class Player : Node2D
 		lastStateName = pState.lastStateName;
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
+		touchingWall = pState.touchingWall;
 	}
 
 	/// <summary>
@@ -404,6 +407,11 @@ public class Player : Node2D
 		GD.Print("----");
 		
 	}
+
+	public void ClearBuffer()
+    {
+		inputHandler.inBuf2.Clear();
+    }
 
 	/// <summary>
 	/// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
@@ -782,6 +790,8 @@ public class Player : Node2D
 	{
 		
 		Update();
+
+		
 		
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();

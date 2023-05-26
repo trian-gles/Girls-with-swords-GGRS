@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/BG Assets/Clocktower Stage/Clocktower.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/BG.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/Moon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/BG Assets/Clocktower Stage/Scaffolding.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 1.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 2.png" type="Texture" id=5]
@@ -9,6 +9,11 @@
 [ext_resource path="res://Sprites/BG Clouds/Cloud 4.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/BG Clouds/Cloud 3.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/BG Assets/Clocktower Stage/OL Witch-Sheet.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/ShootingStar.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/Mountains-New.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/NightSky.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/SmallArm.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/BG Assets/Clocktower Stage/BigArm.png" type="Texture" id=14]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0.00816327, 0.504505 ), 0.0, 0.0, 0, 0, Vector2( 0.359184, 0.490991 ), 0.0, 0.0, 0, 0, Vector2( 0.367347, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.6, 0.995495 ), 0.0, 0.0, 0, 0, Vector2( 0.642857, 0.490991 ), 0.0, 0.0, 0, 0, Vector2( 0.991837, 0.463964 ), 0.0, 0.0, 0, 0 ]
@@ -54,13 +59,80 @@ tracks/0/keys = {
 "values": [ Vector2( -280, 100 ), Vector2( -280, 100 ), Vector2( 900, -100 ) ]
 }
 
+[sub_resource type="Animation" id=8]
+resource_name = "Star"
+length = 40.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ShootingStar:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 30, 40 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -263, -147 ), Vector2( -263, -147 ), Vector2( 500, 300 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Witch"
+length = 30.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Witch:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 9.1, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -280, 100 ), Vector2( -280, 100 ), Vector2( 900, -100 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "ArmAnim"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -360.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "ArmAnim"
+length = 6.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -360.0, 360.0 ]
+}
+
 [node name="Background" type="Node2D"]
 position = Vector2( 240, 125 )
 z_index = -1
 
 [node name="BG" type="Sprite" parent="."]
 position = Vector2( 0, 0.396851 )
-texture = ExtResource( 2 )
+texture = ExtResource( 12 )
 
 [node name="SmallStar" type="CPUParticles2D" parent="."]
 position = Vector2( -1, -2 )
@@ -81,8 +153,20 @@ scale_amount_random = 1.0
 scale_amount_curve = SubResource( 7 )
 color = Color( 1, 0.996078, 0.654902, 1 )
 
+[node name="ShootingStar" type="Sprite" parent="."]
+position = Vector2( 500, 300 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 10 )
+
+[node name="Moon" type="Sprite" parent="."]
+position = Vector2( 0, 0.396851 )
+texture = ExtResource( 2 )
+
+[node name="Mountains" type="Sprite" parent="."]
+position = Vector2( 0, 0.396851 )
+texture = ExtResource( 11 )
+
 [node name="Cloud_3" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2( -292.129, -6.60712 )
 amount = 4
 lifetime = 66.0
@@ -96,7 +180,6 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Cloud_4" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2( -292.129, -6.60712 )
 amount = 4
 lifetime = 66.0
@@ -110,7 +193,6 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Cloud_5" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2( -292.129, -6.60712 )
 amount = 4
 lifetime = 66.0
@@ -124,8 +206,9 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Witch" type="AnimatedSprite" parent="."]
-position = Vector2( 897.815, -99.6296 )
+position = Vector2( -178.316, 82.7654 )
 frames = SubResource( 6 )
+frame = 1
 playing = true
 
 [node name="Buildings Front" type="Sprite" parent="."]
@@ -133,7 +216,6 @@ position = Vector2( 1.06067, 0 )
 texture = ExtResource( 1 )
 
 [node name="Cloud_2" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2( -292.129, -6.60712 )
 amount = 4
 lifetime = 66.0
@@ -147,7 +229,6 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Cloud_1" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2( -292.129, -6.60712 )
 amount = 4
 lifetime = 66.0
@@ -167,3 +248,26 @@ texture = ExtResource( 3 )
 
 [node name="WitchCtrl" type="AnimationPlayer" parent="."]
 anims/Witch = SubResource( 1 )
+
+[node name="StarCtrl" type="AnimationPlayer" parent="."]
+anims/Star = SubResource( 8 )
+anims/Witch = SubResource( 9 )
+
+[node name="BigArm" type="Sprite" parent="."]
+position = Vector2( 0, 7 )
+rotation = 5.59346
+scale = Vector2( 1, 1.1 )
+texture = ExtResource( 14 )
+offset = Vector2( 0, 16 )
+
+[node name="ARm" type="AnimationPlayer" parent="BigArm"]
+anims/ArmAnim = SubResource( 11 )
+
+[node name="SmallArm" type="Sprite" parent="."]
+position = Vector2( 0, 7 )
+rotation = 3.69787
+texture = ExtResource( 13 )
+offset = Vector2( 0, -16 )
+
+[node name="ARm" type="AnimationPlayer" parent="SmallArm"]
+anims/ArmAnim = SubResource( 12 )

@@ -403,7 +403,7 @@ public class GameStateObjectRedesign : Node
 				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
 			}
-			else if (P1.internalPos.y < P2.internalPos.y)
+			else if (P1.internalPos.y < P2.internalPos.y || P1.currentState.Name == "Float")
 			{
 				P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);

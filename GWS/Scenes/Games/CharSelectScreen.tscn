@@ -26,7 +26,7 @@
 [ext_resource path="res://Scripts/CharacterSelect/CharSelectAudio.cs" type="Script" id=24]
 [ext_resource path="res://Sprites/BG Assets/Office Interior.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/BG Assets/Cathedral_Full.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/BG Assets/FullClock.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/BG Assets/OLDClocktower/FullClock.png" type="Texture" id=27]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 21 )

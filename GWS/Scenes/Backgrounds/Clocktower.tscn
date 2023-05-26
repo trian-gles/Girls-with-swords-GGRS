@@ -154,7 +154,7 @@ scale_amount_curve = SubResource( 7 )
 color = Color( 1, 0.996078, 0.654902, 1 )
 
 [node name="ShootingStar" type="Sprite" parent="."]
-position = Vector2( 500, 300 )
+position = Vector2( -263, -147 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 10 )
 
@@ -209,7 +209,7 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Witch" type="AnimatedSprite" parent="."]
-position = Vector2( 715.695, -68.7619 )
+position = Vector2( -17.0468, 55.4317 )
 frames = SubResource( 6 )
 frame = 1
 playing = true
@@ -252,27 +252,31 @@ scale_amount_random = 0.84
 texture = ExtResource( 3 )
 
 [node name="WitchCtrl" type="AnimationPlayer" parent="."]
+autoplay = "Witch"
 anims/Witch = SubResource( 1 )
 
 [node name="StarCtrl" type="AnimationPlayer" parent="."]
+autoplay = "Star"
 anims/Star = SubResource( 8 )
 anims/Witch = SubResource( 9 )
 
 [node name="BigArm" type="Sprite" parent="."]
 position = Vector2( 0, 7 )
-rotation = 1.44955
+rotation = -0.673991
 scale = Vector2( 1, 1.1 )
 texture = ExtResource( 14 )
 offset = Vector2( 0, 16 )
 
 [node name="ARm" type="AnimationPlayer" parent="BigArm"]
+autoplay = "ArmAnim"
 anims/ArmAnim = SubResource( 11 )
 
 [node name="SmallArm" type="Sprite" parent="."]
 position = Vector2( 0, 7 )
-rotation = -0.836001
+rotation = -2.88216
 texture = ExtResource( 13 )
 offset = Vector2( 0, -16 )
 
 [node name="ARm" type="AnimationPlayer" parent="SmallArm"]
+autoplay = "ArmAnim"
 anims/ArmAnim = SubResource( 12 )

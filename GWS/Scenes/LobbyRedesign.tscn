@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Scripts/Lobby/LobbySounds.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=16]
 [ext_resource path="res://Scenes/AVConfigMenu.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Resolution.gd" type="Script" id=18]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -100,7 +101,6 @@ default_font = ExtResource( 16 )
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 2, -1 )
 script = ExtResource( 1 )
-alwaysBlock = true
 autoTech = true
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )
@@ -449,9 +449,9 @@ __meta__ = {
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 31.0
+margin_top = 18.0
 margin_right = 390.0
-margin_bottom = 238.0
+margin_bottom = 252.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -552,10 +552,29 @@ custom_fonts/font = ExtResource( 6 )
 text = "Video"
 align = 1
 
-[node name="BackButton" type="ToolButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
 margin_top = 184.0
 margin_right = 300.0
 margin_bottom = 207.0
+
+[node name="ResolutionLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons/HBoxContainer"]
+margin_top = 3.0
+margin_right = 64.0
+margin_bottom = 20.0
+theme = SubResource( 2 )
+text = "Resolution"
+
+[node name="OptionButton" type="OptionButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons/HBoxContainer"]
+margin_left = 68.0
+margin_right = 86.0
+margin_bottom = 23.0
+script = ExtResource( 18 )
+optionButtonPath = NodePath(".")
+
+[node name="BackButton" type="ToolButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
+margin_top = 211.0
+margin_right = 300.0
+margin_bottom = 234.0
 text = "Back"
 
 [node name="LobbySounds" type="AudioStreamPlayer" parent="."]
@@ -622,5 +641,5 @@ script = ExtResource( 15 )
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="MenuRoot" method="_on_UIVolume_value_changed"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
-[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot/AVConfigMenu" method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]

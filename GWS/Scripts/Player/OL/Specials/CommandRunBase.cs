@@ -26,6 +26,7 @@ public class CommandRunBase : GroundAttack
 		loop = true;
 		exitState = "Hojogiri";
 		turnAroundOnExit = false;
+		slowdownSpeed = 0;
 
 	}
 	public override void Enter()
@@ -50,5 +51,12 @@ public class CommandRunBase : GroundAttack
 			EmitSignal(nameof(StateFinished), exitState);
 		}
 
+	}
+
+    public override void Exit()
+    {
+        base.Exit();
+
+		
 	}
 }

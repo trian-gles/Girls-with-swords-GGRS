@@ -3,6 +3,9 @@ using System;
 
 public class HitState : State
 {
+	public override bool wasHit
+	{ get { return true; } }
+
 	public override bool DelayInputs()
 	{
 		return frameCount > 0;

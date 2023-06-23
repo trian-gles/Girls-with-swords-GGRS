@@ -269,6 +269,12 @@ public class Globals : Node
 		return indexes;
 	}
 
+	public static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)
+	{
+		return potentialDescendant.IsSubclassOf(potentialBase)
+			   || potentialDescendant == potentialBase;
+	}
+
 	/// <summary>
 	/// Tests if the elements are found in that order but possibly separated by other elements within the array.  
 	/// </summary>

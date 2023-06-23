@@ -92,7 +92,7 @@ public abstract class BaseAttack : State
 		base._Ready();
 		stop = false;
 		isCounter = true;
-		slowdownSpeed = 45;
+		slowdownSpeed = 80;
 		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
@@ -125,7 +125,7 @@ public abstract class BaseAttack : State
 
 		AddRhythmSpecials(owner.rhythmSpecials);
 
-		//GD.Print($"{Name} modified hitstun is {modifiedHitStun}");
+		Globals.Log($"{Name} modified hitstun is {modifiedHitStun}");
 
 	}
 
@@ -178,7 +178,7 @@ public abstract class BaseAttack : State
 
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
-		//GD.Print($"Hit connect at point {collisionPnt}");
+		Globals.Log($"Hit connect at point {collisionPnt}");
 		owner.GainMeter(400);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;

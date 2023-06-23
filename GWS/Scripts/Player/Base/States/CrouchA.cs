@@ -16,8 +16,7 @@ public class CrouchA : GroundAttack
 		AddGatling(new char[] { 'p', 'p' }, "Jab");
 		AddGatling(new char[] { 'k', 'p' }, "Kick");
 		AddGatling(new char[] { 's', 'p' }, "Slash");
-        
 
-    }
+	}
 }
 

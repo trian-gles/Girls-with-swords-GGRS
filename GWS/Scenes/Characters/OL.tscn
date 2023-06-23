@@ -4797,10 +4797,10 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 20, 28 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false, true ]
 }
 tracks/13/type = "value"
 tracks/13/path = NodePath("Sprite:offset")
@@ -4813,6 +4813,30 @@ tracks/13/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("HurtBoxes/HurtB3:shape:extents")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 14 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 15, 8 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("HurtBoxes/HurtB3:position")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 14 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 10, 30 ) ]
 }
 
 [sub_resource type="Animation" id=31]
@@ -5238,7 +5262,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=33]
-length = 22.0
+length = 17.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -5247,10 +5271,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 4, 17 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 14, 17 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 56, 59, 61 ]
+"values": [ 56, 59, 61, 61 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -5307,7 +5331,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 4, 17 ),
+"times": PoolRealArray( 0, 4, 9 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -7631,17 +7655,24 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 13, 17 )
+position = Vector2( 14, -1 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 25, 12 )
+position = Vector2( 15, 3 )
+
+[node name="HurtB2" parent="HurtBoxes" index="1"]
+position = Vector2( 32, -6 )
+
+[node name="HurtB3" parent="HurtBoxes" index="2"]
+position = Vector2( 10, 30 )
 
 [node name="Sprite" parent="." index="3"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 86
+frame = 61
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7674,17 +7705,17 @@ launch = Vector2( 0, -400 )
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
 len = 25
-speed = 1000
+speed = 700
 turnFrame = 13
 
 [node name="CommandRun" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 22 )
-speed = 900
+speed = 650
 checkTurnFrame = 5
 
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 17 )
-speed = 1000
+speed = 700
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="24"]
 script = ExtResource( 7 )

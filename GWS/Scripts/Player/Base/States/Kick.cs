@@ -13,5 +13,12 @@ public class Kick : Slash
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
 		AddCommandNormals(owner.commandNormals);
 	}
+
+    public override void Enter()
+    {
+        base.Enter();
+		if ((owner.CheckHeldKey('6') && owner.facingRight) || (owner.CheckHeldKey('4') && !owner.facingRight))
+			EmitSignal(nameof(StateFinished), "6K");
+	}
 }
 

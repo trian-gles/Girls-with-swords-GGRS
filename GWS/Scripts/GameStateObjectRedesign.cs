@@ -81,7 +81,7 @@ public class GameStateObjectRedesign : Node
 		hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
 		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
 		rhythmTrack.Config();
-		GD.Print("GameState config finished");
+		Globals.Log("GameState config finished");
 		// Use this below code to make P2 hold a button
 		// P2.SetUnhandledInputs(new List<char[]>() { new char[] { '8', 'p' } });
 		resetState = GetGameState();
@@ -403,15 +403,43 @@ public class GameStateObjectRedesign : Node
 				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
 			}
-			else if (P1.internalPos.y < P2.internalPos.y || P1.currentState.Name == "Float")
+			else // same position, corner crossup likely
 			{
-				P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
-				P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
-			}
-			else
-			{
-				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
-				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
+				bool P1above = P1.internalPos.y < P2.internalPos.y;
+
+
+				bool P1Hit = P1.currentState.wasHit;
+				bool P2Hit = P2.currentState.wasHit;
+
+				bool rightScreen = (P1.internalPos.x > 24000);
+
+				if (rightScreen)
+				{
+					if ((P1above || P2Hit) && !(P1Hit))
+					{
+						Globals.Log("P1 is above or p2 is hit");
+						P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
+						P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
+					}
+					else
+					{
+						P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
+						P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
+					}
+				}
+				else
+				{
+					if ((P1above || P2Hit) && !(P1Hit))
+					{
+						P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
+						P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
+					}
+					else
+					{
+						P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
+						P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
+					}
+				}
 			}
 		}
 	}
@@ -485,7 +513,7 @@ public class GameStateObjectRedesign : Node
 	public void NewHadouken(HadoukenPart h)
 	{
 		hadoukens.Add(h.Name, h); 
-		GD.Print($"New hadouken on frame {Frame}");
+		Globals.Log($"New hadouken on frame {Frame}");
 		h.creationFrame = Frame;
 	}
 

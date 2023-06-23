@@ -47,6 +47,10 @@ public abstract class State : Node
 
 	public int stunRemaining 
 	{ get; set; }
+
+	public virtual bool wasHit
+	{ get { return false; } }
+
 	public bool loop = false;
 
 	public bool hitConnect = false;
@@ -502,7 +506,7 @@ public abstract class State : Node
 
 				if (owner.CheckRhythmHeldKey(testedInputs[0][0]))
 				{
-					GD.Print($"Properly holding key {testedInputs[0][0]}");
+					Globals.Log($"Properly holding key {testedInputs[0][0]}");
 
 					if (rhythmGatling.reqCall != null) // check the required callback
 					{
@@ -809,7 +813,7 @@ public abstract class State : Node
 
 	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		GD.Print($"Receiving damage {details.dmg}");
+		Globals.Log($"Receiving damage {details.dmg}");
 		stunRemaining = details.hitStun;
 		owner.DeductHealth(details.dmg * owner.proration);
 		owner.Prorate(details.prorationLevel);

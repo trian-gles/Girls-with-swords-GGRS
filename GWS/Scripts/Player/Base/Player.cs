@@ -1205,7 +1205,7 @@ public class Player : Node2D
 	}
 
 	/// <summary>
-	/// Checks if the opponent's collision box is in our hurtbox.  Used for airgrabs
+	/// Checks if the opponent's collision box is in our hurtbox.  Used for grabs
 	/// </summary>
 	/// <returns></returns>
 	public Vector2 CheckHurtRectGrab()

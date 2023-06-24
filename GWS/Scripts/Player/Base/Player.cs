@@ -297,6 +297,7 @@ public class Player : Node2D
 	{
 		ResetComboAndProration();
 		ChangeState("Idle");
+		meter = 0;
 	}
 
 	public PlayerState GetState()

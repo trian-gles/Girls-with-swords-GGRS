@@ -5,9 +5,9 @@
 [node name="OLProjectile" instance=ExtResource( 1 )]
 level = 3
 chEffect = 3
-speed = Vector2( 4, 0 )
+speed = Vector2( 3, 0 )
 duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "OLProjectile"
-frame = 0
+frame = 3

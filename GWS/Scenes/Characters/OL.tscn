@@ -3704,7 +3704,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=27]
-length = 38.0
+length = 41.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -7659,7 +7659,6 @@ position = Vector2( 14, -1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 0, 8 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 32, -6 )
@@ -7672,7 +7671,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 50
+frame = 48
 
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
@@ -7770,6 +7769,7 @@ jumpCancelable = true
 gatlingWinEnd = 19
 
 [node name="Hadouken" parent="StateTree" index="44"]
+releaseFrame = 13
 hadoukenScene = ExtResource( 12 )
 
 [node name="AirGrab" parent="StateTree" index="47"]

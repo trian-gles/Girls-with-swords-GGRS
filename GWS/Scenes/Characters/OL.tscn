@@ -7823,6 +7823,7 @@ level = 4
 modifiedHitStun = 80
 modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 200, -600 )
+modifiedDmg = 13
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 18 )

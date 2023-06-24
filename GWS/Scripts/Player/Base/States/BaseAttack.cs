@@ -29,6 +29,9 @@ public abstract class BaseAttack : State
 	protected int modifiedHitPush = 0;
 
 	[Export]
+	protected int modifiedDmg = 0;
+
+	[Export]
 	protected int hitPush = 0;
 
 	[Export]
@@ -115,6 +118,12 @@ public abstract class BaseAttack : State
 		
 		if (modifiedCounterHitStun != 0)
 			chDetails.hitStun = modifiedCounterHitStun;
+
+		if (modifiedDmg >0)
+        {
+			hitDetails.dmg = modifiedDmg;
+			chDetails.dmg = modifiedDmg;
+        }
 
 		if (modifiedHitPush != 0)
 		{

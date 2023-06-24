@@ -10,6 +10,7 @@ public class OL : Player
 		// Super
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'r' }, new char[] { '6', 'p' },  new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
+		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
 
 		//j2C
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "InstantOverhead"));

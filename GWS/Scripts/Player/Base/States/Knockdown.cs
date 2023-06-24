@@ -15,6 +15,7 @@ public class Knockdown : HitState
         owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
         owner.GFXEvent("Blood");
+        ResetTerminalVelocity();
     }
     public override void AnimationFinished()
     {

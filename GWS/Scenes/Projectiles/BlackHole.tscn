@@ -9,8 +9,8 @@
 position = Vector2( 0, 0 )
 script = ExtResource( 2 )
 level = 3
-modifiedHitStun = 26
-modifiedCounterHitStun = 40
+modifiedHitStun = 40
+modifiedCounterHitStun = 60
 duration = 180
 pullStrength = 20
 

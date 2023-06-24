@@ -197,8 +197,10 @@ public abstract class BaseAttack : State
 		hitDetails.collisionPnt = collisionPnt;
 		chDetails.collisionPnt = collisionPnt;
 		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
+		owner.otherPlayer.currentState.ResetTerminalVelocity();
 		hitConnect = true;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
+		
 	}
 
 	/// <summary>

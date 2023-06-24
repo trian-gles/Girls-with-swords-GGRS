@@ -12,6 +12,9 @@ public class BlackHole : HadoukenPart
 	[Export]
 	private int pullStrength = 5;
 
+	[Export]
+	private int slowTerminalVelocity = 300;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -47,7 +50,8 @@ public class BlackHole : HadoukenPart
 			if (CheckRect())
 			{
 				HurtPlayer();
-				GD.Print("Hurting player on frame " + frame);
+				targetPlayer.terminalVelocity = slowTerminalVelocity;
+				Globals.Log("Hurting player on frame " + frame);
 			}
 		}
 

@@ -50,7 +50,9 @@ public class Player : Node2D
     public int superJumpForce = 1100;
 
     [Export]
-	public int gravity = 50; 
+	public int gravity = 50;
+
+	public int standardTerminalVelocity = 1100;
 
 	[Export]
 	public bool dummy = false; //you can use this for testing with a dummy
@@ -107,6 +109,7 @@ public class Player : Node2D
 	private int health = 1600;
 	private int meter = 0;
 	public Vector2 velocity = new Vector2(0, 0);
+	public int terminalVelocity = 1100;
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
@@ -156,6 +159,8 @@ public class Player : Node2D
 		public int meter { get; set; }
 		public int[] position { get; set; }
 		public int[] velocity { get; set; }
+
+		public int terminalVelocity { get; set; }
 		public bool facingRight { get; set; }
 		public bool touchingWall { get; set; }
 		public bool grounded { get; set; }
@@ -277,6 +282,8 @@ public class Player : Node2D
 			
 		}
 
+		terminalVelocity = standardTerminalVelocity;
+
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		//var resource = ResourceLoader.Load(shaderPaths[colorScheme]);
 		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
@@ -330,7 +337,7 @@ public class Player : Node2D
 		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
 		pState.animationCursor = animationPlayer.cursor;
-		
+		pState.terminalVelocity = terminalVelocity;
 		pState.animationName = animationPlayer.AssignedAnimation;
 		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
 		pState.facingRight = facingRight;
@@ -367,6 +374,7 @@ public class Player : Node2D
         canAirDash = pState.canAirDash;
 		health = pState.health;
 		meter = pState.meter;
+		terminalVelocity = pState.terminalVelocity;
 		EmitSignal(nameof(HealthChanged), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);

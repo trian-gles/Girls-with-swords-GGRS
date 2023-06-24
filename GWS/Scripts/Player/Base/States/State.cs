@@ -113,7 +113,7 @@ public abstract class State : Node
 		{
 			return;
 		}
-		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, 1100);
+		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, owner.terminalVelocity);
 	}
 	public virtual void AnimationFinished() 
 	{
@@ -838,4 +838,9 @@ public abstract class State : Node
 	{
 		return false;
 	}
+
+	public void ResetTerminalVelocity()
+    {
+		owner.terminalVelocity = owner.standardTerminalVelocity;
+    }
 }

@@ -16,6 +16,7 @@ public class Tech : Fall
 		owner.canDoubleJump = true;
 		owner.CheckTurnAround();
 		owner.invulnFrames = length;
+		ResetTerminalVelocity();
 
 		if (owner.CheckHeldKey('6'))
 			owner.velocity = techVector;

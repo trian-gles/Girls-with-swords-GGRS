@@ -51,6 +51,9 @@ class SyncTestManager : StateManager
 	public FixedSizedQueue<int[]> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
+	private bool randomInputs = true;
+	private Random random;
+
 	
 
 	public override void _Ready()
@@ -59,6 +62,18 @@ class SyncTestManager : StateManager
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
 		pastInputs = new FixedSizedQueue<int[]>(DEPTH + 1);
+
+		if (playbackMatch)
+			LoadMatchFile();
+
+		playbackMatch = false;
+
+		if (randomInputs)
+        {
+			random = new Random();
+		}
+			
+
 	}
 
 	public override void _Input(InputEvent @event)
@@ -120,7 +135,11 @@ class SyncTestManager : StateManager
 
 		if (currGame.AcceptingInputs())
 		{
-			if (trainingMode)
+			if (playbackMatch && currGame.Name == "GameScene")
+				combinedInps = GetMatchInputs();
+			else if (randomInputs)
+				combinedInps = GetRandomInputs();
+			else if (trainingMode)
 				combinedInps = GetTrainingModeInputs();
 			else
 				combinedInps = new int[] { GetInputs(""), GetInputs("b") };
@@ -166,5 +185,9 @@ class SyncTestManager : StateManager
 		ReadyForChange();
 	}
 
+	private int[] GetRandomInputs()
+    {
+		return new[] { random.Next(255), random.Next(255) };
+    }
 	
 }

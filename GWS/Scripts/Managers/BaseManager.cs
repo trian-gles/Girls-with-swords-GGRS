@@ -20,7 +20,15 @@ public class BaseManager : Node2D
 	protected bool recordingInputs = false;
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
-	
+
+
+	/// <summary>
+	/// playing back recorded matches
+	/// </summary>
+	protected bool playbackMatch = false;
+	private string matchFilename = "20236251427";
+	protected Godot.Collections.Array matchInputs;
+
 	/// <summary>
 	/// Shared by training and synctest
 	/// </summary>
@@ -65,6 +73,8 @@ public class BaseManager : Node2D
 
 		charSelectScene.ChangeHUDText("");
 		gameScene.ChangeHUDText("");
+
+		
 
 	//gameScene.Visible = false;
 
@@ -243,4 +253,32 @@ public class BaseManager : Node2D
 				StartInputPlayback();
 		}
 	}
+
+	////
+	// MATCH PLAYBACK
+	////
+
+	/// <summary>
+	/// 
+	/// </summary>
+	protected void LoadMatchFile()
+    {
+		var file = new File();
+		file.Open($"user://recordings/{matchFilename}.json", File.ModeFlags.Read);
+		string txt = file.GetAsText();
+		var res = JSON.Parse(txt).Result;
+		
+
+		matchInputs =  (Godot.Collections.Array) res;
+		file.Close();
+
+	}
+
+	protected int[] GetMatchInputs()
+    {
+		// multidimensional arrays become single dimensional in godot JSON, hence this.
+		int gameFrame = ((GameScene)currGame).GetFramesSinceStart() * 2;
+		return new int[] { (int)(float)matchInputs[gameFrame], (int)(float)matchInputs[gameFrame + 1], };
+	}
+
 }

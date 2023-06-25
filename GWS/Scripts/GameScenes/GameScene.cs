@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 
 /// <summary>
@@ -47,14 +48,25 @@ public class GameScene : BaseGame
 	// TIME HANDLING
 	public bool ignoreTime = false;
 
+	/// the frame when we land on this gamescene
 	private int readyFrame;
+
+	/// the frame the countdown finishes
 	private int startFrame;
+
 	private int timeOutFrame;
 
 	private int possibleEndingFrame;
 	private int trueEndingFrame;
 	private int exitFrame;
 	private TimeStatus currTime;
+
+	// RECORDING
+	private bool recordMatch = true;
+	/// will contain alternating inputs [p1, p2, p1, p2, ...] for easy saving
+	private int[,] allInputs = new int[7000, 2];
+	private bool savedFile = false;
+
 
 	[Signal]
 	public delegate void RoundFinished(string winner);
@@ -212,8 +224,15 @@ public class GameScene : BaseGame
 	
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
-		if (currTime == TimeStatus.GAME)
+		
+
+		if (currTime == TimeStatus.GAME || currTime == TimeStatus.FAKEEND)
+        {
 			gsObj.Update(p1Inps, p2Inps);
+
+			if (recordMatch)
+				SaveFrameInputs(p1Inps, p2Inps);
+		}	
 		else
 			gsObj.Update(0, 0);
 		HandleTime();
@@ -270,7 +289,7 @@ public class GameScene : BaseGame
 	{
 		if (Math.Abs(this.frame - frame) > 8)
 			Globals.Log($"Suspicious rollback from {this.frame} to {frame}");
-		// GD.Print($"rollback from frame {gsObj.Frame} to frame {frame}");
+
 		this.frame = frame;
 
 		// This will occur if the game finishes locally but a remote input changes the result
@@ -469,7 +488,7 @@ public class GameScene : BaseGame
 		}
 		if (frame == timeOutFrame)
 		{
-			EndRound();
+			TryEndRound();
 			centerText.Text = "TIME UP";
 			timer.Text = "0";
 			return;
@@ -506,6 +525,8 @@ public class GameScene : BaseGame
 
 	private void EndRound()
 	{
+		if (recordMatch && !savedFile)
+			WriteInputsToFile();
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = frame + 180;
 	}
@@ -541,6 +562,8 @@ public class GameScene : BaseGame
 		ConfigTime();
 		P1Meter.Call("set_meter", 0);
 		P2Meter.Call("set_meter", 0);
+		if (recordMatch)
+			savedFile = false;
 	}
 
 	/// <summary>
@@ -571,5 +594,50 @@ public class GameScene : BaseGame
 	public GameStateObjectRedesign.GameState GetGameState()
 	{
 		return gsObj.GetGameState();
+	}
+
+	////
+	// Recording
+	////
+	
+	public int GetFramesSinceStart()
+    {
+		return (frame - startFrame);
+	}
+	private void SaveFrameInputs(int p1Inputs, int p2Inputs)
+    {
+		int inp_frame = GetFramesSinceStart();
+		allInputs[inp_frame, 0] = p1Inputs;
+		allInputs[inp_frame, 1] = p2Inputs;
+	}
+
+	private string MakeFilename()
+    {
+		var dict = OS.GetDatetime();
+		string filename = "";
+
+		foreach (var key in new[] {"year", "month", "day", "hour", "minute" })
+        {
+			filename += dict[key].ToString();
+        }
+		return filename;
+	}
+
+	private void WriteInputsToFile()
+    {
+		GD.Print("Saving file");
+		var dir = new Godot.Directory();
+		dir.Open("user://");
+
+		dir.MakeDir("recordings");
+		string content = JSON.Print(allInputs);
+		DateTime now = DateTime.Now;
+		string filename = MakeFilename();
+
+		var file = new Godot.File();
+		file.Open($"user://recordings/{filename}.json", Godot.File.ModeFlags.Write);
+		file.StoreString(content);
+		file.Close();
+		savedFile = true;
 	}
 }

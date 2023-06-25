@@ -9,7 +9,6 @@ public class ComNorm : GroundAttack
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
 		AddCommandNormals(owner.commandNormals); // FIX THIS
-		AddGatling(new char[] { 's', 'p' }, "Slash");
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

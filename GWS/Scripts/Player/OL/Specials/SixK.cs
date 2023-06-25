@@ -8,7 +8,6 @@ public class SixK : MovingAttack
         base._Ready();
         AddSpecials(owner.groundSpecials);
         AddExSpecials(owner.groundExSpecials);
-        AddGatling(new char[] { 's', 'p' }, "Slash");
         AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
     }
 }

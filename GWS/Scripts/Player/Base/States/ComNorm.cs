@@ -10,5 +10,6 @@ public class ComNorm : GroundAttack
 		AddExSpecials(owner.groundExSpecials);
 		AddCommandNormals(owner.commandNormals); // FIX THIS
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
+		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

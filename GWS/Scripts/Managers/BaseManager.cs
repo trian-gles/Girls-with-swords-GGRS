@@ -70,7 +70,6 @@ public class BaseManager : Node2D
 		AddChild(gameScene);
 
 
-
 		charSelectScene.ChangeHUDText("");
 		gameScene.ChangeHUDText("");
 

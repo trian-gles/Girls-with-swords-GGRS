@@ -21,6 +21,17 @@ public class LaunchAttack : AirAttack
 			hitConnect = false;
 
 		if (slowdownSpeed != 0) SlowDown();
+
+		if (frameCount > 0 && frameCount == superFrame)
+		{
+			owner.EmitSignal("SuperFlash");
+			owner.GFXEvent("SuperPowerUp");
+		}
+
+		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
+			hitConnect = false;
+
+
 		if (frameCount == launchFrame)
 		{
 			owner.velocity = launch;

@@ -152,6 +152,9 @@ public abstract class BaseAttack : State
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 	}
 
+	/// <summary>
+	/// WARNING!  If you modify this you must also modify LaunchAttack.cs as it does NOT inherit
+	/// </summary>
     public override void FrameAdvance()
     {
         base.FrameAdvance();

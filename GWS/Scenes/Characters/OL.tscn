@@ -7676,6 +7676,12 @@ frame = 48
 [node name="StateTree" parent="." index="4"]
 script = SubResource( 3 )
 
+[node name="Jump" parent="StateTree" index="4"]
+startupFrames = 7
+
+[node name="MovingJump" parent="StateTree" index="5"]
+startupFrames = 7
+
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
 level = 3
@@ -7732,6 +7738,9 @@ hitSound = "SlashHit"
 [node name="DoubleJump" parent="StateTree" index="25"]
 script = ExtResource( 20 )
 
+[node name="SuperJump" parent="StateTree" index="26"]
+startupFrames = 7
+
 [node name="Jab" parent="StateTree" index="30"]
 jumpCancelable = true
 gatlingWinEnd = 9
@@ -7767,6 +7776,9 @@ gatlingWinEnd = 12
 [node name="CrouchC" parent="StateTree" index="38"]
 jumpCancelable = true
 gatlingWinEnd = 19
+
+[node name="AirBackdash" parent="StateTree" index="39"]
+len = 7
 
 [node name="Hadouken" parent="StateTree" index="44"]
 releaseFrame = 13

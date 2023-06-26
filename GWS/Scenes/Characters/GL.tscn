@@ -7146,7 +7146,8 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 0, -2 )
+position = Vector2( -1, 6 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7157,8 +7158,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 0, 8 )
-disabled = false
+position = Vector2( 30, -38 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7172,7 +7172,7 @@ position = Vector2( 86, 6 )
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 2 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( 1, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7198,11 +7198,21 @@ opponentLaunch = Vector2( 300, -1100 )
 hitPush = 6000
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
+superFrame = 4
 launch = Vector2( 150, -1000 )
 launchFrame = 7
 
+[node name="Jump" parent="StateTree" index="6"]
+startupFrames = 7
+
+[node name="MovingJump" parent="StateTree" index="7"]
+startupFrames = 7
+
 [node name="Grab" parent="StateTree" index="13"]
 releaseFrame = 20
+
+[node name="SuperJump" parent="StateTree" index="22"]
+startupFrames = 7
 
 [node name="AirDash" parent="StateTree" index="24"]
 len = 14
@@ -7245,6 +7255,9 @@ gatlingWinEnd = 12
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
+
+[node name="AirBackdash" parent="StateTree" index="35"]
+len = 7
 
 [node name="J2C" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )

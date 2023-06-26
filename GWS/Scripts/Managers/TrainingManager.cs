@@ -12,6 +12,7 @@ public class TrainingManager : BaseManager
 		base._Ready();
 		charSelectScene.ChangeHUDText("P1");
 		gameScene.ChangeHUDText("P1");
+		gameScene.recordMatch = false;
 	}
 
 	public override void _PhysicsProcess(float delta)

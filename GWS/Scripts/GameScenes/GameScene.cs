@@ -62,7 +62,7 @@ public class GameScene : BaseGame
 	private TimeStatus currTime;
 
 	// RECORDING
-	private bool recordMatch = true;
+	public bool recordMatch = true;
 	/// will contain alternating inputs [p1, p2, p1, p2, ...] for easy saving
 	private int[,] allInputs = new int[7000, 2];
 	private bool savedFile = false;

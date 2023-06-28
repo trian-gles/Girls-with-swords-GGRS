@@ -28,15 +28,25 @@ public class BlackHole : HadoukenPart
 			if (frame > duration)
 				MakeInactive();
 
+			int yToPlayer = (int)Math.Abs(Position.y * 100 - targetPlayer.internalPos.y);
+			int xToPlayer = (int)Math.Abs(Position.x * 100 - targetPlayer.internalPos.x);
+
+			int distToPlayer = Globals.IntSqrt((int)(Math.Pow(xToPlayer, 2) + Math.Pow(yToPlayer, 2)));
+
 			bool playerBelow = (Position.y * 100 < targetPlayer.internalPos.y);
 			bool playerLeft = (Position.x * 100 < targetPlayer.internalPos.x);
 
-			
 
-			Vector2 pushVec = new Vector2(pullStrength, pullStrength);
+			int adjustedPull = (int)Math.Floor((double)(pullStrength * 10000000 / distToPlayer));
+			adjustedPull = Math.Min(adjustedPull, pullStrength * 6);
+
+			Vector2 pushVec = new Vector2(adjustedPull, adjustedPull);
 			if (targetPlayer.grounded) {
 				pushVec.y *= 0;
 			}
+
+			if (adjustedPull > pullStrength)
+				targetPlayer.currentState.stunRemaining += 1;
 
 			if (playerBelow) { pushVec.y *= -1; }
 

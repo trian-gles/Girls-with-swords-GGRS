@@ -317,6 +317,54 @@ public class Globals : Node
 		return true;
 	}
 
+	public static int IntSqrt(int num)
+    {
+		int min = 0;
+		int max = num + 1;
+		
+		while (true)
+        {
+			int mid = min + (int)Math.Floor((float)(max - min) / 2);
+
+			int square = mid * mid;
+
+			if (min + 1 == max)
+            {
+				int mins = Math.Abs(min * min - num);
+				int maxs = Math.Abs(max * max - num);
+
+				if (mins > maxs)
+					return max;
+				else
+					return min;
+
+            }
+			if (square > num)
+            {
+				max = mid;
+            }
+			else if (square < num)
+            {
+				min = mid;
+            }
+			else if (square == num)
+            {
+				return mid;
+            }
+
+        }
+    }
+
+	public static int[] IntArcTan(int o, int a)
+	{
+
+		int denom = 15 * (int)Math.Pow(a, 5);
+
+		int numer = 15 * o * (int)Math.Pow(a, 4) - 5 * (int)Math.Pow(o, 3) * (int)Math.Pow(a, 2) + 3 * (int)Math.Pow(o, 5);
+		return new[] { numer, denom };
+
+	}
+
 	public static bool CheckKeyPress(char[] input, char desiredPress)
 	{
 		return (input[1] == 'p' && input[0] == desiredPress);

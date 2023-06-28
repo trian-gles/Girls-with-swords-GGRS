@@ -40,7 +40,16 @@ public class BlackHole : HadoukenPart
 			int adjustedPull = (int)Math.Floor((double)(pullStrength * 10000000 / distToPlayer));
 			adjustedPull = Math.Min(adjustedPull, pullStrength * 6);
 
+			
+
 			Vector2 pushVec = new Vector2(adjustedPull, adjustedPull);
+			if (distToPlayer < 20000000)
+			{
+				if (playerBelow)
+					pushVec.y = pushVec.y + targetPlayer.gravity;
+			}
+
+
 			if (targetPlayer.grounded) {
 				pushVec.y *= 0;
 			}
@@ -51,6 +60,8 @@ public class BlackHole : HadoukenPart
 			if (playerBelow) { pushVec.y *= -1; }
 
 			if (playerLeft) { pushVec.x *= -1; }
+
+			
 
 			targetPlayer.velocity += pushVec;
 			

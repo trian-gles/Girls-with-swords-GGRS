@@ -240,15 +240,25 @@ public class Player : Node2D
 	private EventScheduler eventSched;
 	private GFXHandler gfxHand;
 	private Label debugPos;
-	
+
+	// Sprites
+	public Sprite mainSprite;
+	public Sprite behindSprite;
+	public Sprite frontSprite;
 
 	public override void _Ready()
 	{
+		mainSprite = GetNode<Sprite>("Sprite");
+		behindSprite = GetNode<Sprite>("SpriteBehind");
+		frontSprite = GetNode<Sprite>("SpriteFront");
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		animationPlayer.Setup();
+
 		grabPos = GetNode<Position2D>("GrabPos");
 		hitBoxes = GetNode<Area2D>("HitBoxes");
 		hurtBoxes = GetNode<Area2D>("HurtBoxes");
 		colBox = GetNode<CollisionShape2D>("CollisionBox");
-		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		
 		sprite = GetNode<Sprite>("Sprite");
 		eventSched = GetNode<EventScheduler>("EventScheduler");
 		gfxHand = GetNode<GFXHandler>("GFXHandler");
@@ -989,7 +999,10 @@ public class Player : Node2D
 	public void TurnRight()
 	{
 		facingRight = true;
-		GetNode<Sprite>("Sprite").Scale = new Vector2(3, 3);
+		mainSprite.Scale = new Vector2(3, 3);
+		frontSprite.Scale = new Vector2(3, 3);
+		behindSprite.Scale = new Vector2(3, 3);
+
 		hurtBoxes.Scale = new Vector2(1, 1);
 		hitBoxes.Scale = new Vector2(1, 1);
 	}
@@ -997,7 +1010,9 @@ public class Player : Node2D
 	public void TurnLeft()
 	{
 		facingRight = false;
-		GetNode<Sprite>("Sprite").Scale = new Vector2(-3, 3);
+		mainSprite.Scale = new Vector2(-3, 3);
+		frontSprite.Scale = new Vector2(-3, 3);
+		behindSprite.Scale = new Vector2(-3, 3);
 		//GD.Print($"Now turning the hitboxes for {Name}");
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);

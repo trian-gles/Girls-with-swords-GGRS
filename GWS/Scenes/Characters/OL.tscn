@@ -7666,14 +7666,14 @@ position = Vector2( 32, -6 )
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
 
-[node name="Sprite" parent="." index="3"]
+[node name="Sprite" parent="." index="4"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
 frame = 48
 
-[node name="StateTree" parent="." index="4"]
+[node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
 
 [node name="Jump" parent="StateTree" index="4"]
@@ -7853,7 +7853,7 @@ grabInvulnFrames = 14
 moveSpeed = 250
 stopFrame = 18
 
-[node name="GrabPos" parent="." index="6"]
+[node name="GrabPos" parent="." index="8"]
 position = Vector2( -25, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]

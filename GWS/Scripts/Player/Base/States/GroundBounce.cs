@@ -32,7 +32,14 @@ public class GroundBounce : Float
 		{
 			if (bounced)
 			{
-				EmitSignal(nameof(StateFinished), "Knockdown");
+				if (stunRemaining > 20)
+					EmitSignal(nameof(StateFinished), "Knockdown");
+				else
+				{
+					owner.grounded = false;
+					EmitSignal(nameof(StateFinished), "Tech");
+				}
+
 				owner.ResetComboAndProration();
 			}
 			else if (owner.canGroundbounce)

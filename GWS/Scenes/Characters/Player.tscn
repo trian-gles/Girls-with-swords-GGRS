@@ -61,7 +61,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 31 )
+extents = Vector2( 12, 33 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -70,7 +70,7 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 21, 1 )
+extents = Vector2( 11, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
 
@@ -180,6 +180,10 @@ position = Vector2( 20, 1 )
 shape = SubResource( 7 )
 disabled = true
 
+[node name="SpriteBehind" type="Sprite" parent="."]
+position = Vector2( 0, -192 )
+scale = Vector2( 9, 9 )
+
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
@@ -187,6 +191,10 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 37 )
 hframes = 176
 frame = 124
+
+[node name="SpriteFront" type="Sprite" parent="."]
+position = Vector2( 0, -48 )
+scale = Vector2( 3, 3 )
 
 [node name="StateTree" type="Node" parent="."]
 

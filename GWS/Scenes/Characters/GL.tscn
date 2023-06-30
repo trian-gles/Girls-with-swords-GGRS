@@ -1,7 +1,7 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Full_Moveset_Gray.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/OG-Palette.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/GL/GL Default Color 4-30.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Projectiles/GLProjectile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=5]
@@ -15,6 +15,9 @@
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=13]
 [ext_resource path="res://Scenes/Projectiles/GLProjectileArc.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Player/Base/States/ComNorm.cs" type="Script" id=15]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Body_Gray.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Behind.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Front.png" type="Texture" id=18]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -41,7 +44,7 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 3 )
+shader_param/palette = ExtResource( 2 )
 
 [sub_resource type="Animation" id=51]
 resource_name = "6C"
@@ -7139,7 +7142,7 @@ speed = 200
 dashSpeed = 500
 accel = 60
 jumpForce = 900
-shaders = [ ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ) ]
+shaders = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 3 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
@@ -7147,7 +7150,6 @@ visible = true
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( -1, 6 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7158,7 +7160,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 30, -38 )
+position = Vector2( 85, -58 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7168,14 +7170,28 @@ position = Vector2( 60, -40 )
 modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 86, 6 )
 
-[node name="Sprite" parent="." index="3"]
+[node name="SpriteBehind" parent="." index="3"]
+position = Vector2( 0, -57 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 17 )
+hframes = 255
+vframes = 2
+frame = 86
+
+[node name="Sprite" parent="." index="4"]
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
-texture = ExtResource( 2 )
-offset = Vector2( 1, 0 )
+texture = ExtResource( 16 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
+
+[node name="SpriteFront" parent="." index="5"]
+position = Vector2( 0, -57 )
+texture = ExtResource( 18 )
+hframes = 255
+vframes = 2
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -7262,7 +7278,7 @@ len = 7
 [node name="J2C" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
 level = 3
-modifiedHitStun = 33
+modifiedHitStun = 39
 modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 0, 1200 )
 chLaunch = Vector2( 0, 1600 )
@@ -7313,11 +7329,8 @@ whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
 
-[node name="GrabPos" parent="." index="6"]
+[node name="GrabPos" parent="." index="8"]
 position = Vector2( 35, -24 )
-
-[node name="Cancel" parent="GFXHandler" index="1"]
-explosiveness = 0.34
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
@@ -7371,3 +7384,6 @@ anims/Stagger = SubResource( 40 )
 anims/Tech = SubResource( 41 )
 anims/Walk = SubResource( 42 )
 script = ExtResource( 5 )
+
+[node name="Cancel" parent="GFXHandler" index="1"]
+explosiveness = 0.34

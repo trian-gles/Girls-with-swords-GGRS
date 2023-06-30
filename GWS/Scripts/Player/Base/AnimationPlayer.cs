@@ -8,13 +8,35 @@ public class AnimationPlayer : Godot.AnimationPlayer
 
 	private int animationLength;
 	public int cursor;
-	
+
+	Player owner;
+	Sprite frontSprite;
+	Sprite backSprite;
+	Sprite mainSprite;
+	bool useFrontSprite;
+	bool useBackSprite;
+
+	/// <summary>
+	/// Acquires all sprites for syncing
+	/// </summary>
+	public void Setup()
+	{
+		owner = (Player)Owner;
+		frontSprite = owner.frontSprite;
+		backSprite = owner.behindSprite;
+		mainSprite = owner.mainSprite;
+
+		useFrontSprite = frontSprite.Hframes > 1;
+
+		useBackSprite = backSprite.Hframes > 1;
+	}
+
 	public void NewAnimation(string animName) 
 	{
 		if (animName == AssignedAnimation) 
 		{
-			
-			Seek(0, true);
+
+			SetFrame(0);
 			cursor = 0;
 		}
 		else
@@ -23,7 +45,7 @@ public class AnimationPlayer : Godot.AnimationPlayer
 			cursor = 0;
 			animationLength = (int)CurrentAnimationLength; //Bad idea?
 			Stop();
-			Seek(0, true);
+			SetFrame(0);
 		}
 		//GD.Print($"new animation {animName}, length = {animationLength}");
 	}
@@ -34,14 +56,14 @@ public class AnimationPlayer : Godot.AnimationPlayer
 		animationLength = (int)CurrentAnimationLength;
 		Stop();
 		cursor = frame;
-		Seek(cursor, true);
+		SetFrame(cursor);
 	}
 	public void FrameAdvance() 
 	{
 		if (cursor < animationLength - 1)
 		{
 			cursor++;
-			Seek(cursor, true);
+			SetFrame(cursor);
 		}
 		else
 		{
@@ -58,7 +80,27 @@ public class AnimationPlayer : Godot.AnimationPlayer
 
 	public void Restart() 
 	{
-		Seek(0, true);
+		SetFrame(0);
 		cursor = 0;
+	}
+
+	private void SetFrame(int frameNum)
+	{
+		Seek(frameNum, true);
+		int spriteFrame = mainSprite.Frame;
+
+		if (useFrontSprite)
+		{
+			frontSprite.Frame = spriteFrame;
+			frontSprite.Offset = mainSprite.Offset;
+			frontSprite.Position = mainSprite.Position;
+		}
+
+		if (useBackSprite)
+		{
+			backSprite.Frame = spriteFrame;
+			backSprite.Offset = mainSprite.Offset;
+			backSprite.Position = mainSprite.Position;
+		}
 	}
 }

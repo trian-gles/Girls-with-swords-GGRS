@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GL : Player
 {
+
+	public int PoweredBlackHoleFramesRemaining = 0;
 	public override void _EnterTree()
 	{
 		//j2C
@@ -26,6 +28,9 @@ public class GL : Player
 		airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' }}, "BlackHolePlace"));
 		airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { '8', 'p' }, new char[] { 's', 'p' } }, "BlackHolePlace")); // allow TK
 
+		//Black Hole Powerup
+		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] {'6', 'p' }, new[] { 's', 'p' } }, "PowerBlackholes"));
+
 
 		//allow forward as last input for air DP
 		airExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
@@ -42,4 +47,23 @@ public class GL : Player
 		base._Ready();
 		charName = "GL";
 	}
+
+	protected override void CharSpecificFrameAdvance()
+	{
+		if (PoweredBlackHoleFramesRemaining > 0)
+			PoweredBlackHoleFramesRemaining--;
+	}
+
+	protected override Dictionary<string, int> GetStateCharSpecific()
+	{
+		var dict = new Dictionary<string, int>();
+		dict["BlackHoleFrames"] = PoweredBlackHoleFramesRemaining;
+		return dict;
+	}
+
+	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
+	{
+		PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
+	}
+
 }

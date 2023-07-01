@@ -176,6 +176,8 @@ public class Player : Node2D
 		public int counterStopFrames { get; set; }
 		public bool canGroundbounce { get; set; }
 
+		public Dictionary<string, int> charSpecificData { get; set; }
+
 	}
 
 	/// <summary>
@@ -365,6 +367,16 @@ public class Player : Node2D
 		return pState;
 	}
 
+	protected virtual Dictionary<string, int> GetStateCharSpecific()
+    {
+		return new Dictionary<string, int>();
+    }
+
+	protected virtual void SetStateCharSpecific(Dictionary<string, int> dict)
+    {
+
+    }
+
 	public void SetState(PlayerState pState)
 	{
 		inputHandler.SetInBuf2(pState.inBuf2);
@@ -402,6 +414,7 @@ public class Player : Node2D
 		lastStateName = pState.lastStateName;
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
+		SetStateCharSpecific(pState.charSpecificData);
 	}
 
 	/// <summary>
@@ -566,6 +579,8 @@ public class Player : Node2D
 			return unhandledInputs;
 		}
 
+		
+
 		public void FrameAdvance(int hitStop, int inputs)
 		{ 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
@@ -634,7 +649,6 @@ public class Player : Node2D
 			
 			
 			unhandledInputs.Clear();
-			
 		}
 
 		public List<char[]> SortInputs(List<char[]> inputs)
@@ -794,6 +808,11 @@ public class Player : Node2D
 		eventSched.TimeAdvance();
 	}
 
+	protected virtual void CharSpecificFrameAdvance()
+	{
+
+	}
+
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
@@ -804,7 +823,7 @@ public class Player : Node2D
 		
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
-		
+		CharSpecificFrameAdvance();
 		if (invulnFrames > 0)
 			invulnFrames--;
 		if (grabInvulnFrames > 0)
@@ -1214,6 +1233,13 @@ public class Player : Node2D
 	{
 		gfxHand.Effect(name, pos, facingRight);
 	}
+
+	public bool AreHitboxesActive()
+    {
+		return GetRects(hitBoxes, false).Count() > 0;
+
+		
+    }
 
 	public bool IsInvuln()
 	{

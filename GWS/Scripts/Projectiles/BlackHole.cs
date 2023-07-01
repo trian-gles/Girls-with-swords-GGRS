@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using FixedMath.NET;
 
 public class BlackHole : HadoukenPart
 {
@@ -15,10 +16,13 @@ public class BlackHole : HadoukenPart
 	[Export]
 	private int slowTerminalVelocity = 300;
 
+	protected GL createdByPlayer;
+
 	public override void _Ready()
 	{
 		base._Ready();
 		particles2D = GetNode<CPUParticles2D>("CPUParticles2D");
+		createdByPlayer = (GL)targetPlayer.otherPlayer;
 	}
 	public override void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
@@ -31,41 +35,75 @@ public class BlackHole : HadoukenPart
 			int yToPlayer = (int)Math.Abs(Position.y * 100 - targetPlayer.internalPos.y);
 			int xToPlayer = (int)Math.Abs(Position.x * 100 - targetPlayer.internalPos.x);
 
-			int distToPlayer = Globals.IntSqrt((int)(Math.Pow(xToPlayer, 2) + Math.Pow(yToPlayer, 2)));
-
 			bool playerBelow = (Position.y * 100 < targetPlayer.internalPos.y);
 			bool playerLeft = (Position.x * 100 < targetPlayer.internalPos.x);
 
-
-			int adjustedPull = (int)Math.Floor((double)(pullStrength * 10000000 / distToPlayer));
-			adjustedPull = Math.Min(adjustedPull, pullStrength * 6);
-
-			
-
-			Vector2 pushVec = new Vector2(adjustedPull, adjustedPull);
-			if (distToPlayer < 20000000)
+			if (createdByPlayer.PoweredBlackHoleFramesRemaining > 0)
 			{
+				particles2D.Color = Color.FromHsv((float)0.55, particles2D.Color.s, particles2D.Color.v);
+			}
+			else
+			{
+				particles2D.Color = Color.FromHsv((float)0.8, particles2D.Color.s, particles2D.Color.v);
+			}
+
+			if (createdByPlayer.PoweredBlackHoleFramesRemaining > 0 && !targetPlayer.grounded)
+			{
+				targetPlayer.currentState.stunRemaining = 10;
+				Fix64 pullForce = new Fix64(pullStrength * 30);
+
+				var fixedXtoPlayer = new Fix64(xToPlayer);
+				var fixedYtoPlayer = new Fix64(yToPlayer);
+				var angle = Fix64.Tan(fixedYtoPlayer / fixedXtoPlayer);
+				var xForce = pullForce * Fix64.Cos(angle);
+				var yForce = pullForce * Fix64.Sin(angle);
+				int xForceInt = (int)xForce;
+				int yForceInt = (int)yForce;
 				if (playerBelow)
-					pushVec.y = pushVec.y + targetPlayer.gravity;
+					yForceInt *= -1;
+
+				if (playerLeft)
+					xForceInt *= -1;
+
+				targetPlayer.velocity = new Vector2(xForceInt, yForceInt);
+
 			}
+			else
+			{
+				int distToPlayer = Globals.IntSqrt((int)(Math.Pow(xToPlayer, 2) + Math.Pow(yToPlayer, 2)));
+
+				
 
 
-			if (targetPlayer.grounded) {
-				pushVec.y *= 0;
+				int adjustedPull = (int)Math.Floor((double)(pullStrength * 10000000 / distToPlayer));
+				adjustedPull = Math.Min(adjustedPull, pullStrength * 6);
+
+
+
+				Vector2 pushVec = new Vector2(adjustedPull, adjustedPull);
+				if (distToPlayer < 20000000)
+				{
+					if (playerBelow)
+						pushVec.y = pushVec.y + targetPlayer.gravity;
+				}
+
+
+				if (targetPlayer.grounded)
+				{
+					pushVec.y *= 0;
+				}
+
+				if (adjustedPull > pullStrength)
+					targetPlayer.currentState.stunRemaining += 1;
+
+				if (playerBelow) { pushVec.y *= -1; }
+
+				if (playerLeft) { pushVec.x *= -1; }
+
+
+
+				targetPlayer.velocity += pushVec;
 			}
-
-			if (adjustedPull > pullStrength)
-				targetPlayer.currentState.stunRemaining += 1;
-
-			if (playerBelow) { pushVec.y *= -1; }
-
-			if (playerLeft) { pushVec.x *= -1; }
-
-			
-
-			targetPlayer.velocity += pushVec;
-			
-			//GD.Print("Setting velocity to " + targetPlayer.velocity + " on frame " + frame);
 
 
 			if (CheckRect())

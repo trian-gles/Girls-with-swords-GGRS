@@ -7454,6 +7454,8 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
+slashCancel = true
+commandNormalCancel = true
 
 [node name="6C" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 15 )

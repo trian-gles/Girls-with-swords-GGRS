@@ -7850,6 +7850,7 @@ modifiedHitPush = 3500
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 grabInvulnFrames = 14
+sweepCancel = true
 moveSpeed = 250
 stopFrame = 18
 

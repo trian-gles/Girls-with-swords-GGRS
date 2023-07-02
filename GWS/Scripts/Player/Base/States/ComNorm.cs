@@ -3,12 +3,39 @@ using System;
 
 public class ComNorm : GroundAttack
 {
+	[Export]
+	public bool slashCancel = false;
+
+	[Export]
+	public bool sweepCancel = false;
+
+	[Export]
+	public bool commandNormalCancel = false;
 	public override void _Ready()
 	{
 		base._Ready();
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
-		AddCommandNormals(owner.commandNormals); // FIX THIS
+		if (commandNormalCancel)
+		{
+
+			foreach (var comNorm in owner.commandNormals)
+			{
+				if (comNorm.state != Name)
+				{
+					AddCommandNormal(comNorm);
+				}
+			}
+		}
+
+		if (sweepCancel)
+			AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+
+
+		if (slashCancel)
+			AddGatling(new char[] { 's', 'p' }, "Slash");
+
+
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}

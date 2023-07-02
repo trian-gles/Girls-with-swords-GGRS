@@ -358,12 +358,17 @@ public abstract class State : Node
 		}
 	}
 
+	protected void AddCommandNormal(Player.CommandNormal cn)
+    {
+		AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2'), cn.state);
+		AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2'), cn.state);
+	}
+
 	protected void AddCommandNormals(List<Player.CommandNormal> commandNormals)
 	{
 		foreach (var cn in commandNormals)
 		{
-			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2'), cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2'), cn.state);
+			AddCommandNormal(cn);
 		}
 	}
 

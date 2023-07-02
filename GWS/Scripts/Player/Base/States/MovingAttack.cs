@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// Attacks that may be grounded or aerial
 /// </summary>
-public class MovingAttack : GroundAttack
+public class MovingAttack : ComNorm
 {
 	[Export]
 	protected int moveSpeed = 0;

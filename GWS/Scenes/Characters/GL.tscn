@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/OG-Palette.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Behind.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL_Front.png" type="Texture" id=18]
 [ext_resource path="res://Scripts/Player/GL/Specials/BlackholePower.cs" type="Script" id=19]
+[ext_resource path="res://Sprites/Movesets/GL Moveset/GL-Palette-White.png" type="Texture" id=20]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -4033,7 +4034,7 @@ tracks/14/keys = {
 
 [sub_resource type="Animation" id=24]
 resource_name = "Hadouken"
-length = 40.0
+length = 38.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4042,7 +4043,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 15, 38 ),
+"times": PoolRealArray( 0, 15, 36 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 215, 225, 235 ]
@@ -5528,7 +5529,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 13, 16 ),
+"times": PoolRealArray( 0, 13, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 269, 270, 271 ]
@@ -5612,7 +5613,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 13, 16 ),
+"times": PoolRealArray( 0, 13, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -5624,10 +5625,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 13, 17 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false, true ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HurtBoxes/HurtB3:disabled")
@@ -5676,6 +5677,30 @@ tracks/12/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 0 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("HurtBoxes/HurtB2:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 12 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 40, -40 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("HurtBoxes/HurtB2:shape:extents")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 12 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 10, 14 ) ]
 }
 
 [sub_resource type="Animation" id=50]
@@ -7280,14 +7305,14 @@ speed = 200
 dashSpeed = 500
 accel = 60
 jumpForce = 900
-shaders = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 3 ) ]
+shaders = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 20 ) ]
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 0, -2 )
+position = Vector2( -1, 3 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7298,11 +7323,13 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 85, -58 )
+position = Vector2( 60, -10 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 60, -40 )
+position = Vector2( 40, -40 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7320,7 +7347,7 @@ frame = 218
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 2, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7428,7 +7455,7 @@ whiffSound = "LampWhiff"
 hitSound = "LampHit"
 
 [node name="Hadouken" parent="StateTree" index="41"]
-releaseFrame = 14
+releaseFrame = 10
 hadoukenScene = ExtResource( 4 )
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]

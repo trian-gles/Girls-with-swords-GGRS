@@ -3704,7 +3704,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=27]
-length = 41.0
+length = 42.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -7658,7 +7658,7 @@ position = Vector2( -2, 0 )
 position = Vector2( 22, 9 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 17, 1 )
+position = Vector2( 25, 12 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -25, -15 )
@@ -7671,7 +7671,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 58
+frame = 48
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )

@@ -12,7 +12,7 @@ public class Run : MoveState
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
 			AddGatling(dashSpecial.inputs[0], dashSpecial.state);
 		AddGatling(new[] { '8', 'p' }, "PreJump");
-		AddSpecials(owner.groundExSpecials);
+		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
 		AddCommandNormals(owner.commandNormals);
 		

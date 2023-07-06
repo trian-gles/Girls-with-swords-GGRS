@@ -73,7 +73,10 @@ public class Float : HitStun
 			else
 			{
 				owner.grounded = false;
-				EmitSignal(nameof(StateFinished), "Tech");
+				if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+					EmitSignal(nameof(StateFinished), "Tech");
+				else
+					EmitSignal(nameof(StateFinished), "Knockdown");
 			}
 				
 			owner.ResetComboAndProration();

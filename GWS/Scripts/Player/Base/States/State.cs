@@ -384,7 +384,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { }); // last function does nothing, I'm lazy...
+			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { GD.Print("Entering ex move"); }); // last function does nothing, I'm lazy...
 		}
 	}
 

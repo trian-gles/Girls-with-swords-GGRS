@@ -9,8 +9,9 @@ class AIManager : LocalManager
 
 	private bool p1KeyReleased = false;
 	private int lastP1Key = 0; // this funny logic relates to allowing the P1 key to be released before choosing p2
+	private Random random = new Random();
 
-	public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(float delta)
 	{
 		int p1Inputs = 0; 
 		int p2Inputs = 0;
@@ -19,7 +20,7 @@ class AIManager : LocalManager
 		if (currGame.Name == "GameScene")
 		{
 			p1Inputs = GetInputs("");
-			p2Inputs = ai.Poll(gameScene.GetGameState());
+			p2Inputs = random.Next(255);//ai.Poll(gameScene.GetGameState());
 		}
 		else
 		{

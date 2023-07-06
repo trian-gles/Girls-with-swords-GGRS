@@ -8,7 +8,7 @@
 [node name="BlackHole" instance=ExtResource( 1 )]
 position = Vector2( 0, 0 )
 script = ExtResource( 2 )
-level = 3
+level = 4
 modifiedHitStun = 40
 modifiedCounterHitStun = 60
 duration = 180

@@ -560,8 +560,16 @@ public class GameScene : BaseGame
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);
 		ConfigTime();
-		P1Meter.Call("set_meter", 0);
-		P2Meter.Call("set_meter", 0);
+		if (Globals.mode == Globals.Mode.TRAINING)
+        {
+			P1Meter.Call("set_meter", 100);
+			P2Meter.Call("set_meter", 100);
+		}
+		else
+        {
+			P1Meter.Call("set_meter", 0);
+			P2Meter.Call("set_meter", 0);
+		}
 		if (recordMatch)
 			savedFile = false;
 	}

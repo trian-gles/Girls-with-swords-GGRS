@@ -23,6 +23,7 @@ class GGRSManager : StateManager
 	{
 		base._Ready();
 		GGRS = GetNode("GodotGGRS");
+		Globals.mode = Globals.Mode.GGPO;
 	}
 
 

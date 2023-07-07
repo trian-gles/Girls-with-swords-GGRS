@@ -5,7 +5,13 @@ using System.Collections.Generic;
 class LocalManager : BaseManager
 {
 
-	public override void _PhysicsProcess(float delta)
+    public override void _Ready()
+    {
+        base._Ready();
+		Globals.mode = Globals.Mode.LOCAL;
+	}
+
+    public override void _PhysicsProcess(float delta)
 	{
 		int p1Inputs = GetInputs("");
 		int p2Inputs = GetInputs("b");

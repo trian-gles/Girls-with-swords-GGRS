@@ -309,7 +309,10 @@ public class Player : Node2D
 	{
 		ResetComboAndProration();
 		ChangeState("Idle");
-		meter = 0;
+		if (Globals.mode == Globals.Mode.TRAINING)
+			meter = 10000;
+		else
+			meter = 0;
 	}
 
 	public PlayerState GetState()

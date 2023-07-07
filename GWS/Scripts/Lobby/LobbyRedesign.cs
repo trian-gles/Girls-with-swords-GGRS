@@ -111,22 +111,17 @@ public class LobbyRedesign : Node2D
 	//local buttons
 	public void OnLocalButtonDown()
 	{
-		Globals.mode = Globals.Mode.LOCAL;
-		GD.Print("Local mode selected");
 		BeginManager(localManager);
 	}
 
 	public void OnTrainingButtonDown()
 	{
-		Globals.mode = Globals.Mode.TRAINING;
-		GD.Print("Training mode selected");
 		BeginManager(trainingManager);
+		
 	}
 
 	public void OnCPUButtonDown()
 	{
-		Globals.mode = Globals.Mode.CPU;
-		GD.Print("CPU mode selected");
 		BeginManager(aiManager);
 	}
 	

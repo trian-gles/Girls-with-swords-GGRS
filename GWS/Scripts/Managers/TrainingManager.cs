@@ -13,6 +13,7 @@ public class TrainingManager : BaseManager
 		charSelectScene.ChangeHUDText("P1");
 		gameScene.ChangeHUDText("P1");
 		gameScene.recordMatch = false;
+		Globals.mode = Globals.Mode.TRAINING;
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -82,6 +83,7 @@ public class TrainingManager : BaseManager
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
 		gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
+		gameScene.ResetAll();
 	}
 
 	public override void OnRoundFinished(string winner)

@@ -23,7 +23,7 @@ class AIManager : LocalManager
 		int p2Inputs = 0;
 		
 
-		if (currGame.Name == "GameScene")
+		if (currGame.Name == "GameScene" && currGame.AcceptingInputs())
 		{
 			p1Inputs = GetInputs("");
 			p2Inputs = ai.Poll(gameScene.GetGameState());
@@ -59,5 +59,15 @@ class AIManager : LocalManager
 	{
 		base.OnGameFinished(nextGameName);
 		ai = new AIBehaviour();
+	}
+
+	public HashSet<string> GetP1Tags()
+    {
+		return gameScene.GetP1Tags();
+    }
+
+	public HashSet<string> GetP2Tags()
+	{
+		return gameScene.GetP2Tags();
 	}
 }

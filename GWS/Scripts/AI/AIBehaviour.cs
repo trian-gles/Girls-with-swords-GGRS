@@ -13,12 +13,14 @@ public class AIBehaviour
     private Dictionary<string, BehaviourState> behaviourStates = new Dictionary<string, BehaviourState>
     {
         {"Abare", new Abare() },
-        {"Combo", new Combo(new List<int>{ 32, 64, 66 }, new List<int>{1, 36, 60 }) }
+        {"Combo", new Combo(new List<int>{ 32, 64, 66 }, new List<int>{1, 36, 60 }) },
+        {"RandomMash", new RandomMash() },
+        {"Chase", new Chase() },
     };
 
     public AIBehaviour()
     {
-        behaviour = behaviourStates["Abare"];
+        behaviour = behaviourStates["Chase"];
         behaviour.Init(this);
     }
     public int Poll(GameStateObjectRedesign.GameState state)

@@ -8,6 +8,8 @@ using System.Linq;
 /// </summary>
 public abstract class State : Node
 {
+	public virtual HashSet<String> tags { get; set; } = new HashSet<String>();
+
 	public Player owner;
 	public int frameCount
 	{ get; set; }

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public abstract class AirAttack : BaseAttack
 {
-    public override void _Ready()
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "aerial" };
+	public override void _Ready()
     {
         base._Ready();
 		slowdownSpeed = 0;

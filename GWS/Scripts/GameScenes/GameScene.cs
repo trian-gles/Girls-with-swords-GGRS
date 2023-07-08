@@ -599,6 +599,15 @@ public class GameScene : BaseGame
 	// Specifically for AI
 	////
 	
+	public HashSet<string> GetP2Tags()
+    {
+		return P2.currentState.tags;
+    }
+
+	public HashSet<string> GetP1Tags()
+	{
+		return P1.currentState.tags;
+	}
 	public GameStateObjectRedesign.GameState GetGameState()
 	{
 		return gsObj.GetGameState();

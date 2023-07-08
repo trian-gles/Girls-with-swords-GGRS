@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Crouch : State
 {
+    public override HashSet<string> tags { get; set; } = new HashSet<string>() { "idle", "crouching" };
+
     public override void _Ready()
     {
         base._Ready();

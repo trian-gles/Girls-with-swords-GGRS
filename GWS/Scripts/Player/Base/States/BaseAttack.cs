@@ -6,6 +6,8 @@ using System.Linq;
 
 public abstract class BaseAttack : State
 {
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"attack" };
+
 	[Export]
 	protected int level = 0;
 

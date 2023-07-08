@@ -60,7 +60,8 @@ public class GL : Player
 
 	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
 	{
-		PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
+		if (dict != null)
+			PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
 	}
 
 }

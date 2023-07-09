@@ -74,6 +74,7 @@ public class Globals : Node
 
 	public struct AttackDetails
 	{
+		public bool projectile;
 		public int hitStun;
 		public int blockStun;
 		public int dmg;

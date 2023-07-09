@@ -1107,7 +1107,8 @@ public class Player : Node2D
 		currentState.ReceiveHit(details);
 		//GD.Print(currentState.Name);
 		currentState.ReceiveStunDamage(details);
-		EmitSignal(nameof(HitConfirm));
+		if (!details.projectile)
+			EmitSignal(nameof(HitConfirm));
 		
 		wasHit = false;
 	}

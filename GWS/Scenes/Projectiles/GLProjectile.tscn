@@ -4,9 +4,13 @@
 
 [node name="GLProjectile" instance=ExtResource( 1 )]
 level = 3
+modifiedHitStun = 18
 chEffect = 3
 speed = Vector2( 5, 0 )
+postHitSpeed = Vector2( 2, 0 )
 duration = 55
+totalHits = 3
+breakBetweenHits = 10
 
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "GLProjectile"
@@ -16,4 +20,4 @@ playing = false
 offset = Vector2( 0, -12 )
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2( 1, 24 )
+position = Vector2( -8, 29 )

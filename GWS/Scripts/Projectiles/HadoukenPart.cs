@@ -46,9 +46,22 @@ public class HadoukenPart : Node2D
 
 	[Export]
 	public Vector2 speed;
-	
+
+	[Export]
+	public Vector2 postHitSpeed;
+
 	[Export]
 	public int duration;
+
+	[Export]
+	public int totalHits = 1;
+
+	[Export]
+	public int breakBetweenHits = 8;
+
+	protected int lastHitFrame = -20;
+
+	protected int hits = 0;
 	
 	protected int frame = 0;
 
@@ -69,6 +82,9 @@ public class HadoukenPart : Node2D
 	{
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.projectile = true;
+		chDetails.projectile = true;
 
 		hitDetails.opponentLaunch = opponentLaunch;
 		if (chLaunch != Vector2.Zero)
@@ -131,20 +147,26 @@ public class HadoukenPart : Node2D
 		public bool active { get; set; }
 		public string name { get; set; }
 		public int frame { get; set; }
+		public int lastHitFrame { get; set; }
+		public int hits { get; set; }
 	}
 	
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > 0)
 		{
+			Vector2 trueSpeed = speed;
+			if (hits > 0)
+				trueSpeed = postHitSpeed;
+
 			if (movingRight)
 			{
-				Position += speed;
+				Position += trueSpeed;
 			}
 
 			else
 			{
-				Position -= speed;
+				Position -= trueSpeed;
 			}
 			// GD.Print($"Moving {Name} to X position {Position.x} on global frame {Globals.frame}, hadouken frame {frame}");
 		}
@@ -155,13 +177,16 @@ public class HadoukenPart : Node2D
 		{
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}
-		if (active)
+		if (active && hits == 0)
 		{
 			if (CheckRect() && frame < duration)
 			{
 				HurtPlayer();
 			}
 		}
+
+		if ((hits > 0) && (hits < totalHits) && ((frame - lastHitFrame) > breakBetweenHits))
+			HurtPlayer();
 		frame++;
 	}
 
@@ -190,6 +215,9 @@ public class HadoukenPart : Node2D
 		{
 			return;
 		}
+
+		hits++;
+
 		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		chDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		if (!movingRight)
@@ -198,8 +226,13 @@ public class HadoukenPart : Node2D
 			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
 
+
 		targetPlayer.ReceiveHit(hitDetails, chDetails);
-		MakeInactive();
+		lastHitFrame = frame;
+		
+
+		if (hits == totalHits)
+			MakeInactive();
 	}
 
 	protected virtual void MakeInactive()
@@ -235,6 +268,8 @@ public class HadoukenPart : Node2D
 		hadState.active = active;
 		hadState.name = Name;
 		hadState.frame = frame;
+		hadState.hits = hits;
+		hadState.lastHitFrame = lastHitFrame;
 		return hadState;
 	}
 
@@ -244,6 +279,8 @@ public class HadoukenPart : Node2D
 		active = newState.active;
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
 		frame = newState.frame;
+		hits = newState.hits;
+		lastHitFrame = newState.lastHitFrame;
 		//GD.Print($"Loading hadouken state: frame {frame} active {active}");
 	}
 

@@ -40,7 +40,6 @@ public class Chase : BehaviourState
                 return ChooseDirection(distance);
             case SubState.EmptyFrame:
                 {
-                    GD.Print("EMPTY FRAME");
                     subState = SubState.Dash;
                     return 0;
                 }

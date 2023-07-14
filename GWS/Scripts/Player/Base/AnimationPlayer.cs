@@ -103,4 +103,9 @@ public class AnimationPlayer : Godot.AnimationPlayer
 			backSprite.Position = mainSprite.Position;
 		}
 	}
+
+	public int GetRemainingFrames()
+	{
+		return animationLength - cursor;
+	}
 }

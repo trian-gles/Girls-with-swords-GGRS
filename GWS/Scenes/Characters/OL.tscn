@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/Jump.cs" type="Script" id=20]
 [ext_resource path="res://Scripts/Player/OL/Specials/SixK.cs" type="Script" id=21]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRunFirst.cs" type="Script" id=22]
+[ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -4840,7 +4841,7 @@ tracks/15/keys = {
 }
 
 [sub_resource type="Animation" id=31]
-length = 17.0
+length = 15.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4849,7 +4850,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3, 5, 9, 12, 15 ),
+"times": PoolRealArray( 0, 3, 5, 9, 12, 14 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 12, 13, 14, 15, 16, 17 ]
@@ -7647,6 +7648,7 @@ script = ExtResource( 11 )
 speed = 200
 dashSpeed = 600
 shaders = [ ExtResource( 3 ), ExtResource( 13 ), ExtResource( 2 ), ExtResource( 10 ) ]
+plusFrameTextScene = ExtResource( 23 )
 
 [node name="CollisionBox" parent="." index="0"]
 visible = true
@@ -7655,10 +7657,10 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 22, 9 )
+position = Vector2( 12, -14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( -6, -16 )
+position = Vector2( 24, -23 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -25, -15 )
@@ -7671,7 +7673,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 185
+frame = 17
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )

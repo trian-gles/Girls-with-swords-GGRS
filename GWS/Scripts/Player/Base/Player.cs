@@ -243,6 +243,9 @@ public class Player : Node2D
 	private GFXHandler gfxHand;
 	private Label debugPos;
 
+	[Export]
+	public PackedScene plusFrameTextScene;
+
 	// Sprites
 	public Sprite mainSprite;
 	public Sprite behindSprite;
@@ -1112,7 +1115,22 @@ public class Player : Node2D
 			EmitSignal(nameof(HitConfirm));
 		
 		wasHit = false;
+
+		if (Globals.mode == Globals.Mode.TRAINING)
+			otherPlayer.CalculatePlusFrames(currentState.stunRemaining);
 	}
+
+	public void CalculatePlusFrames(int opponentStun)
+    {
+
+		if (!currentState.tags.Contains("attack"))
+			return;
+		var diff = opponentStun - animationPlayer.GetRemainingFrames();
+		var plusText = plusFrameTextScene.Instance() as PlusFrames;
+		plusText.Init(diff);
+		AddChild(plusText);
+		
+    }
 
 	public bool HurtboxesInactive()
 	{

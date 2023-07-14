@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public abstract class AirAttack : BaseAttack
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "aerial" };
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "aerial", "attack" };
 	public override void _Ready()
     {
         base._Ready();
@@ -82,4 +82,5 @@ public abstract class AirAttack : BaseAttack
 		else
 			ApplyGravity();
 	}
+
 }

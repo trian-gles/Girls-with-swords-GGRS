@@ -67,6 +67,7 @@ public class LobbyRedesign : Node2D
 		// set up debug globals
 		Globals.autoTech = autoTech;
 		Globals.alwaysBlock = alwaysBlock;
+		Globals.logOn = log;
 
 		if (syncTest)
 			syncTestBegin();

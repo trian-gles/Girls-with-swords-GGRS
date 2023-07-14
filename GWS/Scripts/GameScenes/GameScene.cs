@@ -12,6 +12,18 @@ using System.IO;
 public class GameScene : BaseGame
 {
 
+	[Export]
+	public PackedScene[] charScenes = new PackedScene[0];
+
+	public class Recording
+	{
+		public int p1char { get; set; }
+		public int p2char { get; set; }
+		public int p1col { get; set; }
+		public int p2col { get; set; }
+		public int[,] allInputs { get; set; }
+	}
+
 	/// <summary>
 	/// Used to prevent physics process
 	/// </summary>
@@ -66,7 +78,8 @@ public class GameScene : BaseGame
 	/// will contain alternating inputs [p1, p2, p1, p2, ...] for easy saving
 	private int[,] allInputs = new int[7000, 2];
 	private bool savedFile = false;
-
+	private int p1Ind;
+	private int p2Ind;
 
 	[Signal]
 	public delegate void RoundFinished(string winner);
@@ -118,7 +131,7 @@ public class GameScene : BaseGame
 		SetRhythmVisibility(Globals.rhythmGame);
 	}
 
-	public void config(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
+	public void config(int playerOneIndex, int playerTwoIndex, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
 	{
 		Globals.Log($"Starting game config on frame {frame}");
 		((MainGFX)GetNode("MainGFX")).Init(bkg);
@@ -126,20 +139,24 @@ public class GameScene : BaseGame
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
 
 		//p1
+		var playerOne = charScenes[playerOneIndex];
 		P1 = playerOne.Instance() as Player;
 		P1.Name = "P1";
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = colorOne;
 		AddChild(P1);
 		MoveChild(P1, 4);
+		p1Ind = playerOneIndex;
 
 		//p2
+		var playerTwo = charScenes[playerTwoIndex];
 		P2 = playerTwo.Instance() as Player;
 		P2.Name = "P2";
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = colorTwo;
 		AddChild(P2);
 		MoveChild(P2, 5);
+		p2Ind = playerTwoIndex;
 
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
@@ -227,14 +244,17 @@ public class GameScene : BaseGame
 		
 
 		if (currTime == TimeStatus.GAME || currTime == TimeStatus.FAKEEND)
-        {
+		{
 			gsObj.Update(p1Inps, p2Inps);
 
 			if (recordMatch)
 				SaveFrameInputs(p1Inps, p2Inps);
-		}	
+		}
 		else
+		{
 			gsObj.Update(0, 0);
+		}
+			
 		HandleTime();
 		frame++;
 	}
@@ -561,12 +581,12 @@ public class GameScene : BaseGame
 		P2.internalPos = new Vector2(33000, 24000);
 		ConfigTime();
 		if (Globals.mode == Globals.Mode.TRAINING)
-        {
+		{
 			P1Meter.Call("set_meter", 100);
 			P2Meter.Call("set_meter", 100);
 		}
 		else
-        {
+		{
 			P1Meter.Call("set_meter", 0);
 			P2Meter.Call("set_meter", 0);
 		}
@@ -600,9 +620,9 @@ public class GameScene : BaseGame
 	////
 	
 	public HashSet<string> GetP2Tags()
-    {
+	{
 		return P2.currentState.tags;
-    }
+	}
 
 	public HashSet<string> GetP1Tags()
 	{
@@ -618,36 +638,48 @@ public class GameScene : BaseGame
 	////
 	
 	public int GetFramesSinceStart()
-    {
+	{
 		return (frame - startFrame);
 	}
 	private void SaveFrameInputs(int p1Inputs, int p2Inputs)
-    {
+	{
 		int inp_frame = GetFramesSinceStart();
+		if (inp_frame < 100)
+		{
+			//GD.Print($"Saving input for p1 {p1Inputs} input for p2 {p2Inputs} on frame {inp_frame}");
+		}
+
 		allInputs[inp_frame, 0] = p1Inputs;
 		allInputs[inp_frame, 1] = p2Inputs;
 	}
 
 	private string MakeFilename()
-    {
+	{
 		var dict = OS.GetDatetime();
 		string filename = "";
 
 		foreach (var key in new[] {"year", "month", "day", "hour", "minute" })
-        {
+		{
 			filename += dict[key].ToString();
-        }
+		}
 		return filename;
 	}
 
 	private void WriteInputsToFile()
-    {
+	{
+		var recording = new Godot.Collections.Dictionary();
+		recording["p1col"] = P1.colorScheme;
+		recording["p2col"] = P2.colorScheme;
+		recording["p1char"] = p1Ind;
+		recording["p2char"] = p2Ind;
+		recording["allInputs"] = allInputs;
+
 		GD.Print("Saving file");
 		var dir = new Godot.Directory();
 		dir.Open("user://");
 
 		dir.MakeDir("recordings");
-		string content = JSON.Print(allInputs);
+		string content = JSON.Print(recording);
 		DateTime now = DateTime.Now;
 		string filename = MakeFilename();
 

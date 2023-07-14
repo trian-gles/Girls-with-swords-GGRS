@@ -217,7 +217,7 @@ public class HadoukenPart : Node2D
 		}
 
 		hits++;
-
+		Globals.Log("Hits = " + hits + ", Total hits = " + totalHits);
 		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		chDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		if (!movingRight)
@@ -237,6 +237,7 @@ public class HadoukenPart : Node2D
 
 	protected virtual void MakeInactive()
 	{
+		Globals.Log("making hadouken inactive");
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
 		active = false;
 	}

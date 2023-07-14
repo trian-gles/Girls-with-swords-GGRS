@@ -106,7 +106,7 @@ public class Player : Node2D
 	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
-	private int health = 1600;
+	public int health = 1600;
 	private int meter = 0;
 	public Vector2 velocity = new Vector2(0, 0);
 	public int terminalVelocity = 1100;
@@ -367,6 +367,7 @@ public class Player : Node2D
 		pState.lastStateName = lastStateName;
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
+		pState.charSpecificData = GetStateCharSpecific();
 		return pState;
 	}
 
@@ -646,7 +647,7 @@ public class Player : Node2D
 				}
 
 
-
+				
 				playerState.HandleInput(inputArr);
 			}
 			

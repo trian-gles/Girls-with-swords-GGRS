@@ -37,7 +37,7 @@ public class GroundBounce : Float
 				else
 				{
 					owner.grounded = false;
-					EmitSignal(nameof(StateFinished), "Tech");
+					TryGroundTech();
 				}
 
 				owner.ResetComboAndProration();
@@ -52,7 +52,7 @@ public class GroundBounce : Float
 			else
 			{
 				owner.grounded = false;
-				EmitSignal(nameof(StateFinished), "Tech");
+				TryGroundTech();
 			}
 			
 		}

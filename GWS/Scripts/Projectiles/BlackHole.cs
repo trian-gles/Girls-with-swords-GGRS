@@ -49,7 +49,6 @@ public class BlackHole : HadoukenPart
 
 			if (createdByPlayer.PoweredBlackHoleFramesRemaining > 0 && !targetPlayer.grounded)
 			{
-				targetPlayer.currentState.stunRemaining = 10;
 				Fix64 pullForce = new Fix64(pullStrength * 30);
 
 				var fixedXtoPlayer = new Fix64(xToPlayer);
@@ -93,8 +92,11 @@ public class BlackHole : HadoukenPart
 					pushVec.y *= 0;
 				}
 
-				if (adjustedPull > pullStrength)
+				if (adjustedPull > pullStrength && targetPlayer.currentState.tags.Contains("hitstate"))
+				{
 					targetPlayer.currentState.stunRemaining += 1;
+				}
+					
 
 				if (playerBelow) { pushVec.y *= -1; }
 
@@ -106,11 +108,12 @@ public class BlackHole : HadoukenPart
 			}
 
 
-			if (CheckRect())
+			if (CheckRect() && hits < totalHits)
 			{
+				Globals.Log("Hurting player on frame " + frame);
 				HurtPlayer();
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
-				Globals.Log("Hurting player on frame " + frame);
+				
 			}
 		}
 
@@ -134,5 +137,8 @@ public class BlackHole : HadoukenPart
 		frame = newState.frame;
 		if (particles2D.Emitting != active)
 			particles2D.Emitting = active;
+
+		hits = newState.hits;
+		lastHitFrame = newState.lastHitFrame;
 	}
 }

@@ -25,7 +25,7 @@ public class Globals : Node
 	public static int frame = 0;
 
 	private static string loggingName;
-	private static bool logOn = false;
+	public static bool logOn = false;
 
 	public static bool alwaysBlock = false;
 	public static bool autoTech = false;
@@ -38,7 +38,7 @@ public class Globals : Node
 	public static void Log(string msg)
 	{
 		if (logOn)
-			GD.Print(loggingName + " : " + msg);
+			GD.Print(frame + " : " + loggingName + " : " + msg);
 	}
 	
 	public const bool rhythmGame = false;

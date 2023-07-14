@@ -112,7 +112,7 @@ public class Grab : State
 			//{
 			//	actualLaunch.x *= -1;
 			//}
-			GD.Print("Grab hitting other player");
+			Globals.Log("Grab hitting other player");
 			var direction = BaseAttack.ATTACKDIR.EQUAL;
 
 			if (owner.OtherPlayerOnRight())

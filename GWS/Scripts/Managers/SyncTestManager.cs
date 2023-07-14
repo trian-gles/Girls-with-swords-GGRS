@@ -45,7 +45,13 @@ class SyncTestManager : StateManager
 	[Export]
 	public bool trainingMode = false;
 
-	
+	[Export]
+	public bool doubleSpeed = false;
+
+	[Export]
+	public bool replayFile = false;
+
+
 
 	public FixedSizedQueue<byte[]> serializedStates;
 	public FixedSizedQueue<int[]> pastInputs;
@@ -58,18 +64,17 @@ class SyncTestManager : StateManager
 
 	public override void _Ready()
 	{
+		playbackMatch = replayFile;
 		base._Ready();
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
 		pastInputs = new FixedSizedQueue<int[]>(DEPTH + 1);
 
-		if (playbackMatch)
-			LoadMatchFile();
 
-		playbackMatch = false;
+		
 
 		if (randomInputs)
-        {
+		{
 			random = new Random();
 		}
 			
@@ -124,6 +129,13 @@ class SyncTestManager : StateManager
 
 	public override void _PhysicsProcess(float _delta)
 	{
+		RunFrameLoop();
+		if (doubleSpeed)
+			RunFrameLoop();
+	}
+
+	public void RunFrameLoop()
+	{
 		int[] combinedInps;
 		frame++;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
@@ -146,7 +158,7 @@ class SyncTestManager : StateManager
 		}
 		else
 			combinedInps = new int[] { 0, 0 };
-		
+
 		currGame.AdvanceFrame(combinedInps[0], combinedInps[1]);
 		byte[] serializedGamestate = currGame.SaveState(frame);
 		serializedStates.Enqueue(serializedGamestate);
@@ -160,7 +172,7 @@ class SyncTestManager : StateManager
 		{
 			return;
 		}
-		
+
 		currGame.LoadState(frame - (DEPTH), serializedStates[0], 0);
 
 		for (int i = 1; i < DEPTH + 1; i++)
@@ -173,7 +185,7 @@ class SyncTestManager : StateManager
 		currGame.CompareStates(serializedGamestate);
 	}
 
-	public override void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
+	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		ReadyForChange();
@@ -186,8 +198,8 @@ class SyncTestManager : StateManager
 	}
 
 	private int[] GetRandomInputs()
-    {
-		return new[] { random.Next(255), random.Next(255) };
-    }
+	{
+		return new[] { GetInputs(""), random.Next(255) };
+	}
 	
 }

@@ -61,7 +61,12 @@ public class GL : Player
 	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
 	{
 		if (dict != null)
+		{
 			PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
+			if (PoweredBlackHoleFramesRemaining > 0)
+				Globals.Log($"Setting black hole frames to {PoweredBlackHoleFramesRemaining}");
+		}
+			
 	}
 
 }

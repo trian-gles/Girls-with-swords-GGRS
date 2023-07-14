@@ -61,7 +61,7 @@ public class CharSelectScene : BaseGame
 	
 
 	[Signal]
-	public delegate void CharacterSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo);
+	public delegate void CharacterSelected(int playerOne, int playerTwo, int colorOne, int colorTwo);
 
 	private List<PackedScene> characterScenes;
 
@@ -290,7 +290,7 @@ public class CharSelectScene : BaseGame
 					p2Color = 0;
 			}
 			// This may be called multiple times during rollbacks but it isn't a huge issue
-			EmitSignal("CharacterSelected", characterScenes[p1Pos], characterScenes[p2Pos],
+			EmitSignal("CharacterSelected", p1Pos, p2Pos,
 				p1Color, p2Color, selectedStage);
 		}
 			

@@ -73,10 +73,7 @@ public class Float : HitStun
 			else
 			{
 				owner.grounded = false;
-				if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-					EmitSignal(nameof(StateFinished), "Tech");
-				else
-					EmitSignal(nameof(StateFinished), "Knockdown");
+				TryGroundTech();
 			}
 				
 			owner.ResetComboAndProration();
@@ -94,6 +91,14 @@ public class Float : HitStun
 		
 
 		ApplyGravity();
+	}
+
+	protected void TryGroundTech()
+    {
+		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+			EmitSignal(nameof(StateFinished), "Tech");
+		else
+			EmitSignal(nameof(StateFinished), "Knockdown");
 	}
 
 	protected void TryTech()

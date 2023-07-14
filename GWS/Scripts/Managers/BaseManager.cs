@@ -25,8 +25,8 @@ public class BaseManager : Node2D
 	/// <summary>
 	/// playing back recorded matches
 	/// </summary>
-	protected bool playbackMatch = false;
-	private string matchFilename = "20236251427";
+	protected bool playbackMatch = true;
+	private string matchFilename = "20237122226";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -52,7 +52,7 @@ public class BaseManager : Node2D
 
 	
 
-	PackedScene playerOne, playerTwo;
+	int playerOne, playerTwo;
 	int colorOne, colorTwo;
 	int bkgIndex;
 	protected int frame = 0;
@@ -74,7 +74,12 @@ public class BaseManager : Node2D
 		gameScene.ChangeHUDText("");
 
 		
-
+		if (playbackMatch)
+        {
+			bkgIndex = 0;
+			LoadMatchFile();
+			OnGameFinished("GameScene");
+        }
 	//gameScene.Visible = false;
 
 
@@ -118,7 +123,7 @@ public class BaseManager : Node2D
 		
 	}
 
-	public virtual void OnCharactersSelected(PackedScene playerOne, PackedScene playerTwo, int colorOne, int colorTwo, int bkgIndex)
+	public virtual void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
@@ -266,9 +271,15 @@ public class BaseManager : Node2D
 		file.Open($"user://recordings/{matchFilename}.json", File.ModeFlags.Read);
 		string txt = file.GetAsText();
 		var res = JSON.Parse(txt).Result;
-		
+		var dict = (Godot.Collections.Dictionary)res;
 
-		matchInputs =  (Godot.Collections.Array) res;
+
+		matchInputs = (Godot.Collections.Array)dict["allInputs"];
+		playerOne = (int)(float)dict["p1char"];
+		playerTwo = (int)(float)dict["p2char"];
+		colorOne = (int)(float)dict["p1col"];
+		colorTwo = (int)(float)dict["p2col"];
+
 		file.Close();
 
 	}
@@ -277,7 +288,14 @@ public class BaseManager : Node2D
     {
 		// multidimensional arrays become single dimensional in godot JSON, hence this.
 		int gameFrame = ((GameScene)currGame).GetFramesSinceStart() * 2;
-		return new int[] { (int)(float)matchInputs[gameFrame], (int)(float)matchInputs[gameFrame + 1], };
+		if (gameFrame < 0)
+        {
+			return new[] { 0, 0 };
+        }
+
+		var p1Inputs = (int)(float)matchInputs[gameFrame - 2];
+		var p2Inputs = (int)(float)matchInputs[gameFrame - 1];
+		return new int[] { p1Inputs, p2Inputs};
 	}
 
 }

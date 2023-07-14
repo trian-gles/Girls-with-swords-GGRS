@@ -13,6 +13,11 @@ public class Stagger : HitStun
 
 	public override void Enter()
 	{
+		frameCount = 0;
+		if (stop)
+		{
+			owner.velocity.x = 0;
+		}
 		stunRemaining = dur;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Stagger", Name);
 	}

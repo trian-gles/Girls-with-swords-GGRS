@@ -414,6 +414,8 @@ public abstract class State : Node
 
 	public virtual void HandleInput(char[] inputArr)
 	{
+		if (owner.health <= 0)
+			return;
 		foreach (CommandGatling comGat in commandGatlings)
 		{
 			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];

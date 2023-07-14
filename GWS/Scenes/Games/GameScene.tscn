@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/GameScenes/InputsText.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD/Camera2D.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/HUD/HUDCombo.gd" type="Script" id=6]
@@ -16,6 +17,7 @@
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg" type="AudioStream" id=17]
+[ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 8 )
@@ -34,6 +36,7 @@ default_font = ExtResource( 8 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
+charScenes = [ ExtResource( 18 ), ExtResource( 3 ) ]
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 layer = 100

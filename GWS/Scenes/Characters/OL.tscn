@@ -576,7 +576,7 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id=50]
 resource_name = "AirGrabStart"
-length = 16.0
+length = 20.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -3310,7 +3310,7 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id=53]
 resource_name = "GrabStart"
-length = 17.0
+length = 20.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -7658,7 +7658,7 @@ position = Vector2( -2, 0 )
 position = Vector2( 22, 9 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 25, 12 )
+position = Vector2( -6, -16 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -25, -15 )
@@ -7671,7 +7671,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 234
-frame = 48
+frame = 185
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )

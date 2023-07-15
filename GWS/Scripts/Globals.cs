@@ -23,6 +23,7 @@ public class Globals : Node
 	public delegate void NetPlayLobbyReturn();
 
 	public static int frame = 0;
+	public static int lastConfirmedFrame = 0;
 
 	private static string loggingName;
 	public static bool logOn = false;
@@ -246,6 +247,11 @@ public class Globals : Node
 	{
 		//Tests();
 	}
+
+	public static bool IsFrameConfirmed()
+    {
+		return frame == lastConfirmedFrame;
+    }
 
 	static public Mode mode;
 	public static bool ArrayInList(List<char[]> arr, char[] element)

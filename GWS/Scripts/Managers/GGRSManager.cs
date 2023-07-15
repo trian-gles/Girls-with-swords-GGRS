@@ -19,6 +19,11 @@ class GGRSManager : StateManager
 	private int waitFrames = 0;
 	private Queue<int> queueLengths = new Queue<int>();
 
+	// For AI integrated testing
+	private bool aiTest = false;
+	private Random random = new Random();
+
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -36,13 +41,22 @@ class GGRSManager : StateManager
 		{
 			localPort = 7070;
 			remotePort = 7071;
-			Globals.SetLogging("P1");
+			if (ip == "127.0.0.1")
+				Globals.SetLogging("P1");
 		}
 		else
 		{
 			localPort = 7071;
 			remotePort = 7070;
-			Globals.SetLogging("P2");
+			
+			if (ip == "127.0.0.1")
+			{
+				GD.Print("RUNNING TEST 'AI'");
+				Globals.SetLogging("P2");
+				aiTest = true;
+			}
+				
+
 		}
 		port = localPort;
 		OpenPort();
@@ -69,6 +83,7 @@ class GGRSManager : StateManager
 
 	public override void OnRoundFinished(string winner)
 	{
+		GD.Print($"Game definitevly won on frame {Globals.frame}");
 		base.OnRoundFinished(winner);
 		ReadyForChange();
 	}
@@ -85,14 +100,20 @@ class GGRSManager : StateManager
 	{
 		currGame.TimeAdvance();
 
-		if (currGame.AcceptingInputs() && (bool)GGRS.Call("is_running"))
+		if ((bool)GGRS.Call("is_running"))
 		{
-			if (waitFrames > 0)
+
+			int currentGGRSFrame = (int)GGRS.Call("get_current_frame");
+			Globals.lastConfirmedFrame = (int)GGRS.Call("get_confirmed_frame");
+			if (hosting && Globals.frame != currentGGRSFrame)
+				Globals.Log($"FRAME MISMATCH Last confirmed frame is {Globals.lastConfirmedFrame}, current GGRS frame is {currentGGRSFrame}");
+
+			// prediction threshold reached
+			if (currentGGRSFrame - Globals.lastConfirmedFrame > 7)
 			{
-				waitFrames--;
+				GD.Print("TOO FAR AHEAD SKIPPING FRAME");
 				return;
 			}
-			GGRS.Call("advance_frame", localPlayerHandle, GetInputs(""));
 
 			var events = (Godot.Collections.Array)GGRS.Call("get_events");
 			foreach (var item in events)
@@ -105,12 +126,27 @@ class GGRSManager : StateManager
 
 			}
 
+			if (waitFrames > 0)
+			{
+				waitFrames--;
+				return;
+			}
+
+			if (currGame.AcceptingInputs())
+			{
+				int inputs = GetInputs("");
+				if (aiTest)
+					inputs = random.Next(255);
+
+				GGRS.Call("advance_frame", localPlayerHandle, inputs);
+			}
+			else
+				GGRS.Call("advance_frame", localPlayerHandle, 0);
+
+			
+
 			GetNetStats();
 
-		}
-		else if (!currGame.AcceptingInputs() && (bool)GGRS.Call("is_running"))
-		{
-			GGRS.Call("advance_frame", localPlayerHandle, 0);
 		}
 		else
 		{
@@ -138,16 +174,22 @@ class GGRSManager : StateManager
 		return currGame.SaveState(frame);
 	}
 
-	public void ggrs_load_game_state(int frame, byte[] buffer, int checksum)
+	public void ggrs_load_game_state(int @frame, byte[] buffer, int checksum)
 	{
-		currGame.LoadState(frame, buffer, checksum);
+
+		if (Math.Abs(Globals.frame - frame) > 8)
+			Globals.Log($"Suspicious rollback from {Globals.frame} to {frame}");
+		Globals.frame = @frame;
+		currGame.LoadState(@frame, buffer, checksum);
 	}
 
 	public void ggrs_advance_frame(Godot.Collections.Array<Godot.Collections.Array> combinedInputs)
-	{
-		frame++;
+	{	
+		Globals.frame++;
+
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
+			GD.Print($"Restarting game on frame {Globals.frame}");
 			OnGameFinished("Game");
 			readyForChange = false;
 		}

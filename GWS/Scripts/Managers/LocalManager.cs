@@ -15,6 +15,7 @@ class LocalManager : BaseManager
 	{
 		int p1Inputs = GetInputs("");
 		int p2Inputs = GetInputs("b");
+		Globals.frame++;
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 	}
 

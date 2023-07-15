@@ -11,6 +11,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void HealthChanged(string name, int health);
 	[Signal]
+	public delegate void HealthSet(string name, int health);
+	[Signal]
 	public delegate void MeterChanged(string name, int meter);
 	[Signal]
 	public delegate void ComboChanged(string name, int combo);
@@ -405,7 +407,7 @@ public class Player : Node2D
 		health = pState.health;
 		meter = pState.meter;
 		terminalVelocity = pState.terminalVelocity;
-		EmitSignal(nameof(HealthChanged), Name, health);
+		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);

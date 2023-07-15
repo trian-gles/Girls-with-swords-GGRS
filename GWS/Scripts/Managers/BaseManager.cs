@@ -26,7 +26,7 @@ public class BaseManager : Node2D
 	/// playing back recorded matches
 	/// </summary>
 	protected bool playbackMatch = false;
-	private string matchFilename = "20237122226";
+	private string matchFilename = "MatchBefore";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -55,7 +55,6 @@ public class BaseManager : Node2D
 	int playerOne, playerTwo;
 	int colorOne, colorTwo;
 	int bkgIndex;
-	protected int frame = 0;
 
 	public override void _Ready()
 	{
@@ -72,6 +71,7 @@ public class BaseManager : Node2D
 
 		charSelectScene.ChangeHUDText("");
 		gameScene.ChangeHUDText("");
+		Globals.frame = 0;
 
 		
 		if (playbackMatch)
@@ -104,7 +104,7 @@ public class BaseManager : Node2D
 			currGame = gameScene;
 			MoveChild(charSelectScene, 0);
 
-			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, frame, bkgIndex);
+			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
 			charSelectScene.HideAll();
 		}
 		else

@@ -51,7 +51,6 @@ public class GameScene : BaseGame
 	private Control P1Meter;
 	private Control P2Meter;
 	private AudioStreamPlayer music;
-	private int frame;
 
 	private Label recordingText;
 	private ColorRect recordingBack;
@@ -68,10 +67,13 @@ public class GameScene : BaseGame
 
 	private int timeOutFrame;
 
-	private int possibleEndingFrame;
+	// Stored in gamestate
+	public int possibleEndingFrame;
+	public TimeStatus currTime;
+
 	private int trueEndingFrame;
 	private int exitFrame;
-	private TimeStatus currTime;
+	
 
 	// RECORDING
 	public bool recordMatch = true;
@@ -91,7 +93,7 @@ public class GameScene : BaseGame
 	[Signal]
 	public delegate void ComboFinished(string player);
 
-	private enum TimeStatus
+	public enum TimeStatus
 	{
 		PREROUND,
 		GAME,
@@ -135,7 +137,6 @@ public class GameScene : BaseGame
 	{
 		Globals.Log($"Starting game config on frame {frame}");
 		((MainGFX)GetNode("MainGFX")).Init(bkg);
-		this.frame = frame;
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
 
 		//p1
@@ -164,6 +165,8 @@ public class GameScene : BaseGame
 		P2.Connect("ComboSet", this, nameof(OnPlayerComboSet));
 		P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
 		P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
+		P1.Connect("HealthSet", this, nameof(OnPlayerHealthSet));
+		P2.Connect("HealthSet", this, nameof(OnPlayerHealthSet));
 		P1.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
 		P2.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
@@ -239,11 +242,16 @@ public class GameScene : BaseGame
 		}
 	}
 	
+	/// <summary>
+	/// Update the gamestate only if we're in regular time.  Note that in a potentially ending we do not update.
+	/// </summary>
+	/// <param name="p1Inps"></param>
+	/// <param name="p2Inps"></param>
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
 		
 
-		if (currTime == TimeStatus.GAME || currTime == TimeStatus.FAKEEND)
+		if (currTime == TimeStatus.GAME)
 		{
 			gsObj.Update(p1Inps, p2Inps);
 
@@ -256,7 +264,6 @@ public class GameScene : BaseGame
 		}
 			
 		HandleTime();
-		frame++;
 	}
 
 	public override void TimeAdvance()
@@ -307,10 +314,8 @@ public class GameScene : BaseGame
 
 	public override void LoadState(int frame, byte[] buffer, int checksum)
 	{
-		if (Math.Abs(this.frame - frame) > 8)
-			Globals.Log($"Suspicious rollback from {this.frame} to {frame}");
+		
 
-		this.frame = frame;
 
 		// This will occur if the game finishes locally but a remote input changes the result
 		if (currTime == TimeStatus.FAKEEND && frame < possibleEndingFrame)
@@ -383,20 +388,48 @@ public class GameScene : BaseGame
 	public void OnPlayerCounterHit(string name)
 	{
 		if (name == "P1")
-			P1Counter.Call("display", frame);
+			P1Counter.Call("display", Globals.frame);
 		else
-			P2Counter.Call("display", frame);
+			P2Counter.Call("display", Globals.frame);
+	}
+
+	/// <summary>
+	/// Called during rollbacks
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="health"></param>
+	public void OnPlayerHealthSet(string name, int health)
+	{
+		if (name == "P1")
+		{
+			P1Health.Value = health;
+		}
+
+		else
+		{
+			P2Health.Value = health;
+		}
 	}
 
 	public void OnPlayerHealthChange(string name, int health)
 	{
+
+		int prevHealth;
 		if (name == "P1")
+		{
+			prevHealth = (int)P1Health.Value;
 			P1Health.Value = health;
+		}
+
 		else
+		{
+			prevHealth = (int)P2Health.Value;
 			P2Health.Value = health;
+		}
+			
 
 
-		if (health < 1)
+		if (prevHealth > 1 && health < 1)
 		{
 			centerText.Visible = true;
 			if (name == "P2")
@@ -437,7 +470,7 @@ public class GameScene : BaseGame
 
 	public void OnLevelUp()
 	{
-		mainGFX.LevelUp(gsObj.Frame);
+		mainGFX.LevelUp(Globals.frame);
 	}
 
 	public void OnGhostEmitted()
@@ -447,7 +480,7 @@ public class GameScene : BaseGame
 
 	public void OnSuperActivate()
 	{
-		superText.Call("display", frame);
+		superText.Call("display", Globals.frame);
 		gsObj.SuperFreeze();
 	}
 
@@ -456,8 +489,8 @@ public class GameScene : BaseGame
 	// ----------------
 	private void ConfigTime()
 	{
-		readyFrame = frame;
-		startFrame = frame + 60 * 3;
+		readyFrame = Globals.frame;
+		startFrame = Globals.frame + 60 * 3;
 		timeOutFrame = startFrame + 60 * 99;
 		currTime = TimeStatus.PREROUND;
 		timer.Text = "99";
@@ -486,7 +519,7 @@ public class GameScene : BaseGame
 
 	private void HandlePreroundTime()
 	{
-		if (frame == startFrame)
+		if (Globals.frame == startFrame)
 		{
 			currTime = TimeStatus.GAME;
 			centerText.Text = "FIGHT!";
@@ -495,7 +528,7 @@ public class GameScene : BaseGame
 			
 		
 
-		int trueFrame = frame - readyFrame;
+		int trueFrame = Globals.frame - readyFrame;
 		centerText.Text = (3 - Math.Floor((float)trueFrame / 60)).ToString();
 	}
 
@@ -506,24 +539,25 @@ public class GameScene : BaseGame
 			centerText.Visible = false;
 			return;
 		}
-		if (frame == timeOutFrame)
+		if (Globals.frame == timeOutFrame)
 		{
 			TryEndRound();
 			centerText.Text = "TIME UP";
 			timer.Text = "0";
 			return;
 		}
-		else if (frame > startFrame + 60)
+		else if (Globals.frame > startFrame + 60)
 			centerText.Visible = false;
 
-		int trueFrame = frame - startFrame;
+		int timerFrame = Globals.frame - startFrame;
 
-		timer.Text = (99 - Math.Floor((float)trueFrame / 60)).ToString();
+		timer.Text = (99 - Math.Floor((float)timerFrame / 60)).ToString();
 	}
 
 	private void HandleFakeEndTime()
 	{
-		if (frame == trueEndingFrame)
+		Globals.Log($"IN FAKEEND TIME.  True ending frame = {trueEndingFrame} Frame = {Globals.frame}");
+		if (Globals.frame == trueEndingFrame)
 		{
 			EndRound();
 		}
@@ -532,15 +566,17 @@ public class GameScene : BaseGame
 	private void HandleTrueEndTime()
 	{
 		centerText.Visible = true;
-		if (frame == exitFrame) // Later we'll manage keeping score
+		if (Globals.frame == exitFrame) // Later we'll manage keeping score
 			EmitSignal("RoundFinished", "P1");
 	}
 
 	private void TryEndRound()
 	{
+
+		GD.Print($"Potentially ending game on frame {Globals.frame}");
 		currTime = TimeStatus.FAKEEND;
-		possibleEndingFrame = frame;
-		trueEndingFrame = frame + 8;
+		possibleEndingFrame = Globals.frame;
+		trueEndingFrame = Globals.frame + 8;
 	}
 
 	private void EndRound()
@@ -548,7 +584,7 @@ public class GameScene : BaseGame
 		if (recordMatch && !savedFile)
 			WriteInputsToFile();
 		currTime = TimeStatus.TRUEEND;
-		exitFrame = frame + 180;
+		exitFrame = Globals.frame + 180;
 	}
 
 	// ----------------
@@ -639,15 +675,11 @@ public class GameScene : BaseGame
 	
 	public int GetFramesSinceStart()
 	{
-		return (frame - startFrame);
+		return (Globals.frame - startFrame);
 	}
 	private void SaveFrameInputs(int p1Inputs, int p2Inputs)
 	{
 		int inp_frame = GetFramesSinceStart();
-		if (inp_frame < 100)
-		{
-			//GD.Print($"Saving input for p1 {p1Inputs} input for p2 {p2Inputs} on frame {inp_frame}");
-		}
 
 		allInputs[inp_frame, 0] = p1Inputs;
 		allInputs[inp_frame, 1] = p2Inputs;
@@ -674,7 +706,7 @@ public class GameScene : BaseGame
 		recording["p2char"] = p2Ind;
 		recording["allInputs"] = allInputs;
 
-		GD.Print("Saving file");
+		Globals.Log("Saving file");
 		var dir = new Godot.Directory();
 		dir.Open("user://");
 

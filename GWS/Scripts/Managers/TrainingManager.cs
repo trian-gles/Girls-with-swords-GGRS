@@ -22,7 +22,7 @@ public class TrainingManager : BaseManager
 		int p2Inputs;
 		int playerInputs = GetInputs("");
 		int otherInputs = 0;
-
+		Globals.frame++;
 		if (recordingInputs)
 			recordedInputs.Add(playerInputs);
 

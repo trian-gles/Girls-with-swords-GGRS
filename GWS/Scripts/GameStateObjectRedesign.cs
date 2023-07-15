@@ -20,8 +20,6 @@ public class GameStateObjectRedesign : Node
 
 	private bool hosting;
 
-	public int Frame = 0;
-
 	private int hitStopRemaining = 0;
 
 	private int maxHitStop = 14;
@@ -47,6 +45,10 @@ public class GameStateObjectRedesign : Node
 
 		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
 		public int hitStopRemaining { get; set; }
+
+		// From gameScene
+		public int timeMode { get; set; }
+		public int possibleEndingFrame { get; set; }
 	}
 
 	private Dictionary<string, HadoukenPart> hadoukens;
@@ -104,7 +106,7 @@ public class GameStateObjectRedesign : Node
 	public GameState GetGameState()
 	{
 		GameState gState = new GameState();
-		gState.frame = Frame;
+		gState.frame = Globals.frame;
 		
 		gState.P1State = P1.GetState();
 		gState.P2State = P2.GetState();
@@ -114,6 +116,11 @@ public class GameStateObjectRedesign : Node
 			gState.hadoukenStates.Add(entry.Value.GetState());
 		}
 		gState.hitStopRemaining = hitStopRemaining;
+
+		// From gameScene
+		gState.possibleEndingFrame = mainScene.possibleEndingFrame;
+		gState.timeMode = (int)mainScene.currTime; // cast enum to int for storage
+
 
 		return gState;
 	}
@@ -224,9 +231,7 @@ public class GameStateObjectRedesign : Node
 
 	private void SetGameState(GameState gState)
 	{
-		Frame = gState.frame;
-		// GD.Print($"Rolling back to frame {Frame}");
-		Globals.frame = Frame;
+		
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
@@ -244,13 +249,16 @@ public class GameStateObjectRedesign : Node
 		{
 			HadoukenPart thisHadouken = entry.Value;
 
-			if (thisHadouken.creationFrame > Frame)
+			if (thisHadouken.creationFrame > gState.frame)
 			{
 				// GD.Print($"deleting hadouken created on frame {thisHadouken.creationFrame}");
 				deleteQueued.Add(thisHadouken);
 			}
 		}
 		CleanupHadoukens();
+
+		mainScene.currTime = (GameScene.TimeStatus)gState.timeMode;
+		mainScene.possibleEndingFrame = gState.possibleEndingFrame;
 
 	}
 
@@ -270,7 +278,7 @@ public class GameStateObjectRedesign : Node
 		Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
 		
 
-		if (Frame > 1)
+		if (Globals.frame > 1)
 		{
 			GameState firstGS = GetGameState();
 			SetGameState(lastGs);
@@ -303,13 +311,11 @@ public class GameStateObjectRedesign : Node
 	/// <param name="thisFrameInputs"></param>
 	public void Update(int p1inps, int p2inps)
 	{
-		Frame++;
 		//GD.Print($"Advancing frame to {Frame}");
-		Globals.frame++;
 
 		AdvanceFrameAndHitstop();
 		FrameAdvancePlayers(p1inps, p2inps);
-		rhythmTrack.AdvanceFrame(Frame);
+		rhythmTrack.AdvanceFrame(Globals.frame);
 		
 
 	}
@@ -322,8 +328,8 @@ public class GameStateObjectRedesign : Node
 
 	public void InformPlayersRollback()
 	{
-		P1.Rollback(Frame);
-		P2.Rollback(Frame);
+		P1.Rollback(Globals.frame);
+		P2.Rollback(Globals.frame);
 	}
 	private void AdvanceFrameAndHitstop()
 	{
@@ -471,13 +477,13 @@ public class GameStateObjectRedesign : Node
 			{
 				P1.ConfirmRhythmHit();
 				mainScene.P1Rhythm.Text = "SWINGIN";
-				mainScene.P1Rhythm.Call("display", Frame);
+				mainScene.P1Rhythm.Call("display", Globals.frame);
 			}
 			else
 			{
 				P2.ConfirmRhythmHit();
 				mainScene.P2Rhythm.Text = "SWINGIN";
-				mainScene.P2Rhythm.Call("display", Frame);
+				mainScene.P2Rhythm.Call("display", Globals.frame);
 			}
 		}
 		else
@@ -486,13 +492,13 @@ public class GameStateObjectRedesign : Node
 			{
 				P1.RhythmHitFailure();
 				mainScene.P1Rhythm.Text = "JIVE";
-				mainScene.P1Rhythm.Call("display", Frame);
+				mainScene.P1Rhythm.Call("display", Globals.frame);
 			}
 			else
 			{
 				P2.RhythmHitFailure();
 				mainScene.P2Rhythm.Text = "JIVE";
-				mainScene.P2Rhythm.Call("display", Frame);
+				mainScene.P2Rhythm.Call("display", Globals.frame);
 			}
 		}
 	}
@@ -513,8 +519,8 @@ public class GameStateObjectRedesign : Node
 	public void NewHadouken(HadoukenPart h)
 	{
 		hadoukens.Add(h.Name, h); 
-		Globals.Log($"New hadouken on frame {Frame}");
-		h.creationFrame = Frame;
+		Globals.Log($"New hadouken on frame {Globals.frame}");
+		h.creationFrame = Globals.frame;
 	}
 
 	public void RemoveHadouken(HadoukenPart h)

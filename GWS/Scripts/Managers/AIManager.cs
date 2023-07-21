@@ -21,7 +21,7 @@ class AIManager : LocalManager
 	{
 		int p1Inputs = 0; 
 		int p2Inputs = 0;
-		
+		Globals.frame++;
 
 		if (currGame.Name == "GameScene" && currGame.AcceptingInputs())
 		{

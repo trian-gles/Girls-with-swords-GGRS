@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Sprites/Character Potraits/OL Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Character Potraits/ScenesOLBlink.tres" type="Animation" id=2]
@@ -7,12 +7,8 @@
 [ext_resource path="res://Sprites/Character Potraits/GL Sheet.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Character Potraits/GLBlink.tres" type="Animation" id=6]
 [ext_resource path="res://Sprites/CharacterSelect/Curors3.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL2.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL3.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL3.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass GL1.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL2.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/CharacterSelect/Simpsons looking ass OL1.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/Characters/SLSprite.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/Spritesheet/snail.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=16]
@@ -37,26 +33,6 @@ font_data = ExtResource( 16 )
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 18 )
 shader_param/whitening = 0.0
-
-[sub_resource type="AnimatedTexture" id=4]
-frames = 3
-fps = 15.0
-frame_0/texture = ExtResource( 13 )
-frame_0/delay_sec = 1.5
-frame_1/texture = ExtResource( 12 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 9 )
-frame_2/delay_sec = 0.0
-
-[sub_resource type="AnimatedTexture" id=5]
-frames = 3
-fps = 15.0
-frame_0/texture = ExtResource( 11 )
-frame_0/delay_sec = 1.5
-frame_1/texture = ExtResource( 8 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 10 )
-frame_2/delay_sec = 0.0
 
 [sub_resource type="Animation" id=6]
 length = 0.6
@@ -254,6 +230,34 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
+[sub_resource type="Animation" id=13]
+resource_name = "SLFadeIn"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("SLSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SLSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 21, 21 ), Vector2( 7, 7 ) ]
+}
+
 [sub_resource type="AnimationNodeStateMachinePlayback" id=12]
 
 [node name="CharSelectScreen" type="Node2D"]
@@ -292,14 +296,15 @@ __meta__ = {
 }
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 185, 143.717 )
+position = Vector2( 150, 143.717 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
 texture = ExtResource( 4 )
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 185, 143.717 )
-scale = Vector2( 2.5, 2.5 )
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 150, 143.717 )
+scale = Vector2( 10, 10 )
 z_index = 1
 texture = ExtResource( 3 )
 
@@ -317,17 +322,25 @@ __meta__ = {
 }
 
 [node name="OLSprite" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 188.404, 130.131 )
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 150, 130.131 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 10
-frame = 4
+frame = 2
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
 material = SubResource( 3 )
-position = Vector2( 288.125, 132.404 )
+position = Vector2( 230, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
-frame = 4
+frame = 2
+
+[node name="SLSprite" type="Sprite" parent="CanvasLayer"]
+material = SubResource( 3 )
+position = Vector2( 310, 132 )
+scale = Vector2( 7, 7 )
+texture = ExtResource( 9 )
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
@@ -340,31 +353,10 @@ margin_right = 103.54
 margin_bottom = 70.5
 custom_constants/vseparation = 0
 custom_constants/hseparation = 0
-columns = 2
+columns = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="OL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
-modulate = Color( 1, 1, 1, 0 )
-margin_left = 1.0
-margin_top = 21.0
-margin_right = 101.0
-margin_bottom = 121.0
-size_flags_horizontal = 6
-size_flags_vertical = 4
-texture = SubResource( 4 )
-stretch_mode = 5
-
-[node name="GL" type="TextureRect" parent="CanvasLayer/GridContainer" groups=["Characters"]]
-modulate = Color( 1, 1, 1, 0 )
-margin_left = 104.0
-margin_top = 21.0
-margin_right = 204.0
-margin_bottom = 121.0
-size_flags_horizontal = 6
-size_flags_vertical = 6
-texture = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 anims/CursorFadeIn = SubResource( 6 )
@@ -375,6 +367,7 @@ anims/Init = SubResource( 9 )
 anims/OLBlink = ExtResource( 2 )
 anims/OLFadeIn = SubResource( 10 )
 anims/RESET = SubResource( 11 )
+anims/SLFadeIn = SubResource( 13 )
 
 [node name="AnimationTree" type="AnimationTree" parent="CanvasLayer"]
 tree_root = ExtResource( 17 )
@@ -390,6 +383,9 @@ visible = false
 
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
 
+[node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
+visible = false
+
 [node name="P1Selected" type="Position2D" parent="CanvasLayer"]
 position = Vector2( 70, 145 )
 
@@ -397,6 +393,9 @@ position = Vector2( 70, 145 )
 visible = false
 
 [node name="OLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 23 )]
+
+[node name="SLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 8 )]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = -3.0

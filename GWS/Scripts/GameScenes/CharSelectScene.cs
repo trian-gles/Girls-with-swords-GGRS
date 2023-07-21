@@ -22,6 +22,9 @@ public class CharSelectScene : BaseGame
 	[Export]
 	public PackedScene GLScene;
 
+	[Export]
+	public PackedScene SLScene;
+
 	private Sprite P1Cursor;
 	private Sprite P2Cursor;
 
@@ -56,7 +59,7 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	const int CENTER = 185;
+	const int CENTER = 140;
 
 	
 
@@ -78,12 +81,14 @@ public class CharSelectScene : BaseGame
 
 		var p1CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P1Selected/OLSprite"),
-			GetNode<Sprite>("CanvasLayer/P1Selected/GLSprite")
+			GetNode<Sprite>("CanvasLayer/P1Selected/GLSprite"),
+			GetNode<Sprite>("CanvasLayer/P1Selected/SLSprite")
 		};
 
 		var p2CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P2Selected/OLSprite"),
-			GetNode<Sprite>("CanvasLayer/P2Selected/GLSprite")
+			GetNode<Sprite>("CanvasLayer/P2Selected/GLSprite"),
+			GetNode<Sprite>("CanvasLayer/P2Selected/SLSprite")
 		};
 
 		charImages = new List<List<Sprite>>() { p1CharImages, p2CharImages };
@@ -137,12 +142,11 @@ public class CharSelectScene : BaseGame
 		((Sprite)bkgImages[selectedStage]).Visible = true;
 
 		// Cleanup selection images
-		charImages[0][p1Pos].Visible = true;
-		charImages[0][(p1Pos + 1) % 2].Visible = false;
-		charImages[1][p2Pos].Visible = true;
-		charImages[1][(p2Pos + 1) % 2].Visible = false;
+		HighlightChar(0, p1Pos);
 
-		
+		HighlightChar(1, p1Pos);
+
+
 
 		CheckOverlap();
 	}
@@ -224,26 +228,32 @@ public class CharSelectScene : BaseGame
 		return r < 0 ? r + m : r;
 	}
 
+	private void HighlightChar(int playerNum, int sprite)
+	{
+		foreach (var charImg in charImages[playerNum])
+			charImg.Visible = false;
+
+		charImages[playerNum][sprite].Visible = true;
+	}
+
 	private void MoveCursor(int playerNum, int direction)
 	{
 		
 		if (playerNum == 0 && !p1Selected)
 		{
 			
-			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 1);
+			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 2);
 			
-			P1Cursor.Position = new Vector2(CENTER + p1Pos * 100, P1Cursor.Position.y);
-			charImages[0][p1Pos].Visible = true;
-			charImages[0][(p1Pos + 1) % 2].Visible = false;
+			P1Cursor.Position = new Vector2(CENTER + p1Pos * 80, P1Cursor.Position.y);
+			HighlightChar(playerNum, p1Pos);
 		}
 			
 		else if (playerNum == 1 && !p2Selected)
 		{
-			p2Pos = Math.Min(Math.Max(0, p2Pos + direction), 1);
-			P2Cursor.Position = new Vector2(CENTER + p2Pos * 100, P2Cursor.Position.y);
+			p2Pos = Math.Min(Math.Max(0, p2Pos + direction), 2);
+			P2Cursor.Position = new Vector2(CENTER + p2Pos * 80, P2Cursor.Position.y);
 
-			charImages[1][p2Pos].Visible = true;
-			charImages[1][(p2Pos + 1) % 2].Visible = false;
+			HighlightChar(playerNum, p2Pos);
 		}
 			
 

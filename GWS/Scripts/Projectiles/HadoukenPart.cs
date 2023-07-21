@@ -115,7 +115,7 @@ public class HadoukenPart : Node2D
 	/// </summary>
 	/// <param name="movingRight"></param>
 	/// <param name="targetPlayer"> the targeted player </param>
-	public void Spawn(bool movingRight, Player targetPlayer)
+	public virtual void Spawn(bool movingRight, Player targetPlayer)
 	{
 		GetNode<AnimatedSprite>("AnimatedSprite").Playing = true;
 		this.movingRight = movingRight;
@@ -149,25 +149,25 @@ public class HadoukenPart : Node2D
 		public int frame { get; set; }
 		public int lastHitFrame { get; set; }
 		public int hits { get; set; }
+
+		public Dictionary<string, int> dict { get; set; }
 	}
 	
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > 0)
 		{
-			Vector2 trueSpeed = speed;
+			Vector2 trueSpeed = new Vector2(speed);
 			if (hits > 0)
-				trueSpeed = postHitSpeed;
+				trueSpeed = new Vector2(postHitSpeed);
 
-			if (movingRight)
+			if (!movingRight)
 			{
-				Position += trueSpeed;
+				trueSpeed.x *= -1;
 			}
 
-			else
-			{
-				Position -= trueSpeed;
-			}
+
+			Position += trueSpeed;
 			// GD.Print($"Moving {Name} to X position {Position.x} on global frame {Globals.frame}, hadouken frame {frame}");
 		}
 		
@@ -271,7 +271,18 @@ public class HadoukenPart : Node2D
 		hadState.frame = frame;
 		hadState.hits = hits;
 		hadState.lastHitFrame = lastHitFrame;
+		hadState.dict = GetStateSpecific();
 		return hadState;
+	}
+
+	protected virtual Dictionary<string, int> GetStateSpecific()
+	{
+		return new Dictionary<string, int>();
+	}
+
+	protected virtual void SetStateSpecific(Dictionary<string, int> dict)
+	{
+
 	}
 
 	public virtual void SetState(HadoukenState newState) 
@@ -282,7 +293,7 @@ public class HadoukenPart : Node2D
 		frame = newState.frame;
 		hits = newState.hits;
 		lastHitFrame = newState.lastHitFrame;
-		//GD.Print($"Loading hadouken state: frame {frame} active {active}");
+		SetStateSpecific(newState.dict);
 	}
 
 	

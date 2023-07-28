@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/Projectiles/CellPhone.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Player/SL/SnailCall.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/Projectiles/Snail.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Projectiles/OLProjectile.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharge.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
@@ -7930,7 +7931,9 @@ launch = Vector2( 0, -400 )
 script = ExtResource( 3 )
 
 [node name="BackToss" type="Node" parent="StateTree" index="22"]
-script = ExtResource( 3 )
+script = ExtResource( 7 )
+hadoukenScene = ExtResource( 11 )
+yOffset = 22
 
 [node name="PhoneToss" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 7 )

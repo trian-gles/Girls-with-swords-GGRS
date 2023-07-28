@@ -187,6 +187,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("SLSprite:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=10]
 length = 0.6
@@ -324,19 +336,20 @@ __meta__ = {
 [node name="OLSprite" type="Sprite" parent="CanvasLayer"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 150, 130.131 )
-scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 10
-frame = 2
+frame = 4
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 position = Vector2( 230, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
-frame = 2
+frame = 4
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 position = Vector2( 310, 132 )
 scale = Vector2( 7, 7 )

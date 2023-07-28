@@ -8,6 +8,12 @@ public class Hadouken : AmbigAttack
 
 	[Export]
 	public PackedScene hadoukenScene;
+
+	/// <summary>
+	/// How far below the player the projecctile will be
+	/// </summary>
+	[Export]
+	public int yOffset = 5;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -38,6 +44,6 @@ public class Hadouken : AmbigAttack
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
-		h.GlobalPosition = new Vector2(owner.Position.x, owner.Position.y + 5);
+		h.GlobalPosition = new Vector2(owner.Position.x, owner.Position.y + yOffset);
 	}
 }

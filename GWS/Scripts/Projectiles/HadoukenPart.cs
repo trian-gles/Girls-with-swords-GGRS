@@ -69,6 +69,8 @@ public class HadoukenPart : Node2D
 
 	protected Player targetPlayer;
 
+	public string ownerName;
+
 	protected bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
 
 	public int creationFrame;
@@ -76,6 +78,15 @@ public class HadoukenPart : Node2D
 	static protected HashSet<int> hadoukenNums = new HashSet<int>();
 
 	protected int num;
+
+	public virtual string hadoukenType { get; } = "Hadouken";
+
+	public enum ProjectileCommand
+	{
+		SnailAttack,
+		SnailJump,
+		BlackHolePowerUp
+	}
 
 
 	public override void _Ready()
@@ -120,6 +131,10 @@ public class HadoukenPart : Node2D
 		GetNode<AnimatedSprite>("AnimatedSprite").Playing = true;
 		this.movingRight = movingRight;
 		this.targetPlayer = targetPlayer;
+
+		// this is a bit lazy...
+		this.ownerName = targetPlayer.otherPlayer.Name;
+
 		if (!movingRight) 
 		{
 			GetNode<AnimatedSprite>("AnimatedSprite").FlipH = true;
@@ -179,7 +194,7 @@ public class HadoukenPart : Node2D
 		}
 		if (active && hits == 0)
 		{
-			if (CheckRect() && frame < duration)
+			if (CheckRect() && (frame < duration | duration == 0))
 			{
 				HurtPlayer();
 			}
@@ -208,7 +223,7 @@ public class HadoukenPart : Node2D
 		return false;
 	}
 
-	protected void HurtPlayer()
+	protected virtual void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
 		if (targetPlayer.currentState.Name == "Knockdown" || targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
@@ -281,6 +296,11 @@ public class HadoukenPart : Node2D
 	}
 
 	protected virtual void SetStateSpecific(Dictionary<string, int> dict)
+	{
+
+	}
+
+	public virtual void ReceiveCommand(ProjectileCommand command)
 	{
 
 	}

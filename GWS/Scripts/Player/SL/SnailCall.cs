@@ -12,9 +12,24 @@ public class SnailCall : State
 		loop = true;
 		AddGatling(new[] { 's', 'r' }, "PhonePutAway");
 		AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '4', 'r' }, new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "PhoneToss");
+
+		AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 'p', 'p' } }, "", () => {
+			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailAttack);
+		});
+
+		AddGatling(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '2', 'p' }, new char[] { 'k', 'p' } }, "", () => {
+			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailJump);
+		});
 	}
 
-	public override void ReceiveHit(Globals.AttackDetails details)
+    public override void Enter()
+    {
+        base.Enter();
+		
+    }
+
+
+    public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		switch (details.dir)
 		{

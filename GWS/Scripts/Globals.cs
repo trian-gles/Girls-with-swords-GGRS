@@ -362,6 +362,16 @@ public class Globals : Node
         }
     }
 
+	public static int BoolToInt(bool a)
+    {
+		return a ? 1 : 0;
+    }
+
+	public static bool IntToBool(int i)
+    {
+		return i == 1;
+    }
+
 	public static int[] IntArcTan(int o, int a)
 	{
 

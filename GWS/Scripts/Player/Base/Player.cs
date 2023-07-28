@@ -36,6 +36,9 @@ public class Player : Node2D
 	[Signal]
 	public delegate void Recovery(string name);
 
+	[Signal]
+	public delegate void HadoukenCommand(string playerName, string projectileName, HadoukenPart.ProjectileCommand command);
+
 	[Export]
 	public int speed = 400;
 
@@ -1169,6 +1172,11 @@ public class Player : Node2D
 	{
 		EmitSignal(nameof(HadoukenRemoved), h);
 	}
+
+	public void CommandHadouken(string hadName, HadoukenPart.ProjectileCommand command)
+    {
+		EmitSignal(nameof(HadoukenCommand), Name, hadName, command);
+    }
 
 	public void ResetComboAndProration()
 	{

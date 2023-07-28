@@ -179,6 +179,8 @@ public class GameScene : BaseGame
 		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
 
+		
+
 
 		P1Combo = GetNode<Label>("HUD/P1Combo");
 		P2Combo = GetNode<Label>("HUD/P2Combo");

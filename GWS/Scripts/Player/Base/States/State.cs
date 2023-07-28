@@ -130,6 +130,9 @@ public abstract class State : Node
 		public PostInputCallback postCall;
 	}
 
+	/// <summary>
+	/// Represents any action that requires a series of inputs
+	/// </summary>
 	protected struct CommandGatling
 	{
 		public List<char[]> inputs;
@@ -454,7 +457,10 @@ public abstract class State : Node
 						comGat.postCall();
 					}
 
-					EmitSignal(nameof(StateFinished), comGat.state);
+					// this gatling doesn't actually lead to a state (confusing, I know)
+					if (comGat.state != "")
+						EmitSignal(nameof(StateFinished), comGat.state);
+
 					return;
 				}
 			}

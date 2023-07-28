@@ -71,6 +71,9 @@ public class GameStateObjectRedesign : Node
 		P1.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
 		P2.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
 
+		P1.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
+		P2.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
+
 
 		P1.otherPlayer = P2;
 		P2.otherPlayer = P1;
@@ -522,6 +525,16 @@ public class GameStateObjectRedesign : Node
 		Globals.Log($"New hadouken on frame {Globals.frame}");
 		h.creationFrame = Globals.frame;
 	}
+
+	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)
+    {
+		Globals.Log($"Hadouken command sent from {playerName} for hadouken {hadName}");
+		foreach (HadoukenPart h in hadoukens.Values)
+        {
+			if (h.hadoukenType == hadName && playerName == h.ownerName)
+				h.ReceiveCommand(command);
+        }
+    }
 
 	public void RemoveHadouken(HadoukenPart h)
 	{

@@ -18,6 +18,8 @@ public class BlackHole : HadoukenPart
 
 	protected GL createdByPlayer;
 
+	public override string hadoukenType { get; } = "BlackHole";
+
 	public override void _Ready()
 	{
 		base._Ready();

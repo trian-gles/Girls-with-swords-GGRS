@@ -23,7 +23,8 @@ class Snail : HadoukenPart
 		Standby,
 		Attack,
 		AttackWillJump,
-		JumpAttack
+		JumpAttack,
+		Attack2
 	}
 
 	private SnailMode mode = SnailMode.GetInPosition;
@@ -62,9 +63,21 @@ class Snail : HadoukenPart
 			case SnailMode.AttackWillJump:
 				AttackWillJumpUpdate();
 				break;
+			case SnailMode.Attack2:
+				Attack2Update();
+				break;
 		}
 	}
 
+	private void EnterAttack2()
+	{
+		GD.Print("Entering second attack");
+		mode = SnailMode.Attack2;
+		active = true;
+		var animSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		animSprite.FlipH = !animSprite.FlipH;
+		hits = 0;
+	}
 
 	private void EnterStandby()
 	{
@@ -94,7 +107,7 @@ class Snail : HadoukenPart
 
 	protected override void HurtPlayer()
 	{
-		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack)
+		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack || mode == SnailMode.Attack2)
 			base.HurtPlayer();
 	}
 
@@ -109,10 +122,26 @@ class Snail : HadoukenPart
 		if (movingRight)
 		{
 			Position = new Vector2(Position.x + 4, Position.y);
+			if (Position.x * 100 > Globals.rightWall - 1000)
+				EnterAttack2();
 		}
 		else
 		{
 			Position = new Vector2(Position.x - 4, Position.y);
+			if (Position.x * 100 < Globals.leftWall + 1000)
+				EnterAttack2();
+		}
+	}
+
+	private void Attack2Update()
+	{
+		if (movingRight)
+		{
+			Position = new Vector2(Position.x - 4, Position.y);
+		}
+		else
+		{
+			Position = new Vector2(Position.x + 4, Position.y);
 		}
 	}
 

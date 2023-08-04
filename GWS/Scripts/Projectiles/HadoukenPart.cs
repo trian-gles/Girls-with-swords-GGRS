@@ -59,6 +59,9 @@ public class HadoukenPart : Node2D
 	[Export]
 	public int breakBetweenHits = 8;
 
+	[Export]
+	public bool dieAfterHit = true;
+
 	protected int lastHitFrame = -20;
 
 	protected int hits = 0;
@@ -255,7 +258,8 @@ public class HadoukenPart : Node2D
 	protected virtual void MakeInactive()
 	{
 		Globals.Log("making hadouken inactive");
-		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+		if (dieAfterHit)
+			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
 		active = false;
 	}
 

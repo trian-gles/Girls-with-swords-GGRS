@@ -27,22 +27,6 @@ region = Rect2( 24, 0, 8, 8 )
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 32, 32, 32 )
-
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 64, 64 )
@@ -127,6 +111,22 @@ region = Rect2( 1216, 0, 64, 64 )
 atlas = ExtResource( 4 )
 region = Rect2( 1280, 0, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 32, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=37]
 resource_local_to_scene = true
 animations = [ {
@@ -140,15 +140,15 @@ animations = [ {
 "name": "Snail",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
-"loop": true,
-"name": "OLProjectile",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), null ],
 "loop": false,
 "name": "GLProjectile",
 "speed": 10.0
+}, {
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "OLProjectile",
+"speed": 5.0
 } ]
 
 [node name="Snail" instance=ExtResource( 6 )]
@@ -159,6 +159,7 @@ modifiedHitStun = 28
 modifiedCounterHitStun = 38
 effect = 3
 chEffect = 3
+dieAfterHit = false
 gravity = 1
 jumpVel = Vector2( 4, -7 )
 

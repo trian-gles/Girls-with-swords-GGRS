@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 public abstract class AirAttack : BaseAttack
@@ -76,6 +77,14 @@ public abstract class AirAttack : BaseAttack
 		{
 			EmitSignal(nameof(StateFinished), "Landing");
 		}
+
+		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
+		{
+			hitConnect = false;
+		}
+
+
+		Globals.Log($"{Name} at position {owner.Position}");
 
 		if (owner.airDashFrames > 0)
 			owner.airDashFrames--;

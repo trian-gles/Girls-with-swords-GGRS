@@ -85,6 +85,7 @@ public class HadoukenPart : Node2D
 	{
 		SnailAttack,
 		SnailJump,
+		SnailRide,
 		BlackHolePowerUp
 	}
 
@@ -159,6 +160,7 @@ public class HadoukenPart : Node2D
 	public struct HadoukenState
 	{
 		public int[] pos { get; set; }
+		public int[] speed { get; set; }
 		public bool active { get; set; }
 		public string name { get; set; }
 		public int frame { get; set; }
@@ -257,7 +259,7 @@ public class HadoukenPart : Node2D
 		active = false;
 	}
 
-	private Rect2 GetRect(CollisionShape2D colShape, bool globalPosition = false)
+	protected Rect2 GetRect(CollisionShape2D colShape, bool globalPosition = false)
 	{
 		RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
 		Vector2 extents = shape.Extents * 200;
@@ -281,6 +283,7 @@ public class HadoukenPart : Node2D
 	{
 		HadoukenState hadState = new HadoukenState();
 		hadState.pos = new int[] {(int) Position.x, (int) Position.y};
+		hadState.speed = new int[] { (int)speed.x, (int)speed.y };
 		hadState.active = active;
 		hadState.name = Name;
 		hadState.frame = frame;
@@ -308,6 +311,7 @@ public class HadoukenPart : Node2D
 	public virtual void SetState(HadoukenState newState) 
 	{
 		Position = new Vector2(newState.pos[0], newState.pos[1]);
+		speed = new Vector2(newState.speed[0], newState.speed[1]);
 		active = newState.active;
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
 		frame = newState.frame;

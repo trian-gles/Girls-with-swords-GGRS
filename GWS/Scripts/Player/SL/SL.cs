@@ -9,6 +9,9 @@ public class SL : Player
 		base._EnterTree();
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "SnailCall"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "BackToss"));
+
+		airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { 'k', 'p' } }, "AirSnail"));
+		airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { '8', 'p' }, new char[] { 'k', 'p' } }, "AirSnail"));
 	}
 	public override void _Ready()
 	{
@@ -18,5 +21,10 @@ public class SL : Player
 
 		
 
+	}
+
+	public void SnailRide()
+	{
+		ChangeState("SnailRide");
 	}
 }

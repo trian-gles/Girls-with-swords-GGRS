@@ -28,6 +28,8 @@ public class LaunchAttack : AirAttack
 			owner.GFXEvent("SuperPowerUp");
 		}
 
+		
+
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
 			hitConnect = false;
 

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Hadouken : AmbigAttack
+public class Hadouken : BaseAttack
 {
 	[Export]
 	public int releaseFrame = 18;
@@ -38,12 +38,15 @@ public class Hadouken : AmbigAttack
 		}
 	}
 
-	private void EmitHadouken()
+	protected void EmitHadouken()
 	{
 		var h = hadoukenScene.Instance() as HadoukenPart;
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
-		h.GlobalPosition = new Vector2(owner.Position.x, owner.Position.y + yOffset);
+		h.Position = new Vector2(owner.Position.x, owner.Position.y + yOffset);
+		Globals.Log($"Emitting snail at x position {h.Position}, our position = {owner.Position}, animation frame = {frameCount}, vel = {owner.velocity}");
+
 	}
+
 }

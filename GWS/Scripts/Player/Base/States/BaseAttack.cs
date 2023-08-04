@@ -76,6 +76,9 @@ public abstract class BaseAttack : State
 	[Export]
 	public int grabInvulnFrames = 0;
 
+	[Export]
+	public bool exitOnHit = false;
+
 	public enum EXTRAEFFECT
 	{
 		NONE,
@@ -167,7 +170,10 @@ public abstract class BaseAttack : State
         } 
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
+        {
 			hitConnect = false;
+		}
+			
     }
     public override void AnimationFinished()
 	{
@@ -214,7 +220,16 @@ public abstract class BaseAttack : State
 		owner.otherPlayer.currentState.ResetTerminalVelocity();
 		hitConnect = true;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
-		
+
+		if (exitOnHit)
+        {
+			if (owner.grounded)
+				EmitSignal(nameof(StateFinished), "Idle");
+			else
+				EmitSignal(nameof(StateFinished), "Fall");
+		}
+			
+
 	}
 
 	/// <summary>

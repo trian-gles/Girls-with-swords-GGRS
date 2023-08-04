@@ -481,8 +481,8 @@ public abstract class State : Node
 
 				normGat.postCall?.Invoke();
 
-
-				EmitSignal(nameof(StateFinished), normGat.state);
+				if (normGat.state != "")
+					EmitSignal(nameof(StateFinished), normGat.state);
 				
 				return;
 			}
@@ -619,7 +619,7 @@ public abstract class State : Node
 		else
 		{
 			int mod = (owner.velocity.x < 0) ? -1 : 1;
-			owner.velocity = new Vector2(owner.velocity.x - slowdownSpeed * mod, 0);
+			owner.velocity = new Vector2(owner.velocity.x - slowdownSpeed * mod, owner.velocity.y);
 
 		}
 	}

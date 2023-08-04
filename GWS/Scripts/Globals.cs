@@ -24,6 +24,7 @@ public class Globals : Node
 
 	public static int frame = 0;
 	public static int lastConfirmedFrame = 0;
+	public static int rollbackFrame = 0;
 
 	private static string loggingName;
 	public static bool logOn = false;
@@ -38,6 +39,10 @@ public class Globals : Node
 
 	public static void Log(string msg)
 	{
+		if (rollbackFrame != 0)
+        {
+			msg = rollbackFrame + " : " + msg;
+        }
 		if (logOn)
 			GD.Print(frame + " : " + loggingName + " : " + msg);
 	}
@@ -216,8 +221,8 @@ public class Globals : Node
 		// LVL 5
 		new AttackLevel {
 			hit = new AttackDetails{
-				hitStun = 19,
-				blockStun = 18,
+				hitStun = 20,
+				blockStun = 19,
 				dmg = 9,
 				hitPush = 5000,
 				prorationLevel = 0,
@@ -230,7 +235,7 @@ public class Globals : Node
 			},
 			counterHit = new AttackDetails{
 				hitStun = 38,
-				blockStun = 18,
+				blockStun = 19,
 				dmg = 9,
 				hitPush = 5000,
 				prorationLevel = 0,

@@ -25,12 +25,11 @@ class CellPhone : HadoukenPart
 
 	protected override Dictionary<string, int> GetStateSpecific()
 	{
-		return new Dictionary<string, int>() { { "yVel", (int)speed.y } };
+		return new Dictionary<string, int>() {};
 	}
 
 	protected override void SetStateSpecific(Dictionary<string, int> dict)
 	{
-		speed.y = dict["yVel"];
 	}
 
 

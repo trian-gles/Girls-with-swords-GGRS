@@ -15,11 +15,14 @@ class Snail : HadoukenPart
 
 	private AnimatedSprite sprite;
 
+	private SL snailOwner;
+
 	private enum SnailMode
 	{
 		GetInPosition,
 		Standby,
 		Attack,
+		AttackWillJump,
 		JumpAttack
 	}
 
@@ -35,8 +38,8 @@ class Snail : HadoukenPart
 	{
 		base.Spawn(movingRight, targetPlayer);
 		mode = SnailMode.GetInPosition;
-		Position = new Vector2(Position.x, 269);
 		
+		snailOwner = (SL)targetPlayer.otherPlayer;
 
 	}
 	public override void FrameAdvance()
@@ -56,26 +59,37 @@ class Snail : HadoukenPart
 			case SnailMode.JumpAttack:
 				JumpAttackUpdate();
 				break;
+			case SnailMode.AttackWillJump:
+				AttackWillJumpUpdate();
+				break;
 		}
 	}
 
+
+	private void EnterStandby()
+	{
+		mode = SnailMode.Standby;
+	}
 	/// <summary>
 	/// Note that directions are flipped!
 	/// </summary>
 	private void GetInPositionUpdate()
 	{
+		
+		ApplyGravity();
 		if (!movingRight)
 		{
-			Position = new Vector2(Position.x + 2, Position.y);
+			Position = new Vector2(Position.x + 4, Math.Min(Position.y, 245));
 			if (Position.x * 100 > Globals.rightWall - 1000)
-				mode = SnailMode.Standby;
+				EnterStandby();
 		}
 		else
 		{
-			Position = new Vector2(Position.x - 2, Position.y);
+			Position = new Vector2(Position.x - 4, Math.Min(Position.y, 245));
 			if (Position.x * 100 < Globals.leftWall + 1000)
-				mode = SnailMode.Standby;
+				EnterStandby();
 		}
+		
 	}
 
 	protected override void HurtPlayer()
@@ -86,7 +100,8 @@ class Snail : HadoukenPart
 
 	private void StandbyUpdate()
 	{
-
+		ApplyGravity();
+		Position = new Vector2(Position.x, Math.Min(Position.y, 245));
 	}
 
 	private void AttackUpdate()
@@ -101,6 +116,32 @@ class Snail : HadoukenPart
 		}
 	}
 
+	private void AttackWillJumpUpdate()
+	{
+		if (movingRight)
+		{
+			Position = new Vector2(Position.x + 4, Position.y);
+		}
+		else
+		{
+			Position = new Vector2(Position.x - 4, Position.y);
+		}
+		if (Math.Abs(targetPlayer.internalPos.x / 100 - Position.x) < 65)
+			Jump();
+	}
+
+	private void ApplyGravity()
+	{
+		if (frame % 2 == 0)
+			speed.y += gravity;
+	}
+
+	private void Jump()
+	{
+		speed.y = jumpVel.y;
+		mode = SnailMode.JumpAttack;
+	}
+
 	private void JumpAttackUpdate()
 	{
 		int xMove = (int)jumpVel.x;
@@ -112,8 +153,7 @@ class Snail : HadoukenPart
 
 		Position = new Vector2(Position.x + xMove, Position.y);
 
-		if (frame % 2 == 0)
-			speed.y += gravity;
+		ApplyGravity();
 
 		sprite.Rotation = (float)Math.Atan2(speed.y, xMove) + (float)Math.PI;
 		if (speed.y > 0)
@@ -122,9 +162,8 @@ class Snail : HadoukenPart
 
 	protected override Dictionary<string, int> GetStateSpecific()
 	{
-		return new Dictionary<string, int>() { 
+		return new Dictionary<string, int>() {
 			{ "mode", (int) mode},
-
 
 			{"overhead", Globals.BoolToInt(overhead)}
 		};
@@ -139,14 +178,38 @@ class Snail : HadoukenPart
 	public override void ReceiveCommand(ProjectileCommand command)
 	{
 		if (mode == SnailMode.Standby && command == ProjectileCommand.SnailAttack)
-			mode = SnailMode.Attack;
-		if (mode == SnailMode.Attack && command == ProjectileCommand.SnailJump)
 		{
-			speed.y = jumpVel.y;
-			mode = SnailMode.JumpAttack;
+			speed.y = 0;
+			mode = SnailMode.Attack;
+
+		}
+			
+		else if (mode == SnailMode.Standby && command == ProjectileCommand.SnailJump)
+		{
+			speed.y = 0;
+			mode = SnailMode.AttackWillJump;
+		}
+		else if (command == ProjectileCommand.SnailRide)
+		{
+			TryRide();
+			
 		}
 			
 
+	}
+
+	private void TryRide()
+	{
+		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
+		List<Rect2> otherRects = snailOwner.GetRects(targetPlayer.hitBoxes, true);
+		foreach (Rect2 pRect in otherRects)
+		{
+			if (myRect.Intersects(pRect))
+			{
+				snailOwner.SnailRide();
+				MakeInactive();
+			}
+		}
 	}
 
 }

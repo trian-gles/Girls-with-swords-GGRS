@@ -413,6 +413,11 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
+		if (currentState.Name == "JumpA")
+        {
+			Globals.Log($"Loading state with JumpA position at {Position} and velocity {velocity}");
+        }
+
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;

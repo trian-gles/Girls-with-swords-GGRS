@@ -159,6 +159,7 @@ class SyncTestManager : StateManager
 		else
 			combinedInps = new int[] { 0, 0 };
 
+
 		currGame.AdvanceFrame(combinedInps[0], combinedInps[1]);
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
 		serializedStates.Enqueue(serializedGamestate);
@@ -177,8 +178,10 @@ class SyncTestManager : StateManager
 		Globals.frame = Globals.frame - (DEPTH);
 		for (int i = 1; i < DEPTH + 1; i++)
 		{
+
 			int[] tempInputs = pastInputs[i];
 			Globals.frame++;
+			Globals.rollbackFrame = i;
 			currGame.AdvanceFrame(tempInputs[0], tempInputs[1]);
 		}
 

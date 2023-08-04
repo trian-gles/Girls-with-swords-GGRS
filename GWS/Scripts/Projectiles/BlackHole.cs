@@ -96,7 +96,7 @@ public class BlackHole : HadoukenPart
 
 				if (adjustedPull > pullStrength && targetPlayer.currentState.tags.Contains("hitstate"))
 				{
-					targetPlayer.currentState.stunRemaining += 1;
+					//targetPlayer.currentState.stunRemaining += 1; this causes desyncs...
 				}
 					
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -61,7 +61,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 33 )
+extents = Vector2( 14, 43 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -70,12 +70,16 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 11, 10 )
+extents = Vector2( 19, 59 )
 
 [sub_resource type="RectangleShape2D" id=6]
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
+
+[sub_resource type="Gradient" id=19]
+offsets = PoolRealArray( 0, 0.671053, 1 )
+colors = PoolColorArray( 1, 0.914063, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1 )
 
 [sub_resource type="Curve" id=8]
 max_value = 1024.0
@@ -452,6 +456,28 @@ spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 400.0
 color = Color( 1, 0.133333, 0.133333, 1 )
+script = ExtResource( 36 )
+
+[node name="Explosion" type="CPUParticles2D" parent="GFXHandler"]
+z_index = 1
+emitting = false
+amount = 80
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.73
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 33.0
+direction = Vector2( 0, -1 )
+spread = 73.45
+gravity = Vector2( 0, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 0.76
+angle_random = 0.62
+scale_amount = 3.0
+color = Color( 0.968627, 1, 0, 1 )
+color_ramp = SubResource( 19 )
 script = ExtResource( 36 )
 
 [node name="Cancel" type="CPUParticles2D" parent="GFXHandler"]

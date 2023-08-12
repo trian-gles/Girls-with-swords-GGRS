@@ -48,7 +48,7 @@ public abstract class AirState : State
 
 		if (details.height == HEIGHT.LOW || details.airBlockable == false)
 		{
-			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
 		else
 		{
@@ -61,7 +61,7 @@ public abstract class AirState : State
 			}
 			else
 			{
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 		}
 	}

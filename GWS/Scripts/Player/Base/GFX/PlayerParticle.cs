@@ -8,14 +8,17 @@ public class PlayerParticle : CPUParticles2D
 	public void Trigger(int frame, Vector2 pos, bool facingRight)
 	{
 		startFrame = frame;
-		if (facingRight)
-		{
-			Direction = new Vector2(-1, 0);
+		if (Direction.x != 0){
+			if (facingRight)
+			{
+				Direction = new Vector2(-1, 0);
+			}
+			else 
+			{
+				Direction = new Vector2(1, 0);
+			}
 		}
-		else 
-		{
-			Direction = new Vector2(1, 0);
-		}
+		
 		Emitting = true;
 		
 

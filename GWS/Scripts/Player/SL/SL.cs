@@ -25,6 +25,9 @@ public class SL : Player
 
 	public void SnailRide()
 	{
-		ChangeState("SnailRide");
+		if (CheckHeldKey('8'))
+			ChangeState("SnailAirSnipe");
+		else
+			ChangeState("SnailRide");
 	}
 }

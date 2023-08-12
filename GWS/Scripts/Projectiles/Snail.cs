@@ -9,9 +9,16 @@ class Snail : HadoukenPart
 	[Export]
 	public Vector2 jumpVel = new Vector2(4, 10);
 
+	[Export]
+	public int turnAroundGap = 21;
+
 	public override string hadoukenType { get; } = "Snail";
 
 	private bool overhead = false;
+
+
+
+	private int hitConnectFrame = 0;
 
 	private AnimatedSprite sprite;
 
@@ -24,7 +31,9 @@ class Snail : HadoukenPart
 		Attack,
 		AttackWillJump,
 		JumpAttack,
-		Attack2
+		Attack2,
+		Inactive,
+		TurnAround
 	}
 
 	private SnailMode mode = SnailMode.GetInPosition;
@@ -42,6 +51,13 @@ class Snail : HadoukenPart
 		
 		snailOwner = (SL)targetPlayer.otherPlayer;
 
+	}
+
+	private void Destroy()
+	{
+		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+		mode = SnailMode.Inactive;
+		MakeInactive();
 	}
 	public override void FrameAdvance()
 	{
@@ -65,6 +81,12 @@ class Snail : HadoukenPart
 				break;
 			case SnailMode.Attack2:
 				Attack2Update();
+				break;
+			case SnailMode.Inactive:
+				InactiveUpdate();
+				break;
+			case SnailMode.TurnAround:
+				TurnAroundUpdate();
 				break;
 		}
 	}
@@ -109,12 +131,27 @@ class Snail : HadoukenPart
 	{
 		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack || mode == SnailMode.Attack2)
 			base.HurtPlayer();
+
+		if (mode == SnailMode.JumpAttack)
+			sprite.Visible = false;
+
+		if (mode == SnailMode.Attack)
+		{
+			mode = SnailMode.TurnAround;
+			hitConnectFrame = frame;
+		}
+			
 	}
 
 	private void StandbyUpdate()
 	{
 		ApplyGravity();
 		Position = new Vector2(Position.x, Math.Min(Position.y, 245));
+	}
+
+	private void InactiveUpdate()
+	{
+		Position = new Vector2(Position.x + 4, Position.y);
 	}
 
 	private void AttackUpdate()
@@ -189,11 +226,28 @@ class Snail : HadoukenPart
 			overhead = true;
 	}
 
+	private void TurnAroundUpdate()
+	{
+		if (movingRight)
+		{
+			Position = new Vector2(Position.x + 4, Position.y);
+		}
+		else
+		{
+			Position = new Vector2(Position.x - 4, Position.y);
+		}
+
+		if (frame - hitConnectFrame > turnAroundGap)
+		{
+			EnterAttack2();
+		}
+	}
+
 	protected override Dictionary<string, int> GetStateSpecific()
 	{
 		return new Dictionary<string, int>() {
 			{ "mode", (int) mode},
-
+			{"hitConnectFrame", hitConnectFrame},
 			{"overhead", Globals.BoolToInt(overhead)}
 		};
 	}
@@ -202,6 +256,7 @@ class Snail : HadoukenPart
 	{
 		mode = (SnailMode)dict["mode"];
 		overhead = Globals.IntToBool(dict["overhead"]);
+		hitConnectFrame = dict["hitConnectFrame"];
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)
@@ -218,7 +273,7 @@ class Snail : HadoukenPart
 			speed.y = 0;
 			mode = SnailMode.AttackWillJump;
 		}
-		else if (command == ProjectileCommand.SnailRide)
+		else if (command == ProjectileCommand.SnailRide && mode != SnailMode.Inactive)
 		{
 			TryRide();
 			
@@ -236,7 +291,7 @@ class Snail : HadoukenPart
 			if (myRect.Intersects(pRect))
 			{
 				snailOwner.SnailRide();
-				MakeInactive();
+				Destroy();
 			}
 		}
 	}

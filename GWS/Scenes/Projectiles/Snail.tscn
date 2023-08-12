@@ -7,6 +7,10 @@
 [ext_resource path="res://Sprites/Spritesheet/phone.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=6]
 
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 8, 8 )
@@ -22,10 +26,6 @@ region = Rect2( 16, 0, 8, 8 )
 [sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 4 )
@@ -130,14 +130,14 @@ region = Rect2( 32, 32, 32, 32 )
 [sub_resource type="SpriteFrames" id=37]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
-"loop": true,
-"name": "CellPhone",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 36 ) ],
 "loop": true,
 "name": "Snail",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
+"loop": true,
+"name": "CellPhone",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), null ],
@@ -155,7 +155,7 @@ animations = [ {
 position = Vector2( 0, -4 )
 script = ExtResource( 1 )
 level = 3
-modifiedHitStun = 28
+modifiedHitStun = 30
 modifiedCounterHitStun = 38
 effect = 3
 chEffect = 3

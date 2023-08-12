@@ -34,7 +34,7 @@ public class Float : HitStun
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
-	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		//GD.Print(launch.y);
@@ -48,7 +48,7 @@ public class Float : HitStun
 		{
 			owner.velocity.y = -438;
 		}
-
+		HandleHitGFX(gfx);
 
 		owner.ComboUp();
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
@@ -94,7 +94,7 @@ public class Float : HitStun
 	}
 
 	protected void TryGroundTech()
-    {
+	{
 		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
 			EmitSignal(nameof(StateFinished), "Tech");
 		else

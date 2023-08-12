@@ -90,6 +90,7 @@ public class Globals : Node
 		public Vector2 collisionPnt;
 		public Vector2 opponentLaunch;
 		public BaseAttack.EXTRAEFFECT effect;
+		public BaseAttack.GRAPHICEFFECT graphicFX;
 		public BaseAttack.HEIGHT height;
 		public BaseAttack.ATTACKDIR dir;
 		public bool airBlockable;
@@ -114,6 +115,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
@@ -127,6 +129,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 			}
@@ -143,6 +146,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
@@ -156,6 +160,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 			}
@@ -172,6 +177,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
@@ -185,6 +191,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.STAGGER,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 			}
@@ -201,6 +208,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
@@ -214,6 +222,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 			}
@@ -229,6 +238,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
@@ -242,6 +252,7 @@ public class Globals : Node
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
+				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 			}

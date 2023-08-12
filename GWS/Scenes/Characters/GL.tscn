@@ -7314,7 +7314,8 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 6 )
+position = Vector2( -2, -3 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7325,7 +7326,8 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 85, -58 )
+position = Vector2( 30, -38 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7347,7 +7349,7 @@ frame = 218
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( 1, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7376,13 +7378,15 @@ script = ExtResource( 9 )
 level = 3
 modifiedHitStun = 33
 modifiedCounterHitStun = 55
-opponentLaunch = Vector2( 300, -1100 )
+opponentLaunch = Vector2( 500, -900 )
 hitPush = 6000
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
+restoreHitFrames = PoolIntArray( 12 )
 superFrame = 4
 launch = Vector2( 150, -1000 )
 launchFrame = 7
+knockdownFrame = 45
 
 [node name="Jump" parent="StateTree" index="6"]
 startupFrames = 7
@@ -7563,5 +7567,5 @@ anims/Tech = SubResource( 41 )
 anims/Walk = SubResource( 42 )
 script = ExtResource( 5 )
 
-[node name="Cancel" parent="GFXHandler" index="1"]
+[node name="Cancel" parent="GFXHandler" index="2"]
 explosiveness = 0.34

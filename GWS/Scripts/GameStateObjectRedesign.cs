@@ -511,6 +511,16 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = levelUpHitStop;
 	}
 
+	public void ResetHadoukens()
+    {
+		foreach (HadoukenPart h in hadoukens.Values)
+        {
+			hadoukens.Remove(h.Name);
+			h.RemoveNum();
+			h.QueueFree();
+			mainScene.RemoveChild(h);
+		}
+    }
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{
 		hadoukens.Remove(h.Name);

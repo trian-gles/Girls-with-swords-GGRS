@@ -8,6 +8,9 @@ using System.Linq;
 /// </summary>
 public abstract class State : Node
 {
+
+	[Export]
+	public bool hasGravity = true; // certain flying states need to ignore gravity, see ApplyGravity()
 	public virtual HashSet<String> tags { get; set; } = new HashSet<String>();
 
 	public Player owner;
@@ -111,7 +114,7 @@ public abstract class State : Node
 
 	protected void ApplyGravity()
 	{
-		if (owner.counterStopFrames > 0)
+		if (owner.counterStopFrames > 0 || !hasGravity)
 		{
 			return;
 		}
@@ -638,7 +641,7 @@ public abstract class State : Node
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
-	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
 		bool launchBool = false;
@@ -649,6 +652,8 @@ public abstract class State : Node
 			owner.velocity = launch;
 			launchBool = true;
 		}
+
+		HandleHitGFX(gfx);
 
 		bool airState = (launchBool || !owner.grounded);
 
@@ -686,6 +691,14 @@ public abstract class State : Node
 		else
 		{
 			EmitSignal(nameof(StateFinished), "HitStun");
+		}
+	}
+
+	protected void HandleHitGFX(BaseAttack.GRAPHICEFFECT gfx)
+    {
+		if (gfx == BaseAttack.GRAPHICEFFECT.EXPLOSION)
+		{
+			owner.GFXEvent("Explosion");
 		}
 	}
 
@@ -742,12 +755,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 				}
 			}
 			else
 			{
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 			
 		}
@@ -763,12 +776,12 @@ public abstract class State : Node
 				}
 				else
 				{
-					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 				}
 			}
 			else
 			{
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 		}
 		else
@@ -785,10 +798,11 @@ public abstract class State : Node
 			}
 			else 
 			{
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 		}
 	}
+
 
 	protected virtual void ReceiveHitNoBlock(Globals.AttackDetails details)
 	{
@@ -822,7 +836,7 @@ public abstract class State : Node
 		}
 
 
-		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 
 	}
 

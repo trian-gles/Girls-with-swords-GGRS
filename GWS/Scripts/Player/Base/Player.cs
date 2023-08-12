@@ -1013,6 +1013,11 @@ public class Player : Node2D
 		}
 	}
 
+	public int GetDistToOtherPlayer()
+    {
+		return Math.Abs((int)internalPos.x - (int)otherPlayer.internalPos.x);
+    }
+
 	/// <summary>
 	/// Called to check if the player should change directions.  Always called when changing states.  Some states call this in their FrameAdvance() methods.
 	/// </summary>

@@ -87,7 +87,13 @@ public abstract class BaseAttack : State
 		STAGGER
 	}
 
-	
+	public enum GRAPHICEFFECT
+	{
+		NONE,
+		EXPLOSION
+	}
+
+
 	public enum ATTACKDIR
 	{
 		RIGHT,
@@ -282,31 +288,10 @@ public abstract class BaseAttack : State
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		switch (details.dir)
-		{
-			case BaseAttack.ATTACKDIR.RIGHT:
-				break;
-			case BaseAttack.ATTACKDIR.LEFT:
-				details.opponentLaunch.x *= -1;
-				details.hitPush *= -1;
-				break;
-			case BaseAttack.ATTACKDIR.EQUAL:
-				details.opponentLaunch.x = 0;
-				details.hitPush = 0;
-				break;
-		}
-
-		owner.hitPushRemaining = details.hitPush;
-
-		if (owner.velocity.y < 0)
-		{
-			owner.grounded = false;
-		}
-
-		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect);
+		ReceiveHitNoBlock(details);
 	}
 
-	
+
 
 	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	//{
@@ -344,7 +329,7 @@ public abstract class BaseAttack : State
 	//	{
 	//		GD.Print("Entering knockdown from attack");
 	//		EmitSignal(nameof(StateFinished), "Knockdown");
-			
+
 	//	}
 	//	else
 	//	{

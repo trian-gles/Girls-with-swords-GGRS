@@ -51,5 +51,5 @@ Relies heavily on summoning snails, which unlock powerful offensive damage and m
 - `41236p` : Throw your cellphone, causes you to exit stance
 - `2p` : Send a summoned snail to do a double attack
 - `2k` : Send a snail to do a jumping overhead attack
-- `[8]` : Will ride any snails that pass by, creating a fast moving invulnerable attack
+- `[pk]` : Will ride any snails that pass by, creating a fast moving invulnerable attack
 

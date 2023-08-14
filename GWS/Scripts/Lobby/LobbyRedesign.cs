@@ -87,7 +87,7 @@ public class LobbyRedesign : Node2D
 		activeManager = ggrsManager.Instance<GGRSManager>();
 		AddChild(activeManager);
 		HideButtons();
-		((GGRSManager)activeManager).Config(ip, true);
+		((GGRSManager)activeManager).ManualConfig(ip, true);
 	}
 
 	public void OnJoinButtonDown()
@@ -96,7 +96,14 @@ public class LobbyRedesign : Node2D
 		var ggrsScene = ggrsManager.Instance<GGRSManager>();
 		AddChild(ggrsScene);
 		HideButtons();
-		ggrsScene.Config(ip, false);
+		ggrsScene.ManualConfig(ip, false);
+	}
+
+	public void OnAutoConnectDown()
+	{
+		var ggrsScene = ggrsManager.Instance<GGRSManager>();
+		AddChild(ggrsScene);
+		HideButtons();
 	}
 
 	public void OnHostTestButtonDown()
@@ -176,4 +183,3 @@ public class LobbyRedesign : Node2D
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 	}
 }
-

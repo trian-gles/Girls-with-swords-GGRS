@@ -294,9 +294,9 @@ __meta__ = {
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 40.0
+margin_top = 36.0
 margin_right = 390.0
-margin_bottom = 230.0
+margin_bottom = 233.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -307,16 +307,31 @@ __meta__ = {
 dropdown_path = NodePath("FriendList")
 confirmremove_path = NodePath("../ConfirmationDialog")
 
-[node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 16.0
+margin_bottom = 23.0
+
+[node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
+margin_top = 3.0
+margin_right = 128.0
+margin_bottom = 19.0
 custom_fonts/font = ExtResource( 6 )
 text = "Net Play"
 
-[node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 20.0
+[node name="AutoConnect" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
+margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 43.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+text = "AutoConnect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 27.0
+margin_right = 300.0
+margin_bottom = 50.0
 
 [node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
@@ -338,18 +353,18 @@ __meta__ = {
 }
 
 [node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 47.0
+margin_top = 54.0
 margin_right = 300.0
-margin_bottom = 76.0
+margin_bottom = 83.0
 placeholder_text = "Enter Friend Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 80.0
+margin_top = 87.0
 margin_right = 300.0
-margin_bottom = 109.0
+margin_bottom = 116.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -357,9 +372,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 113.0
+margin_top = 120.0
 margin_right = 300.0
-margin_bottom = 136.0
+margin_bottom = 143.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -394,9 +409,9 @@ __meta__ = {
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 140.0
+margin_top = 147.0
 margin_right = 300.0
-margin_bottom = 163.0
+margin_bottom = 170.0
 text = "Item 0"
 align = 1
 
@@ -421,9 +436,9 @@ __meta__ = {
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 167.0
+margin_top = 174.0
 margin_right = 300.0
-margin_bottom = 190.0
+margin_bottom = 197.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
@@ -607,6 +622,9 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="focus_entered"]

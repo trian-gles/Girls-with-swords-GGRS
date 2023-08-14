@@ -11,6 +11,8 @@ class GGRSManager : StateManager
 	private UPNP upnp;
 	int port;
 
+	
+
 	private const int MAXPLAYERS = 2;
 	private const int PLAYERNUMBERS = 2;
 	private int localPlayerHandle;
@@ -18,6 +20,12 @@ class GGRSManager : StateManager
 	private int otherHand = 2;
 	private int waitFrames = 0;
 	private Queue<int> queueLengths = new Queue<int>();
+
+	private string opponentIp;
+	private int opponentPort;
+	private int localPort;
+	private bool holePunched = false;
+	private bool connected = false;
 
 	// For AI integrated testing
 	private bool aiTest = false;
@@ -29,10 +37,11 @@ class GGRSManager : StateManager
 		base._Ready();
 		GGRS = GetNode("GodotGGRS");
 		Globals.mode = Globals.Mode.GGPO;
+		NatTraversal();
 	}
 
 
-	public void Config(string ip, bool hosting)
+	public void ManualConfig(string ip, bool hosting)
 	{
 		charSelectScene.ChangeHUDText("Waiting for connection...\n ");
 		this.hosting = hosting;
@@ -73,6 +82,25 @@ class GGRSManager : StateManager
 		GGRS.Call("set_frame_delay", 2, localPlayerHandle);
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
+		connected = true;
+	}
+
+	private void GGRSConfig()
+	{
+		GD.Print("Creating new session");
+		GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
+		GD.Print("Created new session");
+		localPlayerHandle = (int)GGRS.Call("add_local_player");
+		GD.Print($"added local player with handle {localPlayerHandle}");
+		var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{opponentIp}:{opponentPort}");
+		GD.Print($"added other player with handle {otherPlayerHandle} at {opponentIp}:{opponentPort}");
+
+
+		GGRS.Call("set_callback_node", this);
+		GGRS.Call("set_frame_delay", 2, localPlayerHandle);
+		GGRS.Call("start_session");
+		GD.Print("Settup finished");
+		connected = true;
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -90,6 +118,11 @@ class GGRSManager : StateManager
 
 	public override void _Process(float delta)
 	{
+		if (!holePunched)
+			return;
+		if (!connected)
+			GGRSConfig();
+
 		GGRS.Call("poll_remote_clients");
 	}
 
@@ -98,6 +131,9 @@ class GGRSManager : StateManager
 	// ----------------
 	public override void _PhysicsProcess(float _delta)
 	{
+		if (!connected)
+			return;
+
 		currGame.TimeAdvance();
 
 		if ((bool)GGRS.Call("is_running"))
@@ -204,6 +240,34 @@ class GGRSManager : StateManager
 		{
 			currGame.GGRSAdvanceFrame(p2Inps, p1Inps);
 		}
+	}
+
+	// ----------------
+	// NAT
+	// ----------------
+	private async void NatTraversal()
+	{
+		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
+		var holePuncher = (Node)holePuncherScript.Call("new");
+		holePuncher.Set("rendevouz_address", "172.104.21.51");
+		holePuncher.Set("rendevouz_port", 4000);
+		AddChild(holePuncher);
+		string player_id = OS.GetUniqueId();
+		holePuncher.Call("start_traversal", 1, player_id);
+		var result = (await ToSignal(holePuncher, "hole_punched"));
+		localPort = (int)result[0];
+		opponentPort = (int)result[1];
+		opponentIp = (string)result[2];
+		hosting = ((int)result[3]) == 1;
+		holePunched = true;
+
+		
+
+		//hole_puncher.rendevouz_address = "1.1.1.1"
+		//# the port the HolePuncher python application is running on
+		//hole_puncher.rendevouz_port = "3000"
+		//add_child(hole_puncher)
+
 	}
 
 	// ----------------

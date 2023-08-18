@@ -117,7 +117,7 @@ func _handle_confirm_message(peer_name, peer_port, my_port):
 
 func _handle_go_message(peer_name):
 	recieved_peer_go = true
-	emit_signal("hole_punched", int(own_port), int(other_port), other_address)
+	emit_signal("hole_punched", int(own_port), int(other_port), other_address, player_id)
 	peer_udp.close()
 	p_timer.stop()
 	set_process(false)

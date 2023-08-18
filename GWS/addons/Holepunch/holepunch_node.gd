@@ -90,7 +90,7 @@ func _process(delta):
 				if packet_string.length() > 2:
 					var m = packet_string.split(":")
 					peer[m[0]] = {"port":m[2], "address":m[1]}
-					player_id = m[3]
+					player_id = int(m[3])
 					recieved_peer_info = true
 					start_peer_contact()
 
@@ -117,7 +117,7 @@ func _handle_confirm_message(peer_name, peer_port, my_port):
 
 func _handle_go_message(peer_name):
 	recieved_peer_go = true
-	emit_signal("hole_punched", int(own_port), int(other_port), other_address, player_id)
+	emit_signal("hole_punched", int(own_port), int(other_port), other_address, int(player_id))
 	peer_udp.close()
 	p_timer.stop()
 	set_process(false)

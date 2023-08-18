@@ -260,6 +260,7 @@ class GGRSManager : StateManager
 		opponentIp = (string)result[2];
 		hosting = ((int)result[3]) == 1;
 		holePunched = true;
+		GD.Print("WE HAVE PUNCHED ZE HOLE");
 
 		
 

@@ -133,7 +133,7 @@ func _cascade_peer(add, peer_port):
 
 
 func _ping_peer():
-	
+	print("Pinging peer...")
 	if not recieved_peer_confirm and greets_sent < response_window:
 		for p in peer.keys():
 			peer_udp.set_dest_address(peer[p].address, int(peer[p].port))
@@ -174,6 +174,7 @@ func _ping_peer():
 func start_peer_contact():	
 	server_udp.put_packet("goodbye".to_utf8())
 	server_udp.close()
+	print("Initiating peer contact...")
 	if peer_udp.is_listening():
 		peer_udp.close()
 	var err = peer_udp.listen(own_port, "*")

@@ -87,6 +87,10 @@ public class HadoukenPart : Node2D
 	public enum ProjectileCommand
 	{
 		SnailAttack,
+		RightSnailAttack,
+		LeftSnailAttack,
+		RightSnailJump,
+		LeftSnailJump,
 		SnailJump,
 		SnailRide,
 		BlackHolePowerUp

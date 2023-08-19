@@ -313,7 +313,7 @@ public class Player : Node2D
 		
 	}
 
-	public void Reset()
+	public virtual void Reset()
 	{
 		ResetComboAndProration();
 		ChangeState("Idle");

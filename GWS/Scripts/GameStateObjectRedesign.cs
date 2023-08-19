@@ -326,6 +326,7 @@ public class GameStateObjectRedesign : Node
 	public void ResetGameState()
 	{
 		SetGameState(resetState);
+		ResetHadoukens();
 	}
 
 
@@ -515,11 +516,11 @@ public class GameStateObjectRedesign : Node
     {
 		foreach (HadoukenPart h in hadoukens.Values)
         {
-			hadoukens.Remove(h.Name);
 			h.RemoveNum();
 			h.QueueFree();
 			mainScene.RemoveChild(h);
 		}
+		hadoukens.Clear();
     }
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{

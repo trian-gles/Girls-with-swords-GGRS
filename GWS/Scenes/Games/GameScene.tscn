@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg" type="AudioStream" id=17]
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 8 )
@@ -414,6 +415,18 @@ script = ExtResource( 14 )
 
 [node name="Timer" type="Timer" parent="HUD/P2Rhythm"]
 wait_time = 0.5
+
+[node name="P1SnailRadar" parent="HUD" instance=ExtResource( 20 )]
+margin_left = 42.0
+margin_top = 48.0
+margin_right = -319.0
+margin_bottom = -222.0
+
+[node name="P2SnailRadar" parent="HUD" instance=ExtResource( 20 )]
+margin_left = 319.0
+margin_top = 48.0
+margin_right = -42.0
+margin_bottom = -222.0
 
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )

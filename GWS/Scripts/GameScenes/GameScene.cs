@@ -614,7 +614,7 @@ public class GameScene : BaseGame
 		ResetHealth("P2");
 		P1.Reset();
 		P2.Reset();
-
+		gsObj.ResetHadoukens();
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);
 		ConfigTime();

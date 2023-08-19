@@ -47,15 +47,33 @@ class Snail : HadoukenPart
 	public override void Spawn(bool movingRight, Player targetPlayer)
 	{
 		base.Spawn(movingRight, targetPlayer);
-		mode = SnailMode.GetInPosition;
 		
+
+		mode = SnailMode.GetInPosition;
 		snailOwner = (SL)targetPlayer.otherPlayer;
 
+		if (snailOwner.rightCornerSnail && snailOwner.leftCornerSnail)
+			Destroy();
+		else if ((movingRight && snailOwner.leftCornerSnail) || (!movingRight && snailOwner.rightCornerSnail))
+		{
+			this.movingRight = !movingRight;
+		}
+			
+
+		if (this.movingRight)
+			snailOwner.leftCornerSnail = true;
+		else
+			snailOwner.rightCornerSnail = true;
+
+		GetNode<AnimatedSprite>("AnimatedSprite").FlipH = this.movingRight;
 	}
 
 	private void Destroy()
 	{
 		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+		if (mode == SnailMode.Standby)
+			ExitStandby();
+
 		mode = SnailMode.Inactive;
 		MakeInactive();
 	}
@@ -104,7 +122,17 @@ class Snail : HadoukenPart
 	private void EnterStandby()
 	{
 		mode = SnailMode.Standby;
+		GetNode<AnimatedSprite>("AnimatedSprite").FlipH = !movingRight;
 	}
+
+	private void ExitStandby()
+	{
+		if (movingRight)
+			snailOwner.leftCornerSnail = false;
+		else
+			snailOwner.rightCornerSnail = false;
+	}
+
 	/// <summary>
 	/// Note that directions are flipped!
 	/// </summary>
@@ -259,19 +287,43 @@ class Snail : HadoukenPart
 		hitConnectFrame = dict["hitConnectFrame"];
 	}
 
-	public override void ReceiveCommand(ProjectileCommand command)
+	private void HandleAttackCommand()
 	{
-		if (mode == SnailMode.Standby && command == ProjectileCommand.SnailAttack)
+		if (mode == SnailMode.Standby)
 		{
 			speed.y = 0;
 			mode = SnailMode.Attack;
-
+			ExitStandby();
 		}
-			
-		else if (mode == SnailMode.Standby && command == ProjectileCommand.SnailJump)
+	}
+
+	private void HandleJumpCommand()
+	{
+		if (mode == SnailMode.Standby)
 		{
 			speed.y = 0;
 			mode = SnailMode.AttackWillJump;
+			ExitStandby();
+		}
+	}
+
+	public override void ReceiveCommand(ProjectileCommand command)
+	{
+		if (command == ProjectileCommand.SnailAttack)
+		{
+			HandleAttackCommand();
+		}
+		else if (command == ProjectileCommand.SnailJump)
+		{
+			HandleJumpCommand();
+		}
+		else if (((command == ProjectileCommand.LeftSnailAttack) && movingRight) || ((command == ProjectileCommand.RightSnailAttack) && !movingRight))
+		{
+			HandleAttackCommand();
+		}
+		else if (((command == ProjectileCommand.LeftSnailJump) && movingRight) || ((command == ProjectileCommand.RightSnailJump) && !movingRight))
+		{
+			HandleJumpCommand();
 		}
 		else if (command == ProjectileCommand.SnailRide && mode != SnailMode.Inactive)
 		{

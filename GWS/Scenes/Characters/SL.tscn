@@ -6013,7 +6013,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=59]
 resource_name = "PhonePutAway"
-length = 12.0
+length = 18.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -8101,7 +8101,6 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 46, -2 )
@@ -8117,7 +8116,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 6
+frame = 49
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )

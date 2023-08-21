@@ -176,7 +176,12 @@ public class HadoukenPart : Node2D
 
 		public Dictionary<string, int> dict { get; set; }
 	}
-	
+
+	public virtual void AlwaysUpdate()
+	{
+
+	}
+
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > 0)

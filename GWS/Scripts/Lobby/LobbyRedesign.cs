@@ -182,4 +182,5 @@ public class LobbyRedesign : Node2D
 		GetNode<Control>("MenuRoot").Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 	}
+	
 }

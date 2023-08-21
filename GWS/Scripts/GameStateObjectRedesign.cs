@@ -342,6 +342,11 @@ public class GameStateObjectRedesign : Node
 		{
 			hitStopRemaining--;
 		}
+
+		foreach (var entry in hadoukens)
+		{
+			entry.Value.AlwaysUpdate();
+		}
 	}
 
 	/// <summary>
@@ -535,6 +540,11 @@ public class GameStateObjectRedesign : Node
 		hadoukens.Add(h.Name, h); 
 		Globals.Log($"New hadouken on frame {Globals.frame}");
 		h.creationFrame = Globals.frame;
+
+		if (h is Snail)
+        {
+			mainScene.ConnectSnail((Snail)h);
+        }
 	}
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)

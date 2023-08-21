@@ -45,6 +45,8 @@ public class GameScene : BaseGame
 	private CanvasLayer HUD;
 	private Label P1Counter;
 	private Label P2Counter;
+	private Control P1SnailRadar;
+	private Control P2SnailRadar;
 	public Label P1Rhythm;
 	public Label P2Rhythm;
 	private Label superText;
@@ -118,6 +120,8 @@ public class GameScene : BaseGame
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		music = GetNode<AudioStreamPlayer>("BkgMusic");
 		superText = GetNode<Label>("HUD/OhShit");
+		P1SnailRadar = GetNode<Control>("HUD/P1SnailRadar");
+		P2SnailRadar = GetNode<Control>("HUD/P2SnailRadar");
 		base._Ready();
 
 		// hide the recording text
@@ -486,6 +490,23 @@ public class GameScene : BaseGame
 		gsObj.SuperFreeze();
 	}
 
+	public void ConnectSnail(Snail s)
+	{
+		s.Connect("SnailUpdate", this, nameof(OnSnailUpdate));
+	}
+
+	public void OnSnailUpdate(string name, int pos, Color color)
+	{
+		if (name == "P1")
+		{
+			P1SnailRadar.Call("draw_snail", pos, color);
+		}
+		else
+		{
+			P2SnailRadar.Call("draw_snail", pos, color);
+		}
+	}
+
 	// ----------------
 	// Time Handling
 	// ----------------
@@ -722,5 +743,10 @@ public class GameScene : BaseGame
 		file.StoreString(content);
 		file.Close();
 		savedFile = true;
+	}
+
+	public override void _Draw()
+	{
+		GD.Print("Gamescene draw");
 	}
 }

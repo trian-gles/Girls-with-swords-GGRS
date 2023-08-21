@@ -420,13 +420,13 @@ wait_time = 0.5
 margin_left = 42.0
 margin_top = 48.0
 margin_right = -319.0
-margin_bottom = -222.0
+margin_bottom = -214.0
 
 [node name="P2SnailRadar" parent="HUD" instance=ExtResource( 20 )]
 margin_left = 319.0
 margin_top = 48.0
 margin_right = -42.0
-margin_bottom = -222.0
+margin_bottom = -214.0
 
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )

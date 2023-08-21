@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-class Snail : HadoukenPart
+public class Snail : HadoukenPart
 {
 	[Export]
 	public int gravity;
@@ -11,6 +11,9 @@ class Snail : HadoukenPart
 
 	[Export]
 	public int turnAroundGap = 21;
+
+	[Signal]
+	public delegate void SnailUpdate(int x, Color color);
 
 	public override string hadoukenType { get; } = "Snail";
 
@@ -23,6 +26,10 @@ class Snail : HadoukenPart
 	private AnimatedSprite sprite;
 
 	private SL snailOwner;
+
+	private Color setupColor = new Color(0, 0, 255);
+	private Color readyColor = new Color(0, 255, 0);
+	private Color attackColor = new Color(255, 0, 0);
 
 	private enum SnailMode
 	{
@@ -88,6 +95,9 @@ class Snail : HadoukenPart
 			case SnailMode.Standby:
 				StandbyUpdate();
 				break;
+			case SnailMode.Inactive:
+				InactiveUpdate();
+				break;
 			case SnailMode.Attack:
 				AttackUpdate();
 				break;
@@ -100,11 +110,27 @@ class Snail : HadoukenPart
 			case SnailMode.Attack2:
 				Attack2Update();
 				break;
-			case SnailMode.Inactive:
-				InactiveUpdate();
-				break;
 			case SnailMode.TurnAround:
 				TurnAroundUpdate();
+				break;
+		}
+	}
+
+	public override void AlwaysUpdate()
+	{
+		base.AlwaysUpdate();
+		switch (mode)
+		{
+			case SnailMode.GetInPosition:
+				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, setupColor);
+				break;
+			case SnailMode.Standby:
+				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, readyColor);
+				break;
+			case SnailMode.Inactive:
+				break;
+			default:
+				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, attackColor);
 				break;
 		}
 	}
@@ -175,6 +201,7 @@ class Snail : HadoukenPart
 	{
 		ApplyGravity();
 		Position = new Vector2(Position.x, Math.Min(Position.y, 245));
+		
 	}
 
 	private void InactiveUpdate()
@@ -184,6 +211,7 @@ class Snail : HadoukenPart
 
 	private void AttackUpdate()
 	{
+		
 		if (movingRight)
 		{
 			Position = new Vector2(Position.x + 4, Position.y);
@@ -208,6 +236,7 @@ class Snail : HadoukenPart
 		{
 			Position = new Vector2(Position.x + 4, Position.y);
 		}
+		
 	}
 
 	private void AttackWillJumpUpdate()
@@ -222,6 +251,7 @@ class Snail : HadoukenPart
 		}
 		if (Math.Abs(targetPlayer.internalPos.x / 100 - Position.x) < 65)
 			Jump();
+
 	}
 
 	private void ApplyGravity()

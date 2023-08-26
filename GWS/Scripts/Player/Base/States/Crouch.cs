@@ -11,6 +11,7 @@ public class Crouch : State
         base._Ready();
         loop = true;
         AddSpecials(owner.groundSpecials);
+        AddCommandNormals(owner.commandNormals);
         AddExSpecials(owner.groundExSpecials);
         AddGatling(new[] { '2', 'r' }, "Idle");
         AddGatling(new[] { 'p', 'p' }, "CrouchA");

@@ -20,7 +20,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/LaunchAttack.cs" type="Script" id=18]
 [ext_resource path="res://Scripts/Player/Base/States/MovingAttack.cs" type="Script" id=19]
 [ext_resource path="res://Scripts/Player/Base/States/Jump.cs" type="Script" id=20]
-[ext_resource path="res://Scripts/Player/OL/Specials/SixK.cs" type="Script" id=21]
+[ext_resource path="res://Scripts/Player/Base/SixK.cs" type="Script" id=21]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRunFirst.cs" type="Script" id=22]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
 

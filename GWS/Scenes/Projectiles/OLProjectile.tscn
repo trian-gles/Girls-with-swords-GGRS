@@ -10,4 +10,4 @@ duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "OLProjectile"
-frame = 1
+frame = 2

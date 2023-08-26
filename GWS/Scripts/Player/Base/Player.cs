@@ -205,12 +205,14 @@ public class Player : Node2D
 		public List<char> heldKeys;
 		public char input;
 		public string state;
+		public bool crouching;
 
-		public CommandNormal(List<char> heldKeys, char input, string newState)
+		public CommandNormal(List<char> heldKeys, char input, string newState, bool crouching=false)
 		{
 			this.heldKeys = heldKeys;
 			this.input = input;
 			this.state = newState;
+			this.crouching = crouching;
 		}
 	}
 

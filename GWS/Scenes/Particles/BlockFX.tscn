@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Particles/ParticleSprite.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Spritesheet/Block-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Particles/Block-Sheet.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animation"

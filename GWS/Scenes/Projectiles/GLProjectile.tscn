@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=1]
 
 [node name="GLProjectile" instance=ExtResource( 1 )]
-level = 3
+level = 2
 modifiedHitStun = 18
 chEffect = 3
 speed = Vector2( 5, 0 )

@@ -118,7 +118,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 1, 1 )
+extents = Vector2( 4, 4 )
 
 [node name="HadoukenPart" type="Node2D"]
 position = Vector2( 0, -1 )

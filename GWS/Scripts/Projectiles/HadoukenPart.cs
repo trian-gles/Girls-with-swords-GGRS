@@ -202,7 +202,7 @@ public class HadoukenPart : Node2D
 		
 		
 
-		if (Position.x > 600 || Position.x < -200) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
+		if (Position.x > 900 || Position.x < -600) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
 		{
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}

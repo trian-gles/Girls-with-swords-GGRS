@@ -1,6 +1,5 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=37 format=2]
 
-[ext_resource path="res://Scripts/Projectiles/Snail.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Spritesheet/snail.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Spritesheet/Hadouken.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL Fireball Only-Sheet.png" type="Texture" id=4]
@@ -151,19 +150,22 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="Snail" instance=ExtResource( 6 )]
+[node name="StrikeSnail" instance=ExtResource( 6 )]
 position = Vector2( 0, -4 )
-script = ExtResource( 1 )
-level = 3
-modifiedHitStun = 30
-modifiedCounterHitStun = 38
-effect = 3
-chEffect = 3
+level = 2
+modifiedHitStun = 80
+modifiedCounterHitStun = 80
+opponentLaunch = Vector2( 100, -400 )
+chLaunch = Vector2( 100, -400 )
+knockdown = true
+speed = Vector2( 8, 8 )
+postHitSpeed = Vector2( 8, 8 )
+duration = 300
 dieAfterHit = false
-gravity = 1
-jumpVel = Vector2( 4, -7 )
 
 [node name="AnimatedSprite" parent="." index="0"]
+position = Vector2( 4, 0 )
+rotation = 0.764454
 frames = SubResource( 37 )
 animation = "Snail"
 frame = 0
@@ -171,3 +173,13 @@ frame = 0
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 0, 3 )
 scale = Vector2( 3, 3 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." index="2"]
+amount = 10
+emission_shape = 1
+emission_sphere_radius = 16.57
+direction = Vector2( -3, 0 )
+gravity = Vector2( -198, -198 )
+scale_amount = 3.0
+color = Color( 0.839216, 0.839216, 0.839216, 1 )
+hue_variation_random = 1.0

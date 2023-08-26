@@ -38,7 +38,10 @@ public class Hadouken : BaseAttack
 		}
 	}
 
-	protected void EmitHadouken()
+	/// <summary>
+	/// Note that the overriden SnailStrike discards this parent code.
+	/// </summary>
+	protected virtual void EmitHadouken()
 	{
 		var h = hadoukenScene.Instance() as HadoukenPart;
 

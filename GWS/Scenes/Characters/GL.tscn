@@ -43,7 +43,6 @@ void fragment(){
 }"
 
 [sub_resource type="StreamTexture" id=53]
-load_path = "res://.import/OG-Palette.png-824f96ba2cb87f0e6e4a66d112f12848.stex"
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -7618,7 +7617,6 @@ hitSound = "LampHit"
 gatlingWinEnd = 17
 
 [node name="CrouchA" parent="StateTree" index="32"]
-jumpCancelable = true
 gatlingWinEnd = 9
 
 [node name="CrouchB" parent="StateTree" index="33"]

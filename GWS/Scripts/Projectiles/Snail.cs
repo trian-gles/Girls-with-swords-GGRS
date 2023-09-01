@@ -12,13 +12,16 @@ public class Snail : HadoukenPart
 	[Export]
 	public int turnAroundGap = 21;
 
+	[Export]
+	public int startup = 10;
+
 	[Signal]
 	public delegate void SnailUpdate(int x, Color color);
 
 	public override string hadoukenType { get; } = "Snail";
 
 	private bool overhead = false;
-
+	private int activateFrame = 0;
 
 
 	private int hitConnectFrame = 0;
@@ -137,12 +140,14 @@ public class Snail : HadoukenPart
 
 	private void EnterAttack2()
 	{
-		GD.Print("Entering second attack");
+		
 		mode = SnailMode.Attack2;
 		active = true;
 		var animSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		animSprite.FlipH = !animSprite.FlipH;
 		hits = 0;
+		hitDetails.hitPush = - Math.Abs(hitDetails.hitPush);
+		chDetails.hitPush = -Math.Abs(chDetails.hitPush);
 	}
 
 	private void EnterStandby()
@@ -157,6 +162,8 @@ public class Snail : HadoukenPart
 			snailOwner.leftCornerSnail = false;
 		else
 			snailOwner.rightCornerSnail = false;
+
+		activateFrame = frame;
 	}
 
 	/// <summary>
@@ -183,6 +190,9 @@ public class Snail : HadoukenPart
 
 	protected override void HurtPlayer()
 	{
+		if (frame - activateFrame < startup)
+			return;
+
 		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack || mode == SnailMode.Attack2)
 			base.HurtPlayer();
 
@@ -306,7 +316,8 @@ public class Snail : HadoukenPart
 		return new Dictionary<string, int>() {
 			{ "mode", (int) mode},
 			{"hitConnectFrame", hitConnectFrame},
-			{"overhead", Globals.BoolToInt(overhead)}
+			{"overhead", Globals.BoolToInt(overhead)},
+			{"activateFrame", activateFrame}
 		};
 	}
 
@@ -315,6 +326,7 @@ public class Snail : HadoukenPart
 		mode = (SnailMode)dict["mode"];
 		overhead = Globals.IntToBool(dict["overhead"]);
 		hitConnectFrame = dict["hitConnectFrame"];
+		activateFrame = dict["activateFrame"];
 	}
 
 	private void HandleAttackCommand()

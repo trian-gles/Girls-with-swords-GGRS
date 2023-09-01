@@ -8345,15 +8345,12 @@ gatlingWinEnd = 16
 restoreHitFrames = PoolIntArray(  )
 
 [node name="CrouchA" parent="StateTree" index="38"]
-jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="CrouchB" parent="StateTree" index="39"]
-jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="40"]
-jumpCancelable = true
 gatlingWinEnd = 19
 
 [node name="AirBackdash" parent="StateTree" index="41"]

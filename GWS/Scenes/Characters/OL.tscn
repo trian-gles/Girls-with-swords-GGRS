@@ -7768,11 +7768,9 @@ jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="36"]
-jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="CrouchB" parent="StateTree" index="37"]
-jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="38"]

@@ -7,6 +7,8 @@
 script = ExtResource( 2 )
 level = 2
 modifiedHitStun = 18
+chEffect = 3
+hitGfx = 1
 speed = Vector2( 5, 0 )
 postHitSpeed = Vector2( 1, 0 )
 duration = 65
@@ -14,7 +16,8 @@ totalHits = 3
 breakBetweenHits = 12
 
 [node name="AnimatedSprite" parent="." index="0"]
-rotation = 1.5708
+rotation = 0.523599
+frame = 2
 speed_scale = 2.0
 playing = false
 

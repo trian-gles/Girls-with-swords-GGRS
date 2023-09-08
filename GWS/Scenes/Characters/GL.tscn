@@ -5918,7 +5918,7 @@ tracks/16/keys = {
 
 [sub_resource type="Animation" id=50]
 resource_name = "Kick"
-length = 23.0
+length = 26.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -5927,7 +5927,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 7, 21 ),
+"times": PoolRealArray( 0, 7, 26 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 295, 300, 304 ]
@@ -7526,22 +7526,22 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 0 )
+position = Vector2( 8, -2 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 28, -10 )
+position = Vector2( 40, 4 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 28, -10 )
+position = Vector2( 40, 0 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 60, -45 )
+position = Vector2( 37, 17 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7559,7 +7559,7 @@ frame = 272
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 0.5, 2 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7682,6 +7682,7 @@ hadoukenScene = ExtResource( 12 )
 script = ExtResource( 13 )
 releaseFrame = 24
 hadoukenScene = ExtResource( 14 )
+yOffset = -5
 
 [node name="6K" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 17 )
@@ -7698,9 +7699,9 @@ stopFrame = 20
 [node name="6C" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 15 )
 level = 3
-modifiedHitStun = 22
+modifiedHitStun = 25
 modifiedCounterHitStun = 70
-opponentLaunch = Vector2( 0, -600 )
+opponentLaunch = Vector2( 0, -800 )
 chLaunch = Vector2( 100, -1400 )
 jumpCancelable = true
 chEffect = 2
@@ -7732,7 +7733,7 @@ powerUpFrame = 4
 powerUpDuration = 120
 
 [node name="GrabPos" parent="." index="8"]
-position = Vector2( 30, 34 )
+position = Vector2( 35, -24 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

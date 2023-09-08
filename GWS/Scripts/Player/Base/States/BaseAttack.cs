@@ -50,6 +50,9 @@ public abstract class BaseAttack : State
 	protected EXTRAEFFECT chEffect = EXTRAEFFECT.NONE;
 
 	[Export]
+	protected GRAPHICEFFECT hitGfx = GRAPHICEFFECT.NONE;
+
+	[Export]
 	protected bool knockdown = false;
 
 	[Export]
@@ -123,6 +126,8 @@ public abstract class BaseAttack : State
 		chDetails.knockdown = knockdown;
 		hitDetails.height = height;
 		chDetails.height = height;
+		hitDetails.graphicFX = hitGfx;
+		chDetails.graphicFX = hitGfx;
 
 		if (modifiedHitStun != 0)
 			hitDetails.hitStun = modifiedHitStun;

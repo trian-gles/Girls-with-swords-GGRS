@@ -11,14 +11,13 @@ class ArcProjectile : HadoukenPart
 	}
 	public override void FrameAdvance()
 	{
-		if (frame > 0 && (hits == 0)) {
-			Position = new Vector2(Position.x, (float)(( Math.Pow(frame - 28, 2) / 2 - 196) + 270));
-		}
+		Position = new Vector2(Position.x, (float)(( Math.Pow(frame - 28, 2) / 2 - 196) + 270));
 
 		// derivative of position
 		float slope = frame - 28;
-
-		GetNode<AnimatedSprite>("AnimatedSprite").Rotation = (float)Math.Tan(slope);
+		float rotation = (float)(Math.Tanh(slope));
+		GD.Print(rotation);
+		GetNode<AnimatedSprite>("AnimatedSprite").Rotation = rotation +  (float) Math.PI / 3 + (float) Math.PI / 2;
 
 		base.FrameAdvance();
 		

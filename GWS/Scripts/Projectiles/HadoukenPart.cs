@@ -42,6 +42,9 @@ public class HadoukenPart : Node2D
 	protected BaseAttack.EXTRAEFFECT chEffect = BaseAttack.EXTRAEFFECT.NONE;
 
 	[Export]
+	public BaseAttack.GRAPHICEFFECT hitGfx = BaseAttack.GRAPHICEFFECT.NONE;
+
+	[Export]
 	protected bool knockdown = false;
 
 	[Export]
@@ -115,6 +118,9 @@ public class HadoukenPart : Node2D
 		chDetails.knockdown = knockdown;
 		hitDetails.height = height;
 		chDetails.height = height;
+
+		hitDetails.graphicFX = hitGfx;
+		chDetails.graphicFX = hitGfx;
 
 		if (modifiedHitStun != 0)
 			hitDetails.hitStun = modifiedHitStun;

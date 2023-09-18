@@ -738,8 +738,9 @@ script = ExtResource( 19 )
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 240, 127 )
 current = true
+drag_margin_left = 0.0
+drag_margin_right = 0.0
 script = ExtResource( 10 )
-zoom_offset = 0.104
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

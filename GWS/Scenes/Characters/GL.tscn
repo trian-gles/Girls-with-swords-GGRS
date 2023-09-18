@@ -186,7 +186,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 7, 9, 11 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 17, 12 ), Vector2( 17, 12 ), Vector2( 11, 15 ) ]
+"values": [ Vector2( 19, 12 ), Vector2( 19, 12 ), Vector2( 11, 15 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("HurtBoxes/HurtB1:position")
@@ -222,7 +222,7 @@ tracks/13/keys = {
 "times": PoolRealArray( 7, 9, 11 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 19, 6 ), Vector2( 19, -4 ), Vector2( 5, -18 ) ]
+"values": [ Vector2( 21, 6 ), Vector2( 19, -4 ), Vector2( 5, -18 ) ]
 }
 tracks/14/type = "value"
 tracks/14/path = NodePath("HitBoxes/HitB2:shape:extents")
@@ -234,7 +234,7 @@ tracks/14/keys = {
 "times": PoolRealArray( 7, 11 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ Vector2( 16, 10 ), Vector2( 8, 14 ) ]
+"values": [ Vector2( 18, 10 ), Vector2( 8, 14 ) ]
 }
 
 [sub_resource type="Animation" id=51]
@@ -448,7 +448,7 @@ tracks/16/keys = {
 
 [sub_resource type="Animation" id=54]
 resource_name = "6K"
-length = 36.0
+length = 40.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -2157,7 +2157,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=11]
-length = 8.0
+length = 17.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -2166,7 +2166,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5, 8 ),
+"times": PoolRealArray( 0, 5, 14 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 133, 0 ), Vector2( 135, 0 ), Vector2( 139, 0 ) ]
@@ -5841,7 +5841,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 26, 20 ) ]
+"values": [ Vector2( 18, 20 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("HurtBoxes/HurtB1:position")
@@ -5853,7 +5853,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 56, -10 ) ]
+"values": [ Vector2( 30, -20 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -5877,7 +5877,7 @@ tracks/13/keys = {
 "times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 60, -45 ) ]
+"values": [ Vector2( 60, -55 ) ]
 }
 tracks/14/type = "value"
 tracks/14/path = NodePath("HurtBoxes/HurtB2:shape:extents")
@@ -7526,22 +7526,25 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 8, -2 )
+position = Vector2( -1, 3 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 40, 4 )
+position = Vector2( 40, -30 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 40, 0 )
+position = Vector2( 30, -15 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 37, 17 )
+position = Vector2( 60, -55 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7619,7 +7622,7 @@ gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="27"]
 jumpCancelable = true
-gatlingWinEnd = 14
+gatlingWinEnd = 11
 
 [node name="Slash" parent="StateTree" index="28"]
 whiffSound = "LampWhiff"
@@ -7636,6 +7639,7 @@ jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="JumpC" parent="StateTree" index="31"]
+jumpCancelable = true
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
@@ -7699,12 +7703,12 @@ stopFrame = 20
 [node name="6C" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 15 )
 level = 3
-modifiedHitStun = 25
+modifiedHitStun = 30
 modifiedCounterHitStun = 70
 opponentLaunch = Vector2( 0, -800 )
-chLaunch = Vector2( 100, -1400 )
+chLaunch = Vector2( 0, -800 )
+slowTerminalVelocity = 300
 jumpCancelable = true
-chEffect = 2
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
@@ -7714,8 +7718,8 @@ script = ExtResource( 15 )
 level = 1
 modifiedHitStun = 22
 modifiedCounterHitStun = 30
-opponentLaunch = Vector2( 0, -600 )
-chLaunch = Vector2( 0, -600 )
+opponentLaunch = Vector2( 0, -650 )
+chLaunch = Vector2( 0, -650 )
 jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"

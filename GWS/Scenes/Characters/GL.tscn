@@ -239,7 +239,7 @@ tracks/14/keys = {
 
 [sub_resource type="Animation" id=51]
 resource_name = "6C"
-length = 24.0
+length = 28.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -4746,7 +4746,7 @@ tracks/10/keys = {
 
 [sub_resource type="Animation" id=31]
 resource_name = "J2C"
-length = 33.0
+length = 32.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -7526,25 +7526,22 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 3 )
+position = Vector2( -1, 6 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 40, -30 )
-disabled = false
+position = Vector2( 45, -30 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 30, -15 )
-disabled = false
+position = Vector2( 85, -58 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 60, -55 )
-disabled = false
+position = Vector2( 60, -40 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )

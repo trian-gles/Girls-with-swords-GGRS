@@ -11,14 +11,15 @@ public class Idle : State
 		
 		base._Ready();
 		loop = true;
+		AddSpecials(owner.groundSpecials);
+		AddCommandNormals(owner.commandNormals);
 		
 		AddGatling(new[] { '2', 'p' }, "Crouch");
 		AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
 		AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddNormals();
-		AddCommandNormals(owner.commandNormals);
-		AddSpecials(owner.groundSpecials);
+		
 
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);

@@ -14,7 +14,7 @@ public class BlackHole : HadoukenPart
 	private int pullStrength = 5;
 
 	[Export]
-	private int slowTerminalVelocity = 300;
+	private int slowTerminalVelocity = 250;
 
 	protected GL createdByPlayer;
 

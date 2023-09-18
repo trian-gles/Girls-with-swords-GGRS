@@ -16,7 +16,7 @@ class ArcProjectile : HadoukenPart
 		// derivative of position
 		float slope = frame - 28;
 		float rotation = (float)(Math.Tanh(slope));
-		GD.Print(rotation);
+		// GD.Print(rotation);
 		GetNode<AnimatedSprite>("AnimatedSprite").Rotation = rotation +  (float) Math.PI / 3 + (float) Math.PI / 2;
 
 		base.FrameAdvance();

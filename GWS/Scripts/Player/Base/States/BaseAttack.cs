@@ -28,6 +28,9 @@ public abstract class BaseAttack : State
 	protected Vector2 chLaunch = Vector2.Zero;
 
 	[Export]
+	protected int slowTerminalVelocity = 0;
+
+	[Export]
 	protected int modifiedHitPush = 0;
 
 	[Export]
@@ -229,6 +232,10 @@ public abstract class BaseAttack : State
 		chDetails.collisionPnt = collisionPnt;
 		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		owner.otherPlayer.currentState.ResetTerminalVelocity();
+		if (slowTerminalVelocity != 0)
+        {
+			owner.otherPlayer.terminalVelocity = slowTerminalVelocity;
+        }
 		hitConnect = true;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 

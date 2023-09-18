@@ -25,7 +25,15 @@ public class GroundBounce : Float
 		return dict;
 	}
 
-	public override void FrameAdvance()
+    public override int CheckTerminalVelocity()
+    {
+		if (bounced)
+			return base.CheckTerminalVelocity();
+		else
+			return owner.standardTerminalVelocity;
+    }
+
+    public override void FrameAdvance()
 	{
 		frameCount++;
 		if (owner.grounded)

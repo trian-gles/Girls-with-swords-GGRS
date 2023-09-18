@@ -118,7 +118,7 @@ public abstract class State : Node
 		{
 			return;
 		}
-		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, owner.terminalVelocity);
+		owner.velocity.y = Math.Min(owner.velocity.y + owner.gravity, CheckTerminalVelocity());
 	}
 	public virtual void AnimationFinished() 
 	{
@@ -880,5 +880,13 @@ public abstract class State : Node
 	public void ResetTerminalVelocity()
     {
 		owner.terminalVelocity = owner.standardTerminalVelocity;
+    }
+
+	/// <summary>
+	/// Certain states will ignore changed terminal velocities at times, such as groundbounce
+	/// </summary>
+	public virtual int CheckTerminalVelocity()
+    {
+		return owner.terminalVelocity;
     }
 }

@@ -116,7 +116,7 @@ public class Player : Node2D
 	public int health = 1600;
 	private int meter = 0;
 	public Vector2 velocity = new Vector2(0, 0);
-	public int terminalVelocity = 1100;
+	public int terminalVelocity = 1100; // See CheckTerminalVelocity for details.  This is never directly accessed by state
 	public bool facingRight = true;
 	public bool grounded;
 	private int combo = 0;
@@ -1227,6 +1227,7 @@ public class Player : Node2D
 		combo = 0;
 		proration = 16;
 		canGroundbounce = true;
+		terminalVelocity = standardTerminalVelocity;
 		//GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}

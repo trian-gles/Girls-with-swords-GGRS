@@ -1,6 +1,5 @@
 extends Camera2D
 
-export(float, 0, 0.5) var zoom_offset : float = 0.2
 
 export var debug_mode : bool = true
 
@@ -17,8 +16,8 @@ func adjust(p1_pos : Vector2, p2_pos : Vector2):
 	var desired_zoom = calculate_zoom(camera_rect, viewport_rect.size)
 	var desired_offset = calculate_center(camera_rect, desired_zoom)
 	
-	offset = offset.linear_interpolate(desired_offset, 0.5)
-	zoom = zoom.linear_interpolate(desired_zoom, 0.5)
+	offset = desired_offset#offset.linear_interpolate(desired_offset, 0.5)
+	zoom = desired_zoom#zoom.linear_interpolate(desired_zoom, 0.5)
 	
 	
 	
@@ -53,8 +52,8 @@ func calculate_center(rect: Rect2, desired_zoom: Vector2) -> Vector2:
 
 func calculate_zoom(rect: Rect2, viewport_size: Vector2) -> Vector2:
 	var max_zoom = max(
-		max(0.6, rect.size.x / viewport_size.x + zoom_offset),
-		max(0.6, rect.size.y / viewport_size.y + zoom_offset)
+		max(0.6, rect.size.x / viewport_size.x + 0.06),
+		max(0.6, rect.size.y / viewport_size.y)
 	)
 	if max_zoom > 1:
 		max_zoom = 1

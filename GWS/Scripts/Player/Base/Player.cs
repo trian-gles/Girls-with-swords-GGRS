@@ -39,6 +39,8 @@ public class Player : Node2D
 	[Signal]
 	public delegate void HadoukenCommand(string playerName, string projectileName, HadoukenPart.ProjectileCommand command);
 
+	public const int MAXPLAYERDIST = 30000;
+
 	[Export]
 	public int speed = 400;
 
@@ -866,9 +868,26 @@ public class Player : Node2D
 	{
 		int xChange = (int)Math.Floor((velocity.x) / 2);
 		int yChange = (int)Math.Floor(velocity.y / 2);
+		int curDistBetween = (int)Math.Abs(otherPlayer.internalPos.x - internalPos.x);
+		int distBetween = (int)Math.Abs(otherPlayer.internalPos.x - (internalPos.x + xChange));
+		if (distBetween > MAXPLAYERDIST){
+			int dir = -1;
+			if (OtherPlayerOnLeft())
+				dir = 1;
+
+			xChange = (MAXPLAYERDIST - curDistBetween) * dir;
+			currentState.HitWall();
+		}
+
 		internalPos += new Vector2(xChange, yChange);
+		
 		CorrectPositionBounds();
 	}
+
+	private void MoveSlideDeterministic()
+    {
+
+    }
 
 	/// <summary>
 	/// Updates the remaining hitpush and adjusts the player accordingly.  does NOT use velocity
@@ -910,6 +929,19 @@ public class Player : Node2D
 		}
 		int xChange = (int)Math.Ceiling((velocity.x) / 2);
 		int yChange = (int)Math.Ceiling(velocity.y / 2);
+
+		int curDistBetween = (int)Math.Abs(otherPlayer.internalPos.x - internalPos.x);
+		int distBetween = (int)Math.Abs(otherPlayer.internalPos.x - (internalPos.x + xChange));
+		if (distBetween > MAXPLAYERDIST)
+		{
+			int dir = -1;
+			if (OtherPlayerOnLeft())
+				dir = 1;
+
+			xChange = (MAXPLAYERDIST - curDistBetween) * dir;
+			currentState.HitWall();
+		}
+
 		internalPos += new Vector2(xChange, yChange);
 		CorrectPositionBounds();
 	}

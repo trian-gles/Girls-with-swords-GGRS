@@ -23,7 +23,7 @@ public class WallBounce : Float
 			GD.Print("Lower than min vel");
 		}
 		
-		GD.Print($"Wallbounce with vel {owner.velocity.x}");
+		
 		//if (owner.CheckTouchingWall())
 		//{
 		//	owner.velocity.x *= -1;
@@ -47,6 +47,7 @@ public class WallBounce : Float
 	{
 		if (!bounced)
 		{
+			GD.Print($"Wallbounce with original vel {owner.velocity.x}");
 			bounced = true;
 			owner.velocity.x *= -1;
 		}
@@ -70,14 +71,18 @@ public class WallBounce : Float
 	private int CalcXVel()
 	{
 		int distanceToTravel;
+		int wallPos;
+
 
 		if (owner.velocity.x > 0)
 		{
-			distanceToTravel = (Globals.rightWall - (int)owner.internalPos.x) * 2;
+			wallPos = (int)Math.Min(Globals.rightWall, owner.otherPlayer.internalPos.x + Player.MAXPLAYERDIST);
+			distanceToTravel = (wallPos - (int)owner.internalPos.x) * 2;
 		}
 		else
 		{
-			distanceToTravel = (Globals.leftWall - (int)owner.internalPos.x) * 2;
+			wallPos = (int)Math.Max(Globals.leftWall, owner.otherPlayer.internalPos.x - Player.MAXPLAYERDIST);
+			distanceToTravel = (wallPos - (int)owner.internalPos.x) * 2;
 		}
 
 		return (int)Mathf.Floor(distanceToTravel / CalcFramesToGround());

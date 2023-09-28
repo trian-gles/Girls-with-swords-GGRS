@@ -213,6 +213,10 @@ public class GameScene : BaseGame
 		
 	}
 
+	public void SetP2AI()
+	{
+		P2.aiControlled = true;
+	}
 	public void SetDebugVisibility(bool visible)
 	{
 		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText" })
@@ -484,10 +488,10 @@ public class GameScene : BaseGame
 
 	}
 
-	public void OnSuperActivate()
+	public void OnSuperActivate(string name)
 	{
 		superText.Call("display", Globals.frame);
-		gsObj.SuperFreeze();
+		gsObj.SuperFreeze(name);
 	}
 
 	public void ConnectSnail(Snail s)

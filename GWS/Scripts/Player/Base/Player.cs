@@ -31,7 +31,7 @@ public class Player : Node2D
 	[Signal]
 	public delegate void RhythmHitTry(string name);
 	[Signal]
-	public delegate void SuperFlash();
+	public delegate void SuperFlash(string name);
 
 	[Signal]
 	public delegate void Recovery(string name);
@@ -132,6 +132,7 @@ public class Player : Node2D
 
 
 	public bool trainingControlledPlayer;
+	public bool aiControlled = false;
 
 
 	/// <summary>
@@ -641,7 +642,7 @@ public class Player : Node2D
 				BufTimerDecrement();
 
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
-			unhandledInputs = SortInputs(unhandledInputs);
+			//unhandledInputs = SortInputs(unhandledInputs);
 			hitStopInputs = new List<char[]>();
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -664,7 +665,6 @@ public class Player : Node2D
 				}
 
 
-				
 				playerState.HandleInput(inputArr);
 			}
 			
@@ -841,7 +841,12 @@ public class Player : Node2D
 	{
 		
 		Update();
-		
+		if (counterStopFrames > 0)
+		{
+			counterStopFrames--;
+			return;
+		}
+
 		animationPlayer.FrameAdvance();
 		currentState.FrameAdvance();
 		CharSpecificFrameAdvance();
@@ -850,11 +855,7 @@ public class Player : Node2D
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
 
-		if (counterStopFrames > 0)
-		{
-			counterStopFrames--;
-			return;
-		}
+		
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
@@ -1275,6 +1276,12 @@ public class Player : Node2D
     {
 		currentState.EmitSignal(nameof(State.StateFinished), "Jive");
     }
+
+	public bool CheckOverrideBlock()
+    {
+		return ((!trainingControlledPlayer && Globals.alwaysBlock) || aiControlled);
+
+	}
 
 	/// <summary>
 	/// Schedule an event.  Overloads depending on whether the current state name should be used or another name (such as an inherited state)

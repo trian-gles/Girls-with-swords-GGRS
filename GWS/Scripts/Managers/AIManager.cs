@@ -17,6 +17,12 @@ class AIManager : LocalManager
 		Globals.mode = Globals.Mode.CPU;
 	}
 
+    public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
+    {
+        base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
+		gameScene.SetP2AI();
+    }
+
     public override void _PhysicsProcess(float delta)
 	{
 		int p1Inputs = 0; 

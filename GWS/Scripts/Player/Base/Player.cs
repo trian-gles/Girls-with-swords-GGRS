@@ -48,6 +48,12 @@ public class Player : Node2D
 	public int dashSpeed = 700;
 
 	[Export]
+	public int airDashSpeed = 800;
+
+	[Export]
+	public int airBackdashSpeed = 500;
+
+	[Export]
 	public int accel = 40;
 
 	[Export]

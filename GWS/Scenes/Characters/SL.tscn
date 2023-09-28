@@ -8218,6 +8218,8 @@ tracks/9/keys = {
 script = ExtResource( 2 )
 speed = 150
 dashSpeed = 450
+airDashSpeed = 500
+airBackdashSpeed = 350
 accel = 50
 jumpForce = 900
 shaders = [ ExtResource( 24 ), ExtResource( 24 ), ExtResource( 24 ) ]
@@ -8315,7 +8317,7 @@ script = ExtResource( 20 )
 startupFrames = 7
 
 [node name="AirDash" parent="StateTree" index="30"]
-len = 30
+len = 25
 
 [node name="Jab" parent="StateTree" index="32"]
 jumpCancelable = true

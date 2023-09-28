@@ -7647,6 +7647,8 @@ tracks/9/keys = {
 script = ExtResource( 11 )
 speed = 200
 dashSpeed = 600
+airDashSpeed = 500
+airBackdashSpeed = 350
 shaders = [ ExtResource( 3 ), ExtResource( 13 ), ExtResource( 2 ), ExtResource( 10 ) ]
 plusFrameTextScene = ExtResource( 23 )
 
@@ -7783,7 +7785,6 @@ jumpCancelable = true
 gatlingWinEnd = 19
 
 [node name="AirBackdash" parent="StateTree" index="39"]
-len = 7
 hopForce = 40
 
 [node name="Hadouken" parent="StateTree" index="44"]

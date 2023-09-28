@@ -59,9 +59,14 @@ public class Idle : State
 			EmitSignal(nameof(StateFinished), "PreJump");
 			return;
 		}
-	} 
+	}
 
-	public override void FrameAdvance()
+    public override void HandleInput(char[] inputArr)
+    {
+        base.HandleInput(inputArr);
+    }
+
+    public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		owner.velocity.x = 0;

@@ -52,7 +52,7 @@ public abstract class AirState : State
 		}
 		else
 		{
-			if (!owner.trainingControlledPlayer && Globals.alwaysBlock)
+			if (owner.CheckOverrideBlock())
 				EnterBlockState("Block", details.collisionPnt);
 
 			else if (rightBlock || leftBlock || anyBlock)

@@ -24,7 +24,7 @@ public class LaunchAttack : AirAttack
 
 		if (frameCount > 0 && frameCount == superFrame)
 		{
-			owner.EmitSignal("SuperFlash");
+			owner.EmitSignal("SuperFlash", owner.Name);
 			owner.GFXEvent("SuperPowerUp");
 		}
 

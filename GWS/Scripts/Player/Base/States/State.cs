@@ -465,8 +465,8 @@ public abstract class State : Node
 					}
 
 					if (comGat.postCall != null)
-					{
-						comGat.postCall();
+                    {
+                        comGat.postCall();
 					}
 
 					// this gatling doesn't actually lead to a state (confusing, I know)
@@ -754,7 +754,7 @@ public abstract class State : Node
 
 		if (details.height == HEIGHT.HIGH) 
 		{
-			if (!owner.trainingControlledPlayer && Globals.alwaysBlock)
+			if (owner.CheckOverrideBlock())
 				EnterBlockState("Block", details.collisionPnt);
 			else if (!owner.CheckHeldKey('2'))
 			{
@@ -775,7 +775,7 @@ public abstract class State : Node
 		}
 		else if (details.height == HEIGHT.LOW) 
 		{
-			if (!owner.trainingControlledPlayer && Globals.alwaysBlock && owner.grounded)
+			if (owner.CheckOverrideBlock() && owner.grounded)
 				EnterBlockState("CrouchBlock", details.collisionPnt);
 			else if (owner.CheckHeldKey('2') && owner.grounded)
 			{
@@ -795,7 +795,7 @@ public abstract class State : Node
 		}
 		else
 		{
-			if (!owner.trainingControlledPlayer && Globals.alwaysBlock)
+			if (owner.CheckOverrideBlock())
 				EnterBlockState("Block", details.collisionPnt);
 
 			else if (rightBlock || leftBlock || anyBlock)

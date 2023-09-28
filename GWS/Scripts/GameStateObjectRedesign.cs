@@ -475,9 +475,13 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = maxHitStop;
 	}
 
-	public void SuperFreeze()
+	public void SuperFreeze(string name)
 	{
-		hitStopRemaining = 30;
+		if (name == "P1")
+			P2.counterStopFrames = 30;
+		else
+			P1.counterStopFrames = 30;
+		
 	}
 	
 	public void OnRhythmHitTry(string playerName){

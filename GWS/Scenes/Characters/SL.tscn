@@ -8243,7 +8243,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 46
+frame = 230
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8301,7 +8301,7 @@ script = ExtResource( 10 )
 [node name="SnailStrike" type="Node" parent="StateTree" index="26"]
 script = ExtResource( 17 )
 superFrame = 1
-releaseFrame = 1
+releaseFrame = 10
 hadoukenScene = ExtResource( 22 )
 yOffset = -150
 xOffset = -100

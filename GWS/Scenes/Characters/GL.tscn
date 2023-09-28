@@ -3337,7 +3337,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=19]
-length = 54.0
+length = 84.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -3346,7 +3346,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 7, 32, 54 ),
+"times": PoolRealArray( 0, 37, 62, 84 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 187, 192, 198, 200 ]
@@ -3358,7 +3358,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 16 ),
+"times": PoolRealArray( 0, 46 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Vector2( 0, -57 ), Vector2( 0, -47 ) ]
@@ -3370,7 +3370,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 14 ),
+"times": PoolRealArray( 0, 44 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -3406,7 +3406,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 7, 27 ),
+"times": PoolRealArray( 0, 37, 57 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -3454,7 +3454,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 7 ),
+"times": PoolRealArray( 37 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 30, -38 ) ]
@@ -3466,7 +3466,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 7 ),
+"times": PoolRealArray( 37 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 19, 59 ) ]
@@ -3478,7 +3478,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 14, 32 ),
+"times": PoolRealArray( 44, 62 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Vector2( 14, 43 ), Vector2( 14, 43 ) ]
@@ -3490,7 +3490,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 14, 32 ),
+"times": PoolRealArray( 44, 62 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Vector2( -2, -3 ), Vector2( -2, 5 ) ]
@@ -6486,7 +6486,7 @@ tracks/10/keys = {
 
 [sub_resource type="Animation" id=52]
 resource_name = "PowerBlackholes"
-length = 12.0
+length = 42.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6495,10 +6495,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5, 12 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 5, 10, 15, 21, 26, 31, 36 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 59, 62, 59 ]
+"values": [ 58, 61, 58, 61, 58, 61, 58, 61 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:position")
@@ -7526,7 +7526,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 6 )
+position = Vector2( 0, -2 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7537,7 +7537,7 @@ modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 85, -58 )
+position = Vector2( 30, -38 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7559,7 +7559,7 @@ frame = 272
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( 2, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7592,11 +7592,11 @@ opponentLaunch = Vector2( 500, -900 )
 hitPush = 6000
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
-restoreHitFrames = PoolIntArray( 12 )
-superFrame = 4
+restoreHitFrames = PoolIntArray( 42 )
+superFrame = 5
 launch = Vector2( 150, -1000 )
-launchFrame = 7
-knockdownFrame = 45
+launchFrame = 37
+knockdownFrame = 75
 
 [node name="Jump" parent="StateTree" index="6"]
 startupFrames = 7
@@ -7694,7 +7694,7 @@ height = 2
 chEffect = 1
 gatlingWinEnd = 29
 sweepCancel = true
-moveSpeed = 100
+moveSpeed = 140
 stopFrame = 20
 
 [node name="6C" type="Node" parent="StateTree" index="52"]
@@ -7730,7 +7730,7 @@ modifiedHitStun = 80
 modifiedCounterHitStun = 120
 opponentLaunch = Vector2( 100, -100 )
 superFrame = 2
-powerUpFrame = 4
+powerUpFrame = 34
 powerUpDuration = 120
 
 [node name="GrabPos" parent="." index="8"]

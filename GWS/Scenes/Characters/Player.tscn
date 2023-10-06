@@ -61,7 +61,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 43 )
+extents = Vector2( 12, 33 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 5 )
@@ -70,9 +70,10 @@ extents = Vector2( 5, 5 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 19, 59 )
+extents = Vector2( 11, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 10, 20 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -521,7 +522,6 @@ script = ExtResource( 36 )
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
-visible = false
 material = SubResource( 9 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
@@ -543,10 +543,6 @@ randomness = 0.08
 process_material = SubResource( 18 )
 texture = ExtResource( 44 )
 script = ExtResource( 45 )
-
-[node name="GroundBounce" type="CPUParticles2D" parent="GFXHandler"]
-visible = false
-scale_amount = 2.0
 
 [node name="SuperPowerUp" type="CPUParticles2D" parent="GFXHandler"]
 emitting = false

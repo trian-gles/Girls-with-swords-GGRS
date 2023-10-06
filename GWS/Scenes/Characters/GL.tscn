@@ -431,7 +431,7 @@ tracks/15/keys = {
 "times": PoolRealArray( 13 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 60, -40 ) ]
+"values": [ Vector2( 60, -30 ) ]
 }
 tracks/16/type = "value"
 tracks/16/path = NodePath("HurtBoxes/HurtB2:shape:extents")
@@ -443,7 +443,7 @@ tracks/16/keys = {
 "times": PoolRealArray( 13 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 10, 10 ) ]
+"values": [ Vector2( 10, 20 ) ]
 }
 
 [sub_resource type="Animation" id=54]
@@ -580,7 +580,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 23 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 20, -10 ) ]
+"values": [ Vector2( 20, 16 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("HurtBoxes/HurtB1:position")
@@ -592,7 +592,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 23 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 28, -10 ) ]
+"values": [ Vector2( 28, -5 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -7528,22 +7528,22 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 0, -2 )
+position = Vector2( -1, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 45, -30 )
+position = Vector2( 28, -10 )
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 30, -38 )
+position = Vector2( 28, -5 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 60, -40 )
+position = Vector2( 60, -30 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 modulate = Color( 1, 0, 0, 1 )
@@ -7561,7 +7561,7 @@ frame = 272
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 2, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7695,6 +7695,7 @@ chLaunch = Vector2( 0, 1000 )
 height = 2
 chEffect = 1
 gatlingWinEnd = 29
+grabInvulnFrames = 22
 sweepCancel = true
 moveSpeed = 140
 stopFrame = 20
@@ -7723,6 +7724,7 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
+restoreHitFrames = PoolIntArray( 11 )
 slashCancel = true
 sweepCancel = true
 

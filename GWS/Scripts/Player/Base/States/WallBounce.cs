@@ -47,9 +47,9 @@ public class WallBounce : Float
 	{
 		if (!bounced)
 		{
-			GD.Print($"Wallbounce with original vel {owner.velocity.x}");
 			bounced = true;
 			owner.velocity.x *= -1;
+			//owner.GFXEvent("WallBounce");
 		}
 	}
 

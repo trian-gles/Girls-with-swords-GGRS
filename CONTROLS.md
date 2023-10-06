@@ -18,6 +18,7 @@ See https://www.dustloop.com/w/Notation for info on notation
 A well rounded "shoto" with ranged attacks, close attacks, and strong defensive tools
 
 - `6k` : a grab invulnerable, forward moving kick
+- `6p` : a head invulnerable, uppercut punch
 - `dash + s` : a fast overhead launching attacks
 - `j.6s` : the same as above, executed from the air
 - `236p` : HADOUKEN

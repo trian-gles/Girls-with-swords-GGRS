@@ -22,7 +22,7 @@ A well rounded "shoto" with ranged attacks, close attacks, and strong defensive 
 - `dash + s` : a fast overhead launching attacks
 - `j.6s` : the same as above, executed from the air
 - `236p` : HADOUKEN
-- `22s` : A briefly invulnerable anti-air reversal
+- `623s` : A briefly invulnerable anti-air reversal
 - `63214k` : A fast charge into a slice.  Hold `4` to move past the opponent and hit them from behind
 - `63214[s]` : Holding `s` allows you to charge up a powerful version of the above, which can be cancelled into any normal attack or jump on landing a hit
 - `236236s (with at least half SIMP)` :  An invulnerable, super powerful double slash

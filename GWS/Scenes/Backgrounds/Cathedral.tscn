@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Sprites/BG Assets/Cathedral_Full-Sheet-18frames.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/BG Assets/Cathedral_Interiorl.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Stages/Cathedral/Cathedral_Full-Sheet-18frames.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Stages/Cathedral/Cathedral_Interiorl.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animation"

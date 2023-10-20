@@ -49,7 +49,7 @@ public class WallBounce : Float
 		{
 			bounced = true;
 			owner.velocity.x *= -1;
-			//owner.GFXEvent("WallBounce");
+			owner.GFXEvent("WallBounce");
 		}
 	}
 

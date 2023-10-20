@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -36,7 +36,6 @@
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
 [ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticle.cs" type="Script" id=36]
-[ext_resource path="res://Sprites/Movesets/OL Moveset/OL Gray 3-5.png" type="Texture" id=37]
 [ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
 [ext_resource path="res://Scripts/Player/Base/States/PreJump.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
@@ -61,19 +60,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12, 33 )
+extents = Vector2( 14, 16 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 5, 5 )
+extents = Vector2( 7, 10 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 11, 10 )
+extents = Vector2( 38, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 20 )
+extents = Vector2( 32, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
@@ -193,7 +192,6 @@ scale = Vector2( 9, 9 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 37 )
 hframes = 176
 frame = 124
 
@@ -481,6 +479,27 @@ color = Color( 0.968627, 1, 0, 1 )
 color_ramp = SubResource( 19 )
 script = ExtResource( 36 )
 
+[node name="WallBounce" type="CPUParticles2D" parent="GFXHandler"]
+z_index = 1
+emitting = false
+amount = 80
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.73
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 33.0
+gravity = Vector2( -2000, 0 )
+initial_velocity = 886.49
+initial_velocity_random = 0.76
+angle_random = 0.62
+scale_amount = 9.0
+scale_amount_random = 0.47
+color = Color( 0.835294, 0.835294, 0.835294, 1 )
+hue_variation = -1.0
+script = ExtResource( 36 )
+
 [node name="Cancel" type="CPUParticles2D" parent="GFXHandler"]
 position = Vector2( 0, -8 )
 z_index = 1
@@ -519,6 +538,7 @@ scale_amount = 2.0
 script = ExtResource( 36 )
 
 [node name="Node2D" type="Node2D" parent="GFXHandler"]
+visible = false
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]

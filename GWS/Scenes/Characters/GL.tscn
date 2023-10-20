@@ -7795,5 +7795,5 @@ anims/Tech = SubResource( 41 )
 anims/Walk = SubResource( 42 )
 script = ExtResource( 5 )
 
-[node name="Cancel" parent="GFXHandler" index="2"]
+[node name="Cancel" parent="GFXHandler" index="3"]
 explosiveness = 0.34

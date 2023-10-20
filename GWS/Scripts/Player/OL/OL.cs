@@ -20,6 +20,9 @@ public class OL : Player
 		//6k
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 
+		//6p
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
+
 
 		//DP
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "AntiAir"));

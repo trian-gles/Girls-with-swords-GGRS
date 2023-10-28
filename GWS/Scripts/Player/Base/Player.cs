@@ -226,7 +226,7 @@ public class Player : Node2D
 	}
 
 	// components of a received attack
-	private bool wasHit = false;
+	protected bool wasHit = false;
 	private Globals.AttackDetails receivedHit;
 	private Globals.AttackDetails receivedCHit;
 
@@ -1154,11 +1154,11 @@ public class Player : Node2D
 		wasHit = true;
 	}
 
-	public void CalculateHit()
+	public virtual bool CalculateHit()
 	{
 		if (!wasHit)
 		{
-			return;
+			return false;
 		}
 		Globals.AttackDetails details = receivedHit;
 		
@@ -1174,6 +1174,7 @@ public class Player : Node2D
 
 		if (Globals.mode == Globals.Mode.TRAINING)
 			otherPlayer.CalculatePlusFrames(currentState.stunRemaining);
+		return true;
 	}
 
 	public void CalculatePlusFrames(int opponentStun)

@@ -52,6 +52,14 @@ public class GL : Player
 		charName = "GL";
 	}
 
+	public override bool CalculateHit()
+	{
+		if (!base.CalculateHit())
+			return false;
+		CommandHadouken("BlackHole", HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
+		return true;
+	}
+
 	protected override void CharSpecificFrameAdvance()
 	{
 		if (PoweredBlackHoleFramesRemaining > 0)

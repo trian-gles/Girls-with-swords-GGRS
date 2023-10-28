@@ -3,10 +3,14 @@ using System;
 
 public class BlackHolePlace : Hadouken
 {
-
+    GL gl;
+    public override void _Ready()
+    {
+        base._Ready();
+        gl = ((GL)owner);
+    }
     public override void Enter()
     {
-        var gl = ((GL)owner);
         base.Enter();
         if (gl.BlackHolesTotal > 1)
         {
@@ -15,12 +19,14 @@ public class BlackHolePlace : Hadouken
             return;
         }
             
-        gl.BlackHolesTotal++;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
     }
     public override void FrameAdvance()
     {
         base.FrameAdvance();
         owner.velocity.y = 0;
+
+        if (frameCount == releaseFrame)
+            gl.BlackHolesTotal++;
     }
 }

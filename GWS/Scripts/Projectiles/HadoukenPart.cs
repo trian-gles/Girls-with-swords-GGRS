@@ -96,7 +96,8 @@ public class HadoukenPart : Node2D
 		LeftSnailJump,
 		SnailJump,
 		SnailRide,
-		BlackHolePowerUp
+		BlackHolePowerUp,
+		BlackHoleDeactivate
 	}
 
 

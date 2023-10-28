@@ -553,7 +553,7 @@ public class GameStateObjectRedesign : Node
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)
     {
-		Globals.Log($"Hadouken command sent from {playerName} for hadouken {hadName}");
+		//Globals.Log($"Hadouken command sent from {playerName} for hadouken {hadName}");
 		foreach (HadoukenPart h in hadoukens.Values)
         {
 			if (h.hadoukenType == hadName && playerName == h.ownerName)

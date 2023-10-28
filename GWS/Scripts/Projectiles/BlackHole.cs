@@ -137,6 +137,14 @@ public class BlackHole : HadoukenPart
 		
 	}
 
+	public override void ReceiveCommand(ProjectileCommand command)
+	{
+		if (command == ProjectileCommand.BlackHoleDeactivate)
+		{
+			MakeInactive();
+		}
+	}
+
 	public override void SetState(HadoukenState newState)
 	{
 		active = newState.active;

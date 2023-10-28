@@ -14,11 +14,11 @@ modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 0, -400 )
 chLaunch = Vector2( 0, -400 )
 duration = 180
-pullStrength = 20
+pullStrength = 30
 
 [node name="AnimatedSprite" parent="." index="0"]
 visible = false
-frame = 6
+frame = 0
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 0, 0 )

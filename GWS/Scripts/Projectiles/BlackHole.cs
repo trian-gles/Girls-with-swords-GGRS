@@ -85,7 +85,10 @@ public class BlackHole : HadoukenPart
 				if (distToPlayer < 20000000)
 				{
 					if (playerBelow)
-						pushVec.y = pushVec.y + targetPlayer.gravity;
+						pushVec.y += targetPlayer.gravity;
+
+					targetPlayer.velocity.x = (float)Math.Floor((double)targetPlayer.velocity.x * 2/ 3);
+					targetPlayer.velocity.y = (float)Math.Floor((double)targetPlayer.velocity.y * 2 / 3);
 				}
 
 
@@ -112,9 +115,10 @@ public class BlackHole : HadoukenPart
 
 			if (CheckRect() && hits < totalHits)
 			{
-				Globals.Log("Hurting player on frame " + frame);
+				//Globals.Log("Hurting player on frame " + frame);
 				HurtPlayer();
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
+				targetPlayer.counterStopFrames = 15;
 				
 			}
 		}

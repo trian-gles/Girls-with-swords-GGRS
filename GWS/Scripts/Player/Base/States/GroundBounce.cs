@@ -69,12 +69,6 @@ public class GroundBounce : Float
 
 		TryTech();
 
-		if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300)
-		{
-			owner.EmitSignal(nameof(Player.LevelUp));
-			EmitSignal(nameof(StateFinished), "AirKnockdown");
-		}
-
 
 		ApplyGravity();
 	}

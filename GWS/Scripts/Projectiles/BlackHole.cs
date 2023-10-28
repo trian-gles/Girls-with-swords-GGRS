@@ -129,6 +129,7 @@ public class BlackHole : HadoukenPart
 	{
 		base.MakeInactive();
 		particles2D.Emitting = false;
+		createdByPlayer.BlackHolesTotal--;
 		
 	}
 

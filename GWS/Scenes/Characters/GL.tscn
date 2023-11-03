@@ -4939,7 +4939,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3, 15 ),
+"times": PoolRealArray( 0, 4, 15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 4, 5, 8 ]
@@ -7552,7 +7552,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -1, 23 )
+position = Vector2( -1, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -7585,6 +7585,7 @@ frame = 272
 material = SubResource( 2 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -7720,7 +7721,7 @@ chEffect = 1
 gatlingWinEnd = 29
 grabInvulnFrames = 22
 sweepCancel = true
-moveSpeed = 140
+moveSpeed = 160
 stopFrame = 20
 
 [node name="6C" type="Node" parent="StateTree" index="52"]

@@ -102,6 +102,21 @@ public class Globals : Node
 		public AttackDetails counterHit;
 	}
 
+	public static AttackDetails otgHit = new AttackDetails
+    {
+		hitStun = 6,
+		blockStun = 6,
+		dmg = 4,
+		hitPush = 2000,
+		prorationLevel = 2,
+		knockdown = false,
+		opponentLaunch = new Vector2(400, -300),
+		effect = BaseAttack.EXTRAEFFECT.NONE,
+		graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
+		height = State.HEIGHT.MID,
+		dir = BaseAttack.ATTACKDIR.EQUAL
+	};
+
 	public static AttackLevel[] attackLevels = new AttackLevel[]
 	{
 		// LVL 1

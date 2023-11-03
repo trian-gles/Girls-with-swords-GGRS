@@ -689,7 +689,7 @@ public abstract class State : Node
 		}
 		else if (!airState && knockdown)
 		{
-			EmitSignal(nameof(StateFinished), "Knockdown");
+			EmitSignal(nameof(StateFinished), "HitStun");
 
 		}
 		else if (!airState && effect == BaseAttack.EXTRAEFFECT.STAGGER)

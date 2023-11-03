@@ -59,6 +59,9 @@ public abstract class BaseAttack : State
 	protected bool knockdown = false;
 
 	[Export]
+	protected bool launchOnGrounded = true;
+
+	[Export]
 	protected string whiffSound = "Whiff";
 
 	[Export]
@@ -213,6 +216,16 @@ public abstract class BaseAttack : State
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 		Globals.Log($"Hit connect at point {collisionPnt}");
+
+		var hitDetails = this.hitDetails;
+		var chDetails = this.chDetails;
+
+		if (owner.otherPlayer.grounded && !launchOnGrounded)
+		{
+			hitDetails.opponentLaunch = Vector2.Zero;
+			chDetails.opponentLaunch = Vector2.Zero;
+		}
+
 		owner.GainMeter(400);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;

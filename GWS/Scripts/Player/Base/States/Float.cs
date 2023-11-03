@@ -56,6 +56,10 @@ public class Float : HitStun
 		{
 			EmitSignal(nameof(StateFinished), "GroundBounce");
 		}
+		else if (knockdown)
+		{
+			EmitSignal(nameof(StateFinished), "AirKnockdown");
+		}
 		else
 		{
 			EmitSignal(nameof(StateFinished), "Float");

@@ -6,10 +6,10 @@ using System.Linq;
 
 public abstract class AirAttack : BaseAttack
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "aerial", "attack" };
 	public override void _Ready()
     {
         base._Ready();
+		tags.Add("aerial");
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 		hitDetails.airBlockable = true;

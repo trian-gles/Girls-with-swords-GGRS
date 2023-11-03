@@ -12,6 +12,7 @@ public class AirSnail : Hadouken
     public override void _Ready()
     {
         base._Ready();
+		tags.Add("aerial");
 		slowdownSpeed = 0;
     }
     public override void Enter()

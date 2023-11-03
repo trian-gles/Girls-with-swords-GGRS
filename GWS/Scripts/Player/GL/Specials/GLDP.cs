@@ -11,6 +11,7 @@ public class GLDP : LaunchAttack
     public override void _Ready()
     {
         base._Ready();
+        tags.Add("aerial");
         finalAttack.hitStun = 70;
         finalAttack.knockdown = true;
         finalAttack.graphicFX = BaseAttack.GRAPHICEFFECT.EXPLOSION;

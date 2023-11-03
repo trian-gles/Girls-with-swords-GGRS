@@ -6,6 +6,7 @@ public class GLj2c : BaseAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add("aerial");
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
 		slowdownSpeed = 0;

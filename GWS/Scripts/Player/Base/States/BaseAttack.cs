@@ -179,7 +179,6 @@ public abstract class BaseAttack : State
         base.FrameAdvance();
 		if (frameCount > 0 && frameCount == superFrame)
         {
-			GD.Print("SUPER");
 			owner.EmitSignal("SuperFlash", owner.Name);
 			owner.GFXEvent("SuperPowerUp");
         } 

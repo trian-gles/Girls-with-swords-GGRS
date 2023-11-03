@@ -16,7 +16,11 @@ public class AIBehaviour
         {"Combo", new Combo(new List<int>{ 32, 64, 66 }, new List<int>{1, 36, 60 }) },
         {"RandomMash", new RandomMash() },
         {"Chase", new Chase() },
+        {"FloatTech", new FloatTech() },
     };
+
+    // Global behaviours that must be saved here
+    public static HashSet<string> floatStates = new HashSet<string>() { "Float", "WallBounce", "GroundBounce"};
 
     public AIBehaviour()
     {
@@ -26,6 +30,12 @@ public class AIBehaviour
     public int Poll(GameStateObjectRedesign.GameState state)
     {
         string nextState = behaviour.GetNextState(state);
+
+        // Global handling which must be done here
+        if (floatStates.Contains(state.P2State.currentState))
+            nextState = "FloatTech";
+        // 
+
         if (nextState != "")
             EnterState(nextState);
         int input = behaviour.Poll(state);

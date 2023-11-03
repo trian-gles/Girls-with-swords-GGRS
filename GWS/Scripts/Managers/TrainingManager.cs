@@ -66,10 +66,8 @@ public class TrainingManager : BaseManager
 
 	public void OnCharacterRecovery(string name)
 	{
-		GD.Print($"{name} recovery!");
 		if (inputsOnRecovery && (name == "P1") == (flippedPlayers))
 		{
-			GD.Print($"recovery playback");
 			StartInputPlayback();
 		}
 			

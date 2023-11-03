@@ -31,8 +31,15 @@ public class BlackHole : HadoukenPart
 
 		if (active && frame > startUp)
 		{
+			
+
 			if (frame > duration)
 				MakeInactive();
+
+			if (targetPlayer.grounded)
+			{
+				return;
+			}
 
 			int yToPlayer = (int)Math.Abs(Position.y * 100 - targetPlayer.internalPos.y);
 			int xToPlayer = (int)Math.Abs(Position.x * 100 - targetPlayer.internalPos.x);
@@ -89,12 +96,6 @@ public class BlackHole : HadoukenPart
 
 					targetPlayer.velocity.x = (float)Math.Floor((double)targetPlayer.velocity.x * 2/ 3);
 					targetPlayer.velocity.y = (float)Math.Floor((double)targetPlayer.velocity.y * 2 / 3);
-				}
-
-
-				if (targetPlayer.grounded)
-				{
-					pushVec.y *= 0;
 				}
 
 				if (adjustedPull > pullStrength && targetPlayer.currentState.tags.Contains("hitstate"))

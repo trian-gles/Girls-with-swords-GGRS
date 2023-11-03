@@ -247,7 +247,7 @@ public class HadoukenPart : Node2D
 	protected virtual void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
-		if (targetPlayer.currentState.Name == "Knockdown" || targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
+		if (targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
 		{
 			return;
 		}

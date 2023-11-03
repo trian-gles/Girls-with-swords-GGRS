@@ -7,6 +7,7 @@ public class Float : HitStun
 	{
 		base._Ready();
 		stop = false;
+		tags.Add("aerial");
 	}
 
 	public override bool DelayInputs()
@@ -20,7 +21,7 @@ public class Float : HitStun
 		owner.grounded = false;
 		owner.CheckTurnAround();
 		stunRemaining += 4;
-		//GD.Print($"Stun remaining for float = {stunRemaining}");
+		
 	}
 
 	public override void ReceiveStunDamage(Globals.AttackDetails details)

@@ -857,7 +857,11 @@ public class Player : Node2D
 		currentState.FrameAdvance();
 		CharSpecificFrameAdvance();
 		if (invulnFrames > 0)
+        {
 			invulnFrames--;
+			GD.Print($"lowering invuln frames to {invulnFrames}");
+		}
+			
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
 
@@ -1143,7 +1147,12 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
-		//GD.Print("HIT DURING ", currentState.Name, currentState.isCounter);
+		if (currentState.Name == "Knockdown")
+        {
+			receivedHit = Globals.otgHit;
+			invulnFrames = 8;
+        }
+
 		if (currentState.isCounter)
 		{
 			receivedHit = chDetails;

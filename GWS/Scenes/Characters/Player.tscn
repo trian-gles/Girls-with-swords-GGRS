@@ -60,7 +60,7 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 14, 16 )
+extents = Vector2( 23, 31 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 10 )
@@ -69,7 +69,7 @@ extents = Vector2( 7, 10 )
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 38, 12 )
+extents = Vector2( 18, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32, 15 )
@@ -77,61 +77,61 @@ extents = Vector2( 32, 15 )
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
 
-[sub_resource type="Gradient" id=19]
+[sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0, 0.671053, 1 )
 colors = PoolColorArray( 1, 0.914063, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1 )
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=9]
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CanvasItemMaterial" id=9]
+[sub_resource type="CanvasItemMaterial" id=10]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=11]
 min_value = -360.0
 max_value = 360.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=13]
 colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=13]
-gradient = SubResource( 12 )
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
 
-[sub_resource type="Curve" id=14]
+[sub_resource type="Curve" id=15]
 max_value = 5.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.35, 2.27304 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=15]
-curve = SubResource( 14 )
+[sub_resource type="CurveTexture" id=16]
+curve = SubResource( 15 )
 
-[sub_resource type="ParticlesMaterial" id=16]
+[sub_resource type="ParticlesMaterial" id=17]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 5.0
-angular_velocity_curve = SubResource( 11 )
+angular_velocity_curve = SubResource( 12 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale_curve = SubResource( 15 )
-color_ramp = SubResource( 13 )
+scale_curve = SubResource( 16 )
+color_ramp = SubResource( 14 )
 hue_variation = 0.09
 
-[sub_resource type="CanvasItemMaterial" id=17]
+[sub_resource type="CanvasItemMaterial" id=18]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 7
 particles_anim_v_frames = 7
 particles_anim_loop = false
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=19]
 emission_shape = 1
 emission_sphere_radius = 59.86
 flag_disable_z = true
@@ -475,8 +475,7 @@ initial_velocity = 400.0
 initial_velocity_random = 0.76
 angle_random = 0.62
 scale_amount = 3.0
-color = Color( 0.968627, 1, 0, 1 )
-color_ramp = SubResource( 19 )
+color_ramp = SubResource( 8 )
 script = ExtResource( 36 )
 
 [node name="WallBounce" type="CPUParticles2D" parent="GFXHandler"]
@@ -513,7 +512,7 @@ spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 302.2
 damping = 100.0
-damping_curve = SubResource( 8 )
+damping_curve = SubResource( 9 )
 scale_amount = 2.0
 color = Color( 0.0470588, 0.945098, 1, 1 )
 script = ExtResource( 36 )
@@ -533,7 +532,7 @@ emission_rect_extents = Vector2( 40, 40 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 damping = 100.0
-damping_curve = SubResource( 8 )
+damping_curve = SubResource( 9 )
 scale_amount = 2.0
 script = ExtResource( 36 )
 
@@ -542,25 +541,25 @@ visible = false
 position = Vector2( 48, 0 )
 
 [node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
-material = SubResource( 9 )
+material = SubResource( 10 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
 amount = 1
 lifetime = 7.0
 speed_scale = 4.95
-process_material = SubResource( 16 )
+process_material = SubResource( 17 )
 texture = ExtResource( 46 )
 
 [node name="Light" type="Particles2D" parent="GFXHandler"]
 visible = false
-material = SubResource( 17 )
+material = SubResource( 18 )
 position = Vector2( 48, 0 )
 emitting = false
 amount = 3
 one_shot = true
 speed_scale = 1.59
 randomness = 0.08
-process_material = SubResource( 18 )
+process_material = SubResource( 19 )
 texture = ExtResource( 44 )
 script = ExtResource( 45 )
 

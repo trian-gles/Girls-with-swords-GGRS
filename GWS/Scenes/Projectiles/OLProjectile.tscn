@@ -9,5 +9,5 @@ speed = Vector2( 3, 0 )
 duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]
-animation = "OLProjectile"
-frame = 2
+scale = Vector2( 3, 3 )
+frame = 8

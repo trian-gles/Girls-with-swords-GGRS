@@ -43,16 +43,16 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="StreamTexture" id=53]
+[sub_resource type="StreamTexture" id=2]
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
-shader_param/palette = SubResource( 53 )
+shader_param/palette = SubResource( 2 )
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=4]
 resource_name = "3K"
 length = 24.0
 step = 1.0
@@ -237,7 +237,7 @@ tracks/14/keys = {
 "values": [ Vector2( 18, 10 ), Vector2( 8, 14 ) ]
 }
 
-[sub_resource type="Animation" id=51]
+[sub_resource type="Animation" id=5]
 resource_name = "6C"
 length = 28.0
 step = 1.0
@@ -446,7 +446,7 @@ tracks/16/keys = {
 "values": [ Vector2( 10, 20 ) ]
 }
 
-[sub_resource type="Animation" id=54]
+[sub_resource type="Animation" id=6]
 resource_name = "6K"
 length = 40.0
 step = 1.0
@@ -631,7 +631,7 @@ tracks/14/keys = {
 "values": [ Vector2( 20, 14 ) ]
 }
 
-[sub_resource type="Animation" id=48]
+[sub_resource type="Animation" id=7]
 resource_name = "AirBackdash"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -766,8 +766,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "AirDash"
+[sub_resource type="Animation" id=8]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -901,8 +900,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "AirGrab"
+[sub_resource type="Animation" id=9]
 length = 35.0
 step = 1.0
 tracks/0/type = "value"
@@ -1026,7 +1024,7 @@ tracks/9/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=43]
+[sub_resource type="Animation" id=10]
 resource_name = "AirGrabStart"
 length = 20.0
 step = 1.0
@@ -1187,7 +1185,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -1333,7 +1331,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=12]
 length = 14.0
 step = 1.0
 tracks/0/type = "value"
@@ -1469,7 +1467,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 2, 0 ), Vector2( 2, 0 ), Vector2( 3, 0 ), Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 7, 0 ) ]
 }
 
-[sub_resource type="Animation" id=46]
+[sub_resource type="Animation" id=13]
 resource_name = "BlackHolePlace"
 length = 22.0
 step = 1.0
@@ -1606,7 +1604,7 @@ tracks/10/keys = {
 "values": [ Vector2( 35, -10 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=14]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -1740,7 +1738,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=15]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -1886,7 +1884,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=16]
 length = 5.0
 step = 1.0
 tracks/0/type = "value"
@@ -2022,7 +2020,7 @@ tracks/10/keys = {
 "values": [ Vector2( -0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=17]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:position")
 tracks/0/interp = 1
@@ -2156,7 +2154,7 @@ tracks/10/keys = {
 "values": [ 139 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=18]
 length = 17.0
 step = 1.0
 tracks/0/type = "value"
@@ -2316,7 +2314,7 @@ tracks/12/keys = {
 "values": [ Vector2( -1.5, 0 ), Vector2( -1.5, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( -1.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=19]
 length = 21.0
 step = 1.0
 tracks/0/type = "value"
@@ -2476,7 +2474,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=20]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -2611,7 +2609,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=21]
 length = 31.0
 step = 1.0
 tracks/0/type = "value"
@@ -2795,7 +2793,7 @@ tracks/14/keys = {
 "values": [ Vector2( 41, 26 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=22]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -2931,7 +2929,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=23]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -3065,8 +3063,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=17]
-resource_name = "Feint"
+[sub_resource type="Animation" id=24]
 length = 13.0
 step = 1.0
 tracks/0/type = "value"
@@ -3190,7 +3187,7 @@ tracks/9/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=25]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -3336,7 +3333,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=26]
 length = 84.0
 step = 1.0
 tracks/0/type = "value"
@@ -3496,7 +3493,7 @@ tracks/12/keys = {
 "values": [ Vector2( -2, -3 ), Vector2( -2, 5 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=27]
 length = 35.0
 step = 1.0
 tracks/0/type = "value"
@@ -3620,7 +3617,7 @@ tracks/9/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=28]
 resource_name = "GrabStart"
 length = 20.0
 step = 1.0
@@ -3781,7 +3778,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=29]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -3891,7 +3888,7 @@ tracks/8/keys = {
 "values": [ Vector2( -0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=30]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -4037,7 +4034,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -69 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=31]
 length = 31.0
 step = 1.0
 tracks/0/type = "value"
@@ -4221,8 +4218,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( 0.5, 0 ), Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 5, 0 ), Vector2( 9, 0 ), Vector2( 9, 0 ), Vector2( 11, 0 ), Vector2( 11, 0 ), Vector2( 8, 0 ), Vector2( 8, 0 ), Vector2( 4, 0 ) ]
 }
 
-[sub_resource type="Animation" id=24]
-resource_name = "Hadouken"
+[sub_resource type="Animation" id=32]
 length = 38.0
 step = 1.0
 tracks/0/type = "value"
@@ -4346,7 +4342,7 @@ tracks/9/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=33]
 resource_name = "HadoukenAir"
 length = 48.0
 step = 1.0
@@ -4471,7 +4467,7 @@ tracks/9/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=34]
 length = 5.0
 step = 1.0
 tracks/0/type = "value"
@@ -4607,7 +4603,7 @@ tracks/10/keys = {
 "values": [ Vector2( 2, 0 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=35]
 length = 48.0
 loop = true
 step = 1.0
@@ -4744,8 +4740,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=31]
-resource_name = "J2C"
+[sub_resource type="Animation" id=36]
 length = 32.0
 step = 1.0
 tracks/0/type = "value"
@@ -4929,7 +4924,7 @@ tracks/14/keys = {
 "values": [ Vector2( 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=37]
 length = 15.0
 step = 1.0
 tracks/0/type = "value"
@@ -4939,7 +4934,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 4, 15 ),
+"times": PoolRealArray( 0, 3, 15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 4, 5, 8 ]
@@ -5113,7 +5108,7 @@ tracks/14/keys = {
 "values": [ Vector2( 8, 8 ) ]
 }
 
-[sub_resource type="Animation" id=45]
+[sub_resource type="Animation" id=38]
 resource_name = "Jive"
 length = 24.0
 loop = true
@@ -5251,7 +5246,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 3 ) ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=39]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -5387,7 +5382,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=40]
 length = 17.0
 step = 1.0
 tracks/0/type = "value"
@@ -5547,7 +5542,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=41]
 length = 25.0
 step = 1.0
 tracks/0/type = "value"
@@ -5707,7 +5702,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=42]
 resource_name = "JumpC"
 length = 25.0
 step = 1.0
@@ -5916,7 +5911,7 @@ tracks/16/keys = {
 "values": [ Vector2( 20, 13 ), Vector2( 20, 40 ) ]
 }
 
-[sub_resource type="Animation" id=50]
+[sub_resource type="Animation" id=43]
 resource_name = "Kick"
 length = 26.0
 step = 1.0
@@ -6101,7 +6096,7 @@ tracks/14/keys = {
 "values": [ Vector2( 30, 14 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=44]
 length = 50.0
 step = 1.0
 tracks/0/type = "value"
@@ -6111,10 +6106,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 27, 31, 50 ),
+"times": PoolRealArray( 0, 30, 31, 50 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 110, 117, 141, 146 ]
+"values": [ 110, 118, 141, 146 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:position")
@@ -6135,10 +6130,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 31 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB2:disabled")
@@ -6212,32 +6207,8 @@ tracks/8/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
-tracks/9/type = "value"
-tracks/9/path = NodePath("HitBoxes/HitB1:position")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ Vector2( -1, 23 ) ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("HitBoxes/HitB1:shape:extents")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ Vector2( 29, 15 ) ]
-}
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=45]
 length = 24.0
 step = 1.0
 tracks/0/type = "value"
@@ -6373,7 +6344,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=46]
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6508,7 +6479,7 @@ tracks/10/keys = {
 "values": [ Vector2( -1.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=52]
+[sub_resource type="Animation" id=47]
 resource_name = "PowerBlackholes"
 length = 42.0
 step = 1.0
@@ -6645,7 +6616,7 @@ tracks/10/keys = {
 "values": [ Vector2( 2, 0 ) ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=48]
 length = 10.0
 step = 1.0
 tracks/0/type = "value"
@@ -6781,7 +6752,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ), Vector2( -1.5, 0 ), Vector2( -3.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=49]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6808,7 +6779,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, -57 ) ]
 }
 
-[sub_resource type="Animation" id=38]
+[sub_resource type="Animation" id=50]
 length = 90.0
 step = 1.0
 tracks/0/type = "value"
@@ -6944,7 +6915,7 @@ tracks/10/keys = {
 "values": [ Vector2( -3, 0 ) ]
 }
 
-[sub_resource type="Animation" id=39]
+[sub_resource type="Animation" id=51]
 length = 36.0
 step = 1.0
 tracks/0/type = "value"
@@ -7128,8 +7099,7 @@ tracks/14/keys = {
 "values": [ Vector2( 48, -10 ) ]
 }
 
-[sub_resource type="Animation" id=40]
-resource_name = "Stagger"
+[sub_resource type="Animation" id=52]
 length = 24.0
 loop = true
 step = 1.0
@@ -7266,7 +7236,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 3 ) ]
 }
 
-[sub_resource type="Animation" id=41]
+[sub_resource type="Animation" id=53]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
@@ -7400,7 +7370,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0.5, 0 ) ]
 }
 
-[sub_resource type="Animation" id=42]
+[sub_resource type="Animation" id=54]
 length = 40.0
 step = 1.0
 tracks/0/type = "value"
@@ -7582,7 +7552,7 @@ vframes = 2
 frame = 272
 
 [node name="Sprite" parent="." index="4"]
-material = SubResource( 2 )
+material = SubResource( 3 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
 offset = Vector2( 0.5, 0 )
@@ -7766,57 +7736,57 @@ position = Vector2( 35, -24 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
-anims/3K = SubResource( 32 )
-anims/6C = SubResource( 51 )
-anims/6K = SubResource( 54 )
-anims/AirBackdash = SubResource( 48 )
-anims/AirDash = SubResource( 3 )
-anims/AirGrab = SubResource( 4 )
-anims/AirGrabStart = SubResource( 43 )
-anims/AirKnockdown = SubResource( 5 )
-anims/Backdash = SubResource( 6 )
-anims/BlackHolePlace = SubResource( 46 )
-anims/Block = SubResource( 7 )
-anims/CounterFloat = SubResource( 8 )
-anims/CounterHit = SubResource( 9 )
-anims/Crouch = SubResource( 10 )
-anims/CrouchA = SubResource( 11 )
-anims/CrouchB = SubResource( 12 )
-anims/CrouchBlock = SubResource( 13 )
-anims/CrouchC = SubResource( 14 )
-anims/DoubleJump = SubResource( 15 )
-anims/Fall = SubResource( 16 )
-anims/Feint = SubResource( 17 )
-anims/Float = SubResource( 18 )
-anims/GLDP = SubResource( 19 )
-anims/Grab = SubResource( 20 )
-anims/GrabStart = SubResource( 44 )
-anims/Grabbed = SubResource( 21 )
-anims/GroundBounce = SubResource( 22 )
-anims/GunBlazed = SubResource( 23 )
-anims/Hadouken = SubResource( 24 )
-anims/HadoukenAir = SubResource( 47 )
-anims/HitStun = SubResource( 25 )
-anims/Idle = SubResource( 26 )
-anims/J2C = SubResource( 31 )
-anims/Jab = SubResource( 27 )
-anims/Jive = SubResource( 45 )
-anims/Jump = SubResource( 28 )
-anims/JumpA = SubResource( 29 )
-anims/JumpB = SubResource( 30 )
-anims/JumpC = SubResource( 49 )
-anims/Kick = SubResource( 50 )
-anims/Knockdown = SubResource( 33 )
-anims/MovingJump = SubResource( 34 )
-anims/PostRun = SubResource( 35 )
-anims/PowerBlackholes = SubResource( 52 )
-anims/PreRun = SubResource( 36 )
-anims/RESET = SubResource( 37 )
-anims/Run = SubResource( 38 )
-anims/Slash = SubResource( 39 )
-anims/Stagger = SubResource( 40 )
-anims/Tech = SubResource( 41 )
-anims/Walk = SubResource( 42 )
+anims/3K = SubResource( 4 )
+anims/6C = SubResource( 5 )
+anims/6K = SubResource( 6 )
+anims/AirBackdash = SubResource( 7 )
+anims/AirDash = SubResource( 8 )
+anims/AirGrab = SubResource( 9 )
+anims/AirGrabStart = SubResource( 10 )
+anims/AirKnockdown = SubResource( 11 )
+anims/Backdash = SubResource( 12 )
+anims/BlackHolePlace = SubResource( 13 )
+anims/Block = SubResource( 14 )
+anims/CounterFloat = SubResource( 15 )
+anims/CounterHit = SubResource( 16 )
+anims/Crouch = SubResource( 17 )
+anims/CrouchA = SubResource( 18 )
+anims/CrouchB = SubResource( 19 )
+anims/CrouchBlock = SubResource( 20 )
+anims/CrouchC = SubResource( 21 )
+anims/DoubleJump = SubResource( 22 )
+anims/Fall = SubResource( 23 )
+anims/Feint = SubResource( 24 )
+anims/Float = SubResource( 25 )
+anims/GLDP = SubResource( 26 )
+anims/Grab = SubResource( 27 )
+anims/GrabStart = SubResource( 28 )
+anims/Grabbed = SubResource( 29 )
+anims/GroundBounce = SubResource( 30 )
+anims/GunBlazed = SubResource( 31 )
+anims/Hadouken = SubResource( 32 )
+anims/HadoukenAir = SubResource( 33 )
+anims/HitStun = SubResource( 34 )
+anims/Idle = SubResource( 35 )
+anims/J2C = SubResource( 36 )
+anims/Jab = SubResource( 37 )
+anims/Jive = SubResource( 38 )
+anims/Jump = SubResource( 39 )
+anims/JumpA = SubResource( 40 )
+anims/JumpB = SubResource( 41 )
+anims/JumpC = SubResource( 42 )
+anims/Kick = SubResource( 43 )
+anims/Knockdown = SubResource( 44 )
+anims/MovingJump = SubResource( 45 )
+anims/PostRun = SubResource( 46 )
+anims/PowerBlackholes = SubResource( 47 )
+anims/PreRun = SubResource( 48 )
+anims/RESET = SubResource( 49 )
+anims/Run = SubResource( 50 )
+anims/Slash = SubResource( 51 )
+anims/Stagger = SubResource( 52 )
+anims/Tech = SubResource( 53 )
+anims/Walk = SubResource( 54 )
 script = ExtResource( 5 )
 
 [node name="Cancel" parent="GFXHandler" index="3"]

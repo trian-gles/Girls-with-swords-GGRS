@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL-Color-10-5_gray.png-1e02f917b1a4ca9de5f7c88b23d4cb12.stex"
+path="res://.import/OL_Full_Moveset.png-d9087c7aac906ec4e84ec47adcf7a0bd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/OL Moveset/OL-Color-10-5_gray.png"
-dest_files=[ "res://.import/OL-Color-10-5_gray.png-1e02f917b1a4ca9de5f7c88b23d4cb12.stex" ]
+source_file="res://Sprites/Movesets/OL Moveset/OL_Full_Moveset.png"
+dest_files=[ "res://.import/OL_Full_Moveset.png-d9087c7aac906ec4e84ec47adcf7a0bd.stex" ]
 
 [params]
 

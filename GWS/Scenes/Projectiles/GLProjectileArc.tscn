@@ -17,9 +17,8 @@ breakBetweenHits = 12
 
 [node name="AnimatedSprite" parent="." index="0"]
 rotation = 0.523599
-frame = 2
+animation = "GLAirProjectile"
 speed_scale = 2.0
-playing = false
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 1, 29 )

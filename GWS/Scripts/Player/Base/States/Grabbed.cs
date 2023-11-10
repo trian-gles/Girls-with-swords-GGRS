@@ -3,21 +3,28 @@ using System;
 
 public class Grabbed : State
 {
-	public override void FrameAdvance()
+
+    public override void _Ready()
+    {
+        base._Ready();
+        AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('s') && frameCount < 4, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+        AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('k') && frameCount < 4, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+    }
+    public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		owner.velocity = new Vector2(0, 0);
 	}
 
-	/// <summary>
-	/// This is a little bit weird that I'm using ReceiveHit here!  This essentially damages the defender and triggers the release
-	/// </summary>
-	/// <param name="rightAttack"></param>
-	/// <param name="height"></param>
-	/// <param name="hitPush"></param>
-	/// <param name="launch"></param>
-	/// <param name="knockdown"></param>
-	public override void ReceiveHit(Globals.AttackDetails details)
+    /// <summary>
+    /// This is a little bit weird that I'm using ReceiveHit here!  This essentially damages the defender and triggers the release
+    /// </summary>
+    /// <param name="rightAttack"></param>
+    /// <param name="height"></param>
+    /// <param name="hitPush"></param>
+    /// <param name="launch"></param>
+    /// <param name="knockdown"></param>
+    public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		switch (details.dir)
 		{

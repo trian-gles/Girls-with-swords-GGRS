@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Particles/ParticleSprite.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Particles/Block-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Particles/NewBlock-Sheet.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animation"
@@ -35,8 +35,10 @@ tracks/0/keys = {
 }
 
 [node name="ParticleSprite" instance=ExtResource( 1 )]
+modulate = Color( 1, 1, 1, 0.670588 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-hframes = 2
+hframes = 5
 frame = 1
 
 [node name="AnimationPlayer" parent="." index="0"]

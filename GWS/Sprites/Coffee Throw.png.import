@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OL-full-moveset-4-12-gray.png-038bcf051906350da733cd7b2bd41f45.stex"
+path="res://.import/Coffee Throw.png-4f359b963a545e3ded0e8f3b30896f40.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Movesets/OL Moveset/OL-full-moveset-4-12-gray.png"
-dest_files=[ "res://.import/OL-full-moveset-4-12-gray.png-038bcf051906350da733cd7b2bd41f45.stex" ]
+source_file="res://Sprites/Coffee Throw.png"
+dest_files=[ "res://.import/Coffee Throw.png-4f359b963a545e3ded0e8f3b30896f40.stex" ]
 
 [params]
 
@@ -28,7 +28,6 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
-process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Particles/ParticleSprite.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Particles/Impact FX 2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Particles/HIT FX-Sheet.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animation"
@@ -13,16 +13,18 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 7 ),
+"times": PoolRealArray( 0, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0, 2 ]
+"values": [ 0, 6 ]
 }
 
 [node name="ParticleSprite" instance=ExtResource( 1 )]
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-hframes = 2
-vframes = 2
+flip_h = true
+hframes = 7
+frame = 6
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/Animation = SubResource( 1 )

@@ -10,4 +10,4 @@ duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]
 scale = Vector2( 3, 3 )
-frame = 8
+frame = 7

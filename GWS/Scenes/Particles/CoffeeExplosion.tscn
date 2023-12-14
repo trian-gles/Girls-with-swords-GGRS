@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Particles/ParticleSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/Coffee Throw-Sheet-15.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Animation"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 10, 14 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Explosion"
+
+[node name="CoffeeExplosion" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+hframes = 15
+frame = 10
+
+[node name="AnimationPlayer" parent="." index="0"]
+anims/Animation = SubResource( 1 )
+anims/Explosion = SubResource( 2 )

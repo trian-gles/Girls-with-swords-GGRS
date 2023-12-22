@@ -162,6 +162,7 @@ custom_fonts/font = ExtResource( 6 )
 text = "Girls with Swords"
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
 margin_right = 272.0
 margin_bottom = 49.0
@@ -175,6 +176,7 @@ __meta__ = {
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 59.0
 margin_right = 272.0
 margin_bottom = 82.0
@@ -185,6 +187,7 @@ __meta__ = {
 }
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 92.0
 margin_right = 272.0
 margin_bottom = 115.0
@@ -195,6 +198,7 @@ __meta__ = {
 }
 
 [node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 125.0
 margin_right = 272.0
 margin_bottom = 148.0
@@ -596,40 +600,40 @@ bus = "UI"
 script = ExtResource( 15 )
 
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="MenuRoot" method="_on_AVConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="MenuRoot" method="_on_AVConfig_pressed"]
 [connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="." method="OnSyncTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Quit" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
+[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/FriendName" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/OpponentIp" to="LobbySounds" method="focus_entered"]
@@ -645,8 +649,8 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="hide" from="MenuRoot/NetPlayMenu/ConfirmationDialog" to="MenuRoot/NetPlayMenu/Entries" method="_on_ConfirmationDialog_hide"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="LobbySounds" method="focus_entered"]
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="MenuRoot" method="_on_MasterVolume_value_changed"]
@@ -657,6 +661,6 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="LobbySounds" method="focus_entered"]
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="MenuRoot" method="_on_UIVolume_value_changed"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot/AVConfigMenu" method="_on_BackButton_pressed"]
-[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]

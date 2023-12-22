@@ -11,7 +11,7 @@
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Palettes/OL/Sol v1.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
-[ext_resource path="res://Scenes/Projectiles/OLProjectile.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Projectiles/Coffee.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Sprites/Palettes/OL/Ky v2.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharge.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
@@ -3885,10 +3885,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 42 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 10, 13, 42 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 263, 267 ]
+"values": [ 263, 264, 265, 267 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -7897,9 +7897,10 @@ position = Vector2( 21, -8 )
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 2 )
 texture = ExtResource( 5 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 230
+frame = 265
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8013,6 +8014,7 @@ hopForce = 40
 [node name="Hadouken" parent="StateTree" index="44"]
 releaseFrame = 13
 hadoukenScene = ExtResource( 12 )
+xOffset = 20
 
 [node name="AirGrab" parent="StateTree" index="47"]
 releaseFrame = 20
@@ -8059,6 +8061,7 @@ height = 2
 effect = 3
 chEffect = 3
 knockdown = true
+launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 launch = Vector2( 300, -500 )

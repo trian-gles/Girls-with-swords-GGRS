@@ -39,7 +39,6 @@ modulate = Color( 1, 1, 1, 0.670588 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 hframes = 5
-frame = 1
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/Animation = SubResource( 1 )

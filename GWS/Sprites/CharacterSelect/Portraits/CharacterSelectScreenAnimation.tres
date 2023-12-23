@@ -1,10 +1,10 @@
 [gd_resource type="AnimationNodeStateMachine" load_steps=12 format=2]
 
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "Blink"
+
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "CursorFadeIn"
-
-[sub_resource type="AnimationNodeAnimation" id=2]
-animation = "GLBlink"
 
 [sub_resource type="AnimationNodeAnimation" id=3]
 animation = "GLFadeIn"
@@ -25,10 +25,6 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
-switch_mode = 2
-auto_advance = true
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
 switch_mode = 2
 auto_advance = true
@@ -37,11 +33,15 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+switch_mode = 2
+auto_advance = true
+
 [resource]
+states/Blink/node = SubResource( 12 )
+states/Blink/position = Vector2( 795.77, 52 )
 states/CursorFadeIn/node = SubResource( 1 )
-states/CursorFadeIn/position = Vector2( 631, 52 )
-states/GLBlink/node = SubResource( 2 )
-states/GLBlink/position = Vector2( 824, 52 )
+states/CursorFadeIn/position = Vector2( 628, 52 )
 states/GLFadeIn/node = SubResource( 3 )
 states/GLFadeIn/position = Vector2( 397, 52 )
 states/Init/node = SubResource( 4 )
@@ -50,6 +50,6 @@ states/OLFadeIn/node = SubResource( 5 )
 states/OLFadeIn/position = Vector2( 230, 52 )
 states/SLFadeIn/node = SubResource( 6 )
 states/SLFadeIn/position = Vector2( 515.54, 148.5 )
-transitions = [ "Init", "OLFadeIn", SubResource( 7 ), "OLFadeIn", "GLFadeIn", SubResource( 8 ), "CursorFadeIn", "GLBlink", SubResource( 9 ), "GLFadeIn", "SLFadeIn", SubResource( 10 ), "SLFadeIn", "CursorFadeIn", SubResource( 11 ) ]
+transitions = [ "Init", "OLFadeIn", SubResource( 7 ), "OLFadeIn", "GLFadeIn", SubResource( 8 ), "GLFadeIn", "SLFadeIn", SubResource( 10 ), "SLFadeIn", "CursorFadeIn", SubResource( 11 ), "CursorFadeIn", "Blink", SubResource( 13 ) ]
 start_node = "Init"
-graph_offset = Vector2( 248.577, 0 )
+graph_offset = Vector2( -305.23, 0 )

@@ -35,7 +35,7 @@ shader = ExtResource( 18 )
 shader_param/whitening = 0.0
 
 [sub_resource type="Animation" id=4]
-length = 0.6
+length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("P1Cursor:scale")
 tracks/0/interp = 1
@@ -71,6 +71,30 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("P2Cursor:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("P2Cursor:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10, 10 ), Vector2( 2.5, 2.5 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -208,8 +232,20 @@ tracks/7/enabled = true
 tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
+"update": 0,
 "values": [ 2 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("P2Cursor:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -387,7 +423,6 @@ z_index = 1
 texture = ExtResource( 4 )
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 150, 143.717 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
@@ -407,27 +442,24 @@ __meta__ = {
 }
 
 [node name="OLSprite" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 150, 130.131 )
 texture = ExtResource( 1 )
 hframes = 10
-frame = 4
+frame = 2
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 position = Vector2( 230, 132.404 )
 texture = ExtResource( 5 )
 hframes = 10
-frame = 4
+frame = 2
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 position = Vector2( 310, 132 )
-scale = Vector2( 21, 21 )
 texture = ExtResource( 9 )
 hframes = 3
+frame = 1
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
@@ -446,8 +478,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/Blink = ExtResource( 6 )
 anims/CursorFadeIn = SubResource( 4 )
-anims/GLBlink = ExtResource( 6 )
 anims/GLFadeIn = SubResource( 5 )
 anims/GLSelect = SubResource( 6 )
 anims/Init = SubResource( 7 )
@@ -456,7 +488,7 @@ anims/OLFadeIn = SubResource( 8 )
 anims/RESET = SubResource( 9 )
 anims/SLFadeIn = SubResource( 10 )
 
-[node name="AnimationTree" type="AnimationTree" parent="CanvasLayer"]
+[node name="StartupAnimation" type="AnimationTree" parent="CanvasLayer"]
 tree_root = ExtResource( 17 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
@@ -470,6 +502,20 @@ visible = false
 
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
 frame = 243
+
+[node name="Label" type="Label" parent="CanvasLayer/P2Selected/OLSprite"]
+visible = false
+margin_left = -11.5887
+margin_top = 30.6838
+margin_right = 21.4113
+margin_bottom = 46.6838
+custom_fonts/font = ExtResource( 21 )
+text = "OL"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
 visible = false

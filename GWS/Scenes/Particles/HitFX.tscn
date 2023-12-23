@@ -24,7 +24,6 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 flip_h = true
 hframes = 7
-frame = 6
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/Animation = SubResource( 1 )

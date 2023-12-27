@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -36,6 +36,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/AirKnockdown.cs" type="Script" id=34]
 [ext_resource path="res://Scripts/Player/Base/GFX/GFXHandler.cs" type="Script" id=35]
 [ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticle.cs" type="Script" id=36]
+[ext_resource path="res://Scripts/Player/Base/States/ThrowBreak.cs" type="Script" id=37]
 [ext_resource path="res://Scripts/Player/Base/States/Tech.cs" type="Script" id=38]
 [ext_resource path="res://Scripts/Player/Base/States/PreJump.cs" type="Script" id=39]
 [ext_resource path="res://Scripts/Player/Base/States/CounterHit.cs" type="Script" id=40]
@@ -378,6 +379,9 @@ script = ExtResource( 52 )
 [node name="Jive" type="Node" parent="StateTree"]
 script = ExtResource( 53 )
 
+[node name="ThrowBreak" type="Node" parent="StateTree"]
+script = ExtResource( 37 )
+
 [node name="DebugPos" type="Label" parent="."]
 visible = false
 modulate = Color( 0, 0.941176, 1, 1 )
@@ -496,6 +500,28 @@ angle_random = 0.62
 scale_amount = 9.0
 scale_amount_random = 0.47
 color = Color( 0.835294, 0.835294, 0.835294, 1 )
+hue_variation = -1.0
+script = ExtResource( 36 )
+
+[node name="ThrowBreak" type="CPUParticles2D" parent="GFXHandler"]
+z_index = 1
+emitting = false
+amount = 20
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.84
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 33.0
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 886.49
+initial_velocity_random = 0.76
+scale_amount = 9.0
+scale_amount_random = 0.47
+color = Color( 1, 0.882353, 0.0352941, 0.780392 )
 hue_variation = -1.0
 script = ExtResource( 36 )
 

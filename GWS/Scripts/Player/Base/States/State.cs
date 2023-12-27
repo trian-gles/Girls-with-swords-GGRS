@@ -48,7 +48,7 @@ public abstract class State : Node
 	public delegate void StateFinished(string nextStateName);
 
 	[Signal]
-	public delegate void PlayerFXEmitted(Vector2 pos, ParticleSprite particle);
+	public delegate void PlayerFXEmitted(Vector2 pos, ParticleSprite particle, bool flipH);
 
 	public int stunRemaining 
 	{ get; set; }
@@ -646,13 +646,14 @@ public abstract class State : Node
 	}
 
 	/// <summary>
-	/// Determines which hitconfirm state to enter
+	/// Determines which hitconfirm state to enter.  Note that Float.cs overrides this
 	/// </summary>
 	/// <param name="knockdown"></param>
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+		//GD.Print($"{owner.Name} : {owner.internalPos.x}, {owner.otherPlayer.Name} : {owner.otherPlayer.internalPos.x}");
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 		
 		owner.ComboUp();
@@ -719,7 +720,7 @@ public abstract class State : Node
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", false);
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		EmitSignal(nameof(StateFinished), stateName);
 	}
 

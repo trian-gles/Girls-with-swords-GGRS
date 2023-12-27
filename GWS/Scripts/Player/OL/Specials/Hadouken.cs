@@ -14,6 +14,10 @@ public class Hadouken : BaseAttack
 	/// </summary>
 	[Export]
 	public int yOffset = 5;
+
+
+	[Export]
+	public int xOffset = 0;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -47,7 +51,7 @@ public class Hadouken : BaseAttack
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
-		h.Position = new Vector2(owner.Position.x, owner.Position.y + yOffset);
+		h.Position = new Vector2(owner.Position.x + xOffset, owner.Position.y + yOffset);
 		Globals.Log($"Emitting snail at x position {h.Position}, our position = {owner.Position}, animation frame = {frameCount}, vel = {owner.velocity}");
 
 	}

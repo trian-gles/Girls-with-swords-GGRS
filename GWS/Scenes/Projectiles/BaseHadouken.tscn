@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Scripts/Projectiles/HadoukenPart.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Particles/Hadouken.png" type="Texture" id=2]
@@ -6,38 +6,6 @@
 [ext_resource path="res://Sprites/Particles/Air-Fireball.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Coffee Throw.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Coffee Throw-Sheet-15.png" type="Texture" id=6]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 5 )
-region = Rect2( 160, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
-region = Rect2( 180, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 5 )
-region = Rect2( 200, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 5 )
-region = Rect2( 220, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 5 )
-region = Rect2( 240, 0, 20, 20 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 40, 40 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 6 )
-region = Rect2( 40, 0, 40, 40 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 6 )
-region = Rect2( 80, 0, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 6 )
@@ -63,9 +31,33 @@ region = Rect2( 280, 0, 40, 40 )
 atlas = ExtResource( 6 )
 region = Rect2( 320, 0, 40, 40 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 6 )
-region = Rect2( 360, 0, 40, 40 )
+region = Rect2( 40, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 6 )
+region = Rect2( 80, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 160, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 180, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 200, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 220, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 240, 0, 20, 20 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 4 )
@@ -199,16 +191,40 @@ region = Rect2( 1216, 0, 64, 64 )
 atlas = ExtResource( 3 )
 region = Rect2( 1280, 0, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 6 )
+region = Rect2( 400, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 6 )
+region = Rect2( 440, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 6 )
+region = Rect2( 480, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 6 )
+region = Rect2( 520, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 6 )
+region = Rect2( 560, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 6 )
+region = Rect2( 34, 0, 17, 40 )
+
 [sub_resource type="SpriteFrames" id=49]
 animations = [ {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "OL Coffee Projectile",
+"speed": 11.0
+}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "OL Coffee Break",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
-"loop": true,
-"name": "OL Coffee Projectile",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
@@ -225,6 +241,11 @@ animations = [ {
 "loop": false,
 "name": "GLProjectile",
 "speed": 10.0
+}, {
+"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ) ],
+"loop": false,
+"name": "CoffeeExplosion",
+"speed": 25.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=50]

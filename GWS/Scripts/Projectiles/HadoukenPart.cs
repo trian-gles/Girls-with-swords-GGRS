@@ -13,6 +13,7 @@ public class HadoukenPart : Node2D
 
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
+	protected AnimatedSprite animatedSprite;
 
 	[Export]
 	protected int modifiedHitStun = 0;
@@ -103,6 +104,8 @@ public class HadoukenPart : Node2D
 
 	public override void _Ready()
 	{
+		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
 

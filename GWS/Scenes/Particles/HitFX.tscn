@@ -20,9 +20,9 @@ tracks/0/keys = {
 }
 
 [node name="ParticleSprite" instance=ExtResource( 1 )]
+position = Vector2( 0, -1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-flip_h = true
 hframes = 7
 
 [node name="AnimationPlayer" parent="." index="0"]

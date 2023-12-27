@@ -50,9 +50,10 @@ public class MainGFX : Node
 		if (flipH)
 		{
 			newPart.FlipH = true;
-			newPart.Offset = new Vector2(newPart.Offset.x * -1, newPart.Offset.y);
+			//newPart.Offset = new Vector2(newPart.Offset.x * -1, newPart.Offset.y);
 		}
 		newPart.Position = location;
+		
 	}
 
 	public void OnGhostEmitted(Player p)

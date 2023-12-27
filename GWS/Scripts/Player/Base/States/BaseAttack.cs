@@ -168,6 +168,7 @@ public abstract class BaseAttack : State
 	}
 	public override void Enter()
 	{
+		owner.ZIndex = 1;
 		base.Enter();
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
@@ -316,51 +317,57 @@ public abstract class BaseAttack : State
 		ReceiveHitNoBlock(details);
 	}
 
+    public override void Exit()
+    {
+        base.Exit();
+		owner.ZIndex = 0;
+    }
 
 
-	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-	//{
-	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-	//	bool launchBool = false;
-	//	owner.ComboUp();
-	//	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
-	//	{
-	//		GD.Print("Launch is not zero!");
-	//		owner.velocity = launch;
-	//		launchBool = true;
-	//	}
 
-	//	bool airState = (launchBool || !owner.grounded);
+    //protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+    //{
+    //	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+    //	bool launchBool = false;
+    //	owner.ComboUp();
+    //	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+    //	{
+    //		GD.Print("Launch is not zero!");
+    //		owner.velocity = launch;
+    //		launchBool = true;
+    //	}
 
-	//	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
-	//	{
-	//		EmitSignal(nameof(StateFinished), "GroundBounce");
-	//	}
-	//	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
-	//	{
-	//		EmitSignal(nameof(StateFinished), "WallBounce");
-	//	}
-	//	else if (launchBool && !knockdown)
-	//	{
-	//		GD.Print("Entering counterfloat from attack");
-	//		EmitSignal(nameof(StateFinished), "CounterFloat");
-	//	}
-	//	else if (airState && knockdown)
-	//	{
-	//		GD.Print("Entering airknockdown from attack");
-	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
-	//	}
-	//	else if (!airState && knockdown)
-	//	{
-	//		GD.Print("Entering knockdown from attack");
-	//		EmitSignal(nameof(StateFinished), "Knockdown");
+    //	bool airState = (launchBool || !owner.grounded);
 
-	//	}
-	//	else
-	//	{
-	//		EmitSignal(nameof(StateFinished), "CounterHit");
-	//	}
-	//}
+    //	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+    //	{
+    //		EmitSignal(nameof(StateFinished), "GroundBounce");
+    //	}
+    //	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
+    //	{
+    //		EmitSignal(nameof(StateFinished), "WallBounce");
+    //	}
+    //	else if (launchBool && !knockdown)
+    //	{
+    //		GD.Print("Entering counterfloat from attack");
+    //		EmitSignal(nameof(StateFinished), "CounterFloat");
+    //	}
+    //	else if (airState && knockdown)
+    //	{
+    //		GD.Print("Entering airknockdown from attack");
+    //		EmitSignal(nameof(StateFinished), "AirKnockdown");
+    //	}
+    //	else if (!airState && knockdown)
+    //	{
+    //		GD.Print("Entering knockdown from attack");
+    //		EmitSignal(nameof(StateFinished), "Knockdown");
+
+    //	}
+    //	else
+    //	{
+    //		EmitSignal(nameof(StateFinished), "CounterHit");
+    //	}
+    //}
 
 
 }

@@ -859,7 +859,7 @@ public class Player : Node2D
 		if (invulnFrames > 0)
         {
 			invulnFrames--;
-			GD.Print($"lowering invuln frames to {invulnFrames}");
+			Globals.Log($"lowering invuln frames to {invulnFrames}");
 		}
 			
 		if (grabInvulnFrames > 0)
@@ -1036,26 +1036,13 @@ public class Player : Node2D
 
 	public bool OtherPlayerOnRight()
 	{
-		if (internalPos.x < otherPlayer.internalPos.x)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return !OtherPlayerOnLeft();
 	}
 
 	public bool OtherPlayerOnLeft()
 	{
-		if (internalPos.x > otherPlayer.internalPos.x)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+
+		return internalPos.x > otherPlayer.internalPos.x;
 	}
 
 	public int GetDistToOtherPlayer()

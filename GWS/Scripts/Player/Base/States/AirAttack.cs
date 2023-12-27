@@ -36,11 +36,11 @@ public abstract class AirAttack : BaseAttack
 		});
 	}
 
-	public override bool DelayInputs()
-	{
-		return owner.internalPos.y > 19000;
-
-	}
+	//public override bool DelayInputs()
+	//{
+	//	return owner.internalPos.y > 19000;
+//
+	//}
 
 	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
 	//{

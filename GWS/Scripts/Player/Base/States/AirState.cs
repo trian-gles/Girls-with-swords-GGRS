@@ -12,10 +12,10 @@ public abstract class AirState : State
         stop = false;
     }
 
-    public override bool DelayInputs()
-    {
-        return owner.internalPos.y > 18000;
-    }
+    //public override bool DelayInputs()
+    //{
+    //    return owner.internalPos.y > 18000;
+    //}
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{

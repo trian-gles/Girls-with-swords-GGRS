@@ -24,7 +24,6 @@ position = Vector2( 0, -1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 hframes = 7
-frame = 6
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/Animation = SubResource( 1 )

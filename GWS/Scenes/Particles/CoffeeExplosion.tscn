@@ -15,7 +15,7 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 10, 14 ]
 }
 
@@ -23,6 +23,7 @@ tracks/0/keys = {
 resource_name = "Explosion"
 
 [node name="CoffeeExplosion" instance=ExtResource( 1 )]
+scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 15
 frame = 10

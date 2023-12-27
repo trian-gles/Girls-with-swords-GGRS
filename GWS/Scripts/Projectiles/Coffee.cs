@@ -26,6 +26,9 @@ class Coffee : HadoukenPart
 	protected override void HurtPlayer()
 	{
 		base.HurtPlayer();
-		animatedSprite.Play("CoffeeExplosion");
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(State.PlayerFXEmitted),
+			Position * 100,
+			"coffee", movingRight);
+		targetPlayer.ScheduleEvent(EventScheduler.EventType.GRAPHIC, "CoffeeExplosion");
 	}
 }

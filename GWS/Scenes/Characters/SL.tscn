@@ -57,7 +57,7 @@ resource_name = "OLWalk"
 
 [sub_resource type="Animation" id=57]
 resource_name = "6K"
-length = 25.0
+length = 34.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -66,10 +66,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 14, 18, 21 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 7, 16, 20, 25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 230, 231, 232, 233 ]
+"values": [ 230, 231, 232, 233, 234, 235 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HurtBoxes/HurtB1:shape:extents")
@@ -78,10 +78,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 20 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 15, 9 ) ]
+"values": [ Vector2( 30, 12 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -90,7 +90,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 14, 21 ),
+"times": PoolRealArray( 0, 20, 24 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -102,10 +102,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 14 ),
+"times": PoolRealArray( 20 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 25, 12 ) ]
+"values": [ Vector2( 10, 25 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -138,10 +138,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 15, 39 ) ]
+"times": PoolRealArray( 0, 16 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 15, 33 ), Vector2( 30, 15 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
@@ -152,7 +152,7 @@ tracks/7/enabled = true
 tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ false ]
 }
 tracks/8/type = "value"
@@ -162,10 +162,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -2, 0 ), Vector2( -2, 0 ) ]
+"times": PoolRealArray( 0, 6, 12, 16, 21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -2, 4 ), Vector2( 0, -2 ), Vector2( 8, -2 ), Vector2( 8, 3 ), Vector2( 8, 24 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB2:disabled")
@@ -198,10 +198,10 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 6, 10, 16, 20 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -3 ), Vector2( 0, -3 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -8259,7 +8259,8 @@ position = Vector2( -2, 0 )
 position = Vector2( 22, 9 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 17, 1 )
+position = Vector2( 10, 25 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -25, -15 )
@@ -8269,7 +8270,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 68
+frame = 234
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8452,10 +8453,10 @@ script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18
 modifiedHitPush = 3500
+height = 2
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
-grabInvulnFrames = 14
-sweepCancel = true
+grabInvulnFrames = 24
 moveSpeed = 250
 stopFrame = 18
 

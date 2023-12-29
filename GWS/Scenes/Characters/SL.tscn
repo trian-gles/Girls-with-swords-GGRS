@@ -230,7 +230,7 @@ tracks/13/keys = {
 
 [sub_resource type="Animation" id=57]
 resource_name = "6K"
-length = 34.0
+length = 32.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -239,7 +239,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 4, 7, 16, 20, 25 ),
+"times": PoolRealArray( 0, 4, 7, 16, 18, 25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 230, 231, 232, 233, 234, 235 ]
@@ -251,7 +251,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 20 ),
+"times": PoolRealArray( 18 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 30, 12 ) ]
@@ -263,7 +263,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 20, 24 ),
+"times": PoolRealArray( 0, 18, 22 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -275,7 +275,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 20 ),
+"times": PoolRealArray( 18 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 10, 25 ) ]
@@ -335,7 +335,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 6, 12, 16, 21 ),
+"times": PoolRealArray( 0, 6, 12, 16, 18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( -2, 4 ), Vector2( 0, -2 ), Vector2( 8, -2 ), Vector2( 8, 3 ), Vector2( 8, 24 ) ]
@@ -371,7 +371,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0, 6, 10, 16, 20 ),
+"times": PoolRealArray( 0, 6, 10, 16, 18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -3 ), Vector2( 0, -3 ), Vector2( 0, 0 ) ]
@@ -3289,10 +3289,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 41.7, 47.7, 55.8, 64.2, 69 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ]
+"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 52 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 114, 115, 116, 117, 118, 114 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("GrabPos:position")
@@ -3301,10 +3301,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 28, 31 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( -25, 0 ), Vector2( -20, -25 ), Vector2( 10, -50 ) ]
+"values": [ Vector2( 25, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
@@ -8576,13 +8576,13 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( -14, -17 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 14, 14 )
+position = Vector2( 10, 25 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 25, 24 )
@@ -8592,7 +8592,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 66
+frame = 114
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8605,6 +8605,9 @@ startupFrames = 4
 
 [node name="MovingJump" parent="StateTree" index="5"]
 startupFrames = 7
+
+[node name="Grab" parent="StateTree" index="11"]
+launch = Vector2( 0, 0 )
 
 [node name="SnailRide" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 19 )
@@ -8786,6 +8789,7 @@ slashCancel = true
 [node name="6K" type="Node" parent="StateTree" index="58"]
 script = ExtResource( 21 )
 level = 1
+modifiedHitStun = 16
 modifiedHitPush = 3500
 height = 2
 whiffSound = "PunchWhiff"
@@ -8819,7 +8823,7 @@ directions = [ Vector2( 0, -557 ), Vector2( -400, -400 ), Vector2( -557, 0 ), Ve
 directionFrames = [ 0, 9, 19, 29, 39 ]
 
 [node name="GrabPos" parent="." index="8"]
-position = Vector2( 14, -11 )
+position = Vector2( 25, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

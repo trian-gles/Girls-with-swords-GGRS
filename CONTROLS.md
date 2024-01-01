@@ -30,7 +30,8 @@ A well rounded "shoto" with ranged attacks, close attacks, and strong defensive 
 ### GL
 A longer ranged fighter, with huge swings, two fireballs, and traps
 
-- `6k` : An upper body invulnerable anti air kick
+- `3k` : An upper body invulnerable anti air kick
+- `6k` : A slow overhead kick
 - `6s` : A slower and not invulnerable but further reaching and more rewarding anti air
 - `j.2s` : A diving slash
 - `236p` : A fireball travelling across the ground
@@ -43,7 +44,8 @@ A longer ranged fighter, with huge swings, two fireballs, and traps
 
 ### SL (in progress)
 Relies heavily on summoning snails, which unlock powerful offensive damage and mixups
-
+- `6p` : An upper body invincible anti air
+- `6k` : An overhead body slam
 - `214k` : Summon a snail
 - `j.214k` : An evasive aerial snail summon
 - `63214[s]` : Enter SNAIL COMMAND STANCE
@@ -53,4 +55,5 @@ Relies heavily on summoning snails, which unlock powerful offensive damage and m
 - `2p` : Send a summoned snail to do a double attack
 - `2k` : Send a snail to do a jumping overhead attack
 - `[pk]` : Will ride any snails that pass by, creating a fast moving invulnerable attack
+- `[8pk]` : Similar to the above, but homes in on airborne opponents with an unblockable grab
 

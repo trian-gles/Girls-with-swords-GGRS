@@ -256,7 +256,7 @@ public class CharSelectScene : BaseGame
 			HighlightChar(playerNum, p2Pos);
 		}
 			
-
+	
 //		CheckOverlap();
 	}
 

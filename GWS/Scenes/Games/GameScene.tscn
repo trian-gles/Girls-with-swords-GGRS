@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -20,20 +20,101 @@
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Sprites/HUD/Round Counter-Sheet.png" type="Texture" id=21]
+[ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=22]
+[ext_resource path="res://Fonts/IsWasted.ttf" type="DynamicFontData" id=23]
 
-[sub_resource type="Theme" id=1]
-default_font = ExtResource( 8 )
+[sub_resource type="Animation" id=1]
+resource_name = "Init"
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("P1RoundCounters/Counter2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
 
-[sub_resource type="Theme" id=2]
-default_font = ExtResource( 8 )
+[sub_resource type="Animation" id=2]
+resource_name = "RoundOneWin"
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 21 ]
+}
 
-[sub_resource type="Theme" id=3]
-default_font = ExtResource( 8 )
+[sub_resource type="Animation" id=3]
+resource_name = "RoundTwoWin"
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 21 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("P1RoundCounters/Counter2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1, 21 ]
+}
 
 [sub_resource type="Theme" id=4]
 default_font = ExtResource( 8 )
 
 [sub_resource type="Theme" id=5]
+default_font = ExtResource( 8 )
+
+[sub_resource type="Theme" id=6]
+default_font = ExtResource( 8 )
+
+[sub_resource type="Theme" id=7]
+default_font = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 45
+use_mipmaps = true
+font_data = ExtResource( 22 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 10
+font_data = ExtResource( 23 )
+
+[sub_resource type="Theme" id=8]
 default_font = ExtResource( 8 )
 
 [node name="GameScene" type="Node2D"]
@@ -49,7 +130,6 @@ layer = 100
 offset = Vector2( 240, 127 )
 current = true
 script = ExtResource( 5 )
-zoom_offset = 0.104
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -65,15 +145,41 @@ margin_top = 31.0
 margin_right = 438.0
 margin_bottom = 37.0
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD"]
+anims/Init = SubResource( 1 )
+anims/RoundOneWin = SubResource( 2 )
+anims/RoundTwoWin = SubResource( 3 )
+
+[node name="P1RoundCounters" type="HBoxContainer" parent="HUD"]
+margin_left = 49.132
+margin_top = 44.9304
+margin_right = 89.132
+margin_bottom = 84.9304
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Counter1" type="Sprite" parent="HUD/P1RoundCounters"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+hframes = 36
+
+[node name="Counter2" type="Sprite" parent="HUD/P1RoundCounters"]
+position = Vector2( 15.0465, 0.13694 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+hframes = 36
+
 [node name="RhythmTrack" parent="HUD" instance=ExtResource( 15 )]
+visible = false
 margin_left = -5.0
 margin_top = 145.0
 margin_right = 57.92
 margin_bottom = 145.03
 
 [node name="HealthTexture" type="TextureRect" parent="HUD"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 480.0
+margin_bottom = 270.0
 texture = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -119,7 +225,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="HUD"]
+[node name="Name Placeholder" type="TextureRect" parent="HUD"]
+visible = false
 margin_left = 0.297302
 margin_top = 7.43254
 margin_right = 480.297
@@ -134,7 +241,7 @@ margin_left = 225.0
 margin_top = 13.0
 margin_right = 265.0
 margin_bottom = 29.0
-theme = SubResource( 1 )
+theme = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 __meta__ = {
@@ -146,7 +253,7 @@ margin_left = 360.0
 margin_top = 65.0
 margin_right = 400.0
 margin_bottom = 81.0
-theme = SubResource( 2 )
+theme = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "x2"
 script = ExtResource( 6 )
@@ -162,7 +269,7 @@ margin_left = 65.0
 margin_top = 65.0
 margin_right = 105.0
 margin_bottom = 81.0
-theme = SubResource( 3 )
+theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "x3"
 script = ExtResource( 6 )
@@ -187,15 +294,17 @@ __meta__ = {
 }
 
 [node name="CenterText" type="Label" parent="HUD"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -56.0
-margin_top = -8.0
-margin_right = 56.0
-margin_bottom = 8.0
-theme = SubResource( 4 )
+margin_left = -82.5
+margin_top = -23.0
+margin_right = 82.5
+margin_bottom = 23.0
+theme = SubResource( 7 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "TIME UP"
 align = 1
@@ -203,20 +312,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="OhShitP2" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 64.3423
+margin_top = -77.0365
+margin_right = 176.342
+margin_bottom = -54.0365
+rect_rotation = 16.5511
+rect_scale = Vector2( 3, 3 )
+theme = SubResource( 7 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "OH SHIT!"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/OhShitP2"]
+
 [node name="OhShit" type="Label" parent="HUD"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -25.0
-margin_right = 12.0
-margin_bottom = -9.0
-rect_scale = Vector2( 2, 2 )
-theme = SubResource( 4 )
+margin_left = -218.824
+margin_top = -30.4101
+margin_right = -106.824
+margin_bottom = -7.41006
+rect_rotation = -17.7801
+rect_scale = Vector2( 3, 3 )
+theme = SubResource( 7 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "OH SHIT"
-align = 1
+text = "OH SHIT!"
 script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -232,7 +364,7 @@ margin_left = 0.007
 margin_top = -85.0
 margin_right = 268.007
 margin_bottom = -12.9999
-theme = SubResource( 4 )
+theme = SubResource( 7 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "PING: "
 __meta__ = {
@@ -251,7 +383,7 @@ __meta__ = {
 [node name="DebugText" type="Label" parent="HUD"]
 margin_right = 40.0
 margin_bottom = 16.0
-theme = SubResource( 5 )
+theme = SubResource( 8 )
 text = "P1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -275,7 +407,7 @@ margin_left = -117.0
 margin_top = 2.0
 margin_right = 124.0
 margin_bottom = 18.0
-theme = SubResource( 5 )
+theme = SubResource( 8 )
 text = "REC"
 align = 1
 __meta__ = {
@@ -297,8 +429,8 @@ anchor_top = 0.101
 anchor_right = 0.054
 anchor_bottom = 0.223
 margin_right = 40.0
-margin_bottom = 16.0
-theme = SubResource( 5 )
+margin_bottom = 173.06
+theme = SubResource( 8 )
 text = "1
 2
 3
@@ -336,7 +468,7 @@ anchor_bottom = 0.5
 margin_left = -17.0
 margin_top = -108.0
 margin_bottom = 98.0
-theme = SubResource( 5 )
+theme = SubResource( 8 )
 text = "1
 2
 3
@@ -360,7 +492,7 @@ margin_left = 35.0
 margin_top = -35.0
 margin_right = 147.0
 margin_bottom = -19.0
-theme = SubResource( 3 )
+theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "COUNTER"
 script = ExtResource( 14 )
@@ -375,7 +507,7 @@ margin_left = 330.0
 margin_top = -35.0
 margin_right = 442.0
 margin_bottom = -19.0
-theme = SubResource( 3 )
+theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "COUNTER"
 script = ExtResource( 14 )
@@ -393,7 +525,7 @@ margin_left = 35.0
 margin_top = -35.0
 margin_right = 147.0
 margin_bottom = -19.0
-theme = SubResource( 3 )
+theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "SWINGIN"
 script = ExtResource( 14 )
@@ -408,7 +540,7 @@ margin_left = 330.0
 margin_top = -35.0
 margin_right = 442.0
 margin_bottom = -19.0
-theme = SubResource( 3 )
+theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "SWINGIN"
 script = ExtResource( 14 )
@@ -441,6 +573,7 @@ bus = "Music"
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/OhShitP2/Timer" to="HUD/OhShitP2" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/OhShit/Timer" to="HUD/OhShit" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Counter/Timer" to="HUD/P1Counter" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P2Counter/Timer" to="HUD/P2Counter" method="_on_Timer_timeout"]

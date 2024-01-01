@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -18,6 +18,68 @@
 [ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=16]
 [ext_resource path="res://Scenes/AVConfigMenu.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Resolution.gd" type="Script" id=18]
+[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=19]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+// Amount of detail.
+uniform int octaves = 4;
+
+// Opacity of the output fog.
+uniform float starting_amplitude: hint_range(0.0, 0.5) = 0.5;
+
+// Rate of pattern within the fog.
+uniform float starting_frequency = 1.0;
+
+// Shift towards transparency (clamped) for sparser fog.
+uniform float shift: hint_range(-1.0, 0.0) = -0.2;
+
+// Direction and speed of travel.
+uniform vec2 velocity = vec2(1.0, 1.0);
+
+// Color of the fog.
+uniform vec4 fog_color: hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+
+// Noise texture; OpenSimplexNoise is great, but any filtered texture is fine.
+uniform sampler2D noise;
+
+float rand(vec2 uv) {
+	float amplitude = starting_amplitude;
+	float frequency = starting_frequency;
+	float output = 0.0;
+	for (int i = 0; i < octaves; i++) {
+		output += texture(noise, uv * frequency).x * amplitude;
+		amplitude /= 2.0;
+		frequency *= 2.0;
+	}
+	return clamp(output + shift, 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 motion = vec2(rand(UV + TIME * starting_frequency * velocity));
+	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
+}"
+
+[sub_resource type="OpenSimplexNoise" id=4]
+seed = 2
+octaves = 6
+period = 141.8
+persistence = 0.578
+lacunarity = 2.23
+
+[sub_resource type="NoiseTexture" id=5]
+noise = SubResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 3 )
+shader_param/octaves = 2
+shader_param/starting_amplitude = 0.5
+shader_param/starting_frequency = 1.188
+shader_param/shift = -0.088
+shader_param/velocity = Vector2( 1, 1 )
+shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
+shader_param/noise = SubResource( 5 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -124,6 +186,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="MenuRoot"]
+material = SubResource( 6 )
+margin_left = -4.0
+margin_top = -12.0
+margin_right = 480.0
+margin_bottom = 272.0
+color = Color( 0.141176, 0.180392, 0.235294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tween" type="Tween" parent="MenuRoot"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MenuRoot"]
@@ -143,10 +216,10 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
-margin_left = 104.0
-margin_top = 44.0
-margin_right = 376.0
-margin_bottom = 225.0
+margin_left = 138.0
+margin_top = 59.0
+margin_right = 342.0
+margin_bottom = 210.0
 mouse_filter = 0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -156,17 +229,17 @@ __meta__ = {
 }
 
 [node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_right = 272.0
+margin_right = 204.0
 margin_bottom = 16.0
-custom_fonts/font = ExtResource( 6 )
+theme = ExtResource( 19 )
 text = "Girls with Swords"
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
-margin_right = 272.0
-margin_bottom = 49.0
+margin_right = 204.0
+margin_bottom = 43.0
 size_flags_vertical = 4
+theme = ExtResource( 9 )
 action_mode = 0
 text = "Local"
 flat = false
@@ -176,10 +249,9 @@ __meta__ = {
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
-margin_top = 59.0
-margin_right = 272.0
-margin_bottom = 82.0
+margin_top = 53.0
+margin_right = 204.0
+margin_bottom = 70.0
 text = "Net Play"
 flat = false
 __meta__ = {
@@ -187,10 +259,9 @@ __meta__ = {
 }
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
-margin_top = 92.0
-margin_right = 272.0
-margin_bottom = 115.0
+margin_top = 80.0
+margin_right = 204.0
+margin_bottom = 97.0
 text = "Button Configuration"
 flat = false
 __meta__ = {
@@ -198,10 +269,9 @@ __meta__ = {
 }
 
 [node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
-margin_top = 125.0
-margin_right = 272.0
-margin_bottom = 148.0
+margin_top = 107.0
+margin_right = 204.0
+margin_bottom = 124.0
 text = "Adult Video"
 flat = false
 __meta__ = {
@@ -216,10 +286,9 @@ margin_bottom = 148.0
 text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
-modulate = Color( 1, 1, 1, 0 )
-margin_top = 158.0
-margin_right = 272.0
-margin_bottom = 181.0
+margin_top = 134.0
+margin_right = 204.0
+margin_bottom = 151.0
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
 visible = false
@@ -245,17 +314,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 23.0
+margin_top = 35.0
 margin_right = 300.0
-margin_bottom = 39.0
-custom_fonts/font = ExtResource( 6 )
+margin_bottom = 51.0
+theme = ExtResource( 19 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 43.0
+margin_top = 55.0
 margin_right = 300.0
-margin_bottom = 66.0
+margin_bottom = 72.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -263,7 +332,7 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 70.0
+margin_top = 76.0
 margin_right = 300.0
 margin_bottom = 93.0
 text = "Training Mode"
@@ -274,16 +343,16 @@ __meta__ = {
 [node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
 margin_top = 97.0
 margin_right = 300.0
-margin_bottom = 120.0
+margin_bottom = 114.0
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 124.0
+margin_top = 118.0
 margin_right = 300.0
-margin_bottom = 147.0
+margin_bottom = 135.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -298,9 +367,9 @@ __meta__ = {
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 36.0
+margin_top = 50.0
 margin_right = 390.0
-margin_bottom = 233.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -313,19 +382,18 @@ confirmremove_path = NodePath("../ConfirmationDialog")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 
 [node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
-margin_top = 3.0
-margin_right = 128.0
-margin_bottom = 19.0
-custom_fonts/font = ExtResource( 6 )
+margin_right = 96.0
+margin_bottom = 16.0
+theme = ExtResource( 19 )
 text = "Net Play"
 
 [node name="AutoConnect" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
-margin_left = 152.0
+margin_left = 100.0
 margin_right = 300.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "AutoConnect"
 __meta__ = {
@@ -333,13 +401,13 @@ __meta__ = {
 }
 
 [node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 27.0
+margin_top = 21.0
 margin_right = 300.0
-margin_bottom = 50.0
+margin_bottom = 38.0
 
 [node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Host"
 __meta__ = {
@@ -349,7 +417,7 @@ __meta__ = {
 [node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Join"
 __meta__ = {
@@ -357,18 +425,18 @@ __meta__ = {
 }
 
 [node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 54.0
+margin_top = 42.0
 margin_right = 300.0
-margin_bottom = 83.0
+margin_bottom = 65.0
 placeholder_text = "Enter Friend Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 87.0
+margin_top = 69.0
 margin_right = 300.0
-margin_bottom = 116.0
+margin_bottom = 92.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -376,16 +444,16 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 120.0
+margin_top = 96.0
 margin_right = 300.0
-margin_bottom = 143.0
+margin_bottom = 113.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_right = 148.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Add Friend"
 __meta__ = {
@@ -395,7 +463,7 @@ __meta__ = {
 [node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Remove Friend"
 __meta__ = {
@@ -413,9 +481,9 @@ __meta__ = {
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 147.0
+margin_top = 117.0
 margin_right = 300.0
-margin_bottom = 170.0
+margin_bottom = 134.0
 text = "Item 0"
 align = 1
 
@@ -440,9 +508,9 @@ __meta__ = {
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 174.0
+margin_top = 138.0
 margin_right = 300.0
-margin_bottom = 197.0
+margin_bottom = 155.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
@@ -467,9 +535,9 @@ __meta__ = {
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 390.0
-margin_bottom = 252.0
+margin_bottom = 246.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6

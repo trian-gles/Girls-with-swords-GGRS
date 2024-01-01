@@ -15,7 +15,7 @@
 [ext_resource path="res://Sprites/Palettes/GL/GL-Default.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
-[ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=16]
+[ext_resource path="res://Fonts/zeldadxt.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/CharacterSelectScreenAnimation.tres" type="AnimationNodeStateMachine" id=17]
 [ext_resource path="res://Sprites/Shaders/white.shader" type="Shader" id=18]
 [ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=19]
@@ -32,6 +32,7 @@
 default_font = ExtResource( 21 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 23
 font_data = ExtResource( 16 )
 
 [sub_resource type="ShaderMaterial" id=3]
@@ -204,7 +205,7 @@ tracks/4/keys = {
 [sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -216,7 +217,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("GLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/GLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -230,7 +231,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=10]
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -244,7 +245,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=11]
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -268,7 +269,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("OLSprite:modulate")
+tracks/2/path = NodePath("HBoxContainer/OLSprite:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -280,7 +281,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("OLSprite:frame")
+tracks/3/path = NodePath("HBoxContainer/OLSprite:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -292,7 +293,7 @@ tracks/3/keys = {
 "values": [ 2 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("GLSprite:frame")
+tracks/4/path = NodePath("HBoxContainer/GLSprite:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -316,7 +317,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("SLSprite:modulate")
+tracks/6/path = NodePath("HBoxContainer/SLSprite:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -328,7 +329,7 @@ tracks/6/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("SLSprite:frame")
+tracks/7/path = NodePath("HBoxContainer/SLSprite:frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -355,7 +356,7 @@ tracks/8/keys = {
 [sub_resource type="Animation" id=12]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("OLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/OLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -367,7 +368,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("OLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/OLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -397,7 +398,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=14]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("SLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/SLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -409,7 +410,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("SLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/SLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -650,21 +651,21 @@ __meta__ = {
 }
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 136, 135 )
+position = Vector2( 141, 135 )
 z_index = 1
 texture = ExtResource( 4 )
 hframes = 10
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 136, 137 )
+position = Vector2( 141, 137 )
 z_index = 1
 texture = ExtResource( 11 )
 hframes = 10
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
 anchor_right = 1.0
-margin_top = -5.0
-margin_bottom = 13.0
+margin_top = 223.378
+margin_bottom = 254.378
 custom_fonts/font = SubResource( 2 )
 text = "SELECT YOUR LADY..."
 align = 1
@@ -673,37 +674,42 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OLSprite" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 135, 137 )
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+margin_left = 140.0
+margin_top = 137.0
+margin_right = 180.0
+margin_bottom = 177.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 texture = ExtResource( 1 )
 hframes = 3
 frame = 2
 
-[node name="OLPortrait" type="Sprite" parent="CanvasLayer/OLSprite"]
+[node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
 hframes = 3
-frame = 2
 
-[node name="GLSprite" type="Sprite" parent="CanvasLayer"]
+[node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
-position = Vector2( 235, 137 )
+position = Vector2( 100, 0 )
 texture = ExtResource( 5 )
 hframes = 3
-frame = 2
 
-[node name="Frame" type="Sprite" parent="CanvasLayer/GLSprite"]
+[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 visible = false
 position = Vector2( 2.37173, 4.83977 )
 texture = ExtResource( 3 )
 
-[node name="SLSprite" type="Sprite" parent="CanvasLayer"]
+[node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
-position = Vector2( 335, 137 )
+position = Vector2( 200, 0 )
 texture = ExtResource( 9 )
 hframes = 3
-frame = 2
 
-[node name="Frame" type="Sprite" parent="CanvasLayer/SLSprite"]
+[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/SLSprite"]
 visible = false
 position = Vector2( 2.37173, 4.83978 )
 texture = ExtResource( 3 )
@@ -798,10 +804,9 @@ frame = 108
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource( 29 )
-margin_left = -4.0
-margin_top = -12.0
+margin_top = -20.0
 margin_right = 480.0
-margin_bottom = 272.0
+margin_bottom = 270.0
 color = Color( 0.141176, 0.180392, 0.235294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

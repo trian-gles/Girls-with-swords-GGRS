@@ -8,13 +8,14 @@ public class CharSelectAudio : Godot.AudioStreamPlayer
 	public override void _Ready()
 	{
 		sounds.Add("CharSelect", LoadAudio("res://Sounds/char_selected.ogg"));
+		sounds.Add("UIScroll", LoadAudio("res://Sounds/ui_scroll.ogg"));
 	}
 
 	public void PlaySound(string name)
-    {
+	{
 		Stream = sounds[name];
 		Play();
-    }
+	}
 
 	private AudioStream LoadAudio(string path)
 	{

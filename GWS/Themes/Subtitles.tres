@@ -2,8 +2,8 @@
 
 [ext_resource path="res://Fonts/Code.ttf" type="DynamicFontData" id=1]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
 
 [resource]
-default_font = SubResource( 3 )
+default_font = SubResource( 1 )

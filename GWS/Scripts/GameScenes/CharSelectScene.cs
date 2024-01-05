@@ -59,7 +59,7 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	const int CENTER = 140;
+	const int CENTER = 135;//where the most left character is
 
 	
 
@@ -95,7 +95,7 @@ public class CharSelectScene : BaseGame
 
 		bkgImages = GetNode("CanvasLayer/Bkgs").GetChildren();
 
-		CheckOverlap();
+//		CheckOverlap();
 
 	}
 
@@ -148,7 +148,7 @@ public class CharSelectScene : BaseGame
 
 
 
-		CheckOverlap();
+//		CheckOverlap();
 	}
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
@@ -207,20 +207,20 @@ public class CharSelectScene : BaseGame
 		return (!p1Selected || !p2Selected);
 	}
 
-	private void CheckOverlap()
-	{
-		if (p1Pos == p2Pos && !p1Selected && !p2Selected)
-		{
-			P1Cursor.Texture = BothTexture;
-			P2Cursor.Visible = false;
-		}
-		else
-		{
-			P1Cursor.Texture = P1Texture;
-			if (!p2Selected)
-				P2Cursor.Visible = true;
-		}
-	}
+//	private void CheckOverlap()
+//	{
+//		if (p1Pos == p2Pos && !p1Selected && !p2Selected)
+//		{
+//			P1Cursor.Texture = BothTexture;
+//			P2Cursor.Visible = false;
+//		}
+//		else
+//		{
+//			P1Cursor.Texture = P1Texture;
+//			if (!p2Selected)
+//				P2Cursor.Visible = true;
+//		}
+//	}
 
 	int Mod(int x, int m)
 	{
@@ -244,20 +244,20 @@ public class CharSelectScene : BaseGame
 			
 			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 2);
 			
-			P1Cursor.Position = new Vector2(CENTER + p1Pos * 80, P1Cursor.Position.y);
+			P1Cursor.Position = new Vector2(CENTER + p1Pos * 100, P1Cursor.Position.y);
 			HighlightChar(playerNum, p1Pos);
 		}
 			
 		else if (playerNum == 1 && !p2Selected)
 		{
 			p2Pos = Math.Min(Math.Max(0, p2Pos + direction), 2);
-			P2Cursor.Position = new Vector2(CENTER + p2Pos * 80, P2Cursor.Position.y);
+			P2Cursor.Position = new Vector2(CENTER + p2Pos * 100, P2Cursor.Position.y);
 
 			HighlightChar(playerNum, p2Pos);
 		}
 			
-
-		CheckOverlap();
+	
+//		CheckOverlap();
 	}
 
 	private void MoveStageSelection(int direction)

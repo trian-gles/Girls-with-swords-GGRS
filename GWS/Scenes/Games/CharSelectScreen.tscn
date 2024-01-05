@@ -1,17 +1,21 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=57 format=2]
 
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
-[ext_resource path="res://Sprites/CharacterSelect/Curors1.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/CharacterSelect/Curors2.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/GL Sheet.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/Frame.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/2PCursor.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBG-Cropped-Sheet.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLBlink.tres" type="Animation" id=6]
-[ext_resource path="res://Sprites/CharacterSelect/Curors3.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/Characters/SLSprite.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/Simpsons looking ass SL-Sheet.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/SLwBG-Sheet.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Stages/Clocktower/Clocktower-Thumbnail-Spritesheet.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/1PCursor.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Palettes/GL/GL-Default.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
-[ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=16]
+[ext_resource path="res://Fonts/zeldadxt.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/CharacterSelectScreenAnimation.tres" type="AnimationNodeStateMachine" id=17]
 [ext_resource path="res://Sprites/Shaders/white.shader" type="Shader" id=18]
 [ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=19]
@@ -20,14 +24,15 @@
 [ext_resource path="res://Scenes/Characters/GLSprite.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Characters/OLSprite.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scripts/CharacterSelect/CharSelectAudio.cs" type="Script" id=24]
-[ext_resource path="res://Sprites/Stages/Office/Office Interior.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Stages/Office/Office.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/Stages/Cathedral/Cathedral_Full.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/Stages/Clocktower/FullClock.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=27]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 21 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 23
 font_data = ExtResource( 16 )
 
 [sub_resource type="ShaderMaterial" id=3]
@@ -35,6 +40,106 @@ shader = ExtResource( 18 )
 shader_param/whitening = 0.0
 
 [sub_resource type="Animation" id=4]
+resource_name = "GL"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1Selected/GLSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 158, 173 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "OL"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1Selected/OLSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 158, 175 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("P1Selected/GLSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 158, 173 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("P1Selected/SLSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 108, 113 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "1PShine"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("P1Cursor:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 9, 9 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("P2Cursor:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 9, 9 ]
+}
+
+[sub_resource type="Animation" id=7]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Bkgs/Clock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 7 ]
+}
+
+[sub_resource type="Animation" id=8]
 length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("P1Cursor:scale")
@@ -46,7 +151,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, 10 ), Vector2( 2.5, 2.5 ) ]
+"values": [ Vector2( 5, 5 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("P1Cursor:modulate")
@@ -94,13 +199,13 @@ tracks/4/keys = {
 "times": PoolRealArray( 0.6, 0.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, 10 ), Vector2( 2.5, 2.5 ) ]
+"values": [ Vector2( 5, 5 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -112,7 +217,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("GLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/GLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -124,9 +229,9 @@ tracks/1/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -138,9 +243,9 @@ tracks/0/keys = {
 "values": [  ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
-tracks/0/path = NodePath("GLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/GLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -164,7 +269,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("OLSprite:modulate")
+tracks/2/path = NodePath("HBoxContainer/OLSprite:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -176,7 +281,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("OLSprite:frame")
+tracks/3/path = NodePath("HBoxContainer/OLSprite:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -188,7 +293,7 @@ tracks/3/keys = {
 "values": [ 2 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("GLSprite:frame")
+tracks/4/path = NodePath("HBoxContainer/GLSprite:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -212,7 +317,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("SLSprite:modulate")
+tracks/6/path = NodePath("HBoxContainer/SLSprite:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -224,7 +329,7 @@ tracks/6/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("SLSprite:frame")
+tracks/7/path = NodePath("HBoxContainer/SLSprite:frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -248,10 +353,10 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=12]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("OLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/OLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -263,7 +368,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("OLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/OLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -275,7 +380,7 @@ tracks/1/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=13]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("P1Cursor:active")
@@ -290,11 +395,10 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "SLFadeIn"
+[sub_resource type="Animation" id=14]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("SLSprite:modulate")
+tracks/0/path = NodePath("HBoxContainer/SLSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -306,7 +410,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("SLSprite:scale")
+tracks/1/path = NodePath("HBoxContainer/SLSprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -318,9 +422,139 @@ tracks/1/keys = {
 "values": [ Vector2( 21, 21 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
 
-[sub_resource type="Shader" id=12]
+[sub_resource type="Shader" id=16]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=17]
+shader = SubResource( 16 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 7 )
+
+[sub_resource type="Shader" id=18]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 18 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 12 )
+
+[sub_resource type="Shader" id=20]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=21]
+shader = SubResource( 20 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 13 )
+
+[sub_resource type="Shader" id=22]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=23]
+shader = SubResource( 22 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 7 )
+
+[sub_resource type="Shader" id=24]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=25]
+shader = SubResource( 24 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 12 )
+
+[sub_resource type="Shader" id=26]
 code = "shader_type canvas_item;
 
 // Amount of detail.
@@ -361,30 +595,29 @@ void fragment() {
 	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
 }"
 
-[sub_resource type="OpenSimplexNoise" id=13]
+[sub_resource type="OpenSimplexNoise" id=27]
 seed = 2
 octaves = 6
 period = 141.8
 persistence = 0.578
 lacunarity = 2.23
 
-[sub_resource type="NoiseTexture" id=14]
-noise = SubResource( 13 )
+[sub_resource type="NoiseTexture" id=28]
+noise = SubResource( 27 )
 
-[sub_resource type="ShaderMaterial" id=15]
-shader = SubResource( 12 )
+[sub_resource type="ShaderMaterial" id=29]
+shader = SubResource( 26 )
 shader_param/octaves = 2
 shader_param/starting_amplitude = 0.5
 shader_param/starting_frequency = 1.188
 shader_param/shift = -0.088
 shader_param/velocity = Vector2( 1, 1 )
 shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
-shader_param/noise = SubResource( 14 )
+shader_param/noise = SubResource( 28 )
 
 [node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
-P1Texture = ExtResource( 3 )
-BothTexture = ExtResource( 7 )
+P1Texture = ExtResource( 11 )
 OLScene = ExtResource( 20 )
 GLScene = ExtResource( 19 )
 
@@ -405,7 +638,8 @@ texture = ExtResource( 26 )
 [node name="Clock" type="Sprite" parent="CanvasLayer/Bkgs"]
 visible = false
 scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 27 )
+texture = ExtResource( 10 )
+hframes = 8
 
 [node name="DebugText" type="Label" parent="CanvasLayer"]
 margin_right = 40.0
@@ -417,49 +651,68 @@ __meta__ = {
 }
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 150, 143.717 )
-scale = Vector2( 2.5, 2.5 )
+position = Vector2( 141, 135 )
 z_index = 1
 texture = ExtResource( 4 )
+hframes = 10
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 150, 143.717 )
-scale = Vector2( 2.5, 2.5 )
+position = Vector2( 141, 137 )
 z_index = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 11 )
+hframes = 10
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
-visible = false
 anchor_right = 1.0
-margin_bottom = 14.0
+margin_top = 223.378
+margin_bottom = 254.378
 custom_fonts/font = SubResource( 2 )
-text = "Please select your character..."
+text = "SELECT YOUR LADY..."
 align = 1
-percent_visible = 0.0
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OLSprite" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 150, 130.131 )
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+margin_left = 140.0
+margin_top = 137.0
+margin_right = 180.0
+margin_bottom = 177.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 texture = ExtResource( 1 )
-hframes = 10
+hframes = 3
 frame = 2
 
-[node name="GLSprite" type="Sprite" parent="CanvasLayer"]
+[node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
+texture = ExtResource( 27 )
+hframes = 3
+
+[node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
-position = Vector2( 230, 132.404 )
+position = Vector2( 100, 0 )
 texture = ExtResource( 5 )
-hframes = 10
-frame = 2
+hframes = 3
 
-[node name="SLSprite" type="Sprite" parent="CanvasLayer"]
+[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
+visible = false
+position = Vector2( 2.37173, 4.83977 )
+texture = ExtResource( 3 )
+
+[node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
-position = Vector2( 310, 132 )
+position = Vector2( 200, 0 )
 texture = ExtResource( 9 )
 hframes = 3
-frame = 1
+
+[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/SLSprite"]
+visible = false
+position = Vector2( 2.37173, 4.83978 )
+texture = ExtResource( 3 )
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
@@ -477,31 +730,41 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="1PShowcase" type="AnimationPlayer" parent="CanvasLayer"]
+autoplay = "OL"
+anims/GL = SubResource( 4 )
+anims/OL = SubResource( 5 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+autoplay = "1PShine"
+anims/1PShine = SubResource( 6 )
 anims/Blink = ExtResource( 6 )
-anims/CursorFadeIn = SubResource( 4 )
-anims/GLFadeIn = SubResource( 5 )
-anims/GLSelect = SubResource( 6 )
-anims/Init = SubResource( 7 )
+anims/ClockTowerThumbnail = SubResource( 7 )
+anims/CursorFadeIn = SubResource( 8 )
+anims/GLFadeIn = SubResource( 9 )
+anims/GLSelect = SubResource( 10 )
+anims/Init = SubResource( 11 )
 anims/OLBlink = ExtResource( 2 )
-anims/OLFadeIn = SubResource( 8 )
-anims/RESET = SubResource( 9 )
-anims/SLFadeIn = SubResource( 10 )
+anims/OLFadeIn = SubResource( 12 )
+anims/RESET = SubResource( 13 )
+anims/SLFadeIn = SubResource( 14 )
 
 [node name="StartupAnimation" type="AnimationTree" parent="CanvasLayer"]
 tree_root = ExtResource( 17 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 11 )
+parameters/playback = SubResource( 15 )
 
 [node name="P2Selected" type="Position2D" parent="CanvasLayer"]
-position = Vector2( 410, 145 )
+position = Vector2( 430, 145 )
 
 [node name="GLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 22 )]
 visible = false
+frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
-frame = 243
+material = SubResource( 17 )
+frame = 158
 
 [node name="Label" type="Label" parent="CanvasLayer/P2Selected/OLSprite"]
 visible = false
@@ -519,25 +782,31 @@ __meta__ = {
 
 [node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
 visible = false
+material = SubResource( 19 )
+use_parent_material = true
 
 [node name="P1Selected" type="Position2D" parent="CanvasLayer"]
-position = Vector2( 70, 145 )
+position = Vector2( 45, 145 )
 
 [node name="GLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 22 )]
 visible = false
+material = SubResource( 21 )
+frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 23 )]
-frame = 157
+material = SubResource( 23 )
+frame = 158
 
 [node name="SLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 8 )]
 visible = false
+material = SubResource( 25 )
+frame = 108
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 15 )
-margin_left = -3.0
-margin_top = -12.0
-margin_right = 481.0
-margin_bottom = 272.0
+material = SubResource( 29 )
+margin_top = -20.0
+margin_right = 480.0
+margin_bottom = 270.0
 color = Color( 0.141176, 0.180392, 0.235294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

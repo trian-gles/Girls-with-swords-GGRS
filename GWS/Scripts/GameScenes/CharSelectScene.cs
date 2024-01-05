@@ -42,6 +42,7 @@ public class CharSelectScene : BaseGame
 	private int p2Color;
 	private int[] lastInputs;
 	private int extraFrames = 12;
+	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
 	[Serializable]
@@ -56,6 +57,7 @@ public class CharSelectScene : BaseGame
 		public int[] lastFrameInputs { get; set; }
 		public int extraFrames { get; set; }
 		public int selectedStage { get; set; }
+		public int charSelectFrame { get; set; }
 
 	}
 
@@ -109,6 +111,8 @@ public class CharSelectScene : BaseGame
 		CompareValues(p2Color, oldState.p2Color, "p2Color");
 		CompareValues(p1Selected, oldState.p1Selected, "p1Selected");
 		CompareValues(p2Selected, oldState.p2Selected, "p2Selected");
+		CompareValues(charSelectFrame, oldState.charSelectFrame, "Char select frame");
+	
 	}
 
 	public override byte[] SaveState(int frame)
@@ -122,6 +126,7 @@ public class CharSelectScene : BaseGame
 		state.p2Selected = p2Selected;
 		state.lastFrameInputs = lastInputs;
 		state.selectedStage = selectedStage;
+		state.charSelectFrame = charSelectFrame;
 		return Serialize<GameState>(state);
 	}
 
@@ -135,6 +140,7 @@ public class CharSelectScene : BaseGame
 		p1Pos = state.p1Pos;
 		p2Pos = state.p2Pos;
 		lastInputs = state.lastFrameInputs;
+		charSelectFrame = state.charSelectFrame;
 
 		// Cleanup background selection
 		((Sprite)bkgImages[selectedStage]).Visible = false;
@@ -153,7 +159,10 @@ public class CharSelectScene : BaseGame
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
-		
+		charSelectFrame++;
+		if (charSelectFrame < 120)
+			return;
+
 		int[] combinedInputs = new int[] { p1Inps, p2Inps };
 		for (int i = 0; i <= 1; i++)
 		{

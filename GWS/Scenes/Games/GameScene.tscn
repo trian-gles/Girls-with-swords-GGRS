@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Sprites/HUD/Round Counter-Sheet.png" type="Texture" id=21]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=22]
 [ext_resource path="res://Fonts/IsWasted.ttf" type="DynamicFontData" id=23]
+[ext_resource path="res://Sprites/HUD/SLLogo.png" type="Texture" id=24]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -105,16 +106,18 @@ default_font = ExtResource( 8 )
 [sub_resource type="Theme" id=7]
 default_font = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=9]
-size = 45
-use_mipmaps = true
+[sub_resource type="DynamicFont" id=8]
 font_data = ExtResource( 22 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 10
+font_data = ExtResource( 23 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 10
 font_data = ExtResource( 23 )
 
-[sub_resource type="Theme" id=8]
+[sub_resource type="Theme" id=11]
 default_font = ExtResource( 8 )
 
 [node name="GameScene" type="Node2D"]
@@ -132,6 +135,12 @@ current = true
 script = ExtResource( 5 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="SLName" type="Sprite" parent="HUD"]
+visible = false
+position = Vector2( 27.5136, 12.2184 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 24 )
 
 [node name="P1Meter" parent="HUD" instance=ExtResource( 16 )]
 margin_left = 42.0
@@ -151,10 +160,10 @@ anims/RoundOneWin = SubResource( 2 )
 anims/RoundTwoWin = SubResource( 3 )
 
 [node name="P1RoundCounters" type="HBoxContainer" parent="HUD"]
-margin_left = 49.132
-margin_top = 44.9304
-margin_right = 89.132
-margin_bottom = 84.9304
+margin_left = 48.156
+margin_top = 45.8402
+margin_right = 88.156
+margin_bottom = 85.8402
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -253,6 +262,7 @@ margin_left = 360.0
 margin_top = 65.0
 margin_right = 400.0
 margin_bottom = 81.0
+rect_scale = Vector2( 2, 2 )
 theme = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "x2"
@@ -269,6 +279,7 @@ margin_left = 65.0
 margin_top = 65.0
 margin_right = 105.0
 margin_bottom = 81.0
+rect_scale = Vector2( 2, 2 )
 theme = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "x3"
@@ -294,20 +305,21 @@ __meta__ = {
 }
 
 [node name="CenterText" type="Label" parent="HUD"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -82.5
-margin_top = -23.0
-margin_right = 82.5
-margin_bottom = 23.0
+margin_left = -154.905
+margin_top = -27.7608
+margin_right = -50.9054
+margin_bottom = 0.239227
+rect_scale = Vector2( 3, 3 )
 theme = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "TIME UP"
 align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -317,14 +329,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 64.3423
-margin_top = -77.0365
-margin_right = 176.342
-margin_bottom = -54.0365
+margin_left = 20.3749
+margin_top = -98.5168
+margin_right = 132.375
+margin_bottom = -75.5168
 rect_rotation = 16.5511
-rect_scale = Vector2( 3, 3 )
+rect_scale = Vector2( 4, 4 )
 theme = SubResource( 7 )
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
@@ -344,7 +356,7 @@ margin_top = -30.4101
 margin_right = -106.824
 margin_bottom = -7.41006
 rect_rotation = -17.7801
-rect_scale = Vector2( 3, 3 )
+rect_scale = Vector2( 4, 4 )
 theme = SubResource( 7 )
 custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -383,7 +395,7 @@ __meta__ = {
 [node name="DebugText" type="Label" parent="HUD"]
 margin_right = 40.0
 margin_bottom = 16.0
-theme = SubResource( 8 )
+theme = SubResource( 11 )
 text = "P1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -407,7 +419,7 @@ margin_left = -117.0
 margin_top = 2.0
 margin_right = 124.0
 margin_bottom = 18.0
-theme = SubResource( 8 )
+theme = SubResource( 11 )
 text = "REC"
 align = 1
 __meta__ = {
@@ -430,7 +442,7 @@ anchor_right = 0.054
 anchor_bottom = 0.223
 margin_right = 40.0
 margin_bottom = 173.06
-theme = SubResource( 8 )
+theme = SubResource( 11 )
 text = "1
 2
 3
@@ -468,7 +480,7 @@ anchor_bottom = 0.5
 margin_left = -17.0
 margin_top = -108.0
 margin_bottom = 98.0
-theme = SubResource( 8 )
+theme = SubResource( 11 )
 text = "1
 2
 3

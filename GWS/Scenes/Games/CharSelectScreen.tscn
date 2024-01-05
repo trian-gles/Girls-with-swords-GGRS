@@ -1,10 +1,10 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/Frame.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/2PCursor.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBG-Cropped-Sheet.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Blink.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLBlink.tres" type="Animation" id=6]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/Characters/SLSprite.tscn" type="PackedScene" id=8]
@@ -27,6 +27,11 @@
 [ext_resource path="res://Sprites/Stages/Office/Office.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/Stages/Cathedral/Cathedral_Full.png" type="Texture" id=26]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Sheet.png" type="Texture" id=28]
+
+[sub_resource type="DynamicFont" id=31]
+size = 23
+font_data = ExtResource( 16 )
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 21 )
@@ -93,6 +98,35 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 108, 113 ]
+}
+
+[sub_resource type="Animation" id=30]
+resource_name = "BG"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("HBoxContainer/OLSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HBoxContainer/GLSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 9, 9 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -630,16 +664,55 @@ position = Vector2( 230, 40 )
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 25 )
 
+[node name="Label" type="Label" parent="CanvasLayer/Bkgs/OfficeInterior"]
+margin_left = -92.808
+margin_top = -181.065
+margin_right = 3.19202
+margin_bottom = -162.065
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 31 )
+text = "OFFICE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Cathedral" type="Sprite" parent="CanvasLayer/Bkgs"]
 visible = false
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 26 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Cathedral"]
+margin_left = -137.038
+margin_top = -184.014
+margin_right = 6.96216
+margin_bottom = -165.014
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 31 )
+text = "CATHEDRAL"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Clock" type="Sprite" parent="CanvasLayer/Bkgs"]
 visible = false
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 10 )
 hframes = 8
+
+[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Clock"]
+margin_left = -154.528
+margin_top = -181.065
+margin_right = 5.47235
+margin_bottom = -162.065
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 31 )
+text = "CLOCKTOWER"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DebugText" type="Label" parent="CanvasLayer"]
 margin_right = 40.0
@@ -655,12 +728,14 @@ position = Vector2( 141, 135 )
 z_index = 1
 texture = ExtResource( 4 )
 hframes = 10
+frame = 9
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
 position = Vector2( 141, 137 )
 z_index = 1
 texture = ExtResource( 11 )
 hframes = 10
+frame = 9
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
 anchor_right = 1.0
@@ -686,7 +761,7 @@ __meta__ = {
 [node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 texture = ExtResource( 1 )
 hframes = 3
-frame = 2
+frame = 1
 
 [node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
@@ -695,13 +770,13 @@ hframes = 3
 [node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
 position = Vector2( 100, 0 )
+texture = ExtResource( 28 )
+hframes = 10
+frame = 9
+
+[node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 texture = ExtResource( 5 )
 hframes = 3
-
-[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
-visible = false
-position = Vector2( 2.37173, 4.83977 )
-texture = ExtResource( 3 )
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 3 )
@@ -734,6 +809,10 @@ __meta__ = {
 autoplay = "OL"
 anims/GL = SubResource( 4 )
 anims/OL = SubResource( 5 )
+
+[node name="BG Animation" type="AnimationPlayer" parent="CanvasLayer"]
+autoplay = "BG"
+anims/BG = SubResource( 30 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 autoplay = "1PShine"
@@ -791,16 +870,16 @@ position = Vector2( 45, 145 )
 [node name="GLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 22 )]
 visible = false
 material = SubResource( 21 )
-frame = 158
+frame = 171
 
 [node name="OLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 23 )]
 material = SubResource( 23 )
-frame = 158
+frame = 173
 
 [node name="SLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 8 )]
 visible = false
 material = SubResource( 25 )
-frame = 108
+frame = 112
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource( 29 )

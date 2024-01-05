@@ -150,7 +150,7 @@ public class CharSelectScene : BaseGame
 		// Cleanup selection images
 		HighlightChar(0, p1Pos);
 
-		HighlightChar(1, p1Pos);
+		HighlightChar(1, p2Pos);
 
 
 

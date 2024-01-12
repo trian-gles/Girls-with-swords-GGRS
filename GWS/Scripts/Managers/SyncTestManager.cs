@@ -60,6 +60,11 @@ class SyncTestManager : StateManager
 	private bool randomInputs = true;
 	private Random random;
 
+	[Export]
+	private int logFrame = 0;
+
+	[Export]
+	private int dumpFrame = 1944;
 	
 
 	public override void _Ready()
@@ -69,7 +74,7 @@ class SyncTestManager : StateManager
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
 		pastInputs = new FixedSizedQueue<int[]>(DEPTH + 1);
-
+		Globals.logOn = false;
 
 		
 
@@ -136,8 +141,13 @@ class SyncTestManager : StateManager
 
 	public void RunFrameLoop()
 	{
+		
+
 		int[] combinedInps;
 		Globals.frame++;
+		if (Globals.frame == logFrame)
+			Globals.logOn = true;
+		Globals.rollbackFrame = 0;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
 			OnGameFinished("Game");
@@ -159,7 +169,7 @@ class SyncTestManager : StateManager
 		else
 			combinedInps = new int[] { 0, 0 };
 
-
+		Globals.Log($"Sync test on frame {Globals.frame}");
 		currGame.AdvanceFrame(combinedInps[0], combinedInps[1]);
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
 		serializedStates.Enqueue(serializedGamestate);
@@ -178,7 +188,6 @@ class SyncTestManager : StateManager
 		Globals.frame = Globals.frame - (DEPTH);
 		for (int i = 1; i < DEPTH + 1; i++)
 		{
-
 			int[] tempInputs = pastInputs[i];
 			Globals.frame++;
 			Globals.rollbackFrame = i;
@@ -204,5 +213,4 @@ class SyncTestManager : StateManager
 	{
 		return new[] { GetInputs(""), random.Next(255) };
 	}
-	
 }

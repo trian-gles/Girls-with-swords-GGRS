@@ -12,7 +12,6 @@ public class AirKnockdown : Float
     public override void Enter()
     {
         base.Enter();
-		GD.Print("Air knockdown");
     }
 
     public override void FrameAdvance()
@@ -20,7 +19,6 @@ public class AirKnockdown : Float
 		frameCount++;
 		if (owner.grounded)
 		{
-			GD.Print("Air knockdown hitting ground");
 			EmitSignal(nameof(StateFinished), "Knockdown");
 			owner.ResetComboAndProration();
 		}

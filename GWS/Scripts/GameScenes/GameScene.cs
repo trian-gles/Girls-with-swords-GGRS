@@ -600,7 +600,7 @@ public class GameScene : BaseGame
 	private void TryEndRound()
 	{
 
-		GD.Print($"Potentially ending game on frame {Globals.frame}");
+		Globals.Log($"Potentially ending game on frame {Globals.frame}");
 		currTime = TimeStatus.FAKEEND;
 		possibleEndingFrame = Globals.frame;
 		trueEndingFrame = Globals.frame + 8;
@@ -751,6 +751,5 @@ public class GameScene : BaseGame
 
 	public override void _Draw()
 	{
-		GD.Print("Gamescene draw");
 	}
 }

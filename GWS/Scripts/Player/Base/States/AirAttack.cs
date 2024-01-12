@@ -84,7 +84,7 @@ public abstract class AirAttack : BaseAttack
 		}
 
 
-		Globals.Log($"{Name} at position {owner.Position}");
+		
 
 		if (owner.airDashFrames > 0)
 			owner.airDashFrames--;

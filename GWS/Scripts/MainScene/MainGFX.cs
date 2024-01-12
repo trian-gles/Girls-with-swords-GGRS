@@ -46,6 +46,7 @@ public class MainGFX : Node
 		location /= 100;
 		//GD.Print($"Emitting {particleName} at {location} with flipH {flipH}");
 		var newPart = (ParticleSprite) particleSprites[particleName].Instance();
+		newPart.initFrame = Globals.frame;
 		AddChild(newPart);
 		if (flipH)
 		{
@@ -77,6 +78,16 @@ public class MainGFX : Node
 		if (frame < lastLevelUp)
 		{
 			GetNode<Node2D>("Stages").Call("rollback");
+			
+		}
+		foreach (var child in GetChildren())
+		{
+			var partSprite = child as ParticleSprite;
+			if (partSprite != null)
+			{
+				partSprite.Rollback(frame);
+			}
+
 		}
 	}
 }

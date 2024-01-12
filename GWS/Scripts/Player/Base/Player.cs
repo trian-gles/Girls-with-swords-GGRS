@@ -316,9 +316,7 @@ public class Player : Node2D
 		terminalVelocity = standardTerminalVelocity;
 
 		var shaderMaterial = sprite.Material as ShaderMaterial;
-		//var resource = ResourceLoader.Load(shaderPaths[colorScheme]);
 		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
-		//GD.Print(shaderMaterial.GetShaderParam("palette"));
 
 		EmitSignal(nameof(MeterChanged), Name, 0);
 		
@@ -371,6 +369,11 @@ public class Player : Node2D
 		pState.meter = meter;
 		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
+
+		if (currentState.Name == "JumpC")
+		{
+			Globals.Log($"Saving state with JumpC position at {internalPos} and velocity {velocity}");
+		}
 		pState.animationCursor = animationPlayer.cursor;
 		pState.terminalVelocity = terminalVelocity;
 		pState.animationName = animationPlayer.AssignedAnimation;
@@ -424,12 +427,13 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
-		if (currentState.Name == "JumpA")
-        {
-			Globals.Log($"Loading state with JumpA position at {Position} and velocity {velocity}");
-        }
+		
 
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
+		if (currentState.Name == "JumpC")
+		{
+			Globals.Log($"Loading state with JumpC position at {internalPos} and velocity {velocity}");
+		}
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
 		combo = pState.combo;
@@ -780,7 +784,6 @@ public class Player : Node2D
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
-		// GD.Print(buf[buf.Count - 2][0]);
 		return (key[0] == buf[buf.Count - 2][0]);
 	}
 
@@ -913,7 +916,6 @@ public class Player : Node2D
 			}
 			else
 			{
-				//GD.Print($"Internal pos before hitPush applied = {internalPos}.  Speed = {hitPushSpeed}");
 				if (hitPushRemaining < 0)
 				{
 					internalPos.x -= hitPushSpeed;
@@ -924,7 +926,6 @@ public class Player : Node2D
 					internalPos.x += hitPushSpeed;
 					hitPushRemaining -= hitPushSpeed;
 				}
-				//GD.Print($"Internal pos after hitPush applied = {internalPos}");
 			}
 		}
 	}
@@ -1086,10 +1087,8 @@ public class Player : Node2D
 		mainSprite.Scale = new Vector2(-3, 3);
 		frontSprite.Scale = new Vector2(-3, 3);
 		behindSprite.Scale = new Vector2(-3, 3);
-		//GD.Print($"Now turning the hitboxes for {Name}");
 		hurtBoxes.Scale = new Vector2(-1, 1);
 		hitBoxes.Scale = new Vector2(-1, 1);
-		//GD.Print("Hitboxes turnt");
 	}
 
 	/// <summary>
@@ -1161,7 +1160,6 @@ public class Player : Node2D
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
 		currentState.ReceiveHit(details);
-		//GD.Print(currentState.Name);
 		currentState.ReceiveStunDamage(details);
 		if (!details.projectile)
 			EmitSignal(nameof(HitConfirm));
@@ -1232,20 +1230,17 @@ public class Player : Node2D
 		proration = 16;
 		canGroundbounce = true;
 		terminalVelocity = standardTerminalVelocity;
-		//GD.Print("Combo over");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void ComboUp()
 	{
 		combo++;
-		//GD.Print($"combo {combo}");
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
 	public void DeductHealth(int dmg)
 	{
-		//GD.Print($"Receiving {dmg} damage");
 		health -= dmg;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}

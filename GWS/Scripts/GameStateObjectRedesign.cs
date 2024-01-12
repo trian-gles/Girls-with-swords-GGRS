@@ -155,7 +155,10 @@ public class GameStateObjectRedesign : Node
 		GameState oldState = Deserialize<GameState>(buffer);
 		string error = CompareGameStates(oldState, GetGameState());
 		if (error != "")
-			GD.Print(error);
+        {
+			GD.Print($"Frame {Globals.frame} {error}");
+		}
+			
 	}
 
 	private string CompareGameStates(GameState firstGs, GameState secondGs)

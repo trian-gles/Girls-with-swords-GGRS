@@ -47,7 +47,6 @@ public class AnimationPlayer : Godot.AnimationPlayer
 			Stop();
 			SetFrame(0);
 		}
-		//GD.Print($"new animation {animName}, length = {animationLength}");
 	}
 
 	public void SetAnimationAndFrame(string animName, int frame)

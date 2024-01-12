@@ -26,7 +26,7 @@ public class BaseManager : Node2D
 	/// playing back recorded matches
 	/// </summary>
 	protected bool playbackMatch = false;
-	private string matchFilename = "MatchBefore";
+	private string matchFilename = "desync-1-12-24";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -97,7 +97,7 @@ public class BaseManager : Node2D
 	// ----------------
 	public virtual void OnGameFinished(string nextGameName)
 	{
-		GD.Print($"Scene finished, moving to {nextGameName}");
+		Globals.Log($"Scene finished, moving to {nextGameName}");
 		if (currGame.Name == "CharSelectScreen") // I HATE THE WAY THIS LOOKS
 		{
 			
@@ -193,7 +193,6 @@ public class BaseManager : Node2D
 	//////// 
 	protected void StartInputRecord()
 	{
-		//GD.Print("Recording inputs");
 		inputHead = 0;
 		recordedInputs.Clear();
 		recordingInputs = true;
@@ -268,7 +267,7 @@ public class BaseManager : Node2D
 	protected void LoadMatchFile()
 	{
 		var file = new File();
-		file.Open($"user://recordings/{matchFilename}.json", File.ModeFlags.Read);
+		file.Open($"user://recordings/{matchFilename}.json", File.ModeFlags.Read); // C:\Users\%NAME%\AppData\Roaming\Godot\app_userdata\GWS-GGPO\recordings
 		string txt = file.GetAsText();
 		var res = JSON.Parse(txt).Result;
 		var dict = (Godot.Collections.Dictionary)res;

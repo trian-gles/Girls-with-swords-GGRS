@@ -127,7 +127,6 @@ public class BlackHole : HadoukenPart
 		if (frame > duration + 12) // far past rollback limit
 			targetPlayer.DeleteHadouken(this);
 		frame++;
-		//GD.Print(frame);
 	}
 
 	protected override void MakeInactive()

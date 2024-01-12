@@ -15,7 +15,7 @@ public class ThrowBreak : HitStun
             owner.hitPushRemaining = -2000;
         else
             owner.hitPushRemaining = 2000;
-        if (owner.internalPos.y < Globals.floor)
+        if (owner.internalPos.y > Globals.floor)
         {
             owner.grounded = false;
             EmitSignal(nameof(StateFinished), "Float");

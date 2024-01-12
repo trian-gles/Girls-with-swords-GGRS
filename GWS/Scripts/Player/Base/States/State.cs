@@ -599,6 +599,7 @@ public abstract class State : Node
 	{
 		frameCount++;
 		if (slowdownSpeed != 0) SlowDown();
+		Globals.Log($"{Name} at position {owner.internalPos}");
 	}
 
 	/// <summary>

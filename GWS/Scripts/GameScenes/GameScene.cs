@@ -88,8 +88,6 @@ public class GameScene : BaseGame
 	private int p1Ind;
 	private int p2Ind;
 
-	[Signal]
-	public delegate void GameFinished(string winner);
 
 	/// <summary>
 	/// Used for training mode, where after a combo health will reset
@@ -600,12 +598,14 @@ public class GameScene : BaseGame
 		{
 			if (p1Wins == 2)
 			{
-
+				EmitSignal("GameWon", "P1");
 			}
 			else if (p2Wins == 2)
 			{
-
+				EmitSignal("GameWon", "P1");
 			}
+			else
+				Reset();
 		}
 	}
 
@@ -655,7 +655,7 @@ public class GameScene : BaseGame
 			
 	}
 
-	public void ResetAll()
+	public override void Reset()
 	{
 		ResetHealth("P1");
 		ResetHealth("P2");

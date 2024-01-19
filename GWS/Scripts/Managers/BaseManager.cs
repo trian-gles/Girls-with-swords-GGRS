@@ -98,19 +98,13 @@ public class BaseManager : Node2D
 	public virtual void OnGameFinished(string nextGameName)
 	{
 		Globals.Log($"Scene finished, moving to {nextGameName}");
-		if (currGame.Name == "CharSelectScreen") // I HATE THE WAY THIS LOOKS
-		{
 			
-			currGame = gameScene;
-			MoveChild(charSelectScene, 0);
+		currGame = gameScene;
+		MoveChild(charSelectScene, 0);
 
-			gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
-			charSelectScene.HideAll();
-		}
-		else
-		{
-			gameScene.ResetAll();
-		}
+		gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
+		charSelectScene.HideAll();
+		charSelectScene.Reset();
 			
 	}
 
@@ -120,7 +114,10 @@ public class BaseManager : Node2D
 	/// <param name="winner"></param>
 	public virtual void OnGameWon(string winner)
 	{
-		
+		charSelectScene.ShowAll();
+		currGame = charSelectScene;
+		MoveChild(gameScene, 0);
+
 	}
 
 	public virtual void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)

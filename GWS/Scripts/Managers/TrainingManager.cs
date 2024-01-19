@@ -81,7 +81,7 @@ public class TrainingManager : BaseManager
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
 		gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
-		gameScene.ResetAll();
+		gameScene.Reset();
 	}
 
 	public override void OnGameWon(string winner)

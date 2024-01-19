@@ -50,6 +50,27 @@ public abstract class BaseGame : Node2D
 		}
 	}
 
+	public void ShowAll()
+    {
+		var queue = new Queue<Node>();
+		queue.Enqueue(this);
+		while (queue.Count > 0)
+		{
+
+			var node = queue.Dequeue();
+			foreach (Node child in node.GetChildren())
+			{
+				queue.Enqueue(child);
+			}
+			if (node.GetType().GetProperty("Visible") != null)
+			{
+				// GD.Print("TEST");
+				// GD.Print(node);
+				((CanvasItem)node).Visible = true;
+			}
+		}
+	}
+
 	public virtual void Reset() { }
 
 	public void ChangeHUDText(string msg) {

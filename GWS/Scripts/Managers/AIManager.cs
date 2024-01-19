@@ -11,19 +11,19 @@ class AIManager : LocalManager
 	private int lastP1Key = 0; // this funny logic relates to allowing the P1 key to be released before choosing p2
 	private Random random = new Random();
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		Globals.mode = Globals.Mode.CPU;
 	}
 
-    public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
-    {
-        base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
+	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
+	{
+		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		gameScene.SetP2AI();
-    }
+	}
 
-    public override void _PhysicsProcess(float delta)
+	public override void _PhysicsProcess(float delta)
 	{
 		int p1Inputs = 0; 
 		int p2Inputs = 0;
@@ -68,9 +68,9 @@ class AIManager : LocalManager
 	}
 
 	public HashSet<string> GetP1Tags()
-    {
+	{
 		return gameScene.GetP1Tags();
-    }
+	}
 
 	public HashSet<string> GetP2Tags()
 	{

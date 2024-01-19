@@ -32,8 +32,8 @@ public class Idle : State
 		owner.velocity.y = 0;
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
-        owner.canAirDash = true;
-        if (owner.CheckHeldKey('2'))
+		owner.canAirDash = true;
+		if (owner.CheckHeldKey('2'))
 		{
 			EmitSignal(nameof(StateFinished), "Crouch");
 			return;
@@ -61,12 +61,12 @@ public class Idle : State
 		}
 	}
 
-    public override void HandleInput(char[] inputArr)
-    {
-        base.HandleInput(inputArr);
-    }
+	public override void HandleInput(char[] inputArr)
+	{
+		base.HandleInput(inputArr);
+	}
 
-    public override void FrameAdvance()
+	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		owner.velocity.x = 0;

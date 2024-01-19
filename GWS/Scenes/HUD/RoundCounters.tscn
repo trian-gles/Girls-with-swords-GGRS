@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Sprites/HUD/Round Counter-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/HUD/RoundCounters.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Init"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Counter1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Counter2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "RoundOneWin"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Counter1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 20 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "RoundTwoWin"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Counter2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 20 ]
+}
+
+[node name="RoundCounters" type="HBoxContainer"]
+margin_left = 48.156
+margin_top = 45.8402
+margin_right = 88.156
+margin_bottom = 85.8402
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Counter1" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+hframes = 36
+
+[node name="Counter2" type="Sprite" parent="."]
+position = Vector2( 15.0465, 0.13694 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+hframes = 36
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Init = SubResource( 1 )
+anims/RoundOneWin = SubResource( 2 )
+anims/RoundTwoWin = SubResource( 3 )

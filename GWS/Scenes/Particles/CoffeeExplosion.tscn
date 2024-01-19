@@ -24,6 +24,8 @@ resource_name = "Explosion"
 
 [node name="CoffeeExplosion" instance=ExtResource( 1 )]
 scale = Vector2( 3, 3 )
+z_index = 2
+z_as_relative = false
 texture = ExtResource( 2 )
 hframes = 15
 frame = 10

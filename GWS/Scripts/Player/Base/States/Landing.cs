@@ -7,7 +7,7 @@ public class Landing : State
 	[Export]
 	public int len = 3;
 
-	public override string animationName { get { return "None"; } }
+	public override string animationName { get { return "Idle"; } }
 	public override void _Ready()
 	{
 		base._Ready();

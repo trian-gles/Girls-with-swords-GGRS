@@ -37,6 +37,8 @@ tracks/0/keys = {
 [node name="ParticleSprite" instance=ExtResource( 1 )]
 modulate = Color( 1, 1, 1, 0.494118 )
 scale = Vector2( 2.5, 2.5 )
+z_index = 2
+z_as_relative = false
 texture = ExtResource( 2 )
 hframes = 5
 

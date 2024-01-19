@@ -36,6 +36,8 @@ tracks/0/keys = {
 
 [node name="ParticleSprite" instance=ExtResource( 1 )]
 scale = Vector2( 0.5, 0.5 )
+z_index = 2
+z_as_relative = false
 texture = ExtResource( 2 )
 offset = Vector2( 40, -40 )
 hframes = 3

@@ -24,9 +24,4 @@ class LocalManager : BaseManager
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		OnGameFinished("Game");
 	}
-
-	public override void OnGameWon(string winner)
-	{
-		OnGameFinished("Game");
-	}
 }

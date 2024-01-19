@@ -14,6 +14,9 @@ public class GameScene : BaseGame
 	[Export]
 	public PackedScene[] charScenes = new PackedScene[0];
 
+	[Signal]
+	public delegate void GameWon(string winner);
+
 	public class Recording
 	{
 		public int p1char { get; set; }
@@ -52,6 +55,8 @@ public class GameScene : BaseGame
 	private Control P1Meter;
 	private Control P2Meter;
 	private AudioStreamPlayer music;
+	private HBoxContainer p1RoundCounters;
+	private HBoxContainer p2RoundCounters;
 
 	private Label recordingText;
 	private ColorRect recordingBack;
@@ -123,6 +128,8 @@ public class GameScene : BaseGame
 		superText = GetNode<Label>("HUD/OhShit");
 		P1SnailRadar = GetNode<Control>("HUD/P1SnailRadar");
 		P2SnailRadar = GetNode<Control>("HUD/P2SnailRadar");
+		p1RoundCounters = GetNode<HBoxContainer>("HUD/P1RoundCounters");
+		p2RoundCounters = GetNode<HBoxContainer>("HUD/P2RoundCounters");
 		base._Ready();
 
 		// hide the recording text
@@ -598,11 +605,15 @@ public class GameScene : BaseGame
 		{
 			if (p1Wins == 2)
 			{
+				ResetWin();
 				EmitSignal("GameWon", "P1");
+				
 			}
 			else if (p2Wins == 2)
 			{
-				EmitSignal("GameWon", "P1");
+				ResetWin();
+				EmitSignal("GameWon", "P2");
+				
 			}
 			else
 				Reset();
@@ -625,20 +636,21 @@ public class GameScene : BaseGame
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
 		if (P1Health.Value > P2Health.Value)
+		{
 			p1Wins++;
+			p1RoundCounters.Call("win_counter_up", p1Wins);
+		}
 		else
+		{
 			p2Wins++;
-		ShowWins();
+			p2RoundCounters.Call("win_counter_up", p2Wins);
+		}
+			
 	}
 
 	// ----------------
 	// Special Tools
 	// ----------------
-
-	private void ShowWins()
-	{
-
-	}
 
 	public void ResetHealth(string player)
 	{
@@ -691,6 +703,19 @@ public class GameScene : BaseGame
 
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);
+	}
+
+	private void ResetWin() 
+	{
+		Reset();
+		p1Wins = 0;
+		p2Wins = 0;
+		centerText.Text = "";
+		p1RoundCounters.Call("_ready");
+		p2RoundCounters.Call("_ready");
+		P1.QueueFree();
+		P2.QueueFree();
+		configured = false;
 	}
 
 	public void ConnectTrainingSignals(TrainingManager manager)

@@ -64,7 +64,7 @@ public class BaseManager : Node2D
 		currGame = charSelectScene;
 		
 		gameScene = packedGameScene.Instance() as GameScene;
-		gameScene.Connect("GameFinished", this, nameof(OnGameWon));
+		gameScene.Connect("GameWon", this, nameof(OnGameWon));
 		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
 		AddChild(gameScene);
 
@@ -101,7 +101,6 @@ public class BaseManager : Node2D
 			
 		currGame = gameScene;
 		MoveChild(charSelectScene, 0);
-
 		gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
 		charSelectScene.HideAll();
 		charSelectScene.Reset();
@@ -117,7 +116,6 @@ public class BaseManager : Node2D
 		charSelectScene.ShowAll();
 		currGame = charSelectScene;
 		MoveChild(gameScene, 0);
-
 	}
 
 	public virtual void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)

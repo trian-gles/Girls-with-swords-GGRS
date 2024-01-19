@@ -64,6 +64,7 @@ class AIManager : LocalManager
 	public override void OnGameFinished(string nextGameName)
 	{
 		base.OnGameFinished(nextGameName);
+		p1KeyReleased = false;
 		ai = new AIBehaviour();
 	}
 

@@ -203,9 +203,9 @@ class SyncTestManager : StateManager
 		ReadyForChange();
 	}
 
-	public override void OnRoundFinished(string winner)
+	public override void OnGameWon(string winner)
 	{
-		base.OnRoundFinished(winner);
+		base.OnGameWon(winner);
 		ReadyForChange();
 	}
 

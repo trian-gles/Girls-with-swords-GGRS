@@ -109,10 +109,10 @@ class GGRSManager : StateManager
 		ReadyForChange();
 	}
 
-	public override void OnRoundFinished(string winner)
+	public override void OnGameWon(string winner)
 	{
 		GD.Print($"Game definitevly won on frame {Globals.frame}");
-		base.OnRoundFinished(winner);
+		base.OnGameWon(winner);
 		ReadyForChange();
 	}
 

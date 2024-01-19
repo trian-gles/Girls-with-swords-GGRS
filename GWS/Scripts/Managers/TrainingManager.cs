@@ -84,7 +84,7 @@ public class TrainingManager : BaseManager
 		gameScene.ResetAll();
 	}
 
-	public override void OnRoundFinished(string winner)
+	public override void OnGameWon(string winner)
 	{
 		OnGameFinished("Game");
 	}

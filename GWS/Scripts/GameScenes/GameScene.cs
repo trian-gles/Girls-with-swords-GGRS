@@ -11,7 +11,6 @@ using System.IO;
 /// 
 public class GameScene : BaseGame
 {
-
 	[Export]
 	public PackedScene[] charScenes = new PackedScene[0];
 
@@ -57,6 +56,10 @@ public class GameScene : BaseGame
 	private Label recordingText;
 	private ColorRect recordingBack;
 
+	// WIN STATE
+	private int p1Wins = 0;
+	private int p2Wins = 0;
+
 
 	// TIME HANDLING
 	public bool ignoreTime = false;
@@ -86,7 +89,7 @@ public class GameScene : BaseGame
 	private int p2Ind;
 
 	[Signal]
-	public delegate void RoundFinished(string winner);
+	public delegate void GameFinished(string winner);
 
 	/// <summary>
 	/// Used for training mode, where after a combo health will reset
@@ -594,7 +597,16 @@ public class GameScene : BaseGame
 	{
 		centerText.Visible = true;
 		if (Globals.frame == exitFrame) // Later we'll manage keeping score
-			EmitSignal("RoundFinished", "P1");
+		{
+			if (p1Wins == 2)
+			{
+
+			}
+			else if (p2Wins == 2)
+			{
+
+			}
+		}
 	}
 
 	private void TryEndRound()
@@ -612,11 +624,21 @@ public class GameScene : BaseGame
 			WriteInputsToFile();
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
+		if (P1Health.Value > P2Health.Value)
+			p1Wins++;
+		else
+			p2Wins++;
+		ShowWins();
 	}
 
 	// ----------------
 	// Special Tools
 	// ----------------
+
+	private void ShowWins()
+	{
+
+	}
 
 	public void ResetHealth(string player)
 	{

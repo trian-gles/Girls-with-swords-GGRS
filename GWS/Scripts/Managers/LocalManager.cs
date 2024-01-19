@@ -25,7 +25,7 @@ class LocalManager : BaseManager
 		OnGameFinished("Game");
 	}
 
-	public override void OnRoundFinished(string winner)
+	public override void OnGameWon(string winner)
 	{
 		OnGameFinished("Game");
 	}

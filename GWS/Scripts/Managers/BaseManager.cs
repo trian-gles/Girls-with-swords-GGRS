@@ -64,7 +64,7 @@ public class BaseManager : Node2D
 		currGame = charSelectScene;
 		
 		gameScene = packedGameScene.Instance() as GameScene;
-		gameScene.Connect("RoundFinished", this, nameof(OnRoundFinished));
+		gameScene.Connect("GameFinished", this, nameof(OnGameWon));
 		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
 		AddChild(gameScene);
 
@@ -118,7 +118,7 @@ public class BaseManager : Node2D
 	/// Eventually this should handle keeping score
 	/// </summary>
 	/// <param name="winner"></param>
-	public virtual void OnRoundFinished(string winner)
+	public virtual void OnGameWon(string winner)
 	{
 		
 	}

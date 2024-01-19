@@ -40,9 +40,9 @@ public class Globals : Node
 	public static void Log(string msg)
 	{
 		if (rollbackFrame != 0)
-        {
+		{
 			msg = rollbackFrame + " : " + msg;
-        }
+		}
 		if (logOn)
 			GD.Print(frame + " : " + loggingName + " : " + msg);
 	}
@@ -103,7 +103,7 @@ public class Globals : Node
 	}
 
 	public static AttackDetails otgHit = new AttackDetails
-    {
+	{
 		hitStun = 6,
 		blockStun = 6,
 		dmg = 4,
@@ -280,9 +280,9 @@ public class Globals : Node
 	}
 
 	public static bool IsFrameConfirmed()
-    {
+	{
 		return frame == lastConfirmedFrame;
-    }
+	}
 
 	static public Mode mode;
 	public static bool ArrayInList(List<char[]> arr, char[] element)
@@ -356,18 +356,18 @@ public class Globals : Node
 	}
 
 	public static int IntSqrt(int num)
-    {
+	{
 		int min = 0;
 		int max = num + 1;
 		
 		while (true)
-        {
+		{
 			int mid = min + (int)Math.Floor((float)(max - min) / 2);
 
 			int square = mid * mid;
 
 			if (min + 1 == max)
-            {
+			{
 				int mins = Math.Abs(min * min - num);
 				int maxs = Math.Abs(max * max - num);
 
@@ -376,32 +376,32 @@ public class Globals : Node
 				else
 					return min;
 
-            }
+			}
 			if (square > num)
-            {
+			{
 				max = mid;
-            }
+			}
 			else if (square < num)
-            {
+			{
 				min = mid;
-            }
+			}
 			else if (square == num)
-            {
+			{
 				return mid;
-            }
+			}
 
-        }
-    }
+		}
+	}
 
 	public static int BoolToInt(bool a)
-    {
+	{
 		return a ? 1 : 0;
-    }
+	}
 
 	public static bool IntToBool(int i)
-    {
+	{
 		return i == 1;
-    }
+	}
 
 	public static int[] IntArcTan(int o, int a)
 	{

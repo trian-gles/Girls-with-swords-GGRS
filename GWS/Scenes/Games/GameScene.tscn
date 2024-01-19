@@ -20,79 +20,19 @@
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Sprites/HUD/Round Counter-Sheet.png" type="Texture" id=21]
+[ext_resource path="res://Scenes/HUD/RoundCounters.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=22]
 [ext_resource path="res://Fonts/IsWasted.ttf" type="DynamicFontData" id=23]
 [ext_resource path="res://Sprites/HUD/SLLogo.png" type="Texture" id=24]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
-tracks/0/type = "value"
-tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("P1RoundCounters/Counter2:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
 
 [sub_resource type="Animation" id=2]
 resource_name = "RoundOneWin"
-tracks/0/type = "value"
-tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0, 21 ]
-}
 
 [sub_resource type="Animation" id=3]
 resource_name = "RoundTwoWin"
-tracks/0/type = "value"
-tracks/0/path = NodePath("P1RoundCounters/Counter1:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 21 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("P1RoundCounters/Counter2:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1, 21 ]
-}
 
 [sub_resource type="Theme" id=4]
 default_font = ExtResource( 8 )
@@ -137,7 +77,6 @@ script = ExtResource( 5 )
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="SLName" type="Sprite" parent="HUD"]
-visible = false
 position = Vector2( 27.5136, 12.2184 )
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 24 )
@@ -154,30 +93,16 @@ margin_top = 31.0
 margin_right = 438.0
 margin_bottom = 37.0
 
+[node name="P1RoundCounters" parent="HUD" instance=ExtResource( 21 )]
+
+[node name="P2RoundCounters" parent="HUD" instance=ExtResource( 21 )]
+margin_left = 418.0
+margin_right = 458.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="HUD"]
 anims/Init = SubResource( 1 )
 anims/RoundOneWin = SubResource( 2 )
 anims/RoundTwoWin = SubResource( 3 )
-
-[node name="P1RoundCounters" type="HBoxContainer" parent="HUD"]
-margin_left = 48.156
-margin_top = 45.8402
-margin_right = 88.156
-margin_bottom = 85.8402
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Counter1" type="Sprite" parent="HUD/P1RoundCounters"]
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 21 )
-hframes = 36
-
-[node name="Counter2" type="Sprite" parent="HUD/P1RoundCounters"]
-position = Vector2( 15.0465, 0.13694 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 21 )
-hframes = 36
 
 [node name="RhythmTrack" parent="HUD" instance=ExtResource( 15 )]
 visible = false

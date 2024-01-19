@@ -27,7 +27,9 @@ public class CharSelectScene : BaseGame
 
 	private Sprite P1Cursor;
 	private Sprite P2Cursor;
-
+	
+	private Godot.AnimationPlayer animationPlayer;
+	
 	private CharSelectAudio audio;
 
 	private List<List<Sprite>> charImages;
@@ -72,6 +74,8 @@ public class CharSelectScene : BaseGame
 
 	public override void _Ready()
 	{
+		animationPlayer = GetNode<Godot.AnimationPlayer>("CanvasLayer/P1ColorSelect/Animation");
+		
 		HUDText = GetNode<Label>("CanvasLayer/DebugText");
 		base._Ready();
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
@@ -172,6 +176,7 @@ public class CharSelectScene : BaseGame
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
 				MoveStageSelection(-1);
+				
 			}
 
 			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
@@ -181,12 +186,20 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
 			{
+				//right
 				MoveCursor(i, 1);
+				if (i==0){
+					animationPlayer.Play("Right");
+				}
 			}
 
 			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
 			{
+				//left
 				MoveCursor(i, -1);
+				if (i==0){
+					animationPlayer.Play("Left");
+				}
 			}
 
 			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)

@@ -314,4 +314,11 @@ public class CharSelectScene : BaseGame
 		}
 			
 	}
+
+	public override void Reset()
+	{
+		base.Reset();
+		p1Selected = false;
+		p2Selected = false;
+	}
 }

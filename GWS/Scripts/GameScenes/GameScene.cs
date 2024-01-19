@@ -57,6 +57,8 @@ public class GameScene : BaseGame
 	private AudioStreamPlayer music;
 	private HBoxContainer p1RoundCounters;
 	private HBoxContainer p2RoundCounters;
+	private Node2D p1Logos;
+	private Node2D p2Logos;
 
 	private Label recordingText;
 	private ColorRect recordingBack;
@@ -130,6 +132,9 @@ public class GameScene : BaseGame
 		P2SnailRadar = GetNode<Control>("HUD/P2SnailRadar");
 		p1RoundCounters = GetNode<HBoxContainer>("HUD/P1RoundCounters");
 		p2RoundCounters = GetNode<HBoxContainer>("HUD/P2RoundCounters");
+		p1Logos = GetNode<Node2D>("HUD/P1Logo");
+		p2Logos = GetNode<Node2D>("HUD/P2Logo");
+		
 		base._Ready();
 
 		// hide the recording text
@@ -160,6 +165,7 @@ public class GameScene : BaseGame
 		AddChild(P1);
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
+		p1Logos.Call("selected_char_logo", playerOneIndex);
 
 		//p2
 		var playerTwo = charScenes[playerTwoIndex];
@@ -170,6 +176,7 @@ public class GameScene : BaseGame
 		AddChild(P2);
 		MoveChild(P2, 5);
 		p2Ind = playerTwoIndex;
+		p2Logos.Call("selected_char_logo", playerTwoIndex);
 
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));

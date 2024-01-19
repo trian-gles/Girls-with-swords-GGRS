@@ -32,6 +32,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "RoundOneWin"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Counter1:frame")
 tracks/0/interp = 1
@@ -39,7 +40,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0, 20 ]
@@ -47,6 +48,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "RoundTwoWin"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Counter2:frame")
 tracks/0/interp = 1
@@ -54,7 +56,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 0, 20 ]
@@ -74,12 +76,14 @@ __meta__ = {
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 hframes = 36
+frame = 20
 
 [node name="Counter2" type="Sprite" parent="."]
 position = Vector2( 15.0465, 0.13694 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 hframes = 36
+frame = 20
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Init = SubResource( 1 )

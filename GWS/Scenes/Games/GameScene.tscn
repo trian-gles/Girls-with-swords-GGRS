@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://Scripts/MainScene/Stages.gd" type="Script" id=7]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Sprites/Overlay/healthbar.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Overlay/Player Number.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Overlay/Player Number1.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/Overlay/Name Example.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/Overlay/Health.png" type="Texture" id=12]
 [ext_resource path="res://Scripts/MainScene/MainGFX.cs" type="Script" id=13]
@@ -23,7 +23,8 @@
 [ext_resource path="res://Scenes/HUD/RoundCounters.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=22]
 [ext_resource path="res://Fonts/IsWasted.ttf" type="DynamicFontData" id=23]
-[ext_resource path="res://Sprites/HUD/SLLogo.png" type="Texture" id=24]
+[ext_resource path="res://Scenes/HUD/PlayerLogo.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Sprites/Overlay/Player Number2.png" type="Texture" id=25]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -76,11 +77,6 @@ script = ExtResource( 5 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="SLName" type="Sprite" parent="HUD"]
-position = Vector2( 27.5136, 12.2184 )
-scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 24 )
-
 [node name="P1Meter" parent="HUD" instance=ExtResource( 16 )]
 margin_left = 42.0
 margin_top = 31.0
@@ -111,20 +107,16 @@ margin_top = 145.0
 margin_right = 57.92
 margin_bottom = 145.03
 
+[node name="P1Logo" parent="HUD" instance=ExtResource( 24 )]
+position = Vector2( -0.168873, -5.91045 )
+
+[node name="P2Logo" parent="HUD" instance=ExtResource( 24 )]
+position = Vector2( 421.871, -5.37115 )
+
 [node name="HealthTexture" type="TextureRect" parent="HUD"]
 margin_right = 480.0
 margin_bottom = 270.0
 texture = ExtResource( 12 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlayerNum" type="TextureRect" parent="HUD"]
-margin_left = -0.353951
-margin_top = -0.140305
-margin_right = 479.646
-margin_bottom = 269.86
-texture = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -155,6 +147,28 @@ texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
 tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Num" type="TextureRect" parent="HUD"]
+margin_left = -2.71065
+margin_top = 6.97502
+margin_right = 29.2894
+margin_bottom = 38.975
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player2Num" type="TextureRect" parent="HUD"]
+margin_left = 461.237
+margin_top = 6.78234
+margin_right = 493.237
+margin_bottom = 38.7823
+rect_scale = Vector2( 0.6, 0.7 )
+texture = ExtResource( 25 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

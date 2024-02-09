@@ -1,8 +1,7 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/Frame.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/2PCursor.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Blink.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLBlink.tres" type="Animation" id=6]
@@ -776,6 +775,7 @@ OLScene = ExtResource( 20 )
 GLScene = ExtResource( 19 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
 
 [node name="Bkgs" type="Node2D" parent="CanvasLayer"]
 position = Vector2( 230, 40 )
@@ -902,11 +902,6 @@ position = Vector2( 200, 0 )
 texture = ExtResource( 9 )
 hframes = 3
 
-[node name="Frame" type="Sprite" parent="CanvasLayer/HBoxContainer/SLSprite"]
-visible = false
-position = Vector2( 2.37173, 4.83978 )
-texture = ExtResource( 3 )
-
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
 anchor_top = 0.497478
@@ -1014,20 +1009,6 @@ frame = 158
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
 material = SubResource( 29 )
 frame = 158
-
-[node name="Label" type="Label" parent="CanvasLayer/P2Selected/OLSprite"]
-visible = false
-margin_left = -11.5887
-margin_top = 30.6838
-margin_right = 21.4113
-margin_bottom = 46.6838
-custom_fonts/font = ExtResource( 21 )
-text = "OL"
-align = 1
-valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
 visible = false

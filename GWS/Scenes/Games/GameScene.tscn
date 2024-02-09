@@ -254,8 +254,8 @@ margin_right = -50.9054
 margin_bottom = 0.239227
 rect_scale = Vector2( 3, 3 )
 theme = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 8 )
 text = "TIME UP"
 align = 1
 valign = 1
@@ -275,8 +275,8 @@ margin_bottom = -75.5168
 rect_rotation = 16.5511
 rect_scale = Vector2( 4, 4 )
 theme = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 9 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
 __meta__ = {
@@ -297,8 +297,8 @@ margin_bottom = -7.41006
 rect_rotation = -17.7801
 rect_scale = Vector2( 4, 4 )
 theme = SubResource( 7 )
-custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 10 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
 __meta__ = {
@@ -519,7 +519,6 @@ script = ExtResource( 7 )
 
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
-volume_db = -6.265
 bus = "Music"
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]

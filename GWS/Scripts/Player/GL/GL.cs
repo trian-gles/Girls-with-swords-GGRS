@@ -21,6 +21,10 @@ public class GL : Player
 		//6c
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));
 
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "Hadouken"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "GunBlazed"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HadoukenAir"));
+
 		//DP
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));

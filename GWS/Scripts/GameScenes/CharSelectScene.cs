@@ -47,6 +47,7 @@ public class CharSelectScene : BaseGame
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
+
 	[Serializable]
 	private struct GameState
 	{
@@ -333,5 +334,20 @@ public class CharSelectScene : BaseGame
 		base.Reset();
 		p1Selected = false;
 		p2Selected = false;
+	}
+
+	public void Reload()
+	{
+		ShowAll();
+		HighlightChar(0, p1Pos);
+
+		HighlightChar(1, p2Pos);
+
+		foreach (Sprite bkg in bkgImages)
+		{
+			bkg.Visible = false;
+		}
+
+		((Sprite)bkgImages[selectedStage]).Visible = true;
 	}
 }

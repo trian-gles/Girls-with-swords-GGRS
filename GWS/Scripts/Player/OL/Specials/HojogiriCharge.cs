@@ -7,6 +7,7 @@ public class HojogiriCharge : GroundAttack // used only to inherit counter hit
     {
         base._Ready();
         AddGatling(new char[] { 's', 'r' }, "CommandRun");
+        AddGatling(new char[] { 'a', 'r' }, "CommandRun");
     }
 
     public override void Enter()

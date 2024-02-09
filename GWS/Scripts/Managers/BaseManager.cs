@@ -113,9 +113,10 @@ public class BaseManager : Node2D
 	/// <param name="winner"></param>
 	public virtual void OnGameWon(string winner)
 	{
-		charSelectScene.ShowAll();
+		charSelectScene.Reload();
 		currGame = charSelectScene;
 		MoveChild(gameScene, 0);
+		
 	}
 
 	public virtual void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -174,9 +175,14 @@ public class BaseManager : Node2D
 			inputs |= 64;
 		}
 
-		if (Input.IsActionPressed("r" + end))
+		if (Input.IsActionPressed("a" + end))
 		{
 			inputs |= 128;
+		}
+
+		if (Input.IsActionPressed("b" + end))
+		{
+			inputs |= 256;
 		}
 
 		return inputs;

@@ -1,14 +1,23 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Grabbed : State
 {
-
+    private HashSet<string> techableStates = new HashSet<string>() { "Idle", "Crouch", "Walk", "Jump", "Fall"};
     public override void _Ready()
     {
         base._Ready();
-        AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('s') && frameCount < 4, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
-        AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('k') && frameCount < 4, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+        AddGatling(new char[] { 'k', 'p' }, CanThrowBreak, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+        AddGatling(new char[] { 's', 'p' }, CanThrowBreak, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+    }
+
+    public bool CanThrowBreak()
+    {
+        bool heldKeys = owner.CheckHeldKey('s') && owner.CheckHeldKey('k');
+        bool earlyEnough = frameCount < 4;
+        bool lastState = techableStates.Contains(owner.lastStateName);
+        return heldKeys && earlyEnough && lastState;   
     }
     public override void FrameAdvance()
 	{

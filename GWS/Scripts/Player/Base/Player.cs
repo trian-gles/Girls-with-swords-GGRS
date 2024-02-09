@@ -600,11 +600,20 @@ public class Player : Node2D
 
 			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'r', 'p' });
+				unhandledInputs.Add(new char[] { 'a', 'p' });
 			}
 			else if ((inputs & 128) == 0 && (lastFrameInputs & 128) != 0)
 			{
-				unhandledInputs.Add(new char[] { 's', 'r' });
+				unhandledInputs.Add(new char[] { 'a', 'r' });
+			}
+
+			if ((inputs & 256) != 0 && (lastFrameInputs & 256) == 0)
+			{
+				unhandledInputs.Add(new char[] { 'b', 'p' });
+			}
+			else if ((inputs & 256) == 0 && (lastFrameInputs & 256) != 0)
+			{
+				unhandledInputs.Add(new char[] { 'b', 'r' });
 			}
 
 
@@ -1239,9 +1248,11 @@ public class Player : Node2D
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
-	public void DeductHealth(int dmg)
+	public void DeductHealth(int dmg, bool chip = false)
 	{
 		health -= dmg;
+		if (chip && health <= 0)
+			health = 1;
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 

@@ -21,8 +21,11 @@ public class GL : Player
 		//6c
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));
 
+		
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "BlackHolePlace"));
+
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "Hadouken"));
-		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "GunBlazed"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "GunBlazed", true));
 		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HadoukenAir"));
 
 		//DP

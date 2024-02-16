@@ -50,6 +50,9 @@ public abstract class State : Node
 	[Signal]
 	public delegate void PlayerFXEmitted(Vector2 pos, ParticleSprite particle, bool flipH);
 
+	[Signal]
+	public delegate void GhostEmitted(Player p);
+
 	public int stunRemaining 
 	{ get; set; }
 

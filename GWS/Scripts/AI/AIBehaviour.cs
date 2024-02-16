@@ -17,6 +17,7 @@ public class AIBehaviour
         {"RandomMash", new RandomMash() },
         {"Chase", new Chase() },
         {"FloatTech", new FloatTech() },
+        {"Zone", new Zone() }
     };
 
     // Global behaviours that must be saved here

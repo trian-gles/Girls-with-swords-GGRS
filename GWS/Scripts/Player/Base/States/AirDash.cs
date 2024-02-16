@@ -12,9 +12,6 @@ public class AirDash: Fall
 	[Export]
 	private int preAttackFrames = 6;
 
-	[Signal]
-	public delegate void GhostEmitted(Player p);
-
 	public override void _Ready()
 	{
 		base._Ready();

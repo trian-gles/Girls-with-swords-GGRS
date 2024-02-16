@@ -3,7 +3,7 @@ using System;
 
 public class DoubleJump : Jump
 {
-
+   
 }
 
 

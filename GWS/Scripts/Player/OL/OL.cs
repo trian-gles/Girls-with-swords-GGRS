@@ -17,11 +17,13 @@ public class OL : Player
 		//j2C
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "InstantOverhead"));
 
-		//6k
+		
+		
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "Hadouken"));
-		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir", true));
 		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HojogiriCharge"));
 
 		//6p

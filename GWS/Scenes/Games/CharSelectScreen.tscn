@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
@@ -578,30 +578,129 @@ start_node = "Bounce"
 [sub_resource type="AnimationNodeStateMachinePlayback" id=27]
 
 [sub_resource type="Shader" id=28]
-code = "shader_type canvas_item;
-render_mode unshaded, blend_disabled;
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/god-rays
 
-uniform sampler2D palette;									//Use palletes in collum with colors in rows
-uniform float palette_count = 1.0;							//Used for highlighting hovered color
-uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+Feel free to use, improve and change this shader according to your needs
+and consider sharing the modified result on godotshaders.com.
+*/
 
-void fragment(){
-    
-	float increment = 1.0/palette_count;					//value for getting palette index
-	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
-	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
-	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
-	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
-	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
-    
-	COLOR = new_color;										//set new color from palette
+shader_type canvas_item;
+
+uniform float angle = -0.3;
+uniform float position = -0.2;
+uniform float spread : hint_range(0.0, 1.0) = 0.5;
+uniform float cutoff : hint_range(-1.0, 1.0) = 0.1;
+uniform float falloff : hint_range(0.0, 1.0) = 0.2;
+uniform float edge_fade : hint_range(0.0, 1.0) = 0.15;
+
+uniform float speed = 1.0;
+uniform float ray1_density = 8.0;
+uniform float ray2_density = 30.0;
+uniform float ray2_intensity : hint_range(0.0, 1.0) = 0.3;
+
+uniform vec4 color : hint_color = vec4(1.0, 0.9, 0.65, 0.8);
+
+uniform bool hdr = false;
+uniform float seed = 5.0;
+
+// Random and noise functions from Book of Shader's chapter on Noise.
+float random(vec2 _uv) {
+    return fract(sin(dot(_uv.xy,
+                         vec2(12.9898, 78.233))) *
+        43758.5453123);
+}
+
+float noise (in vec2 uv) {
+    vec2 i = floor(uv);
+    vec2 f = fract(uv);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+
+    // Smooth Interpolation
+
+    // Cubic Hermine Curve. Same as SmoothStep()
+    vec2 u = f * f * (3.0-2.0 * f);
+
+    // Mix 4 coorners percentages
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+mat2 rotate(float _angle){
+    return mat2(vec2(cos(_angle), -sin(_angle)),
+                vec2(sin(_angle), cos(_angle)));
+}
+
+vec4 screen(vec4 base, vec4 blend){
+	return 1.0 - (1.0 - base) * (1.0 - blend);
+}
+
+void fragment()
+{
+	
+	// Rotate, skew and move the UVs
+	vec2 transformed_uv = ( rotate(angle) * (UV - position) )  / ( (UV.y + spread) - (UV.y * spread) );
+	
+	// Animate the ray according the the new transformed UVs
+	vec2 ray1 = vec2(transformed_uv.x * ray1_density + sin(TIME * 0.1 * speed) * (ray1_density * 0.2) + seed, 1.0);
+	vec2 ray2 = vec2(transformed_uv.x * ray2_density + sin(TIME * 0.2 * speed) * (ray1_density * 0.2) + seed, 1.0);
+	
+	// Cut off the ray's edges
+	float cut = step(cutoff, transformed_uv.x) * step(cutoff, 1.0 - transformed_uv.x);
+	ray1 *= cut;
+	ray2 *= cut;
+	
+	// Apply the noise pattern (i.e. create the rays)
+	float rays;
+	
+	if (hdr){
+		// This is not really HDR, but check this to not clamp the two merged rays making 
+		// their values go over 1.0. Can make for some nice effect
+		rays = noise(ray1) + (noise(ray2) * ray2_intensity);
+	}
+	else{
+		 rays = clamp(noise(ray1) + (noise(ray2) * ray2_intensity), 0., 1.);
+	}
+	
+	// Fade out edges
+	rays *= smoothstep(0.0, falloff, (1.0 - UV.y)); // Bottom
+	rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, transformed_uv.x); // Left
+	rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, 1.0 - transformed_uv.x); // Right
+	
+	// Color to the rays
+	vec3 shine = vec3(rays) * color.rgb;
+
+	// Try different blending modes for a nicer effect. \"Screen\" is included in the code,
+	// but take a look at https://godotshaders.com/snippet/blending-modes/ for more.
+	// With \"Screen\" blend mode:
+	shine = screen(texture(SCREEN_TEXTURE, SCREEN_UV), vec4(color)).rgb;
+	
+	COLOR = vec4(shine, rays * color.a);
 }"
 
 [sub_resource type="ShaderMaterial" id=29]
 shader = SubResource( 28 )
-shader_param/palette_count = 1.0
-shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 7 )
+shader_param/angle = 0.307
+shader_param/position = 0.242
+shader_param/spread = 0.247
+shader_param/cutoff = 0.1
+shader_param/falloff = 0.348
+shader_param/edge_fade = 0.138
+shader_param/speed = 5.0
+shader_param/ray1_density = 8.0
+shader_param/ray2_density = 30.0
+shader_param/ray2_intensity = 0.671
+shader_param/color = Color( 1, 0.9, 0.65, 0.8 )
+shader_param/hdr = true
+shader_param/seed = 5.0
 
 [sub_resource type="Shader" id=30]
 code = "shader_type canvas_item;
@@ -627,7 +726,7 @@ void fragment(){
 shader = SubResource( 30 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 12 )
+shader_param/palette = ExtResource( 7 )
 
 [sub_resource type="Shader" id=32]
 code = "shader_type canvas_item;
@@ -653,7 +752,7 @@ void fragment(){
 shader = SubResource( 32 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 13 )
+shader_param/palette = ExtResource( 12 )
 
 [sub_resource type="Shader" id=34]
 code = "shader_type canvas_item;
@@ -679,7 +778,7 @@ void fragment(){
 shader = SubResource( 34 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 7 )
+shader_param/palette = ExtResource( 13 )
 
 [sub_resource type="Shader" id=36]
 code = "shader_type canvas_item;
@@ -705,9 +804,35 @@ void fragment(){
 shader = SubResource( 36 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
-shader_param/palette = ExtResource( 12 )
+shader_param/palette = ExtResource( 7 )
 
 [sub_resource type="Shader" id=38]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=39]
+shader = SubResource( 38 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 12 )
+
+[sub_resource type="Shader" id=40]
 code = "shader_type canvas_item;
 
 // Amount of detail.
@@ -748,25 +873,25 @@ void fragment() {
 	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
 }"
 
-[sub_resource type="OpenSimplexNoise" id=39]
+[sub_resource type="OpenSimplexNoise" id=41]
 seed = 2
 octaves = 6
 period = 141.8
 persistence = 0.578
 lacunarity = 2.23
 
-[sub_resource type="NoiseTexture" id=40]
-noise = SubResource( 39 )
+[sub_resource type="NoiseTexture" id=42]
+noise = SubResource( 41 )
 
-[sub_resource type="ShaderMaterial" id=41]
-shader = SubResource( 38 )
+[sub_resource type="ShaderMaterial" id=43]
+shader = SubResource( 40 )
 shader_param/octaves = 2
 shader_param/starting_amplitude = 0.5
 shader_param/starting_frequency = 1.188
 shader_param/shift = -0.088
 shader_param/velocity = Vector2( 1, 1 )
 shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
-shader_param/noise = SubResource( 40 )
+shader_param/noise = SubResource( 42 )
 
 [node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
@@ -884,6 +1009,7 @@ frame = 2
 [node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
 hframes = 3
+frame = 2
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 4 )
@@ -895,12 +1021,14 @@ frame = 2
 [node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 texture = ExtResource( 5 )
 hframes = 3
+frame = 2
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 material = SubResource( 4 )
 position = Vector2( 200, 0 )
 texture = ExtResource( 9 )
 hframes = 3
+frame = 2
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
 anchor_left = 0.5
@@ -981,13 +1109,11 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 1
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P2ColorSelect"]
 position = Vector2( -191.789, 0 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/P2ColorSelect"]
 anims/Bounce = SubResource( 20 )
@@ -999,6 +1125,26 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 27 )
 
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 29 )
+margin_left = 378.951
+margin_top = -13.967
+margin_right = 474.951
+margin_bottom = 190.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 29 )
+margin_left = -7.07381
+margin_top = -15.0705
+margin_right = 88.9262
+margin_bottom = 188.929
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="P2Selected" type="Position2D" parent="CanvasLayer"]
 position = Vector2( 430, 145 )
 
@@ -1007,12 +1153,12 @@ visible = false
 frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
-material = SubResource( 29 )
+material = SubResource( 31 )
 frame = 158
 
 [node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
 visible = false
-material = SubResource( 31 )
+material = SubResource( 33 )
 use_parent_material = true
 
 [node name="P1Selected" type="Position2D" parent="CanvasLayer"]
@@ -1020,20 +1166,20 @@ position = Vector2( 45, 145 )
 
 [node name="GLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 22 )]
 visible = false
-material = SubResource( 33 )
+material = SubResource( 35 )
 frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 23 )]
-material = SubResource( 35 )
+material = SubResource( 37 )
 frame = 158
 
 [node name="SLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 8 )]
 visible = false
-material = SubResource( 37 )
+material = SubResource( 39 )
 frame = 108
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 41 )
+material = SubResource( 43 )
 margin_top = -20.0
 margin_right = 480.0
 margin_bottom = 270.0

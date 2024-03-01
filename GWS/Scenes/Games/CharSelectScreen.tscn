@@ -441,7 +441,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=16]
 
-[sub_resource type="Shader" id=28]
+[sub_resource type="Shader" id=17]
 code = "/*
 Shader from Godot Shaders - the free shader library.
 godotshaders.com/shader/god-rays
@@ -554,8 +554,8 @@ void fragment() {
     COLOR = vec4(shine, rays * color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=29]
-shader = SubResource( 28 )
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
 shader_param/amount = 40
 shader_param/pixelationLevel = 50.0
 shader_param/angle = -0.3
@@ -572,8 +572,8 @@ shader_param/color = Color( 1, 0.65098, 0.831373, 0.537255 )
 shader_param/hdr = false
 shader_param/seed = 10.0
 
-[sub_resource type="ShaderMaterial" id=44]
-shader = SubResource( 28 )
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 17 )
 shader_param/amount = 40
 shader_param/pixelationLevel = 50.0
 shader_param/angle = -0.3
@@ -590,68 +590,7 @@ shader_param/color = Color( 0.65098, 0.772549, 1, 0.537255 )
 shader_param/hdr = false
 shader_param/seed = 10.0
 
-[sub_resource type="Animation" id=17]
-resource_name = "Bounce"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("ColorLeft:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0, 4 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("ColorRight:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0, 4 ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "Left"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("ColorLeft:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 4, 15 ]
-}
-
-[sub_resource type="Animation" id=19]
-resource_name = "Right"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("ColorRight:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 4, 15 ]
-}
-
 [sub_resource type="Animation" id=20]
-resource_name = "Bounce"
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("ColorLeft:frame")
@@ -679,7 +618,63 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=21]
-resource_name = "Left Click"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 4, 15 ]
+}
+
+[sub_resource type="Animation" id=22]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRight:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 4, 15 ]
+}
+
+[sub_resource type="Animation" id=23]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ColorRight:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 4 ]
+}
+
+[sub_resource type="Animation" id=24]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ColorLeft:frame")
 tracks/0/interp = 1
@@ -705,28 +700,28 @@ tracks/1/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=22]
+[sub_resource type="AnimationNodeAnimation" id=25]
 animation = "Bounce"
 
-[sub_resource type="AnimationNodeAnimation" id=23]
+[sub_resource type="AnimationNodeAnimation" id=26]
 animation = "Left Click"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id=26]
-states/Bounce/node = SubResource( 22 )
+[sub_resource type="AnimationNodeStateMachine" id=29]
+states/Bounce/node = SubResource( 25 )
 states/Bounce/position = Vector2( 268, 95 )
-"states/Left Click/node" = SubResource( 23 )
+"states/Left Click/node" = SubResource( 26 )
 "states/Left Click/position" = Vector2( 487, 46 )
-transitions = [ "Bounce", "Left Click", SubResource( 24 ), "Left Click", "Bounce", SubResource( 25 ) ]
+transitions = [ "Bounce", "Left Click", SubResource( 27 ), "Left Click", "Bounce", SubResource( 28 ) ]
 start_node = "Bounce"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=27]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=30]
 
-[sub_resource type="Shader" id=30]
+[sub_resource type="Shader" id=31]
 code = "shader_type canvas_item;
 render_mode unshaded, blend_disabled;
 
@@ -746,13 +741,13 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=31]
-shader = SubResource( 30 )
+[sub_resource type="ShaderMaterial" id=32]
+shader = SubResource( 31 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 7 )
 
-[sub_resource type="Shader" id=32]
+[sub_resource type="Shader" id=33]
 code = "shader_type canvas_item;
 render_mode unshaded, blend_disabled;
 
@@ -772,13 +767,13 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=33]
-shader = SubResource( 32 )
+[sub_resource type="ShaderMaterial" id=34]
+shader = SubResource( 33 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 12 )
 
-[sub_resource type="Shader" id=34]
+[sub_resource type="Shader" id=35]
 code = "shader_type canvas_item;
 render_mode unshaded, blend_disabled;
 
@@ -798,13 +793,13 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=35]
-shader = SubResource( 34 )
+[sub_resource type="ShaderMaterial" id=36]
+shader = SubResource( 35 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 13 )
 
-[sub_resource type="Shader" id=36]
+[sub_resource type="Shader" id=37]
 code = "shader_type canvas_item;
 render_mode unshaded, blend_disabled;
 
@@ -824,13 +819,13 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=37]
-shader = SubResource( 36 )
+[sub_resource type="ShaderMaterial" id=38]
+shader = SubResource( 37 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 7 )
 
-[sub_resource type="Shader" id=38]
+[sub_resource type="Shader" id=39]
 code = "shader_type canvas_item;
 render_mode unshaded, blend_disabled;
 
@@ -850,13 +845,13 @@ void fragment(){
 	COLOR = new_color;										//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=39]
-shader = SubResource( 38 )
+[sub_resource type="ShaderMaterial" id=40]
+shader = SubResource( 39 )
 shader_param/palette_count = 1.0
 shader_param/palette_index = 0.0
 shader_param/palette = ExtResource( 12 )
 
-[sub_resource type="Shader" id=40]
+[sub_resource type="Shader" id=41]
 code = "shader_type canvas_item;
 
 // Amount of detail.
@@ -897,25 +892,25 @@ void fragment() {
 	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
 }"
 
-[sub_resource type="OpenSimplexNoise" id=41]
+[sub_resource type="OpenSimplexNoise" id=42]
 seed = 2
 octaves = 6
 period = 141.8
 persistence = 0.578
 lacunarity = 2.23
 
-[sub_resource type="NoiseTexture" id=42]
-noise = SubResource( 41 )
+[sub_resource type="NoiseTexture" id=43]
+noise = SubResource( 42 )
 
-[sub_resource type="ShaderMaterial" id=43]
-shader = SubResource( 40 )
+[sub_resource type="ShaderMaterial" id=44]
+shader = SubResource( 41 )
 shader_param/octaves = 2
 shader_param/starting_amplitude = 0.5
 shader_param/starting_frequency = 1.188
 shader_param/shift = -0.088
 shader_param/velocity = Vector2( 1, 1 )
 shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
-shader_param/noise = SubResource( 42 )
+shader_param/noise = SubResource( 43 )
 
 [node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
@@ -1030,7 +1025,6 @@ __meta__ = {
 [node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 texture = ExtResource( 1 )
 hframes = 3
-frame = 2
 
 [node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
@@ -1041,7 +1035,6 @@ material = SubResource( 4 )
 position = Vector2( 100, 0 )
 texture = ExtResource( 28 )
 hframes = 10
-frame = 2
 
 [node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 texture = ExtResource( 5 )
@@ -1098,7 +1091,7 @@ active = true
 parameters/playback = SubResource( 16 )
 
 [node name="LeftSpotlight" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 29 )
+material = SubResource( 18 )
 margin_left = -7.69795
 margin_top = -15.0705
 margin_right = 88.3021
@@ -1135,10 +1128,10 @@ tangential_accel = -100.0
 color = Color( 0.980392, 0.760784, 1, 0.643137 )
 
 [node name="RightSpotlight" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 44 )
-margin_left = 476.91
+material = SubResource( 19 )
+margin_left = 484.483
 margin_top = -13.967
-margin_right = 572.91
+margin_right = 580.483
 margin_bottom = 190.033
 rect_scale = Vector2( -1, 1 )
 __meta__ = {
@@ -1157,9 +1150,9 @@ scale = Vector2( 2, -2 )
 
 [node name="Animation" type="AnimationPlayer" parent="CanvasLayer/P1ColorSelect"]
 autoplay = "Bounce"
-anims/Bounce = SubResource( 17 )
-anims/Left = SubResource( 18 )
-anims/Right = SubResource( 19 )
+anims/Bounce = SubResource( 20 )
+anims/Left = SubResource( 21 )
+anims/Right = SubResource( 22 )
 
 [node name="ColorLeft" type="Sprite" parent="CanvasLayer/P1ColorSelect"]
 position = Vector2( 27, 0 )
@@ -1173,7 +1166,7 @@ texture = ExtResource( 29 )
 hframes = 16
 
 [node name="P2ColorSelect" type="Node2D" parent="CanvasLayer"]
-position = Vector2( 68.5433, 150.308 )
+position = Vector2( 76.5433, 150.308 )
 rotation = 3.14159
 scale = Vector2( 2, -2 )
 
@@ -1183,38 +1176,38 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 3
+frame = 1
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P2ColorSelect"]
 position = Vector2( -191.789, 0 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 3
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/P2ColorSelect"]
-anims/Bounce = SubResource( 20 )
-"anims/Left Click" = SubResource( 21 )
+anims/Bounce = SubResource( 23 )
+"anims/Left Click" = SubResource( 24 )
 
 [node name="AnimationTree" type="AnimationTree" parent="CanvasLayer/P2ColorSelect"]
-tree_root = SubResource( 26 )
+tree_root = SubResource( 29 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 27 )
+parameters/playback = SubResource( 30 )
 
 [node name="P2Selected" type="Position2D" parent="CanvasLayer"]
-position = Vector2( 430, 145 )
+position = Vector2( 440, 145 )
 
 [node name="GLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 22 )]
 visible = false
 frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 23 )]
-material = SubResource( 31 )
+material = SubResource( 32 )
 frame = 158
 
 [node name="SLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 8 )]
 visible = false
-material = SubResource( 33 )
+material = SubResource( 34 )
 use_parent_material = true
 
 [node name="P1Selected" type="Position2D" parent="CanvasLayer"]
@@ -1222,20 +1215,20 @@ position = Vector2( 45, 145 )
 
 [node name="GLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 22 )]
 visible = false
-material = SubResource( 35 )
+material = SubResource( 36 )
 frame = 158
 
 [node name="OLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 23 )]
-material = SubResource( 37 )
+material = SubResource( 38 )
 frame = 158
 
 [node name="SLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 8 )]
 visible = false
-material = SubResource( 39 )
+material = SubResource( 40 )
 frame = 108
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 43 )
+material = SubResource( 44 )
 margin_top = -20.0
 margin_right = 480.0
 margin_bottom = 270.0

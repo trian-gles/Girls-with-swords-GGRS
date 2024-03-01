@@ -20,5 +20,3 @@ func _on_Timer_timeout():
 		self.text = visibleText
 		print("Current Text:", visibleText)  # Debugging message
 		print("Current Character Index:", currentCharacter)  # Debugging message
-	else:
-		print("Text fully displayed.")

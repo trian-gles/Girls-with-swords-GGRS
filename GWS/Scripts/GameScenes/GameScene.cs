@@ -155,6 +155,7 @@ public class GameScene : BaseGame
 		Globals.Log($"Starting game config on frame {frame}");
 		((MainGFX)GetNode("MainGFX")).Init(bkg);
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
+		HUD.Layer = 1;
 
 		//p1
 		var playerOne = charScenes[playerOneIndex];
@@ -662,6 +663,7 @@ public class GameScene : BaseGame
 	public void ResetHealth(string player)
 	{
 		OnPlayerHealthChange(player, 1600);
+		
 
 		if (player == "P1")
 		{
@@ -723,6 +725,7 @@ public class GameScene : BaseGame
 		P1.QueueFree();
 		P2.QueueFree();
 		configured = false;
+		HUD.Layer = -1;
 	}
 
 	public void ConnectTrainingSignals(TrainingManager manager)

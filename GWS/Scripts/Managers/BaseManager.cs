@@ -42,8 +42,12 @@ public class BaseManager : Node2D
 	[Export]
 	protected PackedScene packedCharSelectScene;
 
+	[Export]
+	protected PackedScene packedWinScene;
+
 	protected GameScene gameScene;
 	protected CharSelectScene charSelectScene;
+	protected WinScene winScene;
 
 	[Signal]
 	public delegate void Finished(string nextGame);
@@ -64,9 +68,16 @@ public class BaseManager : Node2D
 		currGame = charSelectScene;
 		
 		gameScene = packedGameScene.Instance() as GameScene;
+		GD.Print(packedGameScene);
 		gameScene.Connect("GameWon", this, nameof(OnGameWon));
 		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
 		AddChild(gameScene);
+
+		winScene = packedWinScene.Instance() as WinScene;
+		GD.Print(packedWinScene);
+		GD.Print(winScene);
+		winScene.Connect("Rematch", this, nameof(OnRematch));
+		AddChild(winScene);
 
 
 		charSelectScene.ChangeHUDText("");
@@ -113,9 +124,9 @@ public class BaseManager : Node2D
 	/// <param name="winner"></param>
 	public virtual void OnGameWon(string winner)
 	{
-		charSelectScene.Reload();
-		currGame = charSelectScene;
-		MoveChild(gameScene, 0);
+		winScene.Config(winner);
+		currGame = winScene;
+		MoveChild(winScene, 0);
 		
 	}
 
@@ -135,6 +146,13 @@ public class BaseManager : Node2D
 
 	public virtual void OnComboFinished(string player)
 	{
+	}
+
+	public virtual void OnRematch()
+	{
+		charSelectScene.Reload();
+		currGame = charSelectScene;
+		MoveChild(gameScene, 0);
 	}
 
 	protected int GetInputs(string end)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/SnailWin.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/GameScenes/WinScene.cs" type="Script" id=2]
+
+[node name="WinScreen" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="SnailWin" type="Sprite" parent="CanvasLayer"]
+visible = false
+texture = ExtResource( 1 )
+centered = false

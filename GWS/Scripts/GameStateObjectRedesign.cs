@@ -350,6 +350,7 @@ public class GameStateObjectRedesign : Node
 		{
 			entry.Value.AlwaysUpdate();
 		}
+		HandleHadoukenCollisions();
 	}
 
 	/// <summary>
@@ -567,6 +568,36 @@ public class GameStateObjectRedesign : Node
 	public void RemoveHadouken(HadoukenPart h)
 	{
 		deleteQueued.Add(h);
+	}
+
+	private void HandleHadoukenCollisions()
+    {
+		HashSet<string> handledHadoukens = new HashSet<string>();
+		foreach (KeyValuePair<string, HadoukenPart> h in hadoukens)
+        {
+			handledHadoukens.Add(h.Key);
+			if (!h.Value.active)
+            {
+				continue;
+            }
+			foreach (KeyValuePair<string, HadoukenPart> otherH in hadoukens)
+            {
+				if (handledHadoukens.Contains(otherH.Key) || !otherH.Value.active)
+                {
+					continue;
+                }
+
+				var rect1 = h.Value.GetCollisionRect();
+				var rect2 = otherH.Value.GetCollisionRect();
+				if (rect1.Intersects(rect2))
+                {
+					h.Value.HandleOverlap();
+					otherH.Value.HandleOverlap();
+                }
+            }
+
+		}
+
 	}
 	
 }

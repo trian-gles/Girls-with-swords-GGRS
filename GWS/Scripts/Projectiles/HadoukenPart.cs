@@ -78,7 +78,7 @@ public class HadoukenPart : Node2D
 
 	public string ownerName;
 
-	protected bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
+	public bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
 
 	public int creationFrame;
 
@@ -247,6 +247,23 @@ public class HadoukenPart : Node2D
 		return false;
 	}
 
+	public void HandleOverlap()
+	{
+		GD.Print("Handling overlap");
+		hits--;
+		if (hits <= 0)
+		{
+			GD.Print("Out of hits, making inactive");
+			MakeInactive();
+		}
+			
+	}
+
+	public Rect2 GetCollisionRect()
+	{
+		return GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
+	}
+
 	protected virtual void HurtPlayer()
 	{
 		// fill this with harmful stuff!!!!
@@ -277,6 +294,7 @@ public class HadoukenPart : Node2D
 	protected virtual void MakeInactive()
 	{
 		Globals.Log("making hadouken inactive");
+		GD.Print("Making hadouken inactive");
 		if (dieAfterHit)
 			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
 		active = false;

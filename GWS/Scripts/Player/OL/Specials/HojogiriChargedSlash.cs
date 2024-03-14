@@ -4,9 +4,9 @@ using System;
 public class HojogiriChargedSlash : MovingAttack
 {
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		AddJumpCancel();
 
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");

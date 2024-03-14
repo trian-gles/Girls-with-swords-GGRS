@@ -218,7 +218,7 @@ public class HadoukenPart : Node2D
 		}
 		if (active && hits == 0)
 		{
-			if (CheckRect() && (frame < duration | duration == 0))
+			if (CheckRect() && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln()))
 			{
 				HurtPlayer();
 			}

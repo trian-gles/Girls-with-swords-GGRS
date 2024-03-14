@@ -26,7 +26,7 @@ public class BaseManager : Node2D
 	/// playing back recorded matches
 	/// </summary>
 	protected bool playbackMatch = false;
-	private string matchFilename = "desync-1-12-24";
+	private string matchFilename = "coolgrab2";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>

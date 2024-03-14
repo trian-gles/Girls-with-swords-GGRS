@@ -1525,7 +1525,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -11, 0 ) ]
+"values": [ Vector2( -11, 8 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:shape:extents")
@@ -1537,7 +1537,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 20, 22 ) ]
+"values": [ Vector2( 20, 30 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB2:disabled")
@@ -7886,10 +7886,10 @@ position = Vector2( -2, 0 )
 position = Vector2( 22, 9 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 17, 1 )
+disabled = false
 
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( -25, -15 )
+[node name="HurtB3" parent="HurtBoxes" index="2"]
+position = Vector2( 10, 30 )
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 2 )
@@ -7897,7 +7897,7 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 58
+frame = 130
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -7935,17 +7935,20 @@ launch = Vector2( 0, -400 )
 
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
+projectileInvulnFrames = 30
 len = 25
 speed = 700
 turnFrame = 13
 
 [node name="CommandRun" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 22 )
+projectileInvulnFrames = 10
 speed = 650
 checkTurnFrame = 5
 
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 17 )
+projectileInvulnFrames = 15
 speed = 700
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="24"]
@@ -7961,6 +7964,7 @@ chEffect = 1
 knockdown = true
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+projectileInvulnFrames = 5
 
 [node name="DoubleJump" parent="StateTree" index="25"]
 script = ExtResource( 20 )

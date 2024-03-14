@@ -86,6 +86,9 @@ public abstract class BaseAttack : State
 	public int grabInvulnFrames = 0;
 
 	[Export]
+	public int projectileInvulnFrames = 0;
+
+	[Export]
 	public bool exitOnHit = false;
 
 	public enum EXTRAEFFECT
@@ -321,6 +324,11 @@ public abstract class BaseAttack : State
     {
         base.Exit();
 		owner.ZIndex = 0;
+    }
+
+    public override bool IsProjectileInvuln()
+    {
+		return frameCount <= projectileInvulnFrames;
     }
 
 

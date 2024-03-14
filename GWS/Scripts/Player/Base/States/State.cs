@@ -595,6 +595,11 @@ public abstract class State : Node
 		return true;
     }
 
+	public virtual bool IsProjectileInvuln()
+    {
+		return false;
+    }
+
 	/// <summary>
 	/// Just advances the frameCount, please make a base. call anyways though!
 	/// </summary>

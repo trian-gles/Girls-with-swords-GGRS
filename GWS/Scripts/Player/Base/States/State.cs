@@ -358,6 +358,7 @@ public abstract class State : Node
 		AddGatling(new[] { 'p', 'p' }, "Jab");
 		AddGatling(new[] { 'k', 'p' }, "Kick");
 		AddGatling(new[] { 's', 'p' }, "Slash");
+		AddGatling(new[] { 'b', 'p' }, "Jab");
 	}
 
 	protected void AddAirCommandNormals(List<Player.CommandNormal> commandNormals)

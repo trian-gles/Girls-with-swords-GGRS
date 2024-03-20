@@ -11,6 +11,7 @@ public class CrouchB : GroundAttack
 		AddExSpecials(owner.groundExSpecials);
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 		AddGatling(new char[] { 's', 'p' }, "Slash");
+		AddGatling(new char[] { 'b', 'p' }, "Slash");
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

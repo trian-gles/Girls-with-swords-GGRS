@@ -15,7 +15,8 @@ public class Jab : GroundAttack
 		AddGatling(new char[] { 'p', 'p' }, "Jab");
 		AddGatling(new char[] { 'k', 'p' }, "Kick");
 		AddGatling(new char[] { 's', 'p' }, "Slash");
+		AddGatling(new char[] { 'b', 'p' }, "Kick");
 
-		
+
 	}
 }

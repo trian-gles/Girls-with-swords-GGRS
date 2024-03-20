@@ -8,6 +8,7 @@ public class Slash : GroundAttack
 	{
 		base._Ready();
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+		AddGatling(new char[] { 'b', 'p' }, "CrouchC");
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
 		AddCommandNormals(owner.commandNormals);

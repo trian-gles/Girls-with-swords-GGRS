@@ -586,7 +586,8 @@ public class GameStateObjectRedesign : Node
                 {
 					continue;
                 }
-
+				if (h.Value.ownerName == otherH.Value.ownerName)
+					continue;
 				var rect1 = h.Value.GetCollisionRect();
 				var rect2 = otherH.Value.GetCollisionRect();
 				if (rect1.Intersects(rect2))

@@ -29,11 +29,19 @@ public class ComNorm : GroundAttack
 		}
 
 		if (sweepCancel)
+		{
 			AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+			AddGatling(new char[] { 'b', 'p' }, "CrouchC");
+		}
+			
 
 
 		if (slashCancel)
+		{
 			AddGatling(new char[] { 's', 'p' }, "Slash");
+			AddGatling(new char[] { 'b', 'p' }, "Slash");
+		}
+			
 
 
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");

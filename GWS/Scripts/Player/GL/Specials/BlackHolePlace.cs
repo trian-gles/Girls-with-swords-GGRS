@@ -15,7 +15,6 @@ public class BlackHolePlace : Hadouken
         if (gl.BlackHolesTotal > 1)
         {
             EmitSignal(nameof(StateFinished), "Fall");
-            GD.Print("Too many black holes");
             return;
         }
             

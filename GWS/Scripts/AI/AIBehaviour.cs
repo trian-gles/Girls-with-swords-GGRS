@@ -13,18 +13,32 @@ public class AIBehaviour
     private Dictionary<string, BehaviourState> behaviourStates = new Dictionary<string, BehaviourState>
     {
         {"Abare", new Abare() },
-        {"Combo", new Combo(new List<int>{ 32, 64, 66 }, new List<int>{1, 36, 60 }) },
+        {"Combo", new Combo() },
         {"RandomMash", new RandomMash() },
         {"Chase", new Chase() },
         {"FloatTech", new FloatTech() },
-        {"Zone", new Zone() }
+        {"Zone", new Zone() },
+        {"Oki", new Oki() }
     };
 
     // Global behaviours that must be saved here
     public static HashSet<string> floatStates = new HashSet<string>() { "Float", "WallBounce", "GroundBounce"};
 
+    public static HashSet<string> groundHitConfirmStates = new HashSet<string>
+    {
+        "HitStun",
+        "Stagger",
+        "Block",
+        "CrouchBlock"
+    };
+
     public AIBehaviour()
     {
+        foreach (var b in behaviourStates.Values)
+        {
+            b.Init(this);
+        }
+
         behaviour = behaviourStates["Chase"];
         behaviour.Init(this);
     }

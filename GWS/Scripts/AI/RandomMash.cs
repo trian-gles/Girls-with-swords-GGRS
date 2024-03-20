@@ -15,6 +15,9 @@ public class RandomMash : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
+        if (AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
+            return "Combo";
+
         if (Math.Abs(state.P1State.position[0] - state.P2State.position[0]) > 4000)
         {
             if (random.Next(2) == 1)

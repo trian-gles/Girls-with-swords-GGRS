@@ -9,6 +9,7 @@ var visibleText: String = ""
 onready var characterTimer := $Timer
 
 func _ready():
+# warning-ignore:return_value_discarded
 	characterTimer.connect("timeout", self, "_on_Timer_timeout")
 	characterTimer.wait_time = delayBetweenCharacters
 	characterTimer.autostart = true
@@ -18,5 +19,5 @@ func _on_Timer_timeout():
 		visibleText += fullText[currentCharacter]
 		currentCharacter += 1
 		self.text = visibleText
-		print("Current Text:", visibleText)  # Debugging message
-		print("Current Character Index:", currentCharacter)  # Debugging message
+		#print("Current Text:", visibleText)  # Debugging message
+		#print("Current Character Index:", currentCharacter)  # Debugging message

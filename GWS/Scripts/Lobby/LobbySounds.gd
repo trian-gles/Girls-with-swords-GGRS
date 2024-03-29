@@ -23,7 +23,7 @@ func _input(event):
 	if event.is_action_pressed("2") or event.is_action_pressed("8"):
 		can_scroll = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	can_scroll = false
 
 func focus_entered():

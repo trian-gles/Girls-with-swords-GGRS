@@ -7,7 +7,7 @@ var snails_to_draw = []
 func _ready():
 	pass # Replace with function body.
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	update()
 
 func draw_snail(glob_x: int, color: Color):

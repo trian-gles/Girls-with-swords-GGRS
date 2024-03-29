@@ -30,8 +30,10 @@ func _ready():
 	
 	#SIGNALS
 	#connect ReturnToInGameMenu to hide overlay
+# warning-ignore:return_value_discarded
 	Events.connect("BackPressed", self, "hide_overlay")
 	#changing profiles triggers rebuild
+# warning-ignore:return_value_discarded
 	$InputMapper.connect('profile_changed', self, 'rebuild')
 	
 	#called once on ready
@@ -68,7 +70,6 @@ func rebuild(input_profile, is_customizable=false, id=0, player_id=0):
 		var line = current_action_list.add_input_line(action_name, \
 			input_profile[action_name][0], is_customizable, id, player_id)
 		if is_customizable:
-			print("Move name sending to input change button pressed ",action_name)
 			#connect key customize function
 			line.connect('change_button_pressed', self, \
 				'_on_InputLine_change_button_pressed', [action_name, line,player_id])
@@ -78,7 +79,6 @@ func _on_InputLine_change_button_pressed(action_name, line,player_id):
 	set_process_input(false)
 	
 	var key_arguments
-	var current_customkeys
 	
 	#show rebind dialog
 	if player_id == 1:
@@ -93,7 +93,7 @@ func _on_InputLine_change_button_pressed(action_name, line,player_id):
 	var key_device = key_arguments[1]
 	
 	#pass arguments to change function
-	print("Sending ",action_name," to change function.")
+	#print("Sending ",action_name," to change function.")
 	
 	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
 	line.update_key(key_scancode)
@@ -122,7 +122,7 @@ func save_JSON():
 		"P2CustomButtons" : $InputMapper.profile_2pfightstick
 	}
 	
-	print("Saving Controller Config",value_data)
+	#print("Saving Controller Config",value_data)
 	var file
 	file = File.new()
 	file.open(save_path, File.WRITE)
@@ -146,7 +146,7 @@ func load_JSON():
 	else:
 		print("Error loading Config, not found")
 	
-	print("Changing controller profiles to config values")
+	#print("Changing controller profiles to config values")
 	#load p1 custom buttons
 	for buttons in ControllerConfigValues["P1CustomButtons"]:
 		$InputMapper.profile_fightstick[buttons] = ControllerConfigValues["P1CustomButtons"][buttons]

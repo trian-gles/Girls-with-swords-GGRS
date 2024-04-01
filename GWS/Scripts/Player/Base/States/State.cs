@@ -38,9 +38,9 @@ public abstract class State : Node
 	/// The animation that should be called upon entering
 	/// </summary>
 	public virtual string animationName
-    {
+	{
 		get { return Name;  }
-    }
+	}
 
 	protected float animationLength;
 
@@ -371,14 +371,14 @@ public abstract class State : Node
 	}
 
 	protected void AddCommandNormal(Player.CommandNormal cn)
-    {
+	{
 		if (!cn.crouching)
-        {
+		{
 			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2'), cn.state);
 			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2'), cn.state);
 		}
 		else
-        {
+		{
 			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2'), cn.state);
 			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2'), cn.state);
 		}
@@ -469,8 +469,8 @@ public abstract class State : Node
 					}
 
 					if (comGat.postCall != null)
-                    {
-                        comGat.postCall();
+					{
+						comGat.postCall();
 					}
 
 					// this gatling doesn't actually lead to a state (confusing, I know)
@@ -510,7 +510,7 @@ public abstract class State : Node
 	/// </summary>
 	/// <param name="inputArr"></param>
 	public void HandleRhythmInput(char[] inputArr)
-    {
+	{
 
 		if (frameCount < 4 || owner.rhythmState != "") // better way to handle this probs
 			return;
@@ -570,9 +570,9 @@ public abstract class State : Node
 	/// Called at the end of hitstop.  Stored in state because the input manager has access to it
 	/// </summary>
 	public void TryEnterRhythmState()
-    {
+	{
 		if (owner.rhythmStateConfirmed)
-        {
+		{
 			string enterState = String.Copy(owner.rhythmState);
 			owner.rhythmState = "";
 			owner.rhythmStateConfirmed = false;
@@ -580,7 +580,7 @@ public abstract class State : Node
 			EmitSignal(nameof(StateFinished), enterState);
 
 		}
-    }
+	}
 
 	/// <summary>
 	/// If the current state should keep inputs in the unhandled buffer
@@ -592,14 +592,14 @@ public abstract class State : Node
 	}
 
 	public virtual bool CollisionActive()
-    {
+	{
 		return true;
-    }
+	}
 
 	public virtual bool IsProjectileInvuln()
-    {
+	{
 		return false;
-    }
+	}
 
 	/// <summary>
 	/// Just advances the frameCount, please make a base. call anyways though!
@@ -715,7 +715,7 @@ public abstract class State : Node
 	}
 
 	protected void HandleHitGFX(BaseAttack.GRAPHICEFFECT gfx)
-    {
+	{
 		if (gfx == BaseAttack.GRAPHICEFFECT.EXPLOSION)
 		{
 			owner.GFXEvent("Explosion");
@@ -889,15 +889,15 @@ public abstract class State : Node
 	}
 
 	public void ResetTerminalVelocity()
-    {
+	{
 		owner.terminalVelocity = owner.standardTerminalVelocity;
-    }
+	}
 
 	/// <summary>
 	/// Certain states will ignore changed terminal velocities at times, such as groundbounce
 	/// </summary>
 	public virtual int CheckTerminalVelocity()
-    {
+	{
 		return owner.terminalVelocity;
-    }
+	}
 }

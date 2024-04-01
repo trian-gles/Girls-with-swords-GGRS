@@ -145,10 +145,10 @@ public abstract class BaseAttack : State
 			chDetails.hitStun = modifiedCounterHitStun;
 
 		if (modifiedDmg >0)
-        {
+		{
 			hitDetails.dmg = modifiedDmg;
 			chDetails.dmg = modifiedDmg;
-        }
+		}
 
 		if (modifiedHitPush != 0)
 		{
@@ -181,22 +181,22 @@ public abstract class BaseAttack : State
 	/// <summary>
 	/// WARNING!  If you modify this you must also modify LaunchAttack.cs as it does NOT inherit
 	/// </summary>
-    public override void FrameAdvance()
-    {
-        base.FrameAdvance();
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
 		if (frameCount > 0 && frameCount == superFrame)
-        {
+		{
 			owner.EmitSignal("SuperFlash", owner.Name);
 			owner.GFXEvent("SuperPowerUp");
-        } 
+		} 
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
-        {
+		{
 			hitConnect = false;
 		}
 			
-    }
-    public override void AnimationFinished()
+	}
+	public override void AnimationFinished()
 	{
 		if (owner.grounded)
 			EmitSignal(nameof(StateFinished), "Idle");
@@ -250,14 +250,14 @@ public abstract class BaseAttack : State
 		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		owner.otherPlayer.currentState.ResetTerminalVelocity();
 		if (slowTerminalVelocity != 0)
-        {
+		{
 			owner.otherPlayer.terminalVelocity = slowTerminalVelocity;
-        }
+		}
 		hitConnect = true;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 
 		if (exitOnHit)
-        {
+		{
 			if (owner.grounded)
 				EmitSignal(nameof(StateFinished), "Idle");
 			else
@@ -320,62 +320,62 @@ public abstract class BaseAttack : State
 		ReceiveHitNoBlock(details);
 	}
 
-    public override void Exit()
-    {
-        base.Exit();
+	public override void Exit()
+	{
+		base.Exit();
 		owner.ZIndex = 0;
-    }
+	}
 
-    public override bool IsProjectileInvuln()
-    {
+	public override bool IsProjectileInvuln()
+	{
 		return frameCount <= projectileInvulnFrames;
-    }
+	}
 
 
 
-    //protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-    //{
-    //	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-    //	bool launchBool = false;
-    //	owner.ComboUp();
-    //	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
-    //	{
-    //		GD.Print("Launch is not zero!");
-    //		owner.velocity = launch;
-    //		launchBool = true;
-    //	}
+	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
+	//{
+	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
+	//	bool launchBool = false;
+	//	owner.ComboUp();
+	//	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
+	//	{
+	//		GD.Print("Launch is not zero!");
+	//		owner.velocity = launch;
+	//		launchBool = true;
+	//	}
 
-    //	bool airState = (launchBool || !owner.grounded);
+	//	bool airState = (launchBool || !owner.grounded);
 
-    //	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
-    //	{
-    //		EmitSignal(nameof(StateFinished), "GroundBounce");
-    //	}
-    //	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
-    //	{
-    //		EmitSignal(nameof(StateFinished), "WallBounce");
-    //	}
-    //	else if (launchBool && !knockdown)
-    //	{
-    //		GD.Print("Entering counterfloat from attack");
-    //		EmitSignal(nameof(StateFinished), "CounterFloat");
-    //	}
-    //	else if (airState && knockdown)
-    //	{
-    //		GD.Print("Entering airknockdown from attack");
-    //		EmitSignal(nameof(StateFinished), "AirKnockdown");
-    //	}
-    //	else if (!airState && knockdown)
-    //	{
-    //		GD.Print("Entering knockdown from attack");
-    //		EmitSignal(nameof(StateFinished), "Knockdown");
+	//	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+	//	{
+	//		EmitSignal(nameof(StateFinished), "GroundBounce");
+	//	}
+	//	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
+	//	{
+	//		EmitSignal(nameof(StateFinished), "WallBounce");
+	//	}
+	//	else if (launchBool && !knockdown)
+	//	{
+	//		GD.Print("Entering counterfloat from attack");
+	//		EmitSignal(nameof(StateFinished), "CounterFloat");
+	//	}
+	//	else if (airState && knockdown)
+	//	{
+	//		GD.Print("Entering airknockdown from attack");
+	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
+	//	}
+	//	else if (!airState && knockdown)
+	//	{
+	//		GD.Print("Entering knockdown from attack");
+	//		EmitSignal(nameof(StateFinished), "Knockdown");
 
-    //	}
-    //	else
-    //	{
-    //		EmitSignal(nameof(StateFinished), "CounterHit");
-    //	}
-    //}
+	//	}
+	//	else
+	//	{
+	//		EmitSignal(nameof(StateFinished), "CounterHit");
+	//	}
+	//}
 
 
 }

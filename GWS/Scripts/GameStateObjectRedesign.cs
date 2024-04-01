@@ -155,7 +155,7 @@ public class GameStateObjectRedesign : Node
 		GameState oldState = Deserialize<GameState>(buffer);
 		string error = CompareGameStates(oldState, GetGameState());
 		if (error != "")
-        {
+		{
 			GD.Print($"Frame {Globals.frame} {error}");
 		}
 			
@@ -526,15 +526,15 @@ public class GameStateObjectRedesign : Node
 	}
 
 	public void ResetHadoukens()
-    {
+	{
 		foreach (HadoukenPart h in hadoukens.Values)
-        {
+		{
 			h.RemoveNum();
 			h.QueueFree();
 			mainScene.RemoveChild(h);
 		}
 		hadoukens.Clear();
-    }
+	}
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{
 		hadoukens.Remove(h.Name);
@@ -550,20 +550,20 @@ public class GameStateObjectRedesign : Node
 		h.creationFrame = Globals.frame;
 
 		if (h is Snail)
-        {
+		{
 			mainScene.ConnectSnail((Snail)h);
-        }
+		}
 	}
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)
-    {
+	{
 		//Globals.Log($"Hadouken command sent from {playerName} for hadouken {hadName}");
 		foreach (HadoukenPart h in hadoukens.Values)
-        {
+		{
 			if (h.hadoukenType == hadName && playerName == h.ownerName)
 				h.ReceiveCommand(command);
-        }
-    }
+		}
+	}
 
 	public void RemoveHadouken(HadoukenPart h)
 	{
@@ -571,31 +571,31 @@ public class GameStateObjectRedesign : Node
 	}
 
 	private void HandleHadoukenCollisions()
-    {
+	{
 		HashSet<string> handledHadoukens = new HashSet<string>();
 		foreach (KeyValuePair<string, HadoukenPart> h in hadoukens)
-        {
+		{
 			handledHadoukens.Add(h.Key);
 			if (!h.Value.active)
-            {
+			{
 				continue;
-            }
+			}
 			foreach (KeyValuePair<string, HadoukenPart> otherH in hadoukens)
-            {
+			{
 				if (handledHadoukens.Contains(otherH.Key) || !otherH.Value.active)
-                {
+				{
 					continue;
-                }
+				}
 				if (h.Value.ownerName == otherH.Value.ownerName)
 					continue;
 				var rect1 = h.Value.GetCollisionRect();
 				var rect2 = otherH.Value.GetCollisionRect();
 				if (rect1.Intersects(rect2))
-                {
+				{
 					h.Value.HandleOverlap();
 					otherH.Value.HandleOverlap();
-                }
-            }
+				}
+			}
 
 		}
 

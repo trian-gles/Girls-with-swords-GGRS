@@ -59,10 +59,10 @@ public class Player : Node2D
 	[Export]
 	public int jumpForce = 800;
 
-    [Export]
-    public int superJumpForce = 1100;
+	[Export]
+	public int superJumpForce = 1100;
 
-    [Export]
+	[Export]
 	public int gravity = 50;
 
 	public int standardTerminalVelocity = 1100;
@@ -128,8 +128,8 @@ public class Player : Node2D
 	private int combo = 0;
 	public int proration = 32;
 	public bool canDoubleJump;
-    public bool canAirDash;
-    public int invulnFrames = 0;
+	public bool canAirDash;
+	public int invulnFrames = 0;
 	public int airDashFrames = 0;
 	public int grabInvulnFrames = 0;
 	public string lastStateName = "Idle";
@@ -163,8 +163,8 @@ public class Player : Node2D
 		public string currentState { get; set; }
 		public Dictionary<string, int> stateData { get; set; }
 		public bool canDoubleJump { get; set; }
-        public bool canAirDash { get; set; }
-        public bool hitConnect { get; set; }
+		public bool canAirDash { get; set; }
+		public bool hitConnect { get; set; }
 		public int frameCount { get; set; }
 		public int stunRemaining { get; set; }
 		public int hitPushRemaining { get; set; }
@@ -357,7 +357,7 @@ public class Player : Node2D
 		}
 
 		pState.canDoubleJump = canDoubleJump;
-        pState.canAirDash = canAirDash;
+		pState.canAirDash = canAirDash;
 		pState.currentState = currentState.Name;
 		pState.stateData = currentState.Save();
 		pState.frameCount = currentState.frameCount;
@@ -394,14 +394,14 @@ public class Player : Node2D
 	}
 
 	protected virtual Dictionary<string, int> GetStateCharSpecific()
-    {
+	{
 		return new Dictionary<string, int>();
-    }
+	}
 
 	protected virtual void SetStateCharSpecific(Dictionary<string, int> dict)
-    {
+	{
 
-    }
+	}
 
 	public void SetState(PlayerState pState)
 	{
@@ -420,7 +420,7 @@ public class Player : Node2D
 		sprite.FlipH = pState.flipH;
 		hitPushRemaining = pState.hitPushRemaining;
 		canDoubleJump = pState.canDoubleJump;
-        canAirDash = pState.canAirDash;
+		canAirDash = pState.canAirDash;
 		health = pState.health;
 		meter = pState.meter;
 		terminalVelocity = pState.terminalVelocity;
@@ -653,9 +653,9 @@ public class Player : Node2D
 				return;
 			}
 			else
-            {
+			{
 				playerState.TryEnterRhythmState(); // only enter rhythm gatlings outside of hitstop
-            }
+			}
 
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
@@ -740,7 +740,7 @@ public class Player : Node2D
 	}
 
 	public float GetAnimationLength(string anim)
-    {
+	{
 		if (animationPlayer is null)
 			animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		var foundAnim = animationPlayer.GetAnimation(anim);
@@ -748,7 +748,7 @@ public class Player : Node2D
 			return foundAnim.Length;
 		else
 			return 0;
-    }
+	}
 
 	protected void AddAltState(string baseState)
 	{ altState.Add(baseState); }
@@ -869,7 +869,7 @@ public class Player : Node2D
 		currentState.FrameAdvance();
 		CharSpecificFrameAdvance();
 		if (invulnFrames > 0)
-        {
+		{
 			invulnFrames--;
 			Globals.Log($"lowering invuln frames to {invulnFrames}");
 		}
@@ -908,9 +908,9 @@ public class Player : Node2D
 	}
 
 	private void MoveSlideDeterministic()
-    {
+	{
 
-    }
+	}
 
 	/// <summary>
 	/// Updates the remaining hitpush and adjusts the player accordingly.  does NOT use velocity
@@ -1056,9 +1056,9 @@ public class Player : Node2D
 	}
 
 	public int GetDistToOtherPlayer()
-    {
+	{
 		return Math.Abs((int)internalPos.x - (int)otherPlayer.internalPos.x);
-    }
+	}
 
 	/// <summary>
 	/// Called to check if the player should change directions.  Always called when changing states.  Some states call this in their FrameAdvance() methods.
@@ -1143,10 +1143,10 @@ public class Player : Node2D
 	{
 		receivedHit = hitDetails;
 		if (currentState.Name == "Knockdown")
-        {
+		{
 			receivedHit = Globals.otgHit;
 			invulnFrames = 8;
-        }
+		}
 
 		if (currentState.isCounter)
 		{
@@ -1181,7 +1181,7 @@ public class Player : Node2D
 	}
 
 	public void CalculatePlusFrames(int opponentStun)
-    {
+	{
 
 		if (!currentState.tags.Contains("attack"))
 			return;
@@ -1190,7 +1190,7 @@ public class Player : Node2D
 		plusText.Init(diff);
 		AddChild(plusText);
 		
-    }
+	}
 
 	public bool HurtboxesInactive()
 	{
@@ -1229,9 +1229,9 @@ public class Player : Node2D
 	}
 
 	public void CommandHadouken(string hadName, HadoukenPart.ProjectileCommand command)
-    {
+	{
 		EmitSignal(nameof(HadoukenCommand), Name, hadName, command);
-    }
+	}
 
 	public void ResetComboAndProration()
 	{
@@ -1257,7 +1257,7 @@ public class Player : Node2D
 	}
 
 	public void GainMeter(int gains)
-    {
+	{
 		meter = Math.Min(meter + gains, 10000);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 	}
@@ -1277,17 +1277,17 @@ public class Player : Node2D
 	}
 
 	public void ConfirmRhythmHit()
-    {
+	{
 		rhythmStateConfirmed = true;
-    }
+	}
 
 	public void RhythmHitFailure()
-    {
+	{
 		currentState.EmitSignal(nameof(State.StateFinished), "Jive");
-    }
+	}
 
 	public bool CheckOverrideBlock()
-    {
+	{
 		return ((!trainingControlledPlayer && Globals.alwaysBlock) || aiControlled);
 
 	}
@@ -1329,11 +1329,11 @@ public class Player : Node2D
 	}
 
 	public bool AreHitboxesActive()
-    {
+	{
 		return GetRects(hitBoxes, false).Count() > 0;
 
 		
-    }
+	}
 
 	public bool IsInvuln()
 	{
@@ -1422,9 +1422,9 @@ public class Player : Node2D
 	}
 
 	public bool CheckCollisionRectActive()
-    {
+	{
 		return currentState.CollisionActive();
-    }
+	}
 
 	/// <summary>
 	/// Used for training mode

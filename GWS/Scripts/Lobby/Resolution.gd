@@ -38,7 +38,7 @@ func _ready():
 
 	center_game_window()
 
-func load_resolution_from_json(dict: ResolutionDictionary) -> String:
+func load_resolution_from_json(_dict: ResolutionDictionary) -> String:
 	var jsonPath = "user://resolution.json"
 	var file = File.new()
 	if file.file_exists(jsonPath):
@@ -48,7 +48,7 @@ func load_resolution_from_json(dict: ResolutionDictionary) -> String:
 
 		var resolutionData = JSON.parse(jsonString)
 		var currentResolution = resolutionData.result["resolution"]
-		print("Loaded resolution from JSON: ", currentResolution)
+		#print("Loaded resolution from JSON: ", currentResolution)
 		return currentResolution
 
 	return ""
@@ -58,7 +58,7 @@ func apply_resolution(currentResolution: String, dict: ResolutionDictionary) -> 
 
 	# Apply the resolution to the game's window size
 	OS.window_size = resolution
-	print("Resolution applied: ", resolution)
+	#print("Resolution applied: ", resolution)
 
 func save_resolution_to_json(currentResolution: String) -> void:
 	var resolutionData = {
@@ -72,7 +72,7 @@ func save_resolution_to_json(currentResolution: String) -> void:
 	file.open(savePath, File.WRITE)
 	file.store_string(jsonString)
 	file.close()
-	print("Resolution saved to JSON file.")
+	#print("Resolution saved to JSON file.")
 
 func populate_option_button(optionButton: OptionButton, dict: ResolutionDictionary) -> void:
 	var resolutionKeys = dict.resolutions.keys()
@@ -90,4 +90,4 @@ func center_game_window() -> void:
 	var screenSize = OS.get_screen_size()
 	var newPosition = (screenSize - windowSize) / 2
 	OS.set_window_position(newPosition)
-	print("Game window centered.")
+	#print("Game window centered.")

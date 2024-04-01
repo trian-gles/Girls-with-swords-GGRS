@@ -56,11 +56,11 @@ func change_profile(profile_id, player_id):
 	if player_id == 0:
 		current_profile_id = profile_id
 		profile = player1_profiles[profile_id]
-		print("Player 1 Profile:",profile)
+		#print("Player 1 Profile:",profile)
 	else:
 		current_2p_profile_id = profile_id
 		profile = player2_profiles[profile_id]
-		print("Player 2 Profile:",profile)
+		#print("Player 2 Profile:",profile)
 	
 	#all profiles are customizable now
 	var is_customizable = true 

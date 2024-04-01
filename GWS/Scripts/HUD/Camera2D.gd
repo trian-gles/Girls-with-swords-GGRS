@@ -14,7 +14,7 @@ func adjust(p1_pos : Vector2, p2_pos : Vector2):
 	camera_rect = camera_rect.expand(p2_pos)
 	
 	var desired_zoom = calculate_zoom(camera_rect, viewport_rect.size)
-	var desired_offset = calculate_center(camera_rect, desired_zoom)
+	var desired_offset = calculate_center(camera_rect)
 	
 	offset = offset.linear_interpolate(desired_offset, 0.5)
 	zoom = zoom.linear_interpolate(desired_zoom, 0.5)
@@ -42,7 +42,7 @@ func adjust(p1_pos : Vector2, p2_pos : Vector2):
 	if x_above < 0:
 		offset.x += x_above
 
-func calculate_center(rect: Rect2, desired_zoom: Vector2) -> Vector2:
+func calculate_center(rect: Rect2) -> Vector2:
 	var center = Vector2(
 		rect.position.x + rect.size.x / 2,
 		rect.position.y + rect.size.y / 2

@@ -28,7 +28,7 @@ func _on_BackButton_pressed(): #save current audio settings to config
 	save_JSON()
 	
 func save_JSON():
-	print("Saving Audio Config",value_data)
+	#print("Saving Audio Config",value_data)
 	var file
 	file = File.new()
 	file.open(save_path, File.WRITE)

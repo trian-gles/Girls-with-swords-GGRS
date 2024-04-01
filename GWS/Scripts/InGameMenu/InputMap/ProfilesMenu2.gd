@@ -16,7 +16,7 @@ var profile_names = {
 	1: "Controller"
 }
 
-func initialize(input_mapper, player_id):
+func initialize(input_mapper, _player_id):
 	#clear to avoid duplicates
 	clear()
 	# set to p2

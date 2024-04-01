@@ -8,6 +8,7 @@ onready var inputmapper = get_node(inputmapper_path)
 #connect profile selection to inputmapper and trigger redraw of bindings
 func _ready():
 	#	#selection triggers function in inputmapper.gd
+# warning-ignore:return_value_discarded
 	self.connect("item_selected", inputmapper, "_on_ProfilesMenu_item_selected")
 	
 var profile_names = {
@@ -15,7 +16,7 @@ var profile_names = {
 	1: "Controller"
 }
 
-func initialize(input_mapper, player_id):
+func initialize(input_mapper, _player_id):
 	#clear to avoid duplicates
 	clear()
 	# set to p1

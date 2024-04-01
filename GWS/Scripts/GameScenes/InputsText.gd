@@ -6,7 +6,7 @@ var displayed_inps = 0
 var max_displayed_inps = 9
 
 func clear():
-	var displayed_inps = 0
+	displayed_inps = 0
 	text = ''
 
 func display_input(input: String):

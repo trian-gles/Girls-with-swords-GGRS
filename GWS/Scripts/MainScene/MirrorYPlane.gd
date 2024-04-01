@@ -3,6 +3,7 @@ tool
 extends Sprite
 
 func _ready() -> void:
+# warning-ignore:return_value_discarded
 	connect("item_rect_changed", self, "_on_item_rect_changed")
 
 

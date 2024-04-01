@@ -16,7 +16,7 @@ func _ready():
 func set_bkg(index: int):
 	add_child((backgrounds[index].instance()))
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if position.y < desired_pos:
 		position.y += 5
 

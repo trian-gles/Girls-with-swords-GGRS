@@ -5,7 +5,9 @@ onready var pause_overlay: ColorRect = get_node("PauseOverlay")
 var paused: = false setget set_paused
 
 func _ready():
+# warning-ignore:return_value_discarded
 	Events.connect("ButtonConfigPressed", self, "hide_in_game_menu")
+# warning-ignore:return_value_discarded
 	Events.connect("BackPressed", self, "show_in_game_menu")
 	
 func _unhandled_input(event: InputEvent) -> void:

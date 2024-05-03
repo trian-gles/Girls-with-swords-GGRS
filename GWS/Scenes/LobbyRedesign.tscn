@@ -3,10 +3,10 @@
 [ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/MenuRoot.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
-[ext_resource path="res://Scripts/Save.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Lobby/Save.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
 [ext_resource path="res://Themes/startmenu.theme" type="Theme" id=9]
 [ext_resource path="res://Scenes/Managers/LocalManager.tscn" type="PackedScene" id=10]
@@ -16,8 +16,8 @@
 [ext_resource path="res://Scenes/Managers/AIManager.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Lobby/LobbySounds.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=16]
-[ext_resource path="res://Scenes/AVConfigMenu.gd" type="Script" id=17]
-[ext_resource path="res://Scenes/Resolution.gd" type="Script" id=18]
+[ext_resource path="res://Scripts/Lobby/AVConfigMenu.gd" type="Script" id=17]
+[ext_resource path="res://Scripts/Lobby/Resolution.gd" type="Script" id=18]
 [ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=19]
 
 [sub_resource type="Shader" id=1]
@@ -218,9 +218,9 @@ size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
 margin_left = 138.0
-margin_top = 59.0
+margin_top = 57.0
 margin_right = 342.0
-margin_bottom = 210.0
+margin_bottom = 213.0
 mouse_filter = 0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -239,7 +239,7 @@ text = "Girls with Swords"
 modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
 margin_right = 204.0
-margin_bottom = 43.0
+margin_bottom = 44.0
 size_flags_vertical = 4
 theme = ExtResource( 9 )
 action_mode = 0
@@ -252,9 +252,9 @@ __meta__ = {
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 53.0
+margin_top = 54.0
 margin_right = 204.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 text = "Net Play"
 flat = false
 __meta__ = {
@@ -263,9 +263,9 @@ __meta__ = {
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 80.0
+margin_top = 82.0
 margin_right = 204.0
-margin_bottom = 97.0
+margin_bottom = 100.0
 text = "Button Configuration"
 flat = false
 __meta__ = {
@@ -274,9 +274,9 @@ __meta__ = {
 
 [node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 107.0
+margin_top = 110.0
 margin_right = 204.0
-margin_bottom = 124.0
+margin_bottom = 128.0
 text = "Adult Video"
 flat = false
 __meta__ = {
@@ -292,9 +292,9 @@ text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 134.0
+margin_top = 138.0
 margin_right = 204.0
-margin_bottom = 151.0
+margin_bottom = 156.0
 theme = SubResource( 6 )
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
@@ -320,17 +320,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 35.0
+margin_top = 33.0
 margin_right = 300.0
-margin_bottom = 51.0
+margin_bottom = 49.0
 theme = ExtResource( 19 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 55.0
+margin_top = 53.0
 margin_right = 300.0
-margin_bottom = 72.0
+margin_bottom = 71.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -338,7 +338,7 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 76.0
+margin_top = 75.0
 margin_right = 300.0
 margin_bottom = 93.0
 text = "Training Mode"
@@ -349,16 +349,16 @@ __meta__ = {
 [node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
 margin_top = 97.0
 margin_right = 300.0
-margin_bottom = 114.0
+margin_bottom = 115.0
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 118.0
+margin_top = 119.0
 margin_right = 300.0
-margin_bottom = 135.0
+margin_bottom = 137.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -541,9 +541,9 @@ __meta__ = {
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 24.0
+margin_top = 23.0
 margin_right = 390.0
-margin_bottom = 246.0
+margin_bottom = 247.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -675,17 +675,17 @@ script = ExtResource( 15 )
 
 [connection signal="animation_finished" from="MenuRoot/AnimationPlayer" to="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="MenuRoot" method="_on_Local_pressed"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="MenuRoot" method="_on_AVConfig_pressed"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/AVConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="." method="OnSyncTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/SyncTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Quit" to="LobbySounds" method="focus_entered"]
@@ -699,8 +699,8 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="focus_entered"]
@@ -724,8 +724,8 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="hide" from="MenuRoot/NetPlayMenu/ConfirmationDialog" to="MenuRoot/NetPlayMenu/Entries" method="_on_ConfirmationDialog_hide"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="LobbySounds" method="focus_entered"]
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="MenuRoot" method="_on_MasterVolume_value_changed"]
@@ -736,6 +736,6 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="LobbySounds" method="focus_entered"]
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/UIVolume" to="MenuRoot" method="_on_UIVolume_value_changed"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="MenuRoot/AVConfigMenu" method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuRoot/AVConfigMenu/AVConfigButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]

@@ -25,12 +25,15 @@ public class Globals : Node
 	public static int frame = 0;
 	public static int lastConfirmedFrame = 0;
 	public static int rollbackFrame = 0;
+	public static bool hosting;
 
 	private static string loggingName;
 	public static bool logOn = false;
 
 	public static bool alwaysBlock = false;
 	public static bool autoTech = false;
+
+	static public Mode mode;
 	public static void SetLogging(string loggingName)
 	{
 		Globals.loggingName = loggingName;
@@ -284,7 +287,6 @@ public class Globals : Node
 		return frame == lastConfirmedFrame;
 	}
 
-	static public Mode mode;
 	public static bool ArrayInList(List<char[]> arr, char[] element)
 	{
 		var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));

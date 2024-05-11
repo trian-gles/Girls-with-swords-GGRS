@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/SnailWin.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/GameScenes/WinScene.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/HUD/WhiteSelectButton-Sheet.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/FrameTileSet.png" type="Texture" id=6]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Scripts/GameScenes/Win/Cursors.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.364706 )
@@ -48,22 +49,6 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 Label/styles/normal = null
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 25, 25 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 5 )
-region = Rect2( 25, 0, 25, 25 )
-
-[sub_resource type="SpriteFrames" id=10]
-animations = [ {
-"frames": [ SubResource( 8 ), SubResource( 9 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
 
 [sub_resource type="TileSet" id=11]
 0/name = "FrameTileSet.png 0"
@@ -141,6 +126,22 @@ font_data = ExtResource( 7 )
 [sub_resource type="Theme" id=13]
 default_font = SubResource( 12 )
 
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 25, 25 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 25, 0, 25, 25 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="WinScreen" type="Node2D"]
 script = ExtResource( 2 )
 
@@ -150,7 +151,16 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/SnailWin"]
+[node name="UI" type="Control" parent="CanvasLayer"]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = -1.0
+margin_bottom = -1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI"]
 margin_left = 162.391
 margin_top = 212.488
 margin_right = 312.391
@@ -160,7 +170,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Buttons" type="VBoxContainer" parent="CanvasLayer/SnailWin"]
+[node name="Buttons" type="VBoxContainer" parent="CanvasLayer/UI"]
 margin_left = 174.72
 margin_top = 214.455
 margin_right = 289.72
@@ -170,7 +180,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RematchButton" type="MenuButton" parent="CanvasLayer/SnailWin/Buttons"]
+[node name="RematchButton" type="MenuButton" parent="CanvasLayer/UI/Buttons"]
 margin_right = 53.0
 margin_bottom = 12.0
 size_flags_horizontal = 0
@@ -179,7 +189,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterSelectButton" type="MenuButton" parent="CanvasLayer/SnailWin/Buttons"]
+[node name="CharacterSelectButton" type="MenuButton" parent="CanvasLayer/UI/Buttons"]
 margin_top = 16.0
 margin_right = 114.0
 margin_bottom = 28.0
@@ -190,7 +200,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MainMenuButton" type="MenuButton" parent="CanvasLayer/SnailWin/Buttons"]
+[node name="MainMenuButton" type="MenuButton" parent="CanvasLayer/UI/Buttons"]
 margin_top = 32.0
 margin_right = 61.0
 margin_bottom = 44.0
@@ -201,19 +211,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="CanvasLayer/SnailWin"]
-position = Vector2( 169.606, 225.684 )
-frames = SubResource( 10 )
-frame = 1
-playing = true
-
-[node name="TileMap" type="TileMap" parent="CanvasLayer/SnailWin"]
+[node name="TileMap" type="TileMap" parent="CanvasLayer/UI"]
 tile_set = SubResource( 11 )
 cell_size = Vector2( 5, 5 )
 format = 1
 tile_data = PoolIntArray( 1376272, 3, 0, 2752544, -2147483646, 0, 2752545, 1, 0, 2752546, 1, 0, 2752547, 1, 0, 2752548, 1, 0, 2752549, 1, 0, 2752550, 1, 0, 2752551, 1, 0, 2752552, 1, 0, 2752553, 1, 0, 2752554, 1, 0, 2752555, 1, 0, 2752556, 1, 0, 2752557, 1, 0, 2752558, 1, 0, 2752559, 1, 0, 2752560, 1, 0, 2752561, 1, 0, 2752562, 1, 0, 2752563, 1, 0, 2752564, 1, 0, 2752565, 1, 0, 2752566, 1, 0, 2752567, 1, 0, 2752568, 1, 0, 2752569, 1, 0, 2752570, 1, 0, 2752571, 1, 0, 2752572, 1, 0, 2752573, 1, 0, 2752574, -1610612734, 0, 2818080, -2147483647, 0, 2818110, -1610612735, 0, 2883616, -2147483647, 0, 2883646, -1610612735, 0, 2949152, -2147483647, 0, 2949182, -1610612735, 0, 3014688, -2147483647, 0, 3014718, -1610612735, 0, 3080224, -2147483647, 0, 3080254, -1610612735, 0, 3145760, -2147483647, 0, 3145790, -1610612735, 0, 3211296, -2147483647, 0, 3211326, -1610612735, 0, 3276832, -2147483647, 0, 3276862, -1610612735, 0, 3342368, -2147483647, 0, 3342398, -1610612735, 0, 3407904, -1073741822, 0, 3407905, 1610612737, 0, 3407906, 1610612737, 0, 3407907, 1610612737, 0, 3407908, 1610612737, 0, 3407909, 1610612737, 0, 3407910, 1610612737, 0, 3407911, 1610612737, 0, 3407912, 1610612737, 0, 3407913, 1610612737, 0, 3407914, 1610612737, 0, 3407915, 1610612737, 0, 3407916, 1610612737, 0, 3407917, 1610612737, 0, 3407918, 1610612737, 0, 3407919, 1610612737, 0, 3407920, 1610612737, 0, 3407921, 1610612737, 0, 3407922, 1610612737, 0, 3407923, 1610612737, 0, 3407924, 1610612737, 0, 3407925, 1610612737, 0, 3407926, 1610612737, 0, 3407927, 1610612737, 0, 3407928, 1610612737, 0, 3407929, 1610612737, 0, 3407930, 1610612737, 0, 3407931, 1610612737, 0, 3407932, 1610612737, 0, 3407933, 1610612737, 0, 3407934, 1610612738, 0 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SnailWin"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/UI"]
 margin_left = 150.454
 margin_top = 29.5913
 margin_right = 371.454
@@ -223,3 +227,27 @@ text = "Player 1 Wins!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Cursors" type="Control" parent="CanvasLayer/UI"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cursor1" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
+position = Vector2( 169.606, 225.684 )
+frames = SubResource( 10 )
+frame = 1
+playing = true
+
+[node name="Cursor2" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
+position = Vector2( 170, 242 )
+frames = SubResource( 10 )
+playing = true
+
+[node name="Cursor3" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
+position = Vector2( 170, 258 )
+frames = SubResource( 10 )
+playing = true

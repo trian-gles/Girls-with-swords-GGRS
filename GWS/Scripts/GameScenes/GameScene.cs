@@ -455,7 +455,7 @@ public class GameScene : BaseGame
 			
 
 
-		if (prevHealth > 1 && health < 1)
+		if (prevHealth >= 1 && health < 1)
 		{
 			centerText.Visible = true;
 			if (name == "P2")

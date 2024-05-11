@@ -10,7 +10,7 @@ public class BaseManager : Node2D
 	/// <summary>
 	/// Only modified for GGRS, but kept here anyways.
 	/// </summary>
-	protected bool hosting;
+	public bool hosting;
 
 
 	/// <summary>
@@ -56,9 +56,9 @@ public class BaseManager : Node2D
 
 	
 
-	int playerOne, playerTwo;
-	int colorOne, colorTwo;
-	int bkgIndex;
+	protected int playerOne, playerTwo;
+	protected int colorOne, colorTwo;
+	protected int bkgIndex;
 
 	public override void _Ready()
 	{
@@ -68,15 +68,13 @@ public class BaseManager : Node2D
 		currGame = charSelectScene;
 		
 		gameScene = packedGameScene.Instance() as GameScene;
-		GD.Print(packedGameScene);
 		gameScene.Connect("GameWon", this, nameof(OnGameWon));
 		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
 		AddChild(gameScene);
 
 		winScene = packedWinScene.Instance() as WinScene;
-		GD.Print(packedWinScene);
-		GD.Print(winScene);
 		winScene.Connect("Rematch", this, nameof(OnRematch));
+		winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
 		AddChild(winScene);
 
 
@@ -89,7 +87,7 @@ public class BaseManager : Node2D
 		{
 			bkgIndex = 0;
 			LoadMatchFile();
-			OnGameFinished("GameScene");
+			OnNewGame();
 		}
 	//gameScene.Visible = false;
 
@@ -106,9 +104,11 @@ public class BaseManager : Node2D
 	// ----------------
 	// Signal Receptors
 	// ----------------
-	public virtual void OnGameFinished(string nextGameName)
+	public virtual void OnNewGame()
 	{
-		Globals.Log($"Scene finished, moving to {nextGameName}");
+
+
+		Globals.Log($"Restarting game");
 			
 		currGame = gameScene;
 		MoveChild(charSelectScene, 0);
@@ -149,6 +149,14 @@ public class BaseManager : Node2D
 	}
 
 	public virtual void OnRematch()
+	{
+		currGame = gameScene;
+		MoveChild(charSelectScene, 0);
+		charSelectScene.HideAll();
+		gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
+	}
+
+	public virtual void OnReselectChar()
 	{
 		charSelectScene.Reload();
 		currGame = charSelectScene;
@@ -315,5 +323,4 @@ public class BaseManager : Node2D
 		var p2Inputs = (int)(float)matchInputs[gameFrame - 1];
 		return new int[] { p1Inputs, p2Inputs};
 	}
-
 }

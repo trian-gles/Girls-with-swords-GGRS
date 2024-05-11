@@ -8,11 +8,20 @@ class StateManager : BaseManager
 	protected int waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
 	protected bool readyForChange = false;
 	protected int potentialEndFrame;
+	protected enum GameType
+    {
+		CHARSELECT,
+		GAME,
+		WIN
+    }
 
-	protected void ReadyForChange()
+	protected GameType nextGameType;
+
+	protected void ReadyForChange(GameType gameType)
 	{
 		readyForChange = true;
 		waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
+		nextGameType = gameType;
 	}
 
 }

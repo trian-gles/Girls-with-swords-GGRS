@@ -93,10 +93,10 @@ public class LobbyRedesign : Node2D
 	public void OnJoinButtonDown()
 	{
 		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		var ggrsScene = ggrsManager.Instance<GGRSManager>();
-		AddChild(ggrsScene);
+		activeManager = ggrsManager.Instance<GGRSManager>();
+		AddChild(activeManager);
 		HideButtons();
-		ggrsScene.ManualConfig(ip, false);
+		((GGRSManager)activeManager).ManualConfig(ip, false);
 	}
 
 	public void OnAutoConnectDown()
@@ -109,11 +109,13 @@ public class LobbyRedesign : Node2D
 	public void OnHostTestButtonDown()
 	{
 		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+		OnHostButtonDown();
 	}
 
 	public void OnJoinTestButtonDown()
 	{
 		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
+		OnJoinButtonDown();
 	}
 	
 	//local buttons

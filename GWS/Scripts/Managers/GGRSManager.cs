@@ -27,6 +27,9 @@ class GGRSManager : StateManager
 	private bool holePunched = false;
 	private bool connected = false;
 
+	private string nextGame;
+	private string winner;
+
 	// For AI integrated testing
 	private bool aiTest = false;
 	private Random random = new Random();
@@ -45,13 +48,17 @@ class GGRSManager : StateManager
 	{
 		charSelectScene.ChangeHUDText("Waiting for connection...\n ");
 		this.hosting = hosting;
+		Globals.hosting = hosting;
 		int localPort, remotePort;
 		if (hosting)
 		{
 			localPort = 7070;
 			remotePort = 7071;
 			if (ip == "127.0.0.1")
-				Globals.SetLogging("P1");
+            {
+				//Globals.SetLogging("P1");
+			}
+				
 		}
 		else
 		{
@@ -61,14 +68,14 @@ class GGRSManager : StateManager
 			if (ip == "127.0.0.1")
 			{
 				GD.Print("RUNNING TEST 'AI'");
-				Globals.SetLogging("P2");
+				//Globals.SetLogging("P2");
 				aiTest = true;
 			}
 				
 
 		}
 		port = localPort;
-		OpenPort();
+		OpenPort(); //UPNP is unreliable.  Prefer NAT traversal.
 		GD.Print("Creating new session");
 		GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
 		GD.Print("Created new session");
@@ -83,6 +90,7 @@ class GGRSManager : StateManager
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
 		connected = true;
+		holePunched = true;
 	}
 
 	private void GGRSConfig()
@@ -103,17 +111,45 @@ class GGRSManager : StateManager
 		connected = true;
 	}
 
+	public override void OnRematch()
+	{
+		GD.Print("rematch!");
+		ReadyForChange(GameType.GAME);
+	}
+
+	public override void OnReselectChar()
+	{
+		GD.Print("New Characters!");
+		ReadyForChange(GameType.CHARSELECT);
+	}
+
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
-		ReadyForChange();
+		ReadyForChange(GameType.GAME);
 	}
 
 	public override void OnGameWon(string winner)
 	{
 		GD.Print($"Game definitevly won on frame {Globals.frame}");
 		base.OnGameWon(winner);
-		ReadyForChange();
+	}
+
+	private void StartNextGame()
+    {
+		switch (nextGameType)
+        {
+			case GameType.GAME:
+				base.OnNewGame();
+				break;
+			case GameType.CHARSELECT:
+				base.OnReselectChar();
+				break;
+			case GameType.WIN:
+				
+				break;
+        }
+		
 	}
 
 	public override void _Process(float delta)
@@ -219,14 +255,16 @@ class GGRSManager : StateManager
 		currGame.LoadState(@frame, buffer, checksum);
 	}
 
+
+
 	public void ggrs_advance_frame(Godot.Collections.Array<Godot.Collections.Array> combinedInputs)
 	{	
 		Globals.frame++;
 
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
-			GD.Print($"Restarting game on frame {Globals.frame}");
-			OnGameFinished("Game");
+			GD.Print($"Moving to game {nameof(nextGameType)}");
+			StartNextGame();
 			readyForChange = false;
 		}
 
@@ -259,6 +297,7 @@ class GGRSManager : StateManager
 		opponentPort = (int)result[1];
 		opponentIp = (string)result[2];
 		hosting = ((int)result[3]) == 1;
+		Globals.hosting = hosting;
 		holePunched = true;
 		GD.Print("WE HAVE PUNCHED ZE HOLE");
 

@@ -50,10 +50,18 @@ public abstract class BaseGame : Node2D
 		}
 	}
 
-	public void ShowAll()
+	public void ShowAll(Node root=null)
     {
 		var queue = new Queue<Node>();
-		queue.Enqueue(this);
+		if (root != null)
+        {
+			queue.Enqueue(root);
+        }
+		else
+        {
+			queue.Enqueue(this);
+		}
+		
 		while (queue.Count > 0)
 		{
 

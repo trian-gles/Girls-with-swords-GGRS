@@ -43,7 +43,6 @@ public class CharSelectScene : BaseGame
 	private int p1Color;
 	private int p2Color;
 	private int[] lastInputs;
-	private int extraFrames = 12;
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
@@ -339,6 +338,9 @@ public class CharSelectScene : BaseGame
 	public void Reload()
 	{
 		ShowAll();
+		lastInputs = new[] { 16 + 32 + 64, 16 + 32 + 64 }; // prevent held down keys from immediately selecting
+		p1Selected = false;
+		p2Selected = false;
 		HighlightChar(0, p1Pos);
 
 		HighlightChar(1, p2Pos);

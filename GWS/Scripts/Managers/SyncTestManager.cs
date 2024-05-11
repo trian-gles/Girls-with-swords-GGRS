@@ -150,7 +150,7 @@ class SyncTestManager : StateManager
 		Globals.rollbackFrame = 0;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
-			OnGameFinished("Game");
+			OnRematch();
 			readyForChange = false;
 		}
 
@@ -200,13 +200,12 @@ class SyncTestManager : StateManager
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
-		ReadyForChange();
+		ReadyForChange(GameType.GAME);
 	}
 
 	public override void OnGameWon(string winner)
 	{
-		base.OnGameWon(winner);
-		ReadyForChange();
+		ReadyForChange(GameType.GAME);
 	}
 
 	private int[] GetRandomInputs()

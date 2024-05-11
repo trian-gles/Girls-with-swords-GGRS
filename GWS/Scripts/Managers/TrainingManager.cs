@@ -76,7 +76,7 @@ public class TrainingManager : BaseManager
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
-		OnGameFinished("Game");
+		OnNewGame();
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
@@ -86,7 +86,7 @@ public class TrainingManager : BaseManager
 
 	public override void OnGameWon(string winner)
 	{
-		OnGameFinished("Game");
+		OnNewGame();
 	}
 
 	public override void OnComboFinished(string player)

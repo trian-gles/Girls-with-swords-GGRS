@@ -8,20 +8,19 @@ using System.Linq;
 /// <summary>
 /// Simply mashes jab at 30 HZ
 /// </summary>
-public class Abare : BehaviourState
+public class WakeupBackdash : BehaviourState
 {
 
-    private HashSet<string> groundHitConfirmStates = new HashSet<string>
-    {
-        "HitStun",
-        "Stagger",
-        "Block",
-    };
+    private Random random = new Random();
+
+    
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
-        if ((16 & owner.lastInp) == 0)
+        int bDashInp = state.P2State.facingRight ? 8 : 4;
+
+        if ((bDashInp & owner.lastInp) == 0)
         {
-            return 16;
+            return bDashInp;
         }
         else
         {
@@ -31,14 +30,15 @@ public class Abare : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (groundHitConfirmStates.Contains(state.P1State.currentState))
+       if (!(state.P2State.currentState == "Knockdown") && state.P2State.frameCount > 6)
         {
-            return "Combo";
+            if (random.Next(2) == 1)
+                return "Zone";
+            else
+                return "Chase";
         }
-        else
-        {
-            return "";
-        }
+
+        return "";
     }
 
 }

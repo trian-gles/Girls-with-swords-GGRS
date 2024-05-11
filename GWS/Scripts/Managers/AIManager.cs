@@ -15,6 +15,7 @@ class AIManager : LocalManager
 	{
 		base._Ready();
 		Globals.mode = Globals.Mode.CPU;
+		ai = new AIBehaviour();
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -34,7 +35,7 @@ class AIManager : LocalManager
 			p1Inputs = GetInputs("");
 			p2Inputs = ai.Poll(gameScene.GetGameState());
 		}
-		else
+		else if (currGame.Name == "CharSelectScreen")
 		{
 			if (charSelectScene.p1Selected)
 			{
@@ -56,14 +57,15 @@ class AIManager : LocalManager
 			}
 				
 		}
+		else { p1Inputs = GetInputs(""); }
 
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 
 	}
 
-	public override void OnGameFinished(string nextGameName)
+	public override void OnGameWon(string winner)
 	{
-		base.OnGameFinished(nextGameName);
+		base.OnGameWon(winner);
 		p1KeyReleased = false;
 		ai = new AIBehaviour();
 	}

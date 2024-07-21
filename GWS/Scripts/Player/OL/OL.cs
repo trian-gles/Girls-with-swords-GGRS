@@ -12,22 +12,24 @@ public class OL : Player
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' },  new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "Super"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "Super"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "Super"));
-
+		easySuper = "Super";
 
 		//j2C
-		airCommandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "InstantOverhead"));
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "InstantOverhead"));
 
 		
 		
-		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
+		
 
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir"));
-		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "Hadouken"));
-		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir", true));
+		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "Hadouken", true));
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "AntiAir"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HojogiriCharge"));
 
 		//6p
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
 
 
 		//DP

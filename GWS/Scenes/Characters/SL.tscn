@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Scenes/Projectiles/StrikeSnail.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Palettes/SL/SL-grey-palette.png" type="Texture" id=25]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -8569,6 +8570,7 @@ airBackdashSpeed = 350
 accel = 50
 jumpForce = 900
 shaders = [ ExtResource( 24 ), ExtResource( 24 ), ExtResource( 24 ) ]
+greyPalette = ExtResource( 25 )
 plusFrameTextScene = ExtResource( 23 )
 
 [node name="CollisionBox" parent="." index="0"]

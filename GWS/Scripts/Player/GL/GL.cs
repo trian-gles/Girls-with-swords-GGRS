@@ -15,8 +15,8 @@ public class GL : Player
 		//6k
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 
-		//3k
-		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "3K", true));
+		//3k which is actually a 2p hahaha
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "3K"));
 
 		//6c
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));

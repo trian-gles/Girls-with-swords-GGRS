@@ -405,7 +405,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { GD.Print("Entering ex move"); }); // last function does nothing, I'm lazy...
+			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { }); // last function does nothing, I'm lazy...
 		}
 	}
 
@@ -437,6 +437,7 @@ public abstract class State : Node
 			return;
 		foreach (CommandGatling comGat in commandGatlings)
 		{
+
 			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
 			if (!owner.facingRight && comGat.flipInputs)
 			{
@@ -483,6 +484,8 @@ public abstract class State : Node
 		}
 		foreach (NormalGatling normGat in normalGatlings)
 		{
+			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
+				continue;
 			char[] testInp = normGat.input;
 			testInp = ReverseInput(testInp);
 			if (Enumerable.SequenceEqual(normGat.input, inputArr))
@@ -900,4 +903,9 @@ public abstract class State : Node
 	{
 		return owner.terminalVelocity;
 	}
+
+	public virtual void TrySpecialBreak()
+    {
+
+    }
 }

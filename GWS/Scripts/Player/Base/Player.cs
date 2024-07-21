@@ -80,7 +80,10 @@ public class Player : Node2D
 	public string debugKeys = "6";
 
 	[Export]
-	protected Resource[] shaders;
+	public Resource[] shaders;
+
+	[Export]
+	public Resource greyPalette;
 
 	protected string charName;
 
@@ -106,6 +109,7 @@ public class Player : Node2D
 	public List<Special> airRhythmSpecials = new List<Special>();
 	public List<Special> groundExSpecials = new List<Special>();
 	public List<Special> airExSpecials = new List<Special>();
+	public string easySuper;
 
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
@@ -135,6 +139,7 @@ public class Player : Node2D
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
 	public bool canGroundbounce = true;
+	public int specialBreakFramesRemaining = 0;
 
 
 	public bool trainingControlledPlayer;
@@ -189,6 +194,7 @@ public class Player : Node2D
 		public string lastStateName { get; set; }
 		public int counterStopFrames { get; set; }
 		public bool canGroundbounce { get; set; }
+		public int specialBreakFramesRemaining { get; set; }
 
 		public Dictionary<string, int> charSpecificData { get; set; }
 
@@ -315,8 +321,7 @@ public class Player : Node2D
 
 		terminalVelocity = standardTerminalVelocity;
 
-		var shaderMaterial = sprite.Material as ShaderMaterial;
-		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
+		ColorSprite();
 
 		EmitSignal(nameof(MeterChanged), Name, 0);
 		
@@ -390,6 +395,14 @@ public class Player : Node2D
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
 		pState.charSpecificData = GetStateCharSpecific();
+
+		if (pState.specialBreakFramesRemaining > 0 && specialBreakFramesRemaining == 0)
+			GreySprite();
+		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)
+			ColorSprite();
+			
+		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
+		
 		return pState;
 	}
 
@@ -447,6 +460,7 @@ public class Player : Node2D
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
 		SetStateCharSpecific(pState.charSpecificData);
+		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
 	}
 
 	/// <summary>
@@ -641,6 +655,10 @@ public class Player : Node2D
 						rhythmHeldKeys.Remove(inputArr[0]);
 					}
 					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
+				}
+				if (inputArr[0] == 'a' && playerState.tags.Contains("block"))
+				{
+					playerState.TrySpecialBreak();
 				}
 					
 				BufAddInput(inputArr);
@@ -876,6 +894,16 @@ public class Player : Node2D
 			
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
+
+		if (specialBreakFramesRemaining > 0)
+		{
+			GreySprite();
+			specialBreakFramesRemaining--;
+			if (specialBreakFramesRemaining == 0)
+			{
+				EndSpecialBreak();
+			}
+		}
 
 		
 		AdjustHitpush(); // make sure this is placed in the right spot...
@@ -1274,6 +1302,30 @@ public class Player : Node2D
 		{
 			return false;
 		}
+	}
+
+	public void SpecialBreak()
+	{
+		GreySprite();
+		specialBreakFramesRemaining = 120;
+	}
+
+	private void GreySprite()
+	{
+		var shaderMaterial = sprite.Material as ShaderMaterial;
+		shaderMaterial.SetShaderParam("palette", greyPalette);
+	}
+
+	private void ColorSprite()
+	{
+		var shaderMaterial = sprite.Material as ShaderMaterial;
+		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
+	}
+
+	public void EndSpecialBreak()
+	{
+		// may include more in future
+		ColorSprite();
 	}
 
 	public void ConfirmRhythmHit()

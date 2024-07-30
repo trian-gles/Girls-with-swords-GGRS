@@ -114,7 +114,10 @@ public class Player : Node2D
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
-	public HashSet<string> noGrabStates = new HashSet<string>(){ "Jab", "Run", "PreRun", "CrouchA" };
+	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA" };
+
+	public delegate void NegEdgeCallback(char releasedkey);
+	public NegEdgeCallback negEdgeCallback = (char c) => { };
 
 	///
 	// All of these will be stored in gamestate
@@ -636,7 +639,7 @@ public class Player : Node2D
 
 		
 
-		public void FrameAdvance(int hitStop, int inputs)
+		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
 		{ 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
@@ -698,6 +701,7 @@ public class Player : Node2D
 				}
 				else if (inputArr[1] == 'r')
 				{
+					negEdgeCallback(inputArr[0]);
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
 
@@ -846,7 +850,7 @@ public class Player : Node2D
 	/// <param name="hitStop"></param>
 	public void FrameAdvanceInputs(int hitStop,int unhandledInputs)
 	{
-		inputHandler.FrameAdvance(hitStop, unhandledInputs);
+		inputHandler.FrameAdvance(hitStop, unhandledInputs, negEdgeCallback);
 	}
 
 	/// <summary>
@@ -873,7 +877,7 @@ public class Player : Node2D
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
-	public void FrameAdvance() 
+	public virtual void FrameAdvance() 
 	{
 		
 		Update();

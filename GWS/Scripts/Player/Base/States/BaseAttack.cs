@@ -67,6 +67,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected string hitSound = "Hit";
 
+	[Export]
+	protected bool turnAroundOnEnter = false;
+
 	/// <summary>
 	/// Gatlings must be input before this window closes
 	/// </summary>
@@ -90,6 +93,9 @@ public abstract class BaseAttack : State
 
 	[Export]
 	public bool exitOnHit = false;
+
+	[Export]
+	public string selfGatlingInp = " ";
 
 	public enum EXTRAEFFECT
 	{
@@ -158,6 +164,11 @@ public abstract class BaseAttack : State
 		}
 
 		AddRhythmSpecials(owner.rhythmSpecials);
+		if (selfGatlingInp != " ")
+        {
+			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
+			GD.Print($"Adding gatling for {Name} upon press of {selfGatlingInp}");
+        }
 
 		Globals.Log($"{Name} modified hitstun is {modifiedHitStun}");
 
@@ -176,6 +187,8 @@ public abstract class BaseAttack : State
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
+		if (turnAroundOnEnter)
+			owner.CheckTurnAround();
 	}
 
 	/// <summary>

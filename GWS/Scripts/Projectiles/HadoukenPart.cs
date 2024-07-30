@@ -98,7 +98,9 @@ public class HadoukenPart : Node2D
 		SnailJump,
 		SnailRide,
 		BlackHolePowerUp,
-		BlackHoleDeactivate
+		BlackHoleDeactivate,
+		DeleteHat,
+		StopHat
 	}
 
 
@@ -294,7 +296,6 @@ public class HadoukenPart : Node2D
 	protected virtual void MakeInactive()
 	{
 		Globals.Log("making hadouken inactive");
-		GD.Print("Making hadouken inactive");
 		if (dieAfterHit)
 			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
 		active = false;

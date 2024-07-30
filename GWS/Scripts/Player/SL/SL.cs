@@ -39,7 +39,7 @@ public class SL : Player
 		base.Reset();
 		leftCornerSnail = false;
 		rightCornerSnail = false;
-}
+	}
 
 	public void SnailRide()
 	{

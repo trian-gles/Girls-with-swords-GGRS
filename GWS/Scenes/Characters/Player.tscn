@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -56,6 +56,7 @@
 [ext_resource path="res://Sounds/clap.ogg" type="AudioStream" id=54]
 [ext_resource path="res://Scripts/Player/Base/AudioStreamPlayer.gd" type="Script" id=55]
 [ext_resource path="res://Scripts/Player/Base/States/SuperJump.cs" type="Script" id=56]
+[ext_resource path="res://Scripts/Tool/SpriteSync.gd" type="Script" id=57]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
@@ -188,6 +189,7 @@ disabled = true
 [node name="SpriteBehind" type="Sprite" parent="."]
 position = Vector2( 0, -192 )
 scale = Vector2( 9, 9 )
+script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 2 )
@@ -199,6 +201,7 @@ frame = 124
 [node name="SpriteFront" type="Sprite" parent="."]
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
+script = ExtResource( 57 )
 
 [node name="StateTree" type="Node" parent="."]
 

@@ -16,3 +16,4 @@ func _ready():
 func _process(delta):
 	if Engine.editor_hint and hframes > 1:
 		frame = owner.get_node("Sprite").frame
+		offset = owner.get_node("Sprite").offset

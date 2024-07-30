@@ -16,7 +16,6 @@ breakBetweenHits = 10
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "GLProjectile"
 speed_scale = 2.0
-playing = false
 offset = Vector2( 0, -12 )
 
 [node name="CollisionShape2D" parent="." index="1"]

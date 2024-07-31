@@ -8450,7 +8450,7 @@ frame = 241
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 5 )
-offset = Vector2( 3, 0 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
 frame = 241
@@ -8542,7 +8542,12 @@ script = ExtResource( 12 )
 hadoukenScene = ExtResource( 7 )
 negEdgeButton = "k"
 
-[node name="HojogiriCharged" type="Node" parent="StateTree" index="45"]
+[node name="UpUpHat" type="Node" parent="StateTree" index="45"]
+script = ExtResource( 12 )
+hadoukenScene = ExtResource( 7 )
+negEdgeButton = "k"
+
+[node name="HojogiriCharged" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 15 )
 level = 3
 modifiedHitStun = 35
@@ -8553,7 +8558,7 @@ hitPush = 500
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="46"]
+[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="47"]
 script = ExtResource( 16 )
 level = 3
 opponentLaunch = Vector2( 300, -350 )
@@ -8566,7 +8571,7 @@ hitSound = "SlashHit"
 moveSpeed = 200
 stopFrame = 15
 
-[node name="InstantOverhead" type="Node" parent="StateTree" index="49"]
+[node name="InstantOverhead" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 22
@@ -8583,7 +8588,7 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 launch = Vector2( 300, -500 )
 
-[node name="Super" type="Node" parent="StateTree" index="50"]
+[node name="Super" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 19 )
 level = 4
 modifiedHitStun = 80
@@ -8599,7 +8604,7 @@ moveSpeed = 200
 startMovingFrame = 30
 stopFrame = 60
 
-[node name="6K" type="Node" parent="StateTree" index="51"]
+[node name="6K" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18
@@ -8611,7 +8616,7 @@ sweepCancel = true
 moveSpeed = 250
 stopFrame = 18
 
-[node name="6P" type="Node" parent="StateTree" index="53"]
+[node name="6P" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 24 )
 level = 1
 modifiedHitStun = 22
@@ -8622,7 +8627,7 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 
-[node name="6S" type="Node" parent="StateTree" index="55"]
+[node name="6S" type="Node" parent="StateTree" index="56"]
 script = ExtResource( 24 )
 level = 1
 launchOnGrounded = false

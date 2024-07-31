@@ -13,7 +13,10 @@ public class HatThrow : Hadouken
 	public override void Enter()
 	{
 		base.Enter();
-		((HL)owner).hatKey = negEdgeButton[0];
+		if (((HL)owner).hatted)
+			((HL)owner).hatKey = negEdgeButton[0];
+		else
+			EmitSignal(nameof(StateFinished), "Teleport");
 	}
 	protected override void EmitHadouken()
 	{

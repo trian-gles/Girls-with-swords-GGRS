@@ -19,8 +19,6 @@ public class HL : Player
 		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
 
-		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Teleport"));
-
 
 		//DP
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
@@ -29,6 +27,7 @@ public class HL : Player
 		//Hadouken
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "UpHat"));
+		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "UpUpHat"));
 
 	}
 	public override void _Ready()

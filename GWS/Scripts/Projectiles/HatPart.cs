@@ -9,7 +9,7 @@ public class HatPart : HadoukenPart
 	protected override void HurtPlayer()
 	{
 		base.HurtPlayer();
-		((HL)targetPlayer.otherPlayer).hatCoors = Position;
+		Arrive();
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)
@@ -22,11 +22,18 @@ public class HatPart : HadoukenPart
 
 		else if (command == ProjectileCommand.StopHat)
 		{
+			Arrive();
 			
-			speed = new Vector2(0, 0);
-			((HL)targetPlayer.otherPlayer).hatCoors = Position;
-			MakeInactive();
 		}
+	}
+
+	private void Arrive()
+	{
+		if (!active)
+			return;
+		speed = new Vector2(0, 0);
+		((HL)targetPlayer.otherPlayer).hatCoors = Position;
+		MakeInactive();
 	}
 
 	protected override Dictionary<string, int> GetStateSpecific()
@@ -41,5 +48,13 @@ public class HatPart : HadoukenPart
 	{
 		speed.x = dict["speedx"];
 		speed.y = dict["speedy"];
+	}
+
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
+		if (Position.x * 100 > Globals.rightWall || Position.x * 100 < Globals.leftWall)
+			Arrive();
+
 	}
 }

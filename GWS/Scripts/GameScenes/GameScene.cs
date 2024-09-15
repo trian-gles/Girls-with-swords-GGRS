@@ -152,7 +152,6 @@ public class GameScene : BaseGame
 
 	public void config(int playerOneIndex, int playerTwoIndex, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
 	{
-		playerOneIndex = 3;
 		Globals.Log($"Starting game config on frame {frame}");
 		((MainGFX)GetNode("MainGFX")).Init(bkg);
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);

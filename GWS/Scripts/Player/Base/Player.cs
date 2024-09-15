@@ -1434,7 +1434,7 @@ public class Player : Node2D
 		return Vector2.Inf;
 	}
 
-	public List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
+	public virtual List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
 	{
 		List<Rect2> allRects = new List<Rect2>();
 		foreach (CollisionShape2D colShape in area.GetChildren()) 

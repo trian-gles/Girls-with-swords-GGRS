@@ -63,7 +63,9 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	const int CENTER = 135;//where the most left character is
+	private int CENTERX;//where the most left character is
+	private int p1TopPos;  // upper point for p1 cursor
+	private int p2TopPos; // upper point for p2 cursor
 
 	
 
@@ -88,20 +90,28 @@ public class CharSelectScene : BaseGame
 		var p1CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P1Selected/OLSprite"),
 			GetNode<Sprite>("CanvasLayer/P1Selected/GLSprite"),
-			GetNode<Sprite>("CanvasLayer/P1Selected/SLSprite")
+			GetNode<Sprite>("CanvasLayer/P1Selected/SLSprite"),
+			GetNode<Sprite>("CanvasLayer/P1Selected/HLSprite")
 		};
 
 		var p2CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P2Selected/OLSprite"),
 			GetNode<Sprite>("CanvasLayer/P2Selected/GLSprite"),
-			GetNode<Sprite>("CanvasLayer/P2Selected/SLSprite")
+			GetNode<Sprite>("CanvasLayer/P2Selected/SLSprite"),
+			GetNode<Sprite>("CanvasLayer/P2Selected/HLSprite")
 		};
 
 		charImages = new List<List<Sprite>>() { p1CharImages, p2CharImages };
 
 		bkgImages = GetNode("CanvasLayer/Bkgs").GetChildren();
 
-//		CheckOverlap();
+		p1TopPos = (int)P1Cursor.Position.y;
+		p2TopPos = (int)P2Cursor.Position.y;
+
+		CENTERX = (int)P1Cursor.Position.x;
+
+
+		//		CheckOverlap();
 
 	}
 
@@ -175,13 +185,17 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
-				MoveStageSelection(-1);
-				
+				//MoveStageSelection(-1);
+				//up
+				MoveCursor(i, -2);
+
 			}
 
 			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
 			{
-				MoveStageSelection(1);
+				//MoveStageSelection(1);
+				//down
+				MoveCursor(i, 2);
 			}
 
 			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
@@ -258,22 +272,30 @@ public class CharSelectScene : BaseGame
 		charImages[playerNum][sprite].Visible = true;
 	}
 
-	private void MoveCursor(int playerNum, int direction)
+	private Vector2 CalcCursor(int pos, int top)
+	{
+		int y = pos < 2 ? 0 : 1;
+		int x = pos % 2;
+
+		return new Vector2(CENTERX + x * 80, top + y * 80);
+	}
+
+	private void MoveCursor(int playerNum, int movement)
 	{
 		
 		if (playerNum == 0 && !p1Selected)
 		{
 			
-			p1Pos = Math.Min(Math.Max(0, p1Pos + direction), 2);
-			
-			P1Cursor.Position = new Vector2(CENTER + p1Pos * 100, P1Cursor.Position.y);
+			p1Pos = Math.Min(Math.Max(0, p1Pos + movement), 3);
+
+			P1Cursor.Position = CalcCursor(p1Pos, p1TopPos);
 			HighlightChar(playerNum, p1Pos);
 		}
 			
 		else if (playerNum == 1 && !p2Selected)
 		{
-			p2Pos = Math.Min(Math.Max(0, p2Pos + direction), 2);
-			P2Cursor.Position = new Vector2(CENTER + p2Pos * 100, P2Cursor.Position.y);
+			p2Pos = Math.Min(Math.Max(0, p2Pos + movement), 3);
+			P2Cursor.Position = CalcCursor(p2Pos, p2TopPos);
 
 			HighlightChar(playerNum, p2Pos);
 		}

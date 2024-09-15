@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=12 format=2]
+[gd_resource type="AnimationNodeStateMachine" load_steps=14 format=2]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Blink"
@@ -8,6 +8,9 @@ animation = "CursorFadeIn"
 
 [sub_resource type="AnimationNodeAnimation" id=3]
 animation = "GLFadeIn"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "HLFadeIn"
 
 [sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Init"
@@ -29,11 +32,15 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
 switch_mode = 2
 auto_advance = true
 
@@ -44,12 +51,14 @@ states/CursorFadeIn/node = SubResource( 2 )
 states/CursorFadeIn/position = Vector2( 628, 52 )
 states/GLFadeIn/node = SubResource( 3 )
 states/GLFadeIn/position = Vector2( 397, 52 )
+states/HLFadeIn/node = SubResource( 12 )
+states/HLFadeIn/position = Vector2( 678.568, 150.25 )
 states/Init/node = SubResource( 4 )
 states/Init/position = Vector2( 98, 52 )
 states/OLFadeIn/node = SubResource( 5 )
 states/OLFadeIn/position = Vector2( 230, 52 )
 states/SLFadeIn/node = SubResource( 6 )
-states/SLFadeIn/position = Vector2( 515.54, 148.5 )
-transitions = [ "Init", "OLFadeIn", SubResource( 7 ), "OLFadeIn", "GLFadeIn", SubResource( 8 ), "GLFadeIn", "SLFadeIn", SubResource( 9 ), "SLFadeIn", "CursorFadeIn", SubResource( 10 ), "CursorFadeIn", "Blink", SubResource( 11 ) ]
+states/SLFadeIn/position = Vector2( 513.54, 149.625 )
+transitions = [ "Init", "OLFadeIn", SubResource( 7 ), "OLFadeIn", "GLFadeIn", SubResource( 8 ), "GLFadeIn", "SLFadeIn", SubResource( 9 ), "CursorFadeIn", "Blink", SubResource( 11 ), "SLFadeIn", "HLFadeIn", SubResource( 13 ), "HLFadeIn", "CursorFadeIn", SubResource( 14 ) ]
 start_node = "Init"
-graph_offset = Vector2( -305.23, 0 )
+graph_offset = Vector2( 168.17, 0 )

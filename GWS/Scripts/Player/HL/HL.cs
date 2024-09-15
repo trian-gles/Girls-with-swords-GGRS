@@ -29,6 +29,8 @@ public class HL : Player
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "UpHat"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "UpUpHat"));
 
+		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "JoeRogan"));
+
 	}
 	public override void _Ready()
 	{
@@ -95,6 +97,23 @@ public class HL : Player
 			frontSprite.Visible = true;
 
 		base.FrameAdvance();
+	}
+
+	public override List<Rect2> GetRects(Area2D area, bool globalPosition = false)
+	{
+		List<Rect2> allRects = new List<Rect2>();
+		int i = 0;
+		foreach (CollisionShape2D colShape in area.GetChildren())
+		{
+			i++;
+			if (!hatted && i == 2) continue; // the second box is for the hat
+			if (!colShape.Disabled)
+			{
+				allRects.Add(GetRect(colShape, globalPosition));
+			}
+			
+		}
+		return allRects;
 	}
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

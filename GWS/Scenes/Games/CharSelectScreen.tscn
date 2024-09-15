@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
@@ -29,6 +29,8 @@
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=27]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Sheet.png" type="Texture" id=28]
 [ext_resource path="res://Sprites/CharacterSelect/ColorSelect.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/Particles/hat.png" type="Texture" id=30]
+[ext_resource path="res://Scenes/Characters/HLSprite.tscn" type="PackedScene" id=31]
 
 [sub_resource type="DynamicFont" id=1]
 size = 23
@@ -243,7 +245,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 3, 3 ), Vector2( 0.8, 0.8 ) ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -258,6 +260,34 @@ tracks/0/keys = {
 "transitions": PoolRealArray(  ),
 "update": 0,
 "values": [  ]
+}
+
+[sub_resource type="Animation" id=45]
+resource_name = "HLFadeIn"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("HBoxContainer/HLSprite2:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 21, 21 ), Vector2( 0.8, 0.8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HBoxContainer/HLSprite2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -394,7 +424,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 3, 3 ), Vector2( 0.8, 0.8 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -436,7 +466,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 21, 21 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 21, 21 ), Vector2( 0.8, 0.8 ) ]
 }
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=16]
@@ -988,18 +1018,19 @@ __meta__ = {
 }
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 141, 135 )
+position = Vector2( 190, 108 )
 z_index = 1
 texture = ExtResource( 4 )
 hframes = 10
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 141, 137 )
+position = Vector2( 190, 125 )
 z_index = 1
 texture = ExtResource( 11 )
 hframes = 10
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 margin_top = 223.378
 margin_bottom = 254.378
@@ -1013,56 +1044,58 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="CanvasLayer/ScrollText"]
 autostart = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
-margin_left = 140.0
-margin_top = 137.0
-margin_right = 180.0
-margin_bottom = 177.0
+[node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_right = 0.399
+anchor_bottom = 0.27
+margin_left = 189.0
+margin_top = 118.0
+margin_right = 160.0
+margin_bottom = 177.1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 1 )
 hframes = 3
-frame = 2
 
 [node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
 hframes = 3
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 4 )
-position = Vector2( 100, 0 )
+position = Vector2( 80, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 28 )
 hframes = 10
-frame = 2
 
 [node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 texture = ExtResource( 5 )
 hframes = 3
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 4 )
-position = Vector2( 200, 0 )
+position = Vector2( 0, 80 )
+scale = Vector2( 21, 21 )
 texture = ExtResource( 9 )
 hframes = 3
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_top = 0.497478
-anchor_right = 0.5
-anchor_bottom = 0.497478
-margin_left = -102.46
-margin_top = -72.5
-margin_right = 103.54
-margin_bottom = 70.5
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
-columns = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="HLSprite2" type="Sprite" parent="CanvasLayer/HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 80, 80 )
+scale = Vector2( 21, 21 )
+texture = ExtResource( 1 )
+hframes = 3
+frame = 2
+
+[node name="HLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer/HLSprite2"]
+material = SubResource( 4 )
+scale = Vector2( 10, 10 )
+texture = ExtResource( 30 )
 
 [node name="1PShowcase" type="AnimationPlayer" parent="CanvasLayer"]
 autoplay = "OL"
@@ -1080,6 +1113,7 @@ anims/ClockTowerThumbnail = SubResource( 8 )
 anims/CursorFadeIn = SubResource( 9 )
 anims/GLFadeIn = SubResource( 10 )
 anims/GLSelect = SubResource( 11 )
+anims/HLFadeIn = SubResource( 45 )
 anims/Init = SubResource( 12 )
 anims/OLBlink = ExtResource( 2 )
 anims/OLFadeIn = SubResource( 13 )
@@ -1178,11 +1212,13 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
+frame = 2
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P2ColorSelect"]
 position = Vector2( -191.789, 0 )
 texture = ExtResource( 29 )
 hframes = 16
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/P2ColorSelect"]
 anims/Bounce = SubResource( 23 )
@@ -1210,6 +1246,10 @@ visible = false
 material = SubResource( 34 )
 use_parent_material = true
 
+[node name="HLSprite" parent="CanvasLayer/P2Selected" instance=ExtResource( 31 )]
+visible = false
+position = Vector2( -8, -52 )
+
 [node name="P1Selected" type="Position2D" parent="CanvasLayer"]
 position = Vector2( 45, 145 )
 
@@ -1227,11 +1267,14 @@ visible = false
 material = SubResource( 40 )
 frame = 108
 
+[node name="HLSprite" parent="CanvasLayer/P1Selected" instance=ExtResource( 31 )]
+visible = false
+position = Vector2( -8, -52 )
+
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource( 44 )
-margin_top = -20.0
 margin_right = 480.0
-margin_bottom = 270.0
+margin_bottom = 290.0
 color = Color( 0.141176, 0.180392, 0.235294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

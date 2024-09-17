@@ -5,6 +5,7 @@ signal change_button_pressed
 var device_id = -1
 var buttonicon
 var buttoniconalt
+onready var change_button = $ChangeButton
 
 func _ready():
 	pass

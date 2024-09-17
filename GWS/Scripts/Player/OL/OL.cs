@@ -21,7 +21,7 @@ public class OL : Player
 		
 		
 
-		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "AntiAir"));
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "AntiAir"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "Hadouken", true));
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "AntiAir"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HojogiriCharge"));

@@ -11,23 +11,31 @@ var current_2p_profile_id = 0
 var profile_keyboard = {
 	'p': [KEY_Z,0],
 	'k': [KEY_X,0],
-	's': [KEY_C,0]
+	's': [KEY_C,0],
+	'a': [KEY_A,0],
+	'b': [KEY_B,0],
 }
 var profile_fightstick = {
-	'p': [JOY_BUTTON_2,0],
-	'k': [JOY_BUTTON_3,0],
-	's': [JOY_BUTTON_5,0]
+	'p': [JOY_SONY_SQUARE,0],
+	'k': [JOY_SONY_TRIANGLE,0],
+	's': [JOY_SONY_CIRCLE,0],
+	'a': [JOY_SONY_X,0],
+	'b': [JOY_R,0]
 }
 #p2 dictionaries
 var profile_2pkeyboard = {
 	'pb': [KEY_J,0],
 	'kb': [KEY_K,0],
-	'sb': [KEY_L,0]
+	'sb': [KEY_L,0],
+	'ab': [KEY_U,0],
+	'bb': [KEY_I,0],
 }
 var profile_2pfightstick = {
-	'pb': [JOY_BUTTON_2,1],
-	'kb': [JOY_BUTTON_3,1],
-	'sb': [JOY_BUTTON_5,1]
+	'pb': [JOY_SONY_SQUARE,1],
+	'kb': [JOY_SONY_TRIANGLE,1],
+	'sb': [JOY_SONY_CIRCLE,1],
+	'ab': [JOY_SONY_X,1],
+	'bb': [JOY_R,1]
 }
 
 #p1 profile list

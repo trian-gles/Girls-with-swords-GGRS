@@ -10,6 +10,7 @@ public class PreRun : MoveState
 		loop = true;
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
+		AddEasyGroundSpecials();
 		AddGatling(new[] { '6', 'r' }, () => frameCount > 1, "PostRun");
 		AddGatling(new[] { '4', 'r' }, () => frameCount > 1, "PostRun");
 		AddGatling(new[] { '8', 'p' }, "MovingJump");

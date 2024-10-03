@@ -17,6 +17,7 @@ public class PostRun : MoveState
 //
 		//}, "Grab");
 		AddSpecials(owner.groundSpecials);
+		AddEasyGroundSpecials();
 		AddNormals();
 	}
 	public override void FrameAdvance()

@@ -11,7 +11,7 @@ public class Slash : GroundAttack
 		AddGatling(new char[] { 'b', 'p' }, "CrouchC");
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
-		AddCommandNormals(owner.commandNormals);
+		AddEasyGroundSpecials();
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

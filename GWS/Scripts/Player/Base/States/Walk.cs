@@ -17,6 +17,7 @@ public class Walk : MoveState
 		AddGatling(new[] { '4', 'r' }, "Idle");
 		AddSpecials(owner.groundSpecials);
 		AddCommandNormals(owner.commandNormals);
+		AddEasyGroundSpecials();
 		AddNormals();
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 

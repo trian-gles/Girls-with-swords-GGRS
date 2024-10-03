@@ -13,6 +13,7 @@ public class Crouch : State
         AddSpecials(owner.groundSpecials);
         AddCommandNormals(owner.commandNormals);
         AddExSpecials(owner.groundExSpecials);
+        AddEasyGroundSpecials();
         AddGatling(new[] { '2', 'r' }, "Idle");
         AddGatling(new[] { 'p', 'p' }, "CrouchA");
         AddGatling(new[] { 'k', 'p' }, "CrouchB");

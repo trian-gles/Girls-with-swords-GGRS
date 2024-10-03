@@ -15,18 +15,18 @@ public class GL : Player
 		//6k
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 
-		//3k which is actually a 2p hahaha
+		//3k which is actually a 6p hahaha
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "3K"));
 
 		//6c
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));
 
-		
-		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "BlackHolePlace"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "HadoukenAir"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "GunBlazed", true));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Feint"));
+		easySpecial = "Hadouken";
 
-		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "Hadouken"));
-		commandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "GunBlazed", true));
-		commandNormals.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "HadoukenAir"));
+		easyAirSpecial = "BlackHolePlace";
 
 		//DP
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));

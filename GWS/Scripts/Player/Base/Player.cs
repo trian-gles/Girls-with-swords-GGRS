@@ -109,6 +109,9 @@ public class Player : Node2D
 	public List<Special> airRhythmSpecials = new List<Special>();
 	public List<Special> groundExSpecials = new List<Special>();
 	public List<Special> airExSpecials = new List<Special>();
+	public List<CommandNormal> easyCommandSpecials = new List<CommandNormal>();
+	public string easySpecial;
+	public string easyAirSpecial;
 	public string easySuper;
 
 	/// <summary>

@@ -13,7 +13,8 @@ public class Idle : State
 		loop = true;
 		AddSpecials(owner.groundSpecials);
 		AddCommandNormals(owner.commandNormals);
-		
+		AddEasyGroundSpecials();
+
 		AddGatling(new[] { '2', 'p' }, "Crouch");
 		AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
 		AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);

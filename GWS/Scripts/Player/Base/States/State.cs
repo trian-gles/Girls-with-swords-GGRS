@@ -393,6 +393,17 @@ public abstract class State : Node
 		}
 	}
 
+	protected void AddEasyGroundSpecials()
+    {
+		AddCommandNormals(owner.easyCommandSpecials);
+		AddGatling(new[] { 'a', 'p' }, owner.easySpecial);
+    }
+
+	protected void AddEasyAirSpecials()
+	{
+		AddGatling(new[] { 'a', 'p' }, owner.easyAirSpecial);
+	}
+
 	protected void AddSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)

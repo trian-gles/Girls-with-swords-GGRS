@@ -14,6 +14,7 @@ public class Run : MoveState
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
+		AddEasyGroundSpecials();
 		AddCommandNormals(owner.commandNormals);
 		
 		

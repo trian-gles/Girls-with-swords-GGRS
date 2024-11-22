@@ -10,7 +10,8 @@ public class CrouchA : GroundAttack
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
         AddCommandNormals(owner.commandNormals);
-        AddGatling(new char[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
+		AddEasyGroundSpecials();
+		AddGatling(new char[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 		AddGatling(new char[] { 'p', 'p' }, "Jab");

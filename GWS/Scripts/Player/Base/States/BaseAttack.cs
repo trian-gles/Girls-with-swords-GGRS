@@ -97,6 +97,9 @@ public abstract class BaseAttack : State
 	[Export]
 	public string selfGatlingInp = " ";
 
+	[Export]
+	public string superKaraButton = "";
+
 	public enum EXTRAEFFECT
 	{
 		NONE,
@@ -163,14 +166,15 @@ public abstract class BaseAttack : State
 
 		}
 
+		if (superKaraButton.Length > 0)
+			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter(), owner.easySuper);
+
 		AddRhythmSpecials(owner.rhythmSpecials);
 		if (selfGatlingInp != " ")
         {
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
 			GD.Print($"Adding gatling for {Name} upon press of {selfGatlingInp}");
         }
-
-		Globals.Log($"{Name} modified hitstun is {modifiedHitStun}");
 
 	}
 
@@ -293,10 +297,8 @@ public abstract class BaseAttack : State
 	{
 		if (frameCount < 3)
 		{
-
 			foreach (KaraGatling karaGat in karaGatlings)
 			{
-				// GD.Print($"Testing kara gatling {karaGat.state}");
 				char[] testInp = karaGat.input;
 				testInp = ReverseInput(testInp);
 				if (Enumerable.SequenceEqual(karaGat.input, inputArr))

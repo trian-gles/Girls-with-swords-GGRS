@@ -395,9 +395,12 @@ public abstract class State : Node
 
 	protected void AddEasyGroundSpecials()
     {
+		
+		AddGatling(new[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('s') && owner.TrySpendMeter(), owner.easySuper);
+		AddGatling(new[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter(), owner.easySuper);
 		AddCommandNormals(owner.easyCommandSpecials);
 		AddGatling(new[] { 'a', 'p' }, owner.easySpecial);
-    }
+	}
 
 	protected void AddEasyAirSpecials()
 	{

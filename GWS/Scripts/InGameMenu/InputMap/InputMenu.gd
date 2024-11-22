@@ -44,10 +44,10 @@ func _ready():
 	var config_file = File.new()
 	if config_file.open("user://ControllerConfig.json", File.READ)== OK:
 		load_JSON()
-	else:
+	#else:
 		#change to profile_id 0
-		$InputMapper.change_profile(p1_profiles_menu.selected, 0)
-		$InputMapper.change_profile(p2_profiles_menu.selected, 1)
+	$InputMapper.change_profile(p1_profiles_menu.selected, 0)
+	$InputMapper.change_profile(p2_profiles_menu.selected, 1)
 	
 
 #main rebuild function (called by profile_changed in InputMapper)
@@ -101,6 +101,7 @@ func _on_InputLine_change_button_pressed(action_name, line,player_id):
 	
 	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
 	line.update_key(key_scancode)
+	
 	
 	set_process_input(true)
 	
@@ -188,14 +189,16 @@ func _on_P1Reset_pressed():
 	'k': [KEY_X,0],
 	's': [KEY_C,0],
 	'a': [KEY_A,0],
-	'b': [KEY_B,0],
+	'b': [KEY_S,0],
+	'c': [KEY_D,0]
 	}
 	var fightstick_init = {
 		'p': [JOY_SONY_SQUARE,0],
 		'k': [JOY_SONY_TRIANGLE,0],
 		's': [JOY_SONY_CIRCLE,0],
 		'a': [JOY_SONY_X,0],
-		'b': [JOY_R,0]
+		'b': [JOY_R,0],
+		'c': [JOY_R2,0]
 	}
 	if p1_profiles_menu.selected == 1:
 		for moves in fightstick_init:
@@ -212,14 +215,16 @@ func _on_P2Reset_pressed():
 		'kb': [KEY_K,0],
 		'sb': [KEY_L,0],
 		'ab': [KEY_U,0],
-		'bb': [KEY_I,0]
+		'bb': [KEY_I,0],
+		'cb': [KEY_O,0]
 	}
 	var fightstick2p_init = {
 		'pb': [JOY_SONY_SQUARE,1],
 		'kb': [JOY_SONY_TRIANGLE,1],
 		'sb': [JOY_SONY_CIRCLE,1],
 		'ab': [JOY_SONY_X,1],
-		'bb': [JOY_R,1]
+		'bb': [JOY_R,1],
+		'cb': [JOY_R2,1]
 	}
 	if p2_profiles_menu.selected == 1:
 		for moves in fightstick2p_init:

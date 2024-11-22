@@ -14,8 +14,9 @@ public class PostRun : MoveState
 		//	bool grabbable = owner.otherPlayer.IsGrabbable();
 		//	bool heldKey = owner.CheckHeldKey('4') || owner.CheckHeldKey('6');
 		//	return pos && grabbable && heldKey;
-//
+		//
 		//}, "Grab");
+		AddCommandNormals(owner.commandNormals);
 		AddSpecials(owner.groundSpecials);
 		AddEasyGroundSpecials();
 		AddNormals();

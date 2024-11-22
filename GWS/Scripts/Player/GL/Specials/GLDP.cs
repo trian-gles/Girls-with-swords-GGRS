@@ -15,6 +15,7 @@ public class GLDP : LaunchAttack
         finalAttack.hitStun = 70;
         finalAttack.knockdown = true;
         finalAttack.graphicFX = BaseAttack.GRAPHICEFFECT.EXPLOSION;
+        AddKara(new char[] { 'c', 'p' }, () => owner.grounded, owner.easySuper);
 
     }
     public override void Enter()

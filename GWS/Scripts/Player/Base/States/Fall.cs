@@ -12,6 +12,7 @@ public class Fall : AirState
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
 		AddAirCommandNormals(owner.airCommandNormals);
+		AddEasyAirSpecials();
 		// AIRGRAB
 		AddGatling(new[] { 's', 'p' },
 			() =>
@@ -55,6 +56,39 @@ public class Fall : AirState
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 		}, false, false);
+
+		// EASY AIRDASH
+		AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.canAirDash, "AirDash", () => {
+			owner.velocity.x = owner.airDashSpeed;
+			if (!owner.facingRight)
+				owner.velocity.x *= -1;
+			owner.canDoubleJump = false;
+			owner.canAirDash = false;
+		});
+
+		AddGatling(new char[] { '6', 'p' }, () => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash, "AirDash", () => {
+			owner.velocity.x = owner.airDashSpeed;
+			if (!owner.facingRight)
+				owner.velocity.x *= -1;
+			owner.canDoubleJump = false;
+			owner.canAirDash = false;
+		});
+
+		AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('4') && owner.canAirDash, "AirBackdash", () => {
+			owner.velocity.x = owner.airBackdashSpeed;
+			if (owner.facingRight)
+				owner.velocity.x *= -1;
+			owner.canDoubleJump = false;
+			owner.canAirDash = false;
+		});
+
+		AddGatling(new char[] { '4', 'p' }, () => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash, "AirBackdash", () => {
+			owner.velocity.x = owner.airBackdashSpeed;
+			if (owner.facingRight)
+				owner.velocity.x *= -1;
+			owner.canDoubleJump = false;
+			owner.canAirDash = false;
+		});
 
 		// DOUBLEJUMP
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>

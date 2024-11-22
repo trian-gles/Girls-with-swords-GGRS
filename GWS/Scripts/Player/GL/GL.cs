@@ -28,6 +28,8 @@ public class GL : Player
 
 		easyAirSpecial = "BlackHolePlace";
 
+		easySuper = "GLDP";
+
 		//DP
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
 		groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));

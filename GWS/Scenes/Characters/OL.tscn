@@ -8092,7 +8092,9 @@ opponentLaunch = Vector2( 300, -1000 )
 modifiedHitPush = 6000
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+superKaraButton = "s"
 launch = Vector2( 200, -800 )
+launchFrame = 3
 
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
@@ -8287,6 +8289,7 @@ level = 1
 launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+superKaraButton = "a"
 sweepCancel = true
 
 [node name="GrabPos" parent="." index="8"]

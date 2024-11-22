@@ -7577,9 +7577,10 @@ disabled = false
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 236
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 3 )
@@ -7593,10 +7594,10 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 8, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 236
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -7708,6 +7709,7 @@ hadoukenScene = ExtResource( 12 )
 
 [node name="HadoukenAir" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 13 )
+superKaraButton = "s"
 releaseFrame = 24
 hadoukenScene = ExtResource( 14 )
 yOffset = -5
@@ -7737,6 +7739,7 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
+superKaraButton = "a"
 
 [node name="3K" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 15 )

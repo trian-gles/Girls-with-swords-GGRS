@@ -636,6 +636,15 @@ public class Player : Node2D
 				unhandledInputs.Add(new char[] { 'b', 'r' });
 			}
 
+			if ((inputs & 512) != 0 && (lastFrameInputs & 512) == 0)
+			{
+				unhandledInputs.Add(new char[] { 'c', 'p' });
+			}
+			else if ((inputs & 512) == 0 && (lastFrameInputs & 512) != 0)
+			{
+				unhandledInputs.Add(new char[] { 'c', 'r' });
+			}
+
 
 			return unhandledInputs;
 		}
@@ -807,6 +816,18 @@ public class Player : Node2D
 
 	public bool CheckHeldKey(char key) 
 	{
+		return (inputHandler.heldKeys.Contains(key));
+	}
+
+	public bool CheckFlippableHeldKey(char key)
+	{
+		if (!facingRight)
+		{
+			if (key == '6')
+				key = '4';
+			else if (key == '4')
+				key = '6';
+		}
 		return (inputHandler.heldKeys.Contains(key));
 	}
 

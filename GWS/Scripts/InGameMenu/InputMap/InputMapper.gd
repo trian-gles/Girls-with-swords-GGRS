@@ -13,14 +13,16 @@ var profile_keyboard = {
 	'k': [KEY_X,0],
 	's': [KEY_C,0],
 	'a': [KEY_A,0],
-	'b': [KEY_B,0],
+	'b': [KEY_S,0],
+	'c': [KEY_D,0]
 }
 var profile_fightstick = {
 	'p': [JOY_SONY_SQUARE,0],
 	'k': [JOY_SONY_TRIANGLE,0],
 	's': [JOY_SONY_CIRCLE,0],
 	'a': [JOY_SONY_X,0],
-	'b': [JOY_R,0]
+	'b': [JOY_R,0],
+	'c': [JOY_R2,0]
 }
 #p2 dictionaries
 var profile_2pkeyboard = {
@@ -29,13 +31,15 @@ var profile_2pkeyboard = {
 	'sb': [KEY_L,0],
 	'ab': [KEY_U,0],
 	'bb': [KEY_I,0],
+	'cb': [KEY_O, 0]
 }
 var profile_2pfightstick = {
 	'pb': [JOY_SONY_SQUARE,1],
 	'kb': [JOY_SONY_TRIANGLE,1],
 	'sb': [JOY_SONY_CIRCLE,1],
 	'ab': [JOY_SONY_X,1],
-	'bb': [JOY_R,1]
+	'bb': [JOY_R,1],
+	'cb': [JOY_R2,0]
 }
 
 #p1 profile list
@@ -84,8 +88,6 @@ func change_profile(profile_id, player_id):
 #called by change_profile above
 func change_action_key(action_name, key_scancode, device_id, player_id):
 	erase_action_events(action_name)
-	
-
 	var new_button = InputEventJoypadButton.new()
 	new_button.set_button_index(key_scancode)
 	new_button.device = device_id

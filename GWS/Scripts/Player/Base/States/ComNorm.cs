@@ -42,7 +42,6 @@ public class ComNorm : GroundAttack
 			AddGatling(new char[] { 's', 'p' }, "Slash");
 			AddGatling(new char[] { 'b', 'p' }, "Slash");
 		}
-			
 
 
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");

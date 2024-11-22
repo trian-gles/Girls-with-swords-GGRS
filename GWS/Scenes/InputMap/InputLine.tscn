@@ -35,6 +35,7 @@ custom_fonts/font = SubResource( 1 )
 text = "Up"
 
 [node name="Key" type="Label" parent="."]
+visible = false
 margin_left = 176.0
 margin_right = 349.0
 margin_bottom = 24.0
@@ -45,18 +46,29 @@ text = "W Key"
 align = 1
 valign = 1
 
-[node name="Button1" type="Sprite" parent="."]
+[node name="Buttons" type="Label" parent="."]
+margin_left = 176.0
+margin_right = 349.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+
+[node name="Button1" type="Sprite" parent="Buttons"]
 visible = false
-position = Vector2( 231.902, 10.0537 )
+position = Vector2( 55.902, 10.0537 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 4 )
 hframes = 101
+frame = 1
 region_rect = Rect2( 0, 0, 1000, 16 )
 
-[node name="Button2" type="Sprite" parent="."]
+[node name="Button2" type="Sprite" parent="Buttons"]
 visible = false
-position = Vector2( 93.138, 14.7575 )
+position = Vector2( -82.862, 14.7575 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 2 )

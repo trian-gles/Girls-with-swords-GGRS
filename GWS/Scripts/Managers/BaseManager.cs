@@ -211,6 +211,11 @@ public class BaseManager : Node2D
 			inputs |= 256;
 		}
 
+		if (Input.IsActionPressed("c" + end))
+		{
+			inputs |= 512;
+		}
+
 		return inputs;
 	}
 

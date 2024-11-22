@@ -354,6 +354,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("HBoxContainer/HLSprite2:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=13]
 length = 0.6
@@ -843,18 +855,18 @@ __meta__ = {
 }
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 190, 108 )
 z_index = 1
 texture = ExtResource( 4 )
 hframes = 10
-frame = 9
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 190, 125 )
 z_index = 1
 texture = ExtResource( 11 )
 hframes = 10
-frame = 9
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
 visible = false
@@ -883,6 +895,7 @@ __meta__ = {
 }
 
 [node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 1 )
 hframes = 3
@@ -891,30 +904,30 @@ frame = 2
 [node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
 texture = ExtResource( 27 )
 hframes = 3
-frame = 1
+frame = 2
 
 [node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 4 )
 position = Vector2( 80, 0 )
-scale = Vector2( 3, 3 )
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 28 )
 hframes = 10
-frame = 9
+frame = 2
 
 [node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
 texture = ExtResource( 5 )
 hframes = 3
-frame = 1
+frame = 2
 
 [node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 4 )
 position = Vector2( 0, 80 )
-scale = Vector2( 21, 21 )
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 9 )
 hframes = 3
-frame = 1
+frame = 2
 
 [node name="HLSprite2" type="Sprite" parent="CanvasLayer/HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )

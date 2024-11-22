@@ -25,7 +25,7 @@ public class OL : Player
 		easySpecial = "HojogiriCharge";
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "Hadouken", true));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "AntiAir"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Hojogiri"));
+		//easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Hojogiri"));
 
 		//6p
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));

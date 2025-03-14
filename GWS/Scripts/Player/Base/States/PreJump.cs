@@ -12,6 +12,7 @@ public class PreJump : State
 	{
 		base._Ready();
 		stop = false;
+		AddEasyGroundSpecials();
 	}
 	//public override bool DelayInputs()
 	//{

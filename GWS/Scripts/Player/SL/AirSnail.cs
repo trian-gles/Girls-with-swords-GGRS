@@ -1,28 +1,28 @@
-﻿using Godot;
+using Godot;
 using System;
 
 public class AirSnail : Hadouken
 {
-    [Export]
-    public Vector2 launch = new Vector2();
+	[Export]
+	public Vector2 launch = new Vector2();
 
 	[Export]
 	public int launchFrame = 0;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		tags.Add("aerial");
 		slowdownSpeed = 0;
-    }
-    public override void Enter()
-    {
-        base.Enter();
-        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
-    }
-    public override void FrameAdvance()
-    {
-        base.FrameAdvance();
+	}
+	public override void Enter()
+	{
+		base.Enter();
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
+	}
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
 		if (frameCount == launchFrame)
 		{
 			

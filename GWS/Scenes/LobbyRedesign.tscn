@@ -164,7 +164,6 @@ default_font = ExtResource( 16 )
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 2, 0 )
 script = ExtResource( 1 )
-autoTech = true
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )
 aiManager = ExtResource( 14 )

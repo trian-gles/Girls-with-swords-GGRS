@@ -15,12 +15,20 @@ public class Walk : MoveState
 		AddGatling(new[] { '2', 'p' }, "Crouch");
 		AddGatling(new[] { '6', 'r' }, "Idle");
 		AddGatling(new[] { '4', 'r' }, "Idle");
+
 		AddSpecials(owner.groundSpecials);
 		AddCommandNormals(owner.commandNormals);
+		AddEasyGroundSpecials();
 		AddNormals();
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 
 		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+
+		AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) == owner.facingRight); },
+			"PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+
+		AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) != owner.facingRight); },
+			"Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
 	}
 
 	public override void Enter()
@@ -29,6 +37,26 @@ public class Walk : MoveState
 		if (owner.CheckHeldKey('8'))
 		{
 			EmitSignal(nameof(StateFinished), "MovingJump");
+		}
+
+		if (owner.CheckHeldKey('c') && owner.CheckBuffer(new[] {'c', 'p'}))
+        {
+			if ((owner.velocity.x > 0) == owner.facingRight) {
+				owner.velocity.x = owner.speed; 
+				if (!owner.facingRight) 
+					owner.velocity.x *= -1;
+				EmitSignal(nameof(StateFinished), "PreRun");
+
+			}
+			else
+            {
+				owner.velocity.x = owner.speed * -2; 
+				if (!owner.facingRight) 
+					owner.velocity.x *= -1;
+				EmitSignal(nameof(StateFinished), "Backdash");
+			}
+
+			
 		}
 	}
 

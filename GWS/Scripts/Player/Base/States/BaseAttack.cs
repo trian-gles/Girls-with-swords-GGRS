@@ -67,6 +67,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected string hitSound = "Hit";
 
+	[Export]
+	protected bool turnAroundOnEnter = false;
+
 	/// <summary>
 	/// Gatlings must be input before this window closes
 	/// </summary>
@@ -90,6 +93,12 @@ public abstract class BaseAttack : State
 
 	[Export]
 	public bool exitOnHit = false;
+
+	[Export]
+	public string selfGatlingInp = " ";
+
+	[Export]
+	public string superKaraButton = "";
 
 	public enum EXTRAEFFECT
 	{
@@ -157,9 +166,15 @@ public abstract class BaseAttack : State
 
 		}
 
-		AddRhythmSpecials(owner.rhythmSpecials);
+		if (superKaraButton.Length > 0)
+			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter(), owner.easySuper);
 
-		Globals.Log($"{Name} modified hitstun is {modifiedHitStun}");
+		AddRhythmSpecials(owner.rhythmSpecials);
+		if (selfGatlingInp != " ")
+        {
+			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
+			GD.Print($"Adding gatling for {Name} upon press of {selfGatlingInp}");
+        }
 
 	}
 
@@ -176,6 +191,8 @@ public abstract class BaseAttack : State
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
+		if (turnAroundOnEnter)
+			owner.CheckTurnAround();
 	}
 
 	/// <summary>
@@ -280,10 +297,8 @@ public abstract class BaseAttack : State
 	{
 		if (frameCount < 3)
 		{
-
 			foreach (KaraGatling karaGat in karaGatlings)
 			{
-				// GD.Print($"Testing kara gatling {karaGat.state}");
 				char[] testInp = karaGat.input;
 				testInp = ReverseInput(testInp);
 				if (Enumerable.SequenceEqual(karaGat.input, inputArr))

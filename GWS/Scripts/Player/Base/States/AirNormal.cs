@@ -11,6 +11,7 @@ public abstract class AirNormal : AirAttack
         
         AddSpecials(owner.airSpecials);
         AddExSpecials(owner.airExSpecials);
+        AddEasyAirSpecials();
 
         if (jumpCancelable)
             AddJumpCancel();

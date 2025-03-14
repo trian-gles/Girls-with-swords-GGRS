@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Palettes/GL/GL-Default.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Sprites/Palettes/GL/GL-OrangeMay.png" type="Texture" id=20]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Sprites/Movesets/GL Moveset/GL-Back-Color.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Palettes/GL/GL-grey-palette.png" type="Texture" id=23]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -7539,6 +7540,7 @@ airBackdashSpeed = 350
 accel = 60
 jumpForce = 900
 shaders = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 20 ) ]
+greyPalette = ExtResource( 23 )
 plusFrameTextScene = ExtResource( 21 )
 
 [node name="CollisionBox" parent="." index="0"]
@@ -7575,9 +7577,10 @@ disabled = false
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 272
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 3 )
@@ -7591,10 +7594,10 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 8, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 23
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -7706,6 +7709,7 @@ hadoukenScene = ExtResource( 12 )
 
 [node name="HadoukenAir" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 13 )
+superKaraButton = "s"
 releaseFrame = 24
 hadoukenScene = ExtResource( 14 )
 yOffset = -5
@@ -7735,6 +7739,7 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 gatlingWinEnd = 17
+superKaraButton = "a"
 
 [node name="3K" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 15 )

@@ -5,6 +5,7 @@ signal change_button_pressed
 var device_id = -1
 var buttonicon
 var buttoniconalt
+onready var change_button = $ChangeButton
 
 func _ready():
 	pass
@@ -22,8 +23,8 @@ func _joy_connection_changed(new_device_id:int, connected:bool):
 			
 
 func initialize(action_name, key, can_change, keyboard_profile:bool,player_id:int):
-	buttonicon = $Button1
-	buttoniconalt = $Button2
+	buttonicon = $Buttons/Button1
+	buttoniconalt = $Buttons/Button2
 	buttonicon.visible = true
 	
 	if Input.get_connected_joypads().size() > 0:
@@ -37,7 +38,6 @@ func initialize(action_name, key, can_change, keyboard_profile:bool,player_id:in
 		elif Input.get_joy_name(device_id) != "XInput":
 			buttonicon.visible = false
 			buttoniconalt.visible = true
-	
 	#change action names to move names
 	if action_name == "p" or action_name == "pb":
 		action_name = "Punch"
@@ -45,6 +45,14 @@ func initialize(action_name, key, can_change, keyboard_profile:bool,player_id:in
 		action_name = "Kick"
 	if action_name == "s" or action_name == "sb":
 		action_name = "Slash"
+		
+	if action_name == "a" or action_name == "ab":
+		action_name = "Special"
+	if action_name == "b" or action_name == "bb":
+		action_name = "String"
+		
+	if action_name == "c" or action_name == "cb":
+		action_name = "Dash"
 		
 	$Action.text = action_name.capitalize()
 #	print(key)

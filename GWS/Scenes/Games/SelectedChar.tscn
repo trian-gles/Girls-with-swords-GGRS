@@ -1,0 +1,109 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Characters/GLSprite.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Characters/OLSprite.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Characters/HLSprite.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Characters/SLSprite.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Shader" id=37]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=38]
+shader = SubResource( 37 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 3 )
+
+[sub_resource type="Shader" id=39]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+uniform float palette_count = 1.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    
+	COLOR = new_color;										//set new color from palette
+}"
+
+[sub_resource type="ShaderMaterial" id=40]
+shader = SubResource( 39 )
+shader_param/palette_count = 1.0
+shader_param/palette_index = 0.0
+shader_param/palette = ExtResource( 2 )
+
+[sub_resource type="Animation" id=5]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("OLSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 158, 176 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SLSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 138, 149 ]
+}
+
+[node name="SelectedChar" type="Position2D"]
+position = Vector2( 45, 145 )
+
+[node name="OLSprite" parent="." instance=ExtResource( 7 )]
+material = SubResource( 38 )
+frame = 158
+
+[node name="SLSprite" parent="." instance=ExtResource( 9 )]
+visible = false
+material = SubResource( 40 )
+frame = 138
+
+[node name="HLSprite" parent="." instance=ExtResource( 8 )]
+visible = false
+
+[node name="GLSprite" parent="." instance=ExtResource( 6 )]
+visible = false
+
+[node name="Showcase" type="AnimationPlayer" parent="."]
+autoplay = "OL"
+anims/OL = SubResource( 5 )

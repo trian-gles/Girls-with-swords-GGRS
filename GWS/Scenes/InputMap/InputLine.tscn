@@ -18,18 +18,18 @@ font_data = ExtResource( 3 )
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -43.0
+margin_top = -22.0
 margin_right = -67.0
-margin_bottom = 32.0
+margin_bottom = 2.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Action" type="Label" parent="."]
-margin_top = 28.0
+margin_top = 3.0
 margin_right = 16.0
-margin_bottom = 46.0
+margin_bottom = 21.0
 size_flags_horizontal = 2
 custom_fonts/font = SubResource( 1 )
 text = "Up"
@@ -38,7 +38,7 @@ text = "Up"
 visible = false
 margin_left = 176.0
 margin_right = 349.0
-margin_bottom = 75.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = SubResource( 2 )
@@ -46,17 +46,29 @@ text = "W Key"
 align = 1
 valign = 1
 
-[node name="Button1" type="Sprite" parent="."]
+[node name="Buttons" type="Label" parent="."]
+margin_left = 176.0
+margin_right = 349.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+
+[node name="Button1" type="Sprite" parent="Buttons"]
 visible = false
-position = Vector2( 231.902, 10.0537 )
+position = Vector2( 55.902, 10.0537 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 4 )
 hframes = 101
+frame = 1
 region_rect = Rect2( 0, 0, 1000, 16 )
 
-[node name="Button2" type="Sprite" parent="."]
-position = Vector2( 93.138, 14.7575 )
+[node name="Button2" type="Sprite" parent="Buttons"]
+visible = false
+position = Vector2( -82.862, 14.7575 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 2 )
@@ -66,7 +78,7 @@ region_rect = Rect2( 0, 0, 1000, 16 )
 [node name="ChangeButton" type="Button" parent="."]
 margin_left = 353.0
 margin_right = 413.0
-margin_bottom = 75.0
+margin_bottom = 24.0
 custom_fonts/font = SubResource( 3 )
 text = "Change"
 

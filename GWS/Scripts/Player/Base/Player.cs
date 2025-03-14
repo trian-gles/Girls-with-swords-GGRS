@@ -80,7 +80,10 @@ public class Player : Node2D
 	public string debugKeys = "6";
 
 	[Export]
-	protected Resource[] shaders;
+	public Resource[] shaders;
+
+	[Export]
+	public Resource greyPalette;
 
 	protected string charName;
 
@@ -106,11 +109,18 @@ public class Player : Node2D
 	public List<Special> airRhythmSpecials = new List<Special>();
 	public List<Special> groundExSpecials = new List<Special>();
 	public List<Special> airExSpecials = new List<Special>();
+	public List<CommandNormal> easyCommandSpecials = new List<CommandNormal>();
+	public string easySpecial;
+	public string easyAirSpecial;
+	public string easySuper;
 
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
-	public HashSet<string> noGrabStates = new HashSet<string>(){ "Jab", "Run", "PreRun", "CrouchA" };
+	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA" };
+
+	public delegate void NegEdgeCallback(char releasedkey);
+	public NegEdgeCallback negEdgeCallback = (char c) => { };
 
 	///
 	// All of these will be stored in gamestate
@@ -135,6 +145,7 @@ public class Player : Node2D
 	public string lastStateName = "Idle";
 	public int counterStopFrames = 0;
 	public bool canGroundbounce = true;
+	public int specialBreakFramesRemaining = 0;
 
 
 	public bool trainingControlledPlayer;
@@ -189,6 +200,7 @@ public class Player : Node2D
 		public string lastStateName { get; set; }
 		public int counterStopFrames { get; set; }
 		public bool canGroundbounce { get; set; }
+		public int specialBreakFramesRemaining { get; set; }
 
 		public Dictionary<string, int> charSpecificData { get; set; }
 
@@ -315,8 +327,7 @@ public class Player : Node2D
 
 		terminalVelocity = standardTerminalVelocity;
 
-		var shaderMaterial = sprite.Material as ShaderMaterial;
-		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
+		ColorSprite();
 
 		EmitSignal(nameof(MeterChanged), Name, 0);
 		
@@ -390,6 +401,14 @@ public class Player : Node2D
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
 		pState.charSpecificData = GetStateCharSpecific();
+
+		if (pState.specialBreakFramesRemaining > 0 && specialBreakFramesRemaining == 0)
+			GreySprite();
+		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)
+			ColorSprite();
+			
+		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
+		
 		return pState;
 	}
 
@@ -447,6 +466,7 @@ public class Player : Node2D
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
 		SetStateCharSpecific(pState.charSpecificData);
+		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
 	}
 
 	/// <summary>
@@ -616,13 +636,22 @@ public class Player : Node2D
 				unhandledInputs.Add(new char[] { 'b', 'r' });
 			}
 
+			if ((inputs & 512) != 0 && (lastFrameInputs & 512) == 0)
+			{
+				unhandledInputs.Add(new char[] { 'c', 'p' });
+			}
+			else if ((inputs & 512) == 0 && (lastFrameInputs & 512) != 0)
+			{
+				unhandledInputs.Add(new char[] { 'c', 'r' });
+			}
+
 
 			return unhandledInputs;
 		}
 
 		
 
-		public void FrameAdvance(int hitStop, int inputs)
+		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
 		{ 
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
@@ -641,6 +670,10 @@ public class Player : Node2D
 						rhythmHeldKeys.Remove(inputArr[0]);
 					}
 					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
+				}
+				if (inputArr[0] == 'a' && playerState.tags.Contains("block"))
+				{
+					playerState.TrySpecialBreak();
 				}
 					
 				BufAddInput(inputArr);
@@ -680,6 +713,7 @@ public class Player : Node2D
 				}
 				else if (inputArr[1] == 'r')
 				{
+					negEdgeCallback(inputArr[0]);
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
 
@@ -785,6 +819,18 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public bool CheckFlippableHeldKey(char key)
+	{
+		if (!facingRight)
+		{
+			if (key == '6')
+				key = '4';
+			else if (key == '4')
+				key = '6';
+		}
+		return (inputHandler.heldKeys.Contains(key));
+	}
+
 	public bool CheckRhythmHeldKey(char key)
 	{
 		return (inputHandler.rhythmHeldKeys.Contains(key));
@@ -828,7 +874,7 @@ public class Player : Node2D
 	/// <param name="hitStop"></param>
 	public void FrameAdvanceInputs(int hitStop,int unhandledInputs)
 	{
-		inputHandler.FrameAdvance(hitStop, unhandledInputs);
+		inputHandler.FrameAdvance(hitStop, unhandledInputs, negEdgeCallback);
 	}
 
 	/// <summary>
@@ -855,7 +901,7 @@ public class Player : Node2D
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
-	public void FrameAdvance() 
+	public virtual void FrameAdvance() 
 	{
 		
 		Update();
@@ -876,6 +922,16 @@ public class Player : Node2D
 			
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
+
+		if (specialBreakFramesRemaining > 0)
+		{
+			GreySprite();
+			specialBreakFramesRemaining--;
+			if (specialBreakFramesRemaining == 0)
+			{
+				EndSpecialBreak();
+			}
+		}
 
 		
 		AdjustHitpush(); // make sure this is placed in the right spot...
@@ -1276,6 +1332,30 @@ public class Player : Node2D
 		}
 	}
 
+	public void SpecialBreak()
+	{
+		GreySprite();
+		specialBreakFramesRemaining = 120;
+	}
+
+	private void GreySprite()
+	{
+		var shaderMaterial = sprite.Material as ShaderMaterial;
+		shaderMaterial.SetShaderParam("palette", greyPalette);
+	}
+
+	private void ColorSprite()
+	{
+		var shaderMaterial = sprite.Material as ShaderMaterial;
+		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
+	}
+
+	public void EndSpecialBreak()
+	{
+		// may include more in future
+		ColorSprite();
+	}
+
 	public void ConfirmRhythmHit()
 	{
 		rhythmStateConfirmed = true;
@@ -1378,7 +1458,7 @@ public class Player : Node2D
 		return Vector2.Inf;
 	}
 
-	public List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
+	public virtual List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
 	{
 		List<Rect2> allRects = new List<Rect2>();
 		foreach (CollisionShape2D colShape in area.GetChildren()) 

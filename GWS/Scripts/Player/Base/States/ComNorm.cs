@@ -15,6 +15,7 @@ public class ComNorm : GroundAttack
 	{
 		base._Ready();
 		AddSpecials(owner.groundSpecials);
+		AddEasyGroundSpecials();
 		AddExSpecials(owner.groundExSpecials);
 		if (commandNormalCancel)
 		{
@@ -41,7 +42,6 @@ public class ComNorm : GroundAttack
 			AddGatling(new char[] { 's', 'p' }, "Slash");
 			AddGatling(new char[] { 'b', 'p' }, "Slash");
 		}
-			
 
 
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");

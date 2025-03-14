@@ -44,10 +44,10 @@ func _ready():
 	var config_file = File.new()
 	if config_file.open("user://ControllerConfig.json", File.READ)== OK:
 		load_JSON()
-	else:
+	#else:
 		#change to profile_id 0
-		$InputMapper.change_profile(p1_profiles_menu.selected, 0)
-		$InputMapper.change_profile(p2_profiles_menu.selected, 1)
+	$InputMapper.change_profile(p1_profiles_menu.selected, 0)
+	$InputMapper.change_profile(p2_profiles_menu.selected, 1)
 	
 
 #main rebuild function (called by profile_changed in InputMapper)
@@ -58,6 +58,7 @@ func rebuild(input_profile, is_customizable=false, id=0, player_id=0):
 	else:
 		p2_action_list.clear()	
 	
+	var prev_line
 	for action_name in input_profile.keys():
 		#input_profile is the full profile dict., need to call subarray [0] which is a scancode
 		var current_action_list
@@ -69,6 +70,9 @@ func rebuild(input_profile, is_customizable=false, id=0, player_id=0):
 		#on actionlist node
 		var line = current_action_list.add_input_line(action_name, \
 			input_profile[action_name][0], is_customizable, id, player_id)
+		if prev_line:
+			prev_line.change_button.focus_neighbour_bottom = line.change_button.get_path()
+		prev_line = line
 		if is_customizable:
 			#connect key customize function
 			line.connect('change_button_pressed', self, \
@@ -97,6 +101,7 @@ func _on_InputLine_change_button_pressed(action_name, line,player_id):
 	
 	$InputMapper.change_action_key(action_name, key_scancode,key_device,player_id)
 	line.update_key(key_scancode)
+	
 	
 	set_process_input(true)
 	
@@ -182,12 +187,18 @@ func _on_P1Reset_pressed():
 	var keyboard_init = {
 	'p': [KEY_Z,0],
 	'k': [KEY_X,0],
-	's': [KEY_C,0]
+	's': [KEY_C,0],
+	'a': [KEY_A,0],
+	'b': [KEY_S,0],
+	'c': [KEY_D,0]
 	}
 	var fightstick_init = {
-		'p': [JOY_BUTTON_2,0],
-		'k': [JOY_BUTTON_3,0],
-		's': [JOY_BUTTON_5,0]
+		'p': [JOY_SONY_SQUARE,0],
+		'k': [JOY_SONY_TRIANGLE,0],
+		's': [JOY_SONY_CIRCLE,0],
+		'a': [JOY_SONY_X,0],
+		'b': [JOY_R,0],
+		'c': [JOY_R2,0]
 	}
 	if p1_profiles_menu.selected == 1:
 		for moves in fightstick_init:
@@ -202,12 +213,18 @@ func _on_P2Reset_pressed():
 	var keyboard2p_init = {
 		'pb': [KEY_J,0],
 		'kb': [KEY_K,0],
-		'sb': [KEY_L,0]
+		'sb': [KEY_L,0],
+		'ab': [KEY_U,0],
+		'bb': [KEY_I,0],
+		'cb': [KEY_O,0]
 	}
 	var fightstick2p_init = {
-		'pb': [JOY_BUTTON_2,1],
-		'kb': [JOY_BUTTON_3,1],
-		'sb': [JOY_BUTTON_5,1]
+		'pb': [JOY_SONY_SQUARE,1],
+		'kb': [JOY_SONY_TRIANGLE,1],
+		'sb': [JOY_SONY_CIRCLE,1],
+		'ab': [JOY_SONY_X,1],
+		'bb': [JOY_R,1],
+		'cb': [JOY_R2,1]
 	}
 	if p2_profiles_menu.selected == 1:
 		for moves in fightstick2p_init:

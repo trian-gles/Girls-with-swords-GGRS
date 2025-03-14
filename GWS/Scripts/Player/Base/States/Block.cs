@@ -1,8 +1,10 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public class Block : HitState
 {
+
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "block" };
 	public override void _Ready()
 	{
 		base._Ready();
@@ -59,5 +61,12 @@ public class Block : HitState
 	{
 		owner.DeductHealth(dmg);
 	}
+
+
+    public override void TrySpecialBreak()
+    {
+        base.TrySpecialBreak();
+		owner.SpecialBreak();
+    }
 }
 

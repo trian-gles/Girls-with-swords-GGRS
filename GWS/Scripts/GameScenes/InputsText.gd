@@ -94,6 +94,15 @@ func inputs(inps):
 		
 	if (inps & 64) and not(last_inputs & 64):
 		display_input('s')
+		
+	if (inps & 128) and not(last_inputs & 128):
+		display_input('a')
+		
+	if (inps & 256) and not(last_inputs & 256):
+		display_input('b')
+		
+	if (inps & 512) and not(last_inputs & 512):
+		display_input('c')
 
 
 	last_inputs = inps

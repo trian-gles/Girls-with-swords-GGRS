@@ -373,9 +373,9 @@ __meta__ = {
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 50.0
+margin_top = 32.0
 margin_right = 390.0
-margin_bottom = 220.0
+margin_bottom = 238.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -388,18 +388,19 @@ confirmremove_path = NodePath("../ConfirmationDialog")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 
 [node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
+margin_top = 1.0
 margin_right = 96.0
-margin_bottom = 16.0
+margin_bottom = 17.0
 theme = ExtResource( 19 )
 text = "Net Play"
 
 [node name="AutoConnect" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
 margin_left = 100.0
 margin_right = 300.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "AutoConnect"
 __meta__ = {
@@ -407,13 +408,13 @@ __meta__ = {
 }
 
 [node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 21.0
+margin_top = 22.0
 margin_right = 300.0
-margin_bottom = 38.0
+margin_bottom = 40.0
 
 [node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_right = 148.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "Host"
 __meta__ = {
@@ -423,7 +424,7 @@ __meta__ = {
 [node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "Join"
 __meta__ = {
@@ -431,18 +432,18 @@ __meta__ = {
 }
 
 [node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 42.0
+margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 65.0
+margin_bottom = 68.0
 placeholder_text = "Enter Friend Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 69.0
+margin_top = 72.0
 margin_right = 300.0
-margin_bottom = 92.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 96, 40 )
 placeholder_text = "Enter Opponent Ip"
 __meta__ = {
@@ -450,16 +451,16 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 96.0
+margin_top = 100.0
 margin_right = 300.0
-margin_bottom = 113.0
+margin_bottom = 118.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_right = 148.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "Add Friend"
 __meta__ = {
@@ -469,7 +470,7 @@ __meta__ = {
 [node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
 margin_left = 152.0
 margin_right = 300.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "Remove Friend"
 __meta__ = {
@@ -487,36 +488,34 @@ __meta__ = {
 }
 
 [node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 117.0
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 134.0
+margin_bottom = 140.0
 text = "Item 0"
 align = 1
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-visible = false
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 300.0
-margin_bottom = 196.0
+margin_bottom = 162.0
 text = "HOSTTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-visible = false
-margin_top = 176.0
+margin_top = 166.0
 margin_right = 300.0
-margin_bottom = 196.0
+margin_bottom = 184.0
 text = "JOINTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 138.0
+margin_top = 188.0
 margin_right = 300.0
-margin_bottom = 155.0
+margin_bottom = 206.0
 text = "Back"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]

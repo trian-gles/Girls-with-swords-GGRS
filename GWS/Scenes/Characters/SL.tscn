@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Scenes/Projectiles/StrikeSnail.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Palettes/SL/SL-grey-palette.png" type="Texture" id=25]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -8569,6 +8570,7 @@ airBackdashSpeed = 350
 accel = 50
 jumpForce = 900
 shaders = [ ExtResource( 24 ), ExtResource( 24 ), ExtResource( 24 ) ]
+greyPalette = ExtResource( 25 )
 plusFrameTextScene = ExtResource( 23 )
 
 [node name="CollisionBox" parent="." index="0"]
@@ -8581,8 +8583,7 @@ position = Vector2( -2, 0 )
 position = Vector2( 20, -25 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 69, 30 )
-disabled = false
+position = Vector2( 35, -50 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 25, 24 )
@@ -8592,7 +8593,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 145
+frame = 209
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8649,8 +8650,18 @@ hadoukenScene = ExtResource( 8 )
 
 [node name="SnailCall" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 10 )
+snailCommandFrame = 24
 
-[node name="SnailStrike" type="Node" parent="StateTree" index="26"]
+[node name="SnailCallJump" type="Node" parent="StateTree" index="26"]
+script = ExtResource( 10 )
+callMode = 1
+snailCommandFrame = 24
+
+[node name="SnailCallFake" type="Node" parent="StateTree" index="27"]
+script = ExtResource( 10 )
+callMode = 2
+
+[node name="SnailStrike" type="Node" parent="StateTree" index="28"]
 script = ExtResource( 17 )
 superFrame = 1
 releaseFrame = 10
@@ -8660,71 +8671,71 @@ xOffset = -100
 successiveXOffset = 60
 gapBetweenStrikes = 14
 
-[node name="DoubleJump" parent="StateTree" index="27"]
+[node name="DoubleJump" parent="StateTree" index="29"]
 script = ExtResource( 20 )
 
-[node name="SuperJump" parent="StateTree" index="28"]
+[node name="SuperJump" parent="StateTree" index="30"]
 startupFrames = 7
 
-[node name="AirDash" parent="StateTree" index="30"]
+[node name="AirDash" parent="StateTree" index="32"]
 len = 25
 
-[node name="Jab" parent="StateTree" index="32"]
+[node name="Jab" parent="StateTree" index="34"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="33"]
+[node name="Kick" parent="StateTree" index="35"]
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="Slash" parent="StateTree" index="34"]
+[node name="Slash" parent="StateTree" index="36"]
 gatlingWinEnd = 26
 restoreHitFrames = PoolIntArray( 14, 18 )
 
-[node name="JumpA" parent="StateTree" index="35"]
+[node name="JumpA" parent="StateTree" index="37"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="36"]
+[node name="JumpB" parent="StateTree" index="38"]
 hitPush = 3500
 jumpCancelable = true
 gatlingWinEnd = 14
 restoreHitFrames = PoolIntArray( 9 )
 
-[node name="JumpC" parent="StateTree" index="37"]
+[node name="JumpC" parent="StateTree" index="39"]
 level = 4
 gatlingWinEnd = 16
 restoreHitFrames = PoolIntArray(  )
 
-[node name="CrouchA" parent="StateTree" index="38"]
+[node name="CrouchA" parent="StateTree" index="40"]
 gatlingWinEnd = 10
 
-[node name="CrouchB" parent="StateTree" index="39"]
+[node name="CrouchB" parent="StateTree" index="41"]
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="40"]
+[node name="CrouchC" parent="StateTree" index="42"]
 gatlingWinEnd = 19
 
-[node name="AirBackdash" parent="StateTree" index="41"]
+[node name="AirBackdash" parent="StateTree" index="43"]
 len = 7
 
-[node name="PreJump" parent="StateTree" index="45"]
+[node name="PreJump" parent="StateTree" index="47"]
 len = 2
 
-[node name="Hadouken" parent="StateTree" index="46"]
+[node name="Hadouken" parent="StateTree" index="48"]
 releaseFrame = 13
 hadoukenScene = ExtResource( 12 )
 
-[node name="AirGrab" parent="StateTree" index="49"]
+[node name="AirGrab" parent="StateTree" index="51"]
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 
-[node name="HojogiriCharge" type="Node" parent="StateTree" index="50"]
+[node name="HojogiriCharge" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 14 )
 whiffSound = ""
 hitSound = ""
 
-[node name="HojogiriCharged" type="Node" parent="StateTree" index="51"]
+[node name="HojogiriCharged" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 15 )
 level = 3
 modifiedHitStun = 35
@@ -8735,7 +8746,7 @@ hitPush = 500
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="52"]
+[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 16 )
 level = 3
 opponentLaunch = Vector2( 300, -350 )
@@ -8747,7 +8758,7 @@ hitSound = "SlashHit"
 moveSpeed = 200
 stopFrame = 15
 
-[node name="InstantOverhead" type="Node" parent="StateTree" index="55"]
+[node name="InstantOverhead" type="Node" parent="StateTree" index="57"]
 script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 22
@@ -8760,7 +8771,7 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 launch = Vector2( 300, -500 )
 
-[node name="Super" type="Node" parent="StateTree" index="56"]
+[node name="Super" type="Node" parent="StateTree" index="58"]
 script = ExtResource( 19 )
 level = 4
 modifiedHitStun = 80
@@ -8773,7 +8784,7 @@ restoreHitFrames = PoolIntArray( 18 )
 superFrame = 7
 moveSpeed = 200
 
-[node name="6P" type="Node" parent="StateTree" index="57"]
+[node name="6P" type="Node" parent="StateTree" index="59"]
 script = ExtResource( 21 )
 level = 1
 modifiedHitStun = 22
@@ -8786,7 +8797,7 @@ whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 slashCancel = true
 
-[node name="6K" type="Node" parent="StateTree" index="58"]
+[node name="6K" type="Node" parent="StateTree" index="60"]
 script = ExtResource( 21 )
 level = 1
 modifiedHitStun = 16
@@ -8798,7 +8809,7 @@ grabInvulnFrames = 24
 moveSpeed = 250
 stopFrame = 18
 
-[node name="6C" type="Node" parent="StateTree" index="59"]
+[node name="6C" type="Node" parent="StateTree" index="61"]
 script = ExtResource( 21 )
 level = 3
 modifiedHitStun = 25
@@ -8812,7 +8823,7 @@ launchOnGrounded = false
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 
-[node name="SnailGrab" type="Node" parent="StateTree" index="61"]
+[node name="SnailGrab" type="Node" parent="StateTree" index="63"]
 script = ExtResource( 13 )
 __meta__ = {
 "_editor_description_": "Gives the opponent a fun ride

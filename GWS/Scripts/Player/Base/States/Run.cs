@@ -14,6 +14,7 @@ public class Run : MoveState
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
+		AddEasyGroundSpecials();
 		AddCommandNormals(owner.commandNormals);
 		
 		
@@ -33,6 +34,9 @@ public class Run : MoveState
 		else { owner.velocity.x = owner.dashSpeed;}
 
 		owner.GainMeter(500);
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
+			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+			"dust", owner.facingRight);
 
 		if (owner.CheckHeldKey('8'))
 		{

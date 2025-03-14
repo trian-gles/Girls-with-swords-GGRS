@@ -393,6 +393,20 @@ public abstract class State : Node
 		}
 	}
 
+	protected void AddEasyGroundSpecials()
+    {
+		
+		AddGatling(new[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('s') && owner.TrySpendMeter(), owner.easySuper);
+		AddGatling(new[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter(), owner.easySuper);
+		AddCommandNormals(owner.easyCommandSpecials);
+		AddGatling(new[] { 'a', 'p' }, owner.easySpecial);
+	}
+
+	protected void AddEasyAirSpecials()
+	{
+		AddGatling(new[] { 'a', 'p' }, owner.easyAirSpecial);
+	}
+
 	protected void AddSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)
@@ -405,7 +419,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { GD.Print("Entering ex move"); }); // last function does nothing, I'm lazy...
+			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { }); // last function does nothing, I'm lazy...
 		}
 	}
 
@@ -437,6 +451,7 @@ public abstract class State : Node
 			return;
 		foreach (CommandGatling comGat in commandGatlings)
 		{
+
 			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
 			if (!owner.facingRight && comGat.flipInputs)
 			{
@@ -483,6 +498,8 @@ public abstract class State : Node
 		}
 		foreach (NormalGatling normGat in normalGatlings)
 		{
+			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
+				continue;
 			char[] testInp = normGat.input;
 			testInp = ReverseInput(testInp);
 			if (Enumerable.SequenceEqual(normGat.input, inputArr))
@@ -900,4 +917,9 @@ public abstract class State : Node
 	{
 		return owner.terminalVelocity;
 	}
+
+	public virtual void TrySpecialBreak()
+    {
+
+    }
 }

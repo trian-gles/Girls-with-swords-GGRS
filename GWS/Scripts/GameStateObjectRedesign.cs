@@ -474,9 +474,9 @@ public class GameStateObjectRedesign : Node
 	/// <summary>
 	/// Reset the hitstop counter, called by player signals on hit
 	/// </summary>
-	public void HandleHitConfirm()
+	public void HandleHitConfirm(int hitStop)
 	{
-		hitStopRemaining = maxHitStop;
+		hitStopRemaining = hitStop;
 	}
 
 	public void SuperFreeze(string name)

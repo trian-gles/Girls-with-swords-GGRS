@@ -90,6 +90,7 @@ public class Globals : Node
 		public int hitPush;
 		public int prorationLevel;
 		public bool knockdown;
+		public int hitStop;
 		public Vector2 collisionPnt;
 		public Vector2 opponentLaunch;
 		public BaseAttack.EXTRAEFFECT effect;
@@ -127,6 +128,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 12,
 				blockStun = 11,
+				hitStop = 12,
 				dmg = 4,
 				hitPush = 2000,
 				prorationLevel = 2,
@@ -141,6 +143,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 16,
 				blockStun = 11,
+				hitStop = 16,
 				dmg = 4,
 				hitPush = 2000,
 				prorationLevel = 2,
@@ -158,6 +161,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 14,
 				blockStun = 13,
+				hitStop = 14,
 				dmg = 5,
 				hitPush = 2500,
 				prorationLevel = 1,
@@ -172,6 +176,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 18,
 				blockStun = 13,
+				hitStop = 17,
 				dmg = 5,
 				hitPush = 2500,
 				prorationLevel = 1,
@@ -189,6 +194,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 17,
 				blockStun = 16,
+				hitStop = 15,
 				dmg = 6,
 				hitPush = 3200,
 				prorationLevel = 1,
@@ -203,6 +209,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 34,
 				blockStun = 16,
+				hitStop = 18,
 				dmg = 6,
 				hitPush = 3200,
 				prorationLevel = 1,
@@ -220,6 +227,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 19,
 				blockStun = 18,
+				hitStop = 16,
 				dmg = 7,
 				hitPush = 4000,
 				prorationLevel = 0,
@@ -234,6 +242,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 38,
 				blockStun = 18,
+				hitStop = 19,
 				dmg = 7,
 				hitPush = 4000,
 				prorationLevel = 0,
@@ -250,6 +259,7 @@ public class Globals : Node
 			hit = new AttackDetails{
 				hitStun = 20,
 				blockStun = 19,
+				hitStop = 18,
 				dmg = 9,
 				hitPush = 5000,
 				prorationLevel = 0,
@@ -264,6 +274,7 @@ public class Globals : Node
 			counterHit = new AttackDetails{
 				hitStun = 38,
 				blockStun = 19,
+				hitStop = 22,
 				dmg = 9,
 				hitPush = 5000,
 				prorationLevel = 0,

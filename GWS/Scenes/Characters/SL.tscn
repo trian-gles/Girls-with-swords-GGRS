@@ -4762,7 +4762,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 4, 7, 9 ),
+"times": PoolRealArray( 0, 5, 8, 9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 12, 13, 14, 15 ]
@@ -4834,7 +4834,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 2, 4, 7 ),
+"times": PoolRealArray( 0, 2, 5, 8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false, true ]
@@ -8563,10 +8563,11 @@ tracks/9/keys = {
 
 [node name="SL" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-speed = 150
-dashSpeed = 450
-airDashSpeed = 500
-airBackdashSpeed = 350
+speed = 140
+dashSpeed = 350
+backDashSpeed = 300
+airDashSpeed = 400
+airBackdashSpeed = 300
 accel = 50
 jumpForce = 900
 shaders = [ ExtResource( 24 ), ExtResource( 24 ), ExtResource( 24 ) ]
@@ -8580,10 +8581,12 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 20, -25 )
+position = Vector2( 14, -15 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 35, -50 )
+position = Vector2( 24, -16 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 25, 24 )
@@ -8593,7 +8596,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 209
+frame = 13
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8676,9 +8679,6 @@ script = ExtResource( 20 )
 
 [node name="SuperJump" parent="StateTree" index="30"]
 startupFrames = 7
-
-[node name="AirDash" parent="StateTree" index="32"]
-len = 25
 
 [node name="Jab" parent="StateTree" index="34"]
 jumpCancelable = true

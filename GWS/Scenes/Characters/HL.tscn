@@ -8411,7 +8411,9 @@ tracks/9/keys = {
 
 [node name="HL" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-speed = 250
+speed = 200
+dashSpeed = 600
+backDashSpeed = 500
 airDashSpeed = 600
 accel = 50
 jumpForce = 900
@@ -8433,6 +8435,7 @@ position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 0, 0 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
@@ -8443,14 +8446,14 @@ texture = ExtResource( 26 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 204
+frame = 209
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 204
+frame = 209
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8581,13 +8584,15 @@ modifiedCounterHitStun = 36
 opponentLaunch = Vector2( -300, -300 )
 chLaunch = Vector2( -500, -500 )
 modifiedHitPush = 1000
+modifiedDmg = 2
 effect = 3
 chEffect = 3
 knockdown = true
 launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
-launch = Vector2( 800, -800 )
+restoreHitFrames = PoolIntArray( 12, 15, 18 )
+launch = Vector2( 600, -600 )
 
 [node name="Super" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 19 )

@@ -35,7 +35,7 @@ public class SL : Player
 	}
 	public override void _Ready()
 	{
-		GD.Print("Calling SL Ready");
+		//GD.Print("Calling SL Ready");
 		base._Ready();
 		charName = "SL";
 

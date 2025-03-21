@@ -546,7 +546,6 @@ public class GameStateObjectRedesign : Node
 	public void NewHadouken(HadoukenPart h)
 	{
 		hadoukens.Add(h.Name, h); 
-		Globals.Log($"New hadouken on frame {Globals.frame}");
 		h.creationFrame = Globals.frame;
 
 		if (h is Snail)

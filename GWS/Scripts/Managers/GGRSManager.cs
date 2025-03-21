@@ -113,13 +113,13 @@ class GGRSManager : StateManager
 
 	public override void OnRematch()
 	{
-		GD.Print("rematch!");
+		//GD.Print("rematch!");
 		ReadyForChange(GameType.GAME);
 	}
 
 	public override void OnReselectChar()
 	{
-		GD.Print("New Characters!");
+		//GD.Print("New Characters!");
 		ReadyForChange(GameType.CHARSELECT);
 	}
 
@@ -131,7 +131,7 @@ class GGRSManager : StateManager
 
 	public override void OnGameWon(string winner)
 	{
-		GD.Print($"Game definitevly won on frame {Globals.frame}");
+		//GD.Print($"Game definitevly won on frame {Globals.frame}");
 		base.OnGameWon(winner);
 	}
 
@@ -263,7 +263,7 @@ class GGRSManager : StateManager
 
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
-			GD.Print($"Moving to game {nameof(nextGameType)}");
+			//GD.Print($"Moving to game {nameof(nextGameType)}");
 			StartNextGame();
 			readyForChange = false;
 		}

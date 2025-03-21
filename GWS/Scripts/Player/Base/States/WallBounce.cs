@@ -20,7 +20,7 @@ public class WallBounce : Float
 			owner.velocity.x = 200;
 			if (sign != 0)
 				owner.velocity.x *= sign;
-			GD.Print("Lower than min vel");
+			//GD.Print("Lower than min vel");
 		}
 		
 		

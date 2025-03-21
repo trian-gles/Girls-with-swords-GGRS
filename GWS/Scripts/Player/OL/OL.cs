@@ -63,7 +63,7 @@ public class OL : Player
 	}
 	public override void _Ready()
 	{
-		GD.Print("Calling OL Ready");
+		//GD.Print("Calling OL Ready");
 		base._Ready();
 		charName = "OL";
 

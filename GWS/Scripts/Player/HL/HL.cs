@@ -48,7 +48,7 @@ public class HL : Player
 				CommandHadouken("Hat", HadoukenPart.ProjectileCommand.StopHat);
 			}
 		};
-		GD.Print("Calling HL Ready");
+		//GD.Print("Calling HL Ready");
 		base._Ready();
 		charName = "HL";
 

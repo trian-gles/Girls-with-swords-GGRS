@@ -25,7 +25,7 @@ signal CharacterSelected
 func _ready():
 	for nameOfCharacter in get_tree().get_nodes_in_group("Characters"):
 		characters.append(nameOfCharacter)
-	print(characters)
+	# print(characters)
 	texture = player1Text
 	
 func _input(event):
@@ -91,8 +91,8 @@ func _input(event):
 			if(event.is_action_pressed(p2keys[i]) and not event.is_echo()):
 				CharacterSelectionManager.p2color = i
 				CharacterSelectionManager.playertwo = CharacterSelectionManager.selectableCharacters[characters[currentSelected].name]
-				print(CharacterSelectionManager.playertwo)
-				print(CharacterSelectionManager.playerone)
+				# print(CharacterSelectionManager.playertwo)
+				# print(CharacterSelectionManager.playerone)
 			
 				active = false
 				emit_signal("CharacterSelected")

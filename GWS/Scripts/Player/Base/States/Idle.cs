@@ -62,11 +62,6 @@ public class Idle : State
 		}
 	}
 
-	public override void HandleInput(char[] inputArr)
-	{
-		base.HandleInput(inputArr);
-	}
-
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();

@@ -24,6 +24,7 @@ public class OL : Player
 		easyAirSpecial = "AntiAir";
 		easySpecial = "HojogiriCharge";
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "Hadouken", true));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "CommandRunWillTurn"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "AntiAir"));
 		//easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Hojogiri"));
 

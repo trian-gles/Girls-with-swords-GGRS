@@ -16,6 +16,7 @@ public class Block : HitState
 		base.Enter();
 		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
 		owner.GainMeter(300);
+		owner.EmitSignal("HitConfirm", 14);
 	}
 	public override void FrameAdvance()
 	{

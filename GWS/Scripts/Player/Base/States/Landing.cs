@@ -12,8 +12,10 @@ public class Landing : State
 	{
 		base._Ready();
 		stop = false;
-		AddNormals();
 		AddSpecials(owner.groundSpecials);
+		AddCommandNormals(owner.commandNormals);
+		AddEasyGroundSpecials();
+		AddNormals();
 	}
 	//public override bool DelayInputs()
 	//{

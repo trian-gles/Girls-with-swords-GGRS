@@ -50,7 +50,7 @@ public class Walk : MoveState
 			}
 			else
             {
-				owner.velocity.x = owner.speed * -2; 
+				owner.velocity.x = owner.backDashSpeed; 
 				if (!owner.facingRight) 
 					owner.velocity.x *= -1;
 				EmitSignal(nameof(StateFinished), "Backdash");

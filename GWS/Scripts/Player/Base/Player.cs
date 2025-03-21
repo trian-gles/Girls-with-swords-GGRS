@@ -48,6 +48,9 @@ public class Player : Node2D
 	public int dashSpeed = 700;
 
 	[Export]
+	public int backDashSpeed = 700;
+
+	[Export]
 	public int airDashSpeed = 800;
 
 	[Export]
@@ -1227,7 +1230,7 @@ public class Player : Node2D
 		currentState.ReceiveHit(details);
 		currentState.ReceiveStunDamage(details);
 		if (!details.projectile)
-			EmitSignal(nameof(HitConfirm));
+			EmitSignal(nameof(HitConfirm), details.hitStop);
 		
 		wasHit = false;
 

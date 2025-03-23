@@ -16,9 +16,10 @@ public class Zone : BehaviourState
         distance = state.P1State.position[0] - state.P2State.position[0];
         int action = 0;
         if (random.Next(2) == 1) {
-            if (random.Next(2) == 1)
+            int option = random.Next(3);
+            if (option == 1)
                 action |= 4;
-            else
+            else if (option == 2)
                 action |= 8;
 
             if (random.Next(2) == 1)

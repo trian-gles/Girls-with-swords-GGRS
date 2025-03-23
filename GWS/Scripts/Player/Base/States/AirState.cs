@@ -53,11 +53,11 @@ public abstract class AirState : State
 		else
 		{
 			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt);
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
 
 			else if (rightBlock || leftBlock || anyBlock)
 			{
-				EnterBlockState("Block", details.collisionPnt);
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
 			}
 			else
 			{

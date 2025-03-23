@@ -745,10 +745,11 @@ public abstract class State : Node
 	}
 	
 
-	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt)
+	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		EmitSignal(nameof(StateFinished), stateName);
+		owner.EmitSignal("HitConfirm", blockStop);
 	}
 
 	public virtual void ReceiveHit(Globals.AttackDetails details)
@@ -783,12 +784,12 @@ public abstract class State : Node
 		if (details.height == HEIGHT.HIGH) 
 		{
 			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt);
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
 			else if (!owner.CheckHeldKey('2'))
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EnterBlockState("Block", details.collisionPnt);
+					EnterBlockState("Block", details.collisionPnt, details.hitStop);
 				}
 				else
 				{
@@ -804,12 +805,12 @@ public abstract class State : Node
 		else if (details.height == HEIGHT.LOW) 
 		{
 			if (owner.CheckOverrideBlock() && owner.grounded)
-				EnterBlockState("CrouchBlock", details.collisionPnt);
+				EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
 			else if (owner.CheckHeldKey('2') && owner.grounded)
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EnterBlockState("CrouchBlock", details.collisionPnt);
+					EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
 				}
 				else
 				{
@@ -824,14 +825,14 @@ public abstract class State : Node
 		else
 		{
 			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt);
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
 
 			else if (rightBlock || leftBlock || anyBlock)
 			{
 				if (owner.CheckHeldKey('2') && owner.grounded)
-					EnterBlockState("CrouchBlock", details.collisionPnt);
+					EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
 				else
-					EnterBlockState("Block", details.collisionPnt);
+					EnterBlockState("Block", details.collisionPnt, details.hitStop);
 			}
 			else 
 			{

@@ -114,6 +114,9 @@ public class HadoukenPart : Node2D
 		hitDetails.projectile = true;
 		chDetails.projectile = true;
 
+		hitDetails.hitStop = 0;
+		chDetails.hitStop = 0;
+
 		hitDetails.opponentLaunch = opponentLaunch;
 		if (chLaunch != Vector2.Zero)
 			chDetails.opponentLaunch = chLaunch;

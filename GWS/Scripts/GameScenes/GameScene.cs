@@ -298,6 +298,10 @@ public class GameScene : BaseGame
 		P2.TimeAdvance();
 		camera.Call("adjust", P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
 	}
+	
+	public void ScreenShake(float amount){
+		camera.Call("set_trauma", amount);
+	}
 
 	/// <summary>
 	/// We only accept inputs for actual gameplay and for the couple 
@@ -417,6 +421,8 @@ public class GameScene : BaseGame
 			P1Counter.Call("display", Globals.frame);
 		else
 			P2Counter.Call("display", Globals.frame);
+
+		ScreenShake(0.6f);
 	}
 
 	/// <summary>

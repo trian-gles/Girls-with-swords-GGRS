@@ -6,10 +6,28 @@ export var debug_mode : bool = true
 var camera_rect = Rect2()
 var viewport_rect = Rect2()
 
+export var decay = 0.8  # How quickly the shaking stops [0, 1].
+export var max_offset = Vector2(100, 75)  # Maximum hor/ver shake in pixels.
+export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
+
+
+var trauma = 0.0  # Current shake strength.
+var trauma_power = 2  # Trauma exponent. Use [2, 3].
+
 func _ready():
 	viewport_rect = get_viewport_rect()
 	
+func set_trauma(amount):
+	trauma = amount
+	
 func adjust(p1_pos : Vector2, p2_pos : Vector2):
+	
+	if trauma:
+		trauma = max(trauma - decay / 60, 0)
+	var amount = pow(trauma, trauma_power)
+	rotation = max_roll * amount * rand_range(-1, 1)
+	
+	
 	camera_rect = Rect2(p1_pos, Vector2())
 	camera_rect = camera_rect.expand(p2_pos)
 	
@@ -17,6 +35,8 @@ func adjust(p1_pos : Vector2, p2_pos : Vector2):
 	var desired_offset = calculate_center(camera_rect)
 	
 	offset = offset.linear_interpolate(desired_offset, 0.5)
+	offset.x += max_offset.x * amount * rand_range(-1, 1)
+	offset.y += max_offset.y * amount * rand_range(-1, 1)
 	zoom = zoom.linear_interpolate(desired_zoom, 0.5)
 	
 	

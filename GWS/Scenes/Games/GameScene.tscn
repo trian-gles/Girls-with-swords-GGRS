@@ -75,6 +75,8 @@ layer = 100
 offset = Vector2( 240, 127 )
 current = true
 script = ExtResource( 5 )
+decay = 2.5
+max_offset = Vector2( 50, 30 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

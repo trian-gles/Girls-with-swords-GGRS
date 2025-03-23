@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=24]
 [ext_resource path="res://Sprites/Palettes/SL/SL-grey-palette.png" type="Texture" id=25]
+[ext_resource path="res://Scripts/Player/SL/SnailRide.cs" type="Script" id=26]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -7752,10 +7753,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -8582,10 +8583,9 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 14, -15 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 24, -16 )
+position = Vector2( 13, 5 )
 disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
@@ -8596,7 +8596,7 @@ material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 13
+frame = 6
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8614,16 +8614,14 @@ startupFrames = 7
 launch = Vector2( 0, 0 )
 
 [node name="SnailRide" type="Node" parent="StateTree" index="19"]
-script = ExtResource( 19 )
+script = ExtResource( 26 )
 level = 3
-modifiedHitStun = 20
-modifiedCounterHitStun = 55
-chLaunch = Vector2( 300, -600 )
+modifiedHitStun = 25
+modifiedCounterHitStun = 30
 effect = 3
-chEffect = 2
-exitOnHit = true
-moveSpeed = 700
-stopFrame = 33
+chEffect = 3
+moveSpeed = 600
+startMovingFrame = 5
 
 [node name="SnailAirSnipe" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )

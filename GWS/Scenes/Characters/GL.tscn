@@ -7644,7 +7644,6 @@ jumpCancelable = true
 gatlingWinEnd = 9
 
 [node name="Kick" parent="StateTree" index="27"]
-jumpCancelable = true
 gatlingWinEnd = 11
 
 [node name="Slash" parent="StateTree" index="28"]

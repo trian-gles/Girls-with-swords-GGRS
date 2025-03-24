@@ -6,10 +6,12 @@ public class HatPart : HadoukenPart
 {
 
 	public override string hadoukenType { get; } = "Hat";
+	public Vector2 targetPos = Vector2.Zero;
 	protected override void HurtPlayer()
 	{
-		base.HurtPlayer();
 		Arrive();
+		base.HurtPlayer();
+		
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)
@@ -18,12 +20,6 @@ public class HatPart : HadoukenPart
 		{
 			MakeInactive();
 			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
-		}
-
-		else if (command == ProjectileCommand.StopHat)
-		{
-			Arrive();
-			
 		}
 	}
 
@@ -41,6 +37,7 @@ public class HatPart : HadoukenPart
 		return new Dictionary<string, int>() {
 			{ "speedx", (int) speed.x},
 			{"speedy", (int) speed.y}
+
 		};
 	}
 
@@ -53,6 +50,12 @@ public class HatPart : HadoukenPart
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+		if (movingRight && Position.x > targetPos.x)
+			Arrive();
+		
+		if (!movingRight && Position.x < targetPos.x)
+			Arrive();
+
 		if (Position.x * 100 > Globals.rightWall || Position.x * 100 < Globals.leftWall)
 			Arrive();
 

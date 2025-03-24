@@ -6,7 +6,6 @@ public class HL : Player
 {
 
 	public bool hatted = true;
-	public char hatKey = ' ';
 	public Vector2 hatCoors = new Vector2(0, 0);
 	public override void _EnterTree()
 	{
@@ -19,7 +18,9 @@ public class HL : Player
 		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
 
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "UpHat"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "DP"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '6' }, 'a', "JoeRogan"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "UpUpHat", true));
 		//easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Feint"));
 		easySpecial = "Hadouken";
@@ -41,13 +42,6 @@ public class HL : Player
 	}
 	public override void _Ready()
 	{
-		negEdgeCallback = (char releasedInp) =>
-		{
-			if (releasedInp == hatKey)
-			{
-				CommandHadouken("Hat", HadoukenPart.ProjectileCommand.StopHat);
-			}
-		};
 		//GD.Print("Calling HL Ready");
 		base._Ready();
 		charName = "HL";
@@ -64,7 +58,6 @@ public class HL : Player
 	{
 		var dict = new Dictionary<string, int>();
 		dict["hatted"] = hatted ? 1: 0;
-		dict["hatKey"] = hatKey;
 		dict["hattx"] = (int)hatCoors.x;
 		dict["hatty"] = (int)hatCoors.y;
 		return dict;
@@ -77,7 +70,6 @@ public class HL : Player
 			hatted = (dict["hatted"] == 1);
 			hatCoors.x = dict["hattx"];
 			hatCoors.y = dict["hatty"];
-			hatKey = Convert.ToChar(dict["hatKey"]);
 
 		}
 

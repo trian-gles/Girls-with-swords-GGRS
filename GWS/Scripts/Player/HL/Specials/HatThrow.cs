@@ -8,22 +8,31 @@ public class HatThrow : Hadouken
 	[Export]
 	public string negEdgeButton = "p";
 
+	[Export]
+	public Vector2 targetPos = Vector2.Zero;
+
 	public override string animationName { get { return "Hadouken"; } } // Required as we reuse both this script AND animation
 
 	public override void Enter()
 	{
 		base.Enter();
-		if (((HL)owner).hatted)
-			((HL)owner).hatKey = negEdgeButton[0];
-		else
+		if (!((HL)owner).hatted)
 			EmitSignal(nameof(StateFinished), "Teleport");
 	}
-	protected override void EmitHadouken()
+	protected override HadoukenPart EmitHadouken()
 	{
 		if (((HL)owner).hatted)
 		{
-			base.EmitHadouken();
+			var h = (HatPart) base.EmitHadouken();
 			((HL)owner).hatted = false;
+			Vector2 transform = new Vector2(targetPos);
+			if (!owner.facingRight)
+				transform.x *= -1;
+			
+			h.targetPos = owner.Position + transform;
+			return (HadoukenPart) h;
+				
 		}
+		return null;
 	}
 }

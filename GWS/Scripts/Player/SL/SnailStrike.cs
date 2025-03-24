@@ -30,7 +30,7 @@ class SnailStrike : Hadouken
         }
     }
 
-    protected override void EmitHadouken()
+    protected override HadoukenPart EmitHadouken()
     {
         int strikeNum = (frameCount - releaseFrame) / gapBetweenStrikes;
 
@@ -46,6 +46,7 @@ class SnailStrike : Hadouken
             displacement *= -1;
         //GD.Print(displacement);
         h.Position = new Vector2(owner.Position.x  + displacement, owner.Position.y + yOffset);
+        return h;
     }
 
 

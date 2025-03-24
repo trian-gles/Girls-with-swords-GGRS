@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/HL/HL.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Player/HL/Specials/HLDP.cs" type="Script" id=4]
 [ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset-hat.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Player/HL/Specials/Teleport.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/Projectiles/UpHat.tscn" type="PackedScene" id=7]
@@ -3133,7 +3133,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=23]
-length = 33.0
+length = 38.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -8426,6 +8426,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 18, -18 )
@@ -8434,8 +8435,10 @@ position = Vector2( 18, -18 )
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 0, 0 )
-disabled = false
+position = Vector2( 27, 12 )
+
+[node name="HurtB2" parent="HurtBoxes" index="1"]
+position = Vector2( 20, -4 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
@@ -8446,14 +8449,13 @@ texture = ExtResource( 26 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 209
+frame = 41
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 5 )
-offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 209
+frame = 41
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8471,9 +8473,9 @@ modifiedHitStun = 35
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 300, -1000 )
 modifiedHitPush = 6000
-whiffSound = "SlashWhiff"
-hitSound = "SlashHit"
-launch = Vector2( 200, -800 )
+restoreHitFrames = PoolIntArray( 12 )
+launch = Vector2( 200, -1000 )
+throwFrame = 25
 
 [node name="Teleport" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
@@ -8537,6 +8539,7 @@ hopForce = 40
 [node name="Hadouken" parent="StateTree" index="40"]
 script = ExtResource( 12 )
 hadoukenScene = ExtResource( 25 )
+targetPos = Vector2( 100, 0 )
 
 [node name="AirGrab" parent="StateTree" index="43"]
 releaseFrame = 20
@@ -8546,13 +8549,22 @@ launch = Vector2( 400, 0 )
 script = ExtResource( 12 )
 hadoukenScene = ExtResource( 7 )
 negEdgeButton = "k"
+targetPos = Vector2( 100, -50 )
 
-[node name="UpUpHat" type="Node" parent="StateTree" index="45"]
+[node name="AirHat" type="Node" parent="StateTree" index="45"]
+script = ExtResource( 12 )
+hasGravity = false
+hadoukenScene = ExtResource( 7 )
+negEdgeButton = "k"
+targetPos = Vector2( 100, 0 )
+
+[node name="UpUpHat" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 12 )
 hadoukenScene = ExtResource( 8 )
 negEdgeButton = "s"
+targetPos = Vector2( 100, -50 )
 
-[node name="HojogiriCharged" type="Node" parent="StateTree" index="46"]
+[node name="HojogiriCharged" type="Node" parent="StateTree" index="47"]
 script = ExtResource( 15 )
 level = 3
 modifiedHitStun = 35
@@ -8563,7 +8575,7 @@ hitPush = 500
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="47"]
+[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 16 )
 level = 3
 opponentLaunch = Vector2( 300, -350 )
@@ -8576,7 +8588,7 @@ hitSound = "SlashHit"
 moveSpeed = 200
 stopFrame = 15
 
-[node name="JoeRogan" type="Node" parent="StateTree" index="50"]
+[node name="JoeRogan" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 22
@@ -8594,7 +8606,7 @@ hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 12, 15, 18 )
 launch = Vector2( 600, -600 )
 
-[node name="Super" type="Node" parent="StateTree" index="51"]
+[node name="Super" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 19 )
 level = 4
 modifiedHitStun = 80
@@ -8610,7 +8622,7 @@ moveSpeed = 200
 startMovingFrame = 30
 stopFrame = 60
 
-[node name="6K" type="Node" parent="StateTree" index="52"]
+[node name="6K" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18
@@ -8622,7 +8634,7 @@ sweepCancel = true
 moveSpeed = 250
 stopFrame = 18
 
-[node name="6P" type="Node" parent="StateTree" index="54"]
+[node name="6P" type="Node" parent="StateTree" index="55"]
 script = ExtResource( 24 )
 level = 1
 modifiedHitStun = 22
@@ -8633,7 +8645,7 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 
-[node name="6S" type="Node" parent="StateTree" index="56"]
+[node name="6S" type="Node" parent="StateTree" index="57"]
 script = ExtResource( 24 )
 level = 1
 launchOnGrounded = false

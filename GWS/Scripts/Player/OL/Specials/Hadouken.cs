@@ -45,14 +45,15 @@ public class Hadouken : BaseAttack
 	/// <summary>
 	/// Note that the overriden SnailStrike discards this parent code.
 	/// </summary>
-	protected virtual void EmitHadouken()
+	protected virtual HadoukenPart EmitHadouken()
 	{
 		var h = hadoukenScene.Instance() as HadoukenPart;
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
 		h.Position = new Vector2(owner.Position.x + xOffset, owner.Position.y + yOffset);
-		Globals.Log($"Emitting snail at x position {h.Position}, our position = {owner.Position}, animation frame = {frameCount}, vel = {owner.velocity}");
+		return h;
+		//Globals.Log($"Emitting snail at x position {h.Position}, our position = {owner.Position}, animation frame = {frameCount}, vel = {owner.velocity}");
 
 	}
 

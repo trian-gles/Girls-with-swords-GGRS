@@ -6,6 +6,7 @@ public class GFXHandler : Node
 {
 	private Dictionary<string, PlayerParticle> particlesCPU;
 	private Dictionary<string, PlayerParticleGPU> particlesGPU;
+	private Node drawFX;
 	
 	//private PlayerParticle blood;
 	//private PlayerParticle cancel;
@@ -15,6 +16,7 @@ public class GFXHandler : Node
 	{
 		particlesCPU = new Dictionary<string, PlayerParticle>();
 		particlesGPU = new Dictionary<string, PlayerParticleGPU>();
+		drawFX = GetNode("DrawFX");
 
 		foreach (object node in GetChildren())
 		{
@@ -57,9 +59,13 @@ public class GFXHandler : Node
 		{
 			particlesGPU[name].Trigger(0, pos, facingRight);
 		}
+		else if (name == "Slash")
+		{
+			drawFX.Call("slash", pos);
+		}
 		else
 		{ 
-			throw new Exception($"'{name}' is not a valid graphic effect"); 
+			// throw new Exception($"'{name}' is not a valid graphic effect"); 
 		}
 	}
 

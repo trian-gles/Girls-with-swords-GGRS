@@ -5,7 +5,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animation"
-length = 10.0
+length = 20.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -13,7 +13,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 10 ),
+"times": PoolRealArray( 0, 19 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0, 4 ]
@@ -35,7 +35,7 @@ tracks/0/keys = {
 }
 
 [node name="ParticleSprite" instance=ExtResource( 1 )]
-modulate = Color( 1, 1, 1, 0.494118 )
+modulate = Color( 1, 1, 1, 0.733333 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 2
 z_as_relative = false

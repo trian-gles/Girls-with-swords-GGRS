@@ -20,7 +20,7 @@ public class HL : Player
 
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "DP"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '6' }, 'a', "JoeRogan"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "UpUpHat", true));
 		//easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Feint"));
 		easySpecial = "Hadouken";

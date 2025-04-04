@@ -11,6 +11,9 @@ public class HatThrow : Hadouken
 	[Export]
 	public Vector2 targetPos = Vector2.Zero;
 
+	[Export]
+	public int landingRecovery = 5;
+
 	public override string animationName { get { return "Hadouken"; } } // Required as we reuse both this script AND animation
 
 	public override void Enter()
@@ -18,6 +21,8 @@ public class HatThrow : Hadouken
 		base.Enter();
 		if (!((HL)owner).hatted)
 			EmitSignal(nameof(StateFinished), "Teleport");
+		
+		owner.landingRecoveryFramesRemaining = landingRecovery;
 	}
 	protected override HadoukenPart EmitHadouken()
 	{

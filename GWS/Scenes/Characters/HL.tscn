@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/HL/HL.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Sprites/Palettes/HL/HL-default-palettey.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/Player/HL/Specials/HatThrow.cs" type="Script" id=12]
 [ext_resource path="res://Sprites/Palettes/OL/Ky v2.png" type="Texture" id=13]
+[ext_resource path="res://Scripts/Player/HL/Specials/AirHatThrow.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriChargedSlash.cs" type="Script" id=16]
 [ext_resource path="res://Scripts/Player/Base/States/LaunchAttack.cs" type="Script" id=18]
@@ -5584,7 +5585,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 19, 19 ) ]
+"values": [ Vector2( 15, 15 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HitBoxes/HitB1:position")
@@ -5608,7 +5609,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -5644,7 +5645,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 27, 27 ) ]
+"values": [ Vector2( 20, 20 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HurtBoxes/HurtB2:position")
@@ -5717,6 +5718,30 @@ tracks/13/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 2, 2 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("HitBoxes/HitB2:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("HitBoxes/HitB2:shape:extents")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 21, 21 ) ]
 }
 
 [sub_resource type="Animation" id=40]
@@ -8426,19 +8451,19 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 18, -18 )
+position = Vector2( 0, 0 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 27, 12 )
+position = Vector2( 0, 0 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 20, -4 )
+position = Vector2( 0, -35 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
@@ -8449,13 +8474,14 @@ texture = ExtResource( 26 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 41
+frame = 204
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 5 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 41
+frame = 204
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8502,6 +8528,7 @@ gatlingWinEnd = 12
 selfGatlingInp = " k"
 
 [node name="Slash" parent="StateTree" index="28"]
+hitGfx = 4
 gatlingWinEnd = 20
 restoreHitFrames = PoolIntArray( 9 )
 
@@ -8517,9 +8544,9 @@ gatlingWinEnd = 14
 [node name="JumpC" parent="StateTree" index="31"]
 modifiedHitStun = 22
 opponentLaunch = Vector2( 300, -300 )
-jumpCancelable = true
 effect = 1
 chEffect = 1
+hitGfx = 4
 knockdown = true
 turnAroundOnEnter = true
 gatlingWinEnd = 16
@@ -8552,11 +8579,11 @@ negEdgeButton = "k"
 targetPos = Vector2( 100, -50 )
 
 [node name="AirHat" type="Node" parent="StateTree" index="45"]
-script = ExtResource( 12 )
-hasGravity = false
-hadoukenScene = ExtResource( 7 )
-negEdgeButton = "k"
+script = ExtResource( 14 )
+hadoukenScene = ExtResource( 25 )
 targetPos = Vector2( 100, 0 )
+landingRecovery = 8
+dropFrame = 15
 
 [node name="UpUpHat" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 12 )
@@ -8593,8 +8620,8 @@ script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 22
 modifiedCounterHitStun = 36
-opponentLaunch = Vector2( -300, -300 )
-chLaunch = Vector2( -500, -500 )
+opponentLaunch = Vector2( 300, -300 )
+chLaunch = Vector2( 300, -500 )
 modifiedHitPush = 1000
 modifiedDmg = 2
 effect = 3
@@ -8604,6 +8631,7 @@ launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 12, 15, 18 )
+landingRecoveryFrames = 5
 launch = Vector2( 600, -600 )
 
 [node name="Super" type="Node" parent="StateTree" index="52"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -57,12 +57,14 @@
 [ext_resource path="res://Scripts/Player/Base/AudioStreamPlayer.gd" type="Script" id=55]
 [ext_resource path="res://Scripts/Player/Base/States/SuperJump.cs" type="Script" id=56]
 [ext_resource path="res://Scripts/Tool/SpriteSync.gd" type="Script" id=57]
+[ext_resource path="res://Scripts/Player/Base/States/LandingRecovery.cs" type="Script" id=58]
+[ext_resource path="res://Scripts/Player/Base/GFX/DrawFX.gd" type="Script" id=59]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 23, 31 )
+extents = Vector2( 15, 39 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 10 )
@@ -74,10 +76,73 @@ extents = Vector2( 6, 5 )
 extents = Vector2( 18, 9 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 32, 15 )
+extents = Vector2( 11, 7 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 20 )
+
+[sub_resource type="Animation" id=20]
+resource_name = "fire"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.1, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "init"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "purple"
+length = 40.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.541176, 0, 0.788235, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "snail"
+length = 60.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.329412, 0.439216, 0.92549, 1 ) ]
+}
 
 [sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0, 0.671053, 1 )
@@ -192,11 +257,19 @@ scale = Vector2( 9, 9 )
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.443412, 0.534549, 0.938157, 1 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 hframes = 176
 frame = 124
+
+[node name="SpriteModulations" type="AnimationPlayer" parent="Sprite"]
+playback_speed = 60.0
+anims/fire = SubResource( 20 )
+anims/init = SubResource( 23 )
+anims/purple = SubResource( 22 )
+anims/snail = SubResource( 21 )
 
 [node name="SpriteFront" type="Sprite" parent="."]
 position = Vector2( 0, -48 )
@@ -300,6 +373,7 @@ level = 2
 chEffect = 3
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+superKaraButton = "a"
 
 [node name="JumpA" type="Node" parent="StateTree"]
 script = ExtResource( 20 )
@@ -384,6 +458,9 @@ script = ExtResource( 53 )
 
 [node name="ThrowBreak" type="Node" parent="StateTree"]
 script = ExtResource( 37 )
+
+[node name="LandingRecovery" type="Node" parent="StateTree"]
+script = ExtResource( 58 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false
@@ -542,7 +619,7 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 302.2
 damping = 100.0
 damping_curve = SubResource( 9 )
-scale_amount = 2.0
+scale_amount = 4.0
 color = Color( 0.0470588, 0.945098, 1, 1 )
 script = ExtResource( 36 )
 
@@ -610,6 +687,10 @@ scale_amount_random = 0.14
 hue_variation = 0.02
 hue_variation_random = 0.28
 script = ExtResource( 36 )
+
+[node name="DrawFX" type="Node2D" parent="GFXHandler"]
+z_index = 6
+script = ExtResource( 59 )
 
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" method="_on_AudioStreamPlayer_finished"]
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" method="_on_AudioStreamPlayer_finished"]

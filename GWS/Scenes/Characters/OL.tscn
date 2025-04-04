@@ -8085,10 +8085,12 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 21, 14 )
+position = Vector2( 13, 17 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 19, 14 )
+position = Vector2( 24, 3 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 32, -6 )
@@ -8102,7 +8104,7 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 2
+frame = 233
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8120,10 +8122,12 @@ modifiedHitStun = 35
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 300, -1000 )
 modifiedHitPush = 6000
+hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 12 )
 superKaraButton = "s"
+landingRecoveryFrames = 4
 launch = Vector2( 200, -800 )
 launchFrame = 3
 
@@ -8137,9 +8141,11 @@ chLaunch = Vector2( 600, -1000 )
 modifiedHitPush = 2500
 hitPush = 2500
 chEffect = 2
+hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 11 )
+superKaraButton = "s"
 launch = Vector2( 0, -400 )
 
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
@@ -8172,6 +8178,7 @@ chLaunch = Vector2( 0, 1000 )
 slowTerminalVelocity = 550
 hitPush = 3000
 chEffect = 1
+hitGfx = 4
 knockdown = true
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
@@ -8199,6 +8206,7 @@ gatlingWinEnd = 12
 level = 1
 jumpCancelable = true
 chEffect = 0
+hitGfx = 4
 gatlingWinEnd = 20
 
 [node name="JumpA" parent="StateTree" index="34"]
@@ -8211,7 +8219,6 @@ jumpCancelable = true
 gatlingWinEnd = 14
 
 [node name="JumpC" parent="StateTree" index="36"]
-jumpCancelable = true
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="37"]
@@ -8222,6 +8229,7 @@ gatlingWinEnd = 12
 
 [node name="CrouchC" parent="StateTree" index="39"]
 jumpCancelable = true
+hitGfx = 4
 gatlingWinEnd = 19
 
 [node name="AirBackdash" parent="StateTree" index="40"]
@@ -8249,6 +8257,7 @@ modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 100, -500 )
 chLaunch = Vector2( 100, -500 )
 hitPush = 500
+hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
@@ -8261,6 +8270,7 @@ slowTerminalVelocity = 440
 modifiedHitPush = 100
 modifiedDmg = 3
 hitPush = 100
+hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 9 )
@@ -8278,6 +8288,7 @@ modifiedHitPush = 1000
 height = 2
 effect = 3
 chEffect = 3
+hitGfx = 4
 knockdown = true
 launchOnGrounded = false
 whiffSound = "SlashWhiff"
@@ -8292,6 +8303,7 @@ modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 200, -600 )
 slowTerminalVelocity = 400
 modifiedDmg = 13
+hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 48 )
@@ -8328,6 +8340,7 @@ hitSound = "PunchHit"
 script = ExtResource( 24 )
 level = 3
 chEffect = 3
+hitGfx = 4
 launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"

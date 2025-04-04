@@ -7578,7 +7578,7 @@ texture = ExtResource( 22 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 122
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 3 )
@@ -7595,7 +7595,7 @@ texture = ExtResource( 18 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 122
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -7606,6 +7606,7 @@ opponentLaunch = Vector2( 200, -800 )
 chLaunch = Vector2( 200, -1100 )
 hitPush = 100
 chEffect = 2
+hitGfx = 1
 whiffSound = "LampFireWhiff"
 hitSound = "LampHit"
 
@@ -7662,6 +7663,7 @@ gatlingWinEnd = 12
 
 [node name="JumpC" parent="StateTree" index="31"]
 jumpCancelable = true
+hitGfx = 1
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
@@ -7690,6 +7692,7 @@ chLaunch = Vector2( 0, 1600 )
 height = 2
 effect = 1
 chEffect = 1
+hitGfx = 1
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 

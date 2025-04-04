@@ -8591,6 +8591,7 @@ position = Vector2( 35, -50 )
 position = Vector2( 25, 24 )
 
 [node name="Sprite" parent="." index="4"]
+modulate = Color( 0.901353, 0.785, 0.954471, 1 )
 material = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
@@ -8634,6 +8635,7 @@ hadoukenScene = ExtResource( 11 )
 yOffset = -8
 launch = Vector2( -200, -600 )
 launchFrame = 3
+landingRecovery = 9
 
 [node name="PhonePutAway" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 3 )

@@ -70,13 +70,5 @@ class AIManager : LocalManager
 		ai = new AIBehaviour();
 	}
 
-	public HashSet<string> GetP1Tags()
-	{
-		return gameScene.GetP1Tags();
-	}
 
-	public HashSet<string> GetP2Tags()
-	{
-		return gameScene.GetP2Tags();
-	}
 }

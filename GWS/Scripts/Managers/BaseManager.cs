@@ -328,4 +328,14 @@ public class BaseManager : Node2D
 		var p2Inputs = (int)(float)matchInputs[gameFrame - 1];
 		return new int[] { p1Inputs, p2Inputs};
 	}
+
+	public HashSet<string> GetP1Tags()
+	{
+		return gameScene.GetP1Tags();
+	}
+
+	public HashSet<string> GetP2Tags()
+	{
+		return gameScene.GetP2Tags();
+	}
 }

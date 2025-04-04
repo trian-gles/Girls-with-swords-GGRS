@@ -24,4 +24,6 @@ class LocalManager : BaseManager
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		OnRematch();
 	}
+
+
 }

@@ -111,7 +111,10 @@ public abstract class BaseAttack : State
 	public enum GRAPHICEFFECT
 	{
 		NONE,
-		EXPLOSION
+		EXPLOSION,
+		PURPLE,
+		SNAIL,
+		SLASH
 	}
 
 
@@ -236,7 +239,7 @@ public abstract class BaseAttack : State
 
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
-		Globals.Log($"Hit connect at point {collisionPnt}");
+		//Globals.Log($"Hit connect at point {collisionPnt}");
 
 		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;

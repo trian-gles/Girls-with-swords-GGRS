@@ -115,7 +115,7 @@ public abstract class State : Node
 		hitConnect = false;
 	}
 
-	protected void ApplyGravity()
+	protected virtual void ApplyGravity()
 	{
 		if (owner.counterStopFrames > 0 || !hasGravity)
 		{
@@ -394,7 +394,7 @@ public abstract class State : Node
 	}
 
 	protected void AddEasyGroundSpecials()
-    {
+	{
 		
 		AddGatling(new[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('s') && owner.TrySpendMeter(), owner.easySuper);
 		AddGatling(new[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter(), owner.easySuper);
@@ -737,6 +737,14 @@ public abstract class State : Node
 		{
 			owner.GFXEvent("Explosion");
 		}
+		else if (gfx == BaseAttack.GRAPHICEFFECT.PURPLE)
+		{
+			owner.GFXEvent("Purple");
+		}
+		else if (gfx == BaseAttack.GRAPHICEFFECT.SLASH)
+		{
+			owner.GFXEvent("Slash");
+		}
 	}
 
 	public virtual void HitWall()
@@ -747,6 +755,7 @@ public abstract class State : Node
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
+		GD.Print(collisionPnt);
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		EmitSignal(nameof(StateFinished), stateName);
 		owner.EmitSignal("HitConfirm", blockStop);
@@ -920,7 +929,7 @@ public abstract class State : Node
 	}
 
 	public virtual void TrySpecialBreak()
-    {
+	{
 
-    }
+	}
 }

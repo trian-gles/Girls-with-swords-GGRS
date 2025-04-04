@@ -6,6 +6,9 @@ using System.Linq;
 
 public abstract class AirAttack : BaseAttack
 {
+
+	[Export]
+	public int landingRecoveryFrames = 0;
 	public override void _Ready()
     {
         base._Ready();
@@ -14,7 +17,15 @@ public abstract class AirAttack : BaseAttack
 		AddCancel("Fall");
 		hitDetails.airBlockable = true;
 	}
-	protected override void AddJumpCancel()
+
+    public override void Enter()
+    {
+        base.Enter();
+		if (landingRecoveryFrames > 0)
+			owner.landingRecoveryFramesRemaining = landingRecoveryFrames;
+    }
+
+    protected override void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{
@@ -75,7 +86,10 @@ public abstract class AirAttack : BaseAttack
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
-			EmitSignal(nameof(StateFinished), "Landing");
+			if (owner.landingRecoveryFramesRemaining > 0)
+				EmitSignal(nameof(StateFinished), "LandingRecovery");
+			else
+				EmitSignal(nameof(StateFinished), "Landing");
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))

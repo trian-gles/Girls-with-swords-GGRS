@@ -2,20 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class Landing : State
+public class LandingRecovery : State
 {
-	[Export]
-	public int len = 3;
 
 	public override string animationName { get { return "Crouch"; } }
 	public override void _Ready()
 	{
 		base._Ready();
 		stop = false;
-		AddSpecials(owner.groundSpecials);
-		AddCommandNormals(owner.commandNormals);
-		AddEasyGroundSpecials();
-		AddNormals();
 	}
 	//public override bool DelayInputs()
 	//{
@@ -26,23 +20,18 @@ public class Landing : State
 		base.Enter();
 		owner.canDoubleJump = true;
 		owner.canAirDash = true;
+		owner.velocity.x = 0;
 	}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
-		if (frameCount == len)
+		if (owner.landingRecoveryFramesRemaining-- == 0)
 			EmitSignal(nameof(StateFinished), "Idle");
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		ReceiveHitNoBlock(details);
-	}
-
-	public override void Exit()
-	{
-		base.Exit();
-		owner.velocity.x = 0;
 	}
 }
 

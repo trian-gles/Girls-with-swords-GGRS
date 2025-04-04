@@ -118,7 +118,11 @@ public class Fall : AirState
 		if (owner.grounded && frameCount > 0)
 		{
 			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
-			EmitSignal(nameof(StateFinished), "Landing");
+
+			if (owner.landingRecoveryFramesRemaining > 0)
+				EmitSignal(nameof(StateFinished), "LandingRecovery");
+			else
+				EmitSignal(nameof(StateFinished), "Landing");
 		}
 		if (!owner.canDoubleJump)
 		{

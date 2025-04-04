@@ -149,6 +149,7 @@ public class Player : Node2D
 	public int counterStopFrames = 0;
 	public bool canGroundbounce = true;
 	public int specialBreakFramesRemaining = 0;
+	public int landingRecoveryFramesRemaining = 0;
 
 
 	public bool trainingControlledPlayer;
@@ -204,6 +205,7 @@ public class Player : Node2D
 		public int counterStopFrames { get; set; }
 		public bool canGroundbounce { get; set; }
 		public int specialBreakFramesRemaining { get; set; }
+		public int landingRecoveryFramesRemaining { get; set; }
 
 		public Dictionary<string, int> charSpecificData { get; set; }
 
@@ -279,12 +281,14 @@ public class Player : Node2D
 
 	// Sprites
 	public Sprite mainSprite;
+	public Godot.AnimationPlayer spriteAnim;
 	public Sprite behindSprite;
 	public Sprite frontSprite;
 
 	public override void _Ready()
 	{
 		mainSprite = GetNode<Sprite>("Sprite");
+		spriteAnim = GetNode<Godot.AnimationPlayer>("Sprite/SpriteModulations");
 		behindSprite = GetNode<Sprite>("SpriteBehind");
 		frontSprite = GetNode<Sprite>("SpriteFront");
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -405,12 +409,10 @@ public class Player : Node2D
 		pState.canGroundbounce = canGroundbounce;
 		pState.charSpecificData = GetStateCharSpecific();
 
-		if (pState.specialBreakFramesRemaining > 0 && specialBreakFramesRemaining == 0)
-			GreySprite();
-		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)
-			ColorSprite();
+		
 			
 		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
+		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
 		
 		return pState;
 	}
@@ -469,7 +471,13 @@ public class Player : Node2D
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
 		SetStateCharSpecific(pState.charSpecificData);
+		if (pState.specialBreakFramesRemaining > 0 && specialBreakFramesRemaining == 0)
+			GreySprite();
+		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)
+			ColorSprite();
+
 		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
+		landingRecoveryFramesRemaining = pState.landingRecoveryFramesRemaining;
 	}
 
 	/// <summary>
@@ -1404,6 +1412,10 @@ public class Player : Node2D
 	public void GFXEvent(string name)
 	{
 		gfxHand.Effect(name, Position, facingRight);
+		if (name == "Explosion")
+			spriteAnim.Play("fire");
+		else if (name == "Purple")
+			spriteAnim.Play("purple");
 	}
 
 	public void GFXEvent(string name, Vector2 pos)
@@ -1527,6 +1539,7 @@ public class Player : Node2D
 	/// </summary>
 	public override void _Draw()
 	{
+
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			List<Rect2> hitRects = GetRects(hitBoxes);

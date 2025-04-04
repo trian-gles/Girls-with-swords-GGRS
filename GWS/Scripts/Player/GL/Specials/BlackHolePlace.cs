@@ -17,7 +17,7 @@ public class BlackHolePlace : Hadouken
             EmitSignal(nameof(StateFinished), "Fall");
             return;
         }
-            
+        owner.landingRecoveryFramesRemaining = 7;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
     }
     public override void FrameAdvance()

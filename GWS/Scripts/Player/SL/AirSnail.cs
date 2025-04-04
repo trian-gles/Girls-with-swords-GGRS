@@ -9,6 +9,9 @@ public class AirSnail : Hadouken
 	[Export]
 	public int launchFrame = 0;
 
+	[Export]
+	public int landingRecovery = 4;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -19,6 +22,7 @@ public class AirSnail : Hadouken
 	{
 		base.Enter();
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
+		owner.landingRecoveryFramesRemaining = landingRecovery;
 	}
 	public override void FrameAdvance()
 	{
@@ -40,6 +44,7 @@ public class AirSnail : Hadouken
 			if (owner.grounded)
 			{
 				owner.velocity.x = 0;
+				EmitSignal(nameof(StateFinished), "LandingRecovery");
 			}
 		}
 	}

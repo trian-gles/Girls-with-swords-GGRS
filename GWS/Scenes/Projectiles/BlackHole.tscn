@@ -13,6 +13,7 @@ modifiedHitStun = 45
 modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 0, -400 )
 chLaunch = Vector2( 0, -400 )
+hitGfx = 2
 duration = 180
 pullStrength = 30
 
@@ -23,14 +24,15 @@ visible = false
 position = Vector2( 0, 0 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." index="2"]
-amount = 90
+amount = 101
 emission_shape = 1
 emission_sphere_radius = 55.79
 gravity = Vector2( 0, 0 )
 orbit_velocity = 0.1
-radial_accel = -48.64
-scale_amount = 3.0
+radial_accel = -95.95
+scale_amount = 4.0
 scale_amount_random = 0.14
+color = Color( 0.52549, 0, 1, 1 )
 color_ramp = SubResource( 1 )
 hue_variation = 0.02
 hue_variation_random = 0.28

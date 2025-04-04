@@ -7,10 +7,10 @@ public class HatPart : HadoukenPart
 
 	public override string hadoukenType { get; } = "Hat";
 	public Vector2 targetPos = Vector2.Zero;
-	protected override void HurtPlayer()
+	protected override void HurtPlayer(Vector2 collisionPnt)
 	{
 		Arrive();
-		base.HurtPlayer();
+		base.HurtPlayer(collisionPnt);
 		
 	}
 

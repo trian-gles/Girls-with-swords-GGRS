@@ -127,6 +127,7 @@ public class HadoukenPart : Node2D
 		chDetails.knockdown = knockdown;
 		hitDetails.height = height;
 		chDetails.height = height;
+		hitDetails.airBlockable = true;
 
 		hitDetails.graphicFX = hitGfx;
 		chDetails.graphicFX = hitGfx;
@@ -221,16 +222,18 @@ public class HadoukenPart : Node2D
 		{
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}
+		
 		if (active && hits == 0)
 		{
-			if (CheckRect() && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln()))
+			Vector2 collisionPnt = CheckRect();
+			if (collisionPnt != Vector2.Inf && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln()))
 			{
-				HurtPlayer();
+				HurtPlayer(collisionPnt);
 			}
 		}
 
 		if ((hits > 0) && (hits < totalHits) && ((frame - lastHitFrame) > breakBetweenHits))
-			HurtPlayer();
+			HurtPlayer(targetPlayer.Position);
 		frame++;
 	}
 
@@ -238,7 +241,7 @@ public class HadoukenPart : Node2D
 	/// checks if the targeted player is inside the collision box
 	/// </summary>
 	/// <returns></returns>
-	protected bool CheckRect()
+	protected Vector2 CheckRect()
 	{
 		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
 		List<Rect2> otherRects = targetPlayer.GetRects(targetPlayer.hitBoxes, true);
@@ -246,10 +249,12 @@ public class HadoukenPart : Node2D
 		{
 			if (myRect.Intersects(pRect))
 			{
-				return true;
+				Rect2 clip = myRect.Clip(pRect);
+				Vector2 center = (clip.End - clip.Position) / 2 + clip.Position;
+				return center;
 			}
 		}
-		return false;
+		return Vector2.Inf;
 	}
 
 	public void HandleOverlap()
@@ -269,7 +274,7 @@ public class HadoukenPart : Node2D
 		return GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
 	}
 
-	protected virtual void HurtPlayer()
+	protected virtual void HurtPlayer(Vector2 collisionPnt)
 	{
 		// fill this with harmful stuff!!!!
 		if (targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
@@ -286,6 +291,9 @@ public class HadoukenPart : Node2D
 			hitDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
+
+		hitDetails.collisionPnt = collisionPnt;
+		chDetails.collisionPnt = collisionPnt;
 
 
 		targetPlayer.ReceiveHit(hitDetails, chDetails);

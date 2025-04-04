@@ -36,7 +36,7 @@ public class BlackHole : HadoukenPart
 			if (frame > duration)
 				MakeInactive();
 
-			if (targetPlayer.grounded)
+			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains("tech"))
 			{
 				return;
 			}
@@ -113,11 +113,11 @@ public class BlackHole : HadoukenPart
 				targetPlayer.velocity += pushVec;
 			}
 
-
-			if (CheckRect() && hits < totalHits)
+			Vector2 collisionPnt = CheckRect();
+			if (collisionPnt != Vector2.Inf && hits < totalHits)
 			{
 				//Globals.Log("Hurting player on frame " + frame);
-				HurtPlayer();
+				HurtPlayer(collisionPnt);
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
 				targetPlayer.counterStopFrames = 15;
 				

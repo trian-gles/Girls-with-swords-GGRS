@@ -188,13 +188,13 @@ public class Snail : HadoukenPart
 		
 	}
 
-	protected override void HurtPlayer()
+	protected override void HurtPlayer(Vector2 collisionPnt)
 	{
 		if (frame - activateFrame < startup)
 			return;
 
 		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack || mode == SnailMode.Attack2)
-			base.HurtPlayer();
+			base.HurtPlayer(collisionPnt);
 
 		if (mode == SnailMode.JumpAttack)
 			sprite.Visible = false;

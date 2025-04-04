@@ -23,12 +23,12 @@ class Coffee : HadoukenPart
 
 	}
 
-	protected override void HurtPlayer()
+	protected override void HurtPlayer(Vector2 collisionPnt)
 	{
-		base.HurtPlayer();
-//		GetNode<Node>("/root/Globals").EmitSignal(nameof(State.PlayerFXEmitted),
-//			Position * 100,
-//			"coffee", movingRight);
-//		targetPlayer.ScheduleEvent(EventScheduler.EventType.GRAPHIC, "CoffeeExplosion");˚
+		base.HurtPlayer(collisionPnt);
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(State.PlayerFXEmitted),
+			Position * 100,
+			"coffee", movingRight);
+		targetPlayer.ScheduleEvent(EventScheduler.EventType.GRAPHIC, "CoffeeExplosion");
 	}
 }

@@ -8086,11 +8086,9 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 24, 3 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 32, -6 )
@@ -8104,7 +8102,7 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 233
+frame = 126
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8157,6 +8155,7 @@ turnFrame = 13
 
 [node name="CommandRun" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 22 )
+projectileInvulnFrames = 20
 len = 12
 speed = 550
 
@@ -8210,7 +8209,6 @@ hitGfx = 4
 gatlingWinEnd = 20
 
 [node name="JumpA" parent="StateTree" index="34"]
-jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="JumpB" parent="StateTree" index="35"]
@@ -8219,6 +8217,7 @@ jumpCancelable = true
 gatlingWinEnd = 14
 
 [node name="JumpC" parent="StateTree" index="36"]
+hitGfx = 4
 gatlingWinEnd = 16
 
 [node name="CrouchA" parent="StateTree" index="37"]

@@ -10,6 +10,7 @@ public class TrainingManager : BaseManager
 	public override void _Ready()
 	{
 		base._Ready();
+		Globals.autoTech = true;
 		charSelectScene.ChangeHUDText("P1");
 		gameScene.ChangeHUDText("P1");
 		gameScene.recordMatch = false;

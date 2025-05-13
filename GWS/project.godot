@@ -261,15 +261,18 @@ switch_players={
 }
 reset_training={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
 }
 record_inputs={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
 }
 playback_inputs={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
 }
 r={
 "deadzone": 0.5,

@@ -78,7 +78,7 @@ public class CharSelectScene : BaseGame
 	{
 		animationPlayer = GetNode<Godot.AnimationPlayer>("CanvasLayer/P1ColorSelect/Animation");
 		
-		HUDText = GetNode<Label>("CanvasLayer/DebugText");
+		HUDText = GetNode<Control>("CanvasLayer/DebugText");
 		base._Ready();
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
 		lastInputs = new int[2] { 0, 0 };

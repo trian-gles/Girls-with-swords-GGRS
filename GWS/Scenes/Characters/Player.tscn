@@ -257,7 +257,6 @@ scale = Vector2( 9, 9 )
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.443412, 0.534549, 0.938157, 1 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )

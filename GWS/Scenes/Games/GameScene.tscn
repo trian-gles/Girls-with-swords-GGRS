@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -26,6 +26,8 @@
 [ext_resource path="res://Scenes/HUD/PlayerLogo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Sprites/Overlay/Player Number2.png" type="Texture" id=25]
 [ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Scripts/HUD/DebugBack.gd" type="Script" id=27]
+[ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=28]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -58,9 +60,6 @@ font_data = ExtResource( 23 )
 [sub_resource type="DynamicFont" id=10]
 size = 10
 font_data = ExtResource( 23 )
-
-[sub_resource type="Theme" id=11]
-default_font = ExtResource( 8 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -325,19 +324,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugBack" type="ColorRect" parent="HUD"]
+[node name="DebugText" type="ColorRect" parent="HUD"]
 margin_top = -2.0
 margin_right = 33.0
 margin_bottom = 17.0
 color = Color( 0, 0, 0, 0.435294 )
+script = ExtResource( 27 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugText" type="Label" parent="HUD"]
+[node name="DebugTextLabel" type="Label" parent="HUD/DebugText"]
+margin_top = 2.0
 margin_right = 40.0
-margin_bottom = 16.0
-theme = SubResource( 11 )
+margin_bottom = 18.0
+theme = ExtResource( 28 )
 text = "P1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -361,7 +362,7 @@ margin_left = -117.0
 margin_top = 2.0
 margin_right = 124.0
 margin_bottom = 18.0
-theme = SubResource( 11 )
+theme = ExtResource( 28 )
 text = "REC"
 align = 1
 __meta__ = {
@@ -384,7 +385,7 @@ anchor_right = 0.054
 anchor_bottom = 0.223
 margin_right = 40.0
 margin_bottom = 173.06
-theme = SubResource( 11 )
+theme = ExtResource( 28 )
 text = "1
 2
 3
@@ -422,7 +423,7 @@ anchor_bottom = 0.5
 margin_left = -17.0
 margin_top = -108.0
 margin_bottom = 98.0
-theme = SubResource( 11 )
+theme = ExtResource( 28 )
 text = "1
 2
 3

@@ -743,7 +743,7 @@ public abstract class State : Node
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SLASH)
 		{
-			owner.GFXEvent("Slash");
+			owner.GFXEvent("Slash", owner.otherPlayer.CheckHurtRect() / 100);
 		}
 	}
 

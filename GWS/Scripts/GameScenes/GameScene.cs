@@ -115,7 +115,7 @@ public class GameScene : BaseGame
 
 	public override void _Ready()
 	{
-		HUDText = GetNode<Label>("HUD/DebugText");
+		HUDText = GetNode<Control>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
 		P1Counter = GetNode<Label>("HUD/P1Counter");
@@ -235,7 +235,7 @@ public class GameScene : BaseGame
 	}
 	public void SetDebugVisibility(bool visible)
 	{
-		foreach (var path in new string[] { "HUD/DebugBack", "HUD/DebugText", "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText" })
+		foreach (var path in new string[] { "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText", "HUD/DebugText/DebugTextLabel" })
 			((Control)GetNode(path)).Visible = visible;
 	}
 

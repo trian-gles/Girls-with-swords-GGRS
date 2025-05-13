@@ -18,6 +18,8 @@ public class SL : Player
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
 
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
+
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "SnailCall"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "BackToss"));
 

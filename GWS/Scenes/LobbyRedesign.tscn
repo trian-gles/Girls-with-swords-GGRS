@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Scripts/Lobby/AVConfigMenu.gd" type="Script" id=17]
 [ext_resource path="res://Scripts/Lobby/Resolution.gd" type="Script" id=18]
 [ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=19]
+[ext_resource path="res://Scenes/Managers/TutorialManager.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -162,13 +163,14 @@ tracks/5/keys = {
 default_font = ExtResource( 16 )
 
 [node name="LobbyRedesign" type="Node2D"]
-position = Vector2( 2, 0 )
+position = Vector2( 1, 0 )
 script = ExtResource( 1 )
 localManager = ExtResource( 10 )
 trainingManager = ExtResource( 11 )
 aiManager = ExtResource( 14 )
 ggrsManager = ExtResource( 12 )
 syncTestManager = ExtResource( 13 )
+tutorialManager = ExtResource( 20 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
 layer = 9
@@ -320,17 +322,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 33.0
+margin_top = 22.0
 margin_right = 300.0
-margin_bottom = 49.0
+margin_bottom = 38.0
 theme = ExtResource( 19 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 53.0
+margin_top = 42.0
 margin_right = 300.0
-margin_bottom = 71.0
+margin_bottom = 60.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -338,27 +340,36 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 75.0
+margin_top = 64.0
 margin_right = 300.0
-margin_bottom = 93.0
+margin_bottom = 82.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 97.0
+[node name="Tutorial" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 86.0
 margin_right = 300.0
-margin_bottom = 115.0
+margin_bottom = 104.0
+text = "Tutorial"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 108.0
+margin_right = 300.0
+margin_bottom = 126.0
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 119.0
+margin_top = 130.0
 margin_right = 300.0
-margin_bottom = 137.0
+margin_bottom = 148.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -694,6 +705,9 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="." method="OnTutorialButtonDown"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]

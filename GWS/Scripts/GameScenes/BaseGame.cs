@@ -10,7 +10,7 @@ using System.Linq;
 public abstract class BaseGame : Node2D
 {
 
-	protected Label HUDText;
+	protected Control HUDText;
 	protected Label inputText;
 	protected Label inputTextP2;
 
@@ -82,7 +82,7 @@ public abstract class BaseGame : Node2D
 	public virtual void Reset() { }
 
 	public void ChangeHUDText(string msg) {
-		HUDText.Text = msg;
+		HUDText.Call("set_text", msg);
 	}
 
 	// ----------------

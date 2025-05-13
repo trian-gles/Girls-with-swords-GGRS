@@ -7653,7 +7653,6 @@ hitSound = "LampHit"
 gatlingWinEnd = 17
 
 [node name="JumpA" parent="StateTree" index="29"]
-jumpCancelable = true
 gatlingWinEnd = 10
 
 [node name="JumpB" parent="StateTree" index="30"]
@@ -7662,7 +7661,6 @@ jumpCancelable = true
 gatlingWinEnd = 12
 
 [node name="JumpC" parent="StateTree" index="31"]
-jumpCancelable = true
 hitGfx = 1
 whiffSound = "LampWhiff"
 hitSound = "LampHit"

@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/HUD/TutorialGoal.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Button Icons/XboxButtons.png" type="Texture" id=2]
+[ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=3]
+
+[node name="TutorialGoal" type="ReferenceRect"]
+anchor_right = 0.625
+anchor_bottom = 0.059
+margin_bottom = 0.0699987
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_color = Color( 0, 0, 0, 0.435294 )
+finish_color = Color( 0, 1, 0, 0.443137 )
+curr_color = Color( 1, 1, 0, 0.435294 )
+fail_color = Color( 1, 0.0196078, 0.0196078, 0.435294 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 300.0
+margin_bottom = 16.0
+color = Color( 0, 0, 0, 0.435294 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Label" parent="."]
+margin_left = 39.0
+margin_top = -1.0
+margin_right = 301.0
+margin_bottom = 15.0
+theme = ExtResource( 3 )
+text = "Walk to the right!"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input1" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+texture = ExtResource( 2 )
+hframes = 101
+
+[node name="Input2" type="Sprite" parent="."]
+position = Vector2( 26, 8 )
+texture = ExtResource( 2 )
+hframes = 101

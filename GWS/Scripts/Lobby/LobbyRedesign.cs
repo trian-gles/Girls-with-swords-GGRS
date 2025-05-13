@@ -42,6 +42,9 @@ public class LobbyRedesign : Node2D
 	[Export]
 	public PackedScene syncTestManager;
 
+	[Export]
+	public PackedScene tutorialManager;
+
 	public bool host = false;
 	
 	private BaseManager activeManager;
@@ -134,6 +137,12 @@ public class LobbyRedesign : Node2D
 	{
 		BeginManager(aiManager);
 	}
+
+	public void OnTutorialButtonDown()
+	{
+		GD.Print("tutorial");
+		BeginManager(tutorialManager);
+	}
 	
 	private void BeginManager(PackedScene managerScene){
 		activeManager = managerScene.Instance<BaseManager>();
@@ -186,3 +195,7 @@ public class LobbyRedesign : Node2D
 	}
 	
 }
+
+
+
+

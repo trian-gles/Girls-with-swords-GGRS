@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/snail-sufferage-25-5-25.ogg-5eb76ca802841437e9a7f0606aa923d5.oggstr"
+
+[deps]
+
+source_file="res://Music/snail-sufferage-25-5-25.ogg"
+dest_files=[ "res://.import/snail-sufferage-25-5-25.ogg-5eb76ca802841437e9a7f0606aa923d5.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

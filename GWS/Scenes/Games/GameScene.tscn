@@ -16,7 +16,7 @@
 [ext_resource path="res://Scripts/HUD/FlashText.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg" type="AudioStream" id=17]
+[ext_resource path="res://Music/snail-sufferage-25-5-25.ogg" type="AudioStream" id=17]
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
@@ -589,7 +589,7 @@ text = "SWINGIN!"
 align = 1
 
 [node name="Complete" type="Label" parent="HUD/TutorialContainer"]
-margin_top = 168.0
+margin_top = 178.0
 margin_right = 347.0
 margin_bottom = 194.0
 theme = ExtResource( 31 )

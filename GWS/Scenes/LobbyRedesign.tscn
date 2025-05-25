@@ -83,7 +83,7 @@ shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
 shader_param/noise = SubResource( 3 )
 
 [sub_resource type="Animation" id=5]
-length = 1.7
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/GwSTitle:rect_position")
 tracks/0/interp = 1
@@ -127,7 +127,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1.4, 1.7 ),
+"times": PoolRealArray( 0, 1.7, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -139,7 +139,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.8, 1.1 ),
+"times": PoolRealArray( 0, 1.1, 1.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -151,10 +151,22 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 1.1, 1.4 ),
+"times": PoolRealArray( 0, 1.4, 1.7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/Tutorial:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.8, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Theme" id=6]
@@ -220,9 +232,9 @@ size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
 margin_left = 138.0
-margin_top = 57.0
+margin_top = 43.0
 margin_right = 342.0
-margin_bottom = 213.0
+margin_bottom = 227.0
 mouse_filter = 0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -238,7 +250,6 @@ theme = ExtResource( 19 )
 text = "Girls with Swords"
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
 margin_right = 204.0
 margin_bottom = 44.0
@@ -253,7 +264,6 @@ __meta__ = {
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-modulate = Color( 1, 1, 1, 0 )
 margin_top = 54.0
 margin_right = 204.0
 margin_bottom = 72.0
@@ -263,11 +273,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+[node name="Tutorial" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
 margin_top = 82.0
 margin_right = 204.0
 margin_bottom = 100.0
+text = "Tutorial"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+margin_top = 110.0
+margin_right = 204.0
+margin_bottom = 128.0
 text = "Button Configuration"
 flat = false
 __meta__ = {
@@ -276,10 +295,10 @@ __meta__ = {
 
 [node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 110.0
+margin_top = 138.0
 margin_right = 204.0
-margin_bottom = 128.0
-text = "Adult Video"
+margin_bottom = 156.0
+text = "AUDIO VIDEO CONFIG"
 flat = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -294,9 +313,9 @@ text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 138.0
+margin_top = 166.0
 margin_right = 204.0
-margin_bottom = 156.0
+margin_bottom = 184.0
 theme = SubResource( 6 )
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
@@ -304,9 +323,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LocalButtons" type="VBoxContainer" parent="MenuRoot/LocalMenu"]
 margin_left = 90.0
@@ -322,17 +338,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 22.0
+margin_top = 33.0
 margin_right = 300.0
-margin_bottom = 38.0
+margin_bottom = 49.0
 theme = ExtResource( 19 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 42.0
+margin_top = 53.0
 margin_right = 300.0
-margin_bottom = 60.0
+margin_bottom = 71.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
@@ -340,36 +356,27 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 64.0
+margin_top = 75.0
 margin_right = 300.0
-margin_bottom = 82.0
+margin_bottom = 93.0
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tutorial" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 86.0
-margin_right = 300.0
-margin_bottom = 104.0
-text = "Tutorial"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 108.0
+margin_top = 97.0
 margin_right = 300.0
-margin_bottom = 126.0
+margin_bottom = 115.0
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 130.0
+margin_top = 119.0
 margin_right = 300.0
-margin_bottom = 148.0
+margin_bottom = 137.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
@@ -690,6 +697,9 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="." method="OnTutorialButtonDown"]
+[connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
@@ -705,9 +715,6 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="." method="OnTutorialButtonDown"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Tutorial" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]

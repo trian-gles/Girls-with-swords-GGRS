@@ -10,7 +10,7 @@ public class Run : MoveState
 		base._Ready();
 		loop = true;
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
-			AddGatling(dashSpecial.inputs[0], dashSpecial.state);
+			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
 		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
@@ -22,7 +22,7 @@ public class Run : MoveState
 		AddGatling(new[] { '6', 'r' }, "PostRun");
 		AddGatling(new[] { '4', 'r' }, "PostRun");
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
-			AddGatling(dashSpecial.inputs[0], dashSpecial.state);
+			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
 
 		soundRate = 10;
 	}

@@ -15,9 +15,6 @@ anchor_bottom = 1.0
 rect_pivot_offset = Vector2( -33.7119, -43.5752 )
 theme = ExtResource( 7 )
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PauseOverlay" type="ColorRect" parent="."]
 visible = false

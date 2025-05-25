@@ -3570,7 +3570,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=27]
-length = 75.0
+length = 60.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -8087,12 +8087,6 @@ position = Vector2( -2, 0 )
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
 
-[node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 24, 3 )
-
-[node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 32, -6 )
-
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
 
@@ -8102,7 +8096,6 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 126
 
 [node name="StateTree" parent="." index="6"]
 script = SubResource( 3 )
@@ -8112,6 +8105,10 @@ startupFrames = 7
 
 [node name="MovingJump" parent="StateTree" index="5"]
 startupFrames = 7
+
+[node name="Grab" parent="StateTree" index="11"]
+launch = Vector2( 400, -700 )
+hitStun = 55
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )

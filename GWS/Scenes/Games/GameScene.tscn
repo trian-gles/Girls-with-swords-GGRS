@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -28,6 +28,9 @@
 [ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Scripts/HUD/DebugBack.gd" type="Script" id=27]
 [ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=28]
+[ext_resource path="res://Scenes/HUD/TutorialGoal.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Scripts/HUD/TutorialContainer.gd" type="Script" id=30]
+[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=31]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -281,9 +284,6 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 9 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="HUD/OhShitP2"]
 
@@ -398,9 +398,6 @@ text = "1
 0
 "
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="InputBackP2" type="ColorRect" parent="HUD"]
 anchor_left = 1.0
@@ -514,6 +511,90 @@ margin_left = 319.0
 margin_top = 48.0
 margin_right = -42.0
 margin_bottom = -214.0
+
+[node name="TutorialContainer" type="VBoxContainer" parent="HUD"]
+process_priority = -3
+anchor_left = 0.157
+anchor_top = 0.147
+anchor_right = 0.339
+anchor_bottom = 0.252
+margin_left = -0.360001
+margin_top = -0.0799999
+margin_right = 259.28
+margin_bottom = 142.96
+custom_constants/separation = 18
+script = ExtResource( 30 )
+
+[node name="TutorialGoal" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 347.0
+margin_bottom = 0.0
+
+[node name="TutorialGoal2" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 18.0
+margin_right = 347.0
+margin_bottom = 18.0
+
+[node name="TutorialGoal3" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 36.0
+margin_right = 347.0
+margin_bottom = 36.0
+
+[node name="TutorialGoal4" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 54.0
+margin_right = 347.0
+margin_bottom = 54.0
+
+[node name="TutorialGoal5" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 72.0
+margin_right = 347.0
+margin_bottom = 72.0
+
+[node name="TutorialGoal6" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 90.0
+margin_right = 347.0
+margin_bottom = 90.0
+
+[node name="TutorialGoal7" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 108.0
+margin_right = 347.0
+margin_bottom = 108.0
+
+[node name="TutorialGoal8" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 126.0
+margin_right = 347.0
+margin_bottom = 126.0
+
+[node name="Swingin" type="Label" parent="HUD/TutorialContainer"]
+margin_top = 144.0
+margin_right = 347.0
+margin_bottom = 160.0
+theme = ExtResource( 31 )
+text = "SWINGIN!"
+align = 1
+
+[node name="Complete" type="Label" parent="HUD/TutorialContainer"]
+margin_top = 168.0
+margin_right = 347.0
+margin_bottom = 194.0
+theme = ExtResource( 31 )
+text = "TUTORIAL COMPLETE!"
+align = 1
 
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )

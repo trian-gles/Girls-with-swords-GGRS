@@ -28,6 +28,9 @@ public class HadoukenPart : Node2D
 	protected Vector2 chLaunch = Vector2.Zero;
 
 	[Export]
+	protected bool launchOnGrounded = true;
+
+	[Export]
 	protected int modifiedHitPush = 0;
 
 	[Export]
@@ -284,7 +287,19 @@ public class HadoukenPart : Node2D
 
 		hits++;
 		Globals.Log("Hits = " + hits + ", Total hits = " + totalHits);
-		hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
+
+		if (!launchOnGrounded && targetPlayer.grounded)
+		{
+			hitDetails.opponentLaunch = Vector2.Zero;
+			chDetails.opponentLaunch = Vector2.Zero;
+		}
+		else
+		{
+			hitDetails.opponentLaunch = opponentLaunch;
+			chDetails.opponentLaunch = chLaunch;
+		}
+
+			hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		chDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
 		if (!movingRight)
 		{

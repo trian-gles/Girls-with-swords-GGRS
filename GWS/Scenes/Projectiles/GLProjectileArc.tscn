@@ -5,8 +5,8 @@
 
 [node name="GLProjectileArc" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-level = 2
 modifiedHitStun = 18
+modifiedCounterHitStun = 18
 chEffect = 3
 hitGfx = 1
 speed = Vector2( 5, 0 )

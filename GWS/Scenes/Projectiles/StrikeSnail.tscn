@@ -21,6 +21,10 @@ region = Rect2( 0, 32, 32, 32 )
 atlas = ExtResource( 3 )
 region = Rect2( 32, 32, 32, 32 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 8, 8 )
@@ -37,10 +41,6 @@ region = Rect2( 16, 0, 8, 8 )
 atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 8, 8 )
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
-
 [sub_resource type="SpriteFrames" id=10]
 resource_local_to_scene = true
 animations = [ {
@@ -49,14 +49,14 @@ animations = [ {
 "name": "OLProjectile",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
-"loop": true,
-"name": "CellPhone",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 9 ) ],
 "loop": true,
 "name": "Snail",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "CellPhone",
 "speed": 5.0
 } ]
 
@@ -78,7 +78,6 @@ position = Vector2( 4, 0 )
 rotation = 0.764454
 frames = SubResource( 10 )
 animation = "Snail"
-frame = 0
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 0, 3 )

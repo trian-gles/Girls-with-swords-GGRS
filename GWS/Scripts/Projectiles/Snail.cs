@@ -194,7 +194,10 @@ public class Snail : HadoukenPart
 			return;
 
 		if (mode == SnailMode.Attack || mode == SnailMode.JumpAttack || mode == SnailMode.Attack2)
+		{
 			base.HurtPlayer(collisionPnt);
+		}
+			
 
 		if (mode == SnailMode.JumpAttack)
 			sprite.Visible = false;
@@ -261,6 +264,8 @@ public class Snail : HadoukenPart
 		}
 		if (Math.Abs(targetPlayer.internalPos.x / 100 - Position.x) < 65)
 			Jump();
+
+		TryRide();
 
 	}
 
@@ -367,17 +372,13 @@ public class Snail : HadoukenPart
 		{
 			HandleJumpCommand();
 		}
-		else if (command == ProjectileCommand.SnailRide && mode != SnailMode.Inactive)
-		{
-			TryRide();
-			
-		}
 			
 
 	}
 
 	private void TryRide()
 	{
+		if (!snailOwner.grounded) return;
 		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
 		List<Rect2> otherRects = snailOwner.GetRects(targetPlayer.hitBoxes, true);
 		foreach (Rect2 pRect in otherRects)

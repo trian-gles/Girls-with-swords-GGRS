@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -16,7 +16,7 @@
 [ext_resource path="res://Scripts/HUD/FlashText.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Music/snail-sufferage-25-5-25.ogg" type="AudioStream" id=17]
+[ext_resource path="res://Music/snail-sufferage-4-6-25.ogg" type="AudioStream" id=17]
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
@@ -51,14 +51,20 @@ default_font = ExtResource( 8 )
 default_font = ExtResource( 8 )
 
 [sub_resource type="Theme" id=7]
+resource_name = "OutlineText"
 default_font = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=8]
+outline_size = 1
 font_data = ExtResource( 22 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 10
 font_data = ExtResource( 23 )
+
+[sub_resource type="Theme" id=11]
+resource_name = "OutlineText"
+default_font = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 10
@@ -74,6 +80,7 @@ layer = 100
 [node name="UserInterface" parent="UserInterface" instance=ExtResource( 2 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+pause_mode = 2
 offset = Vector2( 240, 127 )
 current = true
 script = ExtResource( 5 )
@@ -264,9 +271,6 @@ custom_fonts/font = SubResource( 8 )
 text = "TIME UP"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="OhShitP2" type="Label" parent="HUD"]
 anchor_left = 0.5
@@ -281,6 +285,9 @@ rect_rotation = 16.5511
 rect_scale = Vector2( 4, 4 )
 theme = SubResource( 7 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
 custom_fonts/font = SubResource( 9 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
@@ -298,14 +305,12 @@ margin_right = -106.824
 margin_bottom = -7.41006
 rect_rotation = -17.7801
 rect_scale = Vector2( 4, 4 )
-theme = SubResource( 7 )
+theme = SubResource( 11 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
 custom_fonts/font = SubResource( 10 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="HUD/OhShit"]
 
@@ -339,10 +344,8 @@ margin_top = 2.0
 margin_right = 40.0
 margin_bottom = 18.0
 theme = ExtResource( 28 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "P1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="RecordingBack" type="ColorRect" parent="HUD"]
 anchor_left = 0.5
@@ -363,6 +366,7 @@ margin_top = 2.0
 margin_right = 124.0
 margin_bottom = 18.0
 theme = ExtResource( 28 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "REC"
 align = 1
 __meta__ = {
@@ -386,6 +390,7 @@ anchor_bottom = 0.223
 margin_right = 40.0
 margin_bottom = 173.06
 theme = ExtResource( 28 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "1
 2
 3
@@ -421,6 +426,7 @@ margin_left = -17.0
 margin_top = -108.0
 margin_bottom = 98.0
 theme = ExtResource( 28 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "1
 2
 3
@@ -583,15 +589,16 @@ margin_bottom = 126.0
 [node name="Swingin" type="Label" parent="HUD/TutorialContainer"]
 margin_top = 144.0
 margin_right = 347.0
-margin_bottom = 160.0
+margin_bottom = 179.0
 theme = ExtResource( 31 )
-text = "SWINGIN!"
+text = "SWINGIN!
+Press select to proceed"
 align = 1
 
 [node name="Complete" type="Label" parent="HUD/TutorialContainer"]
-margin_top = 178.0
+margin_top = 197.0
 margin_right = 347.0
-margin_bottom = 194.0
+margin_bottom = 213.0
 theme = ExtResource( 31 )
 text = "TUTORIAL COMPLETE!"
 align = 1
@@ -603,6 +610,7 @@ script = ExtResource( 13 )
 script = ExtResource( 7 )
 
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 17 )
 bus = "Music"
 

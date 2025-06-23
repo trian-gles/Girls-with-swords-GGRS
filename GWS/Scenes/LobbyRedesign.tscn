@@ -197,9 +197,6 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
 theme = ExtResource( 9 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="MenuRoot"]
 material = SubResource( 4 )
@@ -220,9 +217,6 @@ anims/fade_in = SubResource( 5 )
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
 margin_right = 480.0

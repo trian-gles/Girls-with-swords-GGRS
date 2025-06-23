@@ -7698,7 +7698,7 @@ script = ExtResource( 6 )
 speed = 180
 dashSpeed = 400
 backDashSpeed = 250
-airDashSpeed = 400
+airDashSpeed = 430
 airBackdashSpeed = 350
 accel = 60
 jumpForce = 900
@@ -7739,7 +7739,7 @@ texture = ExtResource( 22 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 223
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 3 )
@@ -7756,14 +7756,14 @@ texture = ExtResource( 18 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 223
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
 level = 3
-modifiedHitStun = 37
+modifiedHitStun = 39
 modifiedCounterHitStun = 81
-opponentLaunch = Vector2( 200, -800 )
+opponentLaunch = Vector2( 200, -950 )
 chLaunch = Vector2( 200, -1100 )
 hitPush = 100
 chEffect = 2
@@ -7792,54 +7792,53 @@ startupFrames = 7
 [node name="MovingJump" parent="StateTree" index="7"]
 startupFrames = 7
 
-[node name="Grab" parent="StateTree" index="13"]
+[node name="Grab" parent="StateTree" index="15"]
 releaseFrame = 20
 
-[node name="SuperJump" parent="StateTree" index="22"]
+[node name="SuperJump" parent="StateTree" index="24"]
 startupFrames = 7
 
-[node name="AirDash" parent="StateTree" index="24"]
+[node name="AirDash" parent="StateTree" index="26"]
 len = 12
 
-[node name="Jab" parent="StateTree" index="26"]
+[node name="Jab" parent="StateTree" index="28"]
 jumpCancelable = true
 gatlingWinEnd = 9
 
-[node name="Kick" parent="StateTree" index="27"]
+[node name="Kick" parent="StateTree" index="29"]
 gatlingWinEnd = 11
 
-[node name="Slash" parent="StateTree" index="28"]
+[node name="Slash" parent="StateTree" index="30"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
 
-[node name="JumpA" parent="StateTree" index="29"]
+[node name="JumpA" parent="StateTree" index="31"]
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="30"]
+[node name="JumpB" parent="StateTree" index="32"]
 modifiedHitStun = 17
 jumpCancelable = true
 gatlingWinEnd = 12
 
-[node name="JumpC" parent="StateTree" index="31"]
+[node name="JumpC" parent="StateTree" index="33"]
+modifiedHitStun = 21
+modifiedCounterHitStun = 23
 hitGfx = 1
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
 
-[node name="CrouchA" parent="StateTree" index="32"]
+[node name="CrouchA" parent="StateTree" index="34"]
 gatlingWinEnd = 9
 
-[node name="CrouchB" parent="StateTree" index="33"]
+[node name="CrouchB" parent="StateTree" index="35"]
 gatlingWinEnd = 12
 
-[node name="CrouchC" parent="StateTree" index="34"]
+[node name="CrouchC" parent="StateTree" index="36"]
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
-
-[node name="AirBackdash" parent="StateTree" index="35"]
-len = 7
 
 [node name="J2C" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
@@ -7855,12 +7854,15 @@ hitGfx = 1
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 
-[node name="Hadouken" parent="StateTree" index="41"]
-releaseFrame = 13
-hadoukenScene = ExtResource( 4 )
+[node name="AirBackdash" parent="StateTree" index="38"]
+len = 7
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]
 script = ExtResource( 8 )
+
+[node name="Hadouken" parent="StateTree" index="44"]
+releaseFrame = 13
+hadoukenScene = ExtResource( 4 )
 
 [node name="BlackHolePlace" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 11 )
@@ -7929,14 +7931,12 @@ script = ExtResource( 24 )
 level = 3
 modifiedHitStun = 30
 modifiedCounterHitStun = 35
-opponentLaunch = Vector2( 100, -600 )
-chLaunch = Vector2( 100, -600 )
+opponentLaunch = Vector2( 100, -650 )
+chLaunch = Vector2( 100, -650 )
 restoreHitFrames = PoolIntArray( 10 )
 launch = Vector2( 200, -560 )
 launchFrame = 9
-
-[node name="GrabPos" parent="." index="8"]
-position = Vector2( 35, -24 )
+dustFrames = [ 1 ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
@@ -7993,6 +7993,9 @@ anims/Stagger = SubResource( 52 )
 anims/Tech = SubResource( 53 )
 anims/Walk = SubResource( 54 )
 script = ExtResource( 5 )
+
+[node name="GrabPos" parent="." index="10"]
+position = Vector2( 35, -24 )
 
 [node name="Cancel" parent="GFXHandler" index="4"]
 explosiveness = 0.34

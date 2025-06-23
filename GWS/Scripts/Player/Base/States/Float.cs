@@ -20,7 +20,7 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
-		stunRemaining += 4;
+		stunRemaining += 4 + 4 - (int)Math.Min(Math.Ceiling((double)owner.combo / 4), 0);
 		
 	}
 
@@ -43,6 +43,7 @@ public class Float : HitStun
 		if (!(launch == Vector2.Zero))
 		{
 			owner.velocity = launch;
+			owner.velocity.y += owner.combo * 10; 
 		}
 
 		if (launch.y == 0)

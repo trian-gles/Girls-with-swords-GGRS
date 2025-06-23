@@ -19,7 +19,13 @@ public class SnailCall : State
 
 	public override string animationName { get { return "SnailCall"; } }
 
-	private void SendSnailAttack()
+    public override void _Ready()
+    {
+        base._Ready();
+        AddKara(new char[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.grounded && owner.TrySpendMeter(), owner.easySuper);
+    }
+
+    private void SendSnailAttack()
     {
 		var sl = (SL)owner;
 		if (!sl.leftCornerSnail || !sl.rightCornerSnail)

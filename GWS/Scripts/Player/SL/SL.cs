@@ -18,7 +18,7 @@ public class SL : Player
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
 
-		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
+		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "AirSnail"));
 
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "SnailCall"));
 		groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "BackToss"));
@@ -29,9 +29,12 @@ public class SL : Player
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "SnailCallJump"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "SnailCallFake", true));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "BackToss"));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "J2C"));
+
+		//dashSpecials.Add(new Special(new List<char[]>() { new char[] { 's', 'p' } }, "SnailRideAttempt"));
 		easySpecial = "SnailCall";
 
-		easyAirSpecial = "AirSnail";
+		easyAirSpecial = "J2C";
 
 		easySuper = "SnailStrike";
 	}
@@ -54,7 +57,7 @@ public class SL : Player
 
 	public void SnailRide()
 	{
-		if (CheckHeldKey('8'))
+		if (!otherPlayer.grounded)
 			ChangeState("SnailAirSnipe");
 		else
 			ChangeState("SnailRide");

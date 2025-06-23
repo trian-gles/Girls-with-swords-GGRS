@@ -14,8 +14,10 @@ public abstract class BaseAttack : State
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
 
+    [Export]
+    protected int modifiedHitStop = 0;
 
-	[Export]
+    [Export]
 	protected int modifiedHitStun = 0;
 
 	[Export]
@@ -136,7 +138,7 @@ public abstract class BaseAttack : State
 		chDetails = Globals.attackLevels[level].counterHit;
 
 		hitDetails.opponentLaunch = opponentLaunch;
-		if (chLaunch != Vector2.Zero)
+		if (chLaunch.y != 0)
 			chDetails.opponentLaunch = chLaunch;
 		else
 			chDetails.opponentLaunch = opponentLaunch;
@@ -149,6 +151,11 @@ public abstract class BaseAttack : State
 		chDetails.height = height;
 		hitDetails.graphicFX = hitGfx;
 		chDetails.graphicFX = hitGfx;
+
+		if (modifiedHitStop != 0)
+		{
+			hitDetails.hitStop = modifiedHitStop;
+		}	
 
 		if (modifiedHitStun != 0)
 			hitDetails.hitStun = modifiedHitStun;
@@ -248,7 +255,11 @@ public abstract class BaseAttack : State
 		{
 			hitDetails.opponentLaunch = Vector2.Zero;
 			chDetails.opponentLaunch = Vector2.Zero;
-		}
+		} else
+		{
+            hitDetails.opponentLaunch = opponentLaunch;
+            chDetails.opponentLaunch =  chLaunch.y > 0 ? chLaunch : opponentLaunch;
+        }
 
 		owner.GainMeter(400);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);

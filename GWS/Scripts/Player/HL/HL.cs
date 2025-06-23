@@ -15,8 +15,8 @@ public class HL : Player
 
 		//6p
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
-		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
-		//commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
+		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
 
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "DP"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat"));
@@ -26,6 +26,8 @@ public class HL : Player
 		easySpecial = "Hadouken";
 
 		easyAirSpecial = "JoeRogan";
+
+		easySuper = "Super";
 
 
 		//DP

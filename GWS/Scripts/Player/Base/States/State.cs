@@ -73,7 +73,14 @@ public abstract class State : Node
 		HIGH
 	}
 
-	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
+    public enum GFXStates
+    {
+		NONE,
+        SHIELD,
+		SHIELDACTIVE
+    }
+
+    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
 	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
@@ -404,7 +411,7 @@ public abstract class State : Node
 
 	protected void AddEasyAirSpecials()
 	{
-		AddGatling(new[] { 'a', 'p' }, owner.easyAirSpecial);
+		AddGatling(new[] { 'a', 'p' }, () => owner.internalPos.y < Globals.MAXAIRDASHDEPTH, owner.easyAirSpecial);
 	}
 
 	protected void AddSpecials(List<Player.Special> specials)
@@ -692,7 +699,9 @@ public abstract class State : Node
 
 		HandleHitGFX(gfx);
 
-		bool airState = (launchBool || !owner.grounded);
+        
+
+        bool airState = (launchBool || !owner.grounded);
 
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
@@ -747,6 +756,11 @@ public abstract class State : Node
 		}
 	}
 
+	public virtual GFXStates GetExtraGFXState()
+	{
+		return GFXStates.NONE;
+	}
+
 	public virtual void HitWall()
 	{
 
@@ -755,7 +769,6 @@ public abstract class State : Node
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
-		GD.Print(collisionPnt);
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		EmitSignal(nameof(StateFinished), stateName);
 		owner.EmitSignal("HitConfirm", blockStop);

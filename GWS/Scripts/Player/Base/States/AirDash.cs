@@ -48,5 +48,7 @@ public class AirDash: Fall
 	{
 		base.Exit();
 		owner.airDashFrames = len - frameCount;
-	}
+		owner.velocity.x = (float)Math.Floor(owner.velocity.x / 2);
+
+    }
 }

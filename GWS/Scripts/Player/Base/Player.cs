@@ -120,9 +120,10 @@ public class Player : Node2D
 	/// <summary>
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
+	
 	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA" };
 
-	public delegate void NegEdgeCallback(char releasedkey);
+    public delegate void NegEdgeCallback(char releasedkey);
 	public NegEdgeCallback negEdgeCallback = (char c) => { };
 
 	///
@@ -138,7 +139,7 @@ public class Player : Node2D
 	public int terminalVelocity = 1100; // See CheckTerminalVelocity for details.  This is never directly accessed by state
 	public bool facingRight = true;
 	public bool grounded;
-	private int combo = 0;
+	public int combo = 0;
 	public int proration = 32;
 	public bool canDoubleJump;
 	public bool canAirDash;
@@ -150,6 +151,7 @@ public class Player : Node2D
 	public bool canGroundbounce = true;
 	public int specialBreakFramesRemaining = 0;
 	public int landingRecoveryFramesRemaining = 0;
+	public int lastPressedDownFrame = 0;
 
 
 	public bool trainingControlledPlayer;
@@ -206,6 +208,7 @@ public class Player : Node2D
 		public bool canGroundbounce { get; set; }
 		public int specialBreakFramesRemaining { get; set; }
 		public int landingRecoveryFramesRemaining { get; set; }
+		public int lastPressedDownFrame { get; set; }
 
 		public Dictionary<string, int> charSpecificData { get; set; }
 
@@ -344,10 +347,12 @@ public class Player : Node2D
 	{
 		ResetComboAndProration();
 		ChangeState("Idle");
-		if (Globals.mode == Globals.Mode.TRAINING)
+		velocity = Vector2.Zero;
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 			meter = 10000;
 		else
 			meter = 0;
+		inputHandler.Reset();
 	}
 
 	public PlayerState GetState()
@@ -413,6 +418,7 @@ public class Player : Node2D
 			
 		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
 		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
+		pState.lastPressedDownFrame = lastPressedDownFrame;
 		
 		return pState;
 	}
@@ -451,6 +457,7 @@ public class Player : Node2D
 		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
+		lastPressedDownFrame = pState.lastPressedDownFrame;
 		
 
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
@@ -520,6 +527,15 @@ public class Player : Node2D
 		/// </summary>
 		public int lastFrameInputs;
 
+		public void Reset()
+		{
+			heldKeys = new List<char>();
+			rhythmHeldKeys = new List<char>();
+            hitStopInputs = new List<char[]>();
+            inBuf2 = new List<char[]>();
+            inBuf2Timer = inBuf2TimerMax;
+        }
+
 		private void BufAddInput(char[] input)
 		{
 			inBuf2Timer = inBuf2TimerMax;
@@ -578,6 +594,7 @@ public class Player : Node2D
 			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
 			{
 				unhandledInputs.Add(new char[] { '2', 'p' });
+				playerState.owner.lastPressedDownFrame = Globals.frame;
 			}
 			else if ((inputs & 2) == 0 && (lastFrameInputs & 2) != 0)
 			{
@@ -830,7 +847,17 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
-	public bool CheckFlippableHeldKey(char key)
+	public bool CheckHeldKeys(char[] keys)
+    {
+        return keys.All(k => CheckHeldKey(k));
+    }
+
+    public bool CheckHeldFlippableKeys(char[] keys)
+    {
+        return keys.All(k => CheckFlippableHeldKey(k));
+    }
+
+    public bool CheckFlippableHeldKey(char key)
 	{
 		if (!facingRight)
 		{
@@ -873,10 +900,15 @@ public class Player : Node2D
 	/// Checks if the sequence of inputs in elements can be found in order in the buffer
 	/// </summary>
 	/// <param name="elements"></param>
-	/// <returns></returns>
+	/// <returns></returns>C
 	public bool CheckBufferComplex(List<char[]> elements)
 	{
 		return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
+	}
+
+	public bool CanSuperJump()
+	{
+		return (Globals.frame - lastPressedDownFrame < 15);
 	}
 
 	/// <summary>
@@ -894,7 +926,8 @@ public class Player : Node2D
 	public void AlwaysFrameAdvance()
 	{
 		eventSched.FrameAdvance();
-	}
+
+    }
 
 	/// <summary>
 	/// Called anytime outside of rollbacks
@@ -902,6 +935,7 @@ public class Player : Node2D
 	public void TimeAdvance()
 	{
 		eventSched.TimeAdvance();
+		
 	}
 
 	protected virtual void CharSpecificFrameAdvance()
@@ -943,13 +977,35 @@ public class Player : Node2D
 				EndSpecialBreak();
 			}
 		}
+        GFXSpecialFrameAdvance(); // purely graphic, should be moved
 
-		
-		AdjustHitpush(); // make sure this is placed in the right spot...
+        AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
 		
 	}
+
+	private void GFXSpecialFrameAdvance()
+	{
+		var shield = GetNode<Node2D>("Shield");
+		var shieldEmission = shield.GetNode<Node2D>("ShieldHit");
+		shield.Set("crouching", currentState.tags.Contains("crouching"));
+
+		switch (currentState.GetExtraGFXState())
+		{
+			case State.GFXStates.NONE:
+				shield.Visible = false; break;
+			case State.GFXStates.SHIELD: 
+				shield.Visible = true;
+				shieldEmission.Visible = false;
+				break;
+			case State.GFXStates.SHIELDACTIVE:
+				shield.Visible = true;
+				shieldEmission.Visible = true;
+				break;
+
+		}
+    }
 
 	/// <summary>
 	/// First half of the integer based, deterministic collision detection system.
@@ -1189,7 +1245,16 @@ public class Player : Node2D
 	{
 		return !noGrabStates.Contains(lastStateName);
 	}
-	public void Prorate(int prorationLevel)
+
+	/// <summary>
+	/// Prevent kara cancelling into Shield
+	/// </summary>
+	/// <returns></returns>
+    public bool CanShield()
+    {
+		return !GetNode<State>("StateTree/" + lastStateName).tags.Contains("attack") && CheckFlippableHeldKey('4');
+    }
+    public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
 	}
@@ -1423,7 +1488,17 @@ public class Player : Node2D
 		gfxHand.Effect(name, pos, facingRight);
 	}
 
-	public bool AreHitboxesActive()
+	private void ShowShield()
+	{
+		GetNode<Node2D>("Shield").Visible = true;
+	}
+
+    private void HideShield()
+    {
+        GetNode<Node2D>("Shield").Visible = true;
+    }
+
+    public bool AreHitboxesActive()
 	{
 		return GetRects(hitBoxes, false).Count() > 0;
 

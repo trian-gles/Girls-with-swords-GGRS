@@ -58,7 +58,8 @@ public class AirGrab : State
 
 	public override void Enter()
 	{
-		base.Enter();
+        owner.ZIndex = 1;
+        base.Enter();
 		owner.velocity = new Vector2(0, 0);
 		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
@@ -128,7 +129,13 @@ public class AirGrab : State
 			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		}
 	}
-	public override void AnimationFinished()
+
+    public override void Exit()
+    {
+        base.Exit();
+        owner.ZIndex = 0;
+    }
+    public override void AnimationFinished()
 	{
 		EmitSignal(nameof(StateFinished), "Fall");
 	}

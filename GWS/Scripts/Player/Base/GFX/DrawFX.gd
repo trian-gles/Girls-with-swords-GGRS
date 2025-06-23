@@ -11,7 +11,6 @@ func _ready():
 	pass # Replace with function body.
 	
 func slash(pos: Vector2):
-	print(pos)
 	var rotation = (rand_range(0, 1) * PI)
 	var mod = Vector2(1000, 0).rotated(rotation)
 	end = pos + mod

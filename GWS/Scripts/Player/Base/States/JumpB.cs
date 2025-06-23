@@ -8,7 +8,10 @@ public class JumpB : AirNormal
 		base._Ready();
 		AddAirCommandNormals(owner.airCommandNormals);
 		AddGatling(new char[] { 's', 'p' }, "JumpC");
-		AddKara(new char[] { 's', 'p' }, "AirGrabStart");
-	}
+        AddGatling(new char[] { 'p', 'p' }, () =>owner.internalPos.y < Globals.MAXJPDEPTH, "JumpA");
+        AddKara(new char[] { 's', 'p' }, "AirGrabStart");
+
+        AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), "Shield");
+    }
 }
 

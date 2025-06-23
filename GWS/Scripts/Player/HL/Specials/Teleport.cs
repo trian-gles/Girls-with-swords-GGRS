@@ -19,9 +19,13 @@ public class Teleport : BaseAttack
                 ((HL)owner).WarpToHat();
                 
                 owner.CommandHadouken("Hat", HadoukenPart.ProjectileCommand.DeleteHat);
-                EmitSignal(nameof(StateFinished), "Fall");
+                
                 owner.grounded = false;
             }
+        }
+        if (frameCount == teleFrame + 1)
+        {
+            EmitSignal(nameof(StateFinished), "Fall");
         }
         base.FrameAdvance();
     }

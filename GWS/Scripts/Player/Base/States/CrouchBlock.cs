@@ -1,9 +1,11 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class CrouchBlock : Block
 {
-	public override void FrameAdvance()
+    public override HashSet<string> tags { get; set; } = new HashSet<string>() { "block", "crouching" };
+    public override void FrameAdvance()
 	{
 		frameCount++;
 		if (frameCount == 1)

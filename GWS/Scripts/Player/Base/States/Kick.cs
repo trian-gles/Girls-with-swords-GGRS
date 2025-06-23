@@ -13,7 +13,9 @@ public class Kick : Slash
 		AddGatling(new char[] { 'b', 'p' }, "Slash");
 		AddCommandNormals(owner.commandNormals);
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
-	}
+
+        AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), "Shield");
+    }
 
     public override void Enter()
     {

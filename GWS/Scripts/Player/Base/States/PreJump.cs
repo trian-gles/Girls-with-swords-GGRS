@@ -24,7 +24,7 @@ public class PreJump : State
 		base.FrameAdvance();
 		if (frameCount == len)
 		{
-			if (owner.CheckBuffer(new[] { '2', 'p' }))
+			if (owner.CanSuperJump())
 			{
 				EmitSignal(nameof(StateFinished), "SuperJump");
 			}

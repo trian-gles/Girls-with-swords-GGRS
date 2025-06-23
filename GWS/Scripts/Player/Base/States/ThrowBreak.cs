@@ -18,7 +18,7 @@ public class ThrowBreak : HitStun
         if (!owner.grounded)
         {
             stunRemaining = 0;
-            EmitSignal(nameof(StateFinished), "Fall");
+            EmitSignal(nameof(StateFinished), "Float");
         }
     }
 }

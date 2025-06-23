@@ -25,6 +25,9 @@ public class Grab : State
 	[Export]
 	public int prorationLevel = 2;
 
+	[Export]
+	public BaseAttack.GRAPHICEFFECT effect;
+
 	public bool released = false;
 
 	public bool rightGrab = true;
@@ -41,6 +44,8 @@ public class Grab : State
 		hitDetails.opponentLaunch = launch;
 		hitDetails.hitStun = hitStun;
 		chDetails.hitStun = hitStun;
+		hitDetails.graphicFX = effect;
+		chDetails.graphicFX = effect;
 	}
 
 	public override void Load(Dictionary<string, int> loadData)
@@ -58,7 +63,8 @@ public class Grab : State
 
 	public override void Enter()
 	{
-		base.Enter();
+        owner.ZIndex = 1;
+        base.Enter();
 		owner.velocity = new Vector2(0, 0);
 		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
@@ -112,7 +118,6 @@ public class Grab : State
 			//{
 			//	actualLaunch.x *= -1;
 			//}
-			Globals.Log("Grab hitting other player");
 			var direction = BaseAttack.ATTACKDIR.EQUAL;
 
 			if (owner.OtherPlayerOnRight())
@@ -130,11 +135,24 @@ public class Grab : State
 			chDetails.opponentLaunch = actualLaunch;
 
 			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
-			released = true;
+			if (effect == BaseAttack.GRAPHICEFFECT.PURPLE)
+			{
+				owner.otherPlayer.GFXEvent("Purple");
+
+            }
+			
+			
+            released = true;
 			
 		}
 	}
-	public override void AnimationFinished()
+    public override void Exit()
+    {
+        base.Exit();
+        owner.ZIndex = 0;
+    }
+
+    public override void AnimationFinished()
 	{
 		EmitSignal(nameof(StateFinished), "Idle");
 	}

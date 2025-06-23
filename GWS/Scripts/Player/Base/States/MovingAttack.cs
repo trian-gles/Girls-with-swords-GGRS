@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 /// <summary>
@@ -14,6 +15,9 @@ public class MovingAttack : ComNorm
 
 	[Export]
 	protected int stopFrame = 0;
+
+	[Export]
+	protected Array<int> dustFrames = new Array<int>();
 	public override void _Ready()
 	{
 		base._Ready();
@@ -48,6 +52,13 @@ public class MovingAttack : ComNorm
 		{
 			owner.velocity.x = 0;
 		}
+
+		if (dustFrames.Contains(frameCount))
+		{
+            GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
+            new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+            "dust", owner.facingRight);
+        }
 		
 	}
 }

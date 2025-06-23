@@ -15,15 +15,18 @@ var input_translation = {
 	"up": 7,
 	"right": 8,
 	"down": 9,
-	"left": 10
+	"left": 10,
+	"air": 11,
+	"hold": 12,
+	"wait": 13
 }
 
 func _ready():
 	for goal in goals:
 		goal.visible = false
 
-func add_goal(text, input1 := "", input2:= "", input3:= ""):
-	goals[total_goals].create(text, input_translation[input1], input_translation[input2], input_translation[input3])
+func add_goal(text, input1 := "", input2:= "", input3:= "", input4:= ""):
+	goals[total_goals].create(text, input_translation[input1], input_translation[input2], input_translation[input3], input_translation[input4])
 	goals[total_goals].visible = true
 	goals[total_goals].visible
 	total_goals += 1
@@ -36,12 +39,18 @@ func curr_goal(ptr):
 	
 func fail_goal(ptr):
 	goals[ptr].fail()
-	
-func success_all():
+	$Swingin.text = "CHALLENGE FAILED! \nPress Select to restart"
 	$Swingin.visible = true
 	
+func success_all():
+	$Swingin.text = "SWINGIN! \nPress Select to continue"
+	$Swingin.visible = true
+	
+	
 func finish():
+	$Swingin.text = "SWINGIN! \nPress Select to exit"
 	$Complete.visible = true
+	
 	
 func reset():
 	total_goals = 0

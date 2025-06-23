@@ -15,10 +15,11 @@ var colorRect: ColorRect
 func _ready():
 	colorRect = $ColorRect
 
-func create(description, input1, input2, input3):
+func create(description, input1, input2, input3, input4):
 	$Input1.frame = input1
 	$Input2.frame = input2
 	$Input3.frame = input3
+	$Input4.frame = input4
 	$Description.text = description
 	
 func finish():

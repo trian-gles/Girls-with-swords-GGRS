@@ -3,4 +3,5 @@
 [ext_resource path="res://Fonts/Code.ttf" type="DynamicFontData" id=1]
 
 [resource]
+outline_size = 1
 font_data = ExtResource( 1 )

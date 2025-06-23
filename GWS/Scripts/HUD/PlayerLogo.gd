@@ -16,26 +16,15 @@ func _ready():
 	pass # Replace with function body.
 
 func selected_char_logo(char_selected: int):
+	print("Char selected" + str(char_selected))
+	var i = 0
+	for child in get_children():
+		if (child is Sprite):
+			child.visible = (char_selected == i)
+		i = i + 1
 	if char_selected == 0:
-		#OL
-		OL_logo.visible = true
-		GL_logo.visible = false
-		SL_logo.visible = false
-		#play animation 
 		animation_player.play("OL")
 	if char_selected == 1:
-		#GL
-		OL_logo.visible = false
-		GL_logo.visible = true
-		SL_logo.visible = false
-		#play animation 
 		animation_player.play("GL")
-	if char_selected == 2:
-		#SL
-		OL_logo.visible = false
-		GL_logo.visible = false
-		SL_logo.visible = true
-		#play animation 
-#		animation_player.play("GL")
 	
 		

@@ -45,6 +45,9 @@ public class BaseManager : Node2D
 	[Export]
 	protected PackedScene packedWinScene;
 
+	[Export]
+	protected PackedScene popupText;	
+
 	protected GameScene gameScene;
 	protected CharSelectScene charSelectScene;
 	protected WinScene winScene;
@@ -219,6 +222,13 @@ public class BaseManager : Node2D
 		return inputs;
 	}
 
+	protected void Popup(string text)
+	{
+		var popup = popupText.Instance();
+		AddChild(popup);
+		popup.Call("set_text", text);
+	}
+
 
 	////////
 	// TRAINING AND SYNCTEST
@@ -244,7 +254,7 @@ public class BaseManager : Node2D
 		gameScene.SetRecordingText("PLAY");
 	}
 
-	protected void StopInputPlayback()
+	protected virtual void StopInputPlayback()
 	{
 		playbackInputs = false;
 		gameScene.SetRecordingText("");

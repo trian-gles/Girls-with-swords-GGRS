@@ -85,7 +85,7 @@ public class GameScene : BaseGame
 
 	private int trueEndingFrame;
 	private int exitFrame;
-	
+
 
 	// RECORDING
 	public bool recordMatch = true;
@@ -111,6 +111,16 @@ public class GameScene : BaseGame
 		TRUEEND
 	}
 
+	public enum ResetPos
+	{
+		ROUNDSTART,
+		ROUNDSTARTREVERSED,
+		P1CORNEREDLEFT,
+		P1CORNEREDRIGHT,
+		P2CORNEREDLEFT,
+		P2CORNEREDRIGHT
+	}
+
 	private Dictionary<string, PackedScene> characterMap = new Dictionary<string, PackedScene>();
 
 	public override void _Ready()
@@ -134,12 +144,12 @@ public class GameScene : BaseGame
 		p2RoundCounters = GetNode<HBoxContainer>("HUD/P2RoundCounters");
 		p1Logos = GetNode<Node2D>("HUD/P1Logo");
 		p2Logos = GetNode<Node2D>("HUD/P2Logo");
-		
+
 		base._Ready();
 
 		// hide the recording text
 		SetRecordingText("");
-		
+
 		// used to hide behind the char select screen
 		HUD = GetNode<CanvasLayer>("HUD");
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Zero, Vector2.Zero);
@@ -199,7 +209,7 @@ public class GameScene : BaseGame
 		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
 
-		
+
 
 
 		P1Combo = GetNode<Label>("HUD/P1Combo");
@@ -226,7 +236,7 @@ public class GameScene : BaseGame
 		music.Play();
 		ConfigTime();
 		configured = true;
-		
+
 	}
 
 	public void SetP2AI()
@@ -267,7 +277,7 @@ public class GameScene : BaseGame
 			P2.trainingControlledPlayer = p2Control;
 		}
 	}
-	
+
 	/// <summary>
 	/// Update the gamestate only if we're in regular time.  Note that in a potentially ending we do not update.
 	/// </summary>
@@ -275,7 +285,7 @@ public class GameScene : BaseGame
 	/// <param name="p2Inps"></param>
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
-		
+
 
 		if (currTime == TimeStatus.GAME)
 		{
@@ -288,7 +298,7 @@ public class GameScene : BaseGame
 		{
 			gsObj.Update(0, 0);
 		}
-			
+
 		HandleTime();
 	}
 
@@ -298,8 +308,8 @@ public class GameScene : BaseGame
 		P2.TimeAdvance();
 		camera.Call("adjust", P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
 	}
-	
-	public void ScreenShake(float amount){
+
+	public void ScreenShake(float amount) {
 		camera.Call("set_trauma", amount);
 	}
 
@@ -319,7 +329,7 @@ public class GameScene : BaseGame
 			inputText.Call("inputs", p1Inps);
 			inputTextP2.Call("inputs", p2Inps);
 		}
-			
+
 	}
 
 	// ----------------
@@ -344,13 +354,13 @@ public class GameScene : BaseGame
 
 	public override void LoadState(int frame, byte[] buffer, int checksum)
 	{
-		
+
 
 
 		// This will occur if the game finishes locally but a remote input changes the result
 		if (currTime == TimeStatus.FAKEEND && frame < possibleEndingFrame)
 			currTime = TimeStatus.GAME;
-		
+
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
 		P1Counter.Call("rollback", frame);
@@ -458,7 +468,7 @@ public class GameScene : BaseGame
 			prevHealth = (int)P2Health.Value;
 			P2Health.Value = health;
 		}
-			
+
 
 
 		if (prevHealth >= 1 && health < 1)
@@ -478,15 +488,15 @@ public class GameScene : BaseGame
 
 			TryEndRound();
 		}
-		
+
 	}
-	public void OnPlayerMeterChange(string name, int meter){
+	public void OnPlayerMeterChange(string name, int meter) {
 		if (name == "P1")
-			P1Meter.Call("set_meter", (int)Math.Floor((double)meter/100));
+			P1Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
 		else
-			P2Meter.Call("set_meter", (int)Math.Floor((double)meter /100));
+			P2Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
 	}
-	
+
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
 		AddChild(h); // Add the hadouken as a child
@@ -538,11 +548,21 @@ public class GameScene : BaseGame
 	// ----------------
 	private void ConfigTime()
 	{
-		readyFrame = Globals.frame;
-		startFrame = Globals.frame + 60 * 3;
-		timeOutFrame = startFrame + 60 * 99;
-		currTime = TimeStatus.PREROUND;
 		timer.Text = "99";
+		readyFrame = Globals.frame;
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
+		{
+			startFrame = Globals.frame;
+			currTime = TimeStatus.GAME;
+		}
+		else
+		{
+			startFrame = Globals.frame + 60 * 3;
+			timeOutFrame = startFrame + 60 * 99;
+			currTime = TimeStatus.PREROUND;
+		}
+
+
 	}
 
 	private void HandleTime()
@@ -574,8 +594,8 @@ public class GameScene : BaseGame
 			centerText.Text = "FIGHT!";
 			return;
 		}
-			
-		
+
+
 
 		int trueFrame = Globals.frame - readyFrame;
 		centerText.Text = (3 - Math.Floor((float)trueFrame / 60)).ToString();
@@ -621,13 +641,13 @@ public class GameScene : BaseGame
 			{
 				ResetWin();
 				EmitSignal("GameWon", "P1");
-				
+
 			}
 			else if (p2Wins == 2)
 			{
 				ResetWin();
 				EmitSignal("GameWon", "P2");
-				
+
 			}
 			else
 				Reset();
@@ -659,7 +679,7 @@ public class GameScene : BaseGame
 			p2Wins++;
 			p2RoundCounters.Call("win_counter_up", p2Wins);
 		}
-			
+
 	}
 
 	// ----------------
@@ -669,7 +689,7 @@ public class GameScene : BaseGame
 	public void ResetHealth(string player)
 	{
 		OnPlayerHealthChange(player, 1600);
-		
+
 
 		if (player == "P1")
 		{
@@ -679,7 +699,37 @@ public class GameScene : BaseGame
 		{
 			P2.ResetHealth();
 		}
-			
+
+	}
+
+	public void SetPos(ResetPos resetPos)
+	{
+		switch (resetPos) {
+			case ResetPos.ROUNDSTART:
+				P1.internalPos = new Vector2(13300, 24000);
+				P2.internalPos = new Vector2(33000, 24000);
+				return;
+			case ResetPos.ROUNDSTARTREVERSED:
+				P1.internalPos = new Vector2(33000, 24000);
+				P2.internalPos = new Vector2(13300, 24000);
+				return;
+			case ResetPos.P1CORNEREDLEFT:
+				P1.internalPos = new Vector2(0, 24000);
+				P2.internalPos = new Vector2(13300, 24000);
+				return;
+			case ResetPos.P1CORNEREDRIGHT:
+				P1.internalPos = new Vector2(50000, 24000);
+				P2.internalPos = new Vector2(33000, 24000);
+				return;
+			case ResetPos.P2CORNEREDLEFT:
+				P2.internalPos = new Vector2(0, 24000);
+				P1.internalPos = new Vector2(13300, 24000);
+				return;
+			case ResetPos.P2CORNEREDRIGHT:
+				P2.internalPos = new Vector2(50000, 24000);
+				P1.internalPos = new Vector2(33000, 24000);
+				return;
+		}
 	}
 
 	public override void Reset()
@@ -689,10 +739,9 @@ public class GameScene : BaseGame
 		P1.Reset();
 		P2.Reset();
 		gsObj.ResetHadoukens();
-		P1.internalPos = new Vector2(13300, 24000);
-		P2.internalPos = new Vector2(33000, 24000);
+		SetPos(ResetPos.ROUNDSTART);
 		ConfigTime();
-		if (Globals.mode == Globals.Mode.TRAINING)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
 			P1Meter.Call("set_meter", 100);
 			P2Meter.Call("set_meter", 100);
@@ -713,8 +762,11 @@ public class GameScene : BaseGame
 	{
 		ResetHealth("P1");
 		ResetHealth("P2");
+		
 		P1.Reset();
 		P2.Reset();
+		P1Meter.Call("set_meter", 100);
+		P2Meter.Call("set_meter", 100);
 
 		P1.internalPos = new Vector2(13300, 24000);
 		P2.internalPos = new Vector2(33000, 24000);

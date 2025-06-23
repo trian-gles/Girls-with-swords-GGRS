@@ -39,7 +39,9 @@ public class CharSelectScene : BaseGame
 	private int p1Pos = 0;
 	private int p2Pos = 0;
 	public bool p1Selected = false; // public as this is required for AI selection
-	private bool p2Selected = false;
+	public bool p2Selected = false;
+	private bool stageSelected = false;
+	private int selectStagePlayer = 0;
 	private int p1Color;
 	private int p2Color;
 	private int[] lastInputs;
@@ -54,6 +56,8 @@ public class CharSelectScene : BaseGame
 		public int p2Pos { get; set; }
 		public bool p1Selected { get; set; }
 		public bool p2Selected { get; set; }
+		public bool stageSelected { get; set; }
+		public int selectStagePlayer { get; set; }
 		public int p1Color { get; set; }
 		public int p2Color	{ get; set; }
 		public int[] lastFrameInputs { get; set; }
@@ -138,9 +142,11 @@ public class CharSelectScene : BaseGame
 		state.p2Pos = p2Pos;
 		state.p1Selected = p1Selected;
 		state.p2Selected = p2Selected;
+		state.stageSelected = stageSelected;
 		state.lastFrameInputs = lastInputs;
 		state.selectedStage = selectedStage;
 		state.charSelectFrame = charSelectFrame;
+		state.selectStagePlayer = selectStagePlayer;
 		return Serialize<GameState>(state);
 	}
 
@@ -151,10 +157,13 @@ public class CharSelectScene : BaseGame
 		p2Selected = state.p2Selected;
 		p1Color = state.p1Color;
 		p2Color = state.p2Color;
+		stageSelected = state.stageSelected;
+
 		p1Pos = state.p1Pos;
 		p2Pos = state.p2Pos;
 		lastInputs = state.lastFrameInputs;
 		charSelectFrame = state.charSelectFrame;
+		selectStagePlayer = state.selectStagePlayer;
 
 		// Cleanup background selection
 		((Sprite)bkgImages[selectedStage]).Visible = false;
@@ -283,21 +292,31 @@ public class CharSelectScene : BaseGame
 	private void MoveCursor(int playerNum, int movement)
 	{
 		
-		if (playerNum == 0 && !p1Selected)
+		if (playerNum == 0)
 		{
+			if (!p1Selected) {
+				p1Pos = Math.Min(Math.Max(0, p1Pos + movement), 3);
+				P1Cursor.Position = CalcCursor(p1Pos, p1TopPos);
+				HighlightChar(playerNum, p1Pos);
+			}
+			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
+			{
+				MoveStageSelection(movement);
+			}
 			
-			p1Pos = Math.Min(Math.Max(0, p1Pos + movement), 3);
-
-			P1Cursor.Position = CalcCursor(p1Pos, p1TopPos);
-			HighlightChar(playerNum, p1Pos);
 		}
 			
-		else if (playerNum == 1 && !p2Selected)
+		else if (playerNum == 1)
 		{
-			p2Pos = Math.Min(Math.Max(0, p2Pos + movement), 3);
-			P2Cursor.Position = CalcCursor(p2Pos, p2TopPos);
-
-			HighlightChar(playerNum, p2Pos);
+			if (!p2Selected) {
+				p2Pos = Math.Min(Math.Max(0, p2Pos + movement), 3);
+				P2Cursor.Position = CalcCursor(p2Pos, p2TopPos); 
+				HighlightChar(playerNum, p2Pos);
+			}
+			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
+			{
+				MoveStageSelection(movement);
+			}
 		}
 			
 	
@@ -314,16 +333,17 @@ public class CharSelectScene : BaseGame
 
 	private void SelectPlayer(int playerNum, int color)
 	{
-		audio.PlaySound("CharSelect");
 
 		if (playerNum == 0 && !p1Selected)
 		{
+			audio.PlaySound("CharSelect");
 			P1Cursor.Visible = false;
 			p1Selected = true;
 			p1Color = color;
 			if (!p2Selected)
 			{
 				P2Cursor.Visible = true;
+				selectStagePlayer = playerNum;
 			}
 		}
 		else if (playerNum == 1 && !p2Selected)
@@ -331,10 +351,19 @@ public class CharSelectScene : BaseGame
 			P2Cursor.Visible = false;
 			p2Selected = true;
 			p2Color = color;
+			audio.PlaySound("CharSelect");
+			if (!p1Selected)
+			{
+				selectStagePlayer = playerNum;
+			}
 		}
-		if (p1Selected && p2Selected)
+		else if (playerNum == selectStagePlayer)
 		{
-			//GD.Print("both selected");
+			stageSelected = true;
+		}
+		if (p1Selected && p2Selected && stageSelected)
+		{
+			audio.PlaySound("CharSelect");
 			if (p2Color == p1Color && p1Pos == p2Pos)
 			{
 				//GD.Print("colors match");

@@ -55,7 +55,11 @@ public class Globals : Node
 	public const int rightWall = 46500;
 	public const int leftWall = 1500;
 	public const int floor = 22000;
-	public enum Inputs
+
+	public const int MAXAIRDASHDEPTH = 21200;
+
+    public const int MAXJPDEPTH = 18000;
+    public enum Inputs
 	{
 		UP = 1,
 		DOWN = 2,
@@ -79,6 +83,7 @@ public class Globals : Node
 		GGPO = 2,
 		SYNCTEST = 3,
 		CPU = 4,
+		TUTORIAL = 5
 	}
 
 	public struct AttackDetails

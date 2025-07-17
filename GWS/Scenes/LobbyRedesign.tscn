@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
@@ -20,6 +20,8 @@
 [ext_resource path="res://Scripts/Lobby/Resolution.gd" type="Script" id=18]
 [ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=19]
 [ext_resource path="res://Scenes/Managers/TutorialManager.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scenes/Managers/ComboTrialManager.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/Managers/StrategyManager.tscn" type="PackedScene" id=22]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -157,7 +159,7 @@ tracks/5/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/Tutorial:modulate")
+tracks/6/path = NodePath("MainMenu/CenterContainer/MainMenuButtons/Learn:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -183,6 +185,8 @@ aiManager = ExtResource( 14 )
 ggrsManager = ExtResource( 12 )
 syncTestManager = ExtResource( 13 )
 tutorialManager = ExtResource( 20 )
+comboTrialManager = ExtResource( 21 )
+strategyManager = ExtResource( 22 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
 layer = 9
@@ -197,6 +201,9 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
 theme = ExtResource( 9 )
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="MenuRoot"]
 material = SubResource( 4 )
@@ -217,6 +224,9 @@ anims/fade_in = SubResource( 5 )
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
 margin_right = 480.0
@@ -250,7 +260,7 @@ margin_bottom = 44.0
 size_flags_vertical = 4
 theme = ExtResource( 9 )
 action_mode = 0
-text = "Local"
+text = "Local MATCH"
 flat = false
 script = ExtResource( 8 )
 __meta__ = {
@@ -267,12 +277,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tutorial" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+[node name="Learn" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
 margin_top = 82.0
 margin_right = 204.0
 margin_bottom = 100.0
-text = "Tutorial"
+text = "Learn and Practice"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -317,6 +327,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LocalButtons" type="VBoxContainer" parent="MenuRoot/LocalMenu"]
 margin_left = 90.0
@@ -332,24 +345,90 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 33.0
+margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 49.0
+margin_bottom = 60.0
 theme = ExtResource( 19 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 53.0
+margin_top = 64.0
 margin_right = 300.0
-margin_bottom = 71.0
+margin_bottom = 82.0
 text = "Local Match"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Training" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 86.0
+margin_right = 300.0
+margin_bottom = 104.0
+text = "CPU Match"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
+margin_top = 108.0
+margin_right = 300.0
+margin_bottom = 126.0
+text = "Back"
+
+[node name="LearnMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 480.0
+margin_right = 480.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LearnButtons" type="VBoxContainer" parent="MenuRoot/LearnMenu"]
+margin_left = 90.0
+margin_top = 50.0
+margin_right = 390.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 300, 170 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalLabel" type="Label" parent="MenuRoot/LearnMenu/LearnButtons"]
+margin_top = 33.0
+margin_right = 300.0
+margin_bottom = 49.0
+theme = ExtResource( 19 )
+text = "Practice"
+align = 1
+
+[node name="BasicTutorial" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
+margin_top = 53.0
+margin_right = 300.0
+margin_bottom = 71.0
+text = "Fundamentals Tutorial"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterTutorial" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
+margin_top = 53.0
+margin_right = 300.0
+margin_bottom = 71.0
+text = "Character Tutorials"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Training" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
 margin_top = 75.0
 margin_right = 300.0
 margin_bottom = 93.0
@@ -358,16 +437,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+[node name="ComboTrials" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
 margin_top = 97.0
 margin_right = 300.0
 margin_bottom = 115.0
-text = "CPU Match"
+text = "Combo Trials"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
+[node name="BackButton" type="ToolButton" parent="MenuRoot/LearnMenu/LearnButtons"]
 margin_top = 119.0
 margin_right = 300.0
 margin_bottom = 137.0
@@ -552,9 +631,9 @@ __meta__ = {
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 23.0
+margin_top = 24.0
 margin_right = 390.0
-margin_bottom = 247.0
+margin_bottom = 245.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -691,9 +770,9 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="MenuRoot" method="_on_NetPlay_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/NetPlay" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="." method="OnTutorialButtonDown"]
-[connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Tutorial" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Learn" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Learn" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Learn" to="MenuRoot" method="_on_Learn_pressed"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="." method="_on_ButtonConfig_pressed"]
 [connection signal="pressed" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/ButtonConfig" to="LobbySounds" method="play_sound" binds= [ "select" ]]
@@ -706,15 +785,27 @@ script = ExtResource( 15 )
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="." method="OnTrainingButtonDown"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Training" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/BasicTutorial" to="." method="OnTutorialButtonDown"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/BasicTutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/BasicTutorial" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/CharacterTutorial" to="." method="OnStrategyButtonDown"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/CharacterTutorial" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/CharacterTutorial" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/Training" to="." method="OnTrainingButtonDown"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/Training" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/Training" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/ComboTrials" to="." method="OnComboTrialsButtonDown"]
+[connection signal="button_down" from="MenuRoot/LearnMenu/LearnButtons/ComboTrials" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/ComboTrials" to="LobbySounds" method="focus_entered"]
+[connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="focus_entered"]

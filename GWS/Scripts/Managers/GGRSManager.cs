@@ -40,6 +40,7 @@ class GGRSManager : StateManager
 		base._Ready();
 		GGRS = GetNode("GodotGGRS");
 		Globals.mode = Globals.Mode.GGPO;
+		Globals.autoTech = false;
 		NatTraversal();
 	}
 
@@ -55,7 +56,7 @@ class GGRSManager : StateManager
 			localPort = 7070;
 			remotePort = 7071;
 			if (ip == "127.0.0.1")
-            {
+			{
 				//Globals.SetLogging("P1");
 			}
 				
@@ -136,9 +137,9 @@ class GGRSManager : StateManager
 	}
 
 	private void StartNextGame()
-    {
+	{
 		switch (nextGameType)
-        {
+		{
 			case GameType.GAME:
 				base.OnNewGame();
 				break;
@@ -148,7 +149,7 @@ class GGRSManager : StateManager
 			case GameType.WIN:
 				
 				break;
-        }
+		}
 		
 	}
 

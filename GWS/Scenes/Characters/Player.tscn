@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -62,21 +62,22 @@
 [ext_resource path="res://Scripts/Player/Base/GFX/Shield.gd" type="Script" id=60]
 [ext_resource path="res://Scripts/Player/Base/States/Shield.cs" type="Script" id=61]
 [ext_resource path="res://Scripts/Player/Base/States/CrouchShield.cs" type="Script" id=62]
+[ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.gd" type="Script" id=63]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 21, 27 )
+extents = Vector2( 25, 12 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 5, 5 )
+extents = Vector2( 35, 21 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 20, 9 )
+extents = Vector2( 11, 15 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 19, 17 )
@@ -125,10 +126,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 20 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 19, 40 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.541176, 0, 0.788235, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 0.360784, 0.282353, 0.807843, 1 ), Color( 0.321569, 0.282353, 0.807843, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=21]
@@ -153,8 +154,11 @@ max_value = 200.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.872549, 200 ), 765.691, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=8]
-offsets = PoolRealArray( 0, 0.671053, 1 )
-colors = PoolColorArray( 1, 0.914063, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1 )
+colors = PoolColorArray( 0.921569, 0.921569, 0.921569, 1, 1, 1, 1, 1 )
+
+[sub_resource type="Gradient" id=25]
+offsets = PoolRealArray( 0, 0.00277778, 0.00555556, 0.00833333, 0.147222, 0.322222, 0.383333, 0.519444, 0.697222, 0.891667, 0.958333 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1 )
 
 [sub_resource type="Curve" id=9]
 max_value = 1024.0
@@ -600,6 +604,27 @@ scale_amount = 3.0
 color_ramp = SubResource( 8 )
 script = ExtResource( 36 )
 
+[node name="Sparks" type="CPUParticles2D" parent="GFXHandler"]
+z_index = 1
+emitting = false
+amount = 80
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.73
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 33.0
+direction = Vector2( 0, -1 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 35.52
+angle_random = 0.62
+scale_amount = 3.0
+color_ramp = SubResource( 25 )
+hue_variation = -1.0
+script = ExtResource( 36 )
+
 [node name="WallBounce" type="CPUParticles2D" parent="GFXHandler"]
 z_index = 1
 emitting = false
@@ -730,6 +755,13 @@ script = ExtResource( 36 )
 z_index = 6
 script = ExtResource( 59 )
 
+[node name="ElectricShock" type="Node2D" parent="."]
+script = ExtResource( 63 )
+
+[node name="Timer" type="Timer" parent="ElectricShock"]
+wait_time = 0.104
+autostart = true
+
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer" method="_on_AudioStreamPlayer_finished"]
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer2" method="_on_AudioStreamPlayer_finished"]
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer3" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer3" method="_on_AudioStreamPlayer_finished"]
@@ -738,3 +770,4 @@ script = ExtResource( 59 )
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer6" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer6" method="_on_AudioStreamPlayer_finished"]
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer7" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer7" method="_on_AudioStreamPlayer_finished"]
 [connection signal="finished" from="EventScheduler/CharacterAudioHandler/AudioStreamPlayer8" to="EventScheduler/CharacterAudioHandler/AudioStreamPlayer8" method="_on_AudioStreamPlayer_finished"]
+[connection signal="timeout" from="ElectricShock/Timer" to="ElectricShock" method="_on_Timer_timeout"]

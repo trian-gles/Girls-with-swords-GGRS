@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class AirGrab : State
 {
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
+
 	[Export]
 	protected int level = 0;
 

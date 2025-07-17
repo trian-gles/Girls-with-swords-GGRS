@@ -331,6 +331,14 @@ public class CharSelectScene : BaseGame
 		((Sprite)bkgImages[selectedStage]).Visible = true;
 	}
 
+	public void AutoSelectP2GL()
+	{
+		P2Cursor.Visible = false;
+		p2Selected = true;
+		p2Color = 0;
+		p2Pos = 1;
+	}
+
 	private void SelectPlayer(int playerNum, int color)
 	{
 
@@ -376,7 +384,7 @@ public class CharSelectScene : BaseGame
 			EmitSignal("CharacterSelected", p1Pos, p2Pos,
 				p1Color, p2Color, selectedStage);
 		}
-			
+
 	}
 
 	public override void Reset()

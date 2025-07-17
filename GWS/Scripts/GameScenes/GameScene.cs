@@ -189,6 +189,8 @@ public class GameScene : BaseGame
 		p2Ind = playerTwoIndex;
 		p2Logos.Call("selected_char_logo", playerTwoIndex);
 
+		SetPos(ResetPos.ROUNDSTART);
+
 		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
 		P1.Connect("ComboSet", this, nameof(OnPlayerComboSet));
@@ -232,8 +234,8 @@ public class GameScene : BaseGame
 		gsObj.config(P1, P2, this, hosting);
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
-
-		music.Play();
+		SetPos(ResetPos.ROUNDSTART);
+		music.Call("play_random");
 		ConfigTime();
 		configured = true;
 
@@ -706,12 +708,12 @@ public class GameScene : BaseGame
 	{
 		switch (resetPos) {
 			case ResetPos.ROUNDSTART:
-				P1.internalPos = new Vector2(13300, 24000);
-				P2.internalPos = new Vector2(33000, 24000);
+				P1.internalPos = new Vector2(18300, 24000);
+				P2.internalPos = new Vector2(27000, 24000);
 				return;
 			case ResetPos.ROUNDSTARTREVERSED:
-				P1.internalPos = new Vector2(33000, 24000);
-				P2.internalPos = new Vector2(13300, 24000);
+				P1.internalPos = new Vector2(27000, 24000);
+				P2.internalPos = new Vector2(18300, 24000);
 				return;
 			case ResetPos.P1CORNEREDLEFT:
 				P1.internalPos = new Vector2(0, 24000);

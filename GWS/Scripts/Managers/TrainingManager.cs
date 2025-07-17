@@ -21,37 +21,50 @@ public class TrainingManager : BaseManager
 	{
 		int p1Inputs;
 		int p2Inputs;
-		int playerInputs = GetInputs("");
-		int otherInputs = 0;
-		Globals.frame++;
-		if (recordingInputs)
-			recordedInputs.Add(playerInputs);
-
-		if (playbackInputs)
+		if (currGame.Name == "CharSelectScreen")
 		{
-			if (inputHead < recordedInputs.Count)
-			{
-				otherInputs = recordedInputs[inputHead];
-			}
-			else
-			{
-				StopInputPlayback();
-			}
-		}
-			
+			(p1Inputs, p2Inputs) = GetCharSelectSceneP1Inputs();
 
-		if (flippedPlayers)
-		{
-			p1Inputs = otherInputs;
-			p2Inputs = playerInputs;
 		}
 		else
 		{
-			p1Inputs = playerInputs;
-			p2Inputs = otherInputs;
-		}
+			int playerInputs = GetInputs("");
+			int otherInputs = 0;
+			
+			if (recordingInputs)
+			recordedInputs.Add(playerInputs);
 
-		gameScene.DisplayInputs(p1Inputs, p2Inputs);
+			if (playbackInputs)
+			{
+				if (inputHead < recordedInputs.Count)
+				{
+					otherInputs = recordedInputs[inputHead];
+				}
+				else
+				{
+					StopInputPlayback();
+				}
+			}
+				
+
+			if (flippedPlayers)
+			{
+				p1Inputs = otherInputs;
+				p2Inputs = playerInputs;
+			}
+			else
+			{
+				p1Inputs = playerInputs;
+				p2Inputs = otherInputs;
+			}
+
+			gameScene.DisplayInputs(p1Inputs, p2Inputs);
+		}
+		
+		
+		
+		Globals.frame++;
+		
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 		if (recordingInputs || playbackInputs)
 			inputHead++;
@@ -61,7 +74,8 @@ public class TrainingManager : BaseManager
 
 	public override void _Input(InputEvent @event)
 	{
-		HandleSpecialInputs(@event);
+		if (currGame.Name != "CharSelectScreen")
+			HandleSpecialInputs(@event);
 
 	}
 

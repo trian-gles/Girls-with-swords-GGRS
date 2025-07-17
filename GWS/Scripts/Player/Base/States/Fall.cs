@@ -8,6 +8,7 @@ public class Fall : AirState
 	{
 		base._Ready();
 		loop = true;
+		tags.Add("recovery");
 
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);

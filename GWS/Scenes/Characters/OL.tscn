@@ -34,6 +34,9 @@ render_mode unshaded, blend_disabled;
 uniform sampler2D palette;									//Use palletes in collum with colors in rows
 uniform float palette_count = 1.0;							//Used for highlighting hovered color
 uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+uniform vec4 snail_color = vec4(0.0, 1.0, 0.0, 1.0);
+uniform bool turn_snail = true;
+uniform bool freak_out = false;
 
 void fragment(){
     
@@ -43,15 +46,26 @@ void fragment(){
 	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
 	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
 	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
-    
-	COLOR = new_color;										//set new color from palette
+    if (false && (new_color.a > 0.0)){
+		COLOR = snail_color;
+	}
+	else if (freak_out){
+		COLOR = new_color;
+	}
+	else{
+		COLOR = new_color;	
+	}
+											//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=60]
 resource_local_to_scene = true
 shader = SubResource( 1 )
-shader_param/palette_count = 5.0
+shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
+shader_param/snail_color = Plane( 0, 1, 0, 1 )
+shader_param/turn_snail = true
+shader_param/freak_out = false
 shader_param/palette = ExtResource( 3 )
 
 [sub_resource type="CSharpScript" id=3]
@@ -6341,7 +6355,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id=45]
-length = 80.0
+length = 50.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6350,7 +6364,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 35, 49, 50, 60, 70 ),
+"times": PoolRealArray( 0, 15, 28, 29, 37, 44 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 80, 81, 81, 105, 106, 107 ]
@@ -6362,10 +6376,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false, true ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB2:disabled")
@@ -6438,6 +6452,30 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 33, 13 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("HitBoxes/HitB1:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -2, 20 ) ]
 }
 
 [sub_resource type="Animation" id=46]
@@ -8083,7 +8121,6 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 13, 17 )
@@ -8098,12 +8135,12 @@ position = Vector2( 32, -6 )
 position = Vector2( 10, 30 )
 
 [node name="Sprite" parent="." index="4"]
-material = SubResource( 2 )
+material = SubResource( 60 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 256
 vframes = 2
-frame = 114
+frame = 80
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -8117,6 +8154,7 @@ startupFrames = 7
 [node name="Grab" parent="StateTree" index="13"]
 launch = Vector2( 400, -700 )
 hitStun = 55
+prorationLevel = 4
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
@@ -8177,7 +8215,7 @@ script = ExtResource( 7 )
 level = 3
 modifiedHitStun = 65
 modifiedCounterHitStun = 80
-opponentLaunch = Vector2( 0, -400 )
+opponentLaunch = Vector2( 0, -480 )
 chLaunch = Vector2( 0, 1000 )
 slowTerminalVelocity = 550
 hitPush = 3000
@@ -8212,6 +8250,7 @@ jumpCancelable = true
 chEffect = 0
 hitGfx = 4
 gatlingWinEnd = 20
+commandNormalCancel = false
 
 [node name="JumpA" parent="StateTree" index="36"]
 gatlingWinEnd = 10
@@ -8350,7 +8389,6 @@ launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 superKaraButton = "a"
-sweepCancel = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0

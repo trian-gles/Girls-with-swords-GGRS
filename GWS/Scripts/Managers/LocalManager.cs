@@ -9,6 +9,7 @@ class LocalManager : BaseManager
 	{
 		base._Ready();
 		Globals.mode = Globals.Mode.LOCAL;
+		Globals.autoTech = false;
 	}
 
 	public override void _PhysicsProcess(float delta)

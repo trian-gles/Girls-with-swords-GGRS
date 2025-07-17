@@ -6,10 +6,6 @@
 [ext_resource path="res://Sprites/Particles/phone.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=6]
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 8, 8 )
@@ -25,6 +21,10 @@ region = Rect2( 16, 0, 8, 8 )
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -45,14 +45,14 @@ region = Rect2( 32, 32, 32, 32 )
 [sub_resource type="SpriteFrames" id=10]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ SubResource( 9 ) ],
-"loop": true,
-"name": "Snail",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "CellPhone",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 9 ) ],
+"loop": true,
+"name": "Snail",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
@@ -67,11 +67,12 @@ script = ExtResource( 1 )
 level = 3
 modifiedHitStun = 30
 modifiedCounterHitStun = 38
-opponentLaunch = Vector2( 0, -800 )
-chLaunch = Vector2( 0, -1000 )
+opponentLaunch = Vector2( 0, -600 )
+chLaunch = Vector2( 0, -600 )
 launchOnGrounded = false
 effect = 3
 chEffect = 3
+removeOTG = true
 dieAfterHit = false
 gravity = 1
 jumpVel = Vector2( 4, -7 )

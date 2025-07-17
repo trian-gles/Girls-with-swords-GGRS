@@ -14,16 +14,32 @@ public class HitState : State
 		return frameCount > 0;
 	}
 
-    public override void FrameAdvance()
-    {
-        base.FrameAdvance();
+	public override void FrameAdvance()
+	{
+		base.FrameAdvance();
 		if (frameCount == 1)
 			owner.EmitSignal("Recovery", owner.Name);
 	}
 
-    public override void Exit()
-    {
-        base.Exit();
+	public override void Exit()
+	{
+		base.Exit();
 		owner.grabInvulnFrames = 5;
-    }
+	}
+
+	protected void ReceiveElectrocution()
+	{
+		var hit = Globals.electrocuteDetails;
+		if (owner.grounded)
+		{
+			hit.opponentLaunch = Vector2.Zero;
+		}
+		else
+		{
+			hit.hitStun = 32;
+		}
+			
+		owner.ReceiveHit(hit, hit);
+		owner.electrocuted = false;
+	}
 }

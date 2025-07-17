@@ -1,23 +1,33 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/HUD/TutorialGoal.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=2]
-[ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=3]
+[ext_resource path="res://Themes/WhiteHUDTextSmall.tres" type="Theme" id=3]
+[ext_resource path="res://Fonts/pixelated.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 1
+extra_spacing_top = -2
+extra_spacing_space = 2
+font_data = ExtResource( 4 )
 
 [node name="TutorialGoal" type="Container"]
 anchor_right = 0.625
 anchor_bottom = 0.059
-margin_bottom = 16.07
+margin_bottom = -3.93
 script = ExtResource( 1 )
-default_color = Color( 1, 1, 1, 0.862745 )
-finish_color = Color( 0, 1, 0, 0.772549 )
-curr_color = Color( 1, 1, 0, 0.847059 )
-fail_color = Color( 1, 0.0196078, 0.0196078, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_color = Color( 1, 1, 1, 0.388235 )
+finish_color = Color( 0, 1, 0, 0.376471 )
+curr_color = Color( 1, 1, 0, 0.388235 )
+fail_color = Color( 1, 0.0196078, 0.0196078, 0.388235 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 300.0
-margin_bottom = 16.0
-color = Color( 1, 1, 1, 0.521569 )
+margin_bottom = 14.0
+color = Color( 1, 1, 1, 0.258824 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -26,9 +36,10 @@ __meta__ = {
 margin_left = 39.0
 margin_top = -1.0
 margin_right = 301.0
-margin_bottom = 15.0
+margin_bottom = 4.0
 theme = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 1 )
 text = "Walk to the right!"
 align = 2
 __meta__ = {
@@ -36,25 +47,29 @@ __meta__ = {
 }
 
 [node name="Input1" type="Sprite" parent="."]
-position = Vector2( 8, 8 )
+position = Vector2( 8, 7 )
+scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
 hframes = 14
 frame = 5
 
 [node name="Input2" type="Sprite" parent="."]
-position = Vector2( 26, 8 )
+position = Vector2( 26, 7 )
+scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
 hframes = 14
 frame = 8
 
 [node name="Input3" type="Sprite" parent="."]
-position = Vector2( 44, 8 )
+position = Vector2( 44, 7 )
+scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
 hframes = 14
 frame = 7
 
 [node name="Input4" type="Sprite" parent="."]
-position = Vector2( 60, 8 )
+position = Vector2( 60, 7 )
+scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
 hframes = 14
 frame = 7

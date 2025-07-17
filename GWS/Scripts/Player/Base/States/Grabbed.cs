@@ -20,9 +20,12 @@ public class Grabbed : State
         return heldKeys && earlyEnough && lastState;   
     }
     public override void FrameAdvance()
-	{
-		base.FrameAdvance();
-		owner.velocity = new Vector2(0, 0);
+    {
+        base.FrameAdvance();
+        owner.velocity = new Vector2(0, 0);
+
+        if (!owner.otherPlayer.currentState.tags.Contains("grab"))
+            EmitSignal(nameof(StateFinished), "Fall");
 	}
 
     /// <summary>

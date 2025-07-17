@@ -116,7 +116,9 @@ public abstract class BaseAttack : State
 		EXPLOSION,
 		PURPLE,
 		SNAIL,
-		SLASH
+		SLASH,
+		ELECTROCUTE,
+		SPARKS
 	}
 
 
@@ -177,7 +179,7 @@ public abstract class BaseAttack : State
 		}
 
 		if (superKaraButton.Length > 0)
-			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter(), owner.easySuper);
+			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0, owner.easySuper);
 
 		AddRhythmSpecials(owner.rhythmSpecials);
 		if (selfGatlingInp != " ")
@@ -251,7 +253,7 @@ public abstract class BaseAttack : State
 		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
-		if (owner.otherPlayer.grounded && !launchOnGrounded)
+		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
 		{
 			hitDetails.opponentLaunch = Vector2.Zero;
 			chDetails.opponentLaunch = Vector2.Zero;

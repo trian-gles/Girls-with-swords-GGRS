@@ -11,3 +11,4 @@ script = ExtResource( 2 )
 packedGameScene = ExtResource( 4 )
 packedCharSelectScene = ExtResource( 3 )
 packedWinScene = ExtResource( 5 )
+p1ChooseP2Char = true

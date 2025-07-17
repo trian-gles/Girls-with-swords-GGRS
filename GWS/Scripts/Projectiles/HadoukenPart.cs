@@ -52,6 +52,9 @@ public class HadoukenPart : Node2D
 	protected bool knockdown = false;
 
 	[Export]
+	public bool removeOTG;
+
+	[Export]
 	public Vector2 speed;
 
 	[Export]
@@ -135,8 +138,11 @@ public class HadoukenPart : Node2D
 		hitDetails.graphicFX = hitGfx;
 		chDetails.graphicFX = hitGfx;
 
+		if (removeOTG)
+			hitDetails.removeOTG = removeOTG;
+
 		if (modifiedHitStun != 0)
-			hitDetails.hitStun = modifiedHitStun;
+				hitDetails.hitStun = modifiedHitStun;
 		if (modifiedCounterHitStun != 0)
 			chDetails.hitStun = modifiedCounterHitStun;
 
@@ -288,7 +294,7 @@ public class HadoukenPart : Node2D
 		hits++;
 		Globals.Log("Hits = " + hits + ", Total hits = " + totalHits);
 
-		if (!launchOnGrounded && targetPlayer.grounded)
+		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{
 			hitDetails.opponentLaunch = Vector2.Zero;
 			chDetails.opponentLaunch = Vector2.Zero;
@@ -297,6 +303,8 @@ public class HadoukenPart : Node2D
 		{
 			hitDetails.opponentLaunch = opponentLaunch;
 			chDetails.opponentLaunch = chLaunch;
+			if (!launchOnGrounded)
+				hitDetails.hitStun += 10;
 		}
 
 			hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;

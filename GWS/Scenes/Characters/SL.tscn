@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -23,10 +23,11 @@
 [ext_resource path="res://Scripts/Player/Base/SixK.cs" type="Script" id=21]
 [ext_resource path="res://Scenes/Projectiles/StrikeSnail.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Sprites/Palettes/SL/SL-Palette.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=24]
 [ext_resource path="res://Sprites/Movesets/SL Moveset/SL-Full-Grey_palette.png" type="Texture" id=25]
 [ext_resource path="res://Scripts/Player/SL/SnailRide.cs" type="Script" id=26]
 [ext_resource path="res://Sprites/Movesets/SL Moveset/SL-grey-palette.png" type="Texture" id=27]
+[ext_resource path="res://Scripts/Player/SL/BackToss.cs" type="Script" id=28]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -35,6 +36,9 @@ render_mode unshaded, blend_disabled;
 uniform sampler2D palette;									//Use palletes in collum with colors in rows
 uniform float palette_count = 1.0;							//Used for highlighting hovered color
 uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+uniform vec4 snail_color = vec4(0.0, 1.0, 0.0, 1.0);
+uniform bool turn_snail = true;
+uniform bool freak_out = false;
 
 void fragment(){
     
@@ -44,15 +48,26 @@ void fragment(){
 	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
 	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
 	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
-    
-	COLOR = new_color;										//set new color from palette
+    if (false && (new_color.a > 0.0)){
+		COLOR = snail_color;
+	}
+	else if (freak_out){
+		COLOR = new_color;
+	}
+	else{
+		COLOR = new_color;	
+	}
+											//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=67]
 resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
+shader_param/snail_color = Plane( 0, 1, 0, 1 )
+shader_param/turn_snail = true
+shader_param/freak_out = false
 shader_param/palette = ExtResource( 24 )
 
 [sub_resource type="CSharpScript" id=3]
@@ -430,7 +445,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 9 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 6, 12 ) ]
+"values": [ Vector2( 9, 12 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -454,7 +469,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 9 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 25, -20 ) ]
+"values": [ Vector2( 22, -20 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -1338,7 +1353,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=11]
 resource_name = "BackToss"
-length = 36.0
+length = 39.0
 loop = true
 step = 1.0
 tracks/0/type = "value"
@@ -3309,7 +3324,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=24]
-length = 57.0
+length = 55.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -3317,7 +3332,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 40 ),
+"times": PoolRealArray( 0, 9, 18.4, 20, 26, 30 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 114, 115, 116, 117, 118, 114 ]
@@ -6111,7 +6126,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=37]
-length = 80.0
+length = 50.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6120,7 +6135,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 35, 49, 50, 60, 70 ),
+"times": PoolRealArray( 0, 10, 24, 25, 32, 42 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 80, 81, 81, 105, 106, 107 ]
@@ -8955,22 +8970,20 @@ visible = true
 position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
-position = Vector2( 22, -10 )
-disabled = false
+position = Vector2( 30, -25 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 16, -13 )
-disabled = false
+position = Vector2( 24, -35 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( -25, -15 )
+position = Vector2( 42, -50 )
 
 [node name="Sprite" parent="." index="4"]
-material = SubResource( 2 )
+material = SubResource( 67 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 236
-frame = 217
+frame = 128
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -8985,8 +8998,9 @@ startupFrames = 4
 startupFrames = 7
 
 [node name="Grab" parent="StateTree" index="13"]
-releaseFrame = 40
-launch = Vector2( 0, -500 )
+releaseFrame = 30
+launch = Vector2( 0, -300 )
+slowTerminalVelocity = 35
 effect = 2
 
 [node name="SnailRide" type="Node" parent="StateTree" index="19"]
@@ -9030,9 +9044,11 @@ landingRecovery = 9
 script = ExtResource( 3 )
 
 [node name="BackToss" type="Node" parent="StateTree" index="24"]
-script = ExtResource( 7 )
+script = ExtResource( 28 )
+hasGravity = false
 hadoukenScene = ExtResource( 11 )
 yOffset = 22
+earlyReleaseFrame = 12
 
 [node name="J2C" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 18 )
@@ -9063,7 +9079,7 @@ callMode = 2
 
 [node name="SnailStrike" type="Node" parent="StateTree" index="30"]
 script = ExtResource( 17 )
-superFrame = 1
+superFrame = 12
 releaseFrame = 10
 hadoukenScene = ExtResource( 22 )
 yOffset = -150
@@ -9192,12 +9208,13 @@ jumpCancelable = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 slashCancel = true
+commandNormalCancel = true
 
 [node name="6K" type="Node" parent="StateTree" index="62"]
 script = ExtResource( 21 )
 level = 1
 modifiedHitStun = 16
-modifiedHitPush = 3500
+modifiedHitPush = 100
 height = 2
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
@@ -9219,6 +9236,7 @@ whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 restoreHitFrames = PoolIntArray( 20 )
 superKaraButton = "a"
+commandNormalCancel = true
 
 [node name="SnailGrab" type="Node" parent="StateTree" index="65"]
 script = ExtResource( 13 )

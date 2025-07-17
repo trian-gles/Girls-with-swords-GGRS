@@ -45,6 +45,12 @@ public class LobbyRedesign : Node2D
 	[Export]
 	public PackedScene tutorialManager;
 
+	[Export]
+	public PackedScene comboTrialManager;
+
+	[Export]
+	public PackedScene strategyManager;
+
 	public bool host = false;
 	
 	private BaseManager activeManager;
@@ -126,11 +132,21 @@ public class LobbyRedesign : Node2D
 	{
 		BeginManager(localManager);
 	}
+	
+	public void OnComboTrialsButtonDown()
+	{
+		BeginManager(comboTrialManager);
+	}
+
+	public void OnStrategyButtonDown()
+	{
+		BeginManager(strategyManager);
+	}
 
 	public void OnTrainingButtonDown()
 	{
 		BeginManager(trainingManager);
-		
+
 	}
 
 	public void OnCPUButtonDown()
@@ -195,7 +211,3 @@ public class LobbyRedesign : Node2D
 	}
 	
 }
-
-
-
-

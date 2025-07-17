@@ -15,6 +15,7 @@ script = ExtResource( 2 )
 packedGameScene = ExtResource( 5 )
 packedCharSelectScene = ExtResource( 3 )
 packedWinScene = ExtResource( 6 )
+p1ChooseP2Char = true
 
 [node name="ControlledText" type="Label" parent="." index="0"]
 margin_right = 40.0

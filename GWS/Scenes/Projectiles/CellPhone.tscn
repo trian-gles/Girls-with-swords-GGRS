@@ -58,6 +58,7 @@ modifiedHitStun = 20
 modifiedCounterHitStun = 33
 effect = 3
 chEffect = 3
+hitGfx = 5
 duration = 100
 launch = Vector2( 5, -7 )
 gravity = 1

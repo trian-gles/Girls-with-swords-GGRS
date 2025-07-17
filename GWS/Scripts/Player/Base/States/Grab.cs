@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Grab : State
 {
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
+
 	[Export]
 	protected int level = 0;
 
@@ -15,6 +17,9 @@ public class Grab : State
 
 	[Export]
 	public Vector2 launch = new Vector2();
+
+	[Export]
+	public int slowTerminalVelocity = 0;
 
 	[Export]
 	public int dmg = 0;
@@ -32,9 +37,9 @@ public class Grab : State
 
 	public bool rightGrab = true;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		AddCancel("Idle");
 
 		isCounter = true;
@@ -63,8 +68,8 @@ public class Grab : State
 
 	public override void Enter()
 	{
-        owner.ZIndex = 1;
-        base.Enter();
+		owner.ZIndex = 1;
+		base.Enter();
 		owner.velocity = new Vector2(0, 0);
 		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
@@ -87,7 +92,7 @@ public class Grab : State
 		if (frameCount < releaseFrame)
 		{
 			if (frameCount < 3)
-            {
+			{
 				if (owner.CheckHeldKey('6'))
 				{
 					owner.TurnRight();
@@ -114,6 +119,10 @@ public class Grab : State
 		else if ((frameCount == releaseFrame) && !released)
 		{
 			Vector2 actualLaunch = launch;
+			if (slowTerminalVelocity != 0)
+			{
+				owner.otherPlayer.terminalVelocity = slowTerminalVelocity;
+			}
 			//if (!rightGrab)
 			//{
 			//	actualLaunch.x *= -1;
@@ -139,20 +148,20 @@ public class Grab : State
 			{
 				owner.otherPlayer.GFXEvent("Purple");
 
-            }
+			}
 			
 			
-            released = true;
+			released = true;
 			
 		}
 	}
-    public override void Exit()
-    {
-        base.Exit();
-        owner.ZIndex = 0;
-    }
+	public override void Exit()
+	{
+		base.Exit();
+		owner.ZIndex = 0;
+	}
 
-    public override void AnimationFinished()
+	public override void AnimationFinished()
 	{
 		EmitSignal(nameof(StateFinished), "Idle");
 	}

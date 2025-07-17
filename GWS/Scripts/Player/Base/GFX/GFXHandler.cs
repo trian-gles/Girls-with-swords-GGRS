@@ -8,15 +8,18 @@ public class GFXHandler : Node
 	private Dictionary<string, PlayerParticleGPU> particlesGPU;
 	private Node drawFX;
 	
+	
 	//private PlayerParticle blood;
 	//private PlayerParticle cancel;
 	//private PlayerParticleGPU light;
+
 
 	public override void _Ready()
 	{
 		particlesCPU = new Dictionary<string, PlayerParticle>();
 		particlesGPU = new Dictionary<string, PlayerParticleGPU>();
 		drawFX = GetNode("DrawFX");
+		
 
 		foreach (object node in GetChildren())
 		{

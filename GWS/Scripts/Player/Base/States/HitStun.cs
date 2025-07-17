@@ -24,7 +24,12 @@ public class HitStun : HitState
 
 		if (stunRemaining == 0)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			if (owner.electrocuted)
+			{
+				ReceiveElectrocution();
+			}
+			else
+				EmitSignal(nameof(StateFinished), "Idle");
 		}
 
 	}

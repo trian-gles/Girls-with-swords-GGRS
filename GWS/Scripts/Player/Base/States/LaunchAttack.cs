@@ -12,13 +12,13 @@ public class LaunchAttack : AirAttack
 	[Export]
 	protected int launchFrame = 1;
 
-    [Export]
-    protected Array<int> dustFrames = new Array<int>();
+	[Export]
+	protected Array<int> dustFrames = new Array<int>();
 
-    /// <summary>
-    /// This doesn't call base.FrameAdvance() because that state includes things we don't want
-    /// </summary>
-    public override void FrameAdvance()
+	/// <summary>
+	/// This doesn't call base.FrameAdvance() because that state includes things we don't want
+	/// </summary>
+	public override void FrameAdvance()
 	{
 		frameCount++;
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
@@ -57,13 +57,13 @@ public class LaunchAttack : AirAttack
 			}
 		}
 
-        if (dustFrames.Contains(frameCount))
-        {
-            GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-            new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
-            "dust", owner.facingRight);
-        }
-    }
+		if (dustFrames.Contains(frameCount))
+		{
+			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
+			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+			"dust", owner.facingRight);
+		}
+	}
 
 	public override void AnimationFinished()
 	{

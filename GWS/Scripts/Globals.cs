@@ -95,6 +95,8 @@ public class Globals : Node
 		public int hitPush;
 		public int prorationLevel;
 		public bool knockdown;
+		public bool electrocute;
+		public bool removeOTG;
 		public int hitStop;
 		public Vector2 collisionPnt;
 		public Vector2 opponentLaunch;
@@ -113,10 +115,11 @@ public class Globals : Node
 
 	public static AttackDetails otgHit = new AttackDetails
 	{
-		hitStun = 6,
-		blockStun = 6,
+		hitStun = 9,
+		blockStun = 12,
+		hitStop = 12,
 		dmg = 4,
-		hitPush = 2000,
+		hitPush = 6000,
 		prorationLevel = 2,
 		knockdown = false,
 		opponentLaunch = new Vector2(400, -300),
@@ -126,6 +129,21 @@ public class Globals : Node
 		dir = BaseAttack.ATTACKDIR.EQUAL
 	};
 
+	public static AttackDetails electrocuteDetails = new AttackDetails
+	{
+		hitStun = 20,
+		blockStun = 18,
+		hitStop = 0,
+		dmg = 7,
+		hitPush = 4000,
+		prorationLevel = 1,
+		knockdown = false,
+		effect = BaseAttack.EXTRAEFFECT.NONE,
+		graphicFX = BaseAttack.GRAPHICEFFECT.SPARKS,
+		height = State.HEIGHT.MID,
+		dir = BaseAttack.ATTACKDIR.EQUAL,
+		opponentLaunch = new Vector2(0, -700),
+	};
 	public static AttackLevel[] attackLevels = new AttackLevel[]
 	{
 		// LVL 1
@@ -136,7 +154,7 @@ public class Globals : Node
 				hitStop = 12,
 				dmg = 4,
 				hitPush = 2000,
-				prorationLevel = 2,
+				prorationLevel = 3,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -144,14 +162,14 @@ public class Globals : Node
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
 
-			}, 
+			},
 			counterHit = new AttackDetails{
 				hitStun = 16,
 				blockStun = 11,
 				hitStop = 16,
 				dmg = 4,
 				hitPush = 2000,
-				prorationLevel = 2,
+				prorationLevel = 3,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -169,7 +187,7 @@ public class Globals : Node
 				hitStop = 14,
 				dmg = 5,
 				hitPush = 2500,
-				prorationLevel = 1,
+				prorationLevel = 2,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -184,7 +202,7 @@ public class Globals : Node
 				hitStop = 17,
 				dmg = 5,
 				hitPush = 2500,
-				prorationLevel = 1,
+				prorationLevel = 2,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -235,7 +253,7 @@ public class Globals : Node
 				hitStop = 16,
 				dmg = 7,
 				hitPush = 4000,
-				prorationLevel = 0,
+				prorationLevel = 1,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,

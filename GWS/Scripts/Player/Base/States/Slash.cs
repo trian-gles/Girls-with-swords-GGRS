@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Slash : GroundAttack
 {
+
+	[Export]
+	public bool commandNormalCancel = true;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -12,7 +15,8 @@ public class Slash : GroundAttack
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
 		AddEasyGroundSpecials();
-		AddCommandNormals(owner.commandNormals);
+		if (commandNormalCancel)
+			AddCommandNormals(owner.commandNormals);
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
 	}
 }

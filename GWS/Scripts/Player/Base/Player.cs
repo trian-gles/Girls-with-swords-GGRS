@@ -123,7 +123,7 @@ public class Player : Node2D
 	
 	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA" };
 
-    public delegate void NegEdgeCallback(char releasedkey);
+	public delegate void NegEdgeCallback(char releasedkey);
 	public NegEdgeCallback negEdgeCallback = (char c) => { };
 
 	///
@@ -152,6 +152,8 @@ public class Player : Node2D
 	public int specialBreakFramesRemaining = 0;
 	public int landingRecoveryFramesRemaining = 0;
 	public int lastPressedDownFrame = 0;
+	public bool electrocuted = false;
+	public bool wasOTGHit = false;
 
 
 	public bool trainingControlledPlayer;
@@ -209,6 +211,8 @@ public class Player : Node2D
 		public int specialBreakFramesRemaining { get; set; }
 		public int landingRecoveryFramesRemaining { get; set; }
 		public int lastPressedDownFrame { get; set; }
+		public bool electrocuted { get; set; }
+		public bool wasOTGHit { get; set; }
 
 		public Dictionary<string, int> charSpecificData { get; set; }
 
@@ -278,6 +282,7 @@ public class Player : Node2D
 	private EventScheduler eventSched;
 	private GFXHandler gfxHand;
 	private Label debugPos;
+	private Node2D electricity;
 
 	[Export]
 	public PackedScene plusFrameTextScene;
@@ -306,6 +311,8 @@ public class Player : Node2D
 		eventSched = GetNode<EventScheduler>("EventScheduler");
 		gfxHand = GetNode<GFXHandler>("GFXHandler");
 		debugPos = GetNode<Label>("DebugPos");
+
+		electricity = (Node2D)GetNode("ElectricShock");
 
 		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
 		foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
@@ -412,7 +419,9 @@ public class Player : Node2D
 		pState.lastStateName = lastStateName;
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
+		pState.electrocuted = electrocuted;
 		pState.charSpecificData = GetStateCharSpecific();
+		pState.wasOTGHit = wasOTGHit;
 
 		
 			
@@ -458,6 +467,8 @@ public class Player : Node2D
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		lastPressedDownFrame = pState.lastPressedDownFrame;
+		electrocuted = pState.electrocuted;
+		wasOTGHit = pState.wasOTGHit;
 		
 
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
@@ -531,10 +542,10 @@ public class Player : Node2D
 		{
 			heldKeys = new List<char>();
 			rhythmHeldKeys = new List<char>();
-            hitStopInputs = new List<char[]>();
-            inBuf2 = new List<char[]>();
-            inBuf2Timer = inBuf2TimerMax;
-        }
+			hitStopInputs = new List<char[]>();
+			inBuf2 = new List<char[]>();
+			inBuf2Timer = inBuf2TimerMax;
+		}
 
 		private void BufAddInput(char[] input)
 		{
@@ -848,16 +859,16 @@ public class Player : Node2D
 	}
 
 	public bool CheckHeldKeys(char[] keys)
-    {
-        return keys.All(k => CheckHeldKey(k));
-    }
+	{
+		return keys.All(k => CheckHeldKey(k));
+	}
 
-    public bool CheckHeldFlippableKeys(char[] keys)
-    {
-        return keys.All(k => CheckFlippableHeldKey(k));
-    }
+	public bool CheckHeldFlippableKeys(char[] keys)
+	{
+		return keys.All(k => CheckFlippableHeldKey(k));
+	}
 
-    public bool CheckFlippableHeldKey(char key)
+	public bool CheckFlippableHeldKey(char key)
 	{
 		if (!facingRight)
 		{
@@ -926,8 +937,8 @@ public class Player : Node2D
 	public void AlwaysFrameAdvance()
 	{
 		eventSched.FrameAdvance();
-
-    }
+		electricity.Visible = electrocuted;
+	}
 
 	/// <summary>
 	/// Called anytime outside of rollbacks
@@ -977,9 +988,9 @@ public class Player : Node2D
 				EndSpecialBreak();
 			}
 		}
-        GFXSpecialFrameAdvance(); // purely graphic, should be moved
+		GFXSpecialFrameAdvance(); // purely graphic, should be moved
 
-        AdjustHitpush(); // make sure this is placed in the right spot...
+		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
 		
@@ -1005,7 +1016,7 @@ public class Player : Node2D
 				break;
 
 		}
-    }
+	}
 
 	/// <summary>
 	/// First half of the integer based, deterministic collision detection system.
@@ -1250,11 +1261,11 @@ public class Player : Node2D
 	/// Prevent kara cancelling into Shield
 	/// </summary>
 	/// <returns></returns>
-    public bool CanShield()
-    {
+	public bool CanShield()
+	{
 		return !GetNode<State>("StateTree/" + lastStateName).tags.Contains("attack") && CheckFlippableHeldKey('4');
-    }
-    public void Prorate(int prorationLevel)
+	}
+	public void Prorate(int prorationLevel)
 	{
 		proration = Math.Max(1, proration - prorationLevel);
 	}
@@ -1274,12 +1285,17 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
-		if (currentState.Name == "Knockdown")
+		if (hitDetails.removeOTG)
 		{
-			receivedHit = Globals.otgHit;
-			invulnFrames = 8;
+			wasOTGHit = false;
 		}
 
+		if ((currentState.Name == "Knockdown" || wasOTGHit) && !hitDetails.removeOTG)
+		{
+			wasOTGHit = true;
+			receivedHit = Globals.otgHit;
+
+		}
 		if (currentState.isCounter)
 		{
 			receivedHit = chDetails;
@@ -1297,6 +1313,16 @@ public class Player : Node2D
 			return false;
 		}
 		Globals.AttackDetails details = receivedHit;
+		if (wasOTGHit)
+		{
+			details = Globals.otgHit;
+			if (OtherPlayerOnLeft())
+				details.dir = BaseAttack.ATTACKDIR.RIGHT;
+			else
+				details.dir = BaseAttack.ATTACKDIR.LEFT;
+		}
+			
+
 		
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
@@ -1337,17 +1363,18 @@ public class Player : Node2D
 
 	public void OnHitConnected(int hitPush) 
 	{
+		
 		if (otherPlayer.CheckTouchingWall())
-		{
-			if (OtherPlayerOnRight())
 			{
-				hitPushRemaining = -hitPush;
+				if (OtherPlayerOnRight())
+				{
+					hitPushRemaining = -hitPush;
+				}
+				else if (OtherPlayerOnLeft())
+				{
+					hitPushRemaining = hitPush;
+				}
 			}
-			else if (OtherPlayerOnLeft())
-			{
-				hitPushRemaining = hitPush;
-			}
-		}
 	}
 
 	public void EmitHadouken(HadoukenPart h)
@@ -1493,12 +1520,12 @@ public class Player : Node2D
 		GetNode<Node2D>("Shield").Visible = true;
 	}
 
-    private void HideShield()
-    {
-        GetNode<Node2D>("Shield").Visible = true;
-    }
+	private void HideShield()
+	{
+		GetNode<Node2D>("Shield").Visible = true;
+	}
 
-    public bool AreHitboxesActive()
+	public bool AreHitboxesActive()
 	{
 		return GetRects(hitBoxes, false).Count() > 0;
 

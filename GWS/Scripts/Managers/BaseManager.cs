@@ -57,6 +57,13 @@ public class BaseManager : Node2D
 
 	protected BaseGame currGame;
 
+	[Export]
+	public bool p1ChooseP2Char = false;
+	protected bool p1KeyReleased = false;
+	protected bool p2KeyReleased = false;
+	protected int lastP1Key = 0; // this funny logic relates to allowing the P1 key to be released before choosing p2
+	protected int lastP2Key = 0; // P2 key to be released before choosing the stage
+
 	
 
 	protected int playerOne, playerTwo;
@@ -121,6 +128,46 @@ public class BaseManager : Node2D
 			
 	}
 
+	protected Tuple<int, int> GetCharSelectSceneP1Inputs()
+	{
+		int p1Inputs = 0;
+		int p2Inputs = 0;
+		if (charSelectScene.p1Selected)
+		{
+
+			if (charSelectScene.p2Selected)
+			{
+				if (p2KeyReleased)
+				{
+					p1Inputs = GetInputs("");
+				}
+				else
+				{
+					p2KeyReleased = (GetInputs("") != lastP2Key);
+				}
+
+			}
+			else if (p1KeyReleased)
+			{
+				p2Inputs = GetInputs("");
+				lastP2Key = p2Inputs;
+
+			}
+			else
+			{
+				p1KeyReleased = (GetInputs("") != lastP1Key);
+			}
+		}
+
+
+		else
+		{
+			p1Inputs = GetInputs("");
+			lastP1Key = p1Inputs;
+		}
+		return new Tuple<int, int>(p1Inputs, p2Inputs);
+	}
+
 	/// <summary>
 	/// Eventually this should handle keeping score
 	/// </summary>
@@ -130,7 +177,7 @@ public class BaseManager : Node2D
 		winScene.Config(winner);
 		currGame = winScene;
 		MoveChild(winScene, 0);
-		
+
 	}
 
 	public virtual void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -224,6 +271,7 @@ public class BaseManager : Node2D
 
 	protected void Popup(string text)
 	{
+		
 		var popup = popupText.Instance();
 		AddChild(popup);
 		popup.Call("set_text", text);

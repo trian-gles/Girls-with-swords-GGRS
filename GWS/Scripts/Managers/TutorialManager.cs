@@ -12,6 +12,16 @@ public class TutorialManager : TrainingManager
 			this.name = name;
 			this.resetPos = resetPos;
 		}
+
+		public void MakeComboChallenge()
+		{
+			for (int i = 1; i < goals.Count; i++)
+			{
+				goals[i] = goals[i].Copy();
+				goals[i].p2FailTags.Add("recovery");
+				goals[i].p2Tags.Add("hitstate");
+			}
+		}
 		public GameScene.ResetPos resetPos;
 		public string name;
 		public string popupText;
@@ -27,6 +37,25 @@ public class TutorialManager : TrainingManager
 			this.input3 = input3;
 			this.input4 = input4;
 		}
+
+		public Goal Copy()
+		{
+			var newGoal = new Goal(text, input1, input2, input3, input4)
+			{
+				p1State = p1State,
+				p2State = p2State,
+				p1StateFrame = p1StateFrame,
+				p2StateFrame = p2StateFrame,
+				minFramesSinceLastGoal = minFramesSinceLastGoal,
+				p1FailState = p1FailState,
+				p2FailState = p2FailState,
+				p1Tags = new HashSet<string>(p1Tags),
+				p2Tags = new HashSet<string>(p2Tags),
+				p1FailTags = new HashSet<string>(p1FailTags),
+				p2FailTags = new HashSet<string>(p2FailTags),
+			};
+			return newGoal;
+		}
 		public delegate bool OtherRequirement();
 
 
@@ -37,11 +66,10 @@ public class TutorialManager : TrainingManager
 		public string text;
 		public string p1State;
 		public string p2State;
-		public int p1StateFrame = 0;
-		public int p2StateFrame = 0;
+		public int p1StateFrame = -1;
+		public int p2StateFrame = -1;
 		public int minFramesSinceLastGoal = 0;
 
-		public List<string[]> p2Inputs = new List<string[]>();
 		public HashSet<string> p1Tags = new HashSet<string>();
 		public HashSet<string> p2Tags = new HashSet<string>();
 		public string p1FailState;
@@ -52,7 +80,7 @@ public class TutorialManager : TrainingManager
 		public OtherRequirement otherRequirement;
 	}
 
-	private List<Challenge> challenges = new List<Challenge>();
+	protected List<Challenge> challenges = new List<Challenge>();
 	private int lastGoalCompletedFrame;
 
 	private int currChallengePtr = 0;
@@ -67,9 +95,34 @@ public class TutorialManager : TrainingManager
 	private bool failed = false;
 	private int advanceFrame;
 
-	Goal jabGoal;
-	Goal kickGoal;
-	Goal slashGoal;
+	protected bool comboTrial = false;
+
+	[Export]
+	public bool skipCharSelect = true;
+
+
+	protected Goal jabGoal;
+	protected Goal kickGoal;
+	protected Goal slashGoal;
+
+	protected Goal cjabGoal;
+	protected Goal ckickGoal;
+	protected Goal cslashGoal;
+
+	protected Goal jJabGoal;
+	protected Goal jKickGoal;
+	protected Goal jSlashGoal;
+
+	protected Goal jumpGoal;
+
+	protected Goal fJumpGoal;
+	protected Goal dFJumpGoal;
+
+	protected Goal grabGoal;
+
+	protected Goal adGoal;
+
+	private Goal[] comboGoals;
 
 
 	/// <summary>
@@ -81,16 +134,13 @@ public class TutorialManager : TrainingManager
 		Challenge moveChallenge = new Challenge("Basic Movement");
 
 		moveChallenge.popupText = "Welcome to the Girls with Swords tutorial!  First let's go over some basic movement";
-		Goal jumpGoal = new Goal("Jump", "up");
-		jumpGoal.p1State = "Jump";
+
 		moveChallenge.goals.Add(jumpGoal);
 
 		Goal walkForwardGoal = new Goal("Walk forwards", "right");
 		walkForwardGoal.p1State = "Walk";
 		moveChallenge.goals.Add(walkForwardGoal);
 
-		Goal fJumpGoal = new Goal("Forward Jump", "right", "up");
-		fJumpGoal.p1State = "Jump";
 		moveChallenge.goals.Add(fJumpGoal);
 
 		Goal walkBackGoal = new Goal("Walk backwards", "left");
@@ -117,8 +167,7 @@ public class TutorialManager : TrainingManager
 		backdashGoal.p1State = "Backdash";
 		dashChallenge.goals.Add(backdashGoal);
 
-		Goal adGoal = new Goal("Airdash", "air", "right", "dash");
-		adGoal.p1State = "AirDash";
+		
 		dashChallenge.goals.Add(adGoal);
 
 		Goal abdGoal = new Goal("Airbackdash", "air", "left", "dash");
@@ -135,60 +184,29 @@ public class TutorialManager : TrainingManager
 		// Attack
 
 		Challenge attackChallenge = new Challenge("Basic Attacks");
-		attackChallenge.popupText = "Now for some attacks.  See the Button Configuration to change the controller mapping.  Execute these on the opponent";
-		jabGoal = new Goal("Punch", "p");
-		jabGoal.p1State = "Jab";
-		jabGoal.p2State = "HitStun";
+		attackChallenge.popupText = "Now for some attacks.  See the Button Configuration to change the controller mapping.  Execute these on the opponent.  Every character will have varied attacks, which can be studied in detail in Character Tutorials";
 		attackChallenge.goals.Add(jabGoal);
-
-		Goal kickGoal = new Goal("Kick", "k");
-		kickGoal.p1State = "Kick";
-		kickGoal.p2State = "HitStun";
 		attackChallenge.goals.Add(kickGoal);
-
-		Goal slashGoal = new Goal("Slash", "s");
-		slashGoal.p1State = "Slash";
-		slashGoal.p2State = "HitStun";
 		attackChallenge.goals.Add(slashGoal);
 
 		Challenge crouchAttackChallenge = new Challenge("Crouching Attacks");
 		crouchAttackChallenge.popupText = "Each standard attack button also has a crouching and aerial variant";
-		Goal cjabGoal = new Goal("Crouching Punch", "down", "p");
-		cjabGoal.p1State = "CrouchA";
-		cjabGoal.p2State = "HitStun";
+
 		crouchAttackChallenge.goals.Add(cjabGoal);
-
-		Goal ckickGoal = new Goal("Crouching Kick", "down", "k");
-		ckickGoal.p1State = "CrouchB";
-		ckickGoal.p2State = "HitStun";
 		crouchAttackChallenge.goals.Add(ckickGoal);
-
-		Goal cslashGoal = new Goal("Crouching Slash (sweep)", "down", "s");
-		cslashGoal.p1State = "CrouchC";
-		cslashGoal.p2State = "Knockdown";
 		crouchAttackChallenge.goals.Add(cslashGoal);
 
 
 		Challenge airAttackChallenge = new Challenge("Air Attacks");
-		Goal jJabGoal = new Goal("Air Punch", "air", "p");
-		jJabGoal.p1State = "JumpA";
-		jJabGoal.p2State = "HitStun";
+
 		airAttackChallenge.goals.Add(jJabGoal);
-
-		Goal jKickGoal = new Goal("Air Kick", "air", "k");
-		jKickGoal.p1State = "JumpB";
-		jKickGoal.p2State = "HitStun";
 		airAttackChallenge.goals.Add(jKickGoal);
-
-		Goal jSlashGoal = new Goal("Air Slash", "air", "s");
-		jSlashGoal.p1State = "JumpC";
-		jSlashGoal.p2State = "HitStun";
 		airAttackChallenge.goals.Add(jSlashGoal);
 
 
 
 		Challenge attackChallenge2 = new Challenge("Command Attacks");
-		attackChallenge2.popupText = "You can also hold forward to execute variants of standard attacks.  These are highly varied between characters.";
+		attackChallenge2.popupText = "You can press forward along with attack buttons to execute variants. In the air, press down along with slash for a powerful downward slash. ";
 
 		Goal AAGoal = new Goal("Anti air", "right", "p");
 		AAGoal.p1State = "6P";
@@ -211,7 +229,7 @@ public class TutorialManager : TrainingManager
 		attackChallenge2.goals.Add(j2SlashGoal);
 
 		Challenge dashAttackChallenge = new Challenge("Dash Attack");
-		dashAttackChallenge.popupText = "If you press slash while fulling running, you'll perform a special dash attack";
+		dashAttackChallenge.popupText = "If you press slash while fully running, you'll perform a special dash attack";
 
 		Goal dashAttackGoal = new Goal("Dashing slash", "right", "dash", "hold", "s");
 		dashAttackGoal.p1State = "InstantOverhead";
@@ -221,8 +239,7 @@ public class TutorialManager : TrainingManager
 
 		Challenge grabChallenge = new Challenge("Grab");
 		grabChallenge.popupText = "Grabs are extremely fast and cannot be blocked, but you must be close to the opponent and they can't be still stunned from a previous attack";
-		var grabGoal = new Goal("Grab (must be close!)", "k", "s");
-		grabGoal.p1State = "Grab";
+		
 
 		grabChallenge.goals.Add(grabGoal);
 
@@ -303,7 +320,7 @@ public class TutorialManager : TrainingManager
 		challenges.Add(lowChallenge);
 
 		Challenge grabEvadeChallenge = new Challenge("Evading grabs", GameScene.ResetPos.P1CORNEREDLEFT);
-		grabEvadeChallenge.popupText = "Grabs cannot be blocked!  However, you can avoid them with a variety of techniques.  For example, you cannot be caught by a ground grab if you're in the air";
+		grabEvadeChallenge.popupText = "Grabs cannot be blocked!  However, you can avoid them with a variety of techniques, including jumping, attacking, and backdashing.  Try jumping out of GL's grab";
 		Goal grabEvadeJump = new Goal("Jump out of the grab", "up");
 		grabEvadeJump.p1State = "Jump";
 		grabEvadeJump.p2State = "GrabStart";
@@ -319,7 +336,7 @@ public class TutorialManager : TrainingManager
 		mixUpChallenge.goals.Add(blockGoalLow);
 		mixUpChallenge.goals.Add(blockGoalOvr);
 		mixUpChallenge.goals.Add(blockGoalLow);
-		mixUpChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		mixUpChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16 + 32 + 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(mixUpChallenge);
 
 		Challenge shieldChallenge = new Challenge("Shield", GameScene.ResetPos.P1CORNEREDLEFT);
@@ -350,27 +367,132 @@ public class TutorialManager : TrainingManager
 		Globals.autoTech = false;
 
 		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
+		
+
+		// Setting up default goals
+		jumpGoal = new Goal("Jump", "up");
+		jumpGoal.p1State = "Jump";
+
+		fJumpGoal = new Goal("Forward Jump", "right", "up");
+		fJumpGoal.p1State = "Jump";
+
+		dFJumpGoal = new Goal("Forward Double Jump", "air", "right", "up");
+		dFJumpGoal.p1State = "DoubleJump";
+
+		jabGoal = new Goal("Punch", "p")
+		{
+			p1State = "Jab",
+			p2Tags = new HashSet<string>{ "hitstate"},
+			p2StateFrame = 0
+		};
+
+		kickGoal = new Goal("Kick", "k")
+		{
+			p1State = "Kick",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		slashGoal = new Goal("Slash", "s")
+		{
+			p1State = "Slash",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		cjabGoal = new Goal("Crouching Punch", "down", "p")
+		{
+			p1State = "CrouchA",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		ckickGoal = new Goal("Crouching Kick", "down", "k")
+		{
+			p1State = "CrouchB",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		cslashGoal = new Goal("Crouching Slash (sweep)", "down", "s")
+		{
+			p1State = "CrouchC",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		jJabGoal = new Goal("Air Punch", "air", "p")
+		{
+			p1State = "JumpA",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		jKickGoal = new Goal("Air Kick", "air", "k")
+		{
+			p1State = "JumpB",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		jSlashGoal = new Goal("Air Slash", "air", "s")
+		{
+			p1State = "JumpC",
+			p2StateFrame = 0,
+			p2Tags = new HashSet<string>{ "hitstate"}
+		};
+
+		adGoal = new Goal("Airdash", "air", "right", "dash");
+		adGoal.p1State = "AirDash";
+
+		grabGoal = new Goal("Grab", "k", "s");
+		grabGoal.p1State = "Grab";
+
+		
+		if (comboTrial)
+		{
+			Globals.autoTech = true;
+		}
+
+
+
+
+
+
+		if (skipCharSelect)
+		{
+			playerOne = 0;
+			playerTwo = 1;
+			colorOne = 0;
+			colorTwo = 0;
+			OnNewGame();
+		}
+		else
+		{
+			charSelectScene.AutoSelectP2GL();
+		}
+			
+		
+		Globals.mode = Globals.Mode.TUTORIAL;
+	}
+
+	public override void OnNewGame()
+	{
+		base.OnNewGame();
 		AddChallenges();
-		
-
-
-		playerOne = 0;
-		playerTwo = 1;
-		colorOne = 0;
-		colorTwo = 0;
 		currChallenge = challenges[currChallengePtr];
-		
-		OnNewGame();
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
 		gameScene.Reset();
 		InitChallenge(currChallenge);
-		Globals.mode = Globals.Mode.TUTORIAL;
 	}
+	
 
-	private bool CheckFail(){
-		if (currGoal.p2FailState != null) {
+	private bool CheckFail()
+	{
+		if (currGoal.p2FailState != null)
+		{
 			if (currGoal.p2FailState == gameScene.P2.currentState.Name)
 				return true;
 		}
@@ -392,7 +514,12 @@ public class TutorialManager : TrainingManager
 	public override void _PhysicsProcess(float delta)
 	{
 
-
+		if (currGame.Name == "CharSelectScreen")
+		{
+			var (p1Inputs, p2Inputs) = GetCharSelectSceneP1Inputs();
+			currGame.AdvanceFrame(p1Inputs, p2Inputs);
+			return;
+		}
 		base._PhysicsProcess(delta);
 
 		if (shouldAdvance && Input.IsActionJustPressed("switch_players"))
@@ -401,7 +528,7 @@ public class TutorialManager : TrainingManager
 		if (Input.IsActionJustPressed("switch_players"))
 			RestartChallenge();
 
-		if (shouldAdvance)
+		if (shouldAdvance || failed)
 			return;
 		if (CheckFail())
 		{
@@ -430,7 +557,7 @@ public class TutorialManager : TrainingManager
 		gameScene.SetPos(c.resetPos);
 		recordedInputs = c.p2Inputs;
 		playbackInputs = (c.p2Inputs != null);
-		
+		inputHead = 0;
 
 		currGoalPtr = 0;
 		currGoal = c.goals[currGoalPtr];
@@ -466,19 +593,19 @@ public class TutorialManager : TrainingManager
 		}
 
 		if (currGoal.p1Tags.Count > 0){
-			result = result && GetP1Tags().IsSupersetOf(currGoal.p1Tags);
+			result = result && GetP1Tags().Overlaps(currGoal.p1Tags);
 		}
 
 		if (currGoal.p2Tags.Count > 0){
-			result = result && GetP1Tags().IsSupersetOf(currGoal.p2Tags);
+			result = result && GetP2Tags().Overlaps(currGoal.p2Tags);
 		}
 
-		if (currGoal.p1StateFrame != 0)
+		if (currGoal.p1StateFrame != -1)
 		{
 			result = result && gameScene.P1.currentState.frameCount == currGoal.p1StateFrame;
 		}
 
-		if (currGoal.p2StateFrame != 0)
+		if (currGoal.p2StateFrame != -1)
 		{
 			result = result && gameScene.P2.currentState.frameCount == currGoal.p2StateFrame;
 		}
@@ -487,8 +614,6 @@ public class TutorialManager : TrainingManager
 		{
 			result = result && Globals.frame > currGoal.minFramesSinceLastGoal + lastGoalCompletedFrame;
 		}
-
-
 
 		return result;
 	}

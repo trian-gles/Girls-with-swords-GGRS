@@ -73,14 +73,14 @@ public abstract class State : Node
 		HIGH
 	}
 
-    public enum GFXStates
-    {
+	public enum GFXStates
+	{
 		NONE,
-        SHIELD,
+		SHIELD,
 		SHIELDACTIVE
-    }
+	}
 
-    protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
+	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
 	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
@@ -403,8 +403,12 @@ public abstract class State : Node
 	protected void AddEasyGroundSpecials()
 	{
 		
-		AddGatling(new[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('s') && owner.TrySpendMeter(), owner.easySuper);
-		AddGatling(new[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter(), owner.easySuper);
+		AddGatling(new[] { 'a', 'p' },
+		() => owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('s') && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0,
+		owner.easySuper);
+		AddGatling(new[] { 's', 'p' }, () =>
+		owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0,
+		owner.easySuper);
 		AddCommandNormals(owner.easyCommandSpecials);
 		AddGatling(new[] { 'a', 'p' }, owner.easySpecial);
 	}
@@ -699,9 +703,7 @@ public abstract class State : Node
 
 		HandleHitGFX(gfx);
 
-        
-
-        bool airState = (launchBool || !owner.grounded);
+		bool airState = (launchBool || !owner.grounded);
 
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
@@ -750,9 +752,17 @@ public abstract class State : Node
 		{
 			owner.GFXEvent("Purple");
 		}
+		else if (gfx == BaseAttack.GRAPHICEFFECT.SPARKS)
+		{
+			owner.GFXEvent("Sparks");
+		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SLASH)
 		{
 			owner.GFXEvent("Slash", owner.otherPlayer.CheckHurtRect() / 100);
+		}
+		else if (gfx == BaseAttack.GRAPHICEFFECT.ELECTROCUTE)
+		{
+			owner.electrocuted = true;
 		}
 	}
 
@@ -866,7 +876,8 @@ public abstract class State : Node
 
 	protected virtual void ReceiveHitNoBlock(Globals.AttackDetails details)
 	{
-		//GD.Print($"Received attack on side {rightAttack}");
+		
+		
 		bool launchBool = false;
 		switch (details.dir)
 		{
@@ -882,7 +893,6 @@ public abstract class State : Node
 				break;
 		}
 		owner.hitPushRemaining = details.hitPush;
-		//GD.Print($"Setting hitpush in hitstun to {owner.hitPushRemaining}");
 		owner.velocity = details.opponentLaunch;
 		if (!(details.opponentLaunch == Vector2.Zero))
 		{

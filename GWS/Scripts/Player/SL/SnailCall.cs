@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Collections.Generic;
 
@@ -19,19 +19,19 @@ public class SnailCall : State
 
 	public override string animationName { get { return "SnailCall"; } }
 
-    public override void _Ready()
-    {
-        base._Ready();
-        AddKara(new char[] { 'a', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.grounded && owner.TrySpendMeter(), owner.easySuper);
-    }
+	public override void _Ready()
+	{
+		base._Ready();
+		AddKara(new char[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.grounded && owner.TrySpendMeter(), owner.easySuper);
+	}
 
-    private void SendSnailAttack()
-    {
+	private void SendSnailAttack()
+	{
 		var sl = (SL)owner;
 		if (!sl.leftCornerSnail || !sl.rightCornerSnail)
 			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailAttack);
 		else
-        {
+		{
 			if (owner.facingRight)
 				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.LeftSnailAttack);
 			else
@@ -56,20 +56,20 @@ public class SnailCall : State
 	}
 
 	public override void FrameAdvance()
-    {
-        base.FrameAdvance();
+	{
+		base.FrameAdvance();
 		if (frameCount == snailCommandFrame)
-        {
+		{
 			if (callMode == 1)
 				SendSnailJump();
 			else if (callMode == 2)
 				EmitSignal(nameof(StateFinished), "PhoneToss");
 			else
 				SendSnailAttack();
-        }
+		}
 
 		if (frameCount > 2 && frameCount < snailRideLastFrame)
-        {
+		{
 			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailRide);
 		}
 	}

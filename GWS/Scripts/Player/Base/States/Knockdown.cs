@@ -24,4 +24,9 @@ public class Knockdown : HitState
         owner.invulnFrames = 2;
         EmitSignal(nameof(StateFinished), "Idle");
     }
+
+    public override void ReceiveHit(Globals.AttackDetails details)
+    {
+        ReceiveHitNoBlock(details);
+	}
 }

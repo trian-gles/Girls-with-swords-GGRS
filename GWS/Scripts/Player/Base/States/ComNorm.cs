@@ -11,6 +11,9 @@ public class ComNorm : GroundAttack
 
 	[Export]
 	public bool commandNormalCancel = false;
+
+	[Export]
+	public bool selfCancel = false;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -22,7 +25,7 @@ public class ComNorm : GroundAttack
 
 			foreach (var comNorm in owner.commandNormals)
 			{
-				if (comNorm.state != Name)
+				if (selfCancel || comNorm.state != Name)
 				{
 					AddCommandNormal(comNorm);
 				}
@@ -34,7 +37,7 @@ public class ComNorm : GroundAttack
 			AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 			AddGatling(new char[] { 'b', 'p' }, "CrouchC");
 		}
-			
+
 
 
 		if (slashCancel)

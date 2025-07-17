@@ -20,7 +20,7 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
-		stunRemaining += 4 + 4 - (int)Math.Min(Math.Ceiling((double)owner.combo / 4), 0);
+		stunRemaining += 4 + (int)Math.Max(4 - (int)Math.Ceiling((double)owner.combo / 4), 0);
 		
 	}
 
@@ -43,7 +43,7 @@ public class Float : HitStun
 		if (!(launch == Vector2.Zero))
 		{
 			owner.velocity = launch;
-			owner.velocity.y += owner.combo * 10; 
+			owner.velocity.y += owner.combo * 20; 
 		}
 
 		if (launch.y == 0)
@@ -74,7 +74,12 @@ public class Float : HitStun
 		if (owner.grounded)
 		{
 			//GD.Print("On ground, knocking down");
-			if (stunRemaining > 20)
+			if (owner.electrocuted)
+			{
+				ReceiveElectrocution();
+				return;
+			}
+			else if (stunRemaining > 20)
 				EmitSignal(nameof(StateFinished), "Knockdown");
 			else
 			{
@@ -109,10 +114,18 @@ public class Float : HitStun
 
 	protected void TryTech()
 	{
+		if (stunRemaining == 1 && owner.electrocuted)
+			ReceiveElectrocution();
+
 		if (stunRemaining == 0)
 		{
 			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
 				EmitSignal(nameof(StateFinished), "Tech");
+			else if (owner.wasOTGHit)
+			{
+				owner.invulnFrames = 8;
+				EmitSignal(nameof(StateFinished), "Tech");
+			}
 		}
 	}
 

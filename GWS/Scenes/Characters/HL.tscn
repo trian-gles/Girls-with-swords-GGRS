@@ -33,6 +33,9 @@ render_mode unshaded, blend_disabled;
 uniform sampler2D palette;									//Use palletes in collum with colors in rows
 uniform float palette_count = 1.0;							//Used for highlighting hovered color
 uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+uniform vec4 snail_color = vec4(0.0, 1.0, 0.0, 1.0);
+uniform bool turn_snail = true;
+uniform bool freak_out = false;
 
 void fragment(){
     
@@ -42,15 +45,26 @@ void fragment(){
 	vec4 new_color = texture(palette, vec2(color.r, y));	//get color from palette texture
 	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
 	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
-    
-	COLOR = new_color;										//set new color from palette
+    if (false && (new_color.a > 0.0)){
+		COLOR = snail_color;
+	}
+	else if (freak_out){
+		COLOR = new_color;
+	}
+	else{
+		COLOR = new_color;	
+	}
+											//set new color from palette
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=65]
 resource_local_to_scene = true
 shader = SubResource( 1 )
-shader_param/palette_count = 5.0
+shader_param/palette_count = 4.0
 shader_param/palette_index = 0.0
+shader_param/snail_color = Plane( 0, 1, 0, 1 )
+shader_param/turn_snail = true
+shader_param/freak_out = false
 shader_param/palette = ExtResource( 3 )
 
 [sub_resource type="CSharpScript" id=3]
@@ -6631,7 +6645,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id=45]
-length = 80.0
+length = 50.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6640,10 +6654,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 35, 49, 50, 60, 70 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 9, 23, 28, 29, 34, 44 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 80, 81, 81, 105, 106, 107 ]
+"values": [ 80, 81, 81, 81, 105, 106, 107 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
@@ -6652,10 +6666,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false, true ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB2:disabled")
@@ -6728,6 +6742,30 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 25, 12 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("HitBoxes/HitB1:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -2, 30 ) ]
 }
 
 [sub_resource type="Animation" id=46]
@@ -8540,14 +8578,12 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 26, -15 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 55, 21 )
@@ -8556,19 +8592,19 @@ position = Vector2( 55, 21 )
 position = Vector2( 10, 30 )
 
 [node name="Sprite" parent="." index="4"]
-material = SubResource( 2 )
+material = SubResource( 65 )
 texture = ExtResource( 17 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 66
+frame = 81
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 5 )
-offset = Vector2( 0, -5 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 66
+frame = 81
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -8729,10 +8765,13 @@ launch = Vector2( 600, -600 )
 [node name="Super" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 19 )
 level = 4
+modifiedHitStop = 1
 opponentLaunch = Vector2( 0, -20 )
 slowTerminalVelocity = 400
 modifiedHitPush = 2
 modifiedDmg = 2
+knockdown = true
+launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 12, 16, 20, 24, 28, 32, 36, 40, 42, 46, 50, 53 )

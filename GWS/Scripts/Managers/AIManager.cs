@@ -7,11 +7,8 @@ class AIManager : LocalManager
 
 	private AIBehaviour ai;
 
-	private bool p1KeyReleased = false;
-    private bool p2KeyReleased = false;
-    private int lastP1Key = 0; // this funny logic relates to allowing the P1 key to be released before choosing p2
-    private int lastP2Key = 0; // P2 key to be released before choosing the stage
-    private Random random = new Random();
+	
+	private Random random = new Random();
 
 	public override void _Ready()
 	{
@@ -39,40 +36,8 @@ class AIManager : LocalManager
 		}
 		else if (currGame.Name == "CharSelectScreen")
 		{
-			if (charSelectScene.p1Selected)
-			{
-
-				if (charSelectScene.p2Selected)
-				{
-					if (p2KeyReleased)
-					{
-                        p1Inputs = GetInputs("");
-                    }
-					else
-					{
-                        p2KeyReleased = (GetInputs("") != lastP2Key);
-                    }
-                    
-                }
-				else if (p1KeyReleased)
-				{
-					p2Inputs = GetInputs("");
-					lastP2Key = p2Inputs;
-
-                }
-				else
-				{
-					p1KeyReleased = (GetInputs("") != lastP1Key);
-				}
-			}
-				
-
-			else
-			{
-				p1Inputs = GetInputs("");
-				lastP1Key = p1Inputs;
-			}
-				
+			(p1Inputs, p2Inputs) = GetCharSelectSceneP1Inputs();
+			
 		}
 		else { p1Inputs = GetInputs(""); }
 

@@ -48,6 +48,19 @@ public class CharSelectScene : BaseGame
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
+	private enum TimeStatus
+	{
+		SELECT,
+		FAKEEND,
+		TRUEEND
+	}
+
+	private TimeStatus timeStatus = TimeStatus.SELECT;
+
+	private int trueEndFrame = 0;
+	private int falseEndFrame = 0;
+	private int finishFrame = 0;
+
 
 	[Serializable]
 	private struct GameState
@@ -119,7 +132,7 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	public override void CompareStates(byte[] serializedOldState)
+	public override bool CompareStates(byte[] serializedOldState)
 	{
 		base.CompareStates(serializedOldState);
 		var oldState = Deserialize<GameState>(serializedOldState);
@@ -130,6 +143,8 @@ public class CharSelectScene : BaseGame
 		CompareValues(p1Selected, oldState.p1Selected, "p1Selected");
 		CompareValues(p2Selected, oldState.p2Selected, "p2Selected");
 		CompareValues(charSelectFrame, oldState.charSelectFrame, "Char select frame");
+
+		return true;
 	
 	}
 
@@ -175,9 +190,10 @@ public class CharSelectScene : BaseGame
 
 		HighlightChar(1, p2Pos);
 
+		if (timeStatus == TimeStatus.FAKEEND && charSelectFrame < falseEndFrame) timeStatus = TimeStatus.SELECT;
+		if (timeStatus == TimeStatus.TRUEEND && charSelectFrame < trueEndFrame) timeStatus = TimeStatus.FAKEEND;
 
-
-//		CheckOverlap();
+		//		CheckOverlap();
 	}
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
@@ -187,61 +203,15 @@ public class CharSelectScene : BaseGame
 			return;
 
 		int[] combinedInputs = new int[] { p1Inps, p2Inps };
-		for (int i = 0; i <= 1; i++)
-		{
-			int inputs = combinedInputs[i];
-			int lastFrameInputs = lastInputs[i];
 
-			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
-			{
-				//MoveStageSelection(-1);
-				//up
-				MoveCursor(i, -2);
+		if (timeStatus == TimeStatus.SELECT) SelectUpdate(combinedInputs);
+		else if (timeStatus == TimeStatus.FAKEEND) FakeEndUpdate();
+		else if (timeStatus == TimeStatus.TRUEEND) TrueEndUpdate();
 
-			}
-
-			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
-			{
-				//MoveStageSelection(1);
-				//down
-				MoveCursor(i, 2);
-			}
-
-			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
-			{
-				//right
-				MoveCursor(i, 1);
-				if (i==0){
-					animationPlayer.Play("Right");
-				}
-			}
-
-			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
-			{
-				//left
-				MoveCursor(i, -1);
-				if (i==0){
-					animationPlayer.Play("Left");
-				}
-			}
-
-			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
-			{
-				SelectPlayer(i, 0);
-			}
-
-			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
-			{
-				SelectPlayer(i, 1);
-			}
-
-			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
-			{
-				SelectPlayer(i, 2);
-			}
-		}
 		lastInputs = combinedInputs;
 	}
+
+	
 
 	/// <summary>
 	/// After both players are selected we decline inputs to prevent rollbacks
@@ -249,7 +219,7 @@ public class CharSelectScene : BaseGame
 	/// <returns></returns>
 	public override bool AcceptingInputs()
 	{
-		return (!p1Selected || !p2Selected);
+		return (timeStatus != TimeStatus.TRUEEND);
 	}
 
 //	private void CheckOverlap()
@@ -291,7 +261,7 @@ public class CharSelectScene : BaseGame
 
 	private void MoveCursor(int playerNum, int movement)
 	{
-		
+		GD.Print(playerNum);
 		if (playerNum == 0)
 		{
 			if (!p1Selected) {
@@ -301,7 +271,7 @@ public class CharSelectScene : BaseGame
 			}
 			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
 			{
-				MoveStageSelection(movement);
+				MoveStageSelection(movement / 2);
 			}
 			
 		}
@@ -315,7 +285,7 @@ public class CharSelectScene : BaseGame
 			}
 			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
 			{
-				MoveStageSelection(movement);
+				MoveStageSelection(movement / 2);
 			}
 		}
 			
@@ -337,11 +307,13 @@ public class CharSelectScene : BaseGame
 		p2Selected = true;
 		p2Color = 0;
 		p2Pos = 1;
+		GetNode<Control>("CanvasLayer/ScrollText").Visible = false;
+
 	}
 
 	private void SelectPlayer(int playerNum, int color)
 	{
-
+		
 		if (playerNum == 0 && !p1Selected)
 		{
 			audio.PlaySound("CharSelect");
@@ -369,22 +341,120 @@ public class CharSelectScene : BaseGame
 		{
 			stageSelected = true;
 		}
-		if (p1Selected && p2Selected && stageSelected)
+
+		if (p1Selected && p2Selected)
 		{
-			audio.PlaySound("CharSelect");
-			if (p2Color == p1Color && p1Pos == p2Pos)
+			if (stageSelected)
 			{
-				//GD.Print("colors match");
-				if (p2Color == 0)
-					p2Color = 1;
-				else
-					p2Color = 0;
+				audio.PlaySound("CharSelect");
+				if (p2Color == p1Color && p1Pos == p2Pos)
+				{
+					//GD.Print("colors match");
+					if (p2Color == 0)
+						p2Color = 1;
+					else
+						p2Color = 0;
+				}
+				BeginFakeEnd();
+				
 			}
-			// This may be called multiple times during rollbacks but it isn't a huge issue
-			EmitSignal("CharacterSelected", p1Pos, p2Pos,
-				p1Color, p2Color, selectedStage);
+			else
+			{
+				GetNode("CanvasLayer/ScrollText").Call("choose_stage", selectStagePlayer);
+			}
 		}
 
+	}
+
+	private void SelectUpdate(int[] combinedInputs)
+	{
+		for (int i = 0; i <= 1; i++)
+		{
+			int inputs = combinedInputs[i];
+			int lastFrameInputs = lastInputs[i];
+
+			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
+			{
+				//MoveStageSelection(-1);
+				//up
+				MoveCursor(i, -2);
+
+			}
+
+			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
+			{
+				//MoveStageSelection(1);
+				//down
+				MoveCursor(i, 2);
+			}
+
+			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
+			{
+				//right
+				MoveCursor(i, 1);
+				if (i == 0)
+				{
+					animationPlayer.Play("Right");
+				}
+			}
+
+			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
+			{
+				//left
+				MoveCursor(i, -1);
+				if (i == 0)
+				{
+					animationPlayer.Play("Left");
+				}
+			}
+
+			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
+			{
+				SelectPlayer(i, 0);
+			}
+
+			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
+			{
+				SelectPlayer(i, 1);
+			}
+
+			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
+			{
+				SelectPlayer(i, 2);
+			}
+		}
+	}
+
+	private void FakeEndUpdate()
+	{
+		if (charSelectFrame == trueEndFrame)
+		{
+			BeginTrueEnd();
+		}
+	}
+
+	private void TrueEndUpdate()
+	{
+		if (charSelectFrame == finishFrame)
+		{
+			GetNode<AudioStreamPlayer>("CharSelectMusic").Stop();
+			EmitSignal("CharacterSelected", p1Pos, p2Pos,
+					p1Color, p2Color, selectedStage);
+		}
+	}
+
+
+	private void BeginFakeEnd()
+	{
+		timeStatus = TimeStatus.FAKEEND;
+		falseEndFrame = charSelectFrame;
+		trueEndFrame = charSelectFrame + 8;
+	}
+
+	private void BeginTrueEnd()
+	{
+		timeStatus = TimeStatus.TRUEEND;
+		finishFrame = charSelectFrame + 30;
 	}
 
 	public override void Reset()
@@ -392,14 +462,15 @@ public class CharSelectScene : BaseGame
 		base.Reset();
 		p1Selected = false;
 		p2Selected = false;
+		stageSelected = false;
+		GetNode("CanvasLayer/ScrollText").Call("reset");
 	}
 
 	public void Reload()
 	{
 		ShowAll();
 		lastInputs = new[] { 16 + 32 + 64, 16 + 32 + 64 }; // prevent held down keys from immediately selecting
-		p1Selected = false;
-		p2Selected = false;
+		Reset();
 		HighlightChar(0, p1Pos);
 
 		HighlightChar(1, p2Pos);
@@ -410,5 +481,6 @@ public class CharSelectScene : BaseGame
 		}
 
 		((Sprite)bkgImages[selectedStage]).Visible = true;
+		timeStatus = TimeStatus.SELECT;
 	}
 }

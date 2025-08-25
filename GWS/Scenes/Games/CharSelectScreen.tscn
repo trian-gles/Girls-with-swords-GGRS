@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
@@ -7,9 +7,12 @@
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Blink.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLBlink.tres" type="Animation" id=6]
 [ext_resource path="res://Scenes/Games/SelectedChar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/HL-Portrait-Cropped.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/SLwBG-Sheet.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Stages/Clocktower/Clocktower-Thumbnail-Spritesheet.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/1PCursor.png" type="Texture" id=11]
+[ext_resource path="res://Music/char-select-12-7.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Sprites/Stages/Forest/Forest.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/zeldadxt.ttf" type="DynamicFontData" id=16]
@@ -24,7 +27,6 @@
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=27]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Sheet.png" type="Texture" id=28]
 [ext_resource path="res://Sprites/CharacterSelect/ColorSelect.png" type="Texture" id=29]
-[ext_resource path="res://Sprites/Particles/hat.png" type="Texture" id=30]
 
 [sub_resource type="DynamicFont" id=1]
 size = 23
@@ -786,7 +788,6 @@ OLScene = ExtResource( 20 )
 GLScene = ExtResource( 19 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 100
 
 [node name="Bkgs" type="Node2D" parent="CanvasLayer"]
 position = Vector2( 230, 40 )
@@ -804,9 +805,6 @@ rect_scale = Vector2( 2, 2 )
 custom_fonts/font = SubResource( 1 )
 text = "OFFICE"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Cathedral" type="Sprite" parent="CanvasLayer/Bkgs"]
 visible = false
@@ -821,6 +819,26 @@ margin_bottom = -165.014
 rect_scale = Vector2( 2, 2 )
 custom_fonts/font = SubResource( 1 )
 text = "CATHEDRAL"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Forest" type="Sprite" parent="CanvasLayer/Bkgs"]
+visible = false
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 13 )
+hframes = 8
+
+[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Forest"]
+margin_left = -154.528
+margin_top = -181.065
+margin_right = 5.47235
+margin_bottom = -162.065
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 1 )
+text = "FOREST
+"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -846,13 +864,12 @@ __meta__ = {
 }
 
 [node name="DebugText" type="Label" parent="CanvasLayer"]
+visible = false
 margin_right = 40.0
 margin_bottom = 16.0
 theme = SubResource( 2 )
-text = "P1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "P1 Chooses Stage"
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
 position = Vector2( 190, 108 )
@@ -867,16 +884,12 @@ texture = ExtResource( 11 )
 hframes = 10
 
 [node name="ScrollText" type="Label" parent="CanvasLayer"]
-visible = false
 anchor_right = 1.0
-margin_top = 223.378
-margin_bottom = 254.378
+margin_top = 240.0
+margin_bottom = 271.0
 custom_fonts/font = SubResource( 3 )
 align = 1
 script = ExtResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="CanvasLayer/ScrollText"]
 autostart = true
@@ -927,8 +940,8 @@ frame = 2
 
 [node name="HLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer/HLSprite2"]
 material = SubResource( 4 )
-scale = Vector2( 10, 10 )
-texture = ExtResource( 30 )
+texture = ExtResource( 8 )
+hframes = 3
 
 [node name="BG Animation" type="AnimationPlayer" parent="CanvasLayer"]
 autoplay = "BG"
@@ -1071,3 +1084,8 @@ color = Color( 0.141176, 0.180392, 0.235294, 1 )
 [node name="CharSelectAudio" type="AudioStreamPlayer" parent="."]
 bus = "UI"
 script = ExtResource( 24 )
+
+[node name="CharSelectMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+autoplay = true
+bus = "Music"

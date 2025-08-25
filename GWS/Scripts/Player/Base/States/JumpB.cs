@@ -12,6 +12,7 @@ public class JumpB : AirNormal
         AddKara(new char[] { 's', 'p' }, "AirGrabStart");
 
         AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), "Shield");
+        AddBurstKara('p', 'a');
     }
 }
 

@@ -12,6 +12,7 @@ func _ready():
 
 func set_meter(value : int):
 	bar.value = value
+	$SuperHint.visible = (value > 50)
 	if value < 50:
 		bar.modulate = Color(0, 255, 255, 255)
 	elif value < 100:

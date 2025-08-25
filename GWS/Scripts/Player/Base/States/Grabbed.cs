@@ -28,6 +28,11 @@ public class Grabbed : State
             EmitSignal(nameof(StateFinished), "Fall");
 	}
 
+    public override void TryBurst()
+    {
+        
+    }
+
     /// <summary>
     /// This is a little bit weird that I'm using ReceiveHit here!  This essentially damages the defender and triggers the release
     /// </summary>

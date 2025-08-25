@@ -22,13 +22,28 @@ public class Walk : MoveState
 		AddNormals();
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
 
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+        AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, () => owner.backdashCooldownRemaining == 0, "Backdash",
+            () =>
+            {
+                owner.velocity.x = owner.speed * -2;
+                if (!owner.facingRight)
+                {
+                    owner.velocity.x *= -1;
+                }
+                owner.backdashCooldownRemaining = 30;
+            },
+            false);
 
-		AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) == owner.facingRight); },
+        AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) == owner.facingRight); },
 			"PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } });
 
-		AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) != owner.facingRight); },
-			"Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } });
+		AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) != owner.facingRight) && owner.backdashCooldownRemaining == 0; },
+			"Backdash", () => { 
+				owner.velocity.x = 
+				owner.speed * -2; 
+				if (!owner.facingRight) { owner.velocity.x *= -1; }
+				owner.backdashCooldownRemaining = 30;
+			});
 	}
 
 	public override void Enter()
@@ -47,13 +62,6 @@ public class Walk : MoveState
 					owner.velocity.x *= -1;
 				EmitSignal(nameof(StateFinished), "PreRun");
 
-			}
-			else
-            {
-				owner.velocity.x = owner.backDashSpeed; 
-				if (!owner.facingRight) 
-					owner.velocity.x *= -1;
-				EmitSignal(nameof(StateFinished), "Backdash");
 			}
 
 			

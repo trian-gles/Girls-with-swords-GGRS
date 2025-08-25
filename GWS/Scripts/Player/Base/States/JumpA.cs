@@ -12,5 +12,6 @@ public class JumpA : AirNormal
 		AddGatling(new char[] { 's', 'p' }, "JumpC");
 
         AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
+        AddBurstKara('k', 'a');
     }
 }

@@ -107,4 +107,6 @@ public class AnimationPlayer : Godot.AnimationPlayer
 	{
 		return animationLength - cursor;
 	}
+	
+	
 }

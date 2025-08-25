@@ -12,7 +12,9 @@ public class Player : Node2D
 	public delegate void HealthChanged(string name, int health);
 	[Signal]
 	public delegate void HealthSet(string name, int health);
-	[Signal]
+    [Signal]
+    public delegate void BurstSet(string name, int health);
+    [Signal]
 	public delegate void MeterChanged(string name, int meter);
 	[Signal]
 	public delegate void ComboChanged(string name, int combo);
@@ -154,9 +156,14 @@ public class Player : Node2D
 	public int lastPressedDownFrame = 0;
 	public bool electrocuted = false;
 	public bool wasOTGHit = false;
+	public int burstMeter = 100;
+	public int hadoukenCooldownRemaining = 0;
+    public int backdashCooldownRemaining = 0;
+	public bool hasBeenLaunched = false;
 
 
-	public bool trainingControlledPlayer;
+
+    public bool trainingControlledPlayer;
 	public bool aiControlled = false;
 
 
@@ -213,8 +220,11 @@ public class Player : Node2D
 		public int lastPressedDownFrame { get; set; }
 		public bool electrocuted { get; set; }
 		public bool wasOTGHit { get; set; }
-
-		public Dictionary<string, int> charSpecificData { get; set; }
+		public int burstMeter {  get; set; }
+		public int backdashCooldownRemaining { get; set; }
+        public int hadoukenCooldownRemaining { get; set; }
+		public bool hasBeenLaunched { get; set; }
+        public Dictionary<string, int> charSpecificData { get; set; }
 
 	}
 
@@ -356,7 +366,12 @@ public class Player : Node2D
 		ChangeState("Idle");
 		velocity = Vector2.Zero;
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
-			meter = 10000;
+		{
+            meter = 10000;
+			burstMeter = 100;
+			EmitSignal(nameof(BurstSet), Name, burstMeter);
+        }
+			
 		else
 			meter = 0;
 		inputHandler.Reset();
@@ -422,12 +437,15 @@ public class Player : Node2D
 		pState.electrocuted = electrocuted;
 		pState.charSpecificData = GetStateCharSpecific();
 		pState.wasOTGHit = wasOTGHit;
+		pState.burstMeter = burstMeter;
 
-		
+		pState.backdashCooldownRemaining = backdashCooldownRemaining;
+		pState.hadoukenCooldownRemaining = hadoukenCooldownRemaining;
 			
 		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
 		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
 		pState.lastPressedDownFrame = lastPressedDownFrame;
+		pState.hasBeenLaunched = hasBeenLaunched;
 		
 		return pState;
 	}
@@ -496,7 +514,12 @@ public class Player : Node2D
 
 		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
 		landingRecoveryFramesRemaining = pState.landingRecoveryFramesRemaining;
-	}
+		burstMeter = pState.burstMeter;
+		hadoukenCooldownRemaining = pState.hadoukenCooldownRemaining;
+		backdashCooldownRemaining = pState.backdashCooldownRemaining;
+		hasBeenLaunched = pState.hasBeenLaunched;
+        EmitSignal(nameof(BurstSet), Name, burstMeter);
+    }
 
 	/// <summary>
 	/// Called to delete graphic effects if necessitated by a rollback
@@ -801,6 +824,7 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 			{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
+		Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
 		if (currentState.animationName != "None")
 			animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
@@ -978,6 +1002,12 @@ public class Player : Node2D
 			
 		if (grabInvulnFrames > 0)
 			grabInvulnFrames--;
+
+		if (backdashCooldownRemaining > 0)
+			backdashCooldownRemaining--;
+
+		if (hadoukenCooldownRemaining > 0)
+			hadoukenCooldownRemaining--;
 
 		if (specialBreakFramesRemaining > 0)
 		{
@@ -1306,6 +1336,11 @@ public class Player : Node2D
 		wasHit = true;
 	}
 
+	public void ClearHit()
+	{
+		wasHit = false;
+	}
+
 	public virtual bool CalculateHit()
 	{
 		if (!wasHit)
@@ -1398,6 +1433,7 @@ public class Player : Node2D
 		proration = 16;
 		canGroundbounce = true;
 		terminalVelocity = standardTerminalVelocity;
+		hasBeenLaunched = false;
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
@@ -1412,6 +1448,7 @@ public class Player : Node2D
 		health -= dmg;
 		if (chip && health <= 0)
 			health = 1;
+		GainBurst();
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 
@@ -1420,6 +1457,13 @@ public class Player : Node2D
 		meter = Math.Min(meter + gains, 10000);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 	}
+
+	public void GainBurst()
+	{
+		if (burstMeter == 100) return;
+		burstMeter += 2;
+        EmitSignal(nameof(BurstSet), Name, burstMeter);
+    }
 
 	public bool TrySpendMeter(int cost = 5000)
 	{
@@ -1435,7 +1479,28 @@ public class Player : Node2D
 		}
 	}
 
-	public void SpecialBreak()
+	public void EmptyMeter()
+	{
+		meter = 0;
+        EmitSignal(nameof(MeterChanged), Name, meter);
+    }
+
+    public bool TrySpendBurst()
+    {
+        if (burstMeter == 100)
+        {
+            burstMeter = 0;
+            EmitSignal(nameof(BurstSet), Name, burstMeter);
+			currentState.stunRemaining = 0;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void SpecialBreak()
 	{
 		GreySprite();
 		specialBreakFramesRemaining = 120;

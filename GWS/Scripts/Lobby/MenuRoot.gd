@@ -81,7 +81,7 @@ func _on_BackButton_pressed():
 func _on_NetPlay_pressed():
 	$NetPlayMenu.visible = true
 	move_to_next_menu("netplaymenu")
-	$NetPlayMenu/Entries/NetPlayButtons/Host.grab_focus()
+	$NetPlayMenu/Entries/NewMatch.grab_focus()
 	
 func _on_AVConfig_pressed():
 	$AVConfigMenu.visible = true

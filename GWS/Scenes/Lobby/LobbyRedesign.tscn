@@ -1,27 +1,30 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=33 format=2]
 
-[ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=6]
-[ext_resource path="res://Scripts/Lobby/Save.gd" type="Script" id=7]
-[ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=8]
-[ext_resource path="res://Themes/startmenu.theme" type="Theme" id=9]
-[ext_resource path="res://Scenes/Managers/LocalManager.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scenes/Managers/TrainingManager.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/Managers/GGRSManager.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Scenes/Managers/SyncTestManager.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Scenes/Managers/AIManager.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scripts/Lobby/LobbySounds.gd" type="Script" id=15]
-[ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=16]
-[ext_resource path="res://Scripts/Lobby/AVConfigMenu.gd" type="Script" id=17]
-[ext_resource path="res://Scripts/Lobby/Resolution.gd" type="Script" id=18]
-[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=19]
-[ext_resource path="res://Scenes/Managers/TutorialManager.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Scenes/Managers/ComboTrialManager.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Scenes/Managers/StrategyManager.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=2]
+[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=3]
+[ext_resource path="res://Themes/startmenu.theme" type="Theme" id=4]
+[ext_resource path="res://Scripts/Lobby/Local.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Lobby/LobbyRedesign.cs" type="Script" id=6]
+[ext_resource path="res://Fonts/small-ui-font.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Scripts/Lobby/NewMatchContainer.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Managers/LocalManager.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Managers/AIManager.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Managers/ComboTrialManager.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Managers/TrainingManager.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Managers/TutorialManager.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/InputMap/InputMenu.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Managers/GGRSManager.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/Managers/SyncTestManager.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Scenes/Managers/StrategyManager.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scripts/Lobby/AVConfigMenu.gd" type="Script" id=20]
+[ext_resource path="res://Scripts/Lobby/LobbySounds.gd" type="Script" id=21]
+[ext_resource path="res://Scripts/Lobby/Resolution.gd" type="Script" id=22]
+[ext_resource path="res://Scenes/Lobby/Logo.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Music/GWS-title-screen.ogg" type="AudioStream" id=24]
+[ext_resource path="res://Scripts/Lobby/ExistingMatchContainer.gd" type="Script" id=25]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -174,24 +177,24 @@ tracks/6/keys = {
 [sub_resource type="Theme" id=6]
 
 [sub_resource type="Theme" id=7]
-default_font = ExtResource( 16 )
+default_font = ExtResource( 7 )
 
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 1, 0 )
-script = ExtResource( 1 )
-localManager = ExtResource( 10 )
-trainingManager = ExtResource( 11 )
-aiManager = ExtResource( 14 )
-ggrsManager = ExtResource( 12 )
-syncTestManager = ExtResource( 13 )
-tutorialManager = ExtResource( 20 )
-comboTrialManager = ExtResource( 21 )
-strategyManager = ExtResource( 22 )
+script = ExtResource( 6 )
+localManager = ExtResource( 11 )
+trainingManager = ExtResource( 14 )
+aiManager = ExtResource( 12 )
+ggrsManager = ExtResource( 17 )
+syncTestManager = ExtResource( 18 )
+tutorialManager = ExtResource( 15 )
+comboTrialManager = ExtResource( 13 )
+strategyManager = ExtResource( 19 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
 layer = 9
 
-[node name="InputMenu" parent="InputMenu" instance=ExtResource( 5 )]
+[node name="InputMenu" parent="InputMenu" instance=ExtResource( 16 )]
 
 [node name="MenuRoot" type="Control" parent="."]
 anchor_right = 1.0
@@ -199,8 +202,8 @@ anchor_bottom = 1.0
 margin_right = 480.0
 margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
-theme = ExtResource( 9 )
-script = ExtResource( 4 )
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -247,22 +250,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Logo" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 23 )]
+position = Vector2( 100, 0 )
+scale = Vector2( 2, 2 )
+
 [node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 margin_right = 204.0
 margin_bottom = 16.0
-theme = ExtResource( 19 )
+theme = ExtResource( 3 )
 text = "Girls with Swords"
+percent_visible = 0.0
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 margin_top = 26.0
 margin_right = 204.0
 margin_bottom = 44.0
 size_flags_vertical = 4
-theme = ExtResource( 9 )
+theme = ExtResource( 4 )
 action_mode = 0
 text = "Local MATCH"
 flat = false
-script = ExtResource( 8 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -315,7 +323,7 @@ margin_right = 272.0
 margin_bottom = 148.0
 text = "Sync Test"
 
-[node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 3 )]
+[node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 10 )]
 modulate = Color( 1, 1, 1, 0 )
 margin_top = 166.0
 margin_right = 204.0
@@ -323,13 +331,11 @@ margin_bottom = 184.0
 theme = SubResource( 6 )
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LocalButtons" type="VBoxContainer" parent="MenuRoot/LocalMenu"]
 margin_left = 90.0
@@ -348,7 +354,7 @@ __meta__ = {
 margin_top = 44.0
 margin_right = 300.0
 margin_bottom = 60.0
-theme = ExtResource( 19 )
+theme = ExtResource( 3 )
 text = "Local Mode"
 align = 1
 
@@ -357,7 +363,7 @@ margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 82.0
 text = "Local Match"
-script = ExtResource( 2 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -404,7 +410,7 @@ __meta__ = {
 margin_top = 33.0
 margin_right = 300.0
 margin_bottom = 49.0
-theme = ExtResource( 19 )
+theme = ExtResource( 3 )
 text = "Practice"
 align = 1
 
@@ -413,7 +419,7 @@ margin_top = 53.0
 margin_right = 300.0
 margin_bottom = 71.0
 text = "Fundamentals Tutorial"
-script = ExtResource( 2 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -423,7 +429,7 @@ margin_top = 53.0
 margin_right = 300.0
 margin_bottom = 71.0
 text = "Character Tutorials"
-script = ExtResource( 2 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -453,120 +459,104 @@ margin_bottom = 137.0
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 32.0
+margin_top = 44.0
 margin_right = 390.0
-margin_bottom = 238.0
+margin_bottom = 226.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
-script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-dropdown_path = NodePath("FriendList")
-confirmremove_path = NodePath("../ConfirmationDialog")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
+[node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 18.0
-
-[node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
-margin_top = 1.0
-margin_right = 96.0
-margin_bottom = 17.0
-theme = ExtResource( 19 )
+margin_bottom = 16.0
+theme = ExtResource( 3 )
 text = "Net Play"
+align = 1
 
-[node name="AutoConnect" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer2"]
-margin_left = 100.0
+[node name="NewMatch" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 20.0
 margin_right = 300.0
-margin_bottom = 18.0
+margin_bottom = 38.0
+focus_neighbour_bottom = NodePath("../NewMatchContainer/CopyClipboard")
 size_flags_horizontal = 3
-text = "AutoConnect"
+text = "Create new match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NetPlayButtons" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 22.0
+[node name="IDLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
+visible = false
+margin_top = 42.0
 margin_right = 300.0
-margin_bottom = 40.0
+margin_bottom = 56.0
+text = "send this match id to your opponent:"
+align = 1
 
-[node name="Host" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
-margin_right = 148.0
-margin_bottom = 18.0
+[node name="NewMatchContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 42.0
+margin_right = 300.0
+margin_bottom = 66.0
+script = ExtResource( 9 )
+
+[node name="NewMatchID" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer"]
+margin_right = 181.0
+margin_bottom = 24.0
+focus_neighbour_right = NodePath("../CopyClipboard")
+focus_neighbour_bottom = NodePath("../CopyClipboard")
 size_flags_horizontal = 3
-text = "Host"
+editable = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NetPlayButtons"]
-margin_left = 152.0
+[node name="CopyClipboard" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer"]
+margin_left = 185.0
 margin_right = 300.0
-margin_bottom = 18.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../../NewMatch")
+text = "Copy to clipboard"
+
+[node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 70.0
+margin_right = 300.0
+margin_bottom = 88.0
+focus_neighbour_top = NodePath("../NewMatchContainer/CopyClipboard")
 size_flags_horizontal = 3
-text = "Join"
+text = "Join EXISTING MATCH"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FriendName" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 44.0
+[node name="ExistingMatchContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
+margin_top = 92.0
 margin_right = 300.0
-margin_bottom = 68.0
-placeholder_text = "Enter Friend Name"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 116.0
+script = ExtResource( 25 )
 
-[node name="OpponentIp" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 72.0
-margin_right = 300.0
-margin_bottom = 96.0
-rect_pivot_offset = Vector2( 96, 40 )
-placeholder_text = "Enter Opponent Ip"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 100.0
-margin_right = 300.0
-margin_bottom = 118.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AddFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
-margin_right = 148.0
-margin_bottom = 18.0
+[node name="ExistingMatchID" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer"]
+margin_right = 161.0
+margin_bottom = 24.0
+focus_neighbour_bottom = NodePath("../PasteClipboard")
 size_flags_horizontal = 3
-text = "Add Friend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RemoveFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries/HBoxContainer"]
-margin_left = 152.0
+[node name="PasteClipboard" type="Button" parent="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer"]
+margin_left = 165.0
 margin_right = 300.0
-margin_bottom = 18.0
-size_flags_horizontal = 3
-text = "Remove Friend"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 24.0
+text = "Paste from clipboard"
 
 [node name="LoadFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
 visible = false
@@ -578,62 +568,45 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FriendList" type="OptionButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 122.0
-margin_right = 300.0
-margin_bottom = 140.0
-text = "Item 0"
-align = 1
-
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 144.0
+margin_top = 120.0
 margin_right = 300.0
-margin_bottom = 162.0
+margin_bottom = 138.0
 text = "HOSTTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 166.0
+margin_top = 142.0
 margin_right = 300.0
-margin_bottom = 184.0
+margin_bottom = 160.0
 text = "JOINTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 188.0
+margin_top = 164.0
 margin_right = 300.0
-margin_bottom = 206.0
+margin_bottom = 182.0
 text = "Back"
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="MenuRoot/NetPlayMenu"]
-margin_left = 40.0
-margin_top = 65.0
-margin_right = 440.0
-margin_bottom = 205.0
-rect_min_size = Vector2( 400, 140 )
-focus_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
 visible = false
 margin_left = 480.0
 margin_right = 960.0
 margin_bottom = 270.0
-script = ExtResource( 17 )
+script = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 24.0
+margin_top = 28.0
 margin_right = 390.0
-margin_bottom = 245.0
+margin_bottom = 241.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -645,7 +618,7 @@ __meta__ = {
 [node name="AudioLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
 margin_right = 300.0
 margin_bottom = 16.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 8 )
 text = "Audio"
 align = 1
 
@@ -730,7 +703,7 @@ visible = false
 margin_top = 184.0
 margin_right = 300.0
 margin_bottom = 200.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 8 )
 text = "Video"
 align = 1
 
@@ -750,7 +723,7 @@ text = "Resolution"
 margin_left = 68.0
 margin_right = 86.0
 margin_bottom = 23.0
-script = ExtResource( 18 )
+script = ExtResource( 22 )
 optionButtonPath = NodePath(".")
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
@@ -761,7 +734,12 @@ text = "Back"
 
 [node name="LobbySounds" type="AudioStreamPlayer" parent="."]
 bus = "UI"
-script = ExtResource( 15 )
+script = ExtResource( 21 )
+
+[node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 24 )
+autoplay = true
+bus = "Music"
 
 [connection signal="animation_finished" from="MenuRoot/AnimationPlayer" to="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="focus_exited" from="MenuRoot/MainMenu/CenterContainer/MainMenuButtons/Local" to="LobbySounds" method="focus_entered"]
@@ -806,24 +784,17 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LearnMenu/LearnButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="." method="OnAutoConnectDown"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer2/AutoConnect" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="." method="OnHostButtonDown"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Host" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="." method="OnJoinButtonDown"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NetPlayButtons/Join" to="LobbySounds" method="focus_entered"]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/FriendName" to="LobbySounds" method="focus_entered"]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/OpponentIp" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/AddFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_AddFriend_button_down"]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/AddFriend" to="LobbySounds" method="focus_entered"]
-[connection signal="focus_entered" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/RemoveFriend" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/HBoxContainer/RemoveFriend" to="MenuRoot/NetPlayMenu/Entries" method="_on_RemoveFriend_pressed"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NewMatch" to="." method="OnNewNetplayMatch"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NewMatch" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NewMatch" to="LobbySounds" method="focus_entered"]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/NewMatchID" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/CopyClipboard" to="MenuRoot/NetPlayMenu/Entries/NewMatchContainer" method="_on_CopyClipboard_pressed"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/Join" to="." method="OnJoinNetplayMatch"]
+[connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/Join" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/Join" to="LobbySounds" method="focus_entered"]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer/ExistingMatchID" to="LobbySounds" method="focus_entered"]
+[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer/PasteClipboard" to="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer" method="_on_PasteClipboard_pressed"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/LoadFriend" to="LobbySounds" method="focus_entered"]
-[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/FriendList" to="LobbySounds" method="focus_entered"]
-[connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/FriendList" to="MenuRoot/NetPlayMenu/Entries" method="_on_FriendList_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/JoinTest" to="." method="OnJoinTestButtonDown"]
@@ -831,7 +802,6 @@ script = ExtResource( 15 )
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]
-[connection signal="hide" from="MenuRoot/NetPlayMenu/ConfirmationDialog" to="MenuRoot/NetPlayMenu/Entries" method="_on_ConfirmationDialog_hide"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="LobbySounds" method="focus_entered"]
 [connection signal="value_changed" from="MenuRoot/AVConfigMenu/AVConfigButtons/MasterVolume" to="MenuRoot" method="_on_MasterVolume_value_changed"]
 [connection signal="focus_exited" from="MenuRoot/AVConfigMenu/AVConfigButtons/MusicVolume" to="LobbySounds" method="focus_entered"]

@@ -1,9 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using static GameScene;
 
 class SyncTestManager : StateManager
 {
+
+	public bool broken = false;
 	/// <summary>
 	/// Yeah Enqueue is O(N) but whatever nerds...
 	/// </summary>
@@ -69,7 +72,6 @@ class SyncTestManager : StateManager
 
 	public override void _Ready()
 	{
-		playbackMatch = replayFile;
 		base._Ready();
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
@@ -157,7 +159,7 @@ class SyncTestManager : StateManager
 
 		if (currGame.AcceptingInputs())
 		{
-			if (playbackMatch && currGame.Name == "GameScene")
+			if (matchFilename != "" && currGame.Name == "GameScene")
 				combinedInps = GetMatchInputs();
 			else if (randomInputs)
 				combinedInps = GetRandomInputs();
@@ -194,7 +196,10 @@ class SyncTestManager : StateManager
 			currGame.AdvanceFrame(tempInputs[0], tempInputs[1]);
 		}
 
-		currGame.CompareStates(serializedGamestate);
+		if (!currGame.CompareStates(serializedGamestate) && !broken){
+			gameScene.WriteLogs();
+			broken = true;
+		}
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -203,8 +208,9 @@ class SyncTestManager : StateManager
 		ReadyForChange(GameType.GAME);
 	}
 
-	public override void OnGameWon(string winner)
+	public override void OnGameWon(string winner, int character)
 	{
+		
 		ReadyForChange(GameType.GAME);
 	}
 

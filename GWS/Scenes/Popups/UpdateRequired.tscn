@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Themes/startmenu.theme" type="Theme" id=1]
+
+[node name="ConfirmationDialog" type="AcceptDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -61.0
+margin_right = 155.0
+margin_bottom = 61.0
+theme = ExtResource( 1 )
+window_title = "Update Required"
+dialog_text = "Your version of the game is out of date.  To play online, first update via Steam"
+dialog_autowrap = true

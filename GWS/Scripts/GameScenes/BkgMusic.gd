@@ -12,8 +12,8 @@ export(Array, AudioStreamOGGVorbis) var songs := []
 
 	
 	
-func play_random():
-	stream = songs[randi() % len(songs)]
+func play_idx(i):
+	stream = songs[i]
 	play()
 		
 

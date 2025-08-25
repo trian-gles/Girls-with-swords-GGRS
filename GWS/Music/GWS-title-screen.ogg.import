@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/GWS-title-screen.ogg-89243ffc389d479706d059c6d20232df.oggstr"
+
+[deps]
+
+source_file="res://Music/GWS-title-screen.ogg"
+dest_files=[ "res://.import/GWS-title-screen.ogg-89243ffc389d479706d059c6d20232df.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

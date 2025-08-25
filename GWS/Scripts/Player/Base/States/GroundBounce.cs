@@ -54,7 +54,7 @@ public class GroundBounce : Float
 			{
 				bounced = true;
 				owner.grounded = false;
-				owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 4);
+				owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 5);
 				owner.canGroundbounce = false;
 			}
 			else

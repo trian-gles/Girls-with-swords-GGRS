@@ -17,7 +17,7 @@ class CellPhone : HadoukenPart
 	}
 	public override void FrameAdvance()
 	{
-		if (frame > 0 && (hits == 0) && (frame % 2 == 0)) {
+		if (frame > 0 && (frame % 2 == 0)) {
 			speed.y += gravity;
 		}
 		base.FrameAdvance();
@@ -30,6 +30,7 @@ class CellPhone : HadoukenPart
 
 	protected override void SetStateSpecific(Dictionary<string, int> dict)
 	{
+		
 	}
 
 

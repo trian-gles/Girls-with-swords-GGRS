@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/HUD/Meter.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/HUD/SuperHint.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 1 )
@@ -11,9 +12,6 @@ bg_color = Color( 1, 1, 1, 1 )
 margin_right = 119.0
 margin_bottom = 6.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 modulate = Color( 1, 1, 0, 1 )
@@ -56,3 +54,9 @@ margin_bottom = 3.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SuperHint" parent="." instance=ExtResource( 2 )]
+margin_left = 45.0
+margin_top = 7.0
+margin_right = -26.0
+margin_bottom = 17.0

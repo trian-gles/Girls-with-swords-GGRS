@@ -1,8 +1,8 @@
 extends CPUParticles2D
 
 onready var hit = $ShieldHit
-var rightPos = 18
-var leftPos = -18
+var rightPos = 12
+var leftPos = -12
 var crouchPos = 2
 var standPos = -10
 var crouching = false

@@ -4,6 +4,8 @@ extends Node
 #Once your network manager received the signal they can initiate contact on that address and port
 signal hole_punched(my_port, other_port, other_address, unique_id)
 
+signal server_reject()
+
 #This signal is emitted when the server has acknowledged your client registration, but before the
 #address and port of the other client have arrived.
 signal session_registered
@@ -200,7 +202,7 @@ func checkout():
 
 
 #Call this function when you want to start the holepunch process
-func start_traversal(id, player_name):
+func start_traversal(id, player_name, version):
 	if server_udp.is_listening():
 		server_udp.close()
 

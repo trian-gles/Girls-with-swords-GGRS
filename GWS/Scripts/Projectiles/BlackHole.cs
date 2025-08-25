@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 using FixedMath.NET;
 
 public class BlackHole : HadoukenPart
@@ -134,7 +133,8 @@ public class BlackHole : HadoukenPart
 		base.MakeInactive();
 		particles2D.Emitting = false;
 		createdByPlayer.BlackHolesTotal--;
-		
+		Globals.Log($"Making black hole inactive for {createdByPlayer.Name}, setting black holes to = {createdByPlayer.BlackHolesTotal}");
+
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)
@@ -147,13 +147,19 @@ public class BlackHole : HadoukenPart
 
 	public override void SetState(HadoukenState newState)
 	{
+
 		active = newState.active;
-		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
+		Visible = active;
 		frame = newState.frame;
 		if (particles2D.Emitting != active)
 			particles2D.Emitting = active;
 
 		hits = newState.hits;
 		lastHitFrame = newState.lastHitFrame;
+	}
+
+	public override void ShouldNotExist()
+	{
+		base.ShouldNotExist();
 	}
 }

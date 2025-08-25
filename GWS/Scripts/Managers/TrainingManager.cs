@@ -99,7 +99,7 @@ public class TrainingManager : BaseManager
 		gameScene.Reset();
 	}
 
-	public override void OnGameWon(string winner)
+	public override void OnGameWon(string winner, int character)
 	{
 		OnNewGame();
 	}

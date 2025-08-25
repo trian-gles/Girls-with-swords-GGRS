@@ -9,22 +9,21 @@ public class HitState : State
 	public override bool wasHit
 	{ get { return true; } }
 
-	public override bool DelayInputs()
-	{
-		return frameCount > 0;
-	}
+    public override void Enter()
+    {
+        base.Enter();
+		stunRemaining = 0;
+    }
 
-	public override void FrameAdvance()
+    public override bool DelayInputs()
 	{
-		base.FrameAdvance();
-		if (frameCount == 1)
-			owner.EmitSignal("Recovery", owner.Name);
+		return frameCount > stunRemaining - 3;
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
-		owner.grabInvulnFrames = 5;
+        owner.grabInvulnFrames = 5;
 	}
 
 	protected void ReceiveElectrocution()

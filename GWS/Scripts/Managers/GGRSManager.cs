@@ -11,6 +11,9 @@ class GGRSManager : StateManager
 	private UPNP upnp;
 	int port;
 
+	private Node events;
+
+	private Popup mustUpdatePopup;
 	
 
 	private const int MAXPLAYERS = 2;
@@ -38,10 +41,20 @@ class GGRSManager : StateManager
 	public override void _Ready()
 	{
 		base._Ready();
+		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
+		events = GetNode<Node>("/root/Events");
 		GGRS = GetNode("GodotGGRS");
 		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
+		mustUpdatePopup.PopupCentered();
 		NatTraversal();
+		
+	}
+	
+	public void OnUpdateRequiredConfirmed()
+	{
+		events.Call("emit_signal", "MainMenuPressed");
+		QueueFree();
 	}
 
 
@@ -130,10 +143,10 @@ class GGRSManager : StateManager
 		ReadyForChange(GameType.GAME);
 	}
 
-	public override void OnGameWon(string winner)
+	public override void OnGameWon(string winner, int character)
 	{
-		//GD.Print($"Game definitevly won on frame {Globals.frame}");
-		base.OnGameWon(winner);
+		GD.Print($"Game definitevly won on frame {Globals.frame}");
+		base.OnGameWon(winner, character);
 	}
 
 	private void StartNextGame()
@@ -175,7 +188,7 @@ class GGRSManager : StateManager
 
 		if ((bool)GGRS.Call("is_running"))
 		{
-
+			GetNetStats();
 			int currentGGRSFrame = (int)GGRS.Call("get_current_frame");
 			Globals.lastConfirmedFrame = (int)GGRS.Call("get_confirmed_frame");
 			if (hosting && Globals.frame != currentGGRSFrame)
@@ -218,7 +231,7 @@ class GGRSManager : StateManager
 
 			
 
-			GetNetStats();
+			
 
 		}
 		else
@@ -286,13 +299,20 @@ class GGRSManager : StateManager
 	// ----------------
 	private async void NatTraversal()
 	{
+		var version = Globals.GetVersion();
 		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
+		
+
 		var holePuncher = (Node)holePuncherScript.Call("new");
+
+		holePuncher.Connect("SessionIDReceived", this, nameof(OnSessionIDReceived));
+		holePuncher.Connect("WrongVersionReject", this, nameof(OnWrongVersionReject));
+
 		holePuncher.Set("rendevouz_address", "172.104.21.51");
 		holePuncher.Set("rendevouz_port", 4000);
 		AddChild(holePuncher);
 		string player_id = OS.GetUniqueId();
-		holePuncher.Call("start_traversal", 1, player_id);
+		holePuncher.Call("start_traversal", 1, player_id, version);
 		var result = (await ToSignal(holePuncher, "hole_punched"));
 		localPort = (int)result[0];
 		opponentPort = (int)result[1];
@@ -308,6 +328,16 @@ class GGRSManager : StateManager
 		//# the port the HolePuncher python application is running on
 		//hole_puncher.rendevouz_port = "3000"
 		//add_child(hole_puncher)
+
+	}
+
+	private void OnSessionIDReceived(string id)
+	{
+
+	}
+
+	private void OnWrongVersionReject()
+	{
 
 	}
 
@@ -345,6 +375,8 @@ class GGRSManager : StateManager
 
 		
 	}
+
+	
 
 	public override void _Notification(int what)
 	{

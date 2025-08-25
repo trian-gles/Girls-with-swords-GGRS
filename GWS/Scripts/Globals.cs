@@ -22,6 +22,8 @@ public class Globals : Node
 	[Signal]
 	public delegate void NetPlayLobbyReturn();
 
+	public static string VERSION = "1.0.0";
+
 	public static int frame = 0;
 	public static int lastConfirmedFrame = 0;
 	public static int rollbackFrame = 0;
@@ -34,6 +36,8 @@ public class Globals : Node
 	public static bool autoTech = false;
 
 	static public Mode mode;
+
+	public static List<string> logBuffer = new List<string>();
 	public static void SetLogging(string loggingName)
 	{
 		Globals.loggingName = loggingName;
@@ -46,8 +50,15 @@ public class Globals : Node
 		{
 			msg = rollbackFrame + " : " + msg;
 		}
+
+		string logMsg = frame + " : " + loggingName + " : " + msg;
+
 		if (logOn)
-			GD.Print(frame + " : " + loggingName + " : " + msg);
+			GD.Print(logMsg);
+		else
+			logBuffer.Add(logMsg);
+
+		
 	}
 	
 	public const bool rhythmGame = false;
@@ -154,7 +165,7 @@ public class Globals : Node
 				hitStop = 12,
 				dmg = 4,
 				hitPush = 2000,
-				prorationLevel = 3,
+				prorationLevel = 4,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -169,7 +180,7 @@ public class Globals : Node
 				hitStop = 16,
 				dmg = 4,
 				hitPush = 2000,
-				prorationLevel = 3,
+				prorationLevel = 1,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -187,7 +198,7 @@ public class Globals : Node
 				hitStop = 14,
 				dmg = 5,
 				hitPush = 2500,
-				prorationLevel = 2,
+				prorationLevel = 3,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -202,7 +213,7 @@ public class Globals : Node
 				hitStop = 17,
 				dmg = 5,
 				hitPush = 2500,
-				prorationLevel = 2,
+				prorationLevel = 1,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -220,7 +231,7 @@ public class Globals : Node
 				hitStop = 15,
 				dmg = 6,
 				hitPush = 3200,
-				prorationLevel = 1,
+				prorationLevel = 2,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.NONE,
@@ -235,7 +246,7 @@ public class Globals : Node
 				hitStop = 18,
 				dmg = 6,
 				hitPush = 3200,
-				prorationLevel = 1,
+				prorationLevel = 0,
 				knockdown = false,
 				opponentLaunch = Vector2.Zero,
 				effect = BaseAttack.EXTRAEFFECT.STAGGER,
@@ -316,7 +327,25 @@ public class Globals : Node
 		//Tests();
 	}
 
-	public static bool IsFrameConfirmed()
+    public static string GetVersion()
+    {
+        return VERSION;
+    }
+
+    public static bool CheckTrainingMode()
+	{
+		return mode == Mode.TRAINING; 
+	}
+	public static void SetAlwaysBlock(bool state)
+	{
+		alwaysBlock = state;
+	}
+
+    public static void SetAutoTech(bool state)
+    {
+        autoTech = state;
+    }
+    public static bool IsFrameConfirmed()
 	{
 		return frame == lastConfirmedFrame;
 	}

@@ -14,10 +14,10 @@ public abstract class BaseAttack : State
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
 
-    [Export]
-    protected int modifiedHitStop = 0;
+	[Export]
+	protected int modifiedHitStop = 0;
 
-    [Export]
+	[Export]
 	protected int modifiedHitStun = 0;
 
 	[Export]
@@ -102,12 +102,26 @@ public abstract class BaseAttack : State
 	[Export]
 	public string superKaraButton = "";
 
+	[Export]
+	public bool specialBurstKara = false;
+
+	[Export]
+	public int lastHitFrame = 0;
+
+	[Export]
+	public bool lastHitKnockdown = false;
+
+	[Export]
+	public Vector2 lastHitLaunch = new Vector2 (0, 0);
+
+
 	public enum EXTRAEFFECT
 	{
 		NONE,
 		GROUNDBOUNCE,
 		WALLBOUNCE,
-		STAGGER
+		STAGGER,
+		LAUNCHER
 	}
 
 	public enum GRAPHICEFFECT
@@ -180,13 +194,18 @@ public abstract class BaseAttack : State
 
 		if (superKaraButton.Length > 0)
 			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0, owner.easySuper);
+		
+		if (specialBurstKara)
+		{
+			AddBurstKara('k', 'p');
+		}
 
 		AddRhythmSpecials(owner.rhythmSpecials);
 		if (selfGatlingInp != " ")
-        {
+		{
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
 			GD.Print($"Adding gatling for {Name} upon press of {selfGatlingInp}");
-        }
+		}
 
 	}
 
@@ -233,6 +252,11 @@ public abstract class BaseAttack : State
 			EmitSignal(nameof(StateFinished), "Fall");
 	}
 
+	public override void TryBurst()
+	{
+		// No bursting while attacking!
+	}
+
 	public override void CheckHit()
 	{
 		if (!hitConnect)
@@ -253,15 +277,33 @@ public abstract class BaseAttack : State
 		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
+		
+
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
 		{
 			hitDetails.opponentLaunch = Vector2.Zero;
 			chDetails.opponentLaunch = Vector2.Zero;
+			hitDetails.effect = EXTRAEFFECT.STAGGER;
+			chDetails.effect = EXTRAEFFECT.STAGGER;
 		} else
 		{
-            hitDetails.opponentLaunch = opponentLaunch;
-            chDetails.opponentLaunch =  chLaunch.y > 0 ? chLaunch : opponentLaunch;
-        }
+			hitDetails.opponentLaunch = opponentLaunch;
+			chDetails.opponentLaunch =  chLaunch.y > 0 ? chLaunch : opponentLaunch;
+			if (!launchOnGrounded)
+			{
+				hitDetails.hitStun += 10;
+				chDetails.hitStun += 10;
+			}
+			
+
+			if (lastHitFrame != 0 && frameCount >= lastHitFrame)
+			{
+				hitDetails.knockdown = lastHitKnockdown;
+
+				hitDetails.opponentLaunch = lastHitLaunch;
+
+			}
+		}
 
 		owner.GainMeter(400);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);

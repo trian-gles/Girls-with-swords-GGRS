@@ -209,9 +209,9 @@ initial_velocity = 26.6
 initial_velocity_random = 1.0
 
 [node name="Witch" type="AnimatedSprite" parent="."]
-position = Vector2( -280, 100 )
+position = Vector2( 301.574, 1.42811 )
 frames = SubResource( 6 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="Buildings Front" type="Sprite" parent="."]
@@ -280,3 +280,10 @@ offset = Vector2( 0, -16 )
 [node name="ARm" type="AnimationPlayer" parent="SmallArm"]
 autoplay = "ArmAnim"
 anims/ArmAnim = SubResource( 12 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -239.0
+margin_top = -133.0
+margin_right = 238.0
+margin_bottom = 136.0
+color = Color( 0, 0, 0, 0.247059 )

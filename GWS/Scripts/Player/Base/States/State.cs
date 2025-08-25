@@ -418,6 +418,11 @@ public abstract class State : Node
 		AddGatling(new[] { 'a', 'p' }, () => owner.internalPos.y < Globals.MAXAIRDASHDEPTH, owner.easyAirSpecial);
 	}
 
+	protected void AddBurstKara(char key1, char key2)
+	{
+        AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), "Burst");
+        AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), "Burst");
+    }
 	protected void AddSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)
@@ -636,8 +641,23 @@ public abstract class State : Node
 	{
 		frameCount++;
 		if (slowdownSpeed != 0) SlowDown();
-		Globals.Log($"{Name} at position {owner.internalPos}");
+
+        if (frameCount >= 1)
+        {
+            TryBurst();
+            
+        }
 	}
+
+	public virtual void TryBurst()
+	{
+        if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+        {
+			if (!owner.TrySpendBurst()) return;
+            owner.EmitSignal("Recovery", owner.Name);
+            EmitSignal(nameof(StateFinished), "Burst");
+        }
+    }
 
 	/// <summary>
 	/// Called by parent
@@ -693,8 +713,13 @@ public abstract class State : Node
 		//GD.Print($"{owner.Name} : {owner.internalPos.x}, {owner.otherPlayer.Name} : {owner.otherPlayer.internalPos.x}");
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
-		
-		owner.ComboUp();
+
+        if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
+        {
+                owner.hasBeenLaunched = true;
+        }
+
+        owner.ComboUp();
 		if (!(launch == Vector2.Zero))
 		{
 			owner.velocity = launch;
@@ -780,6 +805,7 @@ public abstract class State : Node
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
+		
 		EmitSignal(nameof(StateFinished), stateName);
 		owner.EmitSignal("HitConfirm", blockStop);
 	}
@@ -876,8 +902,8 @@ public abstract class State : Node
 
 	protected virtual void ReceiveHitNoBlock(Globals.AttackDetails details)
 	{
-		
-		
+
+
 		bool launchBool = false;
 		switch (details.dir)
 		{

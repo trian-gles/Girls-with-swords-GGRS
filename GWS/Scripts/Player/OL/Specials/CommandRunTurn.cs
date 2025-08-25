@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class CommandRunTurn : CommandRunBase
 {
-    [Export]
-    public int turnFrame = 10;
+	[Export]
+	public int turnFrame = 10;
 
 	public override void FrameAdvance()
 	{
@@ -26,8 +26,8 @@ public class CommandRunTurn : CommandRunBase
 		}
 	}
 
-    public override bool CollisionActive()
-    {
+	public override bool CollisionActive()
+	{
 		return frameCount > turnFrame;
-    }
+	}
 }

@@ -11,6 +11,9 @@ public class LobbyRedesign : Node2D
 	VBoxContainer localmenubuttons;
 	VBoxContainer entries;
 	HBoxContainer netplaybuttons;
+
+	LineEdit newMatchId;
+	LineEdit existingMatchId;
 	
 	Control inputmenu;
 	VBoxContainer column;
@@ -65,7 +68,10 @@ public class LobbyRedesign : Node2D
 		localmenubuttons = localmenu.GetNode<VBoxContainer>("LocalButtons");
 		entries = netplaymenu.GetNode<VBoxContainer>("Entries");
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
-		
+
+		newMatchId = entries.GetNode<LineEdit>("NewMatchContainer/NewMatchID");
+		existingMatchId = entries.GetNode<LineEdit>("ExistingMatchContainer/ExistingMatchID");
+
 		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
@@ -108,11 +114,19 @@ public class LobbyRedesign : Node2D
 		((GGRSManager)activeManager).ManualConfig(ip, false);
 	}
 
+	public void OnNewNetplayMatch()
+	{
+		newMatchId.Text = "1337";
+	}
+
+	public void OnJoinNetplayMatch()
+	{
+		GD.Print(existingMatchId.Text);
+	}
+
 	public void OnAutoConnectDown()
 	{
-		var ggrsScene = ggrsManager.Instance<GGRSManager>();
-		AddChild(ggrsScene);
-		HideButtons();
+		BeginManager(ggrsManager);
 	}
 
 	public void OnHostTestButtonDown()
@@ -163,6 +177,7 @@ public class LobbyRedesign : Node2D
 	private void BeginManager(PackedScene managerScene){
 		activeManager = managerScene.Instance<BaseManager>();
 		AddChild(activeManager);
+		GetNode<AudioStreamPlayer>("LobbyMusic").Stop();
 		HideButtons();
 	}
 	
@@ -200,6 +215,7 @@ public class LobbyRedesign : Node2D
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
+		GetNode<AudioStreamPlayer>("LobbyMusic").Play();
 
 		menu.Call("_on_BackButton_pressed");
 	}

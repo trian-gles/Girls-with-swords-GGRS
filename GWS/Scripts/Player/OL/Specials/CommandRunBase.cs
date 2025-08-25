@@ -17,10 +17,10 @@ public class CommandRunBase : GroundAttack
 	/// </summary>
 	protected string exitState;
 
-    public override string animationName { get { return "CommandRun"; } }
+	public override string animationName { get { return "CommandRun"; } }
 
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
@@ -53,9 +53,9 @@ public class CommandRunBase : GroundAttack
 
 	}
 
-    public override void Exit()
-    {
-        base.Exit();
+	public override void Exit()
+	{
+		base.Exit();
 
 		
 	}

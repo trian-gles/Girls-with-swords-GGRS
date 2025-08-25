@@ -18,6 +18,10 @@ public class Hadouken : BaseAttack
 
 	[Export]
 	public int xOffset = 0;
+
+	[Export]
+	public bool mustCooldown = false;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -47,13 +51,23 @@ public class Hadouken : BaseAttack
 	/// </summary>
 	protected virtual HadoukenPart EmitHadouken()
 	{
+		if (mustCooldown && owner.hadoukenCooldownRemaining > 0)
+			return null;
+
+
 		var h = hadoukenScene.Instance() as HadoukenPart;
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
-		h.Position = new Vector2(owner.Position.x + xOffset, owner.Position.y + yOffset);
-		return h;
-		//Globals.Log($"Emitting snail at x position {h.Position}, our position = {owner.Position}, animation frame = {frameCount}, vel = {owner.velocity}");
+
+		int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
+        int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
+        h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
+        h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
+        Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
+		owner.hadoukenCooldownRemaining = 55;
+        return h;
+		
 
 	}
 

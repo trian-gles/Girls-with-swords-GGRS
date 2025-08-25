@@ -10,22 +10,22 @@ public abstract class AirAttack : BaseAttack
 	[Export]
 	public int landingRecoveryFrames = 0;
 	public override void _Ready()
-    {
-        base._Ready();
+	{
+		base._Ready();
 		tags.Add("aerial");
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 		hitDetails.airBlockable = true;
 	}
 
-    public override void Enter()
-    {
-        base.Enter();
+	public override void Enter()
+	{
+		base.Enter();
 		if (landingRecoveryFrames > 0)
 			owner.landingRecoveryFramesRemaining = landingRecoveryFrames;
-    }
+	}
 
-    protected override void AddJumpCancel()
+	protected override void AddJumpCancel()
 	{
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
 		{

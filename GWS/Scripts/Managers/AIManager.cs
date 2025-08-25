@@ -45,9 +45,9 @@ class AIManager : LocalManager
 
 	}
 
-	public override void OnGameWon(string winner)
+	public override void OnGameWon(string winner, int character)
 	{
-		base.OnGameWon(winner);
+		base.OnGameWon(winner, character);
 		p1KeyReleased = false;
 		ai = new AIBehaviour();
 	}

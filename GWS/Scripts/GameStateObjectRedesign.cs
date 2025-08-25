@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
+using System.Diagnostics.Eventing.Reader;
 
 /// <summary>
 /// This object controls all the actual management of gameplay, and passes this information to GGPO
@@ -150,15 +151,16 @@ public class GameStateObjectRedesign : Node
 		return ((sum2 << 16) | sum1);
 	}
 
-	 public void RedesignCompareStates(byte[] buffer)
+	 public bool RedesignCompareStates(byte[] buffer)
 	{
 		GameState oldState = Deserialize<GameState>(buffer);
 		string error = CompareGameStates(oldState, GetGameState());
 		if (error != "")
 		{
 			GD.Print($"Frame {Globals.frame} {error}");
+			return false;
 		}
-			
+		return true;
 	}
 
 	private string CompareGameStates(GameState firstGs, GameState secondGs)
@@ -185,17 +187,24 @@ public class GameStateObjectRedesign : Node
 			i++;
 		}
 
-		for (int j = 0; j < firstGs.hadoukenStates.Count; j++)
+        errMsg = AddError(errMsg, $"Hadouken count", firstGs.hadoukenStates.Count, secondGs.hadoukenStates.Count);
+		if (firstGs.hadoukenStates.Count != secondGs.hadoukenStates.Count) return errMsg;
+		foreach (var hState1 in firstGs.hadoukenStates)
 		{
-			errMsg = AddError(errMsg, $"Hadouken {j}" + " frame", firstGs.hadoukenStates[j].frame, firstGs.hadoukenStates[j].frame);
-			errMsg = AddError(errMsg, $"Hadouken {j}" + " xPos", firstGs.hadoukenStates[j].pos[0], firstGs.hadoukenStates[j].pos[0]);
-			errMsg = AddError(errMsg, $"Hadouken {j}" + " yPos", firstGs.hadoukenStates[j].pos[1], firstGs.hadoukenStates[j].pos[1]);
-			errMsg = AddError(errMsg, $"Hadouken {j}" + " active", firstGs.hadoukenStates[j].active, firstGs.hadoukenStates[j].active);
+			bool matched = false;
+			foreach(var hState2 in secondGs.hadoukenStates)
+			{
+				if (hState2.name == hState1.name) {
+                    matched = true;
+                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " frame", hState1.frame, hState2.frame);
+                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " xPos", hState1.pos[0], hState2.pos[0]);
+                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " yPos", hState1.pos[1], hState2.pos[1]);
+                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " active", hState1.active, hState2.active);
+                } 
+			}
+			if (!matched)
+				errMsg += $"Hadouken {hState1.name} has no match";
 		}
-		
-
-
-
 		return errMsg;
 	}
 
@@ -241,13 +250,13 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
-		// GD.Print($"Rolling back to frame {Frame}");
+
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
-			// GD.Print($"Loading state for hadouken {hState.name}");
+            Globals.Log($"Loading state for hadouken {hState.name}");
 			if (hadoukens.ContainsKey(hState.name))
 			{
-				// GD.Print($"Rolling back {hState.name} to frame {Frame}");
+				Globals.Log($"Rolling back {hState.name} to frame {gState.frame}");
 				hadoukens[hState.name].SetState(hState);
 			}
 		}
@@ -257,7 +266,8 @@ public class GameStateObjectRedesign : Node
 
 			if (thisHadouken.creationFrame > gState.frame)
 			{
-				// GD.Print($"deleting hadouken created on frame {thisHadouken.creationFrame}");
+                Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
+				thisHadouken.ShouldNotExist();
 				deleteQueued.Add(thisHadouken);
 			}
 		}

@@ -15,6 +15,8 @@ public class Kick : Slash
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
 
         AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), "Shield");
+
+        AddBurstKara('p', 'a');
     }
 
     public override void Enter()

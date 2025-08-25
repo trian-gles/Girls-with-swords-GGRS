@@ -9,10 +9,9 @@
 		<CSFile Include="addons\WAT\core\test\Test.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="FixedMath.NET" Version="1.0.1" />
-	  <PackageReference Include="System.Text.Json" Version="5.0.2" />
+	  <Folder Include="Scripts\Player\OL\Modified\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Scripts\Player\OL\Modified\" />
+	  <PackageReference Include="FixedMath.NET" Version="1.0.1" />
 	</ItemGroup>
 </Project>

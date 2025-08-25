@@ -7,6 +7,7 @@ var last_stage = 270
 var backgrounds = [
 	preload("res://Scenes/Backgrounds/Office.tscn"),
 	preload("res://Scenes/Backgrounds/Cathedral.tscn"),
+	preload("res://Scenes/Backgrounds/Forest.tscn"),
 	preload("res://Scenes/Backgrounds/Clocktower.tscn")
 ]
 

@@ -17,6 +17,7 @@ public class MainGFX : Node
 		particleSprites.Add("hit", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/HitFX.tscn"));
 		particleSprites.Add("block", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/BlockFX.tscn"));
 		particleSprites.Add("dust", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/DustFX.tscn"));
+		particleSprites.Add("burst", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/Burst.tscn"));
 		particleSprites.Add("coffee", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/CoffeeExplosion.tscn"));
 
 // render all particles NOW since C# has no preload

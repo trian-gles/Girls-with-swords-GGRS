@@ -8,7 +8,6 @@ modifiedCounterHitStun = 18
 chEffect = 3
 hitGfx = 1
 speed = Vector2( 5, 0 )
-postHitSpeed = Vector2( 2, 0 )
 duration = 55
 totalHits = 3
 breakBetweenHits = 10

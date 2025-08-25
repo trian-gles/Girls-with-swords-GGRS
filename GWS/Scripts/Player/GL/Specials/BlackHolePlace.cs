@@ -12,20 +12,32 @@ public class BlackHolePlace : Hadouken
     public override void Enter()
     {
         base.Enter();
-        if (gl.BlackHolesTotal > 1)
-        {
-            EmitSignal(nameof(StateFinished), "Fall");
-            return;
-        }
+        owner.velocity.y = 0;
+        
         owner.landingRecoveryFramesRemaining = 7;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
     }
+
     public override void FrameAdvance()
     {
         base.FrameAdvance();
-        owner.velocity.y = 0;
+        if (frameCount == 1)
+        {
+            if (gl.BlackHolesTotal > 1)
+            {
+                Globals.Log($"Too many black holes for {owner.Name}, total black holes = {gl.BlackHolesTotal}");
+                EmitSignal(nameof(StateFinished), "Fall");
+                return;
+            }
 
-        if (frameCount == releaseFrame)
-            gl.BlackHolesTotal++;
+        }
+    }
+
+    protected override HadoukenPart EmitHadouken()
+    {
+        var h =  base.EmitHadouken();
+        gl.BlackHolesTotal++;
+        Globals.Log($"Emitting black hole for {owner.Name}, Total black holes now = {gl.BlackHolesTotal}");
+        return h;
     }
 }

@@ -40,3 +40,15 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 2, 1, 0, 0, 1, 0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("HBoxContainer/HLSprite2/HLSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( -0.1, 0.1, 0.2, 1.8, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 1, 0, 0, 1, 2 ]
+}

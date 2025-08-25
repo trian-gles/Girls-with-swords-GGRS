@@ -13,9 +13,24 @@ public class WinScene : BaseGame
 
 	const int TOTALFRAMES = 300;
 
-	private Sprite slWin;
+	private List<Control> winPortraits = new List<Control>();
 	private Control ui;
 	private Control cursors;
+	private RichTextLabel winnerText;
+
+	private enum TimeStatus
+	{
+		SELECT,
+		FAKEEND,
+		TRUEEND
+	}
+
+	private TimeStatus timeStatus = TimeStatus.SELECT;
+
+	private int trueEndFrame = 0;
+	private int falseEndFrame = 0;
+	private int finishFrame = 0;
+
 
 	private Node events;
 
@@ -38,32 +53,45 @@ public class WinScene : BaseGame
 	private void HideSelf()
 	{
 		ui.Visible = false;
-		slWin.Visible = false;
+		foreach (var p in winPortraits)
+		{
+			p.Visible = false;
+		}
 	}
 
 	private void ShowSelf()
 	{
 		ui.Visible = true;
-		slWin.Visible = true;
 		cursors.Visible = true;
 	}
 
 	public override void _Ready()
 	{
 		base._Ready();
-		slWin = GetNode<Sprite>("CanvasLayer/SnailWin");
+		foreach (var c in GetNode("CanvasLayer/Portraits").GetChildren())
+		{
+			winPortraits.Add((Control)c);
+		}
+		
+
+
 		ui = GetNode<Control>("CanvasLayer/UI");
+		winnerText = ui.GetNode<RichTextLabel>("RichTextLabel");
 		cursors = GetNode<Control>("CanvasLayer/UI/Cursors");
 		events = GetNode<Node>("/root/Events");
 		HideSelf();
 		
 	}
 
-	public void Config(string winner)
+	public void Config(string winner, int character)
 	{
 		ShowSelf();
+		winPortraits[character].Visible = true;
+		winnerText.Text = winner + " wins!";
 		winScreenFrame = 0;
-		
+
+		timeStatus = TimeStatus.SELECT;
+
 		cursorPositions = new int[] { 0, 0};
 		selected = new bool[] { false, false };
 	}
@@ -91,12 +119,13 @@ public class WinScene : BaseGame
 	{
 		var state = Deserialize<WinScene.GameState>(buffer);
 		this.winScreenFrame = state.winScreenFrame;
-		this.winScreenFrame = state.winScreenFrame;
 		cursorPositions[0] = state.p1Pos;
 		cursorPositions[1] = state.p2Pos;
 		this.lastFrameInputs = state.lastFrameInputs;
 		this.selected[0] = state.selected[0];
 		this.selected[1] = state.selected[1];
+		if (timeStatus == TimeStatus.FAKEEND && winScreenFrame < falseEndFrame) timeStatus = TimeStatus.SELECT;
+		if (timeStatus == TimeStatus.TRUEEND && winScreenFrame < trueEndFrame) timeStatus = TimeStatus.FAKEEND;
 	}
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
@@ -106,6 +135,16 @@ public class WinScene : BaseGame
 
 		int[] combinedInputs = new int[] { p1Inps, p2Inps };
 
+		
+		if (timeStatus == TimeStatus.SELECT) SelectUpdate(combinedInputs);
+		else if (timeStatus == TimeStatus.FAKEEND) FakeEndUpdate();
+		else if (timeStatus == TimeStatus.TRUEEND) TrueEndUpdate();
+		SyncCursorLocation();
+		lastFrameInputs = combinedInputs;
+	}
+
+	private void SelectUpdate(int[] combinedInputs)
+	{
 		for (int i = 0; i <= 1; i++)
 		{
 			if (selected[i])
@@ -116,7 +155,7 @@ public class WinScene : BaseGame
 			if ((inputs & 1) != 0 && (playerLastFrameInputs & 1) == 0)
 			{
 				MoveCursor(i, -1);
-				
+
 			}
 			else if ((inputs & 2) != 0 && (playerLastFrameInputs & 2) == 0)
 			{
@@ -129,16 +168,44 @@ public class WinScene : BaseGame
 
 				if (winScreenFrame == TOTALFRAMES || (selected[0] && selected[1]) || (Globals.mode != Globals.Mode.GGPO && selected[0]))
 				{
-					FinishWinScreen();
-					HideSelf();
+					BeginFakeEnd();
+
 				}
 
 			}
 		}
+	}
 
 
-		SyncCursorLocation();
-		lastFrameInputs = combinedInputs;
+	private void FakeEndUpdate()
+	{
+		if (winScreenFrame == trueEndFrame)
+		{
+			BeginTrueEnd();
+		}
+	}
+
+	private void TrueEndUpdate()
+	{
+		if (winScreenFrame == finishFrame)
+		{
+			FinishWinScreen();
+			HideSelf();
+		}
+	}
+
+
+	private void BeginFakeEnd()
+	{
+		timeStatus = TimeStatus.FAKEEND;
+		falseEndFrame = winScreenFrame;
+		trueEndFrame = winScreenFrame + 8;
+	}
+
+	private void BeginTrueEnd()
+	{
+		timeStatus = TimeStatus.TRUEEND;
+		finishFrame = winScreenFrame + 30;
 	}
 
 	private void FinishWinScreen()
@@ -159,7 +226,7 @@ public class WinScene : BaseGame
 
 	public override bool AcceptingInputs()
 	{
-		return (!selected[0] || !selected[1]);
+		return (timeStatus != TimeStatus.TRUEEND);
 	}
 
 	/// <summary>

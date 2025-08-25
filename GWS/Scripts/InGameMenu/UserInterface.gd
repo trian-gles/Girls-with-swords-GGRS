@@ -1,7 +1,7 @@
 extends Control
 
 onready var scene_tree: = get_tree()
-onready var pause_overlay: ColorRect = get_node("PauseOverlay")
+onready var pause_overlay: ColorRect = $PauseOverlay
 var paused: = false setget set_paused
 
 func _ready():
@@ -21,23 +21,21 @@ func set_paused(value: bool) -> void:
 	paused = value
 	scene_tree.paused = value
 	pause_overlay.visible = value
-	
-
-func hide_in_game_menu():
-	$PauseOverlay.visible = false
-func show_in_game_menu():
-	$PauseOverlay.visible = true
-	
-
-
+	if (value):
+		var in_training = get_node("/root/Globals").call("CheckTrainingMode")
+		$PauseOverlay/PauseMenu/AutoBlock.visible = in_training
+		$PauseOverlay/PauseMenu/AutoTech.visible = in_training
+		
+func _on_AutoBlock_toggled(button_pressed):
+	get_node("/root/Globals").call("SetAlwaysBlock", button_pressed)
 
 
+func _on_AutoTech_toggled(button_pressed):
+	get_node("/root/Globals").call("SetAutoTech", button_pressed)
 
-#signal QuitMainscene()
 
-#func _ready():
-#	$PauseOverlay/PauseMenu/MainMenu.connect("QuitPressed", self, "on_quit_pressed")
-#
-#func on_quit_pressed():
-#	scene_tree.paused = false
-#	emit_signal("QuitMainscene")
+func _on_MainMenu_button_down():
+	scene_tree.paused = false
+	Events.emit_signal("MainMenuPressed")
+	$PauseOverlay/PauseMenu/AutoBlock.pressed = false
+	$PauseOverlay/PauseMenu/AutoTech.pressed = false

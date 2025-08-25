@@ -35,7 +35,7 @@ Test_Metadata_Directory="res://tests"
 [application]
 
 config/name="GWS-GGPO"
-run/main_scene="res://Scenes/LobbyRedesign.tscn"
+run/main_scene="res://Scenes/Lobby/LobbyRedesign.tscn"
 config/icon="res://Sprites/OL_icon.png"
 
 [autoload]

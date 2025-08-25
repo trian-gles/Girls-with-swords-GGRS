@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/SnailWin.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/GameScenes/WinScene.cs" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/FrameTileSet.png" type="Texture" id=6]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://Scripts/GameScenes/Win/Cursors.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/WinScreens/HLWin.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/WinScreens/OLWin.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/WinScreens/GLWin.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.364706 )
@@ -147,9 +150,23 @@ script = ExtResource( 2 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="SnailWin" type="Sprite" parent="CanvasLayer"]
+[node name="Portraits" type="Control" parent="CanvasLayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="OLWin" parent="CanvasLayer/Portraits" instance=ExtResource( 10 )]
+visible = false
+
+[node name="GLWin" parent="CanvasLayer/Portraits" instance=ExtResource( 11 )]
+visible = false
+
+[node name="SLWin" type="TextureRect" parent="CanvasLayer/Portraits"]
+margin_right = 480.0
+margin_bottom = 270.0
 texture = ExtResource( 1 )
-centered = false
+
+[node name="HLWin" parent="CanvasLayer/Portraits" instance=ExtResource( 9 )]
+visible = false
 
 [node name="UI" type="Control" parent="CanvasLayer"]
 margin_left = -1.0
@@ -218,15 +235,12 @@ format = 1
 tile_data = PoolIntArray( 1376272, 3, 0, 2752544, -2147483646, 0, 2752545, 1, 0, 2752546, 1, 0, 2752547, 1, 0, 2752548, 1, 0, 2752549, 1, 0, 2752550, 1, 0, 2752551, 1, 0, 2752552, 1, 0, 2752553, 1, 0, 2752554, 1, 0, 2752555, 1, 0, 2752556, 1, 0, 2752557, 1, 0, 2752558, 1, 0, 2752559, 1, 0, 2752560, 1, 0, 2752561, 1, 0, 2752562, 1, 0, 2752563, 1, 0, 2752564, 1, 0, 2752565, 1, 0, 2752566, 1, 0, 2752567, 1, 0, 2752568, 1, 0, 2752569, 1, 0, 2752570, 1, 0, 2752571, 1, 0, 2752572, 1, 0, 2752573, 1, 0, 2752574, -1610612734, 0, 2818080, -2147483647, 0, 2818110, -1610612735, 0, 2883616, -2147483647, 0, 2883646, -1610612735, 0, 2949152, -2147483647, 0, 2949182, -1610612735, 0, 3014688, -2147483647, 0, 3014718, -1610612735, 0, 3080224, -2147483647, 0, 3080254, -1610612735, 0, 3145760, -2147483647, 0, 3145790, -1610612735, 0, 3211296, -2147483647, 0, 3211326, -1610612735, 0, 3276832, -2147483647, 0, 3276862, -1610612735, 0, 3342368, -2147483647, 0, 3342398, -1610612735, 0, 3407904, -1073741822, 0, 3407905, 1610612737, 0, 3407906, 1610612737, 0, 3407907, 1610612737, 0, 3407908, 1610612737, 0, 3407909, 1610612737, 0, 3407910, 1610612737, 0, 3407911, 1610612737, 0, 3407912, 1610612737, 0, 3407913, 1610612737, 0, 3407914, 1610612737, 0, 3407915, 1610612737, 0, 3407916, 1610612737, 0, 3407917, 1610612737, 0, 3407918, 1610612737, 0, 3407919, 1610612737, 0, 3407920, 1610612737, 0, 3407921, 1610612737, 0, 3407922, 1610612737, 0, 3407923, 1610612737, 0, 3407924, 1610612737, 0, 3407925, 1610612737, 0, 3407926, 1610612737, 0, 3407927, 1610612737, 0, 3407928, 1610612737, 0, 3407929, 1610612737, 0, 3407930, 1610612737, 0, 3407931, 1610612737, 0, 3407932, 1610612737, 0, 3407933, 1610612737, 0, 3407934, 1610612738, 0 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/UI"]
-margin_left = 150.454
-margin_top = 29.5913
-margin_right = 371.454
-margin_bottom = 70.5913
+margin_left = 183.0
+margin_top = 25.0
+margin_right = 291.0
+margin_bottom = 66.0
 theme = SubResource( 13 )
-text = "Player 1 Wins!"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "P1 Wins!"
 
 [node name="Cursors" type="Control" parent="CanvasLayer/UI"]
 margin_right = 40.0
@@ -239,15 +253,16 @@ __meta__ = {
 [node name="Cursor1" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
 position = Vector2( 169.606, 225.684 )
 frames = SubResource( 10 )
-frame = 1
 playing = true
 
 [node name="Cursor2" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
 position = Vector2( 170, 242 )
 frames = SubResource( 10 )
+frame = 1
 playing = true
 
 [node name="Cursor3" type="AnimatedSprite" parent="CanvasLayer/UI/Cursors"]
 position = Vector2( 170, 258 )
 frames = SubResource( 10 )
+frame = 1
 playing = true

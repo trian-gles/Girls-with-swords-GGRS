@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using static GameScene;
 
 
 /// <summary>
@@ -15,7 +16,7 @@ public class GameScene : BaseGame
 	public PackedScene[] charScenes = new PackedScene[0];
 
 	[Signal]
-	public delegate void GameWon(string winner);
+	public delegate void GameWon(string winner, int chosenCharacter);
 
 	public class Recording
 	{
@@ -54,6 +55,8 @@ public class GameScene : BaseGame
 	private Label superText;
 	private Control P1Meter;
 	private Control P2Meter;
+	private Control P1Salt;
+	private Control P2Salt;
 	private AudioStreamPlayer music;
 	private HBoxContainer p1RoundCounters;
 	private HBoxContainer p2RoundCounters;
@@ -134,6 +137,8 @@ public class GameScene : BaseGame
 		P2Rhythm = GetNode<Label>("HUD/P2Rhythm");
 		P1Meter = GetNode<Control>("HUD/P1Meter");
 		P2Meter = GetNode<Control>("HUD/P2Meter");
+		P1Salt = GetNode<Control>("HUD/Salt");
+		P2Salt = GetNode<Control>("HUD/Salt2");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		music = GetNode<AudioStreamPlayer>("BkgMusic");
@@ -158,6 +163,8 @@ public class GameScene : BaseGame
 		SetDebugVisibility(false);
 
 		SetRhythmVisibility(Globals.rhythmGame);
+
+		Globals.logBuffer.Clear();
 	}
 
 	public void config(int playerOneIndex, int playerTwoIndex, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
@@ -201,6 +208,8 @@ public class GameScene : BaseGame
 		P2.Connect("HealthSet", this, nameof(OnPlayerHealthSet));
 		P1.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
 		P2.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
+		P1.Connect("BurstSet", this, nameof(OnPlayerBurstChange));
+		P2.Connect("BurstSet", this, nameof(OnPlayerBurstChange));
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
@@ -235,7 +244,7 @@ public class GameScene : BaseGame
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 		SetPos(ResetPos.ROUNDSTART);
-		music.Call("play_random");
+		music.Call("play_idx", bkg);
 		ConfigTime();
 		configured = true;
 
@@ -363,6 +372,9 @@ public class GameScene : BaseGame
 		if (currTime == TimeStatus.FAKEEND && frame < possibleEndingFrame)
 			currTime = TimeStatus.GAME;
 
+		if (currTime == TimeStatus.TRUEEND && frame < trueEndingFrame)
+			currTime = TimeStatus.FAKEEND;
+
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
 		P1Counter.Call("rollback", frame);
@@ -376,9 +388,9 @@ public class GameScene : BaseGame
 		AdvanceFrame(p1Inps, p2Inps);
 	}
 
-	public override void CompareStates(byte[] serializedOldState)
+	public override bool CompareStates(byte[] serializedOldState)
 	{
-		gsObj.RedesignCompareStates(serializedOldState);
+		return gsObj.RedesignCompareStates(serializedOldState);
 	}
 
 	// ----------------
@@ -497,6 +509,14 @@ public class GameScene : BaseGame
 			P1Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
 		else
 			P2Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
+	}
+
+	public void OnPlayerBurstChange(string name, int burstMeter)
+	{
+		if (name == "P1")
+			P1Salt.Call("set_level", burstMeter);
+		else
+			P2Salt.Call("set_level", burstMeter);
 	}
 
 	public void OnHadoukenEmitted(HadoukenPart h)
@@ -627,7 +647,7 @@ public class GameScene : BaseGame
 
 	private void HandleFakeEndTime()
 	{
-		Globals.Log($"IN FAKEEND TIME.  True ending frame = {trueEndingFrame} Frame = {Globals.frame}");
+		GD.Print($"IN FAKEEND TIME.  True ending frame = {trueEndingFrame} Frame = {Globals.frame}");
 		if (Globals.frame == trueEndingFrame)
 		{
 			EndRound();
@@ -637,18 +657,36 @@ public class GameScene : BaseGame
 	private void HandleTrueEndTime()
 	{
 		centerText.Visible = true;
-		if (Globals.frame == exitFrame) // Later we'll manage keeping score
+
+		if (Globals.frame == trueEndingFrame + 30)
+		{
+			if (P1Health.Value > P2Health.Value)
+			{
+				p1Wins++;
+				p1RoundCounters.Call("win_counter_up", p1Wins);
+			}
+			else
+			{
+				p2Wins++;
+				p2RoundCounters.Call("win_counter_up", p2Wins);
+			}
+		}
+			
+		if (Globals.frame == exitFrame)
 		{
 			if (p1Wins == 2)
 			{
-				ResetWin();
-				EmitSignal("GameWon", "P1");
+				GD.Print($"P1 has 2 wins! {Globals.frame}");
+				ResetWin(); 
+				
+				EmitSignal("GameWon", "P1", p1Ind);
 
 			}
 			else if (p2Wins == 2)
 			{
+				GD.Print($"P2 has 2 wins! {Globals.frame}");
 				ResetWin();
-				EmitSignal("GameWon", "P2");
+				EmitSignal("GameWon", "P2", p2Ind);
 
 			}
 			else
@@ -667,20 +705,13 @@ public class GameScene : BaseGame
 
 	private void EndRound()
 	{
-		if (recordMatch && !savedFile)
-			WriteInputsToFile();
+
+			
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
-		if (P1Health.Value > P2Health.Value)
-		{
-			p1Wins++;
-			p1RoundCounters.Call("win_counter_up", p1Wins);
-		}
-		else
-		{
-			p2Wins++;
-			p2RoundCounters.Call("win_counter_up", p2Wins);
-		}
+		
+
+		GD.Print($"Round definitively finished.  P1 wins = {p1Wins} P2 wins = {p2Wins}");
 
 	}
 
@@ -764,7 +795,10 @@ public class GameScene : BaseGame
 	{
 		ResetHealth("P1");
 		ResetHealth("P2");
-		
+
+		gsObj.ResetHadoukens();
+		SetPos(ResetPos.ROUNDSTART);
+
 		P1.Reset();
 		P2.Reset();
 		P1Meter.Call("set_meter", 100);
@@ -782,8 +816,11 @@ public class GameScene : BaseGame
 		centerText.Text = "";
 		p1RoundCounters.Call("_ready");
 		p2RoundCounters.Call("_ready");
+		
 		P1.QueueFree();
 		P2.QueueFree();
+		OnPlayerBurstChange("P1", 100);
+		OnPlayerBurstChange("P2", 100);
 		configured = false;
 		HUD.Layer = -1;
 	}
@@ -829,7 +866,7 @@ public class GameScene : BaseGame
 		allInputs[inp_frame, 1] = p2Inputs;
 	}
 
-	private string MakeFilename()
+	protected string MakeFilename()
 	{
 		var dict = OS.GetDatetime();
 		string filename = "";
@@ -864,6 +901,29 @@ public class GameScene : BaseGame
 		file.StoreString(content);
 		file.Close();
 		savedFile = true;
+	}
+
+	public void WriteLogs()
+	{
+		Globals.Log("Saving file");
+
+		WriteInputsToFile();
+
+		var dir = new Godot.Directory();
+		dir.Open("user://");
+
+		dir.MakeDir("logs");
+		//Globals.logBuffer.Slice
+		string content = String.Join("\n", Globals.logBuffer.ToArray());
+		DateTime now = DateTime.Now;
+		string filename = MakeFilename();
+
+		var file = new Godot.File();
+		file.Open($"user://logs/{filename}.txt", Godot.File.ModeFlags.Write);
+		file.StoreString(content);
+		file.Close();
+		Globals.logBuffer.Clear();
+		
 	}
 
 	public override void _Draw()

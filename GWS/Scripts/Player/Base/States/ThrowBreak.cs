@@ -21,4 +21,9 @@ public class ThrowBreak : HitStun
             EmitSignal(nameof(StateFinished), "Float");
         }
     }
+
+    public override void ExitHitstun()
+    {
+        EmitSignal(nameof(StateFinished), "Fall");
+    }
 }

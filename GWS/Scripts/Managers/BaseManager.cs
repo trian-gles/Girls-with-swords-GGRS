@@ -21,12 +21,9 @@ public class BaseManager : Node2D
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
 
-
-	/// <summary>
-	/// playing back recorded matches
-	/// </summary>
-	protected bool playbackMatch = false;
-	private string matchFilename = "coolgrab2";
+    // Need to debug:
+    //
+    protected string matchFilename = "";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -93,7 +90,7 @@ public class BaseManager : Node2D
 		Globals.frame = 0;
 
 		
-		if (playbackMatch)
+		if (matchFilename != "")
 		{
 			bkgIndex = 0;
 			LoadMatchFile();
@@ -172,9 +169,9 @@ public class BaseManager : Node2D
 	/// Eventually this should handle keeping score
 	/// </summary>
 	/// <param name="winner"></param>
-	public virtual void OnGameWon(string winner)
+	public virtual void OnGameWon(string winner, int chosenCharacter)
 	{
-		winScene.Config(winner);
+		winScene.Config(winner, chosenCharacter);
 		currGame = winScene;
 		MoveChild(winScene, 0);
 
@@ -377,7 +374,7 @@ public class BaseManager : Node2D
 	{
 		// multidimensional arrays become single dimensional in godot JSON, hence this.
 		int gameFrame = ((GameScene)currGame).GetFramesSinceStart() * 2;
-		if (gameFrame < 0)
+		if (gameFrame < 0 || gameFrame > matchInputs.Count)
 		{
 			return new[] { 0, 0 };
 		}

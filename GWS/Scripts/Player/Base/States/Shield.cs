@@ -18,36 +18,38 @@ public class Shield : HitState
 
 	public override void FrameAdvance()
 	{
-		base.FrameAdvance();
-		
-		if (stunRemaining > 0)
-		{
-			stunRemaining--;
-		} 
+		base.FrameAdvance(); 
 
 		if (stunRemaining == 0)
 		{
             CheckShieldSwitch();
 			if (!owner.TrySpendMeter(5)) {
+				owner.EmptyMeter();
 				ExitShield();
 			}
 
+            bool ownerHoldingInput = owner.CheckHeldFlippableKeys(new[] { 'p', 'k', '4' });
+            if (!ownerHoldingInput && (stunRemaining == 0) && (frameCount > 2))
+            {
+                ExitShield();
+            }
+
         }
-			
+		else
+		{
+            stunRemaining--;
+        }
+
 
 		if (!owner.grounded)
 		{
 			ApplyGravity();
 		}
-
-		bool ownerHoldingInput = owner.CheckHeldFlippableKeys(new[] {'p', 'k', '4' });
-		if (!ownerHoldingInput && (stunRemaining == 0) && (frameCount > 2))
+		else
 		{
-			ExitShield();
-		}
-
-		if (owner.grounded)
-			owner.velocity.x = 0;
+            owner.velocity.x = 0;
+        }
+			
 	}
 
 	protected virtual void ExitShield()
@@ -85,7 +87,6 @@ public class Shield : HitState
 	{
 		details.hitPush = (int)Math.Floor(details.hitPush * 1.5);
 		details.airBlockable = true;
-		details.hitPush *= 2;
 		base.ReceiveHit(details);
 	}
 
@@ -100,7 +101,7 @@ public class Shield : HitState
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		owner.GFXEvent("Light", details.collisionPnt / 100);
-		owner.TrySpendMeter(300);
+		if (!owner.TrySpendMeter(300)) owner.EmptyMeter();
 
         stunRemaining = details.blockStun;
 	}
@@ -125,7 +126,10 @@ public class Shield : HitState
 	{
 		if (stateName == "Block")
 			stateName = "Shield";
-        if (stateName == "CrouchBlock")
+        else if (stateName == "CrouchBlock")
             stateName = "CrouchShield";
+
+        EmitSignal(nameof(StateFinished), stateName);
+        owner.EmitSignal("HitConfirm", blockStop);
     }
 }

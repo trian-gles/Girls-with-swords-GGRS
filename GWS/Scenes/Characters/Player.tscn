@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -63,24 +63,25 @@
 [ext_resource path="res://Scripts/Player/Base/States/Shield.cs" type="Script" id=61]
 [ext_resource path="res://Scripts/Player/Base/States/CrouchShield.cs" type="Script" id=62]
 [ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.gd" type="Script" id=63]
+[ext_resource path="res://Scripts/Player/Base/States/Burst.cs" type="Script" id=64]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 25, 12 )
+extents = Vector2( 19, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 35, 21 )
+extents = Vector2( 11, 6 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 11, 15 )
+extents = Vector2( 15, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 19, 17 )
+extents = Vector2( 10, 18 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 15, 8 )
@@ -289,16 +290,18 @@ script = ExtResource( 57 )
 
 [node name="Shield" type="CPUParticles2D" parent="."]
 position = Vector2( 18, -10 )
+z_index = 7
 amount = 24
 emission_shape = 2
 emission_rect_extents = Vector2( 0, 15 )
 gravity = Vector2( 0, 0 )
 scale_amount = 3.0
-color = Color( 1, 1, 1, 0.243137 )
+color = Color( 0.101961, 1, 0, 0.243137 )
 hue_variation = 1.0
 script = ExtResource( 60 )
 
 [node name="ShieldHit" type="CPUParticles2D" parent="Shield"]
+z_index = 7
 amount = 38
 emission_shape = 2
 emission_rect_extents = Vector2( 0, 15 )
@@ -309,7 +312,7 @@ initial_velocity = 0.1
 initial_velocity_random = 0.74
 linear_accel_curve = SubResource( 24 )
 scale_amount = 3.0
-color = Color( 1, 1, 1, 0.658824 )
+color = Color( 0, 1, 0.0156863, 0.658824 )
 hue_variation = 1.0
 
 [node name="StateTree" type="Node" parent="."]
@@ -503,6 +506,14 @@ script = ExtResource( 37 )
 
 [node name="LandingRecovery" type="Node" parent="StateTree"]
 script = ExtResource( 58 )
+
+[node name="Burst" type="Node" parent="StateTree"]
+script = ExtResource( 64 )
+opponentLaunch = Vector2( 800, -300 )
+chLaunch = Vector2( 1400, -300 )
+modifiedDmg = 1
+landingRecoveryFrames = 16
+launch = Vector2( 0, -900 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

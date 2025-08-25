@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -35,6 +35,8 @@
 [ext_resource path="res://Music/GothicGirlFromTheFuture_Pt.1_4-3.ogg" type="AudioStream" id=33]
 [ext_resource path="res://Music/hl-theme-6-28.ogg" type="AudioStream" id=34]
 [ext_resource path="res://Music/main-gws-theme-7-12.ogg" type="AudioStream" id=35]
+[ext_resource path="res://Scenes/HUD/Salt.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Themes/IngameText.tres" type="Theme" id=37]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -44,9 +46,6 @@ resource_name = "RoundOneWin"
 
 [sub_resource type="Animation" id=3]
 resource_name = "RoundTwoWin"
-
-[sub_resource type="Theme" id=4]
-default_font = ExtResource( 8 )
 
 [sub_resource type="Theme" id=5]
 default_font = ExtResource( 8 )
@@ -148,9 +147,6 @@ texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
 tint_progress = Color( 1, 0.937255, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="P2Health" type="TextureProgress" parent="HUD"]
 margin_left = 286.975
@@ -174,9 +170,6 @@ margin_right = 29.2894
 margin_bottom = 38.975
 rect_scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Player2Num" type="TextureRect" parent="HUD"]
 margin_left = 461.237
@@ -205,12 +198,9 @@ margin_left = 225.0
 margin_top = 13.0
 margin_right = 265.0
 margin_bottom = 29.0
-theme = SubResource( 4 )
+theme = ExtResource( 37 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="P2Combo" type="Label" parent="HUD"]
 margin_left = 360.0
@@ -318,6 +308,18 @@ script = ExtResource( 14 )
 
 [node name="Timer" type="Timer" parent="HUD/OhShit"]
 
+[node name="Salt" parent="HUD" instance=ExtResource( 36 )]
+margin_left = 22.0
+margin_top = 45.0
+margin_right = 22.0
+margin_bottom = 70.0
+
+[node name="Salt2" parent="HUD" instance=ExtResource( 36 )]
+margin_left = 459.0
+margin_top = 45.0
+margin_right = 459.0
+margin_bottom = 72.0
+
 [node name="NetStats" type="Label" parent="HUD"]
 visible = false
 anchor_top = 0.5
@@ -339,9 +341,6 @@ margin_right = 33.0
 margin_bottom = 17.0
 color = Color( 0, 0, 0, 0.435294 )
 script = ExtResource( 27 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DebugTextLabel" type="Label" parent="HUD/DebugText"]
 margin_top = 2.0
@@ -534,15 +533,12 @@ anchor_left = 0.157
 anchor_top = 0.147
 anchor_right = 0.339
 anchor_bottom = 0.294
-margin_left = -0.360001
-margin_top = -5.0
-margin_right = 259.28
-margin_bottom = 142.0
+margin_left = -31.36
+margin_top = 15.31
+margin_right = 265.28
+margin_bottom = 232.62
 custom_constants/separation = 15
 script = ExtResource( 30 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TutorialGoal" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
 anchor_right = 0.0
@@ -668,7 +664,7 @@ pause_mode = 2
 stream = ExtResource( 17 )
 bus = "Music"
 script = ExtResource( 32 )
-songs = [ ExtResource( 17 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 35 ) ]
+songs = [ ExtResource( 35 ), ExtResource( 33 ), ExtResource( 17 ), ExtResource( 34 ) ]
 
 [connection signal="timeout" from="HUD/P2Combo/Timer" to="HUD/P2Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]

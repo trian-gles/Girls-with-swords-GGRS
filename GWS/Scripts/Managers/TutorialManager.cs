@@ -157,7 +157,7 @@ public class TutorialManager : TrainingManager
 
 		Challenge dashChallenge = new Challenge("Dashing"); ;
 
-		dashChallenge.popupText = "Girls with Swords is based around super fast movement, and allows to dash, airdash, double jump and super jump";
+		dashChallenge.popupText = "You can also dash, airdash, double jump and super jump";
 
 		Goal runGoal = new Goal("Run", "right", "dash");
 		runGoal.p1State = "Run";
@@ -184,13 +184,13 @@ public class TutorialManager : TrainingManager
 		// Attack
 
 		Challenge attackChallenge = new Challenge("Basic Attacks");
-		attackChallenge.popupText = "Now for some attacks.  See the Button Configuration to change the controller mapping.  Execute these on the opponent.  Every character will have varied attacks, which can be studied in detail in Character Tutorials";
+		attackChallenge.popupText = "Let's execute some attacks!";
 		attackChallenge.goals.Add(jabGoal);
 		attackChallenge.goals.Add(kickGoal);
 		attackChallenge.goals.Add(slashGoal);
 
 		Challenge crouchAttackChallenge = new Challenge("Crouching Attacks");
-		crouchAttackChallenge.popupText = "Each standard attack button also has a crouching and aerial variant";
+		crouchAttackChallenge.popupText = "Each attack also has a crouching and aerial variant";
 
 		crouchAttackChallenge.goals.Add(cjabGoal);
 		crouchAttackChallenge.goals.Add(ckickGoal);
@@ -206,7 +206,7 @@ public class TutorialManager : TrainingManager
 
 
 		Challenge attackChallenge2 = new Challenge("Command Attacks");
-		attackChallenge2.popupText = "You can press forward along with attack buttons to execute variants. In the air, press down along with slash for a powerful downward slash. ";
+		attackChallenge2.popupText = "You can press forward along with attack buttons. In the air, press down along with slash. ";
 
 		Goal AAGoal = new Goal("Anti air", "right", "p");
 		AAGoal.p1State = "6P";
@@ -238,7 +238,7 @@ public class TutorialManager : TrainingManager
 
 
 		Challenge grabChallenge = new Challenge("Grab");
-		grabChallenge.popupText = "Grabs are extremely fast and cannot be blocked, but you must be close to the opponent and they can't be still stunned from a previous attack";
+		grabChallenge.popupText = "Grabs are extremely fast and cannot be blocked, but you must be close to the opponent and they can't be stunned";
 		
 
 		grabChallenge.goals.Add(grabGoal);
@@ -253,7 +253,7 @@ public class TutorialManager : TrainingManager
 		airGrabChallenge.goals.Add(airGrabGoal);
 
 		Challenge specialAttackChallenge = new Challenge("Special Attacks");
-		specialAttackChallenge.popupText = "Press any direction with the special button to perform a special move.  These again vary greatly between characters, and can have wild properties";
+		specialAttackChallenge.popupText = "Press any direction with the special button to perform a special move.";
 
 		string[] allDirections = new string[] { "", "right", "left", "down", "up" };
 		string[] olSpecials = new string[] { "CommandRun", "AntiAir", "CommandRunWillTurn", "Hadouken", "AntiAir" };
@@ -292,11 +292,11 @@ public class TutorialManager : TrainingManager
 		Goal blockGoal = new Goal("block", "left", "hold");
 		blockGoal.p1State = "Block";
 		midBlockChallenge.goals.Add(blockGoal);
-		midBlockChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		midBlockChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(midBlockChallenge);
 
 		Challenge overheadChallenge = new Challenge("Overhead blocking", GameScene.ResetPos.P1CORNEREDLEFT);
-		overheadChallenge.popupText = "By holding back with no other buttons, you'll block high and mid height attacks, such as the ones GL is about to demonstrate.  ";
+		overheadChallenge.popupText = "By holding back with no other buttons, you'll block high and mid height attacks";
 		Goal blockGoalOvr = new Goal("block mids and highs", "left", "hold");
 		blockGoalOvr.p1State = "Block";
 		blockGoalOvr.p1FailTags.Add("hitstate");
@@ -304,7 +304,7 @@ public class TutorialManager : TrainingManager
 		blockGoalOvr.minFramesSinceLastGoal = 20;
 		overheadChallenge.goals.Add(blockGoalOvr);
 		overheadChallenge.goals.Add(blockGoalOvr);
-		overheadChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		overheadChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(overheadChallenge);
 
 		Challenge lowChallenge = new Challenge("Low blocking", GameScene.ResetPos.P1CORNEREDLEFT);
@@ -316,11 +316,29 @@ public class TutorialManager : TrainingManager
 		blockGoalLow.minFramesSinceLastGoal = 20;
 		lowChallenge.goals.Add(blockGoalLow);
 		lowChallenge.goals.Add(blockGoalLow);
-		lowChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		lowChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(lowChallenge);
 
+		Goal loBlockGoal = new Goal("Low block", "left", "down", "hold");
+		loBlockGoal.p1State = "CrouchBlock";
+		loBlockGoal.p1FailState = "HitStun";
+		loBlockGoal.p1StateFrame = 1;
+
+		Goal hiBlockGoal = new Goal("High block", "left", "hold");
+		hiBlockGoal.p1State = "Block";
+		hiBlockGoal.p1FailState = "HitStun";
+		hiBlockGoal.p1StateFrame = 1;
+
+		Challenge mixUpChallenge = new Challenge("Blocking High-Low mixups", GameScene.ResetPos.P1CORNEREDLEFT);
+		mixUpChallenge.popupText = "Your opponent may switch between high and low attacks to try to break your guard.";
+		mixUpChallenge.goals.Add(loBlockGoal);
+		mixUpChallenge.goals.Add(hiBlockGoal);
+		mixUpChallenge.goals.Add(loBlockGoal);
+		mixUpChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16 + 32 + 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		challenges.Add(mixUpChallenge);
+
 		Challenge grabEvadeChallenge = new Challenge("Evading grabs", GameScene.ResetPos.P1CORNEREDLEFT);
-		grabEvadeChallenge.popupText = "Grabs cannot be blocked!  However, you can avoid them with a variety of techniques, including jumping, attacking, and backdashing.  Try jumping out of GL's grab";
+		grabEvadeChallenge.popupText = "Grabs cannot be blocked! Try jumping out of GL's grab";
 		Goal grabEvadeJump = new Goal("Jump out of the grab", "up");
 		grabEvadeJump.p1State = "Jump";
 		grabEvadeJump.p2State = "GrabStart";
@@ -328,16 +346,10 @@ public class TutorialManager : TrainingManager
 		grabEvadeJump.p1FailState = "Grabbed";
 
 		grabEvadeChallenge.goals.Add(grabEvadeJump);
-		grabEvadeChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		grabEvadeChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(grabEvadeChallenge);
 
-		Challenge mixUpChallenge = new Challenge("Blocking High-Low mixups", GameScene.ResetPos.P1CORNEREDLEFT);
-		mixUpChallenge.popupText = "Your opponent may switch between high and low attacks to try to break your guard.  Your local fighting game nerd recommends hold back and down, and releasing down if you see the opponent rise in the air";
-		mixUpChallenge.goals.Add(blockGoalLow);
-		mixUpChallenge.goals.Add(blockGoalOvr);
-		mixUpChallenge.goals.Add(blockGoalLow);
-		mixUpChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16 + 32 + 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		challenges.Add(mixUpChallenge);
+		
 
 		Challenge shieldChallenge = new Challenge("Shield", GameScene.ResetPos.P1CORNEREDLEFT);
 		shieldChallenge.popupText = "By hold punch and kick while blocking you spend a bit of meter to create a repellant shield, pushing back the opponent extra far when they attack you";
@@ -356,8 +368,21 @@ public class TutorialManager : TrainingManager
 		techGoal.p1State = "Tech";
 		techGoal.p1FailState = "Knockdown";
 		techChallenge.goals.Add(techGoal);
-		techChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		techChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(techChallenge);
+
+
+		Goal getHitGoal2 = new Goal("Get hit", "wait");
+		getHitGoal2.p1State = "HitStun";
+		Challenge burstChallenge = new Challenge("Burst", GameScene.ResetPos.P1CORNEREDLEFT);
+		burstChallenge.popupText = "If your SALT meter is full, press punch, kick and special simultaneously to escape a combo";
+		burstChallenge.goals.Add(getHitGoal2);
+		Goal burst = new Goal("Burst", "p", "k", "special");
+		burst.p1State = "Burst";
+		burst.p1FailTags.Add("recovery");
+		burstChallenge.goals.Add(burst);
+		burstChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		challenges.Add(burstChallenge);
 	}
 
 

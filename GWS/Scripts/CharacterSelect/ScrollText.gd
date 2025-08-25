@@ -21,3 +21,9 @@ func _on_Timer_timeout():
 		self.text = visibleText
 		#print("Current Text:", visibleText)  # Debugging message
 		#print("Current Character Index:", currentCharacter)  # Debugging message
+
+func choose_stage(num):
+	text = "P" + str(num + 1) + " CHOOSES STAGE"
+	
+func reset():
+	self.text = visibleText

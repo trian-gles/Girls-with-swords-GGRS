@@ -14,13 +14,19 @@ public class HatThrow : Hadouken
 	[Export]
 	public int landingRecovery = 5;
 
+	[Export]
+	public string noHatState = "Teleport";
+
 	public override string animationName { get { return "Hadouken"; } } // Required as we reuse both this script AND animation
 
 	public override void Enter()
 	{
 		base.Enter();
 		if (!((HL)owner).hatted)
-			EmitSignal(nameof(StateFinished), "Teleport");
+		{
+            EmitSignal(nameof(StateFinished), noHatState);
+        }
+			
 		
 		owner.landingRecoveryFramesRemaining = landingRecovery;
 	}

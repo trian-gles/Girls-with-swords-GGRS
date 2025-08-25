@@ -80,7 +80,7 @@ public class Snail : HadoukenPart
 
 	private void Destroy()
 	{
-		GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+		Visible = false;
 		if (mode == SnailMode.Standby)
 			ExitStandby();
 
@@ -177,13 +177,20 @@ public class Snail : HadoukenPart
 		{
 			Position = new Vector2(Position.x + 4, Math.Min(Position.y, 245));
 			if (Position.x * 100 > Globals.rightWall - 1000)
+			{
 				EnterStandby();
+				Position = new Vector2(Mathf.Floor((Globals.rightWall - 1000) / 100), Position.y);
+			}
+				
 		}
 		else
 		{
 			Position = new Vector2(Position.x - 4, Math.Min(Position.y, 245));
 			if (Position.x * 100 < Globals.leftWall + 1000)
+			{
 				EnterStandby();
+				Position = new Vector2(Mathf.Floor((Globals.leftWall + 1000)/100), Position.y);
+			}
 		}
 		
 	}

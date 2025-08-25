@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using static BaseAttack;
 
 public class HadoukenPart : Node2D
 {
@@ -14,6 +15,9 @@ public class HadoukenPart : Node2D
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
 	protected AnimatedSprite animatedSprite;
+
+	[Export]
+	protected int startup = 0;
 
 	[Export]
 	protected int modifiedHitStun = 0;
@@ -71,6 +75,12 @@ public class HadoukenPart : Node2D
 
 	[Export]
 	public bool dieAfterHit = true;
+
+	[Export]
+	protected int slowTerminalVelocity = 0;
+
+	[Signal]
+	public delegate void OnHitConnected(int hitPush);
 
 	protected int lastHitFrame = -20;
 
@@ -179,7 +189,7 @@ public class HadoukenPart : Node2D
 			i++;
 
 		hadoukenNums.Add(i);
-		Name = "Had" + i.ToString(); // provides a unique name for each hadouken that can be accessed by the gamestateobj
+		Name = targetPlayer.Name + Globals.frame; // provides a unique name for each hadouken that can be accessed by the gamestateobj
 		num = i;
 	}
 
@@ -198,6 +208,7 @@ public class HadoukenPart : Node2D
 		public int frame { get; set; }
 		public int lastHitFrame { get; set; }
 		public int hits { get; set; }
+		public bool visible { get; set; }
 
 		public Dictionary<string, int> dict { get; set; }
 	}
@@ -212,7 +223,7 @@ public class HadoukenPart : Node2D
 		if (frame > 0)
 		{
 			Vector2 trueSpeed = new Vector2(speed);
-			if (hits > 0)
+			if (hits > 0 && postHitSpeed != Vector2.Zero)
 				trueSpeed = new Vector2(postHitSpeed);
 
 			if (!movingRight)
@@ -222,27 +233,36 @@ public class HadoukenPart : Node2D
 
 
 			Position += trueSpeed;
-			// GD.Print($"Moving {Name} to X position {Position.x} on global frame {Globals.frame}, hadouken frame {frame}");
+			//Globals.Log($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
 		}
-		
-		
 
-		if (Position.x > 900 || Position.x < -600) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
+
+
+		if (Position.x > 1900 || Position.x < -1600 || Position.y > 1800) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
 		{
+			Globals.Log($"Deleting hadouken {Name}");
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}
-		
-		if (active && hits == 0)
+
+		if (active && hits == 0  && frame >= startup)
 		{
 			Vector2 collisionPnt = CheckRect();
 			if (collisionPnt != Vector2.Inf && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln()))
 			{
-				HurtPlayer(collisionPnt);
+				HurtPlayer(targetPlayer.GlobalPosition);
 			}
 		}
 
-		if ((hits > 0) && (hits < totalHits) && ((frame - lastHitFrame) > breakBetweenHits))
-			HurtPlayer(targetPlayer.Position);
+		if ((hits > 0) && (hits < totalHits) && ((frame - lastHitFrame) == breakBetweenHits))
+		{
+			if (!(targetPlayer.currentState.tags.Contains("hitstate") || targetPlayer.currentState.tags.Contains("block"))) {
+				hits = totalHits;
+				return;
+			}
+			
+			HurtPlayer(targetPlayer.GlobalPosition);
+		}
+			
 		frame++;
 	}
 
@@ -258,6 +278,8 @@ public class HadoukenPart : Node2D
 		{
 			if (myRect.Intersects(pRect))
 			{
+
+				//Globals.Log($"Hadouken hitbox intersection! Hadouken {Name} at position {Position} with rect {myRect} player at position {targetPlayer.internalPos} with rect {pRect}");
 				Rect2 clip = myRect.Clip(pRect);
 				Vector2 center = (clip.End - clip.Position) / 2 + clip.Position;
 				return center;
@@ -290,36 +312,43 @@ public class HadoukenPart : Node2D
 		{
 			return;
 		}
-
+		var hitDetailsCopy = hitDetails;
+		var chHitDetailsCopy = chDetails;
 		hits++;
-		Globals.Log("Hits = " + hits + ", Total hits = " + totalHits);
+		Globals.Log($"Hadouken {Name} Hits = " + hits + ", Total hits = " + totalHits);
 
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{
-			hitDetails.opponentLaunch = Vector2.Zero;
-			chDetails.opponentLaunch = Vector2.Zero;
+			hitDetailsCopy.opponentLaunch = Vector2.Zero;
+			chHitDetailsCopy.opponentLaunch = Vector2.Zero;
+			hitDetailsCopy.effect = EXTRAEFFECT.STAGGER;
+			chHitDetailsCopy.effect = EXTRAEFFECT.STAGGER;
 		}
 		else
 		{
-			hitDetails.opponentLaunch = opponentLaunch;
-			chDetails.opponentLaunch = chLaunch;
+			hitDetailsCopy.opponentLaunch = opponentLaunch;
+			chHitDetailsCopy.opponentLaunch = chLaunch;
 			if (!launchOnGrounded)
-				hitDetails.hitStun += 10;
+				hitDetailsCopy.hitStun += 10;
 		}
 
-			hitDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
-		chDetails.dir = BaseAttack.ATTACKDIR.RIGHT;
+		hitDetailsCopy.dir = BaseAttack.ATTACKDIR.RIGHT;
+		chHitDetailsCopy.dir = BaseAttack.ATTACKDIR.RIGHT;
 		if (!movingRight)
 		{
-			hitDetails.dir = BaseAttack.ATTACKDIR.LEFT;
+			hitDetailsCopy.dir = BaseAttack.ATTACKDIR.LEFT;
 			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
+		hitDetailsCopy.collisionPnt = collisionPnt * 100;
+		chHitDetailsCopy.collisionPnt = collisionPnt * 100;
 
-		hitDetails.collisionPnt = collisionPnt;
-		chDetails.collisionPnt = collisionPnt;
+		if (slowTerminalVelocity != 0)
+		{
+			targetPlayer.terminalVelocity = slowTerminalVelocity;
+		}
 
-
-		targetPlayer.ReceiveHit(hitDetails, chDetails);
+		EmitSignal(nameof(OnHitConnected), 0); // don't push ourselves if the opponent is in the corner eating a hadouken!
+		targetPlayer.ReceiveHit(hitDetailsCopy, chHitDetailsCopy);
 		lastHitFrame = frame;
 		
 
@@ -329,9 +358,8 @@ public class HadoukenPart : Node2D
 
 	protected virtual void MakeInactive()
 	{
-		Globals.Log("making hadouken inactive");
 		if (dieAfterHit)
-			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+			Visible = false;
 		active = false;
 	}
 
@@ -352,6 +380,7 @@ public class HadoukenPart : Node2D
 		{
 			position += Position * 100;
 		}
+
 		return new Rect2(position, extents);
 	}
 
@@ -366,6 +395,7 @@ public class HadoukenPart : Node2D
 		hadState.hits = hits;
 		hadState.lastHitFrame = lastHitFrame;
 		hadState.dict = GetStateSpecific();
+		hadState.visible = Visible;
 		return hadState;
 	}
 
@@ -389,11 +419,17 @@ public class HadoukenPart : Node2D
 		Position = new Vector2(newState.pos[0], newState.pos[1]);
 		speed = new Vector2(newState.speed[0], newState.speed[1]);
 		active = newState.active;
-		GetNode<AnimatedSprite>("AnimatedSprite").Visible = active;
+		Visible = newState.visible;
 		frame = newState.frame;
 		hits = newState.hits;
 		lastHitFrame = newState.lastHitFrame;
 		SetStateSpecific(newState.dict);
+		Globals.Log($"Rolling back hadouken {Name}, setting hits to {hits}");
+	}
+
+	public virtual void ShouldNotExist()
+	{
+
 	}
 
 	

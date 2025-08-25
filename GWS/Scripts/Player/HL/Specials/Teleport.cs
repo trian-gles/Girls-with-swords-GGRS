@@ -23,6 +23,7 @@ public class Teleport : BaseAttack
                 owner.grounded = false;
             }
         }
+        owner.CheckTurnAround();
         if (frameCount == teleFrame + 1)
         {
             EmitSignal(nameof(StateFinished), "Fall");

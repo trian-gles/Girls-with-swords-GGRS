@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static Godot.SpatialMaterial;
 
 public class Float : HitStun
 {
@@ -20,7 +21,7 @@ public class Float : HitStun
 		base.Enter();
 		owner.grounded = false;
 		owner.CheckTurnAround();
-		stunRemaining += 4 + (int)Math.Max(4 - (int)Math.Ceiling((double)owner.combo / 4), 0);
+		stunRemaining += 1 + (int)Math.Max(4 - (int)Math.Ceiling((double)owner.combo / 4), 0);
 		
 	}
 
@@ -46,7 +47,19 @@ public class Float : HitStun
 			owner.velocity.y += owner.combo * 20; 
 		}
 
-		if (launch.y == 0)
+        if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
+        {
+            if (owner.hasBeenLaunched)
+            {
+                owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
+            }
+            else
+            {
+                owner.hasBeenLaunched = true;
+            }
+        }
+
+        if (launch.y == 0)
 		{
 			owner.velocity.y = -438;
 		}
@@ -90,7 +103,17 @@ public class Float : HitStun
 			owner.ResetComboAndProration();
 		}
 
-		stunRemaining--;
+        if (frameCount == 1)
+        {
+            
+            if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+            {
+                owner.EmitSignal("Recovery", owner.Name);
+                EmitSignal(nameof(StateFinished), "Burst");
+            }
+        }
+
+        stunRemaining--;
 
 		TryTech();
 

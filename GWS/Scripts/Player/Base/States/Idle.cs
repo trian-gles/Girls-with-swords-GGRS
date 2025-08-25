@@ -23,7 +23,17 @@ public class Idle : State
 		
 
 		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, "Backdash", () => { owner.velocity.x = owner.speed * -2; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, () => owner.backdashCooldownRemaining == 0, "Backdash", 
+			() => 
+			{ 
+				owner.velocity.x = owner.speed * -2; 
+				if (!owner.facingRight) 
+				{ 
+					owner.velocity.x *= -1; 
+				} 
+				owner.backdashCooldownRemaining = 30;
+			}, 
+			false);
 		
 	}
 	public override void Enter()
@@ -34,6 +44,16 @@ public class Idle : State
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.canAirDash = true;
+
+		if (owner.CheckFlippableHeldKey('4'))
+		{
+			if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
+			{
+                EmitSignal(nameof(StateFinished), "Shield");
+                return;
+            }
+                
+        }
 		if (owner.CheckHeldKey('2'))
 		{
 			EmitSignal(nameof(StateFinished), "Crouch");

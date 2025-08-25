@@ -19,7 +19,7 @@ public class HatPart : HadoukenPart
 		if (command == ProjectileCommand.DeleteHat)
 		{
 			MakeInactive();
-			GetNode<AnimatedSprite>("AnimatedSprite").Visible = false;
+			Visible = false;
 		}
 	}
 

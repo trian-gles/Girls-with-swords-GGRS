@@ -82,6 +82,7 @@ public abstract class BaseGame : Node2D
 	public virtual void Reset() { }
 
 	public void ChangeHUDText(string msg) {
+		HUDText.Visible = true;
 		HUDText.Call("set_text", msg);
 	}
 
@@ -105,21 +106,26 @@ public abstract class BaseGame : Node2D
 		return (T)formatter.Deserialize(stream);
 	}
 
-	protected void CompareValues(int valueA, int valueB, string name)
+	protected bool CompareValues(int valueA, int valueB, string name)
 	{
 		if (valueA != valueB)
 		{
 			GD.Print($"{name} does not match! new: {valueA}, old: {valueB}");
 		}
-	}
 
-	protected void CompareValues(bool valueA, bool valueB, string name)
+		return (valueA == valueB);
+
+    }
+
+	protected bool CompareValues(bool valueA, bool valueB, string name)
 	{
 		if (valueA != valueB)
 		{
 			GD.Print($"{name} does not match! new: {valueA}, old: {valueB}");
 		}
-	}
+
+        return (valueA == valueB);
+    }
 
 
 	// ----------------
@@ -144,9 +150,9 @@ public abstract class BaseGame : Node2D
 	/// Used for Synctesting to compare whether the loaded state matches the new one
 	/// </summary>
 	/// <param name="serializedNewState"></param>
-	public virtual void CompareStates(byte[] serializedOldState)
+	public virtual bool CompareStates(byte[] serializedOldState)
 	{
-
+		return true;
 	}
 
 	/// <summary>

@@ -24,15 +24,20 @@ public class HitStun : HitState
 
 		if (stunRemaining == 0)
 		{
-			if (owner.electrocuted)
-			{
-				ReceiveElectrocution();
-			}
-			else
-				EmitSignal(nameof(StateFinished), "Idle");
+			ExitHitstun();
 		}
 
 	}
+
+	public virtual void ExitHitstun()
+	{
+        if (owner.electrocuted)
+        {
+            ReceiveElectrocution();
+        }
+        else
+            EmitSignal(nameof(StateFinished), "Idle");
+    }
 	
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{

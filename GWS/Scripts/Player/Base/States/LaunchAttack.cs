@@ -15,6 +15,9 @@ public class LaunchAttack : AirAttack
 	[Export]
 	protected Array<int> dustFrames = new Array<int>();
 
+	[Export]
+	protected bool exitOnLand = false;
+
 	/// <summary>
 	/// This doesn't call base.FrameAdvance() because that state includes things we don't want
 	/// </summary>
@@ -32,7 +35,7 @@ public class LaunchAttack : AirAttack
 			owner.GFXEvent("SuperPowerUp");
 		}
 
-		
+
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
 			hitConnect = false;
@@ -54,6 +57,13 @@ public class LaunchAttack : AirAttack
 			if (owner.grounded)
 			{
 				owner.velocity.x = 0;
+				if (exitOnLand)
+				{
+					if (owner.landingRecoveryFramesRemaining > 0)
+						EmitSignal(nameof(StateFinished), "LandingRecovery");
+					else
+						EmitSignal(nameof(StateFinished), "Landing");
+				}
 			}
 		}
 

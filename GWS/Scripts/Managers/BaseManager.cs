@@ -21,9 +21,9 @@ public class BaseManager : Node2D
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
 
-    // Need to debug:
-    //
-    protected string matchFilename = "";
+	// Need to debug:
+	//
+	protected string matchFilename = "";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>

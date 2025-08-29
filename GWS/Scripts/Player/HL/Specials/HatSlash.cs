@@ -5,12 +5,23 @@ using Godot;
 
 public class HatSlash : Hadouken
 {
-
-	public override string animationName { get { return "Hadouken"; } } // Required as we reuse both this script AND animation
 	protected override HadoukenPart EmitHadouken()
 	{
-        var h = base.EmitHadouken();
-        h.Position = new Vector2(((HL)owner).hatCoors) + new Vector2(0, 15);
-        return h;
+		var h = base.EmitHadouken();
+		h.Position = new Vector2(((HL)owner).hatCoors) + new Vector2(0, 15);
+		return h;
+	}
+
+	public override bool DelayInputs()
+	{
+		return frameCount > 20;
+	}
+
+	public override void AnimationFinished()
+	{
+		if (owner.CheckHeldKey('a'))
+			EmitSignal(nameof(StateFinished), "Teleport");
+		else
+			base.AnimationFinished();
 	}
 }

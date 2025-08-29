@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Teleport : BaseAttack
+public class TeleportAttack : LaunchAttack
 {
     [Export]
     public int teleFrame;
@@ -10,29 +10,13 @@ public class Teleport : BaseAttack
 
         if (frameCount == teleFrame)
         {
-            if (((HL)owner).hatted)
-            {
-                EmitSignal(nameof(StateFinished), "Idle");
-            }
-            else
-            {
                 ((HL)owner).WarpToHat();
 
                 owner.CommandHadouken("Hat", HadoukenPart.ProjectileCommand.DeleteHat);
 
                 owner.grounded = false;
-            }
         }
         owner.CheckTurnAround();
-        if (frameCount == teleFrame + 1)
-        {
-            EmitSignal(nameof(StateFinished), "Fall");
-        }
         base.FrameAdvance();
-    }
-
-    public override bool DelayInputs()
-    {
-        return true;
     }
 }

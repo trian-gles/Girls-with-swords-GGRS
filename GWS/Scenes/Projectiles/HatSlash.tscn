@@ -9,16 +9,16 @@ extents = Vector2( 34, 20 )
 [node name="HatSlash" instance=ExtResource( 1 )]
 level = 4
 startup = 12
-modifiedHitStun = 42
+modifiedHitStun = 49
 modifiedCounterHitStun = 60
-opponentLaunch = Vector2( 0, -801 )
-chLaunch = Vector2( 0, -800 )
+opponentLaunch = Vector2( 0, -900 )
+chLaunch = Vector2( 0, -900 )
 hitGfx = 4
 speed = Vector2( 0, 1 )
 postHitSpeed = Vector2( 0, 1 )
 duration = 36
 dieAfterHit = false
-slowTerminalVelocity = 350
+slowTerminalVelocity = 300
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( -2, 0 )

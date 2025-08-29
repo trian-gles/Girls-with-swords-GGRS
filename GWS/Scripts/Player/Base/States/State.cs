@@ -420,9 +420,9 @@ public abstract class State : Node
 
 	protected void AddBurstKara(char key1, char key2)
 	{
-        AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), "Burst");
-        AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), "Burst");
-    }
+		AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), "Burst");
+		AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), "Burst");
+	}
 	protected void AddSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)
@@ -642,22 +642,22 @@ public abstract class State : Node
 		frameCount++;
 		if (slowdownSpeed != 0) SlowDown();
 
-        if (frameCount >= 1)
-        {
-            TryBurst();
-            
-        }
+		if (frameCount >= 1)
+		{
+			TryBurst();
+			
+		}
 	}
 
 	public virtual void TryBurst()
 	{
-        if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
-        {
+		if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+		{
 			if (!owner.TrySpendBurst()) return;
-            owner.EmitSignal("Recovery", owner.Name);
-            EmitSignal(nameof(StateFinished), "Burst");
-        }
-    }
+			owner.EmitSignal("Recovery", owner.Name);
+			EmitSignal(nameof(StateFinished), "Burst");
+		}
+	}
 
 	/// <summary>
 	/// Called by parent
@@ -714,12 +714,12 @@ public abstract class State : Node
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 
-        if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
-        {
-                owner.hasBeenLaunched = true;
-        }
+		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
+		{
+				owner.hasBeenLaunched = true;
+		}
 
-        owner.ComboUp();
+		owner.ComboUp();
 		if (!(launch == Vector2.Zero))
 		{
 			owner.velocity = launch;

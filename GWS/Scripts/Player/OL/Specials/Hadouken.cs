@@ -61,12 +61,12 @@ public class Hadouken : BaseAttack
 		owner.EmitHadouken(h);
 
 		int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
-        int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
-        h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
-        h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
-        Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
+		int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
+		h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
+		h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
+		Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
 		owner.hadoukenCooldownRemaining = 55;
-        return h;
+		return h;
 		
 
 	}

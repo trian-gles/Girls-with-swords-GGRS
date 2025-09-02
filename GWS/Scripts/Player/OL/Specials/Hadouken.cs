@@ -65,7 +65,8 @@ public class Hadouken : BaseAttack
 		h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
 		h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
-		owner.hadoukenCooldownRemaining = 55;
+		if (mustCooldown ) 
+			owner.hadoukenCooldownRemaining = 55;
 		return h;
 		
 

@@ -385,7 +385,7 @@ public class Snail : HadoukenPart
 
 	private void TryRide()
 	{
-		if (!snailOwner.grounded) return;
+		if (!snailOwner.grounded || snailOwner.currentState.tags.Contains("hitstate")) return;
 		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
 		List<Rect2> otherRects = snailOwner.GetRects(targetPlayer.hitBoxes, true);
 		foreach (Rect2 pRect in otherRects)

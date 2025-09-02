@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FixedMath.NET;
 
 /// <summary>
 /// Base class for all states
@@ -381,14 +382,20 @@ public abstract class State : Node
 	{
 		if (!cn.crouching)
 		{
-			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2'), cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2'), cn.state);
-		}
-		else
-		{
-			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2'), cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2'), cn.state);
-		}
+			AddGatling(new[] { cn.input, 'p' },
+				() => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0)
+				, cn.state);
+            AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+				cn.state);
+        }
+        else
+        {
+            AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+				cn.state);
+            AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+				cn.state);
+        }
+
 		
 	}
 
@@ -410,7 +417,7 @@ public abstract class State : Node
 		owner.CheckFlippableHeldKey('6') && owner.CheckHeldKey('a') && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0,
 		owner.easySuper);
 		AddCommandNormals(owner.easyCommandSpecials);
-		AddGatling(new[] { 'a', 'p' }, owner.easySpecial);
+		AddGatling(new[] { 'a', 'p' }, () => (owner.CheckNoDirectionsHeld()), owner.easySpecial);
 	}
 
 	protected void AddEasyAirSpecials()
@@ -940,7 +947,10 @@ public abstract class State : Node
 	{
 		Globals.Log($"Receiving damage {details.dmg}");
 		stunRemaining = details.hitStun;
-		owner.DeductHealth(details.dmg * owner.proration);
+		var fixDmg = new Fix64(details.dmg * owner.proration);
+        var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);
+        fixDmg /= comboPror;
+		owner.DeductHealth((int)fixDmg);
 		owner.Prorate(details.prorationLevel);
 	}
 

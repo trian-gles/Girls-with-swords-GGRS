@@ -131,7 +131,7 @@ public class Globals : Node
 		hitStop = 12,
 		dmg = 4,
 		hitPush = 6000,
-		prorationLevel = 2,
+		prorationLevel = 4,
 		knockdown = false,
 		opponentLaunch = new Vector2(400, -300),
 		effect = BaseAttack.EXTRAEFFECT.NONE,

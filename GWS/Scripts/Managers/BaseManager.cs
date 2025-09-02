@@ -184,6 +184,8 @@ public class BaseManager : Node2D
 		this.colorOne = colorOne;
 		this.colorTwo = colorTwo;
 		this.bkgIndex = bkgIndex;
+		p2KeyReleased = false;
+		p1KeyReleased = false;
 	}
 
 	public virtual void OnQuit()

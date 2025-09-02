@@ -1,7 +1,6 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Palettes/OL/Shrek v1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
 [ext_resource path="res://Sprites/Movesets/OL Moveset/OL_Full_Moveset_gray.png" type="Texture" id=5]
@@ -9,10 +8,8 @@
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRunTurn.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
-[ext_resource path="res://Sprites/Palettes/OL/Sol v1.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
 [ext_resource path="res://Scenes/Projectiles/Coffee.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Sprites/Palettes/OL/Ky v2.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharge.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriChargedSlash.cs" type="Script" id=16]
@@ -8113,7 +8110,7 @@ dashSpeed = 500
 backDashSpeed = 330
 airDashSpeed = 550
 airBackdashSpeed = 350
-shaders = [ ExtResource( 3 ), ExtResource( 13 ), ExtResource( 2 ), ExtResource( 10 ) ]
+palette = ExtResource( 3 )
 greyPalette = ExtResource( 25 )
 plusFrameTextScene = ExtResource( 23 )
 

@@ -1,18 +1,15 @@
-[gd_scene load_steps=97 format=2]
+[gd_scene load_steps=94 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/HL/HL.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset-hatless_palette.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player/HL/Specials/HLDP.cs" type="Script" id=4]
-[ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset_gray.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset-hatless_gray.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Player/HL/Specials/Teleport.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/Projectiles/UpHat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Projectiles/UpUpHat.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
-[ext_resource path="res://Sprites/Palettes/OL/Sol v1.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/Palettes/HL/HL-default-palettey.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/Player/HL/Specials/HatThrow.cs" type="Script" id=12]
-[ext_resource path="res://Sprites/Palettes/OL/Ky v2.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/Player/HL/Specials/AirHatThrow.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriChargedSlash.cs" type="Script" id=16]
@@ -528,7 +525,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 8, 23 ),
+"times": PoolRealArray( 0, 11, 23 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -6392,7 +6389,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 20, 20 ) ]
+"values": [ Vector2( 5, 5 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HurtBoxes/HurtB2:position")
@@ -8661,7 +8658,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=56]
-length = 91.0
+length = 86.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -8670,10 +8667,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 215, 216, 217, 218, 219, 220, 221, 222, 220, 221, 222, 220, 221, 222, 223, 224, 225, 226, 227, 226, 227, 226, 227, 226, 227, 226, 227, 226, 227 ]
+"values": [ 215, 216, 217, 218, 219, 220, 221, 222, 220, 221, 222, 220, 221, 222, 223, 224, 225, 226, 227, 226, 227, 226, 227, 226, 227, 226, 227 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
@@ -9488,7 +9485,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 14, 39 ) ]
+"values": [ Vector2( 14, 25 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:disabled")
@@ -9512,7 +9509,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -2, 0 ) ]
+"values": [ Vector2( -2, 14 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HitBoxes/HitB2:disabled")
@@ -9524,7 +9521,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("HitBoxes/HitB3:disabled")
@@ -9586,6 +9583,30 @@ tracks/9/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
+tracks/10/type = "value"
+tracks/10/path = NodePath("HitBoxes/HitB2:shape:extents")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 14, 13 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("HitBoxes/HitB2:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -24 ) ]
+}
 
 [node name="HL" instance=ExtResource( 1 )]
 position = Vector2( -1, 0 )
@@ -9597,7 +9618,7 @@ airDashSpeed = 600
 accel = 50
 jumpForce = 900
 superJumpForce = 1200
-shaders = [ ExtResource( 11 ), ExtResource( 10 ), ExtResource( 13 ) ]
+palette = ExtResource( 3 )
 greyPalette = ExtResource( 22 )
 plusFrameTextScene = ExtResource( 23 )
 
@@ -9615,10 +9636,10 @@ disabled = false
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 19, 14 )
+position = Vector2( 0, 0 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 55, 21 )
+position = Vector2( 27, -14 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 10, 30 )
@@ -9629,13 +9650,14 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 2
+frame = 8
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 2
+frame = 8
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -9730,7 +9752,6 @@ script = ExtResource( 12 )
 releaseFrame = 14
 hadoukenScene = ExtResource( 25 )
 targetPos = Vector2( 100, 0 )
-noHatState = "TeleportDownSlash"
 
 [node name="UpHat" type="Node" parent="StateTree" index="45"]
 script = ExtResource( 12 )
@@ -9738,7 +9759,7 @@ releaseFrame = 14
 hadoukenScene = ExtResource( 7 )
 negEdgeButton = "k"
 targetPos = Vector2( 100, -50 )
-noHatState = "TeleportDP"
+noHatState = "HatSlash"
 
 [node name="AirHat" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 14 )
@@ -9753,7 +9774,7 @@ releaseFrame = 14
 hadoukenScene = ExtResource( 8 )
 negEdgeButton = "s"
 targetPos = Vector2( 100, -50 )
-noHatState = "HatSlash"
+noHatState = "TeleportDownSlash"
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 15 )
@@ -9865,6 +9886,7 @@ stopFrame = 14
 script = ExtResource( 28 )
 releaseFrame = 6
 hadoukenScene = ExtResource( 29 )
+mustCooldown = true
 
 [node name="TeleportDP" type="Node" parent="StateTree" index="65"]
 script = ExtResource( 30 )
@@ -9880,7 +9902,7 @@ teleFrame = 1
 [node name="TeleportDownSlash" type="Node" parent="StateTree" index="66"]
 script = ExtResource( 30 )
 level = 3
-modifiedHitPush = 3000
+modifiedHitPush = 2000
 height = 2
 launchFrame = 7
 exitOnLand = true

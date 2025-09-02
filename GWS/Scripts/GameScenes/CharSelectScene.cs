@@ -37,7 +37,7 @@ public class CharSelectScene : BaseGame
 	private Godot.Collections.Array bkgImages;
 
 	private int p1Pos = 0;
-	private int p2Pos = 0;
+	private int p2Pos = 1;
 	public bool p1Selected = false; // public as this is required for AI selection
 	public bool p2Selected = false;
 	private bool stageSelected = false;
@@ -127,6 +127,7 @@ public class CharSelectScene : BaseGame
 
 		CENTERX = (int)P1Cursor.Position.x;
 
+		HighlightChar(1, 1);
 
 		//		CheckOverlap();
 
@@ -222,20 +223,20 @@ public class CharSelectScene : BaseGame
 		return (timeStatus != TimeStatus.TRUEEND);
 	}
 
-//	private void CheckOverlap()
-//	{
-//		if (p1Pos == p2Pos && !p1Selected && !p2Selected)
-//		{
-//			P1Cursor.Texture = BothTexture;
-//			P2Cursor.Visible = false;
-//		}
-//		else
-//		{
-//			P1Cursor.Texture = P1Texture;
-//			if (!p2Selected)
-//				P2Cursor.Visible = true;
-//		}
-//	}
+	private void CheckOverlap()
+	{
+		if (p1Pos == p2Pos && !p1Selected && !p2Selected)
+		{
+			P1Cursor.Texture = BothTexture;
+			P2Cursor.Visible = false;
+		}
+		else
+		{
+			P1Cursor.Texture = P1Texture;
+			if (!p2Selected)
+				P2Cursor.Visible = true;
+		}
+	}
 
 	int Mod(int x, int m)
 	{
@@ -249,6 +250,7 @@ public class CharSelectScene : BaseGame
 			charImg.Visible = false;
 
 		charImages[playerNum][sprite].Visible = true;
+		CheckOverlap();
 	}
 
 	private Vector2 CalcCursor(int pos, int top)
@@ -339,6 +341,7 @@ public class CharSelectScene : BaseGame
 		}
 		else if (playerNum == selectStagePlayer)
 		{
+			GD.Print("Selecting stage");
 			stageSelected = true;
 		}
 
@@ -410,7 +413,7 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
 			{
-				SelectPlayer(i, 0);
+				SelectPlayer(i, 3);
 			}
 
 			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
@@ -421,6 +424,11 @@ public class CharSelectScene : BaseGame
 			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
 			{
 				SelectPlayer(i, 2);
+			}
+
+			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
+			{
+				SelectPlayer(i, 0);
 			}
 		}
 	}

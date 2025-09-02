@@ -305,7 +305,7 @@ public abstract class BaseAttack : State
 			}
 		}
 
-		owner.GainMeter(400);
+		owner.GainMeter(hitDetails.dmg * 50);
 		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;
 

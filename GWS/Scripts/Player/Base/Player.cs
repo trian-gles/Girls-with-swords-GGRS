@@ -85,7 +85,7 @@ public class Player : Node2D
 	public string debugKeys = "6";
 
 	[Export]
-	public Resource[] shaders;
+	public Resource palette;
 
 	[Export]
 	public Resource greyPalette;
@@ -142,7 +142,7 @@ public class Player : Node2D
 	public bool facingRight = true;
 	public bool grounded;
 	public int combo = 0;
-	public int proration = 32;
+	public int proration = 24;
 	public bool canDoubleJump;
 	public bool canAirDash;
 	public int invulnFrames = 0;
@@ -159,7 +159,8 @@ public class Player : Node2D
 	public int burstMeter = 100;
 	public int hadoukenCooldownRemaining = 0;
 	public int backdashCooldownRemaining = 0;
-	public bool hasBeenLaunched = false;
+    public int meterGainCooldownRemaining = 0;
+    public bool hasBeenLaunched = false;
 
 
 
@@ -223,7 +224,8 @@ public class Player : Node2D
 		public int burstMeter {  get; set; }
 		public int backdashCooldownRemaining { get; set; }
 		public int hadoukenCooldownRemaining { get; set; }
-		public bool hasBeenLaunched { get; set; }
+        public int meterGainCooldownRemaining { get; set; }
+        public bool hasBeenLaunched { get; set; }
 		public Dictionary<string, int> charSpecificData { get; set; }
 
 	}
@@ -249,13 +251,15 @@ public class Player : Node2D
 		public char input;
 		public string state;
 		public bool crouching;
+		public bool mustHadoukenCooldown;
 
-		public CommandNormal(List<char> heldKeys, char input, string newState, bool crouching=false)
+		public CommandNormal(List<char> heldKeys, char input, string newState, bool crouching=false, bool mustHadoukenCooldown=false)
 		{
 			this.heldKeys = heldKeys;
 			this.input = input;
 			this.state = newState;
 			this.crouching = crouching;
+			this.mustHadoukenCooldown = mustHadoukenCooldown;
 		}
 	}
 
@@ -446,6 +450,8 @@ public class Player : Node2D
 		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
 		pState.lastPressedDownFrame = lastPressedDownFrame;
 		pState.hasBeenLaunched = hasBeenLaunched;
+
+		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
 		
 		return pState;
 	}
@@ -517,6 +523,7 @@ public class Player : Node2D
 		burstMeter = pState.burstMeter;
 		hadoukenCooldownRemaining = pState.hadoukenCooldownRemaining;
 		backdashCooldownRemaining = pState.backdashCooldownRemaining;
+		meterGainCooldownRemaining = pState.meterGainCooldownRemaining;
 		hasBeenLaunched = pState.hasBeenLaunched;
 		EmitSignal(nameof(BurstSet), Name, burstMeter);
 	}
@@ -882,6 +889,12 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public bool CheckNoDirectionsHeld()
+	{
+		return !(inputHandler.heldKeys.Contains('2') || inputHandler.heldKeys.Contains('6') || inputHandler.heldKeys.Contains('4'));
+
+    }
+
 	public bool CheckHeldKeys(char[] keys)
 	{
 		return keys.All(k => CheckHeldKey(k));
@@ -1009,7 +1022,10 @@ public class Player : Node2D
 		if (hadoukenCooldownRemaining > 0)
 			hadoukenCooldownRemaining--;
 
-		if (specialBreakFramesRemaining > 0)
+		if (meterGainCooldownRemaining > 0)
+			meterGainCooldownRemaining--;
+
+        if (specialBreakFramesRemaining > 0)
 		{
 			GreySprite();
 			specialBreakFramesRemaining--;
@@ -1430,7 +1446,7 @@ public class Player : Node2D
 	public void ResetComboAndProration()
 	{
 		combo = 0;
-		proration = 16;
+		proration = 24;
 		canGroundbounce = true;
 		terminalVelocity = standardTerminalVelocity;
 		hasBeenLaunched = false;
@@ -1454,6 +1470,9 @@ public class Player : Node2D
 
 	public void GainMeter(int gains)
 	{
+		if (meterGainCooldownRemaining > 0) {
+			gains = 1;
+		}
 		meter = Math.Min(meter + gains, 10000);
 		EmitSignal(nameof(MeterChanged), Name, meter);
 	}
@@ -1470,6 +1489,11 @@ public class Player : Node2D
 		if (meter >= cost)
 		{
 			meter -= cost;
+
+			if (cost == 5000)
+			{
+				meterGainCooldownRemaining = 180;
+			}
 			EmitSignal(nameof(MeterChanged), Name, meter);
 			return true;
 		}
@@ -1510,13 +1534,14 @@ public class Player : Node2D
 	{
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", greyPalette);
-	}
+    }
 
 	private void ColorSprite()
 	{
 		var shaderMaterial = sprite.Material as ShaderMaterial;
-		shaderMaterial.SetShaderParam("palette", shaders[colorScheme]);
-	}
+		shaderMaterial.SetShaderParam("palette", palette);
+        shaderMaterial.SetShaderParam("palette_index", colorScheme);
+    }
 
 	public void EndSpecialBreak()
 	{

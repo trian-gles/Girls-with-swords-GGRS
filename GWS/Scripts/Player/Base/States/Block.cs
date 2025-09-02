@@ -13,13 +13,24 @@ public class Block : HitState
 
 	public override void Enter()
 	{
+		
 		base.Enter();
+		if (owner.CheckHeldKeys(new[] { 'p', 'k' }))
+		{
+			EnterShieldState();
+        }
 		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
 		owner.GainMeter(300);
 	}
+
+	public virtual void EnterShieldState()
+	{
+        EmitSignal(nameof(StateFinished), "Shield");
+    }
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+		
 		stunRemaining--;
 		if (stunRemaining == 0)
 		{
@@ -59,7 +70,8 @@ public class Block : HitState
 	/// <param name="dmg"></param>
 	public override void receiveDamage(int dmg, int prorationLevel)
 	{
-		owner.DeductHealth(dmg);
+		if (prorationLevel < 2)
+			owner.DeductHealth(dmg);
 	}
 
 

@@ -13,7 +13,8 @@ public class HitStun : HitState
 		base.Enter();
 		
 		owner.GFXEvent("Blood");
-	}
+        owner.GainMeter(200);
+    }
 
 
 	public override void FrameAdvance()

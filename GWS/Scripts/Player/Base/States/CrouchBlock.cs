@@ -21,4 +21,9 @@ public class CrouchBlock : Block
 
 		}
 	}
+
+    public override void EnterShieldState()
+    {
+        EmitSignal(nameof(StateFinished), "CrouchShield");
+    }
 }

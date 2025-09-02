@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/SL/SL.cs" type="Script" id=2]
@@ -23,8 +23,6 @@
 [ext_resource path="res://Scripts/Player/Base/SixK.cs" type="Script" id=21]
 [ext_resource path="res://Scenes/Projectiles/StrikeSnail.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Training/PlusFrames.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/Movesets/SL Moveset/SL-Full-Grey_palette.png" type="Texture" id=25]
 [ext_resource path="res://Scripts/Player/SL/SnailRide.cs" type="Script" id=26]
 [ext_resource path="res://Sprites/Movesets/SL Moveset/SL-grey-palette.png" type="Texture" id=27]
 [ext_resource path="res://Scripts/Player/SL/BackToss.cs" type="Script" id=28]
@@ -70,7 +68,7 @@ shader_param/palette_index = 0.0
 shader_param/snail_color = Plane( 0, 1, 0, 1 )
 shader_param/turn_snail = true
 shader_param/freak_out = false
-shader_param/palette = ExtResource( 24 )
+shader_param/palette = ExtResource( 29 )
 
 [sub_resource type="CSharpScript" id=3]
 resource_name = "OLWalk"
@@ -9234,7 +9232,7 @@ airDashSpeed = 400
 airBackdashSpeed = 300
 accel = 50
 jumpForce = 900
-shaders = [ ExtResource( 29 ), ExtResource( 25 ), ExtResource( 25 ) ]
+palette = ExtResource( 29 )
 greyPalette = ExtResource( 27 )
 plusFrameTextScene = ExtResource( 23 )
 

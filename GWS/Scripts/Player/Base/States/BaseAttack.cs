@@ -6,7 +6,7 @@ using System.Linq;
 
 public abstract class BaseAttack : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"attack" };
+	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "attack" };
 
 	[Export]
 	protected int level = 0;
@@ -43,10 +43,10 @@ public abstract class BaseAttack : State
 
 	[Export]
 	protected HEIGHT height = HEIGHT.MID;
-	
+
 	[Export]
 	protected bool jumpCancelable = false;
-	
+
 
 	[Export]
 	protected EXTRAEFFECT effect = EXTRAEFFECT.NONE;
@@ -112,7 +112,7 @@ public abstract class BaseAttack : State
 	public bool lastHitKnockdown = false;
 
 	[Export]
-	public Vector2 lastHitLaunch = new Vector2 (0, 0);
+	public Vector2 lastHitLaunch = new Vector2(0, 0);
 
 
 	public enum EXTRAEFFECT
@@ -142,7 +142,9 @@ public abstract class BaseAttack : State
 		LEFT,
 		EQUAL
 	}
-	
+
+	protected List<NormalGatling> whiffGatlings = new List<NormalGatling>();
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -171,15 +173,15 @@ public abstract class BaseAttack : State
 		if (modifiedHitStop != 0)
 		{
 			hitDetails.hitStop = modifiedHitStop;
-		}	
+		}
 
 		if (modifiedHitStun != 0)
 			hitDetails.hitStun = modifiedHitStun;
-		
+
 		if (modifiedCounterHitStun != 0)
 			chDetails.hitStun = modifiedCounterHitStun;
 
-		if (modifiedDmg >0)
+		if (modifiedDmg > 0)
 		{
 			hitDetails.dmg = modifiedDmg;
 			chDetails.dmg = modifiedDmg;
@@ -194,7 +196,7 @@ public abstract class BaseAttack : State
 
 		if (superKaraButton.Length > 0)
 			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0, owner.easySuper);
-		
+
 		if (specialBurstKara)
 		{
 			AddBurstKara('k', 'p');
@@ -236,13 +238,13 @@ public abstract class BaseAttack : State
 		{
 			owner.EmitSignal("SuperFlash", owner.Name);
 			owner.GFXEvent("SuperPowerUp");
-		} 
+		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
 		{
 			hitConnect = false;
 		}
-			
+
 	}
 	public override void AnimationFinished()
 	{
@@ -277,7 +279,7 @@ public abstract class BaseAttack : State
 		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
-		
+
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
 		{
@@ -285,16 +287,17 @@ public abstract class BaseAttack : State
 			chDetails.opponentLaunch = Vector2.Zero;
 			hitDetails.effect = EXTRAEFFECT.STAGGER;
 			chDetails.effect = EXTRAEFFECT.STAGGER;
-		} else
+		}
+		else
 		{
 			hitDetails.opponentLaunch = opponentLaunch;
-			chDetails.opponentLaunch =  chLaunch.y > 0 ? chLaunch : opponentLaunch;
+			chDetails.opponentLaunch = chLaunch.y > 0 ? chLaunch : opponentLaunch;
 			if (!launchOnGrounded)
 			{
 				hitDetails.hitStun += 10;
 				chDetails.hitStun += 10;
 			}
-			
+
 
 			if (lastHitFrame != 0 && frameCount >= lastHitFrame)
 			{
@@ -313,11 +316,11 @@ public abstract class BaseAttack : State
 		{
 			direction = ATTACKDIR.RIGHT;
 		}
-		else if(owner.OtherPlayerOnLeft())
+		else if (owner.OtherPlayerOnLeft())
 		{
 			direction = ATTACKDIR.LEFT;
 		}
-		
+
 		hitDetails.dir = direction;
 		chDetails.dir = direction;
 		hitDetails.collisionPnt = collisionPnt;
@@ -338,7 +341,7 @@ public abstract class BaseAttack : State
 			else
 				EmitSignal(nameof(StateFinished), "Fall");
 		}
-			
+
 
 	}
 
@@ -381,6 +384,11 @@ public abstract class BaseAttack : State
 
 		if (!hitConnect)
 		{
+			foreach (var whiffGat in whiffGatlings)
+			{
+				if (Enumerable.SequenceEqual(whiffGat.input, inputArr))
+					EmitSignal(nameof(StateFinished), whiffGat.state);
+			}
 			return;
 		}
 		if (gatlingWinEnd == 0 || frameCount < gatlingWinEnd)
@@ -449,6 +457,5 @@ public abstract class BaseAttack : State
 	//		EmitSignal(nameof(StateFinished), "CounterHit");
 	//	}
 	//}
-
 
 }

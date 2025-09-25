@@ -78,7 +78,8 @@ public abstract class State : Node
 	{
 		NONE,
 		SHIELD,
-		SHIELDACTIVE
+		SHIELDACTIVE,
+		CANTECH
 	}
 
 	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
@@ -385,16 +386,16 @@ public abstract class State : Node
 			AddGatling(new[] { cn.input, 'p' },
 				() => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0)
 				, cn.state);
-            AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
 				cn.state);
-        }
-        else
-        {
-            AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+		}
+		else
+		{
+			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
 				cn.state);
-            AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
 				cn.state);
-        }
+		}
 
 		
 	}
@@ -807,10 +808,11 @@ public abstract class State : Node
 	{
 
 	}
-	
+
 
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
+		
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		
 		EmitSignal(nameof(StateFinished), stateName);
@@ -863,6 +865,8 @@ public abstract class State : Node
 			}
 			else
 			{
+				if (owner.CheckFlippableHeldKey('4'))
+					owner.EmitSignal("Mixup", owner.Name);
 				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 			
@@ -884,6 +888,8 @@ public abstract class State : Node
 			}
 			else
 			{
+				if (owner.CheckFlippableHeldKey('4'))
+					owner.EmitSignal("Mixup", owner.Name);
 				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 		}
@@ -946,12 +952,16 @@ public abstract class State : Node
 	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		Globals.Log($"Receiving damage {details.dmg}");
+		int hitProration = details.prorationLevel;
+		if (owner.combo == 1)
+			hitProration *= 3;
+
 		stunRemaining = details.hitStun;
 		var fixDmg = new Fix64(details.dmg * owner.proration);
-        var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);
-        fixDmg /= comboPror;
-		owner.DeductHealth((int)fixDmg);
-		owner.Prorate(details.prorationLevel);
+		var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);
+		fixDmg /= comboPror;
+		owner.DeductHealth((int)fixDmg + 10);
+		owner.Prorate(hitProration);
 	}
 
 	public virtual void receiveStun(int hitStun, int blockStun)

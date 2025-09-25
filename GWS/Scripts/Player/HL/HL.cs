@@ -112,7 +112,7 @@ public class HL : Player
 		foreach (CollisionShape2D colShape in area.GetChildren())
 		{
 			i++;
-			if (!hatted && i == 2) continue; // the second box is for the hat
+			if (!hatted && i > 1) continue; // the second and third boxes are for the hat
 			if (!colShape.Disabled)
 			{
 				allRects.Add(GetRect(colShape, globalPosition));

@@ -50,10 +50,18 @@ public class Block : HitState
 		}
 	}
 
+	public override GFXStates GetExtraGFXState()
+	{
+		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('4'))
+			return GFXStates.SHIELDACTIVE;
+		return GFXStates.NONE;
+		
+	}
+
 
 	public override void receiveStun(int hitStun, int blockStun)
 	{
-		
+
 		stunRemaining = blockStun;
 	}
 	

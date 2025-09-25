@@ -22,7 +22,7 @@ public class Float : HitStun
 		owner.grounded = false;
 		owner.CheckTurnAround();
 		stunRemaining += 1 + (int)Math.Max(4 - (int)Math.Ceiling((double)owner.combo / 4), 0);
-		
+
 	}
 
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
@@ -44,22 +44,22 @@ public class Float : HitStun
 		if (!(launch == Vector2.Zero))
 		{
 			owner.velocity = launch;
-			owner.velocity.y += owner.combo * 20; 
+			owner.velocity.y += owner.combo * 20;
 		}
 
-        if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
-        {
-            if (owner.hasBeenLaunched)
-            {
-                owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
-            }
-            else
-            {
-                owner.hasBeenLaunched = true;
-            }
-        }
+		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
+		{
+			if (owner.hasBeenLaunched)
+			{
+				owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
+			}
+			else
+			{
+				owner.hasBeenLaunched = true;
+			}
+		}
 
-        if (launch.y == 0)
+		if (launch.y == 0)
 		{
 			owner.velocity.y = -438;
 		}
@@ -78,42 +78,47 @@ public class Float : HitStun
 		{
 			EmitSignal(nameof(StateFinished), "Float");
 		}
-		
+
 	}
 
 	public override void FrameAdvance()
 	{
 		frameCount++;
+		if (stunRemaining <= 0)
+		{
+			owner.EmitSignal("CanTech", owner.Name);
+			if (owner.grounded)
+				owner.EmitSignal("MissedTech", owner.Name);
+		}
 		if (owner.grounded)
 		{
+				
 			//GD.Print("On ground, knocking down");
 			if (owner.electrocuted)
 			{
 				ReceiveElectrocution();
 				return;
 			}
-			else if (stunRemaining > 20)
-				EmitSignal(nameof(StateFinished), "Knockdown");
 			else
 			{
 				owner.grounded = false;
 				TryGroundTech();
 			}
-				
+
 			owner.ResetComboAndProration();
 		}
 
-        if (frameCount == 1)
-        {
-            
-            if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
-            {
-                owner.EmitSignal("Recovery", owner.Name);
-                EmitSignal(nameof(StateFinished), "Burst");
-            }
-        }
+		if (frameCount == 1)
+		{
 
-        stunRemaining--;
+			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+			{
+				owner.EmitSignal("Recovery", owner.Name);
+				EmitSignal(nameof(StateFinished), "Burst");
+			}
+		}
+		
+		stunRemaining--;
 
 		TryTech();
 
@@ -122,25 +127,34 @@ public class Float : HitStun
 		//	owner.EmitSignal(nameof(Player.LevelUp));
 		//	EmitSignal(nameof(StateFinished), "AirKnockdown");
 		//}
-		
+
 
 		ApplyGravity();
 	}
 
 	protected void TryGroundTech()
 	{
-		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+		EmitSignal(nameof(StateFinished), "Tech");
+		/*if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
 			EmitSignal(nameof(StateFinished), "Tech");
 		else
-			EmitSignal(nameof(StateFinished), "Knockdown");
+			EmitSignal(nameof(StateFinished), "Knockdown");*/
 	}
+
+    public override void ReceiveHit(Globals.AttackDetails details)
+    {
+		if (stunRemaining <= 0)
+			owner.EmitSignal("MissedTech", owner.Name);
+        base.ReceiveHit(details);
+    }
 
 	protected void TryTech()
 	{
+
 		if (stunRemaining == 1 && owner.electrocuted)
 			ReceiveElectrocution();
 
-		if (stunRemaining == 0)
+		if (stunRemaining <= 0)
 		{
 			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
 				EmitSignal(nameof(StateFinished), "Tech");
@@ -151,5 +165,13 @@ public class Float : HitStun
 			}
 		}
 	}
+
+	public override GFXStates GetExtraGFXState()
+	{
+		if (stunRemaining > 0)
+			return base.GetExtraGFXState();
+		else
+			return GFXStates.CANTECH;
+    }
 
 }

@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
-extents = Vector2( 24, 12 )
+extents = Vector2( 10, 12 )
 
 [node name="Coffee" instance=ExtResource( 1 )]
 scale = Vector2( 2, 2 )

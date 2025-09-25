@@ -21,6 +21,15 @@ public class BaseManager : Node2D
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
 
+	/// <summary>
+	/// Secondary buffer
+	/// </summary>
+	protected List<int> recordedInputs2 = new List<int>();
+
+	protected bool recordingInputs2 = false;
+	protected bool playbackInputs2 = false;
+	protected int inputHead2 = 0;
+
 	// Need to debug:
 	//
 	protected string matchFilename = "";
@@ -280,7 +289,7 @@ public class BaseManager : Node2D
 	////////
 	// TRAINING AND SYNCTEST
 	//////// 
-	protected void StartInputRecord()
+	protected virtual void StartInputRecord()
 	{
 		inputHead = 0;
 		recordedInputs.Clear();
@@ -288,26 +297,43 @@ public class BaseManager : Node2D
 		gameScene.SetRecordingText("REC");
 	}
 
-	protected void StopInputRecord()
+	protected virtual void StopInputRecord()
 	{
 		recordingInputs = false;
 		gameScene.SetRecordingText("");
 	}
 
-	protected void StartInputPlayback()
+	protected void StartInputPlayback(int num = 1)
 	{
-		inputHead = 0;
-		playbackInputs = true;
-		gameScene.SetRecordingText("PLAY");
+		if (num == 1)
+		{
+			inputHead = 0;
+			playbackInputs = true;
+			gameScene.SetRecordingText("PLAY");
+		}
+		else
+		{
+			inputHead2 = 0;
+			playbackInputs2 = true;
+		}
+		
 	}
 
-	protected virtual void StopInputPlayback()
+	protected virtual void StopInputPlayback(int num = 1)
 	{
-		playbackInputs = false;
-		gameScene.SetRecordingText("");
+		if (num == 1)
+		{
+			playbackInputs = false;
+			gameScene.SetRecordingText("");
+		}
+		else
+		{
+			playbackInputs2 = false;
+		}
+		
 	}
 
-	protected void HandleSpecialInputs(InputEvent @event)
+	protected virtual void HandleSpecialInputs(InputEvent @event)
 	{
 		if (@event.IsActionPressed("switch_players"))
 		{
@@ -344,6 +370,31 @@ public class BaseManager : Node2D
 			else
 				StartInputPlayback();
 		}
+		else if (@event.IsActionPressed("save_recording"))
+		{
+			if (recordingInputs)
+				StopInputRecord();
+				SaveRecording();
+		}
+		
+	}
+
+	////
+	// SAVING RECORDING
+	////
+	protected virtual void SaveRecording()
+	{
+		var dict = OS.GetDatetime();
+		string filename = "";
+
+		foreach (var key in new[] {"year", "month", "day", "hour", "minute" })
+		{
+			filename += dict[key].ToString();
+		}
+		var file = new File();
+		file.Open($"user://recordings/recorded_inputs_{filename}.json", Godot.File.ModeFlags.Write);
+		file.StoreString(JSON.Print(recordedInputs));
+		file.Close();
 	}
 
 	////

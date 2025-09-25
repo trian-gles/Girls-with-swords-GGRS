@@ -35,7 +35,7 @@ public class Zone : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (Math.Abs(distance) < 4000)
+        if (Math.Abs(distance) < 8000)
         {
             return "RandomMash";
         }

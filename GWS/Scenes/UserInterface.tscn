@@ -1,25 +1,31 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Lobby/MainMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/InGameMenu/UserInterface.gd" type="Script" id=3]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Scenes/InGameInputMapping.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/InGameMenu/MainMenu.gd" type="Script" id=6]
 [ext_resource path="res://Themes/startmenu.theme" type="Theme" id=7]
+[ext_resource path="res://Scripts/InGameMenu/InGameInputList.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/InGameSpecialInputMapping.tscn" type="PackedScene" id=9]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 4
 
 [node name="UserInterface" type="Control" parent="."]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( -33.7119, -43.5752 )
 theme = ExtResource( 7 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PauseOverlay" type="ColorRect" parent="UserInterface"]
-visible = false
 margin_left = 175.0
 margin_top = 50.0
 margin_right = 318.0
@@ -54,31 +60,142 @@ margin_bottom = 52.0
 
 [node name="MainMenu" parent="UserInterface/PauseOverlay/PauseMenu" instance=ExtResource( 2 )]
 margin_top = 0.0
-margin_bottom = 20.0
+margin_bottom = 18.0
 script = ExtResource( 6 )
 
 [node name="AutoBlock" type="Button" parent="UserInterface/PauseOverlay/PauseMenu"]
-margin_top = 24.0
+margin_top = 22.0
 margin_right = 125.0
-margin_bottom = 42.0
+margin_bottom = 40.0
 theme = ExtResource( 7 )
 toggle_mode = true
 text = "Toggle Block"
 
 [node name="AutoTech" type="Button" parent="UserInterface/PauseOverlay/PauseMenu"]
-margin_top = 46.0
+margin_top = 44.0
 margin_right = 125.0
-margin_bottom = 64.0
+margin_bottom = 62.0
 theme = ExtResource( 7 )
 toggle_mode = true
 pressed = true
 text = "Toggle Tech"
 
 [node name="Quit" parent="UserInterface/PauseOverlay/PauseMenu" instance=ExtResource( 1 )]
-margin_top = 68.0
+margin_top = 66.0
 margin_right = 125.0
-margin_bottom = 88.0
+margin_bottom = 84.0
 mouse_filter = 1
+
+[node name="P1Inputs" type="ColorRect" parent="UserInterface"]
+margin_left = 81.0
+margin_top = 51.0
+margin_right = 126.0
+margin_bottom = 174.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1Controls" type="VBoxContainer" parent="UserInterface/P1Inputs"]
+margin_right = 4.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputMapping" parent="UserInterface/P1Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_right = 4.0
+
+[node name="InputMapping2" parent="UserInterface/P1Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 24.0
+margin_right = 4.0
+margin_bottom = 44.0
+
+[node name="InputMapping3" parent="UserInterface/P1Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 48.0
+margin_right = 4.0
+margin_bottom = 68.0
+
+[node name="InputMapping4" parent="UserInterface/P1Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 72.0
+margin_right = 4.0
+margin_bottom = 92.0
+
+[node name="InputMapping5" parent="UserInterface/P1Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 96.0
+margin_right = 4.0
+margin_bottom = 116.0
+
+[node name="P2Inputs" type="ColorRect" parent="UserInterface"]
+margin_left = 367.0
+margin_top = 51.0
+margin_right = 412.0
+margin_bottom = 174.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1Controls" type="VBoxContainer" parent="UserInterface/P2Inputs"]
+margin_right = 4.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputMapping" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_right = 4.0
+
+[node name="InputMapping2" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 24.0
+margin_right = 4.0
+margin_bottom = 44.0
+
+[node name="InputMapping3" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 48.0
+margin_right = 4.0
+margin_bottom = 68.0
+
+[node name="InputMapping4" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 72.0
+margin_right = 4.0
+margin_bottom = 92.0
+
+[node name="InputMapping5" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
+anchor_right = 0.0
+margin_top = 96.0
+margin_right = 4.0
+margin_bottom = 116.0
+
+[node name="SpecialInputs" type="ColorRect" parent="UserInterface"]
+margin_left = 174.0
+margin_top = 185.0
+margin_right = 317.0
+margin_bottom = 249.0
+color = Color( 0.243137, 0.631373, 0.2, 0.356863 )
+
+[node name="Container" type="VBoxContainer" parent="UserInterface/SpecialInputs"]
+margin_right = 141.0
+margin_bottom = 40.0
+
+[node name="InGameInputMapping" parent="UserInterface/SpecialInputs/Container" instance=ExtResource( 9 )]
+anchor_right = 0.0
+margin_right = 141.0
+
+[node name="InGameInputMapping2" parent="UserInterface/SpecialInputs/Container" instance=ExtResource( 9 )]
+anchor_right = 0.0
+margin_top = 24.0
+margin_right = 141.0
+margin_bottom = 44.0
 
 [connection signal="button_down" from="UserInterface/PauseOverlay/PauseMenu/MainMenu" to="UserInterface" method="_on_MainMenu_button_down"]
 [connection signal="toggled" from="UserInterface/PauseOverlay/PauseMenu/AutoBlock" to="UserInterface" method="_on_AutoBlock_toggled"]

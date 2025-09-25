@@ -52,6 +52,7 @@ public class GroundBounce : Float
 			}
 			else if (owner.canGroundbounce)
 			{
+				owner.GFXEvent("GroundBounce");
 				bounced = true;
 				owner.grounded = false;
 				owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 5);

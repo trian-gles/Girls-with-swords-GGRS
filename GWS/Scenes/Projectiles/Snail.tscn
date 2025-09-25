@@ -1,30 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/Projectiles/Snail.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Particles/snail.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Particles/Hadouken.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Particles/phone.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=6]
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 5 )
-region = Rect2( 8, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 5 )
-region = Rect2( 16, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 5 )
-region = Rect2( 24, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -42,12 +22,32 @@ region = Rect2( 0, 32, 32, 32 )
 atlas = ExtResource( 3 )
 region = Rect2( 32, 32, 32, 32 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 8, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 16, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 24, 0, 8, 8 )
+
 [sub_resource type="SpriteFrames" id=10]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
-"name": "CellPhone",
+"name": "OLProjectile",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 9 ) ],
@@ -55,11 +55,15 @@ animations = [ {
 "name": "Snail",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
-"name": "OLProjectile",
+"name": "CellPhone",
 "speed": 5.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=11]
+resource_local_to_scene = true
+extents = Vector2( 6, 4 )
 
 [node name="Snail" instance=ExtResource( 6 )]
 position = Vector2( 0, -4 )
@@ -76,6 +80,7 @@ removeOTG = true
 dieAfterHit = false
 gravity = 1
 jumpVel = Vector2( 4, -7 )
+startup = 0
 
 [node name="AnimatedSprite" parent="." index="0"]
 frames = SubResource( 10 )
@@ -84,3 +89,4 @@ animation = "Snail"
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 0, 3 )
 scale = Vector2( 3, 3 )
+shape = SubResource( 11 )

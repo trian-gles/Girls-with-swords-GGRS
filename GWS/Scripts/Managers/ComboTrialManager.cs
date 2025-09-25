@@ -87,7 +87,7 @@ public class ComboTrialManager : TutorialManager
 
 		Challenge easyCornerThrowCombo = new Challenge("Corner throw combo", GameScene.ResetPos.P2CORNEREDRIGHT);
 		easyCornerThrowCombo.goals.Add(grabGoal);
-		easyCornerThrowCombo.goals.Add(kickGoal);
+		easyCornerThrowCombo.goals.Add(slashGoal);
 		easyCornerThrowCombo.goals.Add(hojogiriGoal);
 		easyCornerThrowCombo.MakeComboChallenge();
 
@@ -98,6 +98,7 @@ public class ComboTrialManager : TutorialManager
 		midScreenPunish.goals.Add(sixPGoal);
 		midScreenPunish.goals.Add(fJumpGoal);
 		midScreenPunish.goals.Add(jKickGoal);
+		midScreenPunish.goals.Add(jSlashGoal);
 		midScreenPunish.goals.Add(dpGoal);
 		midScreenPunish.goals.Add(hojogiriGoal);
 		midScreenPunish.MakeComboChallenge();
@@ -110,9 +111,11 @@ public class ComboTrialManager : TutorialManager
 		cornerThrowCombo.goals.Add(sixSGoal);
 		cornerThrowCombo.goals.Add(dpGoal);
 		cornerThrowCombo.goals.Add(sixSGoal);
-		cornerThrowCombo.goals.Add(hojogiriGoal);
-		cornerThrowCombo.goals.Add(cjabGoal);
-		cornerThrowCombo.goals.Add(kickGoal);
+		cornerThrowCombo.goals.Add(sixPGoal);
+		cornerThrowCombo.goals.Add(fJumpGoal);
+		cornerThrowCombo.goals.Add(adGoal);
+		cornerThrowCombo.goals.Add(jJabGoal);
+		cornerThrowCombo.goals.Add(dpGoal);
 		cornerThrowCombo.goals.Add(sixSGoal);
 		cornerThrowCombo.goals.Add(hojogiriGoal);
 		cornerThrowCombo.MakeComboChallenge();
@@ -124,6 +127,7 @@ public class ComboTrialManager : TutorialManager
 		cornerPunish.goals.Add(sixPGoal);
 		cornerPunish.goals.Add(fJumpGoal);
 		cornerPunish.goals.Add(jKickGoal);
+		cornerPunish.goals.Add(jSlashGoal);
 		cornerPunish.goals.Add(dpGoal);
 		cornerPunish.goals.Add(sixSGoal);
 		cornerPunish.goals.Add(hojogiriGoal);

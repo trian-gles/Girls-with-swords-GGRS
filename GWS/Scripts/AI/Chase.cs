@@ -9,7 +9,9 @@ public class Chase : BehaviourState
 {
     int distance = 10000;
     SubState subState;
+    Intent intent;
     int direction;
+    Random rng = new Random();
 
 
     enum SubState
@@ -19,12 +21,20 @@ public class Chase : BehaviourState
         Dash
     }
 
-    HashSet<string> possibleStates = new HashSet<string>() {"Idle", "Walk", "Run", "PreRun" }; 
+    enum Intent
+    {
+        Grab,
+        Kick,
+        Punch
+    }
+
+    HashSet<string> possibleStates = new HashSet<string>() {"Idle", "Walk", "Run", "PreRun" };
 
     public override void Enter()
     {
         base.Enter();
         subState = SubState.ChooseDirection;
+        intent = (Intent)(rng.Next() % 3);
     }
 
     public override int Poll(GameStateObjectRedesign.GameState state)
@@ -45,7 +55,12 @@ public class Chase : BehaviourState
                 }
                 
             case SubState.Dash:
+            {
+                if (rng.Next() % 24 == 0)
+                    return 1;
                 return direction;
+            }
+                
 
         }
 
@@ -64,10 +79,15 @@ public class Chase : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (Math.Abs(distance) < 4000)
-        {
-            return "RandomMash";
-        }
+        int minDist = 2000;
+        if (intent == Intent.Punch)
+            minDist = 4000;
+        else if (intent == Intent.Kick)
+            minDist = 8000;
+        if (Math.Abs(distance) < minDist)
+            {
+                return "RandomMash";
+            }
 
         return "";
     }

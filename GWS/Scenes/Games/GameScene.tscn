@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
@@ -37,6 +37,7 @@
 [ext_resource path="res://Music/main-gws-theme-7-12.ogg" type="AudioStream" id=35]
 [ext_resource path="res://Scenes/HUD/Salt.tscn" type="PackedScene" id=36]
 [ext_resource path="res://Themes/IngameText.tres" type="Theme" id=37]
+[ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=38]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Init"
@@ -72,6 +73,8 @@ default_font = ExtResource( 8 )
 [sub_resource type="DynamicFont" id=10]
 size = 10
 font_data = ExtResource( 23 )
+
+[sub_resource type="Theme" id=12]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -147,6 +150,9 @@ texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
 tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="P2Health" type="TextureProgress" parent="HUD"]
 margin_left = 286.975
@@ -285,6 +291,9 @@ custom_constants/shadow_offset_x = 1
 custom_fonts/font = SubResource( 9 )
 text = "OH SHIT!"
 script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Timer" type="Timer" parent="HUD/OhShitP2"]
 
@@ -447,6 +456,7 @@ __meta__ = {
 }
 
 [node name="P1Counter" type="Label" parent="HUD"]
+visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 35.0
@@ -463,6 +473,194 @@ __meta__ = {
 
 [node name="Timer" type="Timer" parent="HUD/P1Counter"]
 wait_time = 0.5
+
+[node name="P1Escape" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = -35.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "ESCAPE:"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Escape"]
+wait_time = 0.5
+
+[node name="Sprite" type="Sprite" parent="HUD/P1Escape"]
+position = Vector2( 88, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 12
+
+[node name="Sprite2" type="Sprite" parent="HUD/P1Escape"]
+position = Vector2( 104, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 1
+
+[node name="P1Ukemi" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = -35.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "UKEMI"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Ukemi"]
+wait_time = 0.5
+
+[node name="P1Launch" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = -20.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LAUNCH
+"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Launch"]
+wait_time = 0.5
+
+[node name="P1Missed" type="Label" parent="HUD"]
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = -35.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Missed"]
+wait_time = 0.5
+
+[node name="ColorRect" type="ColorRect" parent="HUD/P1Missed"]
+margin_top = -17.41
+margin_right = 111.0
+margin_bottom = -15.41
+theme = SubResource( 12 )
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Escape" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = -35.0
+margin_right = 442.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "ESCAPE:"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Escape"]
+wait_time = 0.5
+
+[node name="Sprite" type="Sprite" parent="HUD/P2Escape"]
+position = Vector2( 88, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 12
+
+[node name="Sprite2" type="Sprite" parent="HUD/P2Escape"]
+position = Vector2( 104, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 1
+
+[node name="P2Launch" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 329.0
+margin_top = -20.0
+margin_right = 401.0
+margin_bottom = 9.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LAUNCH
+"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Launch"]
+wait_time = 0.5
+
+[node name="P2Ukemi" type="Label" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = -35.0
+margin_right = 442.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "UKEMI"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Ukemi"]
+wait_time = 0.5
+
+[node name="P2Missed" type="Label" parent="HUD"]
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 330.0
+margin_top = -35.0
+margin_right = 442.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Missed"]
+wait_time = 0.5
+
+[node name="ColorRect" type="ColorRect" parent="HUD/P2Missed"]
+margin_top = -17.41
+margin_right = 111.0
+margin_bottom = -15.41
+theme = SubResource( 12 )
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="P2Counter" type="Label" parent="HUD"]
 anchor_top = 0.5
@@ -483,6 +681,7 @@ __meta__ = {
 wait_time = 0.5
 
 [node name="P1Rhythm" type="Label" parent="HUD"]
+visible = false
 anchor_top = 0.583
 anchor_bottom = 0.601
 margin_left = 35.0
@@ -498,6 +697,7 @@ script = ExtResource( 14 )
 wait_time = 0.5
 
 [node name="P2Rhythm" type="Label" parent="HUD"]
+visible = false
 anchor_top = 0.583
 anchor_bottom = 0.583
 margin_left = 330.0
@@ -513,6 +713,44 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="HUD/P2Rhythm"]
+wait_time = 0.5
+
+[node name="P1Mixup" type="Label" parent="HUD"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = -35.0
+margin_right = 147.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MIXED UP"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P1Mixup"]
+wait_time = 0.5
+
+[node name="P2Mixup" type="Label" parent="HUD"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.583
+margin_left = 330.0
+margin_top = -35.0
+margin_right = 442.0
+margin_bottom = -19.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MIXED UP"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/P2Mixup"]
 wait_time = 0.5
 
 [node name="P1SnailRadar" parent="HUD" instance=ExtResource( 20 )]
@@ -671,6 +909,16 @@ songs = [ ExtResource( 35 ), ExtResource( 33 ), ExtResource( 17 ), ExtResource( 
 [connection signal="timeout" from="HUD/OhShitP2/Timer" to="HUD/OhShitP2" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/OhShit/Timer" to="HUD/OhShit" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Counter/Timer" to="HUD/P1Counter" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Escape/Timer" to="HUD/P1Escape" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Ukemi/Timer" to="HUD/P1Ukemi" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Launch/Timer" to="HUD/P1Launch" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Missed/Timer" to="HUD/P1Missed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Escape/Timer" to="HUD/P2Escape" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Launch/Timer" to="HUD/P2Launch" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Ukemi/Timer" to="HUD/P2Ukemi" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Missed/Timer" to="HUD/P2Missed" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P2Counter/Timer" to="HUD/P2Counter" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P1Rhythm/Timer" to="HUD/P1Rhythm" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/P2Rhythm/Timer" to="HUD/P2Rhythm" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P1Mixup/Timer" to="HUD/P1Mixup" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/P2Mixup/Timer" to="HUD/P2Mixup" method="_on_Timer_timeout"]

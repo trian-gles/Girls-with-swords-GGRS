@@ -30,9 +30,13 @@ public class TrainingManager : BaseManager
 		{
 			int playerInputs = GetInputs("");
 			int otherInputs = 0;
-			
+
 			if (recordingInputs)
-			recordedInputs.Add(playerInputs);
+				recordedInputs.Add(playerInputs);
+			
+			if (recordingInputs2)
+				recordedInputs2.Add(playerInputs);
+
 
 			if (playbackInputs)
 			{
@@ -45,7 +49,19 @@ public class TrainingManager : BaseManager
 					StopInputPlayback();
 				}
 			}
-				
+
+			if (playbackInputs2)
+			{
+				if (inputHead2 < recordedInputs2.Count)
+				{
+					playerInputs = recordedInputs2[inputHead2];
+				}
+				else
+				{
+					StopInputPlayback(2);
+				}
+			}
+
 
 			if (flippedPlayers)
 			{
@@ -60,14 +76,17 @@ public class TrainingManager : BaseManager
 
 			gameScene.DisplayInputs(p1Inputs, p2Inputs);
 		}
-		
-		
-		
+
+
+
 		Globals.frame++;
-		
+
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 		if (recordingInputs || playbackInputs)
 			inputHead++;
+
+		if (playbackInputs2)
+			inputHead2++;
 	}
 
 	

@@ -17,7 +17,8 @@ public class AIBehaviour
         {"WakeupAbare", new WakeupAbare() },
         {"Combo", new Combo() },
         {"RandomMash", new RandomMash() },
-        {"Chase", new Chase() },
+        {"Mixup", new Mixup() },
+        { "Chase", new Chase() },
         {"FloatTech", new FloatTech() },
         {"Zone", new Zone() },
         {"Oki", new Oki() },
@@ -26,14 +27,25 @@ public class AIBehaviour
     };
 
     // Global behaviours that must be saved here
-    public static HashSet<string> floatStates = new HashSet<string>() { "Float", "WallBounce", "GroundBounce"};
+    public static HashSet<string> floatStates = new HashSet<string>() { "Float", "WallBounce", "GroundBounce" };
 
     public static HashSet<string> groundHitConfirmStates = new HashSet<string>
     {
         "HitStun",
-        "Stagger",
+        "Stagger"
+    };
+
+    public static HashSet<string> mixupConfirmStates = new HashSet<string>
+    {
         "Block",
         "CrouchBlock"
+    };
+
+    public static HashSet<string> airConfirmStates = new HashSet<string>
+    {
+        "Float",
+        "GroundBounce",
+        "WallBounce"
     };
 
     public AIBehaviour()
@@ -50,7 +62,6 @@ public class AIBehaviour
     public int Poll(GameStateObjectRedesign.GameState state)
     {
         string nextState = behaviour.GetNextState(state);
-
         // Global handling which must be done here
         if (floatStates.Contains(state.P2State.currentState))
             nextState = "FloatTech";
@@ -69,19 +80,19 @@ public class AIBehaviour
                     nextState = "WakeupBlock";
                     break;
             }
-            
+
         }
-            
+
         // 
 
         if (nextState != "")
         {
             EnterState(nextState);
-            
+
         }
-            
+
         int input = behaviour.Poll(state);
-        
+
         lastInp = input;
         return input;
     }
@@ -93,5 +104,4 @@ public class AIBehaviour
         behaviourName = nextState;
         behaviour.Enter();
     }
-
 }

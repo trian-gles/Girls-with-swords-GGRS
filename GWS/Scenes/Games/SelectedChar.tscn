@@ -64,11 +64,11 @@ position = Vector2( 45, 145 )
 
 [node name="OLSprite" parent="." instance=ExtResource( 7 )]
 material = SubResource( 38 )
-frame = 159
+frame = 165
 
 [node name="SLSprite" parent="." instance=ExtResource( 9 )]
 visible = false
-frame = 139
+frame = 142
 
 [node name="HLSprite" parent="." instance=ExtResource( 8 )]
 visible = false

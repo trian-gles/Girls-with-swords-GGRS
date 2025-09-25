@@ -28,5 +28,10 @@ public class Knockdown : HitState
     public override void ReceiveHit(Globals.AttackDetails details)
     {
         ReceiveHitNoBlock(details);
+    }
+    
+    public override bool IsProjectileInvuln()
+	{
+		return true;
 	}
 }

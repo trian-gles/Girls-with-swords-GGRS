@@ -14,15 +14,6 @@ public class Fall : AirState
 		AddExSpecials(owner.airExSpecials);
 		AddAirCommandNormals(owner.airCommandNormals);
 		AddEasyAirSpecials();
-		// AIRGRAB
-		AddGatling(new[] { 's', 'p' },
-			() =>
-			{
-				return (Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 4000
-				&& owner.internalPos.y - owner.otherPlayer.internalPos.y < 2000
-				&& owner.internalPos.y - owner.otherPlayer.internalPos.y > -500
-				&& owner.otherPlayer.IsAirGrabbable());
-			}, "AirGrab");
 
 		AddGatling(new[] { 'p', 'p' }, "JumpA");
 		AddGatling(new[] { 'k', 'p' }, "JumpB");

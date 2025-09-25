@@ -445,10 +445,15 @@ public class CharSelectScene : BaseGame
 	{
 		if (charSelectFrame == finishFrame)
 		{
-			GetNode<AudioStreamPlayer>("CharSelectMusic").Stop();
+			StopMusic();
 			EmitSignal("CharacterSelected", p1Pos, p2Pos,
 					p1Color, p2Color, selectedStage);
 		}
+	}
+
+	public void StopMusic()
+	{
+		GetNode<AudioStreamPlayer>("CharSelectMusic").Stop();
 	}
 
 

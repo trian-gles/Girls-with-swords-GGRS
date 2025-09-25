@@ -48,6 +48,12 @@ public class GameScene : BaseGame
 	private CanvasLayer HUD;
 	private Label P1Counter;
 	private Label P2Counter;
+	private Label P1Mixup;
+	private Label P2Mixup;
+	private Label P1Escape;
+	private Label P2Escape;
+	private Label P1Missed;
+	private Label P2Missed;
 	private Control P1SnailRadar;
 	private Control P2SnailRadar;
 	public Label P1Rhythm;
@@ -133,6 +139,12 @@ public class GameScene : BaseGame
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
 		P1Counter = GetNode<Label>("HUD/P1Counter");
 		P2Counter = GetNode<Label>("HUD/P2Counter");
+		P1Mixup = GetNode<Label>("HUD/P1Mixup");
+		P2Mixup = GetNode<Label>("HUD/P2Mixup");
+		P1Missed = GetNode<Label>("HUD/P1Missed");
+		P2Missed = GetNode<Label>("HUD/P2Missed");
+		P1Escape = GetNode<Label>("HUD/P1Escape");
+		P2Escape = GetNode<Label>("HUD/P2Escape");
 		P1Rhythm = GetNode<Label>("HUD/P1Rhythm");
 		P2Rhythm = GetNode<Label>("HUD/P2Rhythm");
 		P1Meter = GetNode<Control>("HUD/P1Meter");
@@ -216,6 +228,12 @@ public class GameScene : BaseGame
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P2.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
+		P1.Connect("Mixup", this, nameof(OnPlayerMixup));
+		P2.Connect("Mixup", this, nameof(OnPlayerMixup));
+		P1.Connect("CanTech", this, nameof(OnPlayerCanEscape));
+		P2.Connect("CanTech", this, nameof(OnPlayerCanEscape));
+		P1.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
+		P2.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
 		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
@@ -377,6 +395,12 @@ public class GameScene : BaseGame
 
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
+		P1Mixup.Call("rollback", frame);
+		P2Mixup.Call("rollback", frame);
+		P1Escape.Call("rollback", frame);
+		P2Escape.Call("rollback", frame);
+		P1Missed.Call("rollback", frame);
+		P2Missed.Call("rollback", frame);
 		P1Counter.Call("rollback", frame);
 		P2Counter.Call("rollback", frame);
 		P1Rhythm.Call("rollback", frame);
@@ -447,6 +471,43 @@ public class GameScene : BaseGame
 			P2Counter.Call("display", Globals.frame);
 
 		ScreenShake(0.6f);
+	}
+
+	public void OnPlayerMixup(string name)
+	{
+		if (name == "P1")
+			P1Mixup.Call("display", Globals.frame);
+		else
+			P2Mixup.Call("display", Globals.frame);
+	}
+	public void OnPlayerCanEscape(string name)
+	{
+		if (name == "P1")
+		{
+			P1Escape.Call("display", Globals.frame);
+			P1Missed.Visible = false;
+		}
+		else
+		{
+			P2Escape.Call("display", Globals.frame);
+			P2Missed.Visible = false;
+		}
+			
+	}
+	public void OnPlayerMissedEscape(string name)
+	{
+		if (name == "P1")
+		{
+			P1Missed.Call("display", Globals.frame);
+			P1Escape.Call("display", Globals.frame);
+		}
+
+		else
+		{
+			P2Missed.Call("display", Globals.frame);
+			P2Escape.Call("display", Globals.frame);
+		}
+			
 	}
 
 	/// <summary>

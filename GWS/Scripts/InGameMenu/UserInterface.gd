@@ -20,7 +20,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func set_paused(value: bool) -> void:
 	paused = value
 	scene_tree.paused = value
-	pause_overlay.visible = value
+	visible = value
 	if (value):
 		var in_training = get_node("/root/Globals").call("CheckTrainingMode")
 		$PauseOverlay/PauseMenu/AutoBlock.visible = in_training

@@ -2,13 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
+using System.Linq;
+using System.Runtime.Serialization.Json;
 using static TutorialManager;
 
 public class TutorialManager : TrainingManager
 {
 
-	public class Challenge {
-		public Challenge(string name, GameScene.ResetPos resetPos=GameScene.ResetPos.ROUNDSTART){
+	public class Challenge
+	{
+		public Challenge(string name, GameScene.ResetPos resetPos = GameScene.ResetPos.ROUNDSTART)
+		{
 			this.name = name;
 			this.resetPos = resetPos;
 		}
@@ -27,9 +31,13 @@ public class TutorialManager : TrainingManager
 		public string popupText;
 		public List<Goal> goals = new List<Goal>();
 		public List<int> p2Inputs;
+
+		public string exampleInputFilename;
+		public List<int> exampleInputs;
 	}
-	public class Goal {
-		public Goal(string text, string input1="", string input2="", string input3="", string input4 = "")
+	public class Goal
+	{
+		public Goal(string text, string input1 = "", string input2 = "", string input3 = "", string input4 = "")
 		{
 			this.text = text;
 			this.input1 = input1;
@@ -93,7 +101,6 @@ public class TutorialManager : TrainingManager
 
 	private bool shouldAdvance = false;
 	private bool failed = false;
-	private int advanceFrame;
 
 	protected bool comboTrial = false;
 
@@ -123,6 +130,73 @@ public class TutorialManager : TrainingManager
 	protected Goal adGoal;
 
 	private Goal[] comboGoals;
+
+	protected override void HandleSpecialInputs(InputEvent @event)
+	{
+		if (@event.IsActionPressed("reset_training"))
+		{
+			gameScene.ResetTraining();
+		}
+		else if (@event.IsActionPressed("record_inputs"))
+		{
+			if (recordingInputs2)
+				StopInputRecord();
+			else
+			{
+				RestartChallenge(false);
+				StartInputRecord();
+			}
+
+		}
+		else if (@event.IsActionPressed("playback_inputs"))
+		{
+			LoadRecording();
+		}
+		else if (@event.IsActionPressed("save_recording"))
+		{
+			if (recordingInputs2)
+			{
+				StopInputRecord();
+				SaveRecording();
+			}
+
+		}
+	}
+
+	protected void LoadRecording()
+	{
+		RestartChallenge(false);
+		var file = new File();
+
+		Error err = file.Open($"res://SavedRecordings/Fundies/{currChallenge.name}.json", Godot.File.ModeFlags.Read);
+		if (err != Error.Ok)
+		{
+			GD.Print("File not found");
+			return;
+		}
+		var arr = (Godot.Collections.Array)JSON.Parse(file.GetAsText()).Result;
+		recordedInputs2 = new List<int>();
+		for (int i = 0; i < arr.Count; i++)
+		{
+			recordedInputs2.Add(Int32.Parse(arr[i].ToString()));
+		}
+
+		playbackInputs2 = true;
+		inputHead2 = 0;
+		file.Close();
+
+		gameScene.SetRecordingText("DEMO");
+
+	}
+
+	protected override void SaveRecording()
+	{
+		var file = new File();
+		file.Open($"res://SavedRecordings/Fundies/{currChallenge.name}.json", Godot.File.ModeFlags.Write);
+		file.StoreString(JSON.Print(recordedInputs2));
+		file.Close();
+		GD.Print("SAVED");
+	}
 
 
 	/// <summary>
@@ -155,7 +229,7 @@ public class TutorialManager : TrainingManager
 		crouchGoal.p1State = "Crouch";
 		moveChallenge.goals.Add(crouchGoal);
 
-		Challenge dashChallenge = new Challenge("Dashing"); ;
+		Challenge dashChallenge = new Challenge("Dashing");
 
 		dashChallenge.popupText = "You can also dash, airdash, double jump and super jump";
 
@@ -167,7 +241,7 @@ public class TutorialManager : TrainingManager
 		backdashGoal.p1State = "Backdash";
 		dashChallenge.goals.Add(backdashGoal);
 
-		
+
 		dashChallenge.goals.Add(adGoal);
 
 		Goal abdGoal = new Goal("Airbackdash", "air", "left", "dash");
@@ -220,12 +294,12 @@ public class TutorialManager : TrainingManager
 
 		Goal sixSGoal = new Goal("Heavy slash", "right", "s");
 		sixSGoal.p1State = "6S";
-		sixSGoal.p2State = "HitStun";
+		sixSGoal.p2State = "Stagger";
 		attackChallenge2.goals.Add(sixSGoal);
 
 		Goal j2SlashGoal = new Goal("Downwards Air Slash", "air", "down", "s");
 		j2SlashGoal.p1State = "InstantOverhead";
-		j2SlashGoal.p2State = "HitStun";
+		j2SlashGoal.p2State = "Stagger";
 		attackChallenge2.goals.Add(j2SlashGoal);
 
 		Challenge dashAttackChallenge = new Challenge("Dash Attack");
@@ -233,13 +307,12 @@ public class TutorialManager : TrainingManager
 
 		Goal dashAttackGoal = new Goal("Dashing slash", "right", "dash", "hold", "s");
 		dashAttackGoal.p1State = "InstantOverhead";
-		dashAttackGoal.p2State = "HitStun";
+		dashAttackGoal.p2State = "Stagger";
 		dashAttackChallenge.goals.Add(dashAttackGoal);
-
 
 		Challenge grabChallenge = new Challenge("Grab");
 		grabChallenge.popupText = "Grabs are extremely fast and cannot be blocked, but you must be close to the opponent and they can't be stunned";
-		
+
 
 		grabChallenge.goals.Add(grabGoal);
 
@@ -265,8 +338,39 @@ public class TutorialManager : TrainingManager
 
 		}
 
+		Challenge gatlingChallenge = new Challenge("Gatlings");
+		Goal hojogiriGoal = new Goal("Hojogiri", "special")
+		{
+			p2StateFrame = 0,
+			p1State = "Hojogiri"
+		};
+		gatlingChallenge.goals.Add(jabGoal);
+		gatlingChallenge.goals.Add(kickGoal);
+		gatlingChallenge.goals.Add(slashGoal);
+		gatlingChallenge.goals.Add(cslashGoal);
+		gatlingChallenge.goals.Add(hojogiriGoal);
+		gatlingChallenge.MakeComboChallenge();
+		gatlingChallenge.popupText = "By pressing a heavier attack immediately after a weaker attack connects, you can \"Gatling\" into the heavier attack allowing combos and blockstrings.  Experiment with what works on your character of choice!";
+
+		Challenge jcChallenge = new Challenge("Jump Cancelling");
+		jcChallenge.goals.Add(slashGoal);
+		jcChallenge.goals.Add(jumpGoal);
+		jcChallenge.MakeComboChallenge();
+		jcChallenge.popupText = "If you hold jump after starting an attack, you will \"cancel\" the recovery of the attack with a jump, allowing stronger combos and offense.";
+
+		Goal rcGoal = new Goal("Rapid Cancel", "p", "k", "s")
+		{
+			p1State = "Idle"
+		};
+		Challenge rcChallenge = new Challenge("Force Cancel");
+		rcChallenge.goals.Add(sixSGoal);
+		rcChallenge.goals.Add(rcGoal);
+		rcChallenge.MakeComboChallenge();
+		rcChallenge.popupText = "With a Force Cancel, you can spend half a bar of meter to cancel the recovery of any attack that connects with the opponent.";
+
+
 		Challenge superChallenge = new Challenge("OH SHIT");
-		superChallenge.popupText = "OH SHIT attacks cost half of your meter (see below your health bar), but make your opponent scream \"OH SHIT!\"";
+		superChallenge.popupText = "OH SHIT attacks cost half a bar of meter (see below your health bar), but make your opponent scream \"OH SHIT!\"";
 		Goal superGoal = new Goal("OH SHIT", "right", "s", "special");
 		superGoal.p1State = "Super";
 		superChallenge.goals.Add(superGoal);
@@ -282,6 +386,9 @@ public class TutorialManager : TrainingManager
 		challenges.Add(airGrabChallenge);
 		challenges.Add(specialAttackChallenge);
 		challenges.Add(superChallenge);
+		challenges.Add(gatlingChallenge);
+		challenges.Add(jcChallenge);
+		challenges.Add(rcChallenge);
 
 		////
 		// DEFENSIVE TUTORIAL
@@ -296,8 +403,8 @@ public class TutorialManager : TrainingManager
 		challenges.Add(midBlockChallenge);
 
 		Challenge overheadChallenge = new Challenge("Overhead blocking", GameScene.ResetPos.P1CORNEREDLEFT);
-		overheadChallenge.popupText = "By holding back with no other buttons, you'll block high and mid height attacks";
-		Goal blockGoalOvr = new Goal("block mids and highs", "left", "hold");
+		overheadChallenge.popupText = "By holding back with no other buttons, you'll block aerial and mid height attacks";
+		Goal blockGoalOvr = new Goal("block mid and aerial", "left", "hold");
 		blockGoalOvr.p1State = "Block";
 		blockGoalOvr.p1FailTags.Add("hitstate");
 		blockGoalOvr.p1StateFrame = 1;
@@ -349,7 +456,7 @@ public class TutorialManager : TrainingManager
 		grabEvadeChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(grabEvadeChallenge);
 
-		
+
 
 		Challenge shieldChallenge = new Challenge("Shield", GameScene.ResetPos.P1CORNEREDLEFT);
 		shieldChallenge.popupText = "By hold punch and kick while blocking you spend a bit of meter to create a repellant shield, pushing back the opponent extra far when they attack you";
@@ -381,7 +488,7 @@ public class TutorialManager : TrainingManager
 		burst.p1State = "Burst";
 		burst.p1FailTags.Add("recovery");
 		burstChallenge.goals.Add(burst);
-		burstChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		burstChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(burstChallenge);
 	}
 
@@ -392,7 +499,7 @@ public class TutorialManager : TrainingManager
 		Globals.autoTech = false;
 
 		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
-		
+
 
 		// Setting up default goals
 		jumpGoal = new Goal("Jump", "up");
@@ -407,7 +514,7 @@ public class TutorialManager : TrainingManager
 		jabGoal = new Goal("Punch", "p")
 		{
 			p1State = "Jab",
-			p2Tags = new HashSet<string>{ "hitstate"},
+			p2Tags = new HashSet<string> { "hitstate" },
 			p2StateFrame = 0
 		};
 
@@ -415,56 +522,56 @@ public class TutorialManager : TrainingManager
 		{
 			p1State = "Kick",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		slashGoal = new Goal("Slash", "s")
 		{
 			p1State = "Slash",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		cjabGoal = new Goal("Crouching Punch", "down", "p")
 		{
 			p1State = "CrouchA",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		ckickGoal = new Goal("Crouching Kick", "down", "k")
 		{
 			p1State = "CrouchB",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		cslashGoal = new Goal("Crouching Slash (sweep)", "down", "s")
 		{
 			p1State = "CrouchC",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		jJabGoal = new Goal("Air Punch", "air", "p")
 		{
 			p1State = "JumpA",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		jKickGoal = new Goal("Air Kick", "air", "k")
 		{
 			p1State = "JumpB",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		jSlashGoal = new Goal("Air Slash", "air", "s")
 		{
 			p1State = "JumpC",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string>{ "hitstate"}
+			p2Tags = new HashSet<string> { "hitstate" }
 		};
 
 		adGoal = new Goal("Airdash", "air", "right", "dash");
@@ -473,7 +580,7 @@ public class TutorialManager : TrainingManager
 		grabGoal = new Goal("Grab", "k", "s");
 		grabGoal.p1State = "Grab";
 
-		
+
 		if (comboTrial)
 		{
 			Globals.autoTech = true;
@@ -491,13 +598,14 @@ public class TutorialManager : TrainingManager
 			colorOne = 0;
 			colorTwo = 0;
 			OnNewGame();
+			charSelectScene.StopMusic();
 		}
 		else
 		{
 			charSelectScene.AutoSelectP2GL();
 		}
-			
-		
+
+
 		Globals.mode = Globals.Mode.TUTORIAL;
 	}
 
@@ -512,7 +620,7 @@ public class TutorialManager : TrainingManager
 		gameScene.Reset();
 		InitChallenge(currChallenge);
 	}
-	
+
 
 	private bool CheckFail()
 	{
@@ -561,67 +669,98 @@ public class TutorialManager : TrainingManager
 			return;
 		}
 
-		if (!shouldAdvance && CheckGoal())
+		if (!shouldAdvance && CheckGoal() && currGoalPtr < currChallenge.goals.Count)
 		{
 			CompleteGoal();
 		}
-		
 
-		
+
+
 	}
 
-	private void RestartChallenge()
+	private void RestartChallenge(bool showPopup = true)
 	{
+		playbackInputs2 = false;
+		gameScene.SetRecordingText("");
 		gameScene.ResetTraining();
-		InitChallenge(currChallenge);
+		InitChallenge(currChallenge, showPopup);
 	}
 
-	private void InitChallenge(Challenge c){
+	private void InitChallenge(Challenge c, bool showPopup = true)
+	{
 		gameScene.ChangeHUDText(c.name);
 		gameScene.ResetTraining();
 		gameScene.SetPos(c.resetPos);
-		recordedInputs = c.p2Inputs;
-		playbackInputs = (c.p2Inputs != null);
+		if (c.p2Inputs != null)
+		{
+			recordedInputs = c.p2Inputs;
+			playbackInputs = true;
+		}
+		else
+		{
+			playbackInputs = false;
+		}
+
+		if (c.exampleInputFilename != null)
+		{
+			// LOAD FILE HERE
+		}
+
 		inputHead = 0;
 
 		currGoalPtr = 0;
 		currGoal = c.goals[currGoalPtr];
 		tutorialContainer.Call("reset");
-		
-		
+
+
 
 		foreach (var goal in c.goals)
 		{
 			tutorialContainer.Call("add_goal", goal.text, goal.input1, goal.input2, goal.input3, goal.input4);
 		}
 		tutorialContainer.Call("curr_goal", 0);
-		if (c.popupText != null)
+		if (showPopup && c.popupText != null)
 			Popup(c.popupText);
 
 		failed = false;
 		GD.Print("Resetting challenge");
 	}
 
-	protected override void StopInputPlayback()
+	protected override void StopInputPlayback(int num = 1)
 	{
-		inputHead = 0;
+		if (num == 1)
+		{
+			// Auto restarts
+			inputHead = 0;
+		}
+		else
+		{
+			inputHead = 1;
+			playbackInputs2 = false;
+		}
+
 	}
 
-	private bool CheckGoal(){
+	private bool CheckGoal()
+	{
 		bool result = true;
-		if (currGoal.p1State != null){
+		if (currGoal.p1State != null)
+		{
 			result = result && (currGoal.p1State == gameScene.P1.currentState.Name);
 		}
 
-		if (currGoal.p2State != null){
+		if (currGoal.p2State != null)
+		{
 			result = result && (currGoal.p2State == gameScene.P2.currentState.Name);
 		}
 
-		if (currGoal.p1Tags.Count > 0){
+		if (currGoal.p1Tags.Count > 0)
+		{
 			result = result && GetP1Tags().Overlaps(currGoal.p1Tags);
 		}
 
-		if (currGoal.p2Tags.Count > 0){
+		if (currGoal.p2Tags.Count > 0)
+		{
 			result = result && GetP2Tags().Overlaps(currGoal.p2Tags);
 		}
 
@@ -643,23 +782,27 @@ public class TutorialManager : TrainingManager
 		return result;
 	}
 
-	private void CompleteAllChallenges(){
+	private void CompleteAllChallenges()
+	{
 
 		var events = GetNode("/root/Events");
 		events.Call("emit_signal", "MainMenuPressed");
 
 	}
 
-	private void CompleteChallenge(){
+	private void CompleteChallenge()
+	{
 		shouldAdvance = false;
 		gameScene.ResetTraining();
 		inputHead = 0;
 		currChallengePtr++;
 
-		if (currChallengePtr == challenges.Count){
+		if (currChallengePtr == challenges.Count)
+		{
 			CompleteAllChallenges();
 		}
-		else {
+		else
+		{
 			currChallenge = challenges[currChallengePtr];
 			InitChallenge(currChallenge);
 		}
@@ -668,18 +811,22 @@ public class TutorialManager : TrainingManager
 
 	private void CompleteAllGoals()
 	{
+		if (playbackInputs2)
+		{
+			tutorialContainer.Call("playback_finished");
+			return;
+		}
 		shouldAdvance = true;
-		advanceFrame = Globals.frame + 120;
 		tutorialContainer.Call("success_all");
 		if (currChallengePtr == challenges.Count - 1)
 		{
-			advanceFrame = Globals.frame + 240;
 			tutorialContainer.Call("finish");
 		}
 	}
 
 	public override void _Input(InputEvent @event)
 	{
+		HandleSpecialInputs(@event);
 		// overriding this so nothing happens when user presses rec, etc.
 	}
 
@@ -689,21 +836,38 @@ public class TutorialManager : TrainingManager
 		failed = true;
 	}
 
-	private void CompleteGoal(){
+	private void CompleteGoal()
+	{
+
+
 		tutorialContainer.Call("success_goal", currGoalPtr);
 		currGoalPtr++;
 		lastGoalCompletedFrame = Globals.frame;
-		
 
-		if (currGoalPtr == currChallenge.goals.Count){
+		if (currGoalPtr == currChallenge.goals.Count)
+		{
 			CompleteAllGoals();
 		}
-		else {
+		else
+		{
 			currGoal = currChallenge.goals[currGoalPtr];
 			tutorialContainer.Call("curr_goal", currGoalPtr);
 			// gameScene.highlightGoal(currGoalPtr)
 		}
 	}
 
-	
+	protected override void StartInputRecord()
+	{
+		inputHead = 0;
+		inputHead2 = 0;
+		recordedInputs2.Clear();
+		recordingInputs2 = true;
+		gameScene.SetRecordingText("REC");
+	}
+	protected override void StopInputRecord()
+	{
+		recordingInputs2 = false;
+		gameScene.SetRecordingText("");
+	}
+
 }

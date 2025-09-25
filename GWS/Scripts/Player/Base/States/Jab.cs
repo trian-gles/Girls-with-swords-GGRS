@@ -17,6 +17,7 @@ public class Jab : GroundAttack
 		AddGatling(new char[] { 'k', 'p' }, "Kick");
 		AddGatling(new char[] { 's', 'p' }, "Slash");
 		AddGatling(new char[] { 'b', 'p' }, "Kick");
+		
 
         AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
 		AddBurstKara('k', 'a');

@@ -20,12 +20,21 @@ public class BehaviourState
         return 0;
     }
 
-    public virtual void Enter() {
+    public virtual void Enter()
+    {
         frameCount = 0;
     }
 
     public virtual void Exit() { }
 
     public virtual string GetNextState(GameStateObjectRedesign.GameState state) { return ""; }
+
+    protected int GetForwardInput(GameStateObjectRedesign.GameState state)
+    {
+        if (state.P2State.facingRight)
+            return 4;
+        else
+            return 8;
+    }
 
 }

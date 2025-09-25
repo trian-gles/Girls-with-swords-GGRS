@@ -12,9 +12,6 @@ public class BlackHole : HadoukenPart
 	[Export]
 	private int pullStrength = 5;
 
-	[Export]
-	private int slowTerminalVelocity = 250;
-
 	protected GL createdByPlayer;
 
 	public override string hadoukenType { get; } = "BlackHole";
@@ -27,13 +24,18 @@ public class BlackHole : HadoukenPart
 	}
 	public override void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
+		if (frame > duration + 12) // far past rollback limit
+			targetPlayer.DeleteHadouken(this);
+		frame++;
 
 		if (active && frame > startUp)
 		{
-			
+
 
 			if (frame > duration)
 				MakeInactive();
+			else
+				GD.Print($"Frame {frame} of duration {duration}");
 
 			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains("tech"))
 			{
@@ -79,7 +81,7 @@ public class BlackHole : HadoukenPart
 			{
 				int distToPlayer = Globals.IntSqrt((int)(Math.Pow(xToPlayer, 2) + Math.Pow(yToPlayer, 2)));
 
-				
+
 
 
 				int adjustedPull = (int)Math.Floor((double)(pullStrength * 10000000 / distToPlayer));
@@ -93,7 +95,7 @@ public class BlackHole : HadoukenPart
 					if (playerBelow)
 						pushVec.y += targetPlayer.gravity;
 
-					targetPlayer.velocity.x = (float)Math.Floor((double)targetPlayer.velocity.x * 2/ 3);
+					targetPlayer.velocity.x = (float)Math.Floor((double)targetPlayer.velocity.x * 2 / 3);
 					targetPlayer.velocity.y = (float)Math.Floor((double)targetPlayer.velocity.y * 2 / 3);
 				}
 
@@ -101,7 +103,7 @@ public class BlackHole : HadoukenPart
 				{
 					//targetPlayer.currentState.stunRemaining += 1; this causes desyncs...
 				}
-					
+
 
 				if (playerBelow) { pushVec.y *= -1; }
 
@@ -119,13 +121,11 @@ public class BlackHole : HadoukenPart
 				HurtPlayer(collisionPnt);
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
 				targetPlayer.counterStopFrames = 15;
-				
+
 			}
 		}
 
-		if (frame > duration + 12) // far past rollback limit
-			targetPlayer.DeleteHadouken(this);
-		frame++;
+		
 	}
 
 	protected override void MakeInactive()

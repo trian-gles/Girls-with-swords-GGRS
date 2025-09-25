@@ -128,7 +128,7 @@ public class Shield : HitState
 			stateName = "Shield";
         else if (stateName == "CrouchBlock")
             stateName = "CrouchShield";
-
+		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "shield", owner.OtherPlayerOnLeft());
         EmitSignal(nameof(StateFinished), stateName);
         owner.EmitSignal("HitConfirm", blockStop);
     }

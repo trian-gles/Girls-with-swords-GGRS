@@ -5,10 +5,14 @@ using System.Collections.Generic;
 
 public abstract class AirNormal : AirAttack
 {
+    [Export]
+	public bool j2CGatling = false;
+
     public override void _Ready()
     {
         base._Ready();
-        
+        if (j2CGatling)
+		    AddAirCommandNormals(owner.airCommandNormals);
         AddSpecials(owner.airSpecials);
         AddExSpecials(owner.airExSpecials);
         AddEasyAirSpecials();

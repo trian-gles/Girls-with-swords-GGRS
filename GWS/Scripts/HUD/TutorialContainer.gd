@@ -46,6 +46,10 @@ func success_all():
 	$Swingin.text = "SWINGIN! \nPress Select to continue"
 	$Swingin.visible = true
 	
+func playback_finished():
+	$Swingin.text = "Press Select to give it a try"
+	$Swingin.visible = true
+	
 	
 func finish():
 	$Swingin.text = "SWINGIN! \nPress Select to exit"

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Button Icons/icons.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/InGameMenu/InGameInputMapping.gd" type="Script" id=3]
+
+[node name="InGameInputMapping" type="Control"]
+anchor_right = 0.169
+margin_right = 44.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InGameInput" type="Sprite" parent="."]
+position = Vector2( 7, 10 )
+texture = ExtResource( 2 )
+hframes = 14
+frame = 1
+
+[node name="ControllerInput" type="Sprite" parent="."]
+position = Vector2( 24, 12 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 1 )
+hframes = 42

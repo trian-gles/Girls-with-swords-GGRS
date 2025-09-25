@@ -23,6 +23,12 @@ public class Player : Node2D
 	[Signal]
 	public delegate void CounterHit(string name);
 	[Signal]
+	public delegate void Mixup(string name);
+	[Signal]
+	public delegate void CanTech(string name);
+	[Signal]
+	public delegate void MissedTech(string name);
+	[Signal]
 	public delegate void HitConfirm();
 	[Signal]
 	public delegate void LevelUp();
@@ -159,8 +165,8 @@ public class Player : Node2D
 	public int burstMeter = 100;
 	public int hadoukenCooldownRemaining = 0;
 	public int backdashCooldownRemaining = 0;
-    public int meterGainCooldownRemaining = 0;
-    public bool hasBeenLaunched = false;
+	public int meterGainCooldownRemaining = 0;
+	public bool hasBeenLaunched = false;
 
 
 
@@ -224,8 +230,8 @@ public class Player : Node2D
 		public int burstMeter {  get; set; }
 		public int backdashCooldownRemaining { get; set; }
 		public int hadoukenCooldownRemaining { get; set; }
-        public int meterGainCooldownRemaining { get; set; }
-        public bool hasBeenLaunched { get; set; }
+		public int meterGainCooldownRemaining { get; set; }
+		public bool hasBeenLaunched { get; set; }
 		public Dictionary<string, int> charSpecificData { get; set; }
 
 	}
@@ -829,7 +835,7 @@ public class Player : Node2D
 		currentState.Exit();
 		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
-			{ nextStateName = charName + nextStateName; }
+		{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
 		Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
 		if (currentState.animationName != "None")
@@ -893,7 +899,7 @@ public class Player : Node2D
 	{
 		return !(inputHandler.heldKeys.Contains('2') || inputHandler.heldKeys.Contains('6') || inputHandler.heldKeys.Contains('4'));
 
-    }
+	}
 
 	public bool CheckHeldKeys(char[] keys)
 	{
@@ -1005,6 +1011,8 @@ public class Player : Node2D
 		}
 
 		animationPlayer.FrameAdvance();
+		if (!facingRight)
+			sprite.RotationDegrees *= -1;
 		currentState.FrameAdvance();
 		CharSpecificFrameAdvance();
 		if (invulnFrames > 0)
@@ -1025,7 +1033,7 @@ public class Player : Node2D
 		if (meterGainCooldownRemaining > 0)
 			meterGainCooldownRemaining--;
 
-        if (specialBreakFramesRemaining > 0)
+		if (specialBreakFramesRemaining > 0)
 		{
 			GreySprite();
 			specialBreakFramesRemaining--;
@@ -1045,14 +1053,17 @@ public class Player : Node2D
 	private void GFXSpecialFrameAdvance()
 	{
 		var shield = GetNode<Node2D>("Shield");
+		var canTech = GetNode<Node2D>("CanTech");
 		var shieldEmission = shield.GetNode<Node2D>("ShieldHit");
 		shield.Set("crouching", currentState.tags.Contains("crouching"));
 
 		switch (currentState.GetExtraGFXState())
 		{
 			case State.GFXStates.NONE:
-				shield.Visible = false; break;
-			case State.GFXStates.SHIELD: 
+				shield.Visible = false;
+				canTech.Visible = false;
+				break;
+			case State.GFXStates.SHIELD:
 				shield.Visible = true;
 				shieldEmission.Visible = false;
 				break;
@@ -1060,6 +1071,10 @@ public class Player : Node2D
 				shield.Visible = true;
 				shieldEmission.Visible = true;
 				break;
+			case State.GFXStates.CANTECH:
+				canTech.Visible = true;
+				break;
+
 
 		}
 	}
@@ -1534,14 +1549,14 @@ public class Player : Node2D
 	{
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", greyPalette);
-    }
+	}
 
 	private void ColorSprite()
 	{
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", palette);
-        shaderMaterial.SetShaderParam("palette_index", colorScheme);
-    }
+		shaderMaterial.SetShaderParam("palette_index", colorScheme);
+	}
 
 	public void EndSpecialBreak()
 	{

@@ -9,6 +9,7 @@ public class ThrowBreak : HitStun
     public override void Enter()
     {
         base.Enter();
+        owner.CorrectGrounded();
         owner.GFXEvent("ThrowBreak");
         stunRemaining = 30;
         if (owner.facingRight)

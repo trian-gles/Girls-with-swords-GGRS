@@ -45,7 +45,8 @@ public class Grab : State
 		isCounter = true;
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
-
+		
+		hitDetails.prorationLevel = prorationLevel;
 		hitDetails.opponentLaunch = launch;
 		hitDetails.hitStun = hitStun;
 		chDetails.hitStun = hitStun;

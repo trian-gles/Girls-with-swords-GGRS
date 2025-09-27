@@ -2631,7 +2631,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=18]
-length = 14.0
+length = 17.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -2640,7 +2640,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3, 5, 8 ),
+"times": PoolRealArray( 0, 4, 6, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 1, 2 ]
@@ -2736,7 +2736,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 3, 6 ),
+"times": PoolRealArray( 0, 4, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -2796,7 +2796,7 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 0, 3, 6 ),
+"times": PoolRealArray( 0, 4, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
@@ -6030,7 +6030,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=38]
-length = 15.0
+length = 14.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -9767,10 +9767,10 @@ disabled = false
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 38, -20 )
+position = Vector2( 19, 14 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 55, 21 )
+position = Vector2( 32, -10 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 22, 5 )
@@ -9782,13 +9782,13 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 237
+frame = 242
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
 hframes = 255
 vframes = 2
-frame = 237
+frame = 242
 
 [node name="StateTree" parent="." index="8"]
 script = SubResource( 3 )
@@ -9904,7 +9904,7 @@ script = ExtResource( 12 )
 releaseFrame = 14
 hadoukenScene = ExtResource( 8 )
 negEdgeButton = "s"
-targetPos = Vector2( 100, -50 )
+targetPos = Vector2( 200, -50 )
 noHatState = "TeleportDownSlash"
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="48"]

@@ -2327,7 +2327,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=15]
-length = 16.0
+length = 18.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -2499,7 +2499,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id=16]
-length = 18.0
+length = 20.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -9337,13 +9337,14 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 36, 2 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 24, -35 )
+position = Vector2( 24, 33 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( -25, -15 )

@@ -2327,7 +2327,7 @@ tracks/9/keys = {
 }
 
 [sub_resource type="Animation" id=15]
-length = 18.0
+length = 16.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -2499,7 +2499,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id=16]
-length = 20.0
+length = 18.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")

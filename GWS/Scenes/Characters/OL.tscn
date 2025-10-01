@@ -8573,6 +8573,7 @@ modifiedCounterHitStun = 80
 opponentLaunch = Vector2( 200, -600 )
 slowTerminalVelocity = 400
 modifiedDmg = 13
+effect = 2
 hitGfx = 4
 knockdown = true
 whiffSound = "SlashWhiff"

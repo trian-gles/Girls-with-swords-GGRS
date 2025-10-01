@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Sprites/Button Icons/icons.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Button Icons/XboxButtons.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/InGameMenu/InGameInputMapping.gd" type="Script" id=3]
 
@@ -21,7 +21,8 @@ hframes = 14
 frame = 1
 
 [node name="ControllerInput" type="Sprite" parent="."]
-position = Vector2( 24, 12 )
+position = Vector2( 32, 12 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 1 )
-hframes = 42
+hframes = 101
+frame = 16

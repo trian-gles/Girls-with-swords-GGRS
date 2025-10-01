@@ -7,5 +7,6 @@ public class Gunblazed : GroundAttack
     {
         base.Enter();
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Fire2", Name);
+        ((GL)owner).Stamina -= 20;
     }
 }

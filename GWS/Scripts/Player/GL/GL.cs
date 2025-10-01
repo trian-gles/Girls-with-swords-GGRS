@@ -7,6 +7,7 @@ public class GL : Player
 
 	public int PoweredBlackHoleFramesRemaining = 0;
 	public int BlackHolesTotal = 0;
+	public int Stamina = 100;
 	public override void _EnterTree()
 	{
 		//j2C
@@ -82,6 +83,7 @@ public class GL : Player
 		var dict = new Dictionary<string, int>();
 		dict["BlackHoleFrames"] = PoweredBlackHoleFramesRemaining;
 		dict["BlackHolesTotal"] = BlackHolesTotal;
+		dict["Stamina"] = Stamina;
 		return dict;
 	}
 
@@ -91,6 +93,7 @@ public class GL : Player
 		{
 			PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
 			BlackHolesTotal = dict["BlackHolesTotal"];
+			Stamina = dict["Stamina"];
 			Globals.Log($"Loading state for {Name}, black holes is now = {BlackHolesTotal}");
 
 		}

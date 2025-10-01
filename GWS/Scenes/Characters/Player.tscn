@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -64,17 +64,16 @@
 [ext_resource path="res://Scripts/Player/Base/States/CrouchShield.cs" type="Script" id=62]
 [ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.gd" type="Script" id=63]
 [ext_resource path="res://Scripts/Player/Base/States/Burst.cs" type="Script" id=64]
-[ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=65]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/Outline.tres" type="Material" id=66]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 26 )
+extents = Vector2( 17, 29 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 15, 14 )
+extents = Vector2( 25, 21 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
@@ -83,7 +82,7 @@ extents = Vector2( 6, 5 )
 extents = Vector2( 6, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 19, 17 )
+extents = Vector2( 50, 20 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 15, 8 )
@@ -297,26 +296,6 @@ material = ExtResource( 66 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
 script = ExtResource( 57 )
-
-[node name="CanTech" type="Node2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="CanTech"]
-position = Vector2( -30, -34 )
-texture = ExtResource( 65 )
-hframes = 14
-frame = 1
-
-[node name="Sprite2" type="Sprite" parent="CanTech"]
-position = Vector2( -15, -34 )
-texture = ExtResource( 65 )
-hframes = 14
-frame = 2
-
-[node name="Sprite3" type="Sprite" parent="CanTech"]
-position = Vector2( 0, -34 )
-texture = ExtResource( 65 )
-hframes = 14
-frame = 3
 
 [node name="Shield" type="CPUParticles2D" parent="."]
 position = Vector2( 18, -10 )

@@ -91,10 +91,10 @@ shader = SubResource( 14 )
 [node name="Node2D" type="Node2D"]
 
 [node name="exflash" type="Particles2D" parent="."]
-visible = false
 material = SubResource( 1 )
 position = Vector2( -59, 4 )
 scale = Vector2( 0.75, 0.75 )
+emitting = false
 amount = 1
 lifetime = 7.0
 speed_scale = 4.95

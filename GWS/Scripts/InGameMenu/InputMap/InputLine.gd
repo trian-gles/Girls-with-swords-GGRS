@@ -7,6 +7,8 @@ var buttonicon
 var buttoniconalt
 onready var change_button = $ChangeButton
 
+var standard_inputs = ['p', 'k', 's', 'c', 'a', 'b']
+
 func _ready():
 	pass
 
@@ -39,22 +41,15 @@ func initialize(action_name, key, can_change, keyboard_profile:bool,player_id:in
 			buttonicon.visible = false
 			buttoniconalt.visible = true
 	#change action names to move names
-	if action_name == "p" or action_name == "pb":
-		action_name = "Punch"
-	if action_name == "k" or action_name == "kb":
-		action_name = "Kick"
-	if action_name == "s" or action_name == "sb":
-		action_name = "Slash"
-		
-	if action_name == "a" or action_name == "ab":
-		action_name = "Special"
-	if action_name == "b" or action_name == "bb":
-		action_name = "String"
-		
-	if action_name == "c" or action_name == "cb":
-		action_name = "Dash"
-		
-	$Action.text = action_name.capitalize()
+	if len(action_name) <= 2:
+		var frame = standard_inputs.find(action_name[0]) + 1
+		$Action.visible = false
+		$ActionIcons.visible = true
+		$ActionIcons.frame = frame
+	else	:
+		$Action.text = action_name.capitalize()
+		$Action.visible = true
+		$ActionIcons.visible = false
 #	print(key)
 	if keyboard_profile:
 #		$Key.text = OS.get_scancode_string(key)

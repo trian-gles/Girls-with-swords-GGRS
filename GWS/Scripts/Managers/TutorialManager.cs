@@ -9,6 +9,7 @@ using static TutorialManager;
 public class TutorialManager : TrainingManager
 {
 
+	protected string RecordingName = "Fundies";
 	public class Challenge
 	{
 		public Challenge(string name, GameScene.ResetPos resetPos = GameScene.ResetPos.ROUNDSTART)
@@ -168,7 +169,7 @@ public class TutorialManager : TrainingManager
 		RestartChallenge(false);
 		var file = new File();
 
-		Error err = file.Open($"res://SavedRecordings/Fundies/{currChallenge.name}.json", Godot.File.ModeFlags.Read);
+		Error err = file.Open($"res://SavedRecordings/{RecordingName}/{currChallenge.name}.json", Godot.File.ModeFlags.Read);
 		if (err != Error.Ok)
 		{
 			GD.Print("File not found");
@@ -192,7 +193,7 @@ public class TutorialManager : TrainingManager
 	protected override void SaveRecording()
 	{
 		var file = new File();
-		file.Open($"res://SavedRecordings/Fundies/{currChallenge.name}.json", Godot.File.ModeFlags.Write);
+		file.Open($"res://SavedRecordings/{RecordingName}/{currChallenge.name}.json", Godot.File.ModeFlags.Write);
 		file.StoreString(JSON.Print(recordedInputs2));
 		file.Close();
 		GD.Print("SAVED");
@@ -699,11 +700,6 @@ public class TutorialManager : TrainingManager
 		else
 		{
 			playbackInputs = false;
-		}
-
-		if (c.exampleInputFilename != null)
-		{
-			// LOAD FILE HERE
 		}
 
 		inputHead = 0;

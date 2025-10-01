@@ -160,6 +160,7 @@ public class Player : Node2D
 	public int specialBreakFramesRemaining = 0;
 	public int landingRecoveryFramesRemaining = 0;
 	public int lastPressedDownFrame = 0;
+	public int lastPressedUpFrame = 0;
 	public bool electrocuted = false;
 	public bool wasOTGHit = false;
 	public int burstMeter = 100;
@@ -225,6 +226,7 @@ public class Player : Node2D
 		public int specialBreakFramesRemaining { get; set; }
 		public int landingRecoveryFramesRemaining { get; set; }
 		public int lastPressedDownFrame { get; set; }
+		public int lastPressedUpFrame { get; set; }
 		public bool electrocuted { get; set; }
 		public bool wasOTGHit { get; set; }
 		public int burstMeter {  get; set; }
@@ -455,6 +457,7 @@ public class Player : Node2D
 		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
 		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
 		pState.lastPressedDownFrame = lastPressedDownFrame;
+		pState.lastPressedUpFrame = lastPressedUpFrame;
 		pState.hasBeenLaunched = hasBeenLaunched;
 
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
@@ -497,6 +500,7 @@ public class Player : Node2D
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		lastPressedDownFrame = pState.lastPressedDownFrame;
+		lastPressedUpFrame = pState.lastPressedUpFrame;
 		electrocuted = pState.electrocuted;
 		wasOTGHit = pState.wasOTGHit;
 		
@@ -632,6 +636,7 @@ public class Player : Node2D
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
 				unhandledInputs.Add(new char[] { '8', 'p' });
+				playerState.owner.lastPressedUpFrame = Globals.frame;
 			}
 			else if ((inputs & 1) == 0 && (lastFrameInputs & 1) != 0)
 			{
@@ -962,7 +967,7 @@ public class Player : Node2D
 
 	public bool CanSuperJump()
 	{
-		return (Globals.frame - lastPressedDownFrame < 15);
+		return (Globals.frame - lastPressedDownFrame < 15) && (lastPressedDownFrame < lastPressedUpFrame);
 	}
 
 	/// <summary>
@@ -1053,7 +1058,6 @@ public class Player : Node2D
 	private void GFXSpecialFrameAdvance()
 	{
 		var shield = GetNode<Node2D>("Shield");
-		var canTech = GetNode<Node2D>("CanTech");
 		var shieldEmission = shield.GetNode<Node2D>("ShieldHit");
 		shield.Set("crouching", currentState.tags.Contains("crouching"));
 
@@ -1061,7 +1065,6 @@ public class Player : Node2D
 		{
 			case State.GFXStates.NONE:
 				shield.Visible = false;
-				canTech.Visible = false;
 				break;
 			case State.GFXStates.SHIELD:
 				shield.Visible = true;
@@ -1072,7 +1075,6 @@ public class Player : Node2D
 				shieldEmission.Visible = true;
 				break;
 			case State.GFXStates.CANTECH:
-				canTech.Visible = true;
 				break;
 
 

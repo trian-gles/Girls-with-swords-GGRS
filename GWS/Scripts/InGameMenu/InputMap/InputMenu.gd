@@ -211,12 +211,12 @@ func _on_P1Reset_pressed():
 	
 func _on_P2Reset_pressed():
 	var keyboard2p_init = {
-		'pb': [KEY_J,0],
-		'kb': [KEY_K,0],
-		'sb': [KEY_L,0],
-		'ab': [KEY_U,0],
-		'bb': [KEY_I,0],
-		'cb': [KEY_O,0]
+		'pb': [KEY_Z,0],
+		'kb': [KEY_X,0],
+		'sb': [KEY_C,0],
+		'ab': [KEY_A,0],
+		'bb': [KEY_S,0],
+		'cb': [KEY_D,0]
 	}
 	var fightstick2p_init = {
 		'pb': [JOY_SONY_SQUARE,1],

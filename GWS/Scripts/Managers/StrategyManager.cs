@@ -27,6 +27,7 @@ public class StrategyManager : TutorialManager
 
 	protected void AddOLChallenges()
 	{
+		RecordingName = "OL_strategy";
 		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "special", "hold")
 		{
 			p2StateFrame = 0,
@@ -103,6 +104,7 @@ public class StrategyManager : TutorialManager
 
 	protected void AddGLChallenges()
 	{
+		RecordingName = "GL_strategy";
 		Goal lowFireGoal = new Goal("Low fireball", "special")
 		{
 			p1State = "Hadouken"
@@ -161,6 +163,7 @@ public class StrategyManager : TutorialManager
 
 	protected void AddHLChallenges()
 	{
+		RecordingName = "HL_strategy";
 		Goal hatGoal = new Goal("Eat a hat", "special")
 		{
 			p1State = "Hadouken"
@@ -211,6 +214,7 @@ public class StrategyManager : TutorialManager
 
 	protected void AddSLChallenges()
 	{
+		RecordingName = "SL_strategy";
 		Goal sixKGoal = new Goal("Forward kick", "right", "k")
 		{
 			p1State = "6K"

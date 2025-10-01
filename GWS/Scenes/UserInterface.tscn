@@ -147,6 +147,7 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+player = 2
 
 [node name="InputMapping" parent="UserInterface/P2Inputs/P1Controls" instance=ExtResource( 5 )]
 anchor_right = 0.0

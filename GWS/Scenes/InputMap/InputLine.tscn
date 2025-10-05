@@ -23,9 +23,6 @@ margin_top = -22.0
 margin_right = -67.0
 margin_bottom = 2.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ActionIcons" type="Sprite" parent="."]
 position = Vector2( 12, 11 )
@@ -44,8 +41,8 @@ text = "Up"
 
 [node name="Key" type="Label" parent="."]
 visible = false
-margin_left = 176.0
-margin_right = 349.0
+margin_left = 117.0
+margin_right = 231.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -66,7 +63,7 @@ valign = 1
 
 [node name="Button1" type="Sprite" parent="Buttons"]
 visible = false
-position = Vector2( 100, 10.054 )
+position = Vector2( 32, 10 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 4 )
@@ -76,7 +73,7 @@ region_rect = Rect2( 0, 0, 1000, 16 )
 
 [node name="Button2" type="Sprite" parent="Buttons"]
 visible = false
-position = Vector2( -82.862, 14.7575 )
+position = Vector2( 32, 10 )
 scale = Vector2( 1.5, 1.5 )
 z_as_relative = false
 texture = ExtResource( 2 )

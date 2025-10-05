@@ -86,12 +86,12 @@ func _on_NetPlay_pressed():
 func _on_AVConfig_pressed():
 	$AVConfigMenu.visible = true
 	move_to_next_menu("avconfigmenu")
-	$AVConfigMenu/AVConfigButtons/BackButton.grab_focus()
+	$AVConfigMenu/AVConfigButtons/MasterVolume.grab_focus()
 	
 func _on_Learn_pressed():
 	$LearnMenu.visible = true
 	move_to_next_menu("learnmenu")
-	$LearnMenu/LearnButtons/Training.grab_focus()
+	$LearnMenu/LearnButtons/BasicTutorial.grab_focus()
 	
 	
 	

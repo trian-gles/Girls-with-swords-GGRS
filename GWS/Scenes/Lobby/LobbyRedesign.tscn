@@ -204,9 +204,6 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
 theme = ExtResource( 4 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="MenuRoot"]
 material = SubResource( 4 )
@@ -362,6 +359,12 @@ align = 1
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 82.0
+focus_neighbour_left = NodePath("../BackButton")
+focus_neighbour_top = NodePath("../BackButton")
+focus_neighbour_right = NodePath("../CPU")
+focus_neighbour_bottom = NodePath("../CPU")
+focus_next = NodePath("../CPU")
+focus_previous = NodePath("../BackButton")
 text = "Local Match"
 script = ExtResource( 5 )
 __meta__ = {
@@ -372,6 +375,12 @@ __meta__ = {
 margin_top = 86.0
 margin_right = 300.0
 margin_bottom = 104.0
+focus_neighbour_left = NodePath("../Local")
+focus_neighbour_top = NodePath("../../../LearnMenu/LearnButtons/LocalLabel")
+focus_neighbour_right = NodePath("../BackButton")
+focus_neighbour_bottom = NodePath("../BackButton")
+focus_next = NodePath("../BackButton")
+focus_previous = NodePath("../Local")
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -381,6 +390,12 @@ __meta__ = {
 margin_top = 108.0
 margin_right = 300.0
 margin_bottom = 126.0
+focus_neighbour_left = NodePath("../CPU")
+focus_neighbour_top = NodePath("../CPU")
+focus_neighbour_right = NodePath("../Local")
+focus_neighbour_bottom = NodePath("../Local")
+focus_next = NodePath("../Local")
+focus_previous = NodePath("../CPU")
 text = "Back"
 
 [node name="LearnMenu" type="MarginContainer" parent="MenuRoot"]
@@ -389,9 +404,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LearnButtons" type="VBoxContainer" parent="MenuRoot/LearnMenu"]
 margin_left = 90.0
@@ -407,17 +419,23 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 33.0
+margin_top = 22.0
 margin_right = 300.0
-margin_bottom = 49.0
+margin_bottom = 38.0
 theme = ExtResource( 3 )
 text = "Practice"
 align = 1
 
 [node name="BasicTutorial" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 53.0
+margin_top = 42.0
 margin_right = 300.0
-margin_bottom = 71.0
+margin_bottom = 60.0
+focus_neighbour_left = NodePath("../BackButton")
+focus_neighbour_top = NodePath("../BackButton")
+focus_neighbour_right = NodePath("../CharacterTutorial")
+focus_neighbour_bottom = NodePath("../CharacterTutorial")
+focus_next = NodePath("../CharacterTutorial")
+focus_previous = NodePath("../BackButton")
 text = "Fundamentals Tutorial"
 script = ExtResource( 5 )
 __meta__ = {
@@ -425,9 +443,15 @@ __meta__ = {
 }
 
 [node name="CharacterTutorial" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 53.0
+margin_top = 64.0
 margin_right = 300.0
-margin_bottom = 71.0
+margin_bottom = 82.0
+focus_neighbour_left = NodePath("../BasicTutorial")
+focus_neighbour_top = NodePath("../BasicTutorial")
+focus_neighbour_right = NodePath("../Training")
+focus_neighbour_bottom = NodePath("../Training")
+focus_next = NodePath("../Training")
+focus_previous = NodePath("../BasicTutorial")
 text = "Character Tutorials"
 script = ExtResource( 5 )
 __meta__ = {
@@ -435,30 +459,49 @@ __meta__ = {
 }
 
 [node name="Training" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 75.0
+margin_top = 86.0
 margin_right = 300.0
-margin_bottom = 93.0
+margin_bottom = 104.0
+focus_neighbour_left = NodePath("../CharacterTutorial")
+focus_neighbour_top = NodePath("../CharacterTutorial")
+focus_neighbour_right = NodePath("../ComboTrials")
+focus_neighbour_bottom = NodePath("../ComboTrials")
+focus_next = NodePath("../ComboTrials")
+focus_previous = NodePath("../CharacterTutorial")
 text = "Training Mode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ComboTrials" type="Button" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 97.0
+margin_top = 108.0
 margin_right = 300.0
-margin_bottom = 115.0
+margin_bottom = 126.0
+focus_neighbour_left = NodePath("../Training")
+focus_neighbour_top = NodePath("../Training")
+focus_neighbour_right = NodePath("../BackButton")
+focus_neighbour_bottom = NodePath("../BackButton")
+focus_next = NodePath("../BackButton")
+focus_previous = NodePath("../CharacterTutorial")
 text = "Combo Trials"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LearnMenu/LearnButtons"]
-margin_top = 119.0
+margin_top = 130.0
 margin_right = 300.0
-margin_bottom = 137.0
+margin_bottom = 148.0
+focus_neighbour_left = NodePath("../ComboTrials")
+focus_neighbour_top = NodePath("../ComboTrials")
+focus_neighbour_right = NodePath("../BasicTutorial")
+focus_neighbour_bottom = NodePath("../BasicTutorial")
+focus_next = NodePath("../BasicTutorial")
+focus_previous = NodePath("../ComboTrials")
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -593,7 +636,6 @@ margin_bottom = 182.0
 text = "Back"
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 margin_left = 480.0
 margin_right = 960.0
 margin_bottom = 270.0
@@ -617,22 +659,25 @@ __meta__ = {
 
 [node name="AudioLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
 margin_right = 300.0
-margin_bottom = 16.0
+margin_bottom = 13.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "Audio"
 align = 1
 
 [node name="MasterVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 20.0
+margin_top = 17.0
 margin_right = 300.0
-margin_bottom = 37.0
+margin_bottom = 32.0
 theme = SubResource( 7 )
 text = "Master Volume"
 
 [node name="MasterVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 41.0
+margin_top = 36.0
 margin_right = 300.0
-margin_bottom = 57.0
+margin_bottom = 52.0
+focus_neighbour_top = NodePath("../BackButton")
+focus_previous = NodePath("../BackButton")
 min_value = -50.0
 max_value = 0.0
 step = 2.5
@@ -642,16 +687,16 @@ __meta__ = {
 }
 
 [node name="MusicVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 61.0
+margin_top = 56.0
 margin_right = 300.0
-margin_bottom = 78.0
+margin_bottom = 71.0
 theme = SubResource( 7 )
 text = "Music Volume"
 
 [node name="MusicVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 82.0
+margin_top = 75.0
 margin_right = 300.0
-margin_bottom = 98.0
+margin_bottom = 91.0
 min_value = -50.0
 max_value = 0.0
 step = 2.5
@@ -661,16 +706,16 @@ __meta__ = {
 }
 
 [node name="GameFXVoumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 102.0
+margin_top = 95.0
 margin_right = 300.0
-margin_bottom = 119.0
+margin_bottom = 110.0
 theme = SubResource( 7 )
 text = "Game FX"
 
 [node name="GameFXVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 123.0
+margin_top = 114.0
 margin_right = 300.0
-margin_bottom = 139.0
+margin_bottom = 130.0
 min_value = -50.0
 max_value = 0.0
 step = 2.5
@@ -680,16 +725,16 @@ __meta__ = {
 }
 
 [node name="UIVolumeLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 143.0
+margin_top = 134.0
 margin_right = 300.0
-margin_bottom = 160.0
+margin_bottom = 149.0
 theme = SubResource( 7 )
 text = "UI"
 
 [node name="UIVolume" type="HSlider" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 164.0
+margin_top = 153.0
 margin_right = 300.0
-margin_bottom = 180.0
+margin_bottom = 169.0
 min_value = -50.0
 max_value = 0.0
 step = 2.5
@@ -708,28 +753,30 @@ text = "Video"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 184.0
+margin_top = 173.0
 margin_right = 300.0
-margin_bottom = 207.0
+margin_bottom = 191.0
 
 [node name="ResolutionLabel" type="Label" parent="MenuRoot/AVConfigMenu/AVConfigButtons/HBoxContainer"]
-margin_top = 3.0
-margin_right = 64.0
-margin_bottom = 20.0
+margin_top = 1.0
+margin_right = 110.0
+margin_bottom = 16.0
 theme = SubResource( 7 )
 text = "Resolution"
 
 [node name="OptionButton" type="OptionButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons/HBoxContainer"]
-margin_left = 68.0
-margin_right = 86.0
-margin_bottom = 23.0
+margin_left = 114.0
+margin_right = 133.0
+margin_bottom = 18.0
 script = ExtResource( 22 )
 optionButtonPath = NodePath(".")
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/AVConfigMenu/AVConfigButtons"]
-margin_top = 211.0
+margin_top = 195.0
 margin_right = 300.0
-margin_bottom = 234.0
+margin_bottom = 213.0
+focus_neighbour_bottom = NodePath("../MasterVolume")
+focus_next = NodePath("../MasterVolume")
 text = "Back"
 
 [node name="LobbySounds" type="AudioStreamPlayer" parent="."]

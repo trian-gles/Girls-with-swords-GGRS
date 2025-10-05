@@ -41,14 +41,15 @@ func initialize(action_name, key, can_change, keyboard_profile:bool,player_id:in
 			buttonicon.visible = false
 			buttoniconalt.visible = true
 	#change action names to move names
+	$Action.visible = true
+	$ActionIcons.visible = true
 	if len(action_name) <= 2:
 		var frame = standard_inputs.find(action_name[0]) + 1
-		$Action.visible = false
-		$ActionIcons.visible = true
+		$Action.text = "    "
 		$ActionIcons.frame = frame
-	else	:
+		
+	else:
 		$Action.text = action_name.capitalize()
-		$Action.visible = true
 		$ActionIcons.visible = false
 #	print(key)
 	if keyboard_profile:

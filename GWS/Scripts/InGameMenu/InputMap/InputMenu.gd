@@ -190,7 +190,11 @@ func _on_P1Reset_pressed():
 	's': [KEY_C,0],
 	'a': [KEY_A,0],
 	'b': [KEY_S,0],
-	'c': [KEY_D,0]
+	'c': [KEY_D,0],
+	'switch': [KEY_TAB,0],
+	'reset': [KEY_Q,0],
+	'record': [KEY_W,0],
+	'playback': [KEY_E,0]
 	}
 	var fightstick_init = {
 		'p': [JOY_SONY_SQUARE,0],

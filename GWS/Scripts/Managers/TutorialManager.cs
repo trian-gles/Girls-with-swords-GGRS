@@ -134,11 +134,11 @@ public class TutorialManager : TrainingManager
 
 	protected override void HandleSpecialInputs(InputEvent @event)
 	{
-		if (@event.IsActionPressed("reset_training"))
+		if (@event.IsActionPressed("reset"))
 		{
 			gameScene.ResetTraining();
 		}
-		else if (@event.IsActionPressed("record_inputs"))
+		else if (@event.IsActionPressed("record"))
 		{
 			if (recordingInputs2)
 				StopInputRecord();
@@ -149,7 +149,7 @@ public class TutorialManager : TrainingManager
 			}
 
 		}
-		else if (@event.IsActionPressed("playback_inputs"))
+		else if (@event.IsActionPressed("playback"))
 		{
 			LoadRecording();
 		}

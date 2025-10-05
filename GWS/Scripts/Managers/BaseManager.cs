@@ -335,7 +335,7 @@ public class BaseManager : Node2D
 
 	protected virtual void HandleSpecialInputs(InputEvent @event)
 	{
-		if (@event.IsActionPressed("switch_players"))
+		if (@event.IsActionPressed("switch"))
 		{
 			flippedPlayers = !flippedPlayers;
 			string newText;
@@ -348,11 +348,11 @@ public class BaseManager : Node2D
 			gameScene.ChangeHUDText(newText);
 			gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
 		}
-		else if (@event.IsActionPressed("reset_training"))
+		else if (@event.IsActionPressed("reset"))
 		{
 			gameScene.ResetTraining();
 		}
-		else if (@event.IsActionPressed("record_inputs"))
+		else if (@event.IsActionPressed("record"))
 		{
 			if (playbackInputs)
 				StopInputPlayback();
@@ -361,7 +361,7 @@ public class BaseManager : Node2D
 			else
 				StartInputRecord();
 		}
-		else if (@event.IsActionPressed("playback_inputs"))
+		else if (@event.IsActionPressed("playback"))
 		{
 			if (recordingInputs)
 				StopInputRecord();

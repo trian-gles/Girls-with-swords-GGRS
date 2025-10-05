@@ -14,7 +14,12 @@ var profile_keyboard = {
 	's': [KEY_C,0],
 	'a': [KEY_A,0],
 	'b': [KEY_S,0],
-	'c': [KEY_D,0]
+	'c': [KEY_D,0],
+	
+	'switch': [KEY_F,0],
+	'reset': [KEY_Q,0],
+	'record': [KEY_W,0],
+	'playback': [KEY_E,0]
 }
 var profile_fightstick = {
 	'p': [JOY_SONY_SQUARE,0],

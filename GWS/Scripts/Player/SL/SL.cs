@@ -29,7 +29,6 @@ public class SL : Player
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "SnailCallJump"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "SnailCallFake", true, true));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "BackToss"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "AirSnail"));
 
 		dashSpecials.Add(new Special(new List<char[]>() { new char[] { 's', 'p' } }, "DashAttack"));
 

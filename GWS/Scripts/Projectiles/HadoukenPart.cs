@@ -288,7 +288,7 @@ public class HadoukenPart : Node2D
 		return Vector2.Inf;
 	}
 
-	public void HandleOverlap()
+	public virtual void HandleOverlap()
 	{
 		//GD.Print("Handling overlap");
 		hits--;
@@ -315,7 +315,6 @@ public class HadoukenPart : Node2D
 		var hitDetailsCopy = hitDetails;
 		var chHitDetailsCopy = chDetails;
 		hits++;
-		Globals.Log($"Hadouken {Name} Hits = " + hits + ", Total hits = " + totalHits);
 
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{

@@ -134,11 +134,7 @@ public class TutorialManager : TrainingManager
 
 	protected override void HandleSpecialInputs(InputEvent @event)
 	{
-		if (@event.IsActionPressed("reset"))
-		{
-			gameScene.ResetTraining();
-		}
-		else if (@event.IsActionPressed("record"))
+		if (@event.IsActionPressed("record"))
 		{
 			if (recordingInputs2)
 				StopInputRecord();
@@ -208,7 +204,7 @@ public class TutorialManager : TrainingManager
 		// Walk
 		Challenge moveChallenge = new Challenge("Basic Movement");
 
-		moveChallenge.popupText = "Welcome to the Girls with Swords tutorial!  First let's go over some basic movement";
+		moveChallenge.popupText = "Welcome to the Girls with Swords tutorial!  First let's go over some basic movement.  Press START or ESC at any time to see the currently configured controls.";
 
 		moveChallenge.goals.Add(jumpGoal);
 
@@ -306,9 +302,13 @@ public class TutorialManager : TrainingManager
 		Challenge dashAttackChallenge = new Challenge("Dash Attack");
 		dashAttackChallenge.popupText = "If you press slash while fully running, you'll perform a special dash attack";
 
-		Goal dashAttackGoal = new Goal("Dashing slash", "right", "dash", "hold", "s");
+		Goal dashAttackGoal = new Goal("Dashing slash", "right", "hold", "s");
 		dashAttackGoal.p1State = "InstantOverhead";
 		dashAttackGoal.p2State = "Stagger";
+		Goal runGoalNoStop = new Goal("Run", "right", "dash");
+		runGoalNoStop.p1State = "Run";
+		dashAttackGoal.p1FailState = "PostRun";
+		dashAttackChallenge.goals.Add(runGoalNoStop);
 		dashAttackChallenge.goals.Add(dashAttackGoal);
 
 		Challenge grabChallenge = new Challenge("Grab");
@@ -466,6 +466,16 @@ public class TutorialManager : TrainingManager
 		shieldChallenge.goals.Add(shieldGoal);
 		shieldChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(shieldChallenge);
+
+		Challenge guardCancelChallenge = new Challenge("Shield", GameScene.ResetPos.P1CORNEREDLEFT);
+		guardCancelChallenge.popupText = "By pressing punch, kick and forward while blocking you can spend half a bar of meter to kick the opponent off of you.";
+		Goal gcGoal = new Goal("FUCK OFF", "right", "p", "k");
+		gcGoal.p1State = "GuardCancel";
+		gcGoal.p1FailState = "Idle";
+		guardCancelChallenge.goals.Add(blockGoal);
+		guardCancelChallenge.goals.Add(gcGoal);
+		guardCancelChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		challenges.Add(guardCancelChallenge);
 
 		Challenge techChallenge = new Challenge("Tech/Ukemi", GameScene.ResetPos.P1CORNEREDLEFT);
 		techChallenge.popupText = "When recovering from getting hit in/to the air, you can hold any attack button to perform an invincible escape when possible.  You can also hold left or right to escape with momentum.";
@@ -656,10 +666,10 @@ public class TutorialManager : TrainingManager
 		}
 		base._PhysicsProcess(delta);
 
-		if (shouldAdvance && Input.IsActionJustPressed("switch_players"))
+		if (shouldAdvance && Input.IsActionJustPressed("reset"))
 			CompleteChallenge();
 
-		if (Input.IsActionJustPressed("switch_players"))
+		if (Input.IsActionJustPressed("reset"))
 			RestartChallenge();
 
 		if (shouldAdvance || failed)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Lobby/MainMenu.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Themes/startmenu.theme" type="Theme" id=7]
 [ext_resource path="res://Scripts/InGameMenu/InGameInputList.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/InGameSpecialInputMapping.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scripts/InGameMenu/InGameSpecialInputList.gd" type="Script" id=10]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 4
@@ -179,14 +180,21 @@ margin_bottom = 116.0
 
 [node name="SpecialInputs" type="ColorRect" parent="UserInterface"]
 margin_left = 174.0
-margin_top = 185.0
+margin_top = 175.0
 margin_right = 317.0
-margin_bottom = 249.0
-color = Color( 0.243137, 0.631373, 0.2, 0.356863 )
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 0.356863 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Container" type="VBoxContainer" parent="UserInterface/SpecialInputs"]
 margin_right = 141.0
 margin_bottom = 40.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="InGameInputMapping" parent="UserInterface/SpecialInputs/Container" instance=ExtResource( 9 )]
 anchor_right = 0.0
@@ -197,6 +205,18 @@ anchor_right = 0.0
 margin_top = 24.0
 margin_right = 141.0
 margin_bottom = 44.0
+
+[node name="InGameInputMapping3" parent="UserInterface/SpecialInputs/Container" instance=ExtResource( 9 )]
+anchor_right = 0.0
+margin_top = 48.0
+margin_right = 141.0
+margin_bottom = 68.0
+
+[node name="InGameInputMapping4" parent="UserInterface/SpecialInputs/Container" instance=ExtResource( 9 )]
+anchor_right = 0.0
+margin_top = 72.0
+margin_right = 141.0
+margin_bottom = 92.0
 
 [connection signal="button_down" from="UserInterface/PauseOverlay/PauseMenu/MainMenu" to="UserInterface" method="_on_MainMenu_button_down"]
 [connection signal="toggled" from="UserInterface/PauseOverlay/PauseMenu/AutoBlock" to="UserInterface" method="_on_AutoBlock_toggled"]

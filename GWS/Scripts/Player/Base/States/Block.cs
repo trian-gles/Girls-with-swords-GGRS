@@ -44,6 +44,12 @@ public class Block : HitState
 			}
 			
 		}
+
+		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
+		{
+			EmitSignal(nameof(StateFinished), "GuardCancel");
+		}
+
 		if (!owner.grounded)
 		{
 			ApplyGravity();

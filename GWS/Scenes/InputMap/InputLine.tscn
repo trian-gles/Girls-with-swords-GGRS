@@ -23,6 +23,9 @@ margin_top = -22.0
 margin_right = -67.0
 margin_bottom = 2.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ActionIcons" type="Sprite" parent="."]
 position = Vector2( 12, 11 )

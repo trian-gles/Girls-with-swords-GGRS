@@ -19,7 +19,7 @@ public abstract class BaseGame : Node2D
 	/// </summary>
 	/// <param name="p1Inps"></param>
 	/// <param name="p2Inps"></param>
-	public virtual void AdvanceFrame(int p1Inputs, int p2Inputs){}
+	public virtual void AdvanceFrame(int p1Inputs, int p2Inputs) { }
 
 	/// <summary>
 	/// Used for time based changes not called during rollbacks (such as visual and audio effects)
@@ -35,7 +35,7 @@ public abstract class BaseGame : Node2D
 		queue.Enqueue(this);
 		while (queue.Count > 0)
 		{
-			
+
 			var node = queue.Dequeue();
 			foreach (Node child in node.GetChildren())
 			{
@@ -45,23 +45,23 @@ public abstract class BaseGame : Node2D
 			{
 				// GD.Print("TEST");
 				// GD.Print(node);
-				((CanvasItem) node).Visible = false;
+				((CanvasItem)node).Visible = false;
 			}
 		}
 	}
 
-	public void ShowAll(Node root=null)
-    {
+	public void ShowAll(Node root = null)
+	{
 		var queue = new Queue<Node>();
 		if (root != null)
-        {
+		{
 			queue.Enqueue(root);
-        }
+		}
 		else
-        {
+		{
 			queue.Enqueue(this);
 		}
-		
+
 		while (queue.Count > 0)
 		{
 
@@ -81,7 +81,8 @@ public abstract class BaseGame : Node2D
 
 	public virtual void Reset() { }
 
-	public void ChangeHUDText(string msg) {
+	public void ChangeHUDText(string msg)
+	{
 		HUDText.Visible = true;
 		HUDText.Call("set_text", msg);
 	}
@@ -115,7 +116,7 @@ public abstract class BaseGame : Node2D
 
 		return (valueA == valueB);
 
-    }
+	}
 
 	protected bool CompareValues(bool valueA, bool valueB, string name)
 	{
@@ -124,8 +125,8 @@ public abstract class BaseGame : Node2D
 			GD.Print($"{name} does not match! new: {valueA}, old: {valueB}");
 		}
 
-        return (valueA == valueB);
-    }
+		return (valueA == valueB);
+	}
 
 
 	// ----------------
@@ -138,7 +139,7 @@ public abstract class BaseGame : Node2D
 
 	public virtual void LoadState(int frame, byte[] buffer, int checksum)
 	{
-		
+
 	}
 
 	public virtual void GGRSAdvanceFrame(int p1Inps, int p2Inps)
@@ -170,6 +171,16 @@ public abstract class BaseGame : Node2D
 	/// <returns></returns>
 	public virtual bool IsFinished()
 	{
+		return false;
+	}
+
+	protected bool AnyButtonPressed(int inputs, int playerLastFrameInputs)
+	{
+		foreach (int num in new[] { 16, 32, 64, 128 })
+		{
+			if ((inputs & num) != 0 && (playerLastFrameInputs & num) == num)
+				return true;
+		}
 		return false;
 	}
 }

@@ -864,9 +864,6 @@ public class GameScene : BaseGame
 		P2.Reset();
 		P1Meter.Call("set_meter", 100);
 		P2Meter.Call("set_meter", 100);
-
-		P1.internalPos = new Vector2(13300, 24000);
-		P2.internalPos = new Vector2(33000, 24000);
 	}
 
 	private void ResetWin() 

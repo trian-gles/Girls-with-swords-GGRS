@@ -162,7 +162,7 @@ public class WinScene : BaseGame
 				MoveCursor(i, 1);
 			}
 
-			if ((inputs & 16) != 0 && (playerLastFrameInputs & 16) == 0)
+			if (AnyButtonPressed(inputs, playerLastFrameInputs))
 			{
 				selected[i] = true;
 

@@ -880,7 +880,7 @@ margin_top = 210.0
 margin_right = 384.0
 margin_bottom = 226.0
 theme = ExtResource( 31 )
-text = "SWINGIN! Press select to proceed"
+text = "SWINGIN! Press reset to proceed"
 align = 1
 
 [node name="Complete" type="Label" parent="HUD/TutorialContainer"]

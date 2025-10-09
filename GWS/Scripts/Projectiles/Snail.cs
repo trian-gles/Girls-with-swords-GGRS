@@ -383,6 +383,11 @@ public class Snail : HadoukenPart
 
 	}
 
+	public override void HandleOverlap()
+	{
+		// Snails are FOREVER
+	}
+
 	private void TryRide()
 	{
 		if (!snailOwner.grounded || snailOwner.currentState.tags.Contains("hitstate")) return;

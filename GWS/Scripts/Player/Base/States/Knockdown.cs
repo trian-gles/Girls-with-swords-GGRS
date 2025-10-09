@@ -14,7 +14,7 @@ public class Knockdown : HitState
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
-        owner.GFXEvent("Blood");
+        //owner.GFXEvent("Blood");
         ResetTerminalVelocity();
     }
     public override void AnimationFinished()
@@ -29,9 +29,20 @@ public class Knockdown : HitState
     {
         ReceiveHitNoBlock(details);
     }
-    
+
     public override bool IsProjectileInvuln()
-	{
-		return true;
-	}
+    {
+        return true;
+    }
+
+    public override bool DelayInputs()
+    {
+        return frameCount > animationLength - 3;
+    }
+    
+    public override void TrySpecialBreak()
+    {
+        base.TrySpecialBreak();
+		owner.SpecialBreak();
+    }
 }

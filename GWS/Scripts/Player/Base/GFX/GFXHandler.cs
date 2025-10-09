@@ -23,7 +23,6 @@ public class GFXHandler : Node
 
 		foreach (object node in GetChildren())
 		{
-			GD.Print(node.GetType());
 			if (node.GetType() == typeof(PlayerParticle))
 			{
 				// GD.Print("adding to particles CPU");

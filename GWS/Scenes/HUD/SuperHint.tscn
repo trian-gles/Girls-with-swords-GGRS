@@ -16,3 +16,6 @@ margin_right = -464.0
 margin_bottom = -254.0
 rect_scale = Vector2( 0.6, 0.6 )
 texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

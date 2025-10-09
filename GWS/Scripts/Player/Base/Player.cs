@@ -377,13 +377,15 @@ public class Player : Node2D
 		ResetComboAndProration();
 		ChangeState("Idle");
 		velocity = Vector2.Zero;
+		hitPushRemaining = 0;
+
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
 			meter = 10000;
 			burstMeter = 100;
 			EmitSignal(nameof(BurstSet), Name, burstMeter);
 		}
-			
+
 		else
 			meter = 0;
 		inputHandler.Reset();
@@ -751,7 +753,7 @@ public class Player : Node2D
 					}
 					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
 				}
-				if (inputArr[0] == 'a' && playerState.tags.Contains("block"))
+				if (inputArr[0] == 'a')
 				{
 					playerState.TrySpecialBreak();
 				}
@@ -1348,6 +1350,7 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
+		GD.Print("Hit");
 		if (hitDetails.removeOTG)
 		{
 			wasOTGHit = false;

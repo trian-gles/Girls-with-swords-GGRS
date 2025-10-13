@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Lobby/Logo.tscn" type="PackedScene" id=1]
+
+[node name="PureTitle" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -3.0
+margin_top = -2.0
+margin_right = 483.0
+margin_bottom = 273.0
+color = Color( 0, 1, 0, 1 )
+
+[node name="Logo" parent="." instance=ExtResource( 1 )]
+position = Vector2( 246, 121 )
+scale = Vector2( 4, 4 )

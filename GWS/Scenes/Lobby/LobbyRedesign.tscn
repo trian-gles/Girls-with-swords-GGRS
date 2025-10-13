@@ -252,13 +252,15 @@ position = Vector2( 100, 0 )
 scale = Vector2( 2, 2 )
 
 [node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+margin_top = -200.0
 margin_right = 204.0
-margin_bottom = 16.0
+margin_bottom = -184.0
 theme = ExtResource( 3 )
 text = "Girls with Swords"
 percent_visible = 0.0
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
 margin_right = 204.0
 margin_bottom = 44.0
@@ -273,6 +275,7 @@ __meta__ = {
 }
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 54.0
 margin_right = 204.0
 margin_bottom = 72.0
@@ -293,6 +296,7 @@ __meta__ = {
 }
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
+modulate = Color( 1, 1, 1, 0 )
 margin_top = 110.0
 margin_right = 204.0
 margin_bottom = 128.0

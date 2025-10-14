@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/SLwBG-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Shaders/white.shader" type="Shader" id=3]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/HL-Portrait-Cropped.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Blink.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Sheet.png" type="Texture" id=7]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 3 )
+shader_param/whitening = 0.0
+
+[node name="HBoxContainer" type="VBoxContainer"]
+anchor_right = 0.399
+anchor_bottom = 0.27
+margin_left = 189.0
+margin_top = 118.0
+margin_right = 160.0
+margin_bottom = 177.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OLSprite" type="Sprite" parent="."]
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 6 )
+hframes = 3
+frame = 2
+
+[node name="OLPortrait" type="Sprite" parent="OLSprite"]
+texture = ExtResource( 2 )
+hframes = 3
+
+[node name="GLSprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 80, 0 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 7 )
+hframes = 10
+frame = 2
+
+[node name="GLPortrait" type="Sprite" parent="GLSprite"]
+texture = ExtResource( 5 )
+hframes = 3
+
+[node name="SLSprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 0, 80 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
+hframes = 3
+
+[node name="HLSprite2" type="Sprite" parent="."]
+position = Vector2( 80, 80 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 6 )
+hframes = 3
+frame = 2
+
+[node name="HLSprite" type="Sprite" parent="HLSprite2"]
+material = SubResource( 4 )
+texture = ExtResource( 4 )
+hframes = 3

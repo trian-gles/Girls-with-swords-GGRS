@@ -3,7 +3,7 @@ extends Label
 var currentCharacter: int = 0
 var delayBetweenCharacters: float = 0.05  # Adjust this value to control the delay between each character
 
-var fullText: String = "SELECT YOUR LADY..."
+export var fullText: String = "SELECT YOUR LADY..."
 var visibleText: String = ""
 
 onready var characterTimer := $Timer

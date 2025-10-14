@@ -1,37 +1,24 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=53 format=2]
 
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/CharSelect/PortraitContainer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/ScenesOLBlink.tres" type="Animation" id=2]
 [ext_resource path="res://Sprites/Spotlight Shadow.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/CharacterSelect/Curors2.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Blink.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/CharSelect/BkgSelect.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/GLBlink.tres" type="Animation" id=6]
 [ext_resource path="res://Scenes/Games/SelectedChar.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/HL-Portrait-Cropped.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/SLwBG-Sheet.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Stages/Clocktower/Clocktower-Thumbnail-Spritesheet.png" type="Texture" id=10]
 [ext_resource path="res://Music/char-select-12-7.ogg" type="AudioStream" id=12]
-[ext_resource path="res://Sprites/Stages/Forest/Forest.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/GameScenes/CharSelectScene.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/zeldadxt.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://Sprites/CharacterSelect/Portraits/CharacterSelectScreenAnimation.tres" type="AnimationNodeStateMachine" id=17]
-[ext_resource path="res://Sprites/Shaders/white.shader" type="Shader" id=18]
 [ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Fonts/font.tres" type="DynamicFont" id=21]
 [ext_resource path="res://Sprites/CharacterSelect/Curors1.png" type="Texture" id=22]
 [ext_resource path="res://Sprites/CharacterSelect/Curors3.png" type="Texture" id=23]
 [ext_resource path="res://Scripts/CharacterSelect/CharSelectAudio.cs" type="Script" id=24]
-[ext_resource path="res://Sprites/Stages/Office/Office.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/Stages/Cathedral/Cathedral_Full.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=27]
-[ext_resource path="res://Sprites/CharacterSelect/Portraits/GLwBGAnimation-Sheet.png" type="Texture" id=28]
 [ext_resource path="res://Sprites/CharacterSelect/ColorSelect.png" type="Texture" id=29]
-
-[sub_resource type="DynamicFont" id=1]
-size = 23
-font_data = ExtResource( 16 )
 
 [sub_resource type="Theme" id=2]
 default_font = ExtResource( 21 )
@@ -39,10 +26,6 @@ default_font = ExtResource( 21 )
 [sub_resource type="DynamicFont" id=3]
 size = 23
 font_data = ExtResource( 16 )
-
-[sub_resource type="ShaderMaterial" id=4]
-shader = ExtResource( 18 )
-shader_param/whitening = 0.0
 
 [sub_resource type="Animation" id=6]
 resource_name = "BG"
@@ -417,7 +400,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=16]
 
-[sub_resource type="Shader" id=17]
+[sub_resource type="Shader" id=46]
 code = "/*
 Shader from Godot Shaders - the free shader library.
 godotshaders.com/shader/god-rays
@@ -531,7 +514,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=18]
-shader = SubResource( 17 )
+shader = SubResource( 46 )
 shader_param/amount = 40
 shader_param/pixelationLevel = 50.0
 shader_param/angle = -0.3
@@ -547,6 +530,119 @@ shader_param/ray2_intensity = 0.093
 shader_param/color = Color( 1, 0.65098, 0.831373, 0.537255 )
 shader_param/hdr = false
 shader_param/seed = 10.0
+
+[sub_resource type="Shader" id=17]
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/god-rays
+
+Feel free to use, improve and change this shader according to your needs
+and consider sharing the modified result on godotshaders.com.
+*/
+
+shader_type canvas_item;
+
+uniform int amount = 40;
+uniform float pixelationLevel = 50.0;
+uniform float angle = -0.3;
+uniform float position = -0.2;
+uniform float spread : hint_range(0.0, 1.0) = 0.5;
+uniform float cutoff : hint_range(-1.0, 1.0) = 0.1;
+uniform float falloff : hint_range(0.0, 1.0) = 0.2;
+uniform float edge_fade : hint_range(0.0, 1.0) = 0.15;
+
+uniform float speed = 1.0;
+uniform float ray1_density = 8.0;
+uniform float ray2_density = 30.0;
+uniform float ray2_intensity : hint_range(0.0, 1.0) = 0.3;
+
+uniform vec4 color : hint_color = vec4(1.0, 0.9, 0.65, 0.8);
+
+uniform bool hdr = false;
+uniform float seed = 5.0;
+
+// Random and noise functions from Book of Shader's chapter on Noise.
+float random(vec2 _uv) {
+    return fract(sin(dot(_uv.xy,
+                         vec2(12.9898, 78.233))) *
+        43758.5453123);
+}
+
+float noise (in vec2 uv) {
+    vec2 i = floor(uv);
+    vec2 f = fract(uv);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+
+    // Smooth Interpolation
+
+    // Cubic Hermine Curve. Same as SmoothStep()
+    vec2 u = f * f * (3.0-2.0 * f);
+
+    // Mix 4 coorners percentages
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+mat2 rotate(float _angle){
+    return mat2(vec2(cos(_angle), -sin(_angle)),
+                vec2(sin(_angle), cos(_angle)));
+}
+
+vec4 screen(vec4 base, vec4 blend){
+	return 1.0 - (1.0 - base) * (1.0 - blend);
+}
+
+void fragment() {
+    // Determine pixelation level
+    
+    // Calculate pixelated UV coordinates
+    vec2 pixelatedUV = floor(UV * pixelationLevel) / pixelationLevel;
+
+    // Rotate, skew, and move the UVs
+    vec2 transformed_uv = (rotate(angle) * (pixelatedUV - position)) / ((pixelatedUV.y + spread) - (pixelatedUV.y * spread));
+
+    // Animate the ray according to the new transformed UVs
+    vec2 ray1 = vec2(transformed_uv.x * ray1_density + sin(TIME * 0.1 * speed) * (ray1_density * 0.2) + seed, 1.0);
+    vec2 ray2 = vec2(transformed_uv.x * ray2_density + sin(TIME * 0.2 * speed) * (ray1_density * 0.2) + seed, 1.0);
+
+    // Cut off the ray's edges
+    float cut = step(cutoff, transformed_uv.x) * step(cutoff, 1.0 - transformed_uv.x);
+    ray1 *= cut;
+    ray2 *= cut;
+
+    // Apply the noise pattern (i.e., create the rays)
+    float rays;
+
+    if (hdr) {
+        // This is not really HDR, but check this to not clamp the two merged rays making 
+        // their values go over 1.0. Can make for some nice effect
+        rays = noise(ray1) + (noise(ray2) * ray2_intensity);
+    } else {
+        rays = clamp(noise(ray1) + (noise(ray2) * ray2_intensity), 0., 1.);
+    }
+
+    // Fade out edges
+    rays *= smoothstep(0.0, falloff, (1.0 - UV.y));                                              // Bottom
+    rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, transformed_uv.x);                        // Left
+    rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, 1.0 - transformed_uv.x);                   // Right
+
+    // Color to the rays
+    vec3 shine = vec3(rays) * color.rgb;
+
+    // Try different blending modes for a nicer effect. \"Screen\" is included in the code,
+    // but take a look at https://godotshaders.com/snippet/blending-modes/ for more.
+    // With \"Screen\" blend mode:
+    shine = screen(texture(SCREEN_TEXTURE, SCREEN_UV), vec4(color)).rgb;
+
+    COLOR = vec4(shine, rays * color.a);
+}"
 
 [sub_resource type="ShaderMaterial" id=19]
 shader = SubResource( 17 )
@@ -697,7 +793,7 @@ start_node = "Bounce"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=30]
 
-[sub_resource type="Shader" id=41]
+[sub_resource type="Shader" id=47]
 code = "shader_type canvas_item;
 
 // Amount of detail.
@@ -745,18 +841,18 @@ period = 141.8
 persistence = 0.578
 lacunarity = 2.23
 
-[sub_resource type="NoiseTexture" id=43]
+[sub_resource type="NoiseTexture" id=48]
 noise = SubResource( 42 )
 
 [sub_resource type="ShaderMaterial" id=44]
-shader = SubResource( 41 )
+shader = SubResource( 47 )
 shader_param/octaves = 2
 shader_param/starting_amplitude = 0.5
 shader_param/starting_frequency = 1.188
 shader_param/shift = -0.088
 shader_param/velocity = Vector2( 1, 1 )
 shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
-shader_param/noise = SubResource( 43 )
+shader_param/noise = SubResource( 48 )
 
 [node name="CharSelectScreen" type="Node2D"]
 script = ExtResource( 14 )
@@ -767,79 +863,7 @@ GLScene = ExtResource( 19 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Bkgs" type="Node2D" parent="CanvasLayer"]
-position = Vector2( 230, 40 )
-
-[node name="OfficeInterior" type="Sprite" parent="CanvasLayer/Bkgs"]
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 25 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Bkgs/OfficeInterior"]
-margin_left = -92.808
-margin_top = -181.065
-margin_right = 3.19202
-margin_bottom = -162.065
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 1 )
-text = "OFFICE"
-align = 1
-
-[node name="Cathedral" type="Sprite" parent="CanvasLayer/Bkgs"]
-visible = false
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 26 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Cathedral"]
-margin_left = -137.038
-margin_top = -184.014
-margin_right = 6.96216
-margin_bottom = -165.014
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 1 )
-text = "CATHEDRAL"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Forest" type="Sprite" parent="CanvasLayer/Bkgs"]
-visible = false
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 13 )
-hframes = 8
-
-[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Forest"]
-margin_left = -154.528
-margin_top = -181.065
-margin_right = 5.47235
-margin_bottom = -162.065
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 1 )
-text = "FOREST
-"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Clock" type="Sprite" parent="CanvasLayer/Bkgs"]
-visible = false
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 10 )
-hframes = 8
-
-[node name="Label" type="Label" parent="CanvasLayer/Bkgs/Clock"]
-margin_left = -154.528
-margin_top = -181.065
-margin_right = 5.47235
-margin_bottom = -162.065
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 1 )
-text = "CLOCKTOWER"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Bkgs" parent="CanvasLayer" instance=ExtResource( 5 )]
 
 [node name="DebugText" type="Label" parent="CanvasLayer"]
 visible = false
@@ -868,58 +892,14 @@ margin_bottom = 271.0
 custom_fonts/font = SubResource( 3 )
 align = 1
 script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Timer" type="Timer" parent="CanvasLayer/ScrollText"]
 autostart = true
 
-[node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-anchor_right = 0.399
-anchor_bottom = 0.27
-margin_left = 189.0
-margin_top = 118.0
-margin_right = 160.0
-margin_bottom = 177.1
-
-[node name="OLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 1 )
-hframes = 3
-frame = 2
-
-[node name="OLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/OLSprite"]
-texture = ExtResource( 27 )
-hframes = 3
-
-[node name="GLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
-material = SubResource( 4 )
-position = Vector2( 80, 0 )
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 28 )
-hframes = 10
-frame = 2
-
-[node name="GLPortrait" type="Sprite" parent="CanvasLayer/HBoxContainer/GLSprite"]
-texture = ExtResource( 5 )
-hframes = 3
-
-[node name="SLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer"]
-material = SubResource( 4 )
-position = Vector2( 0, 80 )
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 9 )
-hframes = 3
-
-[node name="HLSprite2" type="Sprite" parent="CanvasLayer/HBoxContainer"]
-position = Vector2( 80, 80 )
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 1 )
-hframes = 3
-frame = 2
-
-[node name="HLSprite" type="Sprite" parent="CanvasLayer/HBoxContainer/HLSprite2"]
-material = SubResource( 4 )
-texture = ExtResource( 8 )
-hframes = 3
+[node name="HBoxContainer" parent="CanvasLayer" instance=ExtResource( 1 )]
 
 [node name="BG Animation" type="AnimationPlayer" parent="CanvasLayer"]
 autoplay = "BG"
@@ -952,6 +932,9 @@ margin_left = -7.69795
 margin_top = -15.0705
 margin_right = 88.3021
 margin_bottom = 188.929
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Node2D" type="Node2D" parent="CanvasLayer/LeftSpotlight"]
 position = Vector2( 37.4627, 158.076 )
@@ -1013,10 +996,12 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
+frame = 4
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P1ColorSelect"]
 texture = ExtResource( 29 )
 hframes = 16
+frame = 4
 
 [node name="P2ColorSelect" type="Node2D" parent="CanvasLayer"]
 position = Vector2( 76.5433, 150.308 )

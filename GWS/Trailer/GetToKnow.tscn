@@ -1,0 +1,367 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scenes/Games/SelectedChar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=2]
+[ext_resource path="res://Scripts/CharacterSelect/ScrollText.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/zeldadxt.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Sprites/Spotlight Shadow.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-Cropped-Sheet.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/OL-Portrait-BG.png" type="Texture" id=7]
+[ext_resource path="res://Themes/GetToKnow.tres" type="Theme" id=8]
+
+[sub_resource type="Shader" id=41]
+code = "shader_type canvas_item;
+
+// Amount of detail.
+uniform int octaves = 4;
+
+// Opacity of the output fog.
+uniform float starting_amplitude: hint_range(0.0, 0.5) = 0.5;
+
+// Rate of pattern within the fog.
+uniform float starting_frequency = 1.0;
+
+// Shift towards transparency (clamped) for sparser fog.
+uniform float shift: hint_range(-1.0, 0.0) = -0.2;
+
+// Direction and speed of travel.
+uniform vec2 velocity = vec2(1.0, 1.0);
+
+// Color of the fog.
+uniform vec4 fog_color: hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+
+// Noise texture; OpenSimplexNoise is great, but any filtered texture is fine.
+uniform sampler2D noise;
+
+float rand(vec2 uv) {
+	float amplitude = starting_amplitude;
+	float frequency = starting_frequency;
+	float output = 0.0;
+	for (int i = 0; i < octaves; i++) {
+		output += texture(noise, uv * frequency).x * amplitude;
+		amplitude /= 2.0;
+		frequency *= 2.0;
+	}
+	return clamp(output + shift, 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 motion = vec2(rand(UV + TIME * starting_frequency * velocity));
+	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
+}"
+
+[sub_resource type="OpenSimplexNoise" id=44]
+seed = 2
+octaves = 6
+period = 141.8
+persistence = 0.578
+lacunarity = 2.23
+
+[sub_resource type="NoiseTexture" id=43]
+noise = SubResource( 44 )
+
+[sub_resource type="ShaderMaterial" id=45]
+shader = SubResource( 41 )
+shader_param/octaves = 2
+shader_param/starting_amplitude = 0.5
+shader_param/starting_frequency = 1.188
+shader_param/shift = -0.088
+shader_param/velocity = Vector2( 1, 1 )
+shader_param/fog_color = Color( 0.156863, 0.12549, 0.215686, 1 )
+shader_param/noise = SubResource( 43 )
+
+[sub_resource type="Shader" id=17]
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/god-rays
+
+Feel free to use, improve and change this shader according to your needs
+and consider sharing the modified result on godotshaders.com.
+*/
+
+shader_type canvas_item;
+
+uniform int amount = 40;
+uniform float pixelationLevel = 50.0;
+uniform float angle = -0.3;
+uniform float position = -0.2;
+uniform float spread : hint_range(0.0, 1.0) = 0.5;
+uniform float cutoff : hint_range(-1.0, 1.0) = 0.1;
+uniform float falloff : hint_range(0.0, 1.0) = 0.2;
+uniform float edge_fade : hint_range(0.0, 1.0) = 0.15;
+
+uniform float speed = 1.0;
+uniform float ray1_density = 8.0;
+uniform float ray2_density = 30.0;
+uniform float ray2_intensity : hint_range(0.0, 1.0) = 0.3;
+
+uniform vec4 color : hint_color = vec4(1.0, 0.9, 0.65, 0.8);
+
+uniform bool hdr = false;
+uniform float seed = 5.0;
+
+// Random and noise functions from Book of Shader's chapter on Noise.
+float random(vec2 _uv) {
+    return fract(sin(dot(_uv.xy,
+                         vec2(12.9898, 78.233))) *
+        43758.5453123);
+}
+
+float noise (in vec2 uv) {
+    vec2 i = floor(uv);
+    vec2 f = fract(uv);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+
+    // Smooth Interpolation
+
+    // Cubic Hermine Curve. Same as SmoothStep()
+    vec2 u = f * f * (3.0-2.0 * f);
+
+    // Mix 4 coorners percentages
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+mat2 rotate(float _angle){
+    return mat2(vec2(cos(_angle), -sin(_angle)),
+                vec2(sin(_angle), cos(_angle)));
+}
+
+vec4 screen(vec4 base, vec4 blend){
+	return 1.0 - (1.0 - base) * (1.0 - blend);
+}
+
+void fragment() {
+    // Determine pixelation level
+    
+    // Calculate pixelated UV coordinates
+    vec2 pixelatedUV = floor(UV * pixelationLevel) / pixelationLevel;
+
+    // Rotate, skew, and move the UVs
+    vec2 transformed_uv = (rotate(angle) * (pixelatedUV - position)) / ((pixelatedUV.y + spread) - (pixelatedUV.y * spread));
+
+    // Animate the ray according to the new transformed UVs
+    vec2 ray1 = vec2(transformed_uv.x * ray1_density + sin(TIME * 0.1 * speed) * (ray1_density * 0.2) + seed, 1.0);
+    vec2 ray2 = vec2(transformed_uv.x * ray2_density + sin(TIME * 0.2 * speed) * (ray1_density * 0.2) + seed, 1.0);
+
+    // Cut off the ray's edges
+    float cut = step(cutoff, transformed_uv.x) * step(cutoff, 1.0 - transformed_uv.x);
+    ray1 *= cut;
+    ray2 *= cut;
+
+    // Apply the noise pattern (i.e., create the rays)
+    float rays;
+
+    if (hdr) {
+        // This is not really HDR, but check this to not clamp the two merged rays making 
+        // their values go over 1.0. Can make for some nice effect
+        rays = noise(ray1) + (noise(ray2) * ray2_intensity);
+    } else {
+        rays = clamp(noise(ray1) + (noise(ray2) * ray2_intensity), 0., 1.);
+    }
+
+    // Fade out edges
+    rays *= smoothstep(0.0, falloff, (1.0 - UV.y));                                              // Bottom
+    rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, transformed_uv.x);                        // Left
+    rays *= smoothstep(0.0 + cutoff, edge_fade + cutoff, 1.0 - transformed_uv.x);                   // Right
+
+    // Color to the rays
+    vec3 shine = vec3(rays) * color.rgb;
+
+    // Try different blending modes for a nicer effect. \"Screen\" is included in the code,
+    // but take a look at https://godotshaders.com/snippet/blending-modes/ for more.
+    // With \"Screen\" blend mode:
+    shine = screen(texture(SCREEN_TEXTURE, SCREEN_UV), vec4(color)).rgb;
+
+    COLOR = vec4(shine, rays * color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
+shader_param/amount = 40
+shader_param/pixelationLevel = 50.0
+shader_param/angle = 0.1
+shader_param/position = 0.0
+shader_param/spread = 0.769
+shader_param/cutoff = 0.026
+shader_param/falloff = 0.2
+shader_param/edge_fade = 0.362
+shader_param/speed = 10.0
+shader_param/ray1_density = 8.0
+shader_param/ray2_density = 30.0
+shader_param/ray2_intensity = 0.093
+shader_param/color = Color( 1, 0.65098, 0.831373, 0.537255 )
+shader_param/hdr = false
+shader_param/seed = 10.0
+
+[sub_resource type="DynamicFont" id=1]
+size = 23
+font_data = ExtResource( 4 )
+
+[node name="GetToKnow" type="Node2D"]
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+material = SubResource( 45 )
+margin_top = -13.0
+margin_right = 480.0
+margin_bottom = 277.0
+color = Color( 0.141176, 0.180392, 0.235294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftSpotlight" type="ColorRect" parent="."]
+material = SubResource( 18 )
+margin_left = 37.0
+margin_top = -36.0
+margin_right = 193.0
+margin_bottom = 168.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Node2D" type="Node2D" parent="LeftSpotlight"]
+position = Vector2( 37.4627, 158.076 )
+
+[node name="Sprite" type="Sprite" parent="LeftSpotlight/Node2D"]
+modulate = Color( 0, 0, 0, 0.490196 )
+position = Vector2( 28.5373, 23.924 )
+texture = ExtResource( 5 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="LeftSpotlight"]
+visible = false
+position = Vector2( 37.4627, 158.076 )
+scale = Vector2( 1.69591, 2.52 )
+amount = 13
+emission_shape = 2
+emission_rect_extents = Vector2( 2, 2 )
+direction = Vector2( 1.666, 0.288 )
+spread = 138.6
+gravity = Vector2( 50, 98.519 )
+initial_velocity = 30.25
+angular_velocity = -664.61
+angular_velocity_random = 0.7
+orbit_velocity = 1.54
+radial_accel = -30.77
+radial_accel_random = 0.34
+tangential_accel = -100.0
+color = Color( 0.980392, 0.760784, 1, 0.643137 )
+
+[node name="SelectedChar" parent="." instance=ExtResource( 1 )]
+position = Vector2( 110, 120 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 250.0
+margin_top = 120.0
+margin_right = 514.0
+margin_bottom = 272.0
+rect_scale = Vector2( 0.7, 0.7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fact1" type="Label" parent="VBoxContainer"]
+margin_right = 264.0
+margin_bottom = 35.0
+rect_pivot_offset = Vector2( 47, 35 )
+theme = ExtResource( 8 )
+text = "Occupation:
+Executive Assistant"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fact2" type="Label" parent="VBoxContainer"]
+margin_top = 39.0
+margin_right = 264.0
+margin_bottom = 74.0
+rect_pivot_offset = Vector2( 62, 24 )
+theme = ExtResource( 8 )
+text = "Hometown:
+Tokyo, Japan"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fact3" type="Label" parent="VBoxContainer"]
+margin_top = 78.0
+margin_right = 264.0
+margin_bottom = 113.0
+rect_pivot_offset = Vector2( 55, 31 )
+theme = ExtResource( 8 )
+text = "Relationship Status:
+Single"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fact4" type="Label" parent="VBoxContainer"]
+margin_top = 117.0
+margin_right = 264.0
+margin_bottom = 152.0
+rect_pivot_offset = Vector2( 55, 31 )
+theme = ExtResource( 8 )
+text = "Fav Season of Friends:
+7"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Difficulty" type="Label" parent="."]
+margin_left = 39.0
+margin_top = 199.0
+margin_right = 267.0
+margin_bottom = 218.0
+rect_pivot_offset = Vector2( 109, 24 )
+theme = ExtResource( 2 )
+text = "Difficulty: *"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Style" type="Label" parent="."]
+margin_left = 38.0
+margin_top = 221.0
+margin_right = 266.0
+margin_bottom = 240.0
+rect_pivot_offset = Vector2( 109, 24 )
+theme = ExtResource( 2 )
+text = "Style: Versitile"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollText" type="Label" parent="."]
+anchor_right = 1.0
+margin_left = 42.0
+margin_top = 171.0
+margin_right = 218.0
+margin_bottom = 202.0
+custom_fonts/font = SubResource( 1 )
+align = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+fullText = "OFFICE LADY"
+
+[node name="Timer" type="Timer" parent="ScrollText"]
+autostart = true
+
+[node name="OLSprite" type="Sprite" parent="."]
+position = Vector2( 331, 50 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 7 )
+hframes = 3
+frame = 2
+
+[node name="OLPortrait" type="Sprite" parent="OLSprite"]
+texture = ExtResource( 6 )
+hframes = 3

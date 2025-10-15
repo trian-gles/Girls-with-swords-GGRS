@@ -1,9 +1,17 @@
-[gd_resource type="Theme" load_steps=4 format=2]
+[gd_resource type="Theme" load_steps=5 format=2]
 
 [ext_resource path="res://Fonts/Code.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/CharacterSelect/Portraits/FrameTileSet.png" type="Texture" id=2]
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.206032, 0.206913, 0.210938, 1 )
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 20, 20 )
+margin_left = 5.00057
+margin_right = 5.00057
+margin_top = 5.11024
+margin_bottom = 5.00057
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [sub_resource type="DynamicFont" id=1]
 outline_color = Color( 0, 0, 0, 1 )

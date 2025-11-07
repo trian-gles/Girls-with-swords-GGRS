@@ -42,6 +42,7 @@ public abstract class State : Node
 	{
 		get { return Name;  }
 	}
+	public bool shrinkOtherSprite = false;
 
 	protected float animationLength;
 
@@ -451,7 +452,6 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			// GD.Print($"Adding special {special.state} with input {special.inputs.Last()[0]}");
 			AddRhythmGatling(special.inputs, special.state);
 		}
 	}
@@ -642,6 +642,11 @@ public abstract class State : Node
 		return false;
 	}
 
+	public virtual bool IsGrabbable()
+	{
+		return true;
+	}
+
 	/// <summary>
 	/// Just advances the frameCount, please make a base. call anyways though!
 	/// </summary>
@@ -718,7 +723,6 @@ public abstract class State : Node
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		//GD.Print($"{owner.Name} : {owner.internalPos.x}, {owner.otherPlayer.Name} : {owner.otherPlayer.internalPos.x}");
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 

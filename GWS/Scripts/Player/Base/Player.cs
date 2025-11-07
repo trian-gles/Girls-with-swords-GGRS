@@ -988,7 +988,18 @@ public class Player : Node2D
 	{
 		eventSched.FrameAdvance();
 		electricity.Visible = electrocuted;
-	}
+
+        var direction = sprite.Scale.x / Math.Abs(sprite.Scale.x);
+        if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
+        {
+            sprite.Scale = new Vector2(1.5f * direction, 1.5f);
+            sprite.Offset = new Vector2(sprite.Offset.x, 20);
+        }
+        else
+        {
+            sprite.Scale = new Vector2(3 * direction, 3);
+        }
+    }
 
 	/// <summary>
 	/// Called anytime outside of rollbacks
@@ -1049,6 +1060,8 @@ public class Player : Node2D
 				EndSpecialBreak();
 			}
 		}
+
+		
 		GFXSpecialFrameAdvance(); // purely graphic, should be moved
 
 		AdjustHitpush(); // make sure this is placed in the right spot...
@@ -1305,12 +1318,12 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool IsGrabbable()
 	{
-		return (!(grabInvulnFrames > 0 || currentState.GetType().IsSubclassOf(typeof(HitState)) || !grounded));
+		return ((grabInvulnFrames == 0 && currentState.IsGrabbable() && grounded));
 	}
 
 	public bool IsAirGrabbable()
 	{
-		return (!(grabInvulnFrames > 0 || currentState.GetType().IsSubclassOf(typeof(HitState)) || grounded));
+		return (grabInvulnFrames == 0 && currentState.IsGrabbable() && !grounded);
 	}
 
 	/// <summary>
@@ -1350,7 +1363,6 @@ public class Player : Node2D
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
-		GD.Print("Hit");
 		if (hitDetails.removeOTG)
 		{
 			wasOTGHit = false;
@@ -1567,6 +1579,11 @@ public class Player : Node2D
 	{
 		// may include more in future
 		ColorSprite();
+	}
+
+	public bool ShrinkOtherSprite()
+	{
+		return currentState.shrinkOtherSprite;
 	}
 
 	public void ConfirmRhythmHit()

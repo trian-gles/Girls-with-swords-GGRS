@@ -39,12 +39,10 @@ class SnailStrike : Hadouken
 
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
-		//GD.Print(strikeNum);
 
 		int displacement = strikeNum * successiveXOffset + xOffset;
 		if (!owner.facingRight)
 			displacement *= -1;
-		//GD.Print(displacement);
 		h.Position = new Vector2(owner.Position.x  + displacement, owner.Position.y + yOffset);
 		return h;
 	}

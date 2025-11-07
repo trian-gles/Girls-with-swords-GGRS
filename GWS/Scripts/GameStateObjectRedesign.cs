@@ -289,7 +289,6 @@ public class GameStateObjectRedesign : Node
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)
 	{
-		//GD.Print($"Synctesting on frame {Frame}");
 
 		Update((int)thisFrameInputs[0], (int)thisFrameInputs[1]);
 		

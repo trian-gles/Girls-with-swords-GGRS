@@ -63,15 +63,7 @@ public class OL : Player
 	}
 	public override void _Ready()
 	{
-		//GD.Print("Calling OL Ready");
 		base._Ready();
 		charName = "OL";
-
-		
-		//AddAltState("CrouchB");
-		//AddAltState("Walk");
-		//AddAltState("Slash");
-		//AddAltState("Crouch");
-		//AddAltState("Idle");
 	}
 }

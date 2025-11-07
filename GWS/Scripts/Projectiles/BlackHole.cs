@@ -34,8 +34,6 @@ public class BlackHole : HadoukenPart
 
 			if (frame > duration)
 				MakeInactive();
-			else
-				GD.Print($"Frame {frame} of duration {duration}");
 
 			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains("tech"))
 			{

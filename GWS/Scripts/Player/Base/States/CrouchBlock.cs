@@ -20,7 +20,12 @@ public class CrouchBlock : Block
 				EmitSignal(nameof(StateFinished), "Idle");
 
 		}
-	}
+
+        if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
+        {
+            EmitSignal(nameof(StateFinished), "GuardCancel");
+        }
+    }
 
     public override void EnterShieldState()
     {

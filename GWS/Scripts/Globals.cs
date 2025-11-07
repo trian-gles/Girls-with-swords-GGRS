@@ -23,6 +23,7 @@ public class Globals : Node
 	public delegate void NetPlayLobbyReturn();
 
 	public static string VERSION = "1.0.0";
+	public static string netplaySessionName = "";
 
 	public static int frame = 0;
 	public static int lastConfirmedFrame = 0;

@@ -4274,10 +4274,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 41.7, 47.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 114, 115, 116, 117, 118, 119, 119 ]
+"times": PoolRealArray( 0, 9, 26.7, 30.7, 35.7, 41.7, 47.7, 63, 65 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 114, 115, 116, 117, 118, 119, 119, 119, 52 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("GrabPos:position")
@@ -4559,7 +4559,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 51 ]
+"values": [ 52 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HitBoxes/HitB1:disabled")
@@ -4865,7 +4865,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 12 ),
+"times": PoolRealArray( 0, 21 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -4889,7 +4889,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 12 ),
+"times": PoolRealArray( 0, 21 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -6594,10 +6594,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 12, 26, 27 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 12, 13, 16, 17, 19, 20, 22, 27, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ true, false, false, true ]
+"values": [ true, false, true, false, true, false, true, false, true, true ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("HurtBoxes/HurtB1:position")
@@ -9960,9 +9960,6 @@ position = Vector2( -2, 0 )
 position = Vector2( 0, -24 )
 disabled = false
 
-[node name="HitB3" parent="HitBoxes" index="2"]
-position = Vector2( 14, 14 )
-
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 10, -12 )
 
@@ -9980,13 +9977,13 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 235
+frame = 237
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
 hframes = 255
 vframes = 2
-frame = 235
+frame = 237
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -9996,6 +9993,10 @@ startupFrames = 7
 
 [node name="MovingJump" parent="StateTree" index="5"]
 startupFrames = 7
+
+[node name="Grab" parent="StateTree" index="13"]
+releaseFrame = 65
+setShrinkOtherSpriteTrue = true
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )

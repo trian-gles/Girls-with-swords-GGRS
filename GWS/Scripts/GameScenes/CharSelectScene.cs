@@ -263,7 +263,6 @@ public class CharSelectScene : BaseGame
 
 	private void MoveCursor(int playerNum, int movement)
 	{
-		GD.Print(playerNum);
 		if (playerNum == 0)
 		{
 			if (!p1Selected) {
@@ -341,7 +340,6 @@ public class CharSelectScene : BaseGame
 		}
 		else if (playerNum == selectStagePlayer)
 		{
-			GD.Print("Selecting stage");
 			stageSelected = true;
 		}
 
@@ -352,7 +350,6 @@ public class CharSelectScene : BaseGame
 				audio.PlaySound("CharSelect");
 				if (p2Color == p1Color && p1Pos == p2Pos)
 				{
-					//GD.Print("colors match");
 					if (p2Color == 0)
 						p2Color = 1;
 					else

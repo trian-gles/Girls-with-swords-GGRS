@@ -26,7 +26,13 @@ public class HitState : State
         owner.grabInvulnFrames = 5;
 	}
 
-	protected void ReceiveElectrocution()
+    public override bool IsGrabbable()
+	{
+		return false;
+	}
+
+
+    protected void ReceiveElectrocution()
 	{
 		var hit = Globals.electrocuteDetails;
 		if (owner.grounded)

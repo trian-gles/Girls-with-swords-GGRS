@@ -192,7 +192,6 @@ public class TutorialManager : TrainingManager
 		file.Open($"res://SavedRecordings/{RecordingName}/{currChallenge.name}.json", Godot.File.ModeFlags.Write);
 		file.StoreString(JSON.Print(recordedInputs2));
 		file.Close();
-		GD.Print("SAVED");
 	}
 
 
@@ -729,7 +728,6 @@ public class TutorialManager : TrainingManager
 			Popup(c.popupText);
 
 		failed = false;
-		GD.Print("Resetting challenge");
 	}
 
 	protected override void StopInputPlayback(int num = 1)

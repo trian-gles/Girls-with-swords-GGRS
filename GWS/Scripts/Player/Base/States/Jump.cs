@@ -132,7 +132,6 @@ public class Jump : AirState
 		owner.velocity.y = -1 * owner.jumpForce;
 		owner.grounded = false;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
-		//GD.Print("Jump");
 
 		if (owner.CheckHeldKey('6'))
 		{
@@ -150,7 +149,6 @@ public class Jump : AirState
 	public override void Exit()
 	{
 		base.Exit();
-		//GD.Print(frameCount);
 	}
 
 	public override bool DelayInputs()
@@ -168,13 +166,11 @@ public class Jump : AirState
 			if (Enumerable.SequenceEqual(inputArr, new char[] { '6', 'p' }))
             {
 				owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
-				//GD.Print($"Using delayed input from 6 press, vel is now {owner.velocity.x}");
 			}
 				
 			else if (Enumerable.SequenceEqual(inputArr, new char[] { '4', 'p' }))
             {
 				owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
-				//GD.Print("Using delayed input");
 			}
 				
 		}

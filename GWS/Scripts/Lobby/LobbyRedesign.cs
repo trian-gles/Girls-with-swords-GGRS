@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class LobbyRedesign : Node2D
 {
@@ -11,6 +12,8 @@ public class LobbyRedesign : Node2D
 	VBoxContainer localmenubuttons;
 	VBoxContainer entries;
 	HBoxContainer netplaybuttons;
+	Label sendToFriendLabel;
+	Label waitingForOtherPlayerLabel;
 
 	LineEdit newMatchId;
 	LineEdit existingMatchId;
@@ -58,6 +61,15 @@ public class LobbyRedesign : Node2D
 	
 	private BaseManager activeManager;
 	
+	private static Random random = new Random();
+
+	public static string RandomString(int length)
+	{
+		const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		return new string(Enumerable.Repeat(chars, length)
+			.Select(s => s[random.Next(s.Length)]).ToArray());
+	}
+	
 	public override void _Ready()
 	{
 		menuroot = GetNode<Control>("MenuRoot");
@@ -70,7 +82,12 @@ public class LobbyRedesign : Node2D
 		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
 
 		newMatchId = entries.GetNode<LineEdit>("NewMatchContainer/NewMatchID");
+		sendToFriendLabel = newMatchId.GetNode<Label>("SendToFriend");
+		waitingForOtherPlayerLabel = netplaymenu.GetNode<Label>("WaitingForOtherPlayer");
+
 		existingMatchId = entries.GetNode<LineEdit>("ExistingMatchContainer/ExistingMatchID");
+		sendToFriendLabel.Visible = false;
+		waitingForOtherPlayerLabel.Visible = false;
 
 		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
@@ -116,12 +133,19 @@ public class LobbyRedesign : Node2D
 
 	public void OnNewNetplayMatch()
 	{
-		newMatchId.Text = "1337";
+		newMatchId.Text = RandomString(8);
+		Globals.netplaySessionName = newMatchId.Text;
+		sendToFriendLabel.Visible = true;
+		waitingForOtherPlayerLabel.Visible = true;
+		BeginNetplayManager(ggrsManager);
 	}
 
 	public void OnJoinNetplayMatch()
 	{
 		GD.Print(existingMatchId.Text);
+		Globals.netplaySessionName = existingMatchId.Text;
+		waitingForOtherPlayerLabel.Visible = true;
+		BeginNetplayManager(ggrsManager);
 	}
 
 	public void OnAutoConnectDown()
@@ -170,7 +194,6 @@ public class LobbyRedesign : Node2D
 
 	public void OnTutorialButtonDown()
 	{
-		GD.Print("tutorial");
 		BeginManager(tutorialManager);
 	}
 	
@@ -180,7 +203,19 @@ public class LobbyRedesign : Node2D
 		GetNode<AudioStreamPlayer>("LobbyMusic").Stop();
 		HideButtons();
 	}
-	
+
+	private void BeginNetplayManager(PackedScene managerScene)
+	{
+		activeManager = managerScene.Instance<BaseManager>();
+		AddChild(activeManager);
+	}
+
+	private void OnNetPlayConnected()
+	{
+		GetNode<AudioStreamPlayer>("LobbyMusic").Stop();
+		HideButtons();
+	}
+
 	//config
 	public void _on_ButtonConfig_pressed()
 	{
@@ -216,6 +251,9 @@ public class LobbyRedesign : Node2D
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
 		GetNode<AudioStreamPlayer>("LobbyMusic").Play();
+		waitingForOtherPlayerLabel.Visible = false;
+		sendToFriendLabel.Visible = false;
+		newMatchId.Text = "";
 
 		menu.Call("_on_BackButton_pressed");
 	}

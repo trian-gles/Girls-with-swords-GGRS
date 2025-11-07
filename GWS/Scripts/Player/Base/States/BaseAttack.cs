@@ -206,7 +206,6 @@ public abstract class BaseAttack : State
 		if (selfGatlingInp != " ")
 		{
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
-			GD.Print($"Adding gatling for {Name} upon press of {selfGatlingInp}");
 		}
 
 	}
@@ -411,51 +410,4 @@ public abstract class BaseAttack : State
 	{
 		return frameCount <= projectileInvulnFrames;
 	}
-
-
-
-	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-	//{
-	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-	//	bool launchBool = false;
-	//	owner.ComboUp();
-	//	if (!(launch == Vector2.Zero)) // LAUNCH NEEDS MORE WORK
-	//	{
-	//		GD.Print("Launch is not zero!");
-	//		owner.velocity = launch;
-	//		launchBool = true;
-	//	}
-
-	//	bool airState = (launchBool || !owner.grounded);
-
-	//	if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
-	//	{
-	//		EmitSignal(nameof(StateFinished), "GroundBounce");
-	//	}
-	//	else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
-	//	{
-	//		EmitSignal(nameof(StateFinished), "WallBounce");
-	//	}
-	//	else if (launchBool && !knockdown)
-	//	{
-	//		GD.Print("Entering counterfloat from attack");
-	//		EmitSignal(nameof(StateFinished), "CounterFloat");
-	//	}
-	//	else if (airState && knockdown)
-	//	{
-	//		GD.Print("Entering airknockdown from attack");
-	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
-	//	}
-	//	else if (!airState && knockdown)
-	//	{
-	//		GD.Print("Entering knockdown from attack");
-	//		EmitSignal(nameof(StateFinished), "Knockdown");
-
-	//	}
-	//	else
-	//	{
-	//		EmitSignal(nameof(StateFinished), "CounterHit");
-	//	}
-	//}
-
 }

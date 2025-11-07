@@ -252,9 +252,8 @@ position = Vector2( 100, 0 )
 scale = Vector2( 2, 2 )
 
 [node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_top = -200.0
 margin_right = 204.0
-margin_bottom = -184.0
+margin_bottom = 16.0
 theme = ExtResource( 3 )
 text = "Girls with Swords"
 percent_visible = 0.0
@@ -505,11 +504,18 @@ focus_previous = NodePath("../ComboTrials")
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
+
+[node name="WaitingForOtherPlayer" type="Label" parent="MenuRoot/NetPlayMenu"]
+margin_right = 480.0
+margin_bottom = 270.0
+size_flags_vertical = 1
+text = "
+Waiting for other player..."
+align = 1
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
@@ -565,6 +571,16 @@ editable = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SendToFriend" type="Label" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/NewMatchID"]
+anchor_left = -0.4
+anchor_top = 0.434
+anchor_bottom = 0.434
+margin_top = -2.832
+margin_right = 118.0
+margin_bottom = 11.168
+rect_scale = Vector2( 0.6, 0.6 )
+text = "Send to a friend ->"
 
 [node name="CopyClipboard" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer"]
 margin_left = 185.0
@@ -640,6 +656,7 @@ margin_bottom = 182.0
 text = "Back"
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 margin_left = 480.0
 margin_right = 960.0
 margin_bottom = 270.0

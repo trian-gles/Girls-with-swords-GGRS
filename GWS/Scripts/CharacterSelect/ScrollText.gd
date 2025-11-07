@@ -10,9 +10,13 @@ onready var characterTimer := $Timer
 
 func _ready():
 # warning-ignore:return_value_discarded
-	characterTimer.connect("timeout", self, "_on_Timer_timeout")
-	characterTimer.wait_time = delayBetweenCharacters
-	characterTimer.autostart = true
+	pass
+	
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		characterTimer.connect("timeout", self, "_on_Timer_timeout")
+		characterTimer.wait_time = delayBetweenCharacters
+		characterTimer.autostart = true
 
 func _on_Timer_timeout():
 	if currentCharacter < fullText.length():

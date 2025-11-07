@@ -358,7 +358,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 9, 13 ),
+"times": PoolRealArray( 0, 7, 13 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -370,7 +370,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 2, 5, 9 ),
+"times": PoolRealArray( 2, 5, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 18, -14 ), Vector2( 24, -18 ), Vector2( 34, -31 ) ]
@@ -382,7 +382,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 2, 5, 9 ),
+"times": PoolRealArray( 2, 5, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 6, 14 ), Vector2( 11, 10 ), Vector2( 11, 24 ) ]
@@ -4264,7 +4264,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 7 ),
+"times": PoolRealArray( 0, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ true, false ]
@@ -4288,7 +4288,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 7, 16 ),
+"times": PoolRealArray( 0, 10, 16 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -8539,11 +8539,9 @@ disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 23, 1 )
-disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 61, -23 )
@@ -8554,7 +8552,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 254
+frame = 255
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -8724,8 +8722,8 @@ hitSound = "SlashHit"
 [node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 16 )
 level = 3
-opponentLaunch = Vector2( 150, -250 )
-chLaunch = Vector2( 50, -250 )
+opponentLaunch = Vector2( 150, -450 )
+chLaunch = Vector2( 150, -450 )
 slowTerminalVelocity = 440
 modifiedHitPush = 100
 modifiedDmg = 3
@@ -8747,9 +8745,8 @@ script = ExtResource( 18 )
 level = 3
 modifiedHitStun = 22
 modifiedCounterHitStun = 36
-opponentLaunch = Vector2( 400, 300 )
-chLaunch = Vector2( 400, 300 )
-slowTerminalVelocity = 300
+opponentLaunch = Vector2( 200, 600 )
+chLaunch = Vector2( 200, 600 )
 modifiedHitPush = 400
 height = 2
 effect = 1

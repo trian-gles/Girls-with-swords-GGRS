@@ -25,7 +25,6 @@ public class GFXHandler : Node
 		{
 			if (node.GetType() == typeof(PlayerParticle))
 			{
-				// GD.Print("adding to particles CPU");
 				particlesCPU.Add(((PlayerParticle)node).Name, (PlayerParticle)node);
 			}
 			else if (node.GetType() == typeof(PlayerParticleGPU))
@@ -40,19 +39,6 @@ public class GFXHandler : Node
 
 	public void Effect(string name, Vector2 pos, bool facingRight)
 	{
-		//if (name == "Blood")
-		//{
-		//	blood.Trigger(0, pos, facingRight);
-		//}
-		//else if (name == "Cancel")
-		//{
-		//	cancel.Trigger(0, pos, false);
-		//}
-		//else if (name == "Light")
-		//{
-		//	GD.Print("Triggering light");
-		//	light.Trigger(0, pos / 100, false);
-		//}	
 		if (particlesCPU.ContainsKey(name))
 		{
 			particlesCPU[name].Trigger(0, pos, facingRight);

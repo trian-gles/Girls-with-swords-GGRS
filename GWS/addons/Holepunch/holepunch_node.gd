@@ -4,7 +4,7 @@ extends Node
 #Once your network manager received the signal they can initiate contact on that address and port
 signal hole_punched(my_port, other_port, other_address, unique_id)
 
-signal server_reject()
+signal wrong_version()
 
 #This signal is emitted when the server has acknowledged your client registration, but before the
 #address and port of the other client have arrived.
@@ -28,6 +28,7 @@ var recieved_peer_info = false
 var recieved_peer_greet = false
 var recieved_peer_confirm = false
 var recieved_peer_go = false
+var version_confirmed = false
 
 var own_port
 var peer = {}
@@ -37,6 +38,8 @@ var client_name
 var p_timer
 var session_id
 var player_id
+
+var version
 
 var ports_tried = 0
 var greets_sent = 0
@@ -52,13 +55,21 @@ const PEER_GO = "go"
 const SERVER_OK = "ok"
 const SERVER_INFO = "peers"
 
+const CHECK_VERSION = "cv:"
+const VERSION_OUTDATED = "outdated"
+const VERSION_UPTODATE = "uptodate"
+
+
 const MAX_PLAYER_COUNT = 2 # currently only works for two players.
+
+## ORDER : check version > register session > register client > exchange info
 
 # warning-ignore:unused_argument
 func _process(delta):
 	if peer_udp.get_available_packet_count() > 0:
 		var array_bytes = peer_udp.get_packet()
 		var packet_string = array_bytes.get_string_from_ascii()
+		
 		if not recieved_peer_greet:
 			if packet_string.begins_with(PEER_GREET):
 				var m = packet_string.split(":")
@@ -77,6 +88,14 @@ func _process(delta):
 	if server_udp.get_available_packet_count() > 0:
 		var array_bytes = server_udp.get_packet()
 		var packet_string = array_bytes.get_string_from_ascii()
+		print(packet_string)
+		
+		if packet_string.begins_with(VERSION_OUTDATED):
+			emit_signal("wrong_version")
+		
+		if packet_string.begins_with(VERSION_UPTODATE):
+			_try_create_session()
+			
 		if packet_string.begins_with(SERVER_OK):
 			var m = packet_string.split(":")
 			own_port = int( m[1] )
@@ -95,6 +114,8 @@ func _process(delta):
 					player_id = int(m[3])
 					recieved_peer_info = true
 					start_peer_contact()
+		
+		
 
 
 func _handle_greet_message(peer_name, peer_port, my_port):
@@ -199,7 +220,14 @@ func checkout():
 	buffer.append_array((CHECKOUT_CLIENT+client_name).to_utf8())
 	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
-
+	
+func check_version():
+	var buffer = PoolByteArray()
+	buffer.append_array((CHECK_VERSION + version).to_utf8())
+	server_udp.close()
+	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
+	server_udp.put_packet(buffer)
+	
 
 #Call this function when you want to start the holepunch process
 func start_traversal(id, player_name, version):
@@ -222,10 +250,13 @@ func start_traversal(id, player_name, version):
 	greets_sent = 0
 	gos_sent = 0
 	session_id = id
+	
+	self.version = version
 
 	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
+	check_version()
 	
-	_try_create_session()
+	#_try_create_session()
 	
 
 	

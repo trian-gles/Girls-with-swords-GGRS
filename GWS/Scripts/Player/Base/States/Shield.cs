@@ -115,8 +115,12 @@ public class Shield : HitState
 		
 	}
 
+    public override bool IsGrabbable()
+    {
+        return stunRemaining == 0;
+    }
 
-	public override void TrySpecialBreak()
+    public override void TrySpecialBreak()
 	{
 		base.TrySpecialBreak();
 		owner.SpecialBreak();

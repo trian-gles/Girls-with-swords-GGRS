@@ -33,6 +33,9 @@ public class Grab : State
 	[Export]
 	public BaseAttack.GRAPHICEFFECT effect;
 
+	[Export]
+	public bool setShrinkOtherSpriteTrue = false;
+
 	public bool released = false;
 
 	public bool rightGrab = true;
@@ -52,6 +55,8 @@ public class Grab : State
 		chDetails.hitStun = hitStun;
 		hitDetails.graphicFX = effect;
 		chDetails.graphicFX = effect;
+
+		shrinkOtherSprite = setShrinkOtherSpriteTrue;
 	}
 
 	public override void Load(Dictionary<string, int> loadData)
@@ -72,7 +77,15 @@ public class Grab : State
 		owner.ZIndex = 1;
 		base.Enter();
 		owner.velocity = new Vector2(0, 0);
-		released = false;
+
+		if (owner.facingRight && owner.internalPos.x + 4000 > Globals.rightWall)
+			owner.internalPos.x = Globals.rightWall - 4000;
+
+        if (!owner.facingRight && owner.internalPos.x - 4000 < Globals.leftWall)
+            owner.internalPos.x = Globals.leftWall + 4000;
+
+
+        released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
 
 		rightGrab = owner.facingRight;

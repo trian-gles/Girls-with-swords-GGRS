@@ -6,10 +6,10 @@ extends Node2D
 export var character = 0 setget set_character
 
 var names = [
-	"Office Lady",
-	"GasLight (Lady)",
-	"Snail Lady",
-	"Hat Lady"
+	"OFFICE LADY",
+	"GASLIGHT",
+	"SNAIL LADY",
+	"HAT LADY"
 ]
 
 var playstyles = [
@@ -32,7 +32,7 @@ var facts = [
 	"Relationship Status:\nSingle", 
 	"Fav Season of Friends:\n7"],
 	
-	["Occupation:\nr/romancebooks Moderator", 
+	["Occupation:\nr/romancebooks Mod", 
 	"Hometown:\nBerlin, Germany", 
 	"Hobby:\nImprov Theater", 
 	"Attachment Style:\nAnxious"],
@@ -47,13 +47,20 @@ var facts = [
 	"Fav Stephen King Novel:\nIlliterate", 
 	"Celebrity Lookalike:\nOL"],
 ]
-
+func _ready():
+	do_set_character(character)
 
 # Called when the node enters the scene tree for the first time.
 func set_character(c):
+	if Engine.is_editor_hint():
+		do_set_character(c)
+	else:
+		character = c
+
+func do_set_character(c):
 	character = c
-	$Difficulty.text = difficulty[c]
-	$Style.text = playstyles[c]
+	$Difficulty.text = "Difficulty: " + difficulty[c]
+	$Style.text = "Style: " + playstyles[c]
 	$Name.fullText = names[c]
 	var fact_arr = $Facts.get_children()
 	for i in range(len(fact_arr)):

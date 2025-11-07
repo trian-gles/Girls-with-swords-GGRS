@@ -422,7 +422,6 @@ public class GameScene : BaseGame
 	// ----------------
 	public void OnPlayerComboChange(string name, int combo)
 	{
-		//GD.Print($"Combo change for {name} to combo {combo}");
 		if (name == "P2")
 		{
 			if (combo > 1)

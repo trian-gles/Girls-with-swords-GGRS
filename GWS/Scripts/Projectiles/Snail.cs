@@ -220,6 +220,8 @@ public class Snail : HadoukenPart
 	private void StandbyUpdate()
 	{
 		ApplyGravity();
+		if (Position.y > 245)
+			speed.y = 0;
 		Position = new Vector2(Position.x, Math.Min(Position.y, 245));
 		
 	}

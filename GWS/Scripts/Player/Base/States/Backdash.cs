@@ -20,7 +20,6 @@ public class Backdash: Walk
 		owner.velocity.y = -1 * hopForce;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 		owner.grounded = false;
-		GD.Print($"Entering backdash from {owner.lastStateName}");
 
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), 
 			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y), 

@@ -49,13 +49,10 @@ public class EventScheduler : Node
 		ev.scheduledFrame = Globals.frame + frameDelay;
 		ev.creationFrame = Globals.frame;
 		scheduledEvents.Add(ev);
-
-		// GD.Print($"Scheduling {name} on frame {ev.creationFrame} for frame {ev.scheduledFrame}");
 	}
 
 	public void FrameAdvance()
 	{
-		// GD.Print($"frame in event scheduler {Globals.frame}");
 		List<Event> removeEvents = new List<Event>();
 		foreach (Event @event in scheduledEvents)
 		{
@@ -79,7 +76,6 @@ public class EventScheduler : Node
 
 		else if ((Globals.frame < @event.creationFrame))
 		{
-			// GD.Print($"Removing event {@event.name}, created on frame {@event.creationFrame} scheduled for frame {@event.scheduledFrame} on frame {Globals.frame}");
 			removeEvents.Add(@event);
 		}
 	}

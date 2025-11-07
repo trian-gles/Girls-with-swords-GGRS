@@ -225,6 +225,7 @@ shader_param/whitening = 0.0
 
 [node name="GetToKnow" type="Node2D"]
 script = ExtResource( 9 )
+character = 3
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 material = SubResource( 45 )
@@ -242,9 +243,6 @@ margin_left = 37.0
 margin_top = -36.0
 margin_right = 193.0
 margin_bottom = 168.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Node2D" type="Node2D" parent="LeftSpotlight"]
 position = Vector2( 37.4627, 158.076 )
@@ -290,47 +288,47 @@ __meta__ = {
 
 [node name="Fact1" type="Label" parent="Facts"]
 margin_top = -1.0
-margin_right = 274.0
+margin_right = 286.0
 margin_bottom = 44.1108
 theme = ExtResource( 8 )
 text = "Occupation:
-Executive Assistant"
+Ebay reseller"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Fact2" type="Label" parent="Facts"]
 margin_top = 48.0
-margin_right = 274.0
+margin_right = 286.0
 margin_bottom = 93.1108
 rect_pivot_offset = Vector2( 62, 24 )
 theme = ExtResource( 8 )
 text = "Hometown:
-Tokyo, Japan"
+Under your bed"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Fact3" type="Label" parent="Facts"]
 margin_top = 97.0
-margin_right = 274.0
+margin_right = 286.001
 margin_bottom = 142.111
 rect_pivot_offset = Vector2( 55, 31 )
 theme = ExtResource( 8 )
-text = "Relationship Status:
-Single"
+text = "Fav Stephen King Novel:
+Illiterate"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Fact4" type="Label" parent="Facts"]
 margin_top = 146.0
-margin_right = 274.001
+margin_right = 286.0
 margin_bottom = 191.111
 rect_pivot_offset = Vector2( 55, 31 )
 theme = ExtResource( 8 )
-text = "Fav Season of Friends:
-7"
+text = "Celebrity Lookalike:
+OL"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -342,7 +340,7 @@ margin_right = 267.0
 margin_bottom = 218.0
 rect_pivot_offset = Vector2( 109, 24 )
 theme = ExtResource( 2 )
-text = "*"
+text = "Difficulty: ***"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -354,24 +352,21 @@ margin_right = 266.0
 margin_bottom = 240.0
 rect_pivot_offset = Vector2( 109, 24 )
 theme = ExtResource( 2 )
-text = "Versatile"
+text = "Style: Pixie"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Name" type="Label" parent="."]
 anchor_right = 1.0
-margin_left = 42.0
-margin_top = 171.0
-margin_right = 218.0
-margin_bottom = 202.0
+margin_left = 14.0
+margin_top = 170.0
+margin_right = 190.0
+margin_bottom = 201.0
 custom_fonts/font = SubResource( 1 )
 align = 1
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-fullText = "Office Lady"
+fullText = "HAT LADY"
 
 [node name="Timer" type="Timer" parent="Name"]
 autostart = true
@@ -380,10 +375,10 @@ autostart = true
 position = Vector2( 331, 50 )
 
 [node name="OLSprite" type="Sprite" parent="Portraits"]
+visible = false
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 7 )
 hframes = 3
-frame = 2
 
 [node name="OLPortrait" type="Sprite" parent="Portraits/OLSprite"]
 texture = ExtResource( 6 )
@@ -409,7 +404,6 @@ texture = ExtResource( 13 )
 hframes = 3
 
 [node name="HLSprite2" type="Sprite" parent="Portraits"]
-visible = false
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 7 )
 hframes = 3

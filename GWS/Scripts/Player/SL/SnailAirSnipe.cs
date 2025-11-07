@@ -30,6 +30,15 @@ public class SnailAirSnipe : AirGrabStart
 
 	}
 
+	public override void CheckHit()
+	{
+		Vector2 collisionPnt = owner.CheckHurtRectGrab();
+		if (collisionPnt != Vector2.Inf)
+		{
+			EmitSignal(nameof(StateFinished), "AirGrab");
+		}
+	}
+
 	private void Home()
 	{
 		

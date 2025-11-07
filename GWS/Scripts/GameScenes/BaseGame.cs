@@ -43,8 +43,6 @@ public abstract class BaseGame : Node2D
 			}
 			if (node.GetType().GetProperty("Visible") != null)
 			{
-				// GD.Print("TEST");
-				// GD.Print(node);
 				((CanvasItem)node).Visible = false;
 			}
 		}
@@ -72,8 +70,6 @@ public abstract class BaseGame : Node2D
 			}
 			if (node.GetType().GetProperty("Visible") != null)
 			{
-				// GD.Print("TEST");
-				// GD.Print(node);
 				((CanvasItem)node).Visible = true;
 			}
 		}

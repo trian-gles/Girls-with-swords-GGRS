@@ -10,6 +10,7 @@
 [ext_resource path="res://Scripts/InGameMenu/UpdateRequired.gd" type="Script" id=8]
 
 [node name="GGRSManager" instance=ExtResource( 1 )]
+visible = false
 script = ExtResource( 2 )
 packedGameScene = ExtResource( 6 )
 packedCharSelectScene = ExtResource( 5 )

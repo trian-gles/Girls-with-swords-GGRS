@@ -44,10 +44,12 @@ func _ready():
 	var config_file = File.new()
 	if config_file.open("user://ControllerConfig.json", File.READ)== OK:
 		load_JSON()
-	#else:
-		#change to profile_id 0
+	else:
+		save_JSON()
+		load_JSON()
 	$InputMapper.change_profile(p1_profiles_menu.selected, 0)
 	$InputMapper.change_profile(p2_profiles_menu.selected, 1)
+	print("Input Menu Ready Called")
 	
 
 #main rebuild function (called by profile_changed in InputMapper)
@@ -202,7 +204,11 @@ func _on_P1Reset_pressed():
 		's': [JOY_SONY_CIRCLE,0],
 		'a': [JOY_SONY_X,0],
 		'b': [JOY_R,0],
-		'c': [JOY_R2,0]
+		'c': [JOY_R2,0],
+		'switch': [JOY_L,0],
+		'reset': [JOY_L2,0],
+		'record': [JOY_L3,0],
+		'playback': [JOY_R3,0]
 	}
 	if p1_profiles_menu.selected == 1:
 		for moves in fightstick_init:

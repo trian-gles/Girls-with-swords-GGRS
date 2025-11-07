@@ -46,7 +46,6 @@ public class LaunchAttack : AirAttack
 			owner.velocity = launch;
 			if (!owner.facingRight)
 			{
-				//GD.Print("Flipping launch x coor");
 				owner.velocity.x *= -1;
 			}
 			owner.grounded = false;

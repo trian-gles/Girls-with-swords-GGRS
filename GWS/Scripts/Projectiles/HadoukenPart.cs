@@ -290,11 +290,9 @@ public class HadoukenPart : Node2D
 
 	public virtual void HandleOverlap()
 	{
-		//GD.Print("Handling overlap");
 		hits--;
 		if (hits <= 0)
 		{
-			//GD.Print("Out of hits, making inactive");
 			MakeInactive();
 		}
 			

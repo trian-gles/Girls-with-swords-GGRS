@@ -40,15 +40,13 @@ class GGRSManager : StateManager
 
 	public override void _Ready()
 	{
-		base._Ready();
+		
 		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 		events = GetNode<Node>("/root/Events");
 		GGRS = GetNode("GodotGGRS");
 		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
-		mustUpdatePopup.PopupCentered();
-		NatTraversal();
-		
+		NatTraversal(); // Defers the base._ready() call
 	}
 	
 	public void OnUpdateRequiredConfirmed()
@@ -127,13 +125,11 @@ class GGRSManager : StateManager
 
 	public override void OnRematch()
 	{
-		//GD.Print("rematch!");
 		ReadyForChange(GameType.GAME);
 	}
 
 	public override void OnReselectChar()
 	{
-		//GD.Print("New Characters!");
 		ReadyForChange(GameType.CHARSELECT);
 	}
 
@@ -145,7 +141,6 @@ class GGRSManager : StateManager
 
 	public override void OnGameWon(string winner, int character)
 	{
-		GD.Print($"Game definitevly won on frame {Globals.frame}");
 		base.OnGameWon(winner, character);
 	}
 
@@ -277,7 +272,6 @@ class GGRSManager : StateManager
 
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
-			//GD.Print($"Moving to game {nameof(nextGameType)}");
 			StartNextGame();
 			readyForChange = false;
 		}
@@ -304,16 +298,15 @@ class GGRSManager : StateManager
 		
 
 		var holePuncher = (Node)holePuncherScript.Call("new");
+		holePuncher.Connect("wrong_version", this, nameof(OnWrongVersionReject));
 
-		holePuncher.Connect("SessionIDReceived", this, nameof(OnSessionIDReceived));
-		holePuncher.Connect("WrongVersionReject", this, nameof(OnWrongVersionReject));
-
-		holePuncher.Set("rendevouz_address", "172.104.21.51");
+		holePuncher.Set("rendevouz_address", "127.0.0.1"); // production : "172.104.21.51"
 		holePuncher.Set("rendevouz_port", 4000);
 		AddChild(holePuncher);
 		string player_id = OS.GetUniqueId();
-		holePuncher.Call("start_traversal", 1, player_id, version);
+		holePuncher.Call("start_traversal", Globals.netplaySessionName, player_id, version);
 		var result = (await ToSignal(holePuncher, "hole_punched"));
+		// EmitSignal("netplay_ready");
 		localPort = (int)result[0];
 		opponentPort = (int)result[1];
 		opponentIp = (string)result[2];
@@ -321,7 +314,8 @@ class GGRSManager : StateManager
 		Globals.hosting = hosting;
 		holePunched = true;
 		GD.Print("WE HAVE PUNCHED ZE HOLE");
-
+		base._Ready(); // Yeah, I know this is fucking insane
+		Visible = true;
 		
 
 		//hole_puncher.rendevouz_address = "1.1.1.1"
@@ -331,14 +325,10 @@ class GGRSManager : StateManager
 
 	}
 
-	private void OnSessionIDReceived(string id)
+	public void OnWrongVersionReject()
 	{
-
-	}
-
-	private void OnWrongVersionReject()
-	{
-
+		GD.Print("Outdated!");
+		mustUpdatePopup.PopupCentered();
 	}
 
 	// ----------------

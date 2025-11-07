@@ -39,7 +39,6 @@ public class Float : HitStun
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
-		//GD.Print(launch.y);
 
 		if (!(launch == Vector2.Zero))
 		{
@@ -92,8 +91,6 @@ public class Float : HitStun
 		}
 		if (owner.grounded)
 		{
-				
-			//GD.Print("On ground, knocking down");
 			if (owner.electrocuted)
 			{
 				ReceiveElectrocution();

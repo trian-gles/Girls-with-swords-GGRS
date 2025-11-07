@@ -76,7 +76,13 @@ public class AirGrab : State
 			rightGrab = false;
 		}
 
-	}
+        if (owner.facingRight && owner.internalPos.x + 4000 > Globals.rightWall)
+            owner.internalPos.x = Globals.rightWall - 4000;
+
+        if (!owner.facingRight && owner.internalPos.x - 4000 < Globals.leftWall)
+            owner.internalPos.x = Globals.leftWall + 4000;
+
+    }
 
 	public override void HandleInput(char[] inputArr)
 	{

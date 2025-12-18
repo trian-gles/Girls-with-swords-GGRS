@@ -32,6 +32,7 @@ class SnailStrike : Hadouken
 
 	protected override HadoukenPart EmitHadouken()
 	{
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "snail-strike", Name);
 		int strikeNum = (frameCount - releaseFrame) / gapBetweenStrikes;
 
 
@@ -42,7 +43,10 @@ class SnailStrike : Hadouken
 
 		int displacement = strikeNum * successiveXOffset + xOffset;
 		if (!owner.facingRight)
+		{
 			displacement *= -1;
+		}
+			
 		h.Position = new Vector2(owner.Position.x  + displacement, owner.Position.y + yOffset);
 		return h;
 	}

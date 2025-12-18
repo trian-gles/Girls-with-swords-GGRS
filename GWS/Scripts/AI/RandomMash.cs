@@ -22,7 +22,7 @@ public class RandomMash : BehaviourState
             {
                 if (state.P1State.currentState == "Knockdown")
                     return 1;
-                if (owner.lastInp != 32 + 64)
+                if (owner.lastInp != 32 + 64 && !state.P2State.currentState.Contains("Run"))
                     {
                         return 32 + 64;
                     }
@@ -37,7 +37,7 @@ public class RandomMash : BehaviourState
                     if (owner.lastInp != 18)
                         return 2 + 16;
                     else
-                        return 0;
+                        return 2;
                 }
                 else
                 {

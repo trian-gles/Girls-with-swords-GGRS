@@ -79,6 +79,12 @@ public class HadoukenPart : Node2D
 	[Export]
 	protected int slowTerminalVelocity = 0;
 
+	[Export]
+	protected bool hitOTG = false;
+
+	[Export]
+	protected bool isProjectile = true;
+
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
@@ -116,7 +122,10 @@ public class HadoukenPart : Node2D
 		BlackHolePowerUp,
 		BlackHoleDeactivate,
 		DeleteHat,
-		StopHat
+		StopHat,
+		MoveHatRight,
+		MoveHatLeft,
+		Kill
 	}
 
 
@@ -126,6 +135,8 @@ public class HadoukenPart : Node2D
 
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
+
+		hitDetails.chipDmg = true;
 
 		hitDetails.projectile = true;
 		chDetails.projectile = true;
@@ -247,7 +258,7 @@ public class HadoukenPart : Node2D
 		if (active && hits == 0  && frame >= startup)
 		{
 			Vector2 collisionPnt = CheckRect();
-			if (collisionPnt != Vector2.Inf && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln()))
+			if (collisionPnt != Vector2.Inf && (frame < duration | duration == 0) && (!targetPlayer.currentState.IsProjectileInvuln() || !isProjectile))
 			{
 				HurtPlayer(targetPlayer.GlobalPosition);
 			}
@@ -306,7 +317,7 @@ public class HadoukenPart : Node2D
 	protected virtual void HurtPlayer(Vector2 collisionPnt)
 	{
 		// fill this with harmful stuff!!!!
-		if (targetPlayer.IsInvuln()) // must be a better way to do this.  for now, hadoukens go through knocked down opponent
+		if (targetPlayer.IsInvuln())
 		{
 			return;
 		}
@@ -314,6 +325,7 @@ public class HadoukenPart : Node2D
 		var chHitDetailsCopy = chDetails;
 		hits++;
 
+		targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, "HitStun");
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{
 			hitDetailsCopy.opponentLaunch = Vector2.Zero;
@@ -408,7 +420,8 @@ public class HadoukenPart : Node2D
 
 	public virtual void ReceiveCommand(ProjectileCommand command)
 	{
-
+		if (command == ProjectileCommand.Kill)
+			MakeInactive();
 	}
 
 	public virtual void SetState(HadoukenState newState) 

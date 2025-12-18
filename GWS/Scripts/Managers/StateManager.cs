@@ -23,5 +23,22 @@ class StateManager : BaseManager
 		waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
 		nextGameType = gameType;
 	}
+	
+	protected void StartNextGame()
+	{
+		switch (nextGameType)
+		{
+			case GameType.GAME:
+				base.OnNewGame();
+				break;
+			case GameType.CHARSELECT:
+				base.OnReselectChar();
+				break;
+			case GameType.WIN:
+				
+				break;
+		}
+		
+	}
 
 }

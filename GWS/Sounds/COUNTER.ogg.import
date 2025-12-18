@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/COUNTER.ogg-5f8a9c3a69cb5544314f1d77b8c0cf44.oggstr"
+
+[deps]
+
+source_file="res://Sounds/COUNTER.ogg"
+dest_files=[ "res://.import/COUNTER.ogg-5f8a9c3a69cb5544314f1d77b8c0cf44.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/OH-SHIT.ogg-2c17a00a8b000e69d054fddddfd98c6e.oggstr"
+
+[deps]
+
+source_file="res://Sounds/OH-SHIT.ogg"
+dest_files=[ "res://.import/OH-SHIT.ogg-2c17a00a8b000e69d054fddddfd98c6e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

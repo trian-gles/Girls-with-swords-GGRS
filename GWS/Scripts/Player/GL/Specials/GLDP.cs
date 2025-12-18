@@ -27,8 +27,9 @@ public class GLDP : LaunchAttack
     public override void FrameAdvance()
     {
         base.FrameAdvance();
-        if (frameCount == knockdownFrame && hitConnect)
+        if (frameCount == knockdownFrame && hitConnect && owner.otherPlayer.currentState.tags.Contains("hurtstate"))
         {
+            owner.ForceEvent(EventScheduler.EventType.AUDIO, hitSound);
             owner.otherPlayer.ReceiveHit(finalAttack, finalAttack);
         }
     }

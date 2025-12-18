@@ -102,6 +102,20 @@ public class HL : Player
 		else
 			frontSprite.Visible = true;
 
+		if (!hatted && grounded && !CheckHeldKey('2'))
+		{
+			if (CheckHeldKey('s'))
+			{
+					CommandHadouken("Hat", HadoukenPart.ProjectileCommand.MoveHatRight);
+			}
+
+			if (CheckHeldKey('k'))
+			{
+					CommandHadouken("Hat", HadoukenPart.ProjectileCommand.MoveHatLeft);
+			}
+		}
+
+
 		base.FrameAdvance();
 	}
 

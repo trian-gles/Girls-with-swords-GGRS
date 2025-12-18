@@ -1,9 +1,55 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
+[ext_resource path="res://Scripts/Projectiles/StrikeSnail.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Particles/snail.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Particles/Hadouken.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Particles/phone.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Projectiles/BaseHadouken.tscn" type="PackedScene" id=6]
+
+[sub_resource type="Shader" id=12]
+code = "shader_type canvas_item;
+uniform vec2 dir = vec2(0,0);
+uniform int quality = 4;
+
+void vertex(){
+	vec2 blurSize = abs(dir) * 2.0;
+	VERTEX *= blurSize + 1.0;
+	UV = (UV - 0.5) * (blurSize + 1.0) + 0.5;
+}
+
+float insideUnitSquare(vec2 v) {
+    vec2 s = step(vec2(0.0), v) - step(vec2(1.0), v);
+    return s.x * s.y;   
+}
+
+void fragment(){
+	float inSquare = insideUnitSquare(UV);
+	float numSamples = inSquare;
+	COLOR = texture(TEXTURE, UV) * inSquare;
+	vec2 stepSize = dir/(float(quality));
+	vec2 uv;
+	for(int i = 1; i <= quality; i++){
+		uv = UV + stepSize * float(i);
+		inSquare = insideUnitSquare(uv);
+		numSamples += inSquare;
+		COLOR += texture(TEXTURE, uv) * inSquare;
+		
+		uv = UV - stepSize * float(i);
+		inSquare = insideUnitSquare(uv);
+		numSamples += inSquare;
+		COLOR += texture(TEXTURE, uv) * inSquare;
+	}
+	COLOR.rgb /= numSamples;
+}"
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = SubResource( 12 )
+shader_param/dir = Vector2( 1, 0 )
+shader_param/quality = 7
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 5 )
@@ -20,10 +66,6 @@ region = Rect2( 16, 0, 8, 8 )
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -44,14 +86,14 @@ region = Rect2( 32, 32, 32, 32 )
 [sub_resource type="SpriteFrames" id=10]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
-"loop": true,
-"name": "CellPhone",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 9 ) ],
 "loop": true,
 "name": "Snail",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "CellPhone",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
@@ -66,6 +108,7 @@ extents = Vector2( 8, 7 )
 
 [node name="StrikeSnail" instance=ExtResource( 6 )]
 position = Vector2( 0, -4 )
+script = ExtResource( 1 )
 level = 2
 modifiedHitStun = 80
 modifiedCounterHitStun = 80
@@ -77,18 +120,26 @@ postHitSpeed = Vector2( 8, 8 )
 duration = 300
 dieAfterHit = false
 
-[node name="AnimatedSprite" parent="." index="0"]
+[node name="Sprite" type="Sprite" parent="." index="0"]
+modulate = Color( 1, 1, 1, 0.2 )
+material = SubResource( 13 )
+position = Vector2( -24, -28 )
+rotation = 0.785398
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+
+[node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 4, 0 )
-rotation = 0.764454
+rotation = 0.785398
 frames = SubResource( 10 )
 animation = "Snail"
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" parent="." index="2"]
 position = Vector2( 0, 3 )
 scale = Vector2( 3, 3 )
 shape = SubResource( 11 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="." index="2"]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." index="3"]
 amount = 10
 emission_shape = 1
 emission_sphere_radius = 16.57

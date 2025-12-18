@@ -9,21 +9,38 @@ public class Zone : BehaviourState
 {
 
     private Random random = new Random();
+
+    private bool advancing = false;
     int distance = 10000;
+
+    int forward;
+    int backward;
+
+    public override void Enter()
+    {
+        base.Enter();
+        advancing = (random.Next() % 2) == 0;
+    }
 
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         distance = state.P1State.position[0] - state.P2State.position[0];
+        ChooseDirection(distance);
         int action = 0;
         if (random.Next(2) == 1) {
             int option = random.Next(3);
-            if (option == 1)
-                action |= 4;
+            if (option == 1 && (!advancing)) // only back up if not advancing
+                action |= backward;
             else if (option == 2)
-                action |= 8;
+                action |= forward;
 
             if (random.Next(2) == 1)
+            {
                 action |= 128;
+                if (random.Next(2) == 1 && (Math.Abs(distance) < 12000))
+                    action |= 2; // sometimes crouch
+            }
+                
         }
             
 
@@ -41,5 +58,20 @@ public class Zone : BehaviourState
         }
 
         return "";
+    }
+
+    private void ChooseDirection(int distance)
+    {
+        if (distance < 0)
+        {
+            forward = 8;
+            backward = 4;
+        }
+
+        else
+        {
+            forward = 4;
+            backward = 8;
+        }
     }
 }

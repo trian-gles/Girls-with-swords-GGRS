@@ -25,7 +25,8 @@ public class Chase : BehaviourState
     {
         Grab,
         Kick,
-        Punch
+        Punch,
+        Slash
     }
 
     HashSet<string> possibleStates = new HashSet<string>() {"Idle", "Walk", "Run", "PreRun" };
@@ -34,12 +35,15 @@ public class Chase : BehaviourState
     {
         base.Enter();
         subState = SubState.ChooseDirection;
-        intent = (Intent)(rng.Next() % 3);
+        intent = (Intent)(rng.Next() % 4);
     }
 
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         distance = state.P1State.position[0] - state.P2State.position[0];
+            intent = (Intent)(((int)intent + 1) % 4);
+        if (AIBehaviour.mixupConfirmStates.Contains(state.P2State.currentState))
+
         if (!possibleStates.Contains(state.P2State.currentState))
             return 0;
 
@@ -56,9 +60,9 @@ public class Chase : BehaviourState
                 
             case SubState.Dash:
             {
-                if (rng.Next() % 24 == 0)
+                if (rng.Next() % 32 == 0)
                     return 1;
-                return direction;
+                return direction + Globals.DASH;
             }
                 
 
@@ -84,6 +88,8 @@ public class Chase : BehaviourState
             minDist = 4000;
         else if (intent == Intent.Kick)
             minDist = 8000;
+        else if (intent == Intent.Slash)
+            minDist = 10000;
         if (Math.Abs(distance) < minDist)
             {
                 return "RandomMash";

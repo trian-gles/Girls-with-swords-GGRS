@@ -8,6 +8,8 @@ public class Burst : LaunchAttack
 	{
 		base.Enter();
 		owner.ClearHit();
+		owner.EmitSignal(nameof(Player.GenericGFX), "Burst", owner.Name);
+		owner.landingRecoveryFramesRemaining = 5;
 	}
 
 	public override void FrameAdvance()

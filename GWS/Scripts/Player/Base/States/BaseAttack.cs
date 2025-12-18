@@ -9,7 +9,13 @@ public abstract class BaseAttack : State
 	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "attack" };
 
 	[Export]
-	protected int level = 0;
+	public int level = 0;
+
+	[Export]
+	protected bool chip = false;
+
+	[Export]
+	protected int modifiedProration = 0;
 
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
@@ -114,6 +120,12 @@ public abstract class BaseAttack : State
 	[Export]
 	public Vector2 lastHitLaunch = new Vector2(0, 0);
 
+	[Export]
+	public bool spike = false;
+
+	[Export]
+	public int pullInHitFrame = 0;
+
 
 	public enum EXTRAEFFECT
 	{
@@ -161,6 +173,15 @@ public abstract class BaseAttack : State
 		else
 			chDetails.opponentLaunch = opponentLaunch;
 
+		if (modifiedProration != 0)
+		{
+			hitDetails.prorationLevel = modifiedProration;
+			chDetails.prorationLevel = modifiedProration;
+		}
+
+
+		hitDetails.chipDmg = chip;
+
 		hitDetails.effect = effect;
 		chDetails.effect = chEffect;
 		hitDetails.knockdown = knockdown;
@@ -194,6 +215,8 @@ public abstract class BaseAttack : State
 
 		}
 
+		hitDetails.spike = spike;
+
 		if (superKaraButton.Length > 0)
 			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0, owner.easySuper);
 
@@ -202,7 +225,6 @@ public abstract class BaseAttack : State
 			AddBurstKara('k', 'p');
 		}
 
-		AddRhythmSpecials(owner.rhythmSpecials);
 		if (selfGatlingInp != " ")
 		{
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
@@ -223,6 +245,8 @@ public abstract class BaseAttack : State
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
+		if (superFrame != 0)
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "OHSHIT", Name);
 		if (turnAroundOnEnter)
 			owner.CheckTurnAround();
 	}
@@ -278,7 +302,18 @@ public abstract class BaseAttack : State
 		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
+		if (pullInHitFrame > 0 && frameCount > pullInHitFrame)
+        {
+            hitDetails.hitPush *= -1;
+			chDetails.hitPush *= -1;
+        }
 
+		if (owner.hasDoubleOrSuperJumped && hitDetails.spike && owner.otherPlayer.combo > 2)
+		{
+			hitDetails.ignoreProration = true;
+			owner.EmitSignal(nameof(Player.GenericGFX), "Spike", owner.Name);
+			GD.Print("Spike");
+        }
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
 		{
@@ -324,12 +359,17 @@ public abstract class BaseAttack : State
 		chDetails.dir = direction;
 		hitDetails.collisionPnt = collisionPnt;
 		chDetails.collisionPnt = collisionPnt;
-		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
-		owner.otherPlayer.currentState.ResetTerminalVelocity();
 		if (slowTerminalVelocity != 0)
 		{
 			owner.otherPlayer.terminalVelocity = slowTerminalVelocity;
 		}
+        else
+        {
+            owner.otherPlayer.currentState.ResetTerminalVelocity();
+        }
+		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
+		
+		
 		hitConnect = true;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 
@@ -381,16 +421,15 @@ public abstract class BaseAttack : State
 			}
 		}
 
-		if (!hitConnect)
+		if (!hitConnect && frameCount > 8)
 		{
 			foreach (var whiffGat in whiffGatlings)
 			{
 				if (Enumerable.SequenceEqual(whiffGat.input, inputArr))
 					EmitSignal(nameof(StateFinished), whiffGat.state);
 			}
-			return;
 		}
-		if (gatlingWinEnd == 0 || frameCount < gatlingWinEnd)
+		if ((gatlingWinEnd == 0 || frameCount < gatlingWinEnd) && hitConnect)
 			base.HandleInput(inputArr);
 	}
 

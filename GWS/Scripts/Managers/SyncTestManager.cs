@@ -152,7 +152,7 @@ class SyncTestManager : StateManager
 		Globals.rollbackFrame = 0;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
-			OnRematch();
+			StartNextGame();
 			readyForChange = false;
 		}
 
@@ -210,7 +210,6 @@ class SyncTestManager : StateManager
 
 	public override void OnGameWon(string winner, int character)
 	{
-		
 		ReadyForChange(GameType.GAME);
 	}
 

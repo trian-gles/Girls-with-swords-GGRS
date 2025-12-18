@@ -21,7 +21,7 @@ public class AirSnail : Hadouken
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "BackToss", Name);
 		owner.landingRecoveryFramesRemaining = landingRecovery;
 	}
 	public override void FrameAdvance()

@@ -32,7 +32,7 @@ public class SnailCall : State
 			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailAttack);
 		else
 		{
-			if (owner.facingRight)
+			if (owner.facingRight && sl.leftCornerSnailArrived || !sl.rightCornerSnailArrived)
 				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.LeftSnailAttack);
 			else
 				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.RightSnailAttack);

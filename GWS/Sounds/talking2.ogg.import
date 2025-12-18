@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/talking2.ogg-90003fa1d6d21b80d0e8c4293f8392ed.oggstr"
+
+[deps]
+
+source_file="res://Sounds/talking2.ogg"
+dest_files=[ "res://.import/talking2.ogg-90003fa1d6d21b80d0e8c4293f8392ed.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hat-throw.ogg-b5043a4182305512b20ef601342d9134.oggstr"
+
+[deps]
+
+source_file="res://Sounds/hat-throw.ogg"
+dest_files=[ "res://.import/hat-throw.ogg-b5043a4182305512b20ef601342d9134.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

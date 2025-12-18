@@ -13,7 +13,7 @@ public class PreRun : MoveState
 		AddEasyGroundSpecials();
 		AddGatling(new[] { '6', 'r' }, () => frameCount > 1, "PostRun");
 		AddGatling(new[] { '4', 'r' }, () => frameCount > 1, "PostRun");
-		AddGatling(new[] { '8', 'p' }, "MovingJump");
+		AddGatling(new[] { '8', 'p' }, "PreJump");
 		AddCommandNormals(owner.commandNormals);
 		AddNormals();
 	}

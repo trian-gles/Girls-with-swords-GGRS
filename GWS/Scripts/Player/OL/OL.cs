@@ -66,4 +66,13 @@ public class OL : Player
 		base._Ready();
 		charName = "OL";
 	}
+
+	protected override void PostHitCall()
+	{
+		base.PostHitCall();
+		if (currentState.tags.Contains("hurtstate"))
+		{
+			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+		}
+	}
 }

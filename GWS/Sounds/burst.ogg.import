@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/burst.ogg-a25660e65611476c2d63f337fa84a9ca.oggstr"
+
+[deps]
+
+source_file="res://Sounds/burst.ogg"
+dest_files=[ "res://.import/burst.ogg-a25660e65611476c2d63f337fa84a9ca.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -13,5 +13,7 @@ public class GuardCancel : GroundAttack
 	{
 		base.Enter();
 		owner.GFXEvent("GuardCancel");
+		owner.EmitSignal(nameof(Player.GenericGFX), "GuardCancel", owner.Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "GuardCancel", Name);
     }
 }

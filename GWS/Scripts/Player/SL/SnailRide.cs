@@ -3,6 +3,11 @@ using System;
 
 public class SnailRide : MovingAttack
 {
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "SnailRide", Name);
+    }
     public override void FrameAdvance()
     {
         base.FrameAdvance();

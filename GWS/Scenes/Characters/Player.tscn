@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=94 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -66,26 +66,29 @@
 [ext_resource path="res://Scripts/Player/Base/States/Burst.cs" type="Script" id=64]
 [ext_resource path="res://Scripts/Player/Base/States/GuardCancel.cs" type="Script" id=65]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/Outline.tres" type="Material" id=66]
+[ext_resource path="res://Scripts/Player/Base/States/Down.cs" type="Script" id=67]
+[ext_resource path="res://Scripts/Player/Base/States/SoftKD.cs" type="Script" id=68]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 18, 26 )
+extents = Vector2( 18, 25 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 25, 21 )
+extents = Vector2( 14, 9 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 30, 3 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 24, 17 )
+extents = Vector2( 10, 22 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 9, 16 )
+extents = Vector2( 20, 8 )
 
 [sub_resource type="Animation" id=20]
 resource_name = "fire"
@@ -380,6 +383,12 @@ script = ExtResource( 30 )
 [node name="Knockdown" type="Node" parent="StateTree"]
 script = ExtResource( 24 )
 
+[node name="SoftKD" type="Node" parent="StateTree"]
+script = ExtResource( 68 )
+
+[node name="Down" type="Node" parent="StateTree"]
+script = ExtResource( 67 )
+
 [node name="Float" type="Node" parent="StateTree"]
 script = ExtResource( 33 )
 
@@ -400,6 +409,7 @@ script = ExtResource( 4 )
 
 [node name="SuperJump" type="Node" parent="StateTree"]
 script = ExtResource( 56 )
+startupFrames = 13
 
 [node name="PostRun" type="Node" parent="StateTree"]
 script = ExtResource( 6 )

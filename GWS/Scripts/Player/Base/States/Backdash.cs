@@ -14,7 +14,7 @@ public class Backdash: Walk
 		frameCount = 0;
 		if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "MovingJump");
+			EmitSignal(nameof(StateFinished), "PreJump");
 		}
 
 		owner.velocity.y = -1 * hopForce;
@@ -43,6 +43,11 @@ public class Backdash: Walk
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
+		details.hitStun += 5;
+		if (owner.terminalVelocity == owner.standardTerminalVelocity)
+        {
+            owner.terminalVelocity = 100;
+        }
 		ReceiveHitNoBlock(details);
 	}
 }

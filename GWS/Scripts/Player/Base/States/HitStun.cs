@@ -7,13 +7,14 @@ public class HitStun : HitState
 	{
 		base._Ready();
 		loop = false;
+		tags.Add("hurtstate");
 	}
 	public override void Enter()
 	{
 		base.Enter();
 		
 		owner.GFXEvent("Blood");
-        owner.GainMeter(200);
+		owner.GainMeter(200);
     }
 
 

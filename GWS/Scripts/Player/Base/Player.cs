@@ -1,3 +1,4 @@
+using FixedMath.NET;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,9 @@ public class Player : Node2D
 	[Signal]
 	public delegate void HadoukenCommand(string playerName, string projectileName, HadoukenPart.ProjectileCommand command);
 
+	[Signal]
+	public delegate void GenericGFX(string fxName, string playerName);
+
 	public const int MAXPLAYERDIST = 30000;
 
 	[Export]
@@ -83,6 +87,11 @@ public class Player : Node2D
 
 	[Export]
 	public int hitPushSpeed = 300;
+
+	[Export]
+	public int damageModInt = 10; // divide by ten to get true modifier
+
+	private Fix64 damageMod;
 
 	[Export]
 	public bool debugPress = false;
@@ -129,7 +138,7 @@ public class Player : Node2D
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
 	
-	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA" };
+	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA", "PostRun" };
 
 	public delegate void NegEdgeCallback(char releasedkey);
 	public NegEdgeCallback negEdgeCallback = (char c) => { };
@@ -141,7 +150,7 @@ public class Player : Node2D
 	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
-	public int health = 1600;
+	public int health = 1800;
 	private int meter = 0;
 	public Vector2 velocity = new Vector2(0, 0);
 	public int terminalVelocity = 1100; // See CheckTerminalVelocity for details.  This is never directly accessed by state
@@ -161,6 +170,7 @@ public class Player : Node2D
 	public int landingRecoveryFramesRemaining = 0;
 	public int lastPressedDownFrame = 0;
 	public int lastPressedUpFrame = 0;
+	public int lastPressedDashFrame = 0;
 	public bool electrocuted = false;
 	public bool wasOTGHit = false;
 	public int burstMeter = 100;
@@ -168,6 +178,7 @@ public class Player : Node2D
 	public int backdashCooldownRemaining = 0;
 	public int meterGainCooldownRemaining = 0;
 	public bool hasBeenLaunched = false;
+	public bool hasDoubleOrSuperJumped = false;
 
 
 
@@ -226,6 +237,7 @@ public class Player : Node2D
 		public int specialBreakFramesRemaining { get; set; }
 		public int landingRecoveryFramesRemaining { get; set; }
 		public int lastPressedDownFrame { get; set; }
+		public int lastPressedDashFrame { get; set; }
 		public int lastPressedUpFrame { get; set; }
 		public bool electrocuted { get; set; }
 		public bool wasOTGHit { get; set; }
@@ -234,6 +246,7 @@ public class Player : Node2D
 		public int hadoukenCooldownRemaining { get; set; }
 		public int meterGainCooldownRemaining { get; set; }
 		public bool hasBeenLaunched { get; set; }
+		public bool hasDoubleOrSuperJumped { get; set; }
 		public Dictionary<string, int> charSpecificData { get; set; }
 
 	}
@@ -317,6 +330,7 @@ public class Player : Node2D
 
 	public override void _Ready()
 	{
+		damageMod = new Fix64(damageModInt) / new Fix64(10);
 		mainSprite = GetNode<Sprite>("Sprite");
 		spriteAnim = GetNode<Godot.AnimationPlayer>("Sprite/SpriteModulations");
 		behindSprite = GetNode<Sprite>("SpriteBehind");
@@ -377,6 +391,7 @@ public class Player : Node2D
 		ResetComboAndProration();
 		ChangeState("Idle");
 		velocity = Vector2.Zero;
+		electrocuted = false;
 		hitPushRemaining = 0;
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
@@ -459,8 +474,10 @@ public class Player : Node2D
 		pState.specialBreakFramesRemaining = specialBreakFramesRemaining;
 		pState.landingRecoveryFramesRemaining = landingRecoveryFramesRemaining;
 		pState.lastPressedDownFrame = lastPressedDownFrame;
+		pState.lastPressedDashFrame = lastPressedDashFrame;
 		pState.lastPressedUpFrame = lastPressedUpFrame;
 		pState.hasBeenLaunched = hasBeenLaunched;
+		pState.hasDoubleOrSuperJumped = hasDoubleOrSuperJumped;
 
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
 		
@@ -502,7 +519,9 @@ public class Player : Node2D
 		EmitSignal(nameof(MeterChanged), Name, meter);
 		internalPos = new Vector2(pState.position[0], pState.position[1]);
 		lastPressedDownFrame = pState.lastPressedDownFrame;
+		lastPressedDashFrame = pState.lastPressedDashFrame;
 		lastPressedUpFrame = pState.lastPressedUpFrame;
+		hasDoubleOrSuperJumped = pState.hasDoubleOrSuperJumped;
 		electrocuted = pState.electrocuted;
 		wasOTGHit = pState.wasOTGHit;
 		
@@ -721,6 +740,7 @@ public class Player : Node2D
 			if ((inputs & 512) != 0 && (lastFrameInputs & 512) == 0)
 			{
 				unhandledInputs.Add(new char[] { 'c', 'p' });
+				playerState.owner.lastPressedDashFrame = Globals.frame;
 			}
 			else if ((inputs & 512) == 0 && (lastFrameInputs & 512) != 0)
 			{
@@ -969,7 +989,7 @@ public class Player : Node2D
 
 	public bool CanSuperJump()
 	{
-		return (Globals.frame - lastPressedDownFrame < 15) && (lastPressedDownFrame < lastPressedUpFrame);
+		return ((Globals.frame - lastPressedDownFrame < 15) && (lastPressedDownFrame < lastPressedUpFrame)) || (Globals.frame - lastPressedDashFrame < 5) || CheckHeldKey('c');
 	}
 
 	/// <summary>
@@ -989,17 +1009,17 @@ public class Player : Node2D
 		eventSched.FrameAdvance();
 		electricity.Visible = electrocuted;
 
-        var direction = sprite.Scale.x / Math.Abs(sprite.Scale.x);
-        if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
-        {
-            sprite.Scale = new Vector2(1.5f * direction, 1.5f);
-            sprite.Offset = new Vector2(sprite.Offset.x, 20);
-        }
-        else
-        {
-            sprite.Scale = new Vector2(3 * direction, 3);
-        }
-    }
+		var direction = sprite.Scale.x / Math.Abs(sprite.Scale.x);
+		if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
+		{
+			sprite.Scale = new Vector2(1.5f * direction, 1.5f);
+			sprite.Offset = new Vector2(sprite.Offset.x, 20);
+		}
+		else
+		{
+			sprite.Scale = new Vector2(3 * direction, 3);
+		}
+	}
 
 	/// <summary>
 	/// Called anytime outside of rollbacks
@@ -1378,7 +1398,13 @@ public class Player : Node2D
 		{
 			receivedHit = chDetails;
 			otherPlayer.EmitSignal("CounterHit", otherPlayer.Name);
-			counterStopFrames = 10; // shouldn't be hardcoded
+			if (!grounded)
+				counterStopFrames = 10;
+			else if (currentState.tags.Contains("attack"))
+				counterStopFrames = Globals.attackLevels[((BaseAttack)currentState).level].counterStopFrames;
+			else
+				counterStopFrames = 2;
+			
 		}
 		velocity = new Vector2(0, 0);
 		wasHit = true;
@@ -1404,22 +1430,25 @@ public class Player : Node2D
 			else
 				details.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
-			
 
-		
+
+
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
 		currentState.ReceiveHit(details);
 		currentState.ReceiveStunDamage(details);
 		if (!details.projectile)
 			EmitSignal(nameof(HitConfirm), details.hitStop);
-		
+		PostHitCall();
+
 		wasHit = false;
 
 		if (Globals.mode == Globals.Mode.TRAINING)
 			otherPlayer.CalculatePlusFrames(currentState.stunRemaining);
 		return true;
 	}
+	
+	protected virtual void PostHitCall(){}
 
 	public void CalculatePlusFrames(int opponentStun)
 	{
@@ -1447,7 +1476,7 @@ public class Player : Node2D
 	public void OnHitConnected(int hitPush) 
 	{
 		
-		if (otherPlayer.CheckTouchingWall())
+		if (otherPlayer.CheckTouchingWall() && hitPush > 0)
 			{
 				if (OtherPlayerOnRight())
 				{
@@ -1493,10 +1522,24 @@ public class Player : Node2D
 
 	public void DeductHealth(int dmg, bool chip = false)
 	{
+		if (otherPlayer.health <= 0)
+			return;
+		
+		var fixDmg = new Fix64(dmg);
+
+		dmg = (int)Math.Floor((float)(fixDmg * damageMod));
+
 		health -= dmg;
-		if (chip && health <= 0)
+		if (chip && health <= 1)
 			health = 1;
 		GainBurst();
+
+		if (health <= 0)
+		{
+			currentState.EmitSignal(nameof(State.StateFinished), "AirKnockdown");
+			velocity.y = -200;
+		}
+			
 		EmitSignal(nameof(HealthChanged), Name, health);
 	}
 
@@ -1755,7 +1798,7 @@ public class Player : Node2D
 	/// </summary>
 	public void ResetHealth()
 	{
-		health = 1600;
+		health = 1800;
 	}
 
 	public void DebugDisplay()

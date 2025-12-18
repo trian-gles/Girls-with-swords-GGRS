@@ -7,7 +7,7 @@ public class Grab : State
 	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
 
 	[Export]
-	protected int level = 0;
+	public int level = 0;
 
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
@@ -81,11 +81,11 @@ public class Grab : State
 		if (owner.facingRight && owner.internalPos.x + 4000 > Globals.rightWall)
 			owner.internalPos.x = Globals.rightWall - 4000;
 
-        if (!owner.facingRight && owner.internalPos.x - 4000 < Globals.leftWall)
-            owner.internalPos.x = Globals.leftWall + 4000;
+		if (!owner.facingRight && owner.internalPos.x - 4000 < Globals.leftWall)
+			owner.internalPos.x = Globals.leftWall + 4000;
 
 
-        released = false;
+		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
 
 		rightGrab = owner.facingRight;

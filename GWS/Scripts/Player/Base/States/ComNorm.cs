@@ -11,9 +11,6 @@ public class ComNorm : GroundAttack
 
 	[Export]
 	public bool commandNormalCancel = false;
-
-	[Export]
-	public bool selfCancel = false;
 	public override void _Ready()
 	{
 		base._Ready();
@@ -22,10 +19,9 @@ public class ComNorm : GroundAttack
 		AddExSpecials(owner.groundExSpecials);
 		if (commandNormalCancel)
 		{
-
 			foreach (var comNorm in owner.commandNormals)
 			{
-				if (selfCancel || comNorm.state != Name)
+				if (comNorm.state != Name)
 				{
 					AddCommandNormal(comNorm);
 				}

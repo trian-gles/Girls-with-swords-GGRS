@@ -8,18 +8,22 @@ public class CharacterAudio : Node
 
 	private Dictionary<string, Sound> soundDict = new Dictionary<string, Sound>();
 
-	class Sound { public AudioStream audio; public int lastPlayedFrame; }
+	class Sound { public AudioStream audio; public int lastPlayedFrame; public float level; }
 
 	private Random random = new Random();
 
 	private void AddSound(string name, AudioStream stream)
 	{
-		soundDict.Add(name, new Sound() { audio = stream , lastPlayedFrame = - 1000});
-
+		soundDict.Add(name, new Sound() { audio = stream, lastPlayedFrame = -1000, level = -5.0f });
 	}
+	private void AddSound(string name, AudioStream stream, float level)
+	{
+		soundDict.Add(name, new Sound() { audio = stream , lastPlayedFrame = - 1000, level = level});
+	}
+
 	public override void _Ready()
 	{
-		AddSound("HitStun", LoadAudio("res://Sounds/hit.ogg"));
+		AddSound("HitStun", LoadAudio("res://Sounds/hit.ogg"), 0);
 		AddSound("Block", LoadAudio("res://Sounds/block.ogg"));
 		AddSound("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
 		AddSound("Jump", LoadAudio("res://Sounds/jump.ogg"));
@@ -46,6 +50,34 @@ public class CharacterAudio : Node
 
 		AddSound("SlashWhiff", LoadAudio("res://Sounds/Slash-Woosh.ogg"));
 		AddSound("SlashHit", LoadAudio("res://Sounds/Slash-Hit.ogg"));
+		
+		AddSound("COUNTER", LoadAudio("res://Sounds/COUNTER.ogg"));
+		AddSound("SnailRide", LoadAudio("res://Sounds/engine.ogg"));
+			
+		AddSound("DOWN", LoadAudio("res://Sounds/DOWN.ogg"), 2);
+		AddSound("THREE", LoadAudio("res://Sounds/THREE.ogg"));
+		AddSound("TWO", LoadAudio("res://Sounds/TWO.ogg"));
+		AddSound("ONE", LoadAudio("res://Sounds/ONE.ogg"));
+		AddSound("FIGHT", LoadAudio("res://Sounds/FIGHT.ogg"));
+
+		AddSound("BackToss", LoadAudio("res://Sounds/snail-release.ogg"), 0);
+		AddSound("AirSnail", LoadAudio("res://Sounds/snail-release.ogg"), 0);
+		AddSound("snail-strike", LoadAudio("res://Sounds/snail-strike.ogg"));
+		AddSound("snail-walk", LoadAudio("res://Sounds/squishy.ogg"));
+		AddSound("shock", LoadAudio("res://Sounds/shock.ogg"));
+		AddSound("electricity", LoadAudio("res://Sounds/electricity.ogg"));
+			
+		AddSound("GuardCancel", LoadAudio("res://Sounds/guard-cancel.ogg"));
+		AddSound("RC", LoadAudio("res://Sounds/RC.ogg"));
+		AddSound("JoeRogan", LoadAudio("res://Sounds/joerogan.ogg"));
+
+		AddSound("TeleportDownSlash", LoadAudio("res://Sounds/hat-down-teleport.ogg"));
+		AddSound("TeleportDP", LoadAudio("res://Sounds/hat-up-teleport.ogg"));
+
+		AddSound("FireThrow", LoadAudio("res://Sounds/hat-throw.ogg"), 2);
+
+		AddSound("Burst", LoadAudio("res://Sounds/burst.ogg"));
+		AddSound("OHSHIT", LoadAudio("res://Sounds/OH-SHIT.ogg"), 3);
 
 		foreach (var child in GetChildren())
 		{
@@ -61,7 +93,7 @@ public class CharacterAudio : Node
 			return;
 		Sound queuedSound = soundDict[name];
 		int frame = Globals.frame;
-		if (frame < queuedSound.lastPlayedFrame + 10)
+		if (frame < queuedSound.lastPlayedFrame + 6)
 		{
 			return;
 		}
@@ -73,6 +105,7 @@ public class CharacterAudio : Node
 			{
 				player.Stream = queuedSound.audio;
 				player.Play();
+				player.VolumeDb = queuedSound.level;
 				break;
 			}
 		}

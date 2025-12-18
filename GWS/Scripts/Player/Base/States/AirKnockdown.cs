@@ -19,8 +19,11 @@ public class AirKnockdown : Float
 		frameCount++;
 		if (owner.grounded)
 		{
-			EmitSignal(nameof(StateFinished), "Knockdown");
-			owner.ResetComboAndProration();
+			if (owner.health > 0)
+				EmitSignal(nameof(StateFinished), "Knockdown");
+			else
+				EmitSignal(nameof(StateFinished), "Down");
+				owner.ResetComboAndProration();
 		}
 		ApplyGravity();
 	}

@@ -7,7 +7,7 @@ public class AirGrab : State
 	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
 
 	[Export]
-	protected int level = 0;
+	public int level = 0;
 
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
@@ -136,6 +136,11 @@ public class AirGrab : State
 
 			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		}
+	}
+
+	public override void ReceiveHit(Globals.AttackDetails details)
+	{
+		// make sure that a grab can't trade with a hit
 	}
 
     public override void Exit()

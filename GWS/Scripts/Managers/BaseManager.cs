@@ -100,27 +100,27 @@ public class BaseManager : Node2D
 
 	protected void ClearHUDText()
 	{
-        charSelectScene.ChangeHUDText("");
-        gameScene.ChangeHUDText("");
-    }
+		charSelectScene.ChangeHUDText("");
+		gameScene.ChangeHUDText("");
+	}
 
 	protected void CreateGamescenes()
 	{
-        charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
-        AddChild(charSelectScene);
-        charSelectScene.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
-        currGame = charSelectScene;
+		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
+		AddChild(charSelectScene);
+		charSelectScene.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
+		currGame = charSelectScene;
 
-        gameScene = packedGameScene.Instance() as GameScene;
-        gameScene.Connect("GameWon", this, nameof(OnGameWon));
-        gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
-        AddChild(gameScene);
+		gameScene = packedGameScene.Instance() as GameScene;
+		gameScene.Connect("GameWon", this, nameof(OnGameWon));
+		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
+		AddChild(gameScene);
 
-        winScene = packedWinScene.Instance() as WinScene;
-        winScene.Connect("Rematch", this, nameof(OnRematch));
-        winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
-        AddChild(winScene);
-    }
+		winScene = packedWinScene.Instance() as WinScene;
+		winScene.Connect("Rematch", this, nameof(OnRematch));
+		winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
+		AddChild(winScene);
+	}
 
 	protected virtual void ChangeGame()
 	{

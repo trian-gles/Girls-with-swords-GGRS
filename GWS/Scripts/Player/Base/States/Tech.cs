@@ -14,10 +14,13 @@ public class Tech : Fall
 	public override void Enter()
 	{
 		base.Enter();
+		GD.Print("Entering tech");
 		owner.wasOTGHit = false;
 		owner.GFXEvent("Tech");
+		owner.EmitSignal(nameof(Player.GenericGFX), "Ukemi", owner.Name);
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
+		owner.hasDoubleOrSuperJumped = false;
 		owner.CheckTurnAround();
 		owner.invulnFrames = length;
 		ResetTerminalVelocity();
@@ -29,10 +32,7 @@ public class Tech : Fall
 		else
 			owner.velocity = new Vector2(0, techVector.y);
 
-		if (owner.grounded)
-		{
-			EmitSignal(nameof(StateFinished), "Knockdown");
-		}
+		owner.grounded = false;
 	}
 
     public override void HandleInput(char[] inputArr)

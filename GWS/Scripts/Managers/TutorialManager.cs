@@ -244,7 +244,7 @@ public class TutorialManager : TrainingManager
 		abdGoal.p1State = "AirBackdash";
 		dashChallenge.goals.Add(abdGoal);
 
-		Goal sJumpGoal = new Goal("Super Jump", "down", "up");
+		Goal sJumpGoal = new Goal("Super Jump", "up", "dash");
 		sJumpGoal.p1State = "SuperJump";
 		dashChallenge.goals.Add(sJumpGoal);
 

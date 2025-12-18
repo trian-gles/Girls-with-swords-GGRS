@@ -14,6 +14,7 @@ public class Knockdown : HitState
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
+        owner.EmitSignal(nameof(Player.GenericGFX), "Knockdown", owner.Name);
         //owner.GFXEvent("Blood");
         ResetTerminalVelocity();
     }
@@ -21,7 +22,7 @@ public class Knockdown : HitState
     {
 
         owner.ResetComboAndProration();
-        owner.invulnFrames = 2;
+        owner.invulnFrames = 1;
         EmitSignal(nameof(StateFinished), "Idle");
     }
 

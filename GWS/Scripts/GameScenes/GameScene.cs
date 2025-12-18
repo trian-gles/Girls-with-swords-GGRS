@@ -134,19 +134,20 @@ public class GameScene : BaseGame
 
 	public override void _Ready()
 	{
+		var splashText = GetNode<Control>("HUD/SplashText");
 		HUDText = GetNode<Control>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
-		P1Counter = GetNode<Label>("HUD/P1Counter");
-		P2Counter = GetNode<Label>("HUD/P2Counter");
-		P1Mixup = GetNode<Label>("HUD/P1Mixup");
-		P2Mixup = GetNode<Label>("HUD/P2Mixup");
-		P1Missed = GetNode<Label>("HUD/P1Missed");
-		P2Missed = GetNode<Label>("HUD/P2Missed");
-		P1Escape = GetNode<Label>("HUD/P1Escape");
-		P2Escape = GetNode<Label>("HUD/P2Escape");
-		P1Rhythm = GetNode<Label>("HUD/P1Rhythm");
-		P2Rhythm = GetNode<Label>("HUD/P2Rhythm");
+		P1Counter = splashText.GetNode<Label>("P1Counter");
+		P2Counter = splashText.GetNode<Label>("P2Counter");
+		P1Mixup = splashText.GetNode<Label>("P1Mixup");
+		P2Mixup = splashText.GetNode<Label>("P2Mixup");
+		P1Missed = splashText.GetNode<Label>("P1Missed");
+		P2Missed = splashText.GetNode<Label>("P2Missed");
+		P1Escape = splashText.GetNode<Label>("P1Escape");
+		P2Escape = splashText.GetNode<Label>("P2Escape");
+		P1Rhythm = splashText.GetNode<Label>("P1Rhythm");
+		P2Rhythm = splashText.GetNode<Label>("P2Rhythm");
 		P1Meter = GetNode<Control>("HUD/P1Meter");
 		P2Meter = GetNode<Control>("HUD/P2Meter");
 		P1Salt = GetNode<Control>("HUD/Salt");
@@ -237,6 +238,9 @@ public class GameScene : BaseGame
 		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
+		
+		P1.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
+		P2.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
 
 
 
@@ -395,16 +399,9 @@ public class GameScene : BaseGame
 
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
-		P1Mixup.Call("rollback", frame);
-		P2Mixup.Call("rollback", frame);
-		P1Escape.Call("rollback", frame);
-		P2Escape.Call("rollback", frame);
-		P1Missed.Call("rollback", frame);
-		P2Missed.Call("rollback", frame);
-		P1Counter.Call("rollback", frame);
-		P2Counter.Call("rollback", frame);
-		P1Rhythm.Call("rollback", frame);
-		P2Rhythm.Call("rollback", frame);
+		var splashText = GetNode<Control>("HUD/SplashText");
+		foreach (Node child in splashText.GetChildren())
+			child.Call("rollback", frame);
 	}
 
 	public override void GGRSAdvanceFrame(int p1Inps, int p2Inps)
@@ -420,6 +417,13 @@ public class GameScene : BaseGame
 	// ----------------
 	// Signal Receptors
 	// ----------------
+	public void OnGenericGFXEmitted(string fxName, string playerName)
+	{
+		var splashText = GetNode<Control>("HUD/SplashText");
+		splashText.GetNode<Control>(playerName + fxName).Call("display", Globals.frame);
+	}
+
+
 	public void OnPlayerComboChange(string name, int combo)
 	{
 		if (name == "P2")
@@ -465,10 +469,15 @@ public class GameScene : BaseGame
 	public void OnPlayerCounterHit(string name)
 	{
 		if (name == "P1")
+		{
 			P1Counter.Call("display", Globals.frame);
+			P1.ForceEvent(EventScheduler.EventType.AUDIO, "COUNTER");
+		}
 		else
+		{
 			P2Counter.Call("display", Globals.frame);
-
+			P2.ForceEvent(EventScheduler.EventType.AUDIO, "COUNTER");
+		}
 		ScreenShake(0.6f);
 	}
 
@@ -548,17 +557,7 @@ public class GameScene : BaseGame
 		if (prevHealth >= 1 && health < 1)
 		{
 			centerText.Visible = true;
-			if (name == "P2")
-			{
-				P2Health.Value = 0;
-				centerText.Text = "P1 WINS";
-			}
-
-			else
-			{
-				P1Health.Value = 0;
-				centerText.Text = "P2 WINS";
-			}
+			centerText.Text = "DOWN!";
 
 			TryEndRound();
 		}
@@ -674,13 +673,27 @@ public class GameScene : BaseGame
 		{
 			currTime = TimeStatus.GAME;
 			centerText.Text = "FIGHT!";
+			P1.ForceEvent(EventScheduler.EventType.AUDIO, "FIGHT");
 			return;
 		}
 
 
 
 		int trueFrame = Globals.frame - readyFrame;
-		centerText.Text = (3 - Math.Floor((float)trueFrame / 60)).ToString();
+		int displayNum =(int) (3 - Math.Floor((float)trueFrame / 60));
+
+		centerText.Text = displayNum.ToString();
+		if (trueFrame % 60 == 1)
+		{
+			if (displayNum == 3)
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, "THREE");
+			if (displayNum == 2)
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, "TWO");
+			if (displayNum == 1)
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, "ONE");
+		}
+			
+
 	}
 
 	private void HandleGameTime()
@@ -766,7 +779,7 @@ public class GameScene : BaseGame
 	private void EndRound()
 	{
 
-			
+		P1.ForceEvent(EventScheduler.EventType.AUDIO, "DOWN");
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
 		
@@ -781,7 +794,7 @@ public class GameScene : BaseGame
 
 	public void ResetHealth(string player)
 	{
-		OnPlayerHealthChange(player, 1600);
+		OnPlayerHealthChange(player, 1800);
 
 
 		if (player == "P1")

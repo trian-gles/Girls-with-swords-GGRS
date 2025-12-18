@@ -187,7 +187,7 @@ public class GameStateObjectRedesign : Node
 			i++;
 		}
 
-        errMsg = AddError(errMsg, $"Hadouken count", firstGs.hadoukenStates.Count, secondGs.hadoukenStates.Count);
+		errMsg = AddError(errMsg, $"Hadouken count", firstGs.hadoukenStates.Count, secondGs.hadoukenStates.Count);
 		if (firstGs.hadoukenStates.Count != secondGs.hadoukenStates.Count) return errMsg;
 		foreach (var hState1 in firstGs.hadoukenStates)
 		{
@@ -195,12 +195,12 @@ public class GameStateObjectRedesign : Node
 			foreach(var hState2 in secondGs.hadoukenStates)
 			{
 				if (hState2.name == hState1.name) {
-                    matched = true;
-                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " frame", hState1.frame, hState2.frame);
-                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " xPos", hState1.pos[0], hState2.pos[0]);
-                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " yPos", hState1.pos[1], hState2.pos[1]);
-                    errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " active", hState1.active, hState2.active);
-                } 
+					matched = true;
+					errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " frame", hState1.frame, hState2.frame);
+					errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " xPos", hState1.pos[0], hState2.pos[0]);
+					errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " yPos", hState1.pos[1], hState2.pos[1]);
+					errMsg = AddError(errMsg, $"Hadouken {hState1.name}" + " active", hState1.active, hState2.active);
+				} 
 			}
 			if (!matched)
 				errMsg += $"Hadouken {hState1.name} has no match";
@@ -253,7 +253,7 @@ public class GameStateObjectRedesign : Node
 
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
-            Globals.Log($"Loading state for hadouken {hState.name}");
+			Globals.Log($"Loading state for hadouken {hState.name}");
 			if (hadoukens.ContainsKey(hState.name))
 			{
 				Globals.Log($"Rolling back {hState.name} to frame {gState.frame}");
@@ -266,7 +266,7 @@ public class GameStateObjectRedesign : Node
 
 			if (thisHadouken.creationFrame > gState.frame)
 			{
-                Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
+				Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
 				thisHadouken.ShouldNotExist();
 				deleteQueued.Add(thisHadouken);
 			}

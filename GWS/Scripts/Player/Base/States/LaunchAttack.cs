@@ -18,6 +18,9 @@ public class LaunchAttack : AirAttack
 	[Export]
 	protected bool exitOnLand = false;
 
+	[Export]
+	public bool emitGhost = false;
+
 	/// <summary>
 	/// This doesn't call base.FrameAdvance() because that state includes things we don't want
 	/// </summary>
@@ -63,6 +66,14 @@ public class LaunchAttack : AirAttack
 					else
 						EmitSignal(nameof(StateFinished), "Landing");
 				}
+			}
+		}
+
+		if (emitGhost)
+		{
+			if (frameCount % 5 == 0)
+			{
+				GetNode<Node>("/root/Globals").EmitSignal(nameof(GhostEmitted), (Player)owner);
 			}
 		}
 

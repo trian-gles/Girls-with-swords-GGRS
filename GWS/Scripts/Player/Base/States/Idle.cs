@@ -43,6 +43,7 @@ public class Idle : State
 		owner.velocity.y = 0;
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
+		owner.hasDoubleOrSuperJumped = false;
 		owner.canAirDash = true;
 
 		if (owner.CheckFlippableHeldKey('4'))

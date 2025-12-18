@@ -11,7 +11,6 @@ public class HatPart : HadoukenPart
 	{
 		Arrive();
 		base.HurtPlayer(collisionPnt);
-		
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)
@@ -21,7 +20,23 @@ public class HatPart : HadoukenPart
 			MakeInactive();
 			Visible = false;
 		}
+		else if (command == ProjectileCommand.MoveHatRight)
+			Right();
+		else if (command == ProjectileCommand.MoveHatLeft)
+			Left();
 	}
+
+	private void Right()
+	{
+		Position += Vector2.Right * 2;
+		((HL)targetPlayer.otherPlayer).hatCoors = Position;
+	}
+	
+	private void Left()
+    {
+		Position += Vector2.Left * 2;
+		((HL)targetPlayer.otherPlayer).hatCoors = Position;
+    }
 
 	private void Arrive()
 	{
@@ -37,7 +52,6 @@ public class HatPart : HadoukenPart
 		return new Dictionary<string, int>() {
 			{ "speedx", (int) speed.x},
 			{"speedy", (int) speed.y}
-
 		};
 	}
 
@@ -50,6 +64,9 @@ public class HatPart : HadoukenPart
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+		if (active && speed.x != 0)
+			((HL)targetPlayer.otherPlayer).hatCoors = Position;
+
 		if (movingRight && Position.x > targetPos.x)
 			Arrive();
 		
@@ -58,6 +75,5 @@ public class HatPart : HadoukenPart
 
 		if (Position.x * 100 > Globals.rightWall || Position.x * 100 < Globals.leftWall)
 			Arrive();
-
 	}
 }

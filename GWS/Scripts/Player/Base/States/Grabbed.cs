@@ -12,6 +12,12 @@ public class Grabbed : State
         AddGatling(new char[] { 's', 'p' }, CanThrowBreak, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        owner.EmitSignal(nameof(Player.GenericGFX), "Grabbed", owner.Name);
+    }
+
     public bool CanThrowBreak()
     {
         bool heldKeys = owner.CheckHeldKey('s') && owner.CheckHeldKey('k');

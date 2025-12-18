@@ -7,6 +7,7 @@ public class HatSlash : Hadouken
 {
 	protected override HadoukenPart EmitHadouken()
 	{
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "SlashWhiff", Name);
 		var h = base.EmitHadouken();
 		h.Position = new Vector2(((HL)owner).hatCoors) + new Vector2(0, 15);
 		return h;

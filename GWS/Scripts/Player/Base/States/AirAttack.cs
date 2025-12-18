@@ -32,18 +32,20 @@ public abstract class AirAttack : BaseAttack
 			owner.velocity.x = owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
+			owner.hasDoubleOrSuperJumped = true;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.velocity.x = -owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
+			owner.hasDoubleOrSuperJumped = true;
 		});
 		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
 		{
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
-
+			owner.hasDoubleOrSuperJumped = true;
 		});
 	}
 

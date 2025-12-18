@@ -51,7 +51,7 @@ public class Walk : MoveState
 		base.Enter();
 		if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "MovingJump");
+			EmitSignal(nameof(StateFinished), "PreJump");
 		}
 
 		if (owner.CheckHeldKey('c') && owner.CheckBuffer(new[] {'c', 'p'}))

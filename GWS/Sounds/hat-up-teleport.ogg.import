@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hat-up-teleport.ogg-aa99b0ecb74e0854946c24cd0c0a070e.oggstr"
+
+[deps]
+
+source_file="res://Sounds/hat-up-teleport.ogg"
+dest_files=[ "res://.import/hat-up-teleport.ogg-aa99b0ecb74e0854946c24cd0c0a070e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -19,6 +19,7 @@ public class LandingRecovery : State
 	{
 		base.Enter();
 		owner.canDoubleJump = true;
+		owner.hasDoubleOrSuperJumped = false;
 		owner.canAirDash = true;
 		owner.velocity.x = 0;
 	}

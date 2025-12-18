@@ -7,6 +7,7 @@ public class Slash : GroundAttack
 
 	[Export]
 	public bool commandNormalCancel = true;
+
 	public override void _Ready()
 	{
 		base._Ready();

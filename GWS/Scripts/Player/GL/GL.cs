@@ -107,4 +107,14 @@ public class GL : Player
 		PoweredBlackHoleFramesRemaining = 0;
 	}
 
+	protected override void PostHitCall()
+	{
+		base.PostHitCall();
+		if (currentState.tags.Contains("hurtstate"))
+		{
+			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+		}
+	}
+
 }

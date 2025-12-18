@@ -144,23 +144,6 @@ class GGRSManager : StateManager
 		base.OnGameWon(winner, character);
 	}
 
-	private void StartNextGame()
-	{
-		switch (nextGameType)
-		{
-			case GameType.GAME:
-				base.OnNewGame();
-				break;
-			case GameType.CHARSELECT:
-				base.OnReselectChar();
-				break;
-			case GameType.WIN:
-				
-				break;
-		}
-		
-	}
-
 	public override void _Process(float delta)
 	{
 		if (!holePunched)

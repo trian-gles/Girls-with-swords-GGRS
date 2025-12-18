@@ -5,6 +5,14 @@ using System.Collections.Generic;
 
 public abstract class AirGrabStart : AirState
 {
+    public override void _Ready()
+    {
+        base._Ready();
+		owner.canDoubleJump = false;
+		owner.canAirDash = false;
+		owner.landingRecoveryFramesRemaining += 4;
+    }
+
 	public override void AnimationFinished()
 	{
 		EmitSignal(nameof(StateFinished), "Fall");

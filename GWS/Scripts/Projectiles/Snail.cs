@@ -154,15 +154,25 @@ public class Snail : HadoukenPart
 	{
 		mode = SnailMode.Standby;
 		GetNode<AnimatedSprite>("AnimatedSprite").FlipH = !movingRight;
+
+		if (movingRight)
+			snailOwner.leftCornerSnailArrived = true;
+		else
+			snailOwner.rightCornerSnailArrived = true;
 	}
 
 	private void ExitStandby()
 	{
 		if (movingRight)
+		{
 			snailOwner.leftCornerSnail = false;
+			snailOwner.leftCornerSnailArrived = false;
+		}
 		else
+		{
 			snailOwner.rightCornerSnail = false;
-
+			snailOwner.rightCornerSnailArrived = false;
+		}
 		activateFrame = frame;
 	}
 
@@ -181,7 +191,7 @@ public class Snail : HadoukenPart
 				EnterStandby();
 				Position = new Vector2(Mathf.Floor((Globals.rightWall - 1000) / 100), Position.y);
 			}
-				
+
 		}
 		else
 		{
@@ -189,7 +199,7 @@ public class Snail : HadoukenPart
 			if (Position.x * 100 < Globals.leftWall + 1000)
 			{
 				EnterStandby();
-				Position = new Vector2(Mathf.Floor((Globals.leftWall + 1000)/100), Position.y);
+				Position = new Vector2(Mathf.Floor((Globals.leftWall + 1000) / 100), Position.y);
 			}
 		}
 		
@@ -233,7 +243,7 @@ public class Snail : HadoukenPart
 
 	private void AttackUpdate()
 	{
-		
+
 		if (movingRight)
 		{
 			Position = new Vector2(Position.x + 4, Position.y);
@@ -246,6 +256,15 @@ public class Snail : HadoukenPart
 			if (Position.x * 100 < Globals.leftWall + 1000)
 				EnterAttack2();
 		}
+
+
+		TryWalkSound();
+	}
+	
+	private void TryWalkSound()
+	{
+		if (frame % 15 == 0 && sprite.Visible && Position.x * 100 < Globals.rightWall && Position.x * 100 > Globals.leftWall)
+			targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, "snail-walk");
 	}
 
 	private void Attack2Update()
@@ -259,6 +278,7 @@ public class Snail : HadoukenPart
 			Position = new Vector2(Position.x + 4, Position.y);
 		}
 		
+		TryWalkSound();
 	}
 
 	private void AttackWillJumpUpdate()
@@ -275,6 +295,8 @@ public class Snail : HadoukenPart
 			Jump();
 
 		TryRide();
+
+		TryWalkSound();
 
 	}
 
@@ -323,6 +345,8 @@ public class Snail : HadoukenPart
 		{
 			EnterAttack2();
 		}
+
+		TryWalkSound();
 	}
 
 	protected override Dictionary<string, int> GetStateSpecific()
@@ -353,6 +377,23 @@ public class Snail : HadoukenPart
 		}
 	}
 
+	private void HandleKillCommand()
+	{
+		if (mode == SnailMode.GetInPosition)
+		{
+			if (movingRight)
+				snailOwner.leftCornerSnail = false;
+			else
+				snailOwner.rightCornerSnail = false;
+		}
+
+		if (mode != SnailMode.Standby)
+		{
+			Destroy();
+		}
+	}
+	
+
 	private void HandleJumpCommand()
 	{
 		if (mode == SnailMode.Standby)
@@ -380,6 +421,10 @@ public class Snail : HadoukenPart
 		else if (((command == ProjectileCommand.LeftSnailJump) && movingRight) || ((command == ProjectileCommand.RightSnailJump) && !movingRight))
 		{
 			HandleJumpCommand();
+		}
+		else if (command == ProjectileCommand.Kill)
+		{
+			HandleKillCommand();
 		}
 			
 

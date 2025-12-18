@@ -75,18 +75,33 @@ public class Block : HitState
 	{
 		owner.GFXEvent("Light", details.collisionPnt / 100);
 		stunRemaining = details.blockStun;
-		owner.DeductHealth(details.dmg);
+		if (details.chipDmg)
+			owner.DeductHealth(details.dmg);
 	}
 
-	/// <summary>
-	/// Not multiplied by proration because this is chip damage.  Also no proration is applied
-	/// </summary>
-	/// <param name="dmg"></param>
-	public override void receiveDamage(int dmg, int prorationLevel)
-	{
-		if (prorationLevel < 2)
-			owner.DeductHealth(dmg);
-	}
+	protected override void ReceiveHighBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
+    {
+        if (owner.CheckOverrideBlock())
+			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+		else if (!owner.CheckHeldKey('2'))
+		{
+			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+		}
+		else
+		{
+			if (owner.CheckFlippableHeldKey('4'))
+				owner.EmitSignal("Mixup", owner.Name);
+			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
+		}
+    }
+
+	protected override void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
+    {
+        if (owner.CheckHeldKey('2') && owner.grounded)
+			EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+		else
+			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+    }
 
 
     public override void TrySpecialBreak()

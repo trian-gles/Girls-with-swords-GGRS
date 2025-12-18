@@ -48,6 +48,7 @@ public class Float : HitStun
 
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
+			owner.EmitSignal(nameof(Player.GenericGFX), "Launch", owner.otherPlayer.Name);
 			if (owner.hasBeenLaunched)
 			{
 				owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
@@ -69,7 +70,7 @@ public class Float : HitStun
 		{
 			EmitSignal(nameof(StateFinished), "GroundBounce");
 		}
-		else if (knockdown)
+		else if (knockdown || owner.health <= 0)
 		{
 			EmitSignal(nameof(StateFinished), "AirKnockdown");
 		}
@@ -102,7 +103,6 @@ public class Float : HitStun
 				TryGroundTech();
 			}
 
-			owner.ResetComboAndProration();
 		}
 
 		if (frameCount == 1)
@@ -131,11 +131,11 @@ public class Float : HitStun
 
 	protected void TryGroundTech()
 	{
-		EmitSignal(nameof(StateFinished), "Tech");
-		/*if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+		//EmitSignal(nameof(StateFinished), "Tech");
+		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
 			EmitSignal(nameof(StateFinished), "Tech");
 		else
-			EmitSignal(nameof(StateFinished), "Knockdown");*/
+			EmitSignal(nameof(StateFinished), "SoftKD");
 	}
 
     public override void ReceiveHit(Globals.AttackDetails details)
@@ -144,24 +144,6 @@ public class Float : HitStun
 			owner.EmitSignal("MissedTech", owner.Name);
         base.ReceiveHit(details);
     }
-
-	protected void TryTech()
-	{
-
-		if (stunRemaining == 1 && owner.electrocuted)
-			ReceiveElectrocution();
-
-		if (stunRemaining <= 0)
-		{
-			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-				EmitSignal(nameof(StateFinished), "Tech");
-			else if (owner.wasOTGHit)
-			{
-				owner.invulnFrames = 8;
-				EmitSignal(nameof(StateFinished), "Tech");
-			}
-		}
-	}
 
 	public override GFXStates GetExtraGFXState()
 	{

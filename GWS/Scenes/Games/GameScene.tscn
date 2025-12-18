@@ -144,8 +144,8 @@ margin_left = 43.5141
 margin_top = 13.4195
 margin_right = 83.5141
 margin_bottom = 53.4195
-max_value = 1600.0
-value = 1600.0
+max_value = 1800.0
+value = 1800.0
 texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
@@ -159,8 +159,8 @@ margin_left = 286.975
 margin_top = 13.1587
 margin_right = 435.975
 margin_bottom = 53.1587
-max_value = 1600.0
-value = 1600.0
+max_value = 1800.0
+value = 1800.0
 texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
@@ -455,304 +455,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="P1Counter" type="Label" parent="HUD"]
-visible = false
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "COUNTER"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Counter"]
-wait_time = 0.5
-
-[node name="P1Escape" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "ESCAPE:"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Escape"]
-wait_time = 0.5
-
-[node name="Sprite" type="Sprite" parent="HUD/P1Escape"]
-position = Vector2( 88, 6 )
-texture = ExtResource( 38 )
-hframes = 14
-frame = 12
-
-[node name="Sprite2" type="Sprite" parent="HUD/P1Escape"]
-position = Vector2( 104, 6 )
-texture = ExtResource( 38 )
-hframes = 14
-frame = 1
-
-[node name="P1Ukemi" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "UKEMI"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Ukemi"]
-wait_time = 0.5
-
-[node name="P1Launch" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 35.0
-margin_top = -20.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "LAUNCH
-"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Launch"]
-wait_time = 0.5
-
-[node name="P1Missed" type="Label" parent="HUD"]
-anchor_top = 0.583
-anchor_bottom = 0.601
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Missed"]
-wait_time = 0.5
-
-[node name="ColorRect" type="ColorRect" parent="HUD/P1Missed"]
-margin_top = -17.41
-margin_right = 111.0
-margin_bottom = -15.41
-theme = SubResource( 12 )
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="P2Escape" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "ESCAPE:"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Escape"]
-wait_time = 0.5
-
-[node name="Sprite" type="Sprite" parent="HUD/P2Escape"]
-position = Vector2( 88, 6 )
-texture = ExtResource( 38 )
-hframes = 14
-frame = 12
-
-[node name="Sprite2" type="Sprite" parent="HUD/P2Escape"]
-position = Vector2( 104, 6 )
-texture = ExtResource( 38 )
-hframes = 14
-frame = 1
-
-[node name="P2Launch" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 329.0
-margin_top = -20.0
-margin_right = 401.0
-margin_bottom = 9.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "LAUNCH
-"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Launch"]
-wait_time = 0.5
-
-[node name="P2Ukemi" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "UKEMI"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Ukemi"]
-wait_time = 0.5
-
-[node name="P2Missed" type="Label" parent="HUD"]
-anchor_top = 0.583
-anchor_bottom = 0.601
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Missed"]
-wait_time = 0.5
-
-[node name="ColorRect" type="ColorRect" parent="HUD/P2Missed"]
-margin_top = -17.41
-margin_right = 111.0
-margin_bottom = -15.41
-theme = SubResource( 12 )
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="P2Counter" type="Label" parent="HUD"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "COUNTER"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Counter"]
-wait_time = 0.5
-
-[node name="P1Rhythm" type="Label" parent="HUD"]
-visible = false
-anchor_top = 0.583
-anchor_bottom = 0.601
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "SWINGIN"
-script = ExtResource( 14 )
-
-[node name="Timer" type="Timer" parent="HUD/P1Rhythm"]
-wait_time = 0.5
-
-[node name="P2Rhythm" type="Label" parent="HUD"]
-visible = false
-anchor_top = 0.583
-anchor_bottom = 0.583
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "SWINGIN"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Rhythm"]
-wait_time = 0.5
-
-[node name="P1Mixup" type="Label" parent="HUD"]
-visible = false
-anchor_top = 0.583
-anchor_bottom = 0.601
-margin_left = 35.0
-margin_top = -35.0
-margin_right = 147.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "MIXED UP"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P1Mixup"]
-wait_time = 0.5
-
-[node name="P2Mixup" type="Label" parent="HUD"]
-visible = false
-anchor_top = 0.583
-anchor_bottom = 0.583
-margin_left = 330.0
-margin_top = -35.0
-margin_right = 442.0
-margin_bottom = -19.0
-theme = ExtResource( 28 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "MIXED UP"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="HUD/P2Mixup"]
-wait_time = 0.5
-
 [node name="P1SnailRadar" parent="HUD" instance=ExtResource( 20 )]
 margin_left = 42.0
 margin_top = 48.0
@@ -891,6 +593,492 @@ theme = ExtResource( 31 )
 text = "TUTORIAL COMPLETE!"
 align = 1
 
+[node name="SplashText" type="Control" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1Counter" type="Label" parent="HUD/SplashText"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 80.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "COUNTER"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Counter"]
+wait_time = 0.5
+
+[node name="P1Spike" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 80.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BIG SPIKE"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Spike"]
+wait_time = 0.5
+
+[node name="P1Grabbed" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 80.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "GRABBED"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Grabbed"]
+wait_time = 0.5
+
+[node name="P1Escape" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 80.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "ESCAPE:"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Escape"]
+wait_time = 0.5
+
+[node name="Sprite" type="Sprite" parent="HUD/SplashText/P1Escape"]
+position = Vector2( 88, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 12
+
+[node name="Sprite2" type="Sprite" parent="HUD/SplashText/P1Escape"]
+position = Vector2( 104, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 1
+
+[node name="P1Ukemi" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "UKEMI"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Ukemi"]
+wait_time = 0.5
+
+[node name="P1GuardCancel" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "UKEMI"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1GuardCancel"]
+wait_time = 0.5
+
+[node name="P1Burst" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 147.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BURST"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Burst"]
+wait_time = 0.5
+
+[node name="P1Launch" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 147.0
+margin_bottom = 124.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LAUNCH
+"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Launch"]
+wait_time = 0.5
+
+[node name="P1Knockdown" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 35.0
+margin_top = 95.0
+margin_right = 147.0
+margin_bottom = 124.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "KNOCKDOWN
+"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Knockdown"]
+wait_time = 0.5
+
+[node name="P1Missed" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = 99.09
+margin_right = 147.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Missed"]
+wait_time = 0.5
+
+[node name="ColorRect" type="ColorRect" parent="HUD/SplashText/P1Missed"]
+margin_top = -17.41
+margin_right = 111.0
+margin_bottom = -15.41
+theme = SubResource( 12 )
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Escape" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 80.0
+margin_right = 442.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "ESCAPE:"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Escape"]
+wait_time = 0.5
+
+[node name="Sprite" type="Sprite" parent="HUD/SplashText/P2Escape"]
+position = Vector2( 88, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 12
+
+[node name="Sprite2" type="Sprite" parent="HUD/SplashText/P2Escape"]
+position = Vector2( 104, 6 )
+texture = ExtResource( 38 )
+hframes = 14
+frame = 1
+
+[node name="P2Ukemi" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 95.0
+margin_right = 442.0
+margin_bottom = 108.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "UKEMI"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Ukemi"]
+wait_time = 0.5
+
+[node name="P2Burst" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 95.0
+margin_right = 442.0
+margin_bottom = 108.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BURST"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Burst"]
+wait_time = 0.5
+
+[node name="P2GuardCancel" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 95.0
+margin_right = 442.0
+margin_bottom = 108.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "GUARD CANCEL"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2GuardCancel"]
+wait_time = 0.5
+
+[node name="P2Knockdown" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 95.0
+margin_right = 442.0
+margin_bottom = 108.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "KNOCKDOWN"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Knockdown"]
+wait_time = 0.5
+
+[node name="P2Launch" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 329.0
+margin_top = 95.0
+margin_right = 401.0
+margin_bottom = 124.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LAUNCH
+"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Launch"]
+wait_time = 0.5
+
+[node name="P2Missed" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 330.0
+margin_top = 99.09
+margin_right = 442.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Missed"]
+wait_time = 0.5
+
+[node name="ColorRect" type="ColorRect" parent="HUD/SplashText/P2Missed"]
+margin_top = -17.41
+margin_right = 111.0
+margin_bottom = -15.41
+theme = SubResource( 12 )
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2Counter" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 80.0
+margin_right = 442.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "COUNTER"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Counter"]
+wait_time = 0.5
+
+[node name="P2Grabbed" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 80.0
+margin_right = 442.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "GRABBED"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Grabbed"]
+wait_time = 0.5
+
+[node name="P2Spike" type="Label" parent="HUD/SplashText"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 330.0
+margin_top = 80.0
+margin_right = 442.0
+margin_bottom = 96.0
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BIG SPIKE"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Spike"]
+wait_time = 0.5
+
+[node name="P1Rhythm" type="Label" parent="HUD/SplashText"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = 99.09
+margin_right = 147.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SWINGIN"
+script = ExtResource( 14 )
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Rhythm"]
+wait_time = 0.5
+
+[node name="P2Rhythm" type="Label" parent="HUD/SplashText"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.583
+margin_left = 330.0
+margin_top = 99.09
+margin_right = 442.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SWINGIN"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Rhythm"]
+wait_time = 0.5
+
+[node name="P1Mixup" type="Label" parent="HUD/SplashText"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.601
+margin_left = 35.0
+margin_top = 99.09
+margin_right = 147.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MIXED UP"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P1Mixup"]
+wait_time = 0.5
+
+[node name="P2Mixup" type="Label" parent="HUD/SplashText"]
+visible = false
+anchor_top = 0.583
+anchor_bottom = 0.583
+margin_left = 330.0
+margin_top = 99.09
+margin_right = 442.0
+margin_bottom = 115.09
+theme = ExtResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MIXED UP"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/SplashText/P2Mixup"]
+wait_time = 0.5
+
 [node name="MainGFX" type="Node" parent="."]
 script = ExtResource( 13 )
 
@@ -908,17 +1096,27 @@ songs = [ ExtResource( 35 ), ExtResource( 33 ), ExtResource( 17 ), ExtResource( 
 [connection signal="timeout" from="HUD/P1Combo/Timer" to="HUD/P1Combo" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/OhShitP2/Timer" to="HUD/OhShitP2" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/OhShit/Timer" to="HUD/OhShit" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Counter/Timer" to="HUD/P1Counter" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Escape/Timer" to="HUD/P1Escape" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Ukemi/Timer" to="HUD/P1Ukemi" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Launch/Timer" to="HUD/P1Launch" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Missed/Timer" to="HUD/P1Missed" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Escape/Timer" to="HUD/P2Escape" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Launch/Timer" to="HUD/P2Launch" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Ukemi/Timer" to="HUD/P2Ukemi" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Missed/Timer" to="HUD/P2Missed" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Counter/Timer" to="HUD/P2Counter" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Rhythm/Timer" to="HUD/P1Rhythm" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Rhythm/Timer" to="HUD/P2Rhythm" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P1Mixup/Timer" to="HUD/P1Mixup" method="_on_Timer_timeout"]
-[connection signal="timeout" from="HUD/P2Mixup/Timer" to="HUD/P2Mixup" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Counter/Timer" to="HUD/SplashText/P1Counter" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Spike/Timer" to="HUD/SplashText/P1Spike" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Grabbed/Timer" to="HUD/SplashText/P1Grabbed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Escape/Timer" to="HUD/SplashText/P1Escape" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Ukemi/Timer" to="HUD/SplashText/P1Ukemi" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1GuardCancel/Timer" to="HUD/SplashText/P1GuardCancel" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Burst/Timer" to="HUD/SplashText/P1Burst" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Launch/Timer" to="HUD/SplashText/P1Launch" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Knockdown/Timer" to="HUD/SplashText/P1Knockdown" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Missed/Timer" to="HUD/SplashText/P1Missed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Escape/Timer" to="HUD/SplashText/P2Escape" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Ukemi/Timer" to="HUD/SplashText/P2Ukemi" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Burst/Timer" to="HUD/SplashText/P2Burst" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2GuardCancel/Timer" to="HUD/SplashText/P2GuardCancel" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Knockdown/Timer" to="HUD/SplashText/P2Knockdown" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Launch/Timer" to="HUD/SplashText/P2Launch" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Missed/Timer" to="HUD/SplashText/P2Missed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Counter/Timer" to="HUD/SplashText/P2Counter" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Grabbed/Timer" to="HUD/SplashText/P2Grabbed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Spike/Timer" to="HUD/SplashText/P2Spike" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Rhythm/Timer" to="HUD/SplashText/P1Rhythm" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Rhythm/Timer" to="HUD/SplashText/P2Rhythm" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P1Mixup/Timer" to="HUD/SplashText/P1Mixup" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/SplashText/P2Mixup/Timer" to="HUD/SplashText/P2Mixup" method="_on_Timer_timeout"]

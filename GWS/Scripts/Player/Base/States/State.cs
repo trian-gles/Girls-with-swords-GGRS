@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FixedMath.NET;
+using System.Security.Cryptography.X509Certificates;
 
 /// <summary>
 /// Base class for all states
@@ -65,6 +66,7 @@ public abstract class State : Node
 
 	public bool hitConnect = false;
 
+	[Export]
 	public bool turnAroundOnExit = true;
 
 
@@ -462,9 +464,14 @@ public abstract class State : Node
 	{
 		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
 		{
-			AddGatling(new char[] {perm[0] ,'p' },  
-				() => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter(), 
-				cancelState, () => owner.GFXEvent("Cancel"));
+			AddGatling(new char[] { perm[0], 'p' },
+				() => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter(),
+				cancelState,
+				() => {
+					owner.landingRecoveryFramesRemaining = 0;
+					owner.GFXEvent("Cancel");
+					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "RC", cancelState);
+				});
 		}
 		
 	}
@@ -728,7 +735,8 @@ public abstract class State : Node
 
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
-				owner.hasBeenLaunched = true;
+			owner.hasBeenLaunched = true;
+			owner.EmitSignal(nameof(Player.GenericGFX), "Launch", owner.otherPlayer.Name);
 		}
 
 		owner.ComboUp();
@@ -791,6 +799,7 @@ public abstract class State : Node
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SPARKS)
 		{
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, "shock");
 			owner.GFXEvent("Sparks");
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SLASH)
@@ -799,6 +808,7 @@ public abstract class State : Node
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.ELECTROCUTE)
 		{
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, "electricity");
 			owner.electrocuted = true;
 		}
 	}
@@ -821,7 +831,49 @@ public abstract class State : Node
 		
 		EmitSignal(nameof(StateFinished), stateName);
 		owner.EmitSignal("HitConfirm", blockStop);
+
 	}
+
+	protected virtual void ReceiveHighBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
+    {
+        if (owner.CheckOverrideBlock())
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+		else if (!owner.CheckHeldKey('2'))
+		{
+			if (rightBlock || leftBlock || anyBlock)
+			{
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+			}
+			else
+			{
+				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
+			}
+		}
+		else
+		{
+			if (owner.CheckFlippableHeldKey('4'))
+				owner.EmitSignal("Mixup", owner.Name);
+			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
+		}
+    }
+
+	protected virtual void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
+    {
+        if (owner.CheckOverrideBlock())
+			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+
+		else if (rightBlock || leftBlock || anyBlock)
+		{
+			if (owner.CheckHeldKey('2') && owner.grounded)
+				EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+			else
+				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+		}
+		else 
+		{
+			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
+		}
+    }
 
 	public virtual void ReceiveHit(Globals.AttackDetails details)
 	{
@@ -854,25 +906,7 @@ public abstract class State : Node
 
 		if (details.height == HEIGHT.HIGH) 
 		{
-			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
-			else if (!owner.CheckHeldKey('2'))
-			{
-				if (rightBlock || leftBlock || anyBlock)
-				{
-					EnterBlockState("Block", details.collisionPnt, details.hitStop);
-				}
-				else
-				{
-					EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
-				}
-			}
-			else
-			{
-				if (owner.CheckFlippableHeldKey('4'))
-					owner.EmitSignal("Mixup", owner.Name);
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
-			}
+			ReceiveHighBlock(details, rightBlock, leftBlock, anyBlock);
 			
 		}
 		else if (details.height == HEIGHT.LOW) 
@@ -899,20 +933,7 @@ public abstract class State : Node
 		}
 		else
 		{
-			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
-
-			else if (rightBlock || leftBlock || anyBlock)
-			{
-				if (owner.CheckHeldKey('2') && owner.grounded)
-					EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
-				else
-					EnterBlockState("Block", details.collisionPnt, details.hitStop);
-			}
-			else 
-			{
-				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
-			}
+			ReceiveMidBlock(details, rightBlock, leftBlock, anyBlock);
 		}
 	}
 
@@ -958,12 +979,26 @@ public abstract class State : Node
 		Globals.Log($"Receiving damage {details.dmg}");
 		int hitProration = details.prorationLevel;
 		if (owner.combo == 1)
-			hitProration *= 3;
+        {
+			if (hitProration > 0)
+				hitProration *= 3;
+			else
+				hitProration = 0;
+        }
+
 
 		stunRemaining = details.hitStun;
-		var fixDmg = new Fix64(details.dmg * owner.proration);
-		var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);
-		fixDmg /= comboPror;
+
+		var prorActual = details.ignoreProration ? 24 : owner.proration;
+		var fixDmg = new Fix64(details.dmg * prorActual);
+		var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);;
+
+		if (!details.ignoreProration)
+        {
+            fixDmg /= comboPror;
+        }
+			
+		
 		owner.DeductHealth((int)fixDmg + 10);
 		owner.Prorate(hitProration);
 	}
@@ -973,15 +1008,6 @@ public abstract class State : Node
 		stunRemaining = hitStun;
 	}
 
-	/// <summary>
-	/// This is multiplied by the proration value that is currently set, THEN the new proration is calculated for future moves
-	/// </summary>
-	/// <param name="dmg"></param>
-	public virtual void receiveDamage(int dmg, int prorationLevel)
-	{
-		owner.DeductHealth(dmg * owner.proration);
-		owner.Prorate(prorationLevel);
-	}
 
 	public virtual bool LevelUp()
 	{

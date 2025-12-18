@@ -9,6 +9,9 @@ public class Hadouken : BaseAttack
 	[Export]
 	public PackedScene hadoukenScene;
 
+	[Export]
+	public string hadoukenSound = "Hadouken";
+
 	/// <summary>
 	/// How far below the player the projecctile will be
 	/// </summary>
@@ -39,11 +42,11 @@ public class Hadouken : BaseAttack
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+
+		if (frameCount == releaseFrame - 6)
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hadoukenSound, Name);
 		if (frameCount == releaseFrame)
-		{
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 			EmitHadouken();
-		}
 	}
 
 	/// <summary>

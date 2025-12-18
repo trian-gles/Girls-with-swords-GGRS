@@ -6,6 +6,8 @@ public class SL : Player
 {
 	public bool leftCornerSnail = false;
 	public bool rightCornerSnail = false;
+	public bool leftCornerSnailArrived = false;
+	public bool rightCornerSnailArrived = false;
 	public override void _EnterTree()
 	{
 		base._EnterTree();
@@ -53,6 +55,8 @@ public class SL : Player
 		base.Reset();
 		leftCornerSnail = false;
 		rightCornerSnail = false;
+		leftCornerSnailArrived = false;
+		rightCornerSnailArrived = false;
 	}
 
 	public void SnailRide()
@@ -68,6 +72,8 @@ public class SL : Player
 		var dict = new Dictionary<string, int>();
 		dict["leftCornerSnail"] = Convert.ToInt32(leftCornerSnail);
 		dict["rightCornerSnail"] = Convert.ToInt32(rightCornerSnail);
+		dict["leftCornerSnailArrived"] = Convert.ToInt32(leftCornerSnailArrived);
+		dict["rightCornerSnailArrived"] = Convert.ToInt32(rightCornerSnailArrived);
 		return dict;
 	}
 
@@ -77,7 +83,19 @@ public class SL : Player
 		{
 			leftCornerSnail = dict["leftCornerSnail"] == 1;
 			rightCornerSnail = dict["rightCornerSnail"] == 1;
+			leftCornerSnailArrived = dict["leftCornerSnail"] == 1;
+			rightCornerSnailArrived = dict["rightCornerSnail"] == 1;
 		}
+	}
 
+	protected override void PostHitCall()
+	{
+		base.PostHitCall();
+		if (currentState.tags.Contains("hurtstate"))
+		{
+			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
+		}
 	}
 }

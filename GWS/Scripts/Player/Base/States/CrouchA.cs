@@ -9,8 +9,9 @@ public class CrouchA : GroundAttack
 		base._Ready();
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
-        AddCommandNormals(owner.commandNormals);
+		AddCommandNormals(owner.commandNormals);
 		AddEasyGroundSpecials();
+		whiffGatlings.Add(new NormalGatling { input = new[] { 'p', 'p' }, state = "CrouchA", reqCall = () => owner.CheckHeldKey('2') });
 		AddGatling(new char[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
@@ -19,7 +20,7 @@ public class CrouchA : GroundAttack
 		AddGatling(new char[] { 's', 'p' }, "Slash");
 		AddGatling(new char[] { 'b', 'p' }, "Kick");
 
-        AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
-    }
+		AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
+	}
 }
 

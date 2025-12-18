@@ -3,8 +3,16 @@ using System;
 
 public class TeleportAttack : LaunchAttack
 {
+
+
     [Export]
     public int teleFrame;
+
+    public override void Enter()
+    {
+        base.Enter();
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Name, Name);
+    }
     public override void FrameAdvance()
     {
 

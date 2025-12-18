@@ -22,23 +22,23 @@ public class Shield : HitState
 
 		if (stunRemaining == 0)
 		{
-            CheckShieldSwitch();
+			CheckShieldSwitch();
 			if (!owner.TrySpendMeter(5)) {
 				owner.EmptyMeter();
 				ExitShield();
 			}
 
-            bool ownerHoldingInput = owner.CheckHeldFlippableKeys(new[] { 'p', 'k', '4' });
-            if (!ownerHoldingInput && (stunRemaining == 0) && (frameCount > 2))
-            {
-                ExitShield();
-            }
+			bool ownerHoldingInput = owner.CheckHeldFlippableKeys(new[] { 'p', 'k', '4' });
+			if (!ownerHoldingInput && (stunRemaining == 0) && (frameCount > 2))
+			{
+				ExitShield();
+			}
 
-        }
+		}
 		else
 		{
-            stunRemaining--;
-        }
+			stunRemaining--;
+		}
 
 
 		if (!owner.grounded)
@@ -47,43 +47,43 @@ public class Shield : HitState
 		}
 		else
 		{
-            owner.velocity.x = 0;
-        }
+			owner.velocity.x = 0;
+		}
 			
 	}
 
 	protected virtual void ExitShield()
 	{
-        if (owner.grounded)
-        {
-            EmitSignal(nameof(StateFinished), "Idle");
-        }
-        else
-        {
-            EmitSignal(nameof(StateFinished), "Fall");
-        }
-    }
+		if (owner.grounded)
+		{
+			EmitSignal(nameof(StateFinished), "Idle");
+		}
+		else
+		{
+			EmitSignal(nameof(StateFinished), "Fall");
+		}
+	}
 
-    protected virtual void CheckShieldSwitch()
+	protected virtual void CheckShieldSwitch()
 	{
-        if (owner.CheckHeldKey('2') && owner.grounded)
-            EmitSignal(nameof(StateFinished), "CrouchShield");
-    }
+		if (owner.CheckHeldKey('2') && owner.grounded)
+			EmitSignal(nameof(StateFinished), "CrouchShield");
+	}
 
 
-    public override GFXStates GetExtraGFXState()
+	public override GFXStates GetExtraGFXState()
 	{
 		if (stunRemaining > 0)
 			return GFXStates.SHIELDACTIVE;
 		else return GFXStates.SHIELD;
 	}
 
-    public override bool DelayInputs()
-    {
+	public override bool DelayInputs()
+	{
 		return false;
-    }
+	}
 
-    public override void ReceiveHit(Globals.AttackDetails details)
+	public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		details.hitPush = (int)Math.Floor(details.hitPush * 1.5);
 		details.airBlockable = true;
@@ -91,7 +91,7 @@ public class Shield : HitState
 	}
 
 
-    public override void receiveStun(int hitStun, int blockStun)
+	public override void receiveStun(int hitStun, int blockStun)
 	{
 
 		stunRemaining = blockStun + 3;
@@ -103,37 +103,28 @@ public class Shield : HitState
 		owner.GFXEvent("Light", details.collisionPnt / 100);
 		if (!owner.TrySpendMeter(300)) owner.EmptyMeter();
 
-        stunRemaining = details.blockStun;
+		stunRemaining = details.blockStun;
 	}
 
-	/// <summary>
-	/// No chip damage at all
-	/// </summary>
-	/// <param name="dmg"></param>
-	public override void receiveDamage(int dmg, int prorationLevel)
+	public override bool IsGrabbable()
 	{
-		
+		return stunRemaining == 0;
 	}
 
-    public override bool IsGrabbable()
-    {
-        return stunRemaining == 0;
-    }
-
-    public override void TrySpecialBreak()
+	public override void TrySpecialBreak()
 	{
 		base.TrySpecialBreak();
 		owner.SpecialBreak();
 	}
 
-    protected override void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
+	protected override void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
 		if (stateName == "Block")
 			stateName = "Shield";
-        else if (stateName == "CrouchBlock")
-            stateName = "CrouchShield";
+		else if (stateName == "CrouchBlock")
+			stateName = "CrouchShield";
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "shield", owner.OtherPlayerOnLeft());
-        EmitSignal(nameof(StateFinished), stateName);
-        owner.EmitSignal("HitConfirm", blockStop);
-    }
+		EmitSignal(nameof(StateFinished), stateName);
+		owner.EmitSignal("HitConfirm", blockStop);
+	}
 }

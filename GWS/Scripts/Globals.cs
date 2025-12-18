@@ -35,7 +35,17 @@ public class Globals : Node
 
 	public static bool alwaysBlock = false;
 	public static bool autoTech = false;
-
+	
+	public const int UP = 1;
+	public const int DOWN = 2;
+	public const int RIGHT = 4;
+	public const int LEFT = 8;
+	public const int PUNCH = 16;
+	public const int KICK = 32;
+	public const int SLASH = 64;
+	public const int SPECIAL = 128;
+	public const int STRING = 256;
+	public const int DASH = 512;
 	static public Mode mode;
 
 	public static List<string> logBuffer = new List<string>();
@@ -106,6 +116,7 @@ public class Globals : Node
 		public int dmg;
 		public int hitPush;
 		public int prorationLevel;
+		public bool ignoreProration;
 		public bool knockdown;
 		public bool electrocute;
 		public bool removeOTG;
@@ -117,12 +128,15 @@ public class Globals : Node
 		public BaseAttack.HEIGHT height;
 		public BaseAttack.ATTACKDIR dir;
 		public bool airBlockable;
+		public bool spike;
+		public bool chipDmg;
 	}
 
 	public struct AttackLevel
 	{
 		public AttackDetails hit;
 		public AttackDetails counterHit;
+		public int counterStopFrames;
 	}
 
 	public static AttackDetails otgHit = new AttackDetails
@@ -188,7 +202,8 @@ public class Globals : Node
 				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
-			}
+			},
+			counterStopFrames = 2
 		},
 		
 		// LVL 2
@@ -221,7 +236,8 @@ public class Globals : Node
 				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
-			}
+			},
+			counterStopFrames = 4
 		},
 		
 		// LVL 3
@@ -254,7 +270,8 @@ public class Globals : Node
 				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
-			}
+			},
+			counterStopFrames = 6
 		},
 		
 		// LVL 4
@@ -287,7 +304,8 @@ public class Globals : Node
 				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
-			}
+			},
+			counterStopFrames = 8
 		},
 		// LVL 5
 		new AttackLevel {
@@ -319,7 +337,8 @@ public class Globals : Node
 				graphicFX = BaseAttack.GRAPHICEFFECT.NONE,
 				height = State.HEIGHT.MID,
 				dir = BaseAttack.ATTACKDIR.EQUAL
-			}
+			},
+			counterStopFrames = 10
 		}
 	};
 

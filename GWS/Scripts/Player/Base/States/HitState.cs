@@ -23,7 +23,7 @@ public class HitState : State
 	public override void Exit()
 	{
 		base.Exit();
-        owner.grabInvulnFrames = 5;
+        owner.grabInvulnFrames = 7;
 	}
 
     public override bool IsGrabbable()
@@ -32,8 +32,9 @@ public class HitState : State
 	}
 
 
-    protected void ReceiveElectrocution()
+	protected void ReceiveElectrocution()
 	{
+
 		var hit = Globals.electrocuteDetails;
 		if (owner.grounded)
 		{
@@ -43,8 +44,26 @@ public class HitState : State
 		{
 			hit.hitStun = 32;
 		}
-			
+
 		owner.ReceiveHit(hit, hit);
 		owner.electrocuted = false;
+	}
+	
+	protected void TryTech()
+	{
+
+		if (stunRemaining == 1 && owner.electrocuted)
+			ReceiveElectrocution();
+
+		if (stunRemaining <= 0)
+		{
+			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+				EmitSignal(nameof(StateFinished), "Tech");
+			else if (owner.wasOTGHit)
+			{
+				owner.invulnFrames = 8;
+				EmitSignal(nameof(StateFinished), "Tech");
+			}
+		}
 	}
 }

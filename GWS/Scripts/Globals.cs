@@ -35,6 +35,19 @@ public class Globals : Node
 
 	public static bool alwaysBlock = false;
 	public static bool autoTech = false;
+
+	public static AIDIFFICULTY aiDifficulty = AIDIFFICULTY.HI;
+
+	public enum AIDIFFICULTY
+	{
+		LO, HI
+	}
+
+
+	public enum CHARID
+	{
+		OLID, GLID, SLID, HLID
+	}
 	
 	public const int UP = 1;
 	public const int DOWN = 2;
@@ -351,6 +364,12 @@ public class Globals : Node
     {
         return VERSION;
     }
+
+	public static void ChangeDifficulty(int dif)
+	{
+		aiDifficulty = (AIDIFFICULTY)dif;
+		GD.Print(aiDifficulty);
+	}
 
     public static bool CheckTrainingMode()
 	{

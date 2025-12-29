@@ -319,7 +319,6 @@ public class GameScene : BaseGame
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
 
-
 		if (currTime == TimeStatus.GAME)
 		{
 			gsObj.Update(p1Inps, p2Inps);
@@ -720,7 +719,6 @@ public class GameScene : BaseGame
 
 	private void HandleFakeEndTime()
 	{
-		GD.Print($"IN FAKEEND TIME.  True ending frame = {trueEndingFrame} Frame = {Globals.frame}");
 		if (Globals.frame == trueEndingFrame)
 		{
 			EndRound();
@@ -749,7 +747,7 @@ public class GameScene : BaseGame
 		{
 			if (p1Wins == 2)
 			{
-				GD.Print($"P1 has 2 wins! {Globals.frame}");
+				//GD.Print($"P1 has 2 wins! {Globals.frame}");
 				ResetWin(); 
 				
 				EmitSignal("GameWon", "P1", p1Ind);
@@ -757,7 +755,7 @@ public class GameScene : BaseGame
 			}
 			else if (p2Wins == 2)
 			{
-				GD.Print($"P2 has 2 wins! {Globals.frame}");
+				//GD.Print($"P2 has 2 wins! {Globals.frame}");
 				ResetWin();
 				EmitSignal("GameWon", "P2", p2Ind);
 
@@ -783,8 +781,6 @@ public class GameScene : BaseGame
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
 		
-
-		GD.Print($"Round definitively finished.  P1 wins = {p1Wins} P2 wins = {p2Wins}");
 
 	}
 

@@ -17,15 +17,7 @@ public class WakeupBackdash : BehaviourState
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         int bDashInp = state.P2State.facingRight ? 8 : 4;
-
-        if ((bDashInp & owner.lastInp) == 0)
-        {
-            return bDashInp;
-        }
-        else
-        {
-            return 0;
-        }
+        return DoButtonPress(bDashInp);
     }
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)

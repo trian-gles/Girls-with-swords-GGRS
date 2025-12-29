@@ -8464,7 +8464,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 40, 45, 60, 69 ),
+"times": PoolRealArray( 0, 41, 45, 62, 69 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true, false, true ]
@@ -8792,6 +8792,7 @@ position = Vector2( 45, -7 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 23, 1 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 61, -23 )
@@ -8802,7 +8803,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 72
+frame = 229
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -8820,6 +8821,7 @@ prorationLevel = 4
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 35
@@ -8838,6 +8840,7 @@ launchFrame = 3
 
 [node name="AntiAir" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
+isSpecial = true
 level = 2
 chip = true
 modifiedHitStun = 38
@@ -8856,6 +8859,7 @@ launch = Vector2( 0, -400 )
 
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 8 )
+isSpecial = true
 projectileInvulnFrames = 30
 len = 25
 speed = 700
@@ -8863,20 +8867,24 @@ turnFrame = 13
 
 [node name="CommandRun" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 22 )
+isSpecial = true
 projectileInvulnFrames = 20
 len = 12
 speed = 580
 
 [node name="CommandRunWillTurn" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 26 )
+isSpecial = true
 
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="24"]
 script = ExtResource( 17 )
+isSpecial = true
 projectileInvulnFrames = 15
 speed = 700
 
 [node name="Hojogiri" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 7 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 65
@@ -8950,12 +8958,14 @@ hopForce = 40
 
 [node name="HojogiriCharge" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 14 )
+isSpecial = true
 whiffSound = ""
 hitSound = ""
 specialBurstKara = true
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 15 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 35
@@ -8969,6 +8979,7 @@ hitSound = "SlashHit"
 
 [node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="51"]
 script = ExtResource( 16 )
+isSpecial = true
 level = 3
 chip = true
 opponentLaunch = Vector2( 150, -450 )
@@ -8993,6 +9004,7 @@ mustCooldown = true
 
 [node name="InstantOverhead" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 18 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 22
@@ -9014,6 +9026,7 @@ emitGhost = true
 
 [node name="Super" type="Node" parent="StateTree" index="55"]
 script = ExtResource( 19 )
+isSpecial = true
 level = 4
 chip = true
 modifiedHitStun = 80

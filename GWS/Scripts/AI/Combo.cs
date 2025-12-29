@@ -14,14 +14,7 @@ public class Combo : BehaviourState
 
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
-        if ((256 & owner.lastInp) == 0)
-        {
-            return 256;
-        }
-        else
-        {
-            return 0;
-        }
+        return DoButtonPress(Globals.STRING);
     }
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)

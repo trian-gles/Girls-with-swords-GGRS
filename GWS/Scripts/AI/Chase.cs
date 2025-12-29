@@ -41,8 +41,9 @@ public class Chase : BehaviourState
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         distance = state.P1State.position[0] - state.P2State.position[0];
-            intent = (Intent)(((int)intent + 1) % 4);
-        if (AIBehaviour.mixupConfirmStates.Contains(state.P2State.currentState))
+
+        if (state.P2State.stunRemaining == 1)
+            intent = (Intent)((int)intent + 1 % 4);
 
         if (!possibleStates.Contains(state.P2State.currentState))
             return 0;
@@ -83,13 +84,14 @@ public class Chase : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
+
         int minDist = 2000;
         if (intent == Intent.Punch)
             minDist = 4000;
         else if (intent == Intent.Kick)
-            minDist = 8000;
+            minDist = 5000;
         else if (intent == Intent.Slash)
-            minDist = 10000;
+            minDist = 7000;
         if (Math.Abs(distance) < minDist)
             {
                 return "RandomMash";

@@ -8,7 +8,7 @@ using Godot;
 
 public class RandomMash : BehaviourState
 {
-
+// TODO FIX INCESSANT GRABBING
     private Random random = new Random();
 
     int distance = 10000;
@@ -22,71 +22,63 @@ public class RandomMash : BehaviourState
             {
                 if (state.P1State.currentState == "Knockdown")
                     return 1;
-                if (owner.lastInp != 32 + 64 && !state.P2State.currentState.Contains("Run"))
-                    {
-                        return 32 + 64;
-                    }
-                    else
-                        return 0;
+                else if (!state.P2State.currentState.Contains("Run"))
+                    return DoGrab();
+                else
+                {
+                    return 0;
+                }
+                    
             }
-            else if (distance < 4000)
+            else if (distance < 3000)
             {
 
                 if (state.P1State.grounded)
                 {
-                    if (owner.lastInp != 18)
-                        return 2 + 16;
-                    else
-                        return 2;
+                    return 2 + DoButtonPress(Globals.PUNCH);
                 }
                 else
                 {
-
-                    if ((owner.lastInp & 16) == 0)
-                    {
-                        return 16 + GetForwardInput(state);
-                    }
-                    else
-                        return 0;
+                    return DoButtonPress(Globals.PUNCH) + GetForwardInput(state);
                 }
 
             }
-            else if (distance < 8000)
+            else if (distance < 5000)
+            {
                 if (state.P1State.grounded)
                 {
-                    if ((owner.lastInp & 32) == 0)
-                    {
-                        if (state.P1State.position[0] % 3 == 0)
-                            return 32;
-                        else if (state.P1State.position[0] % 3 == 1)
-                            return 2 + 32;
-                        else
-                            return 32 + GetForwardInput(state);
-                    }
+                    int kickInp = DoButtonPress(Globals.KICK);
+                    if (state.P1State.position[0] % 3 == 0)
+                        return kickInp;
+                    else if (state.P1State.position[0] % 3 == 1)
+                        return 2 + kickInp;
                     else
-                    {
-                        return 0;
-                    }
+                        return kickInp + GetForwardInput(state);
                         
                 }
                 else
                 {
-                    if ((owner.lastInp & 64) == 0)
-                    {
-
-                        return 64 + GetForwardInput(state);
-                    }
-                    else
-                        return 0;
+                    return DoButtonPress(Globals.SLASH) + GetForwardInput(state);
                 }
+               
+            }
+            else if (distance < 7000)
+            {
+                return 2 + DoButtonPress(Globals.SLASH);
+            }
+            else if (distance < 8000)
+            {
+                return DoButtonPress(Globals.SLASH);
+            }
             else
             {
-                return 0;
+                return random.Next(511);
             }
         }
+            
+        
         else
         {
-            GD.Print("RANDUM");
             return random.Next(511);
         }
             
@@ -101,7 +93,7 @@ public class RandomMash : BehaviourState
 
         if (Math.Abs(state.P1State.position[0] - state.P2State.position[0]) > 2000)
         {
-            if (random.Next(20) == 1)
+            if (random.Next(90) == 1)
                 return "Chase";
         }
 

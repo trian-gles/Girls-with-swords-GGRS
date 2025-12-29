@@ -13,6 +13,8 @@ export(Array, AudioStreamOGGVorbis) var songs := []
 	
 	
 func play_idx(i):
+	stop()
+	yield(get_tree().create_timer(0.5), "timeout")
 	stream = songs[i]
 	play()
 		

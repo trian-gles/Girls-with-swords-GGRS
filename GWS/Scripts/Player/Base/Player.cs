@@ -179,11 +179,13 @@ public class Player : Node2D
 	public int meterGainCooldownRemaining = 0;
 	public bool hasBeenLaunched = false;
 	public bool hasDoubleOrSuperJumped = false;
+	public bool hasHurtboxActive = false;
 
 
 
 	public bool trainingControlledPlayer;
 	public bool aiControlled = false;
+	private Random aiRng = new Random(); // ONLY FOR AI, NO RNG IN THE GAME PLEASE
 
 
 	/// <summary>
@@ -247,6 +249,7 @@ public class Player : Node2D
 		public int meterGainCooldownRemaining { get; set; }
 		public bool hasBeenLaunched { get; set; }
 		public bool hasDoubleOrSuperJumped { get; set; }
+		public bool hasHurtboxActive { get; set; }
 		public Dictionary<string, int> charSpecificData { get; set; }
 
 	}
@@ -480,6 +483,7 @@ public class Player : Node2D
 		pState.hasDoubleOrSuperJumped = hasDoubleOrSuperJumped;
 
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
+		pState.hasHurtboxActive = hasHurtboxActive;
 		
 		return pState;
 	}
@@ -524,6 +528,7 @@ public class Player : Node2D
 		hasDoubleOrSuperJumped = pState.hasDoubleOrSuperJumped;
 		electrocuted = pState.electrocuted;
 		wasOTGHit = pState.wasOTGHit;
+		hasHurtboxActive = pState.hasHurtboxActive;
 		
 
 		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
@@ -860,6 +865,7 @@ public class Player : Node2D
 	{
 		var previousState = currentState;
 		currentState.Exit();
+		hasHurtboxActive = false;
 		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
 		{ nextStateName = charName + nextStateName; }
@@ -1010,6 +1016,9 @@ public class Player : Node2D
 		electricity.Visible = electrocuted;
 
 		var direction = sprite.Scale.x / Math.Abs(sprite.Scale.x);
+		if (otherPlayer == null || !Godot.Object.IsInstanceValid(otherPlayer))
+			return; // Sloppy fix, I know...
+
 		if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
 		{
 			sprite.Scale = new Vector2(1.5f * direction, 1.5f);
@@ -1047,8 +1056,30 @@ public class Player : Node2D
 			counterStopFrames--;
 			return;
 		}
+		bool wasHurtboxPreviouslyActive = false;
+
+		foreach (CollisionShape2D box in hurtBoxes.GetChildren()) // record before the frame advance whether hurtBoxes are active
+		{
+			if (!box.Disabled)
+				wasHurtboxPreviouslyActive = true;
+		}		
 
 		animationPlayer.FrameAdvance();
+
+		if (wasHurtboxPreviouslyActive) // here we test to see if we have swtiched from active hurtboxes to inactive hurboxes
+		{
+			bool allHurtboxesInactive = true;
+			foreach (CollisionShape2D box in hurtBoxes.GetChildren())
+			{
+				if (!box.Disabled)
+					allHurtboxesInactive = false;
+			}
+			if (allHurtboxesInactive)
+			{
+				hasHurtboxActive = true;
+			}
+		}
+		
 		if (!facingRight)
 			sprite.RotationDegrees *= -1;
 		currentState.FrameAdvance();
@@ -1394,7 +1425,7 @@ public class Player : Node2D
 			receivedHit = Globals.otgHit;
 
 		}
-		if (currentState.isCounter)
+		if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
 		{
 			receivedHit = chDetails;
 			otherPlayer.EmitSignal("CounterHit", otherPlayer.Name);
@@ -1641,7 +1672,15 @@ public class Player : Node2D
 
 	public bool CheckOverrideBlock()
 	{
-		return ((!trainingControlledPlayer && Globals.alwaysBlock) || aiControlled);
+		if (aiControlled)
+		{
+			if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO)
+				return aiRng.Next(2) == 1;
+			else
+				return true;
+		}
+		else
+			return (!trainingControlledPlayer && Globals.alwaysBlock);
 
 	}
 

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class WallBounce : Float
+public class WallBounce : AirKnockdown
 {
 	private bool bounced = false;
 

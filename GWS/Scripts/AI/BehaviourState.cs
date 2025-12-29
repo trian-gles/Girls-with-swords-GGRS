@@ -11,6 +11,33 @@ public class BehaviourState
     protected AIBehaviour owner;
     protected int frameCount = 0;
 
+    protected Random rng = new Random();
+
+
+    protected int DoButtonPress(int button)
+    {
+        if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO && rng.Next(40) != 1)
+            return 0;
+
+        if (button == Globals.KICK && !owner.CanKickWithoutGrabbing())
+            return 0;
+        if (button == Globals.SLASH && !owner.CanSlashWithoutGrabbing())
+            return 0;
+        
+        if ((owner.lastInp & button) == 0)
+            return button;
+        else
+            return 0;
+    }
+
+    protected int DoGrab()
+    {
+        if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO && rng.Next(3) != 1)
+            return 0;
+        else
+            return 32 + 64;
+    }
+
     public void Init(AIBehaviour owner)
     {
         this.owner = owner;

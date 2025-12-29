@@ -36,7 +36,7 @@ public class SoftKD : HitState
         base.FrameAdvance();
         if (frameCount < 16)
         {
-            GD.Print("Trying to tech from soft KD");
+            //GD.Print("Trying to tech from soft KD");
             TryTech();
         }
     }

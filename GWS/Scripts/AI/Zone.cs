@@ -24,6 +24,9 @@ public class Zone : BehaviourState
 
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
+        int specialChance = 2;
+        if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO)
+            specialChance = 6;
         distance = state.P1State.position[0] - state.P2State.position[0];
         ChooseDirection(distance);
         int action = 0;
@@ -34,9 +37,9 @@ public class Zone : BehaviourState
             else if (option == 2)
                 action |= forward;
 
-            if (random.Next(2) == 1)
+            if (random.Next(specialChance) == 1)
             {
-                action |= 128;
+                action |= DoButtonPress(Globals.SPECIAL);
                 if (random.Next(2) == 1 && (Math.Abs(distance) < 12000))
                     action |= 2; // sometimes crouch
             }
@@ -52,7 +55,7 @@ public class Zone : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (Math.Abs(distance) < 8000)
+        if (Math.Abs(distance) < 7000)
         {
             return "RandomMash";
         }

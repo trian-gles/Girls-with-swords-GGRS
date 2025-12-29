@@ -9,8 +9,9 @@ public class HatPart : HadoukenPart
 	public Vector2 targetPos = Vector2.Zero;
 	protected override void HurtPlayer(Vector2 collisionPnt)
 	{
-		Arrive();
 		base.HurtPlayer(collisionPnt);
+		speed = new Vector2(0, 0);
+		((HL)targetPlayer.otherPlayer).hatCoors = Position;
 	}
 
 	public override void ReceiveCommand(ProjectileCommand command)

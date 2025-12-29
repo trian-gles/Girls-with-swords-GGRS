@@ -9,7 +9,15 @@ using System.Linq;
 public class AIBehaviour
 {
     public int lastInp = 0;
+
+    private int lastSlashFrame = 0;
+    private int lastKickFrame = 0;
+
+    private int frame = 0;
+
+    public Globals.CHARID controlledChar;
     private BehaviourState behaviour;
+    public GameStateObjectRedesign.GameState savedState;
     private string behaviourName;
     private Random random = new Random();
     private Dictionary<string, BehaviourState> behaviourStates = new Dictionary<string, BehaviourState>
@@ -23,7 +31,8 @@ public class AIBehaviour
         {"Zone", new Zone() },
         {"Oki", new Oki() },
         {"WakeupBlock", new WakeupBlock() },
-        {"WakeupBackdash", new WakeupBackdash() }
+        {"WakeupBackdash", new WakeupBackdash() },
+        {"WakeupReversal", new WakeupReversal()}
     };
 
     // Global behaviours that must be saved here
@@ -48,12 +57,26 @@ public class AIBehaviour
         "WallBounce"
     };
 
-    public AIBehaviour()
+    public static HashSet<string> kickStates = new HashSet<string>
+    {
+        "Kick",
+        "6K"
+    };
+
+    public static HashSet<string> slashStates = new HashSet<string>
+    {
+        "Slash",
+        "6C"
+    };
+
+    public AIBehaviour(int charId)
     {
         foreach (var b in behaviourStates.Values)
         {
             b.Init(this);
         }
+
+        controlledChar = (Globals.CHARID) charId;
 
         behaviour = behaviourStates["Chase"];
         behaviourName = "Chase";
@@ -61,6 +84,8 @@ public class AIBehaviour
     }
     public int Poll(GameStateObjectRedesign.GameState state)
     {
+        savedState = state;
+        frame = state.frame;
         string nextState = behaviour.GetNextState(state);
         // Global handling which must be done here
         if (floatStates.Contains(state.P2State.currentState))
@@ -75,6 +100,12 @@ public class AIBehaviour
                     break;
                 case 1:
                     nextState = "WakeupBackdash";
+                    break;
+                case 2:
+                    if (controlledChar == Globals.CHARID.OLID || controlledChar == Globals.CHARID.HLID)
+                        nextState = "WakeupReversal";
+                    else
+                        nextState = "WakeupBlock";
                     break;
                 default:
                     nextState = "WakeupBlock";
@@ -92,7 +123,10 @@ public class AIBehaviour
         }
 
         int input = behaviour.Poll(state);
-
+        if ((input & Globals.SLASH) != 0)
+            lastSlashFrame = state.frame;
+        if ((input & Globals.KICK) != 0)
+            lastKickFrame = state.frame;
         lastInp = input;
         return input;
     }
@@ -103,5 +137,15 @@ public class AIBehaviour
         behaviour = behaviourStates[nextState];
         behaviourName = nextState;
         behaviour.Enter();
+    }
+
+    public bool CanKickWithoutGrabbing()
+    {
+        return (frame - lastSlashFrame > 7);
+    }
+
+    public bool CanSlashWithoutGrabbing()
+    {
+        return (frame - lastKickFrame > 7);
     }
 }

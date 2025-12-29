@@ -14,7 +14,6 @@ public class Tech : Fall
 	public override void Enter()
 	{
 		base.Enter();
-		GD.Print("Entering tech");
 		owner.wasOTGHit = false;
 		owner.GFXEvent("Tech");
 		owner.EmitSignal(nameof(Player.GenericGFX), "Ukemi", owner.Name);

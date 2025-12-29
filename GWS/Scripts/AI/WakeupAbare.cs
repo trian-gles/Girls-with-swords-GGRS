@@ -21,21 +21,23 @@ public class WakeupAbare : BehaviourState
     };
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
-        if ((16 & owner.lastInp) == 0)
-        {
-            return 16;
-        }
-        else
-        {
-            return 0;
-        }
+        if (state.P2State.meter > 50)
+            if (state.P2State.currentState == "Idle")
+                return DoButtonPress(Globals.SLASH + Globals.SPECIAL) + GetForwardInput(state);
+            else
+                return 0;
+        return DoButtonPress(Globals.PUNCH);
     }
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (groundHitConfirmStates.Contains(state.P1State.currentState))
+        if (AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
         {
             return "Combo";
+        }
+        if (AIBehaviour.mixupConfirmStates.Contains(state.P1State.currentState))
+        {
+            return "Mixup";
         }
         else if (!(state.P2State.currentState == "Knockdown") && state.P2State.frameCount > 6)
         {

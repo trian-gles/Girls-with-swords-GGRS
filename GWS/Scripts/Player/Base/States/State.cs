@@ -69,6 +69,9 @@ public abstract class State : Node
 	[Export]
 	public bool turnAroundOnExit = true;
 
+	[Export]
+	public bool isSpecial = false;
+
 
 	public enum HEIGHT
 	{

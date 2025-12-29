@@ -108,6 +108,7 @@ public class TutorialManager : TrainingManager
 	[Export]
 	public bool skipCharSelect = true;
 
+	protected Goal walkGoal;
 
 	protected Goal jabGoal;
 	protected Goal kickGoal;
@@ -207,9 +208,8 @@ public class TutorialManager : TrainingManager
 
 		moveChallenge.goals.Add(jumpGoal);
 
-		Goal walkForwardGoal = new Goal("Walk forwards", "right");
-		walkForwardGoal.p1State = "Walk";
-		moveChallenge.goals.Add(walkForwardGoal);
+		
+		moveChallenge.goals.Add(walkGoal);
 
 		moveChallenge.goals.Add(fJumpGoal);
 
@@ -514,6 +514,9 @@ public class TutorialManager : TrainingManager
 		// Setting up default goals
 		jumpGoal = new Goal("Jump", "up");
 		jumpGoal.p1State = "Jump";
+
+		walkGoal = new Goal("Walk forwards", "right");
+		walkGoal.p1State = "Walk";
 
 		fJumpGoal = new Goal("Forward Jump", "right", "up");
 		fJumpGoal.p1State = "Jump";

@@ -22,7 +22,7 @@ public class Knockdown : HitState
     {
 
         owner.ResetComboAndProration();
-        owner.invulnFrames = 1;
+        owner.invulnFrames = 2;
         EmitSignal(nameof(StateFinished), "Idle");
     }
 

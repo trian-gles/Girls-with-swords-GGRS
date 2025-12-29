@@ -10211,7 +10211,8 @@ position = Vector2( -2, 0 )
 position = Vector2( 0, -24 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( -6, -16 )
+position = Vector2( 17, 5 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 55, 21 )
@@ -10226,14 +10227,14 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 185
+frame = 69
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
-offset = Vector2( 10, 0 )
+offset = Vector2( 0, -2 )
 hframes = 255
 vframes = 2
-frame = 185
+frame = 69
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -10250,6 +10251,7 @@ setShrinkOtherSpriteTrue = true
 
 [node name="DP" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 4 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 45
@@ -10264,6 +10266,7 @@ throwFrame = 25
 
 [node name="Teleport" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
+isSpecial = true
 teleFrame = 10
 
 [node name="DoubleJump" parent="StateTree" index="25"]
@@ -10298,6 +10301,7 @@ gatlingWinEnd = 10
 
 [node name="J2C" type="Node" parent="StateTree" index="34"]
 script = ExtResource( 26 )
+isSpecial = true
 level = 2
 modifiedHitStun = 22
 opponentLaunch = Vector2( 300, -300 )
@@ -10335,6 +10339,7 @@ hopForce = 40
 
 [node name="UpHat" type="Node" parent="StateTree" index="45"]
 script = ExtResource( 12 )
+isSpecial = true
 releaseFrame = 14
 hadoukenScene = ExtResource( 7 )
 hadoukenSound = "Whiff"
@@ -10344,6 +10349,7 @@ noHatState = "HatSlash"
 
 [node name="AirHat" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 14 )
+isSpecial = true
 hadoukenScene = ExtResource( 25 )
 hadoukenSound = "Whiff"
 targetPos = Vector2( 100, 0 )
@@ -10352,6 +10358,7 @@ dropFrame = 15
 
 [node name="UpUpHat" type="Node" parent="StateTree" index="47"]
 script = ExtResource( 12 )
+isSpecial = true
 releaseFrame = 14
 hadoukenScene = ExtResource( 8 )
 negEdgeButton = "s"
@@ -10360,6 +10367,7 @@ noHatState = "TeleportDownSlash"
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 15 )
+isSpecial = true
 level = 3
 modifiedHitStun = 35
 modifiedCounterHitStun = 65
@@ -10371,6 +10379,7 @@ hitSound = "SlashHit"
 
 [node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 16 )
+isSpecial = true
 level = 3
 opponentLaunch = Vector2( 300, -350 )
 chLaunch = Vector2( 50, -350 )
@@ -10391,6 +10400,7 @@ targetPos = Vector2( 100, 0 )
 
 [node name="JoeRogan" type="Node" parent="StateTree" index="52"]
 script = ExtResource( 18 )
+isSpecial = true
 level = 2
 chip = true
 modifiedHitStun = 24
@@ -10416,6 +10426,7 @@ emitGhost = true
 
 [node name="Super" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 19 )
+isSpecial = true
 level = 4
 chip = true
 modifiedHitStop = 2
@@ -10488,6 +10499,7 @@ stopFrame = 14
 
 [node name="HatSlash" type="Node" parent="StateTree" index="64"]
 script = ExtResource( 28 )
+isSpecial = true
 releaseFrame = 6
 hadoukenScene = ExtResource( 29 )
 hadoukenSound = "SlashWhiff"
@@ -10495,6 +10507,7 @@ mustCooldown = true
 
 [node name="TeleportDP" type="Node" parent="StateTree" index="65"]
 script = ExtResource( 30 )
+isSpecial = true
 level = 4
 chip = true
 modifiedHitStun = 60
@@ -10509,6 +10522,7 @@ teleFrame = 7
 
 [node name="TeleportDownSlash" type="Node" parent="StateTree" index="66"]
 script = ExtResource( 30 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitPush = 2000

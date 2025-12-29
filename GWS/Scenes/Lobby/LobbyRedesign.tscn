@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Scenes/Lobby/Logo.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Music/GWS-title-screen.ogg" type="AudioStream" id=24]
 [ext_resource path="res://Scripts/Lobby/ExistingMatchContainer.gd" type="Script" id=25]
+[ext_resource path="res://Scripts/Lobby/SelectDifficulty.gd" type="Script" id=26]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -182,6 +183,7 @@ default_font = ExtResource( 7 )
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 1, 0 )
 script = ExtResource( 6 )
+syncTest = true
 localManager = ExtResource( 11 )
 trainingManager = ExtResource( 14 )
 aiManager = ExtResource( 12 )
@@ -263,6 +265,8 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 26.0
 margin_right = 204.0
 margin_bottom = 44.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 size_flags_vertical = 4
 theme = ExtResource( 4 )
 action_mode = 0
@@ -278,6 +282,8 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 54.0
 margin_right = 204.0
 margin_bottom = 72.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 text = "Net Play"
 flat = false
 __meta__ = {
@@ -289,6 +295,8 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 82.0
 margin_right = 204.0
 margin_bottom = 100.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 text = "Learn and Practice"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -299,6 +307,8 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 110.0
 margin_right = 204.0
 margin_bottom = 128.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 text = "Button Configuration"
 flat = false
 __meta__ = {
@@ -310,6 +320,8 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 138.0
 margin_right = 204.0
 margin_bottom = 156.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 text = "AUDIO VIDEO CONFIG"
 flat = false
 __meta__ = {
@@ -321,6 +333,8 @@ visible = false
 margin_top = 125.0
 margin_right = 272.0
 margin_bottom = 148.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 10 )]
@@ -328,14 +342,18 @@ modulate = Color( 1, 1, 1, 0 )
 margin_top = 166.0
 margin_right = 204.0
 margin_bottom = 184.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 theme = SubResource( 6 )
 
 [node name="LocalMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LocalButtons" type="VBoxContainer" parent="MenuRoot/LocalMenu"]
 margin_left = 90.0
@@ -362,43 +380,53 @@ align = 1
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 82.0
-focus_neighbour_left = NodePath("../BackButton")
-focus_neighbour_top = NodePath("../BackButton")
-focus_neighbour_right = NodePath("../CPU")
-focus_neighbour_bottom = NodePath("../CPU")
-focus_next = NodePath("../CPU")
-focus_previous = NodePath("../BackButton")
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
+focus_neighbour_bottom = NodePath("../HBoxContainer/CPU")
+focus_next = NodePath("../HBoxContainer/CPU")
+size_flags_horizontal = 3
 text = "Local Match"
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/LocalMenu/LocalButtons"]
 margin_top = 86.0
 margin_right = 300.0
 margin_bottom = 104.0
-focus_neighbour_left = NodePath("../Local")
-focus_neighbour_top = NodePath("../../../LearnMenu/LearnButtons/LocalLabel")
-focus_neighbour_right = NodePath("../BackButton")
-focus_neighbour_bottom = NodePath("../BackButton")
-focus_next = NodePath("../BackButton")
-focus_previous = NodePath("../Local")
+
+[node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons/HBoxContainer"]
+margin_right = 249.0
+margin_bottom = 18.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_top = NodePath("../../Local")
+focus_neighbour_right = NodePath("../OptionButton")
+focus_neighbour_bottom = NodePath("../../BackButton")
+focus_next = NodePath("../OptionButton")
+focus_previous = NodePath("../../Local")
+size_flags_horizontal = 3
 text = "CPU Match"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="OptionButton" type="OptionButton" parent="MenuRoot/LocalMenu/LocalButtons/HBoxContainer"]
+margin_left = 253.0
+margin_right = 300.0
+margin_bottom = 18.0
+text = "HARD"
+align = 1
+script = ExtResource( 26 )
+
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
 margin_top = 108.0
 margin_right = 300.0
 margin_bottom = 126.0
-focus_neighbour_left = NodePath("../CPU")
-focus_neighbour_top = NodePath("../CPU")
-focus_neighbour_right = NodePath("../Local")
-focus_neighbour_bottom = NodePath("../Local")
-focus_next = NodePath("../Local")
-focus_previous = NodePath("../CPU")
+focus_neighbour_left = NodePath(".")
+focus_neighbour_top = NodePath("../HBoxContainer/CPU")
+focus_neighbour_right = NodePath(".")
+focus_previous = NodePath("../HBoxContainer/CPU")
 text = "Back"
 
 [node name="LearnMenu" type="MarginContainer" parent="MenuRoot"]
@@ -433,12 +461,10 @@ align = 1
 margin_top = 42.0
 margin_right = 300.0
 margin_bottom = 60.0
-focus_neighbour_left = NodePath("../BackButton")
-focus_neighbour_top = NodePath("../BackButton")
-focus_neighbour_right = NodePath("../CharacterTutorial")
+focus_neighbour_left = NodePath(".")
+focus_neighbour_right = NodePath(".")
 focus_neighbour_bottom = NodePath("../CharacterTutorial")
 focus_next = NodePath("../CharacterTutorial")
-focus_previous = NodePath("../BackButton")
 text = "Fundamentals Tutorial"
 script = ExtResource( 5 )
 __meta__ = {
@@ -449,9 +475,9 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 82.0
-focus_neighbour_left = NodePath("../BasicTutorial")
+focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../BasicTutorial")
-focus_neighbour_right = NodePath("../Training")
+focus_neighbour_right = NodePath(".")
 focus_neighbour_bottom = NodePath("../Training")
 focus_next = NodePath("../Training")
 focus_previous = NodePath("../BasicTutorial")
@@ -465,9 +491,9 @@ __meta__ = {
 margin_top = 86.0
 margin_right = 300.0
 margin_bottom = 104.0
-focus_neighbour_left = NodePath("../CharacterTutorial")
+focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../CharacterTutorial")
-focus_neighbour_right = NodePath("../ComboTrials")
+focus_neighbour_right = NodePath(".")
 focus_neighbour_bottom = NodePath("../ComboTrials")
 focus_next = NodePath("../ComboTrials")
 focus_previous = NodePath("../CharacterTutorial")
@@ -480,9 +506,9 @@ __meta__ = {
 margin_top = 108.0
 margin_right = 300.0
 margin_bottom = 126.0
-focus_neighbour_left = NodePath("../Training")
+focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../Training")
-focus_neighbour_right = NodePath("../BackButton")
+focus_neighbour_right = NodePath(".")
 focus_neighbour_bottom = NodePath("../BackButton")
 focus_next = NodePath("../BackButton")
 focus_previous = NodePath("../CharacterTutorial")
@@ -495,15 +521,14 @@ __meta__ = {
 margin_top = 130.0
 margin_right = 300.0
 margin_bottom = 148.0
-focus_neighbour_left = NodePath("../ComboTrials")
+focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../ComboTrials")
-focus_neighbour_right = NodePath("../BasicTutorial")
-focus_neighbour_bottom = NodePath("../BasicTutorial")
-focus_next = NodePath("../BasicTutorial")
+focus_neighbour_right = NodePath(".")
 focus_previous = NodePath("../ComboTrials")
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -831,9 +856,10 @@ bus = "Music"
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="." method="OnLocalButtonDown"]
 [connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/Local" to="LobbySounds" method="focus_entered"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="." method="OnCPUButtonDown"]
-[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
-[connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/CPU" to="LobbySounds" method="focus_entered"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/HBoxContainer/CPU" to="." method="OnCPUButtonDown"]
+[connection signal="button_down" from="MenuRoot/LocalMenu/LocalButtons/HBoxContainer/CPU" to="LobbySounds" method="play_sound" binds= [ "select" ]]
+[connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/HBoxContainer/CPU" to="LobbySounds" method="focus_entered"]
+[connection signal="item_selected" from="MenuRoot/LocalMenu/LocalButtons/HBoxContainer/OptionButton" to="MenuRoot/LocalMenu/LocalButtons/HBoxContainer/OptionButton" method="_on_OptionButton_item_selected"]
 [connection signal="focus_exited" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="MenuRoot" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="MenuRoot/LocalMenu/LocalButtons/BackButton" to="LobbySounds" method="play_sound" binds= [ "cancel" ]]

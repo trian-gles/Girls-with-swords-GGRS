@@ -110,6 +110,7 @@ public class Float : HitStun
 
 			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
 			{
+				if (!owner.TrySpendBurst()) return;
 				owner.EmitSignal("Recovery", owner.Name);
 				EmitSignal(nameof(StateFinished), "Burst");
 			}

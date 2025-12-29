@@ -172,7 +172,7 @@ class SyncTestManager : StateManager
 			combinedInps = new int[] { 0, 0 };
 
 		Globals.Log($"Sync test on frame {Globals.frame}");
-		currGame.AdvanceFrame(combinedInps[0], combinedInps[1]);
+		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
@@ -193,7 +193,7 @@ class SyncTestManager : StateManager
 			int[] tempInputs = pastInputs[i];
 			Globals.frame++;
 			Globals.rollbackFrame = i;
-			currGame.AdvanceFrame(tempInputs[0], tempInputs[1]);
+			currGame.GGRSAdvanceFrame(tempInputs[0], tempInputs[1]);
 		}
 
 		if (!currGame.CompareStates(serializedGamestate) && !broken){
@@ -210,7 +210,8 @@ class SyncTestManager : StateManager
 
 	public override void OnGameWon(string winner, int character)
 	{
-		ReadyForChange(GameType.GAME);
+		GD.Print("Game won");
+		OnReselectChar();
 	}
 
 	private int[] GetRandomInputs()

@@ -3773,7 +3773,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 14, 41 ) ]
+"values": [ Vector2( 19, 41 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
@@ -3810,6 +3810,18 @@ tracks/9/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("HitBoxes/HitB1:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=25]
@@ -5126,7 +5138,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 14, 41 ) ]
+"values": [ Vector2( 19, 41 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
@@ -5263,7 +5275,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 14, 41 ) ]
+"values": [ Vector2( 22, 45 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
@@ -5300,6 +5312,18 @@ tracks/9/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("HitBoxes/HitB1:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=34]
@@ -8629,12 +8653,11 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 14, -2 )
+position = Vector2( 0, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 27, 8 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -8643,7 +8666,6 @@ position = Vector2( 30, 29 )
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
 position = Vector2( 45, 0 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 22.5, 32 )
@@ -8655,16 +8677,16 @@ position = Vector2( 40, -18 )
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
-offset = Vector2( 3, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 300
+frame = 215
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 58 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 3, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -8672,13 +8694,14 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 3, 0 )
+offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 300
+frame = 215
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 39
@@ -8693,6 +8716,7 @@ hitSound = "LampHit"
 
 [node name="GLDP" type="Node" parent="StateTree" index="1"]
 script = ExtResource( 9 )
+isSpecial = true
 level = 3
 chip = true
 modifiedHitStun = 33
@@ -8760,6 +8784,7 @@ gatlingWinEnd = 9
 
 [node name="J2C" type="Node" parent="StateTree" index="37"]
 script = ExtResource( 7 )
+isSpecial = true
 level = 3
 modifiedHitStun = 39
 modifiedCounterHitStun = 80
@@ -8786,6 +8811,7 @@ len = 7
 
 [node name="Feint" type="Node" parent="StateTree" index="43"]
 script = ExtResource( 8 )
+isSpecial = true
 
 [node name="Hadouken" parent="StateTree" index="46"]
 releaseFrame = 13
@@ -8795,10 +8821,12 @@ hadoukenSound = "FireThrow"
 [node name="BlackHolePlace" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 11 )
 hasGravity = false
+isSpecial = true
 hadoukenScene = ExtResource( 12 )
 
 [node name="HadoukenAir" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 13 )
+isSpecial = true
 superKaraButton = "s"
 releaseFrame = 24
 hadoukenScene = ExtResource( 14 )
@@ -8861,6 +8889,7 @@ powerUpDuration = 120
 
 [node name="DashAttack" type="Node" parent="StateTree" index="57"]
 script = ExtResource( 24 )
+isSpecial = true
 level = 3
 modifiedHitStun = 30
 modifiedCounterHitStun = 35

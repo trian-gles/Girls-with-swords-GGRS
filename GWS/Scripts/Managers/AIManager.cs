@@ -14,11 +14,11 @@ class AIManager : LocalManager
 	{
 		base._Ready();
 		Globals.mode = Globals.Mode.CPU;
-		ai = new AIBehaviour();
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
 	{
+		ai = new AIBehaviour(playerTwo);
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		gameScene.SetP2AI();
 	}
@@ -49,7 +49,7 @@ class AIManager : LocalManager
 	{
 		base.OnGameWon(winner, character);
 		p1KeyReleased = false;
-		ai = new AIBehaviour();
+		ai = new AIBehaviour(playerTwo);
 	}
 
 

@@ -15,61 +15,50 @@ public class Mixup : BehaviourState
 
     private int kickFollowChoice = 0;
     private int jabFollowChoice = 0;
+    private int jabFollowCrouch = 0;
+    private int kickFollowCrouch = 0;
 
     public override void Enter()
     {
         base.Enter();
         kickFollowChoice = (random.Next() % 3) == 0 ? Globals.KICK : Globals.SLASH;
         jabFollowChoice = (random.Next() % 3) == 0 ? Globals.KICK : Globals.SLASH;
+        jabFollowCrouch = (random.Next() % 3) == 0 ? 0 : 2;
+        kickFollowCrouch = (random.Next() % 3) == 0 ? 0 : 2;
     }
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         
         if (state.P2State.currentState == "Jab" || state.P2State.currentState == "CrouchA")
         {
-            if (owner.lastInp != 0)
-                return 0;
-            int choice = random.Next() % 3;
-            if (choice == 0)
-            {
-                return jabFollowChoice + GetForwardInput(state);        
-            }
-            else
-            {
-                return Globals.DOWN + jabFollowChoice;
-            }
+            return DoButtonPress(jabFollowChoice) + GetForwardInput(state) + jabFollowCrouch;  
         }
 
         if (state.P2State.currentState == "Kick" || state.P2State.currentState == "CrouchB")
         {
-            if (owner.lastInp != 0)
-                return 0;
-
+            
             if (kickFollowChoice == Globals.KICK)
             {
-                return Globals.KICK + GetForwardInput(state);        
+                return DoButtonPress(Globals.KICK)+ GetForwardInput(state);      
             }
             else if (kickFollowChoice == Globals.STRING)
             {
-                return Globals.STRING;
+                return DoButtonPress(Globals.SLASH) + kickFollowCrouch;
             }
         }
 
-        if ((Globals.STRING & owner.lastInp) == 0)
-        {
-            return Globals.STRING;
-        }
-        else
-        {
-            return 0;
-        }
+        return DoButtonPress(Globals.STRING);
     }
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
         if (AIBehaviour.mixupConfirmStates.Contains(state.P1State.currentState))
         {
-            return "";
+            if (random.Next(90) == 1)
+                return "Chase";
+            else
+                return "";
+            
         }
         else if (AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
         {

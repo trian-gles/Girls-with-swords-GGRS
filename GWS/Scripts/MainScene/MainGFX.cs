@@ -46,16 +46,32 @@ public class MainGFX : Node
 	public void OnGFXParticleEmitted(Vector2 location, string particleName, bool flipH)
 	{
 		location /= 100;
-		var newPart = (ParticleSprite) particleSprites[particleName].Instance();
+		foreach (var child in GetChildren())
+		{
+			var partSprite = child as ParticleSprite;
+			if (partSprite != null && partSprite.type == particleName) // try to reassign the particle to save on GC
+			{
+				partSprite.Reassign();
+				partSprite.initFrame = Globals.frame;
+				partSprite.FlipH = flipH;
+				partSprite.Position = location;
+
+				return;
+			}
+
+		}
+
+		ReleaseNewParticle(location, particleName, flipH);
+	}
+
+	private void ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
+	{
+		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
+		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
 		AddChild(newPart);
-		if (flipH)
-		{
-			newPart.FlipH = true;
-			//newPart.Offset = new Vector2(newPart.Offset.x * -1, newPart.Offset.y);
-		}
+		newPart.FlipH = flipH;
 		newPart.Position = location;
-		
 	}
 
 	public void OnGhostEmitted(Player p)
@@ -75,11 +91,6 @@ public class MainGFX : Node
 
 	public void Rollback(int frame)
 	{
-		if (frame < lastLevelUp)
-		{
-			GetNode<Node2D>("Stages").Call("rollback");
-			
-		}
 		foreach (var child in GetChildren())
 		{
 			var partSprite = child as ParticleSprite;

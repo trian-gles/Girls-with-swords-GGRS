@@ -235,7 +235,6 @@ public class GameScene : BaseGame
 		P2.Connect("CanTech", this, nameof(OnPlayerCanEscape));
 		P1.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
 		P2.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
-		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
 		

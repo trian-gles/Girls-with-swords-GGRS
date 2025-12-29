@@ -8,19 +8,25 @@ public class ParticleSprite : Sprite
 	// private string b = "text";
 
 	public int initFrame;
+	public string type;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		GetNode<Godot.AnimationPlayer>("AnimationPlayer").Play("Animation");
-		
-	}
+    }
+
+	public void Reassign()
+	{
+        GetNode<Godot.AnimationPlayer>("AnimationPlayer").Play("Animation");
+        Visible = true;
+    }
 
 	public void Rollback(int frame)
 	{
 		if (frame < initFrame)
 		{
-			QueueFree();
+			Visible = false;
 		}
 	}
 

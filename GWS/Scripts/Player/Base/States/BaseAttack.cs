@@ -297,9 +297,8 @@ public abstract class BaseAttack : State
 
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
-		//Globals.Log($"Hit connect at point {collisionPnt}");
 
-		var hitDetails = this.hitDetails;
+        var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
 		if (pullInHitFrame > 0 && frameCount > pullInHitFrame)
@@ -312,7 +311,6 @@ public abstract class BaseAttack : State
 		{
 			hitDetails.ignoreProration = true;
 			owner.EmitSignal(nameof(Player.GenericGFX), "Spike", owner.Name);
-			GD.Print("Spike");
         }
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -43,9 +43,6 @@
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
-[ext_resource path="res://Sprites/GFX Textures/particle_examples/floaty_64.png" type="Texture" id=44]
-[ext_resource path="res://Scripts/Player/Base/GFX/PlayerParticleGPU.cs" type="Script" id=45]
-[ext_resource path="res://Sprites/GFX Textures/64/spotlight_8.png" type="Texture" id=46]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
 [ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
 [ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
@@ -168,62 +165,6 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1
 [sub_resource type="Curve" id=9]
 max_value = 1024.0
 _data = [ Vector2( 0, 1024 ), 0.0, 0.0, 0, 0, Vector2( 0.984463, 1024 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CanvasItemMaterial" id=10]
-blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Curve" id=11]
-min_value = -360.0
-max_value = 360.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=12]
-curve = SubResource( 11 )
-
-[sub_resource type="Gradient" id=13]
-colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=14]
-gradient = SubResource( 13 )
-
-[sub_resource type="Curve" id=15]
-max_value = 5.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.35, 2.27304 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=16]
-curve = SubResource( 15 )
-
-[sub_resource type="ParticlesMaterial" id=17]
-flag_disable_z = true
-gravity = Vector3( 0, 0, 0 )
-angular_velocity = 5.0
-angular_velocity_curve = SubResource( 12 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale_curve = SubResource( 16 )
-color_ramp = SubResource( 14 )
-hue_variation = 0.09
-
-[sub_resource type="CanvasItemMaterial" id=18]
-blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 7
-particles_anim_v_frames = 7
-particles_anim_loop = false
-
-[sub_resource type="ParticlesMaterial" id=19]
-emission_shape = 1
-emission_sphere_radius = 59.86
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
-gravity = Vector3( 0, 0, 0 )
-orbit_velocity = 1.0
-orbit_velocity_random = 0.13
-tangential_accel = 100.0
 
 [node name="Player" type="Node2D"]
 
@@ -604,26 +545,6 @@ script = ExtResource( 55 )
 [node name="GFXHandler" type="Node" parent="."]
 script = ExtResource( 35 )
 
-[node name="Blood" type="CPUParticles2D" parent="GFXHandler"]
-visible = false
-position = Vector2( 0, -8 )
-z_index = 1
-emitting = false
-amount = 40
-lifetime = 0.1
-one_shot = true
-explosiveness = 0.73
-randomness = 0.93
-lifetime_randomness = 1.0
-emission_shape = 2
-emission_rect_extents = Vector2( 5, 20 )
-direction = Vector2( -1, 0 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 400.0
-color = Color( 1, 0.133333, 0.133333, 1 )
-script = ExtResource( 36 )
-
 [node name="Explosion" type="CPUParticles2D" parent="GFXHandler"]
 z_index = 1
 emitting = false
@@ -786,33 +707,6 @@ damping = 100.0
 damping_curve = SubResource( 9 )
 scale_amount = 2.0
 script = ExtResource( 36 )
-
-[node name="Node2D" type="Node2D" parent="GFXHandler"]
-visible = false
-position = Vector2( 48, 0 )
-
-[node name="exflash" type="Particles2D" parent="GFXHandler/Node2D"]
-material = SubResource( 10 )
-position = Vector2( -59, 4 )
-scale = Vector2( 0.75, 0.75 )
-amount = 1
-lifetime = 7.0
-speed_scale = 4.95
-process_material = SubResource( 17 )
-texture = ExtResource( 46 )
-
-[node name="Light" type="Particles2D" parent="GFXHandler"]
-visible = false
-material = SubResource( 18 )
-position = Vector2( 48, 0 )
-emitting = false
-amount = 3
-one_shot = true
-speed_scale = 1.59
-randomness = 0.08
-process_material = SubResource( 19 )
-texture = ExtResource( 44 )
-script = ExtResource( 45 )
 
 [node name="SuperPowerUp" type="CPUParticles2D" parent="GFXHandler"]
 emitting = false

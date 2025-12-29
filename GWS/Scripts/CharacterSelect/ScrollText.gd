@@ -9,14 +9,14 @@ var visibleText: String = ""
 onready var characterTimer := $Timer
 
 func _ready():
-# warning-ignore:return_value_discarded
-	pass
+	characterTimer.connect("timeout", self, "_on_Timer_timeout")
+	characterTimer.wait_time = delayBetweenCharacters
+
 	
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
-		characterTimer.connect("timeout", self, "_on_Timer_timeout")
 		characterTimer.wait_time = delayBetweenCharacters
-		characterTimer.autostart = true
+		characterTimer.start()
 
 func _on_Timer_timeout():
 	if currentCharacter < fullText.length():

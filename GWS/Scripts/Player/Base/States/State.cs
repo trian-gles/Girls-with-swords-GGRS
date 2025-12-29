@@ -733,6 +733,7 @@ public abstract class State : Node
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
+		
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 

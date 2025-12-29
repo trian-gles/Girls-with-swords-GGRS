@@ -34,10 +34,10 @@ public class HatPart : HadoukenPart
 	}
 	
 	private void Left()
-    {
+	{
 		Position += Vector2.Left * 2;
 		((HL)targetPlayer.otherPlayer).hatCoors = Position;
-    }
+	}
 
 	private void Arrive()
 	{

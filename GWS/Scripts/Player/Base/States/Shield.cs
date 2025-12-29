@@ -114,7 +114,8 @@ public class Shield : HitState
 	public override void TrySpecialBreak()
 	{
 		base.TrySpecialBreak();
-		owner.SpecialBreak();
+		if (stunRemaining > 0)
+			owner.SpecialBreak();
 	}
 
 	protected override void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)

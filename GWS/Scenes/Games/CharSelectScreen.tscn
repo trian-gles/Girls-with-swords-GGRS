@@ -892,9 +892,6 @@ margin_bottom = 271.0
 custom_fonts/font = SubResource( 3 )
 align = 1
 script = ExtResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="CanvasLayer/ScrollText"]
 autostart = true
@@ -1014,13 +1011,13 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 3
+frame = 2
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P2ColorSelect"]
 position = Vector2( -191.789, 0 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 3
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/P2ColorSelect"]
 anims/Bounce = SubResource( 23 )

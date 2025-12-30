@@ -22,8 +22,13 @@ public class MainGFX : Node
 		particleSprites.Add("coffee", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/CoffeeExplosion.tscn"));
 
 // render all particles NOW since C# has no preload
-		var dummy = dashGhost.Instance();
-		dummy.QueueFree();
+		for (int i = 0; i < 15; i++)
+		{
+			Sprite newGhost = (Sprite)dashGhost.Instance();
+			AddChild(newGhost);
+			ghosts.Add(newGhost);
+		}
+
 
 		foreach (var sprite in particleSprites.Keys)
 		{
@@ -66,7 +71,6 @@ public class MainGFX : Node
 
 	private void ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
 	{
-		GD.Print("new particle");
 		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
@@ -77,29 +81,30 @@ public class MainGFX : Node
 
 	public void OnGhostEmitted(Player p)
 	{
-		var newGhost = (Sprite) dashGhost.Instance();
-		AddChild(newGhost);
-		ghosts.Add(newGhost);
-		newGhost.ZIndex = -1;
-		newGhost.GlobalPosition = p.sprite.GlobalPosition;
-		newGhost.Texture = p.sprite.Texture;
-		newGhost.Vframes = p.sprite.Vframes;
-		newGhost.Hframes = p.sprite.Hframes;
-		newGhost.Frame = p.sprite.Frame;
-		newGhost.Scale = p.sprite.Scale;
-		newGhost.FlipH = p.sprite.FlipH;
+		foreach (Sprite newGhost in ghosts)
+		{
+			if (!newGhost.Visible)
+			{
+				newGhost.ZIndex = -1;
+				newGhost.GlobalPosition = p.sprite.GlobalPosition;
+				newGhost.Texture = p.sprite.Texture;
+				newGhost.Vframes = p.sprite.Vframes;
+				newGhost.Hframes = p.sprite.Hframes;
+				newGhost.Frame = p.sprite.Frame;
+				newGhost.Scale = p.sprite.Scale;
+				newGhost.FlipH = p.sprite.FlipH;
+				newGhost.Call("run", Globals.frame);
+				return;
+			}
+		}
+		
 	}
 
 	public void Rollback(int frame)
 	{
-		foreach (var child in GetChildren())
+		foreach (Node child in GetChildren())
 		{
-			var partSprite = child as ParticleSprite;
-			if (partSprite != null)
-			{
-				partSprite.Rollback(frame);
-			}
-
+			child.Call("Rollback", frame);
 		}
 	}
 }

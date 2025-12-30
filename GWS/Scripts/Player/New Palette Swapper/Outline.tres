@@ -28,9 +28,6 @@ void fragment(){
 					if (pixel_color.a > 1.0) {
 						pixel_color.a = 1.0;
 					}
-				} else {
-					pixel_color.a = outline_color.a;
-					return
 				}
 			}
 		}

@@ -1,0 +1,57 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_disabled;
+
+uniform sampler2D palette;									//Use palletes in collum with colors in rows
+const float palette_count = 4.0;							//Used for highlighting hovered color
+uniform float palette_index = 0.0;							//Set for chosing differen palettes (0 is first)
+const vec4 snail_color = vec4(0.0, 1.0, 0.0, 1.0);
+uniform bool turn_snail = true;
+uniform bool freak_out = false;
+
+const float width = 1.0;
+const vec4 outline_color = vec4(1.0, 1.0, 1.0, 0.6);
+const int pixel_size = 8;
+
+void fragment(){
+    
+	float increment = 1.0/palette_count;					//value for getting palette index
+	float pallete_y = increment*palette_index + increment * 0.5;	// + safety measure for floating point imprecision
+	vec4 color = texture(TEXTURE, UV);						//Original grayscale color used as collumn index
+	vec4 new_color = texture(palette, vec2(color.r, pallete_y)) * vec4(1,1, 1, 1);	//get color from palette texture
+	float a = step(0.00392, color.a);						//check if transparent color is less than 1/255 for backgrounds
+	new_color.a *= a;										//if BG is transparent alpha is multiplied by 0
+    if (false && (new_color.a > 0.0)){
+		COLOR = snail_color;
+	}
+	else if (freak_out){
+		COLOR = new_color;
+	}
+	else{
+		COLOR = new_color;	
+	}
+	
+	vec2 unit = (1.0/float(pixel_size) ) / vec2(textureSize(TEXTURE, 0));
+	vec4 pixel_color = texture(TEXTURE, UV);
+	if (pixel_color.a == 0.0) {
+		pixel_color = outline_color;
+		pixel_color.a = 0.0;
+		for (float x = -ceil(width); x <= ceil(width); x++) {
+			
+			for (float y = -ceil(width); y <= ceil(width); y++) {
+				if (texture(TEXTURE, UV + vec2(x*unit.x, y*unit.y)).a == 0.0 || (x==0.0 && y==0.0)) {
+					continue;
+				}
+				pixel_color.a += outline_color.a / (pow(x,2)+pow(y,2)) * (1.0-pow(2.0, -width));
+				if (pixel_color.a > 1.0) {
+					pixel_color.a = 1.0;
+				}
+			}
+		}
+		COLOR = pixel_color;
+	}
+	
+											//set new color from palette
+}"

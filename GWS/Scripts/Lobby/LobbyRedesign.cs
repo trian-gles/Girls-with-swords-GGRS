@@ -107,9 +107,7 @@ public class LobbyRedesign : Node2D
 
 	private void syncTestBegin()
 	{
-		var syncTestScene = syncTestManager.Instance<SyncTestManager>();
-		AddChild(syncTestScene);
-		HideButtons();
+		BeginManager(syncTestManager);
 	}
 
 	//netplay buttons

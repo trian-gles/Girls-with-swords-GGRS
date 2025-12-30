@@ -65,9 +65,6 @@ class SyncTestManager : StateManager
 
 	[Export]
 	private int logFrame = 0;
-
-	[Export]
-	private int dumpFrame = 1944;
 	
 
 	public override void _Ready()
@@ -173,10 +170,13 @@ class SyncTestManager : StateManager
 
 		Globals.Log($"Sync test on frame {Globals.frame}");
 		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
+		
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
+		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
+		
 
 		if (!serializedStates.Full()) // we haven't accrued enough states to rollback
 			return;

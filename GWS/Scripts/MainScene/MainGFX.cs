@@ -50,6 +50,8 @@ public class MainGFX : Node
 
 	public void OnGFXParticleEmitted(Vector2 location, string particleName, bool flipH)
 	{
+		if (Globals.DISABLEGFX)
+			return;
 		location /= 100;
 		foreach (var child in GetChildren())
 		{
@@ -81,6 +83,8 @@ public class MainGFX : Node
 
 	public void OnGhostEmitted(Player p)
 	{
+		if (Globals.DISABLEGFX)
+			return;
 		foreach (Sprite newGhost in ghosts)
 		{
 			if (!newGhost.Visible)

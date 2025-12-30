@@ -39,6 +39,8 @@ public class GFXHandler : Node
 
 	public void Effect(string name, Vector2 pos, bool facingRight)
 	{
+		if (Globals.DISABLEPARTICLES)
+			return;
 		if (particlesCPU.ContainsKey(name))
 		{
 			particlesCPU[name].Trigger(0, pos, facingRight);

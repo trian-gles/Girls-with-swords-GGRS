@@ -86,6 +86,10 @@ public class CharacterAudio : Node
 	}
 	public void PlaySound(string name)
 	{
+
+		if (Globals.DISABLESFX)
+			return;
+			
 		if (name == "Stagger")
 			name = name + random.Next(1, 4).ToString();
 

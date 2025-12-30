@@ -1712,6 +1712,8 @@ public class Player : Node2D
 
 	public void GFXEvent(string name)
 	{
+		if (Globals.DISABLEGFX)
+			return;
 		gfxHand.Effect(name, Position, facingRight);
 		if (name == "Explosion")
 			spriteAnim.Play("fire");

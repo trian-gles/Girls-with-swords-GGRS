@@ -25,10 +25,10 @@ public class MainGFX : Node
 		var dummy = dashGhost.Instance();
 		dummy.QueueFree();
 
-		foreach (var sprite in particleSprites.Values)
+		foreach (var sprite in particleSprites.Keys)
 		{
-			var s = sprite.Instance();
-			s.QueueFree();
+			for (int i = 0; i < 4; i++)
+				ReleaseNewParticle(new Vector2(0, 0), sprite, true);
 		}
 
 	}
@@ -49,7 +49,7 @@ public class MainGFX : Node
 		foreach (var child in GetChildren())
 		{
 			var partSprite = child as ParticleSprite;
-			if (partSprite != null && partSprite.type == particleName) // try to reassign the particle to save on GC
+			if (partSprite != null && partSprite.type == particleName && !partSprite.Visible) // try to reassign the particle to save on GC
 			{
 				partSprite.Reassign();
 				partSprite.initFrame = Globals.frame;
@@ -66,6 +66,7 @@ public class MainGFX : Node
 
 	private void ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
 	{
+		GD.Print("new particle");
 		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;

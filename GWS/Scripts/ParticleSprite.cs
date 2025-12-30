@@ -32,6 +32,6 @@ public class ParticleSprite : Sprite
 
 	public void OnAnimationFinished(String anim_name)
 	{
-		QueueFree();
+		Visible = false;
 	}
 }

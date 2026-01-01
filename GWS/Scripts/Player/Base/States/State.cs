@@ -385,21 +385,26 @@ public abstract class State : Node
 		}
 	}
 
+	private bool HasHadoukenCooledDown(Player.CommandNormal cn)
+	{
+		return (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0);
+	}
+
 	protected void AddCommandNormal(Player.CommandNormal cn)
 	{
 		if (!cn.crouching)
 		{
 			AddGatling(new[] { cn.input, 'p' },
-				() => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0)
+				() => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && !owner.CheckHeldKey('2') && HasHadoukenCooledDown(cn)
 				, cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && !owner.CheckHeldKey('2') && HasHadoukenCooledDown(cn), 
 				cn.state);
 		}
 		else
 		{
-			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+			AddGatling(new[] { cn.input, 'p' }, () => owner.facingRight && owner.CheckHeldKey(cn.heldKeys[0]) && owner.CheckHeldKey('2') && HasHadoukenCooledDown(cn), 
 				cn.state);
-			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2') && (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0), 
+			AddGatling(new[] { cn.input, 'p' }, () => !owner.facingRight && owner.CheckHeldKey(cn.heldKeys[1]) && owner.CheckHeldKey('2') && HasHadoukenCooledDown(cn), 
 				cn.state);
 		}
 

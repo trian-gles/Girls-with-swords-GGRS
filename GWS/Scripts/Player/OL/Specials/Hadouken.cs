@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Hadouken : BaseAttack
 {
@@ -25,12 +26,18 @@ public class Hadouken : BaseAttack
 	[Export]
 	public bool mustCooldown = false;
 
+	private List<HadoukenPart> cachedHadoukens;
+
 	public override void _Ready()
 	{
 		base._Ready();
-		
-		var h = hadoukenScene.Instance() as HadoukenPart;
-		h.QueueFree();
+		cachedHadoukens = new List<HadoukenPart>();
+		for (int i = 0; i < 10; i++)
+		{
+			var h = hadoukenScene.Instance() as HadoukenPart;
+			cachedHadoukens.Add(h);
+			h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
+		}
 		// this looks silly but is necessary so that the hadouken loads at game start
 	}	
 
@@ -54,23 +61,32 @@ public class Hadouken : BaseAttack
 	/// </summary>
 	protected virtual HadoukenPart EmitHadouken()
 	{
-		if (mustCooldown && owner.hadoukenCooldownRemaining > 0)
-			return null;
+		HadoukenPart h;
 
+		foreach (HadoukenPart cachedPart in cachedHadoukens)
+		{
+			if (cachedPart.freed)
+			{
+				h = cachedPart;
+				h.active = true;
+				h.Spawn(owner.facingRight, owner.otherPlayer);
+				owner.EmitHadouken(h);
 
-		var h = hadoukenScene.Instance() as HadoukenPart;
+				int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
+				int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
+				h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
+				
+				Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
+				if (mustCooldown ) 
+					owner.hadoukenCooldownRemaining = 55;
+				return h;
+			}
+				
+		}
+		GD.Print("BAD, OUT OF HADOUKENS");
+		return null;
 
-		h.Spawn(owner.facingRight, owner.otherPlayer);
-		owner.EmitHadouken(h);
-
-		int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
-		int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
-		h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
-		h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
-		Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
-		if (mustCooldown ) 
-			owner.hadoukenCooldownRemaining = 55;
-		return h;
+		
 		
 
 	}

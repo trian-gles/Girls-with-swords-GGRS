@@ -57,8 +57,9 @@ public class Snail : HadoukenPart
 	public override void Spawn(bool movingRight, Player targetPlayer)
 	{
 		base.Spawn(movingRight, targetPlayer);
-		
-
+		speed.x = 0;
+		speed.y = 0;
+		hitConnectFrame = 0;
 		mode = SnailMode.GetInPosition;
 		snailOwner = (SL)targetPlayer.otherPlayer;
 

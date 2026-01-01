@@ -10,22 +10,6 @@
 [ext_resource path="res://Sprites/Particles/hat-slash.png" type="Texture" id=8]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/Outline.tres" type="Material" id=9]
 
-[sub_resource type="AtlasTexture" id=57]
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=58]
-atlas = ExtResource( 8 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=59]
-atlas = ExtResource( 8 )
-region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=60]
-atlas = ExtResource( 8 )
-region = Rect2( 96, 0, 32, 32 )
-
 [sub_resource type="AtlasTexture" id=51]
 atlas = ExtResource( 6 )
 region = Rect2( 400, 0, 40, 40 )
@@ -234,13 +218,24 @@ region = Rect2( 384, 0, 64, 64 )
 atlas = ExtResource( 4 )
 region = Rect2( 448, 0, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 8 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 8 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 8 )
+region = Rect2( 96, 0, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=49]
 animations = [ {
-"frames": [ SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "HatSlash",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 7 ) ],
 "loop": true,
 "name": "Hat",
@@ -274,6 +269,11 @@ animations = [ {
 "frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
 "loop": true,
 "name": "GLAirProjectile",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
+"loop": true,
+"name": "HatSlash",
 "speed": 5.0
 } ]
 

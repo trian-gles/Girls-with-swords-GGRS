@@ -22,6 +22,14 @@ public class BlackHole : HadoukenPart
 		particles2D = GetNode<CPUParticles2D>("CPUParticles2D");
 		createdByPlayer = (GL)targetPlayer.otherPlayer;
 	}
+
+	public override void Spawn(bool movingRight, Player targetPlayer)
+	{
+		particles2D = GetNode<CPUParticles2D>("CPUParticles2D");
+		particles2D.Emitting = true;
+		
+		base.Spawn(movingRight, targetPlayer);
+	}
 	public override void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > duration + 12) // far past rollback limit
@@ -131,6 +139,7 @@ public class BlackHole : HadoukenPart
 		base.MakeInactive();
 		particles2D.Emitting = false;
 		createdByPlayer.BlackHolesTotal--;
+		speed.y = 4;
 		Globals.Log($"Making black hole inactive for {createdByPlayer.Name}, setting black holes to = {createdByPlayer.BlackHolesTotal}");
 
 	}

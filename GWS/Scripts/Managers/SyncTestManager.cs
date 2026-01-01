@@ -60,7 +60,7 @@ class SyncTestManager : StateManager
 	public FixedSizedQueue<int[]> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private bool randomInputs = true;
+	private bool randomInputs = false;
 	private Random random;
 
 	[Export]

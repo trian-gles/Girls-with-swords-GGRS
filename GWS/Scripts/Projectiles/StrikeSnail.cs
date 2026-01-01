@@ -6,11 +6,6 @@ using FixedMath.NET;
 
 class StrikeSnail : HadoukenPart
 {
-	public override void FrameAdvance()
-	{
-		base.FrameAdvance();
-		
-	}
 
 	public override void Spawn(bool movingRight, Player targetPlayer)
 	{
@@ -23,4 +18,5 @@ class StrikeSnail : HadoukenPart
 			GetNode<AnimatedSprite>("AnimatedSprite").RotationDegrees = -45;
 		}
 	}
+
 }

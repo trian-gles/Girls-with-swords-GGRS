@@ -14,6 +14,7 @@ class CellPhone : HadoukenPart
 	{
 		base.Spawn(movingRight, targetPlayer);
 		speed = new Vector2(launch);
+		frame = 0;
 	}
 	public override void FrameAdvance()
 	{
@@ -21,16 +22,6 @@ class CellPhone : HadoukenPart
 			speed.y += gravity;
 		}
 		base.FrameAdvance();
-	}
-
-	protected override Dictionary<string, int> GetStateSpecific()
-	{
-		return new Dictionary<string, int>() {};
-	}
-
-	protected override void SetStateSpecific(Dictionary<string, int> dict)
-	{
-		
 	}
 
 

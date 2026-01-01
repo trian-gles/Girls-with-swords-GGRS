@@ -47,6 +47,22 @@ shader = SubResource( 12 )
 shader_param/dir = Vector2( 1, 0 )
 shader_param/quality = 7
 
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 32, 32, 32 )
+
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
@@ -67,25 +83,14 @@ region = Rect2( 16, 0, 8, 8 )
 atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 8, 8 )
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 32, 32, 32 )
-
 [sub_resource type="SpriteFrames" id=10]
 resource_local_to_scene = true
 animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "OLProjectile",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 9 ) ],
 "loop": true,
 "name": "Snail",
@@ -94,11 +99,6 @@ animations = [ {
 "frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "CellPhone",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "OLProjectile",
 "speed": 5.0
 } ]
 
@@ -117,7 +117,6 @@ chLaunch = Vector2( 100, -400 )
 knockdown = true
 speed = Vector2( 8, 8 )
 postHitSpeed = Vector2( 8, 8 )
-duration = 300
 dieAfterHit = false
 
 [node name="Sprite" type="Sprite" parent="." index="0"]

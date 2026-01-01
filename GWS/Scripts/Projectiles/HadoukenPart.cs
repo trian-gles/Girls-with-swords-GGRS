@@ -16,6 +16,8 @@ public class HadoukenPart : Node2D
 	protected Globals.AttackDetails chDetails;
 	protected AnimatedSprite animatedSprite;
 
+	private Color hurtColor = new Color(255, 0, 0, 0.9f);
+
 	[Export]
 	protected int startup = 0;
 
@@ -100,7 +102,8 @@ public class HadoukenPart : Node2D
 
 	public string ownerName;
 
-	public bool active = true; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
+	public bool active = false; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
+	public bool freed = true;
 
 	public int creationFrame;
 
@@ -128,10 +131,9 @@ public class HadoukenPart : Node2D
 		Kill
 	}
 
-
 	public override void _Ready()
 	{
-		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		
 
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
@@ -182,17 +184,24 @@ public class HadoukenPart : Node2D
 	/// <param name="targetPlayer"> the targeted player </param>
 	public virtual void Spawn(bool movingRight, Player targetPlayer)
 	{
-		GetNode<AnimatedSprite>("AnimatedSprite").Playing = true;
+		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		animatedSprite.Frame = 0;
+		animatedSprite.Playing = true;
 		this.movingRight = movingRight;
 		this.targetPlayer = targetPlayer;
 
 		// this is a bit lazy...
 		this.ownerName = targetPlayer.otherPlayer.Name;
+		freed = false;
+		active = true;
+		lastHitFrame = -20;
 
-		if (!movingRight) 
-		{
-			GetNode<AnimatedSprite>("AnimatedSprite").FlipH = true;
-		}
+		hits = 0;
+		
+		frame = 0;
+		Visible = true;
+
+		animatedSprite.FlipH = !movingRight;
 
 		int i = 0;
 
@@ -231,6 +240,8 @@ public class HadoukenPart : Node2D
 
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+			Update();
 		if (frame > 0)
 		{
 			Vector2 trueSpeed = new Vector2(speed);
@@ -251,7 +262,7 @@ public class HadoukenPart : Node2D
 
 		if (Position.x > 1900 || Position.x < -1600 || Position.y > 1800) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
 		{
-			Globals.Log($"Deleting hadouken {Name}");
+			Globals.Log($"Deleting hadouken {Name}, out of bounds");
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}
 
@@ -442,5 +453,24 @@ public class HadoukenPart : Node2D
 
 	}
 
+
+
 	
+
+
+	public override void _Draw()
+	{
+		
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+		{
+			Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), false);
+			var tinyExtents = myRect.Size / 100;
+			var tinyPos = myRect.Position / 100;
+			var tinyRect = new Rect2(tinyPos, tinyExtents);
+			if (active)
+				DrawRect(tinyRect, hurtColor);
+		}
+
+		
+	}
 }

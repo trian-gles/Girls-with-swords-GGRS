@@ -13,6 +13,7 @@ script = ExtResource( 2 )
 level = 3
 chEffect = 3
 speed = Vector2( 3, 0 )
+postHitSpeed = Vector2( 6, 0 )
 duration = 200
 
 [node name="AnimatedSprite" parent="." index="0"]

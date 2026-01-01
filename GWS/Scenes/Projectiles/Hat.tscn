@@ -12,8 +12,10 @@ z_index = 1
 script = ExtResource( 2 )
 speed = Vector2( 4, 0 )
 dieAfterHit = false
+startSpeed = Vector2( 4, 0 )
 
 [node name="AnimatedSprite" parent="." index="0"]
+scale = Vector2( 2.5, 2.5 )
 animation = "Hat"
 
 [node name="CollisionShape2D" parent="." index="1"]

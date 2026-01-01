@@ -250,7 +250,8 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
-
+		
+		Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
 			Globals.Log($"Loading state for hadouken {hState.name}");
@@ -260,6 +261,7 @@ public class GameStateObjectRedesign : Node
 				hadoukens[hState.name].SetState(hState);
 			}
 		}
+		
 		foreach (var entry in hadoukens)
 		{
 			HadoukenPart thisHadouken = entry.Value;
@@ -267,8 +269,8 @@ public class GameStateObjectRedesign : Node
 			if (thisHadouken.creationFrame > gState.frame)
 			{
 				Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
-				thisHadouken.ShouldNotExist();
-				deleteQueued.Add(thisHadouken);
+				
+				RemoveHadouken(thisHadouken);
 			}
 		}
 		CleanupHadoukens();
@@ -409,7 +411,7 @@ public class GameStateObjectRedesign : Node
 		}
 		if (deleteQueued.Count > 0)
 		{
-			deleteQueued = new List<HadoukenPart>();
+			deleteQueued.Clear();
 		}
 	}
 
@@ -539,7 +541,7 @@ public class GameStateObjectRedesign : Node
 		foreach (HadoukenPart h in hadoukens.Values)
 		{
 			h.RemoveNum();
-			h.QueueFree();
+			h.freed = true;
 			mainScene.RemoveChild(h);
 		}
 		hadoukens.Clear();
@@ -547,9 +549,10 @@ public class GameStateObjectRedesign : Node
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{
 		hadoukens.Remove(h.Name);
+		h.freed = true;
 		h.RemoveNum();
-		h.QueueFree();
 		mainScene.RemoveChild(h);
+		
 		
 	}
 	public void NewHadouken(HadoukenPart h)
@@ -561,6 +564,7 @@ public class GameStateObjectRedesign : Node
 		{
 			mainScene.ConnectSnail((Snail)h);
 		}
+		Globals.Log($"Adding hadouken {h.Name} on frame {Globals.frame}");
 	}
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)
@@ -576,6 +580,7 @@ public class GameStateObjectRedesign : Node
 	public void RemoveHadouken(HadoukenPart h)
 	{
 		deleteQueued.Add(h);
+		h.ShouldNotExist();
 	}
 
 	private void HandleHadoukenCollisions()

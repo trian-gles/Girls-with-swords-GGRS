@@ -24,8 +24,8 @@ public class HatThrow : Hadouken
 		base.Enter();
 		if (!((HL)owner).hatted)
 		{
-            EmitSignal(nameof(StateFinished), noHatState);
-        }
+			EmitSignal(nameof(StateFinished), noHatState);
+		}
 			
 		
 		owner.landingRecoveryFramesRemaining = landingRecovery;
@@ -41,7 +41,7 @@ public class HatThrow : Hadouken
 				transform.x *= -1;
 			
 			h.targetPos = owner.Position + transform;
-			return (HadoukenPart) h;
+			return h;
 				
 		}
 		return null;

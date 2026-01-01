@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -43,6 +43,7 @@
 [ext_resource path="res://Scripts/Player/Base/States/CounterFloat.cs" type="Script" id=41]
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
+[ext_resource path="res://Scripts/Player/Base/GFX/SpriteModulations.gd" type="Script" id=44]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
 [ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
 [ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
@@ -222,7 +223,6 @@ scale = Vector2( 9, 9 )
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 0.00990099, 0.00990099, 1 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
@@ -235,6 +235,7 @@ anims/fire = SubResource( 20 )
 anims/init = SubResource( 23 )
 anims/purple = SubResource( 22 )
 anims/snail = SubResource( 21 )
+script = ExtResource( 44 )
 
 [node name="SpriteFront" type="Sprite" parent="."]
 material = ExtResource( 66 )

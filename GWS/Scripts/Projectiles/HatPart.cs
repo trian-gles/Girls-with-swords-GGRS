@@ -4,9 +4,17 @@ using System.Collections.Generic;
 
 public class HatPart : HadoukenPart
 {
+	[Export]
+	public Vector2 startSpeed;
 
 	public override string hadoukenType { get; } = "Hat";
 	public Vector2 targetPos = Vector2.Zero;
+
+	public override void Spawn(bool movingRight, Player targetPlayer)
+	{
+		base.Spawn(movingRight, targetPlayer);
+		speed = startSpeed;
+	}
 	protected override void HurtPlayer(Vector2 collisionPnt)
 	{
 		base.HurtPlayer(collisionPnt);
@@ -20,6 +28,7 @@ public class HatPart : HadoukenPart
 		{
 			MakeInactive();
 			Visible = false;
+			speed.y = 4;
 		}
 		else if (command == ProjectileCommand.MoveHatRight)
 			Right();

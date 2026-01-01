@@ -33,7 +33,11 @@ public class MainGFX : Node
 		foreach (var sprite in particleSprites.Keys)
 		{
 			for (int i = 0; i < 4; i++)
-				ReleaseNewParticle(new Vector2(0, 0), sprite, true);
+			{
+				var p = ReleaseNewParticle(new Vector2(0, 0), sprite, true);
+				p.Visible = false;
+			}
+				
 		}
 
 	}
@@ -71,7 +75,7 @@ public class MainGFX : Node
 		ReleaseNewParticle(location, particleName, flipH);
 	}
 
-	private void ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
+	private ParticleSprite ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
 	{
 		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
 		newPart.type = particleName;
@@ -79,6 +83,7 @@ public class MainGFX : Node
 		AddChild(newPart);
 		newPart.FlipH = flipH;
 		newPart.Position = location;
+		return newPart;
 	}
 
 	public void OnGhostEmitted(Player p)

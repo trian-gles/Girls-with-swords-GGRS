@@ -36,10 +36,10 @@ public class Globals : Node
 	public static bool alwaysBlock = false;
 	public static bool autoTech = false;
 
-	public static bool DISABLESFX = true;
-	public static bool DISABLEGFX = true;
-	public static bool DISABLEPARTICLES = true;
-	public static bool DISABLESHAKE = true;
+	public static bool DISABLESFX = false;
+	public static bool DISABLEGFX = false;
+	public static bool DISABLEPARTICLES = false;
+	public static bool DISABLESHAKE = false;
 
 	public static AIDIFFICULTY aiDifficulty = AIDIFFICULTY.HI;
 

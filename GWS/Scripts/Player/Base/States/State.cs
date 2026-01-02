@@ -949,9 +949,6 @@ public abstract class State : Node
 
 	protected virtual void ReceiveHitNoBlock(Globals.AttackDetails details)
 	{
-
-
-		bool launchBool = false;
 		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
@@ -970,7 +967,6 @@ public abstract class State : Node
 		if (!(details.opponentLaunch == Vector2.Zero))
 		{
 			owner.velocity = details.opponentLaunch;
-			launchBool = true;
 		}
 
 		if (owner.velocity.y < 0) // make sure the player is registered as in the air if launched 

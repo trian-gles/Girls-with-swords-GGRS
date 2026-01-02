@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 using System.Diagnostics.Eventing.Reader;
+using MessagePack;
 
 /// <summary>
 /// This object controls all the actual management of gameplay, and passes this information to GGPO
@@ -37,19 +38,24 @@ public class GameStateObjectRedesign : Node
 	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
-	[Serializable]
+	[MessagePackObject]
 	public struct GameState
 	{
+		[Key(0)]
 		public int frame { get; set; }
+		[Key(1)]
 		public Player.PlayerState P1State { get; set; }
+		[Key(2)]
 		public Player.PlayerState P2State { get; set; }
-
+		[Key(3)]
 		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
-		public int hitStopRemaining { get; set; }
+        [Key(4)]
+        public int hitStopRemaining { get; set; }
 
-		// From gameScene
-		public int timeMode { get; set; }
-		public int possibleEndingFrame { get; set; }
+        [Key(5)]
+        public int timeMode { get; set; }
+        [Key(6)]
+        public int possibleEndingFrame { get; set; }
 	}
 
 	private Dictionary<string, HadoukenPart> hadoukens;
@@ -135,7 +141,7 @@ public class GameStateObjectRedesign : Node
 	/// <returns></returns>
 	public byte[] SaveGameState()
 	{
-		return Serialize<GameState>(GetGameState());
+		return MessagePackSerializer.Serialize<GameState>(GetGameState());
 	}
 	private int CalcFletcher32(StreamPeerBuffer stream)
 	{
@@ -153,7 +159,7 @@ public class GameStateObjectRedesign : Node
 
 	 public bool RedesignCompareStates(byte[] buffer)
 	{
-		GameState oldState = Deserialize<GameState>(buffer);
+		GameState oldState = MessagePackSerializer.Deserialize<GameState>(buffer);
 		string error = CompareGameStates(oldState, GetGameState());
 		if (error != "")
 		{
@@ -286,7 +292,7 @@ public class GameStateObjectRedesign : Node
 	/// <param name="stream"></param>
 	public void LoadGameState(byte[] stream)
 	{
-		SetGameState(Deserialize<GameState>(stream));
+		SetGameState(MessagePackSerializer.Deserialize<GameState>(stream));
 	}
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)

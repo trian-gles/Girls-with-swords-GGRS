@@ -12,8 +12,6 @@ public class HitStun : HitState
 	public override void Enter()
 	{
 		base.Enter();
-		
-		owner.GFXEvent("Blood");
 		owner.GainMeter(200);
     }
 

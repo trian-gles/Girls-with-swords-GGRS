@@ -3,6 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MessagePack;
 
 public class Player : Node2D
 {
@@ -200,56 +201,102 @@ public class Player : Node2D
 	/// <summary>
 	/// Contains all vital data for saving gamestate
 	/// </summary>
-	[Serializable]
+	[MessagePackObject]
 	public struct PlayerState
 	{
+		[Key(0)]
 		public List<char[]> inBuf2 { get; set; }
+		[Key(1)]
 		public int inBuf2Timer { get; set; }
+		[Key(2)]
 		public List<char[]> hitStopInputs { get; set; }
+		[Key(3)]
 		public List<char> heldKeys { get; set; }
+		[Key(4)]
 		public string currentState { get; set; }
+		[Key(5)]
 		public Dictionary<string, int> stateData { get; set; }
+		[Key(6)]
 		public bool canDoubleJump { get; set; }
+		[Key(7)]
 		public bool canAirDash { get; set; }
+		[Key(8)]
 		public bool hitConnect { get; set; }
+		[Key(9)]
 		public int frameCount { get; set; }
+		[Key(46)]
 		public int stunRemaining { get; set; }
+		[Key(10)]
 		public int hitPushRemaining { get; set; }
+		[Key(11)]
 		public bool flipH { get; set; }
+		[Key(12)]
 		public int health { get; set; }
+		[Key(13)]
 		public int meter { get; set; }
+		[Key(14)]
 		public int[] position { get; set; }
+		[Key(15)]
 		public int[] velocity { get; set; }
-
+		[Key(16)]
 		public int terminalVelocity { get; set; }
+		[Key(17)]
 		public bool facingRight { get; set; }
+		[Key(18)]
 		public bool touchingWall { get; set; }
+		[Key(19)]
 		public bool grounded { get; set; }
+		[Key(20)]
 		public int combo { get; set; }
+		[Key(21)]
 		public int proration { get; set; }
+		[Key(22)]
 		public string animationName { get; set; }
+		[Key(23)]
 		public int animationCursor { get; set; }
+		[Key(24)]
 		public int lastFrameInputs { get; set; }
+		[Key(25)]
 		public int invulnFrames { get; set; }
+		[Key(26)]
 		public int airDashFrames { get; set; }
+		[Key(27)]
 		public int grabInvulnFrames { get; set; }
+		[Key(28)]
 		public string lastStateName { get; set; }
+		[Key(29)]
 		public int counterStopFrames { get; set; }
+		[Key(30)]
 		public bool canGroundbounce { get; set; }
+		[Key(31)]
 		public int specialBreakFramesRemaining { get; set; }
+		[Key(32)]
 		public int landingRecoveryFramesRemaining { get; set; }
+		[Key(33)]
 		public int lastPressedDownFrame { get; set; }
+		[Key(34)]
 		public int lastPressedDashFrame { get; set; }
+		[Key(35)]
 		public int lastPressedUpFrame { get; set; }
+		[Key(36)]
 		public bool electrocuted { get; set; }
+		[Key(37)]
 		public bool wasOTGHit { get; set; }
+		[Key(38)]
 		public int burstMeter {  get; set; }
+		[Key(39)]
 		public int backdashCooldownRemaining { get; set; }
+		[Key(40)]
 		public int hadoukenCooldownRemaining { get; set; }
+		[Key(41)]
 		public int meterGainCooldownRemaining { get; set; }
+		[Key(42)]
 		public bool hasBeenLaunched { get; set; }
+		[Key(43)]
 		public bool hasDoubleOrSuperJumped { get; set; }
+		[Key(44)]
 		public bool hasHurtboxActive { get; set; }
+		[Key(45)]
 		public Dictionary<string, int> charSpecificData { get; set; }
 
 	}

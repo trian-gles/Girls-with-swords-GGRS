@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using MessagePack;
 using static GameScene;
 
 class SyncTestManager : StateManager
@@ -60,7 +61,7 @@ class SyncTestManager : StateManager
 	public FixedSizedQueue<int[]> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private bool randomInputs = false;
+	private bool randomInputs = true;
 	private Random random;
 
 	[Export]
@@ -170,36 +171,51 @@ class SyncTestManager : StateManager
 
 		Globals.Log($"Sync test on frame {Globals.frame}");
 		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
-		
-		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
-		
-		serializedStates.Enqueue(serializedGamestate);
-		pastInputs.Enqueue(combinedInps);
-		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
-		
 
-		if (!serializedStates.Full()) // we haven't accrued enough states to rollback
-			return;
-
-		if (!pastInputAcceptance[0]) // as this frame was not accepting inputs, we do not need to and should not test rolling back from it
+		byte[] serializedGamestate;
+		try
 		{
-			return;
-		}
+			serializedGamestate = currGame.SaveState(Globals.frame);
+			serializedStates.Enqueue(serializedGamestate);
 
-		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
-		Globals.frame = Globals.frame - (DEPTH);
-		for (int i = 1; i < DEPTH + 1; i++)
-		{
-			int[] tempInputs = pastInputs[i];
-			Globals.frame++;
-			Globals.rollbackFrame = i;
-			currGame.GGRSAdvanceFrame(tempInputs[0], tempInputs[1]);
-		}
+			pastInputs.Enqueue(combinedInps);
+			pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
 
-		if (!currGame.CompareStates(serializedGamestate) && !broken){
-			gameScene.WriteLogs();
-			broken = true;
+
+			if (!serializedStates.Full()) // we haven't accrued enough states to rollback
+				return;
+
+			if (!pastInputAcceptance[0]) // as this frame was not accepting inputs, we do not need to and should not test rolling back from it
+			{
+				return;
+			}
+            
+
+            currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
+			
+			Globals.frame = Globals.frame - (DEPTH);
+			for (int i = 1; i < DEPTH + 1; i++)
+			{
+				int[] tempInputs = pastInputs[i];
+				Globals.frame++;
+				Globals.rollbackFrame = i;
+				currGame.GGRSAdvanceFrame(tempInputs[0], tempInputs[1]);
+			}
+
+			if (!currGame.CompareStates(serializedGamestate) && !broken)
+			{
+				gameScene.WriteLogs();
+				broken = true;
+			}
 		}
+		catch (MessagePackSerializationException e) {
+			GD.Print(typeof(System.Runtime.CompilerServices.Unsafe).Assembly.FullName);
+			GD.Print(e.InnerException);
+		}
+			
+		
+		
+		
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)

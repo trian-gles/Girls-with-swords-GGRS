@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using static BaseAttack;
+using MessagePack;
 
 public class HadoukenPart : Node2D
 {
@@ -218,18 +219,26 @@ public class HadoukenPart : Node2D
 		hadoukenNums.Remove(num);
 	}
 
-	[Serializable]
+	[MessagePackObject]
 	public struct HadoukenState
 	{
+		[Key(0)]
 		public int[] pos { get; set; }
+		[Key(1)]
 		public int[] speed { get; set; }
+		[Key(2)]
 		public bool active { get; set; }
+		[Key(3)]
 		public string name { get; set; }
+		[Key(4)]
 		public int frame { get; set; }
+		[Key(5)]
 		public int lastHitFrame { get; set; }
+		[Key(6)]
 		public int hits { get; set; }
+		[Key(7)]
 		public bool visible { get; set; }
-
+		[Key(8)]
 		public Dictionary<string, int> dict { get; set; }
 	}
 

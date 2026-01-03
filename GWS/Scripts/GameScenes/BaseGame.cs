@@ -87,6 +87,22 @@ public abstract class BaseGame : Node2D
 	// Private methods
 	// ----------------
 
+	protected byte[] Serialize<T>(T data)
+	where T : struct
+	{
+		var formatter = new BinaryFormatter();
+		var stream = new MemoryStream();
+		formatter.Serialize(stream, data);
+		return stream.ToArray();
+	}
+	protected T Deserialize<T>(byte[] array)
+		where T : struct
+	{
+		var stream = new MemoryStream(array);
+		var formatter = new BinaryFormatter();
+		return (T)formatter.Deserialize(stream);
+	}
+
 	protected bool CompareValues(int valueA, int valueB, string name)
 	{
 		if (valueA != valueB)

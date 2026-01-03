@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MessagePack;
 
 
 /// <summary>
@@ -43,9 +42,9 @@ public class CharSelectScene : BaseGame
 	public bool p2Selected = false;
 	private bool stageSelected = false;
 	private int selectStagePlayer = 0;
-	private int p1Color = 0;
-	private int p2Color = 0;
-	private int[] lastInputs = new[] {0, 0};
+	private int p1Color;
+	private int p2Color;
+	private int[] lastInputs;
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
@@ -63,33 +62,20 @@ public class CharSelectScene : BaseGame
 	private int finishFrame = 0;
 
 
-	[MessagePackObject]
-	public struct CharSelectGameState
+	[Serializable]
+	private struct GameState
 	{
-		[Key(0)]
 		public int p1Pos { get; set; }
-		[Key(1)]
 		public int p2Pos { get; set; }
-		
-		[Key(2)]
 		public bool p1Selected { get; set; }
-		[Key(3)]
 		public bool p2Selected { get; set; }
-		[Key(4)]
 		public bool stageSelected { get; set; }
-		[Key(5)]
 		public int selectStagePlayer { get; set; }
-		[Key(6)]
 		public int p1Color { get; set; }
-		[Key(7)]
 		public int p2Color	{ get; set; }
-		[Key(8)]
 		public int[] lastFrameInputs { get; set; }
-		[Key(9)]
 		public int extraFrames { get; set; }
-		[Key(10)]
 		public int selectedStage { get; set; }
-		[Key(11)]
 		public int charSelectFrame { get; set; }
 
 	}
@@ -150,7 +136,7 @@ public class CharSelectScene : BaseGame
 	public override bool CompareStates(byte[] serializedOldState)
 	{
 		base.CompareStates(serializedOldState);
-		var oldState = MessagePackSerializer.Deserialize<CharSelectGameState>(serializedOldState);
+		var oldState = Deserialize<GameState>(serializedOldState);
 		CompareValues(p1Pos, oldState.p1Pos, "p1Pos");
 		CompareValues(p2Pos, oldState.p2Pos, "p2Pos");
 		CompareValues(p1Color, oldState.p1Color, "p1Color");
@@ -165,7 +151,7 @@ public class CharSelectScene : BaseGame
 
 	public override byte[] SaveState(int frame)
 	{
-		var state = new CharSelectScene.CharSelectGameState();
+		var state = new GameState();
 		state.p1Color = p1Color;
 		state.p2Color = p2Color;
 		state.p1Pos = p1Pos;
@@ -177,12 +163,12 @@ public class CharSelectScene : BaseGame
 		state.selectedStage = selectedStage;
 		state.charSelectFrame = charSelectFrame;
 		state.selectStagePlayer = selectStagePlayer;
-		return MessagePackSerializer.Serialize(state);
+		return Serialize<GameState>(state);
 	}
 
 	public override void LoadState(int frame, byte[] buffer, int checksum)
 	{
-		var state = MessagePackSerializer.Deserialize<CharSelectGameState>(buffer);
+		var state = Deserialize<GameState>(buffer);
 		p1Selected = state.p1Selected;
 		p2Selected = state.p2Selected;
 		p1Color = state.p1Color;

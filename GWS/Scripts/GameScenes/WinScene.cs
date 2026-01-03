@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using MessagePack;
 
 public class WinScene : BaseGame
 {
@@ -35,18 +34,13 @@ public class WinScene : BaseGame
 
 	private Node events;
 
-	[MessagePackObject]
-	public struct GameState
+	[Serializable]
+	private struct GameState
 	{
-		[Key(0)]
 		public int winScreenFrame { get; set; }
-		[Key(1)]
 		public int p1Pos {get; set; }
-		[Key(2)]
 		public int p2Pos {get; set; }
-		[Key(3)]
 		public int[] lastFrameInputs { get; set; }
-		[Key(4)]
 		public bool[] selected { get; set; }
 	}
 
@@ -118,12 +112,12 @@ public class WinScene : BaseGame
 		state.lastFrameInputs = lastFrameInputs;
 		state.selected[0] = this.selected[0];
 		state.selected[1] = this.selected[1];
-		return MessagePackSerializer.Serialize<WinScene.GameState>(state);
+		return Serialize<WinScene.GameState>(state);
 	}
 
 	public override void LoadState(int winScreenFrame, byte[] buffer, int checksum)
 	{
-		var state = MessagePackSerializer.Deserialize<WinScene.GameState>(buffer);
+		var state = Deserialize<WinScene.GameState>(buffer);
 		this.winScreenFrame = state.winScreenFrame;
 		cursorPositions[0] = state.p1Pos;
 		cursorPositions[1] = state.p2Pos;

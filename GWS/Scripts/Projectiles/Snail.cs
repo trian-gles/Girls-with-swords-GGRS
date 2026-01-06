@@ -352,12 +352,12 @@ public class Snail : HadoukenPart
 
 	protected override Dictionary<string, int> GetStateSpecific()
 	{
-		return new Dictionary<string, int>() {
-			{ "mode", (int) mode},
-			{"hitConnectFrame", hitConnectFrame},
-			{"overhead", Globals.BoolToInt(overhead)},
-			{"activateFrame", activateFrame}
-		};
+        specificState["mode"] = (int)mode;
+        specificState["hitConnectFrame"] = (int)hitConnectFrame;
+        specificState["overhead"] = Globals.BoolToInt(overhead);
+        specificState["activateFrame"] = activateFrame;
+
+        return base.GetStateSpecific();
 	}
 
 	protected override void SetStateSpecific(Dictionary<string, int> dict)

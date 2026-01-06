@@ -25,7 +25,7 @@ public class MainGFX : Node
 		for (int i = 0; i < 15; i++)
 		{
 			Sprite newGhost = (Sprite)dashGhost.Instance();
-			AddChild(newGhost);
+            CallDeferred("add_child", newGhost);
 			ghosts.Add(newGhost);
 		}
 
@@ -80,7 +80,7 @@ public class MainGFX : Node
 		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
-		AddChild(newPart);
+		CallDeferred("add_child", newPart);
 		newPart.FlipH = flipH;
 		newPart.Position = location;
 		return newPart;

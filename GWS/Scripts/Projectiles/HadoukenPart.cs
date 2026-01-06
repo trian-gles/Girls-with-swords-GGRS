@@ -100,6 +100,9 @@ public class HadoukenPart : Node2D
 
 	protected Player targetPlayer;
 
+	private HadoukenState hadState;
+	protected Dictionary<string, int> specificState = new Dictionary<string, int>();
+
 	public string ownerName;
 
 	public bool active = false; // I use this so that when the hadouken collides with the other player it isn't yet deleted, it just turns invisible and inactive.  For rollback reasons.
@@ -133,7 +136,7 @@ public class HadoukenPart : Node2D
 
 	public override void _Ready()
 	{
-		
+		hadState = new HadoukenState();
 
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
@@ -238,10 +241,15 @@ public class HadoukenPart : Node2D
 
 	}
 
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+        if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+            Update();
+    }
+
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
-		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
-			Update();
 		if (frame > 0)
 		{
 			Vector2 trueSpeed = new Vector2(speed);
@@ -406,7 +414,6 @@ public class HadoukenPart : Node2D
 
 	public HadoukenState GetState()
 	{
-		HadoukenState hadState = new HadoukenState();
 		hadState.pos = new int[] {(int) Position.x, (int) Position.y};
 		hadState.speed = new int[] { (int)speed.x, (int)speed.y };
 		hadState.active = active;
@@ -421,7 +428,7 @@ public class HadoukenPart : Node2D
 
 	protected virtual Dictionary<string, int> GetStateSpecific()
 	{
-		return new Dictionary<string, int>();
+		return specificState;
 	}
 
 	protected virtual void SetStateSpecific(Dictionary<string, int> dict)
@@ -437,8 +444,12 @@ public class HadoukenPart : Node2D
 
 	public virtual void SetState(HadoukenState newState) 
 	{
-		Position = new Vector2(newState.pos[0], newState.pos[1]);
+        
+        hadState = newState;
+        
+        Position = new Vector2(newState.pos[0], newState.pos[1]);
 		speed = new Vector2(newState.speed[0], newState.speed[1]);
+		
 		active = newState.active;
 		Visible = newState.visible;
 		frame = newState.frame;

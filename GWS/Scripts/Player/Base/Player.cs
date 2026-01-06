@@ -2,6 +2,7 @@ using FixedMath.NET;
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class Player : Node2D
@@ -146,7 +147,7 @@ public class Player : Node2D
 	///
 	// All of these will be stored in gamestate
 	///
-
+	public PlayerState pState = new PlayerState();
 	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
@@ -411,27 +412,13 @@ public class Player : Node2D
 
 	public PlayerState GetState()
 	{
-		var pState = new PlayerState();
-		pState.inBuf2 = new List<char[]>();
-		foreach (char[] inp in inputHandler.inBuf2)
-		{
-			pState.inBuf2.Add((char[])inp.Clone());
-		}
+		pState.inBuf2 = inputHandler.inBuf2;
 
-		pState.hitStopInputs = new List<char[]>();
-		foreach (char[] inp in inputHandler.hitStopInputs)
-		{
-			pState.hitStopInputs.Add((char[])inp.Clone());
-		}
+		pState.hitStopInputs = inputHandler.hitStopInputs;
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
 
-
-		pState.heldKeys = new List<char>();
-		foreach (char c in inputHandler.heldKeys)
-		{
-			pState.heldKeys.Add(c);
-		}
+		pState.heldKeys = inputHandler.heldKeys;
 
 		pState.canDoubleJump = canDoubleJump;
 		pState.canAirDash = canAirDash;
@@ -1044,13 +1031,20 @@ public class Player : Node2D
 
 	}
 
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+        if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+            Update();
+    }
+
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
 	public virtual void FrameAdvance() 
 	{
 		
-		Update();
+		
 		if (counterStopFrames > 0)
 		{
 			counterStopFrames--;

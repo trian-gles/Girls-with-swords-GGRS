@@ -579,7 +579,7 @@ public class GameScene : BaseGame
 
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
-		AddChild(h); // Add the hadouken as a child
+        CallDeferred("add_child", h); // Add the hadouken as a child
 		gsObj.NewHadouken(h); // let the gamestate object control it. this still needs to be cleaned up on deletion
 
 	}
@@ -608,7 +608,8 @@ public class GameScene : BaseGame
 
 	public void ConnectSnail(Snail s)
 	{
-		s.Connect("SnailUpdate", this, nameof(OnSnailUpdate));
+		if (!s.IsConnected("SnailUpdate", this, nameof(OnSnailUpdate)))
+			s.Connect("SnailUpdate", this, nameof(OnSnailUpdate));
 	}
 
 	public void OnSnailUpdate(string name, int pos, Color color)

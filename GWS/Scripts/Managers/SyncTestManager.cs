@@ -60,7 +60,7 @@ class SyncTestManager : StateManager
 	public FixedSizedQueue<int[]> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private bool randomInputs = false;
+	private bool randomInputs = true;
 	private Random random;
 
 	[Export]
@@ -131,6 +131,36 @@ class SyncTestManager : StateManager
 		return new int[] { p1Inputs, p2Inputs };
 	}
 
+	private int lastGen0Collections = 0;
+	private int lastGen1Collections = 0;
+	private int lastGen2Collections = 0;
+
+	public override void _Process(float delta)
+	{
+		int gen0 = GC.CollectionCount(0);
+		int gen1 = GC.CollectionCount(1);
+		int gen2 = GC.CollectionCount(2);
+
+		if (gen0 != lastGen0Collections)
+		{
+			GD.Print($"Gen0 collections: {gen0 - lastGen0Collections}");
+			lastGen0Collections = gen0;
+		}
+		if (gen1 != lastGen1Collections)
+		{
+			GD.Print($"Gen1 collections: {gen1 - lastGen1Collections}");
+			lastGen1Collections = gen1;
+		}
+		if (gen2 != lastGen2Collections)
+		{
+			GD.Print($"Gen2 collections: {gen2 - lastGen2Collections}");
+			lastGen2Collections = gen2;
+		}
+
+		long totalMemory = GC.GetTotalMemory(false);
+		GD.Print($"Allocated memory: {totalMemory / 1024} KB");
+	}
+
 	public override void _PhysicsProcess(float _delta)
 	{
 		RunFrameLoop();
@@ -169,10 +199,10 @@ class SyncTestManager : StateManager
 			combinedInps = new int[] { 0, 0 };
 
 		Globals.Log($"Sync test on frame {Globals.frame}");
+		
 		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
-		
+		return;
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
-		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
@@ -185,6 +215,7 @@ class SyncTestManager : StateManager
 		{
 			return;
 		}
+		
 
 		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
 		Globals.frame = Globals.frame - (DEPTH);
@@ -214,8 +245,11 @@ class SyncTestManager : StateManager
 		OnReselectChar();
 	}
 
+	private int[] randInputs = new[] { 0, 0 };
 	private int[] GetRandomInputs()
 	{
-		return new[] { GetInputs(""), random.Next(255) };
+		randInputs[0] = 0;
+		randInputs[1] = random.Next(255);
+		return randInputs;
 	}
 }

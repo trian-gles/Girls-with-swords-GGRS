@@ -1,9 +1,11 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using Newtonsoft.Json;
 
 
 
@@ -90,17 +92,14 @@ public abstract class BaseGame : Node2D
 	protected byte[] Serialize<T>(T data)
 	where T : struct
 	{
-		var formatter = new BinaryFormatter();
-		var stream = new MemoryStream();
-		formatter.Serialize(stream, data);
-		return stream.ToArray();
-	}
+        var json = JsonConvert.SerializeObject(data);
+        return Encoding.UTF8.GetBytes(json);
+    }
 	protected T Deserialize<T>(byte[] array)
 		where T : struct
 	{
-		var stream = new MemoryStream(array);
-		var formatter = new BinaryFormatter();
-		return (T)formatter.Deserialize(stream);
+        var json = Encoding.UTF8.GetString(array);
+        return JsonConvert.DeserializeObject<T>(json);
 	}
 
 	protected bool CompareValues(int valueA, int valueB, string name)

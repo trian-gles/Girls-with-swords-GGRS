@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GFXHandler : Node
 {
@@ -61,10 +62,10 @@ public class GFXHandler : Node
 
 	public void Rollback(int frame)
 	{
-		foreach (PlayerParticle p in particlesCPU.Values)
+		foreach (PlayerParticle p in particlesCPU.Values.ToArray())
 			p.Rollback(frame);
 
-		foreach (PlayerParticleGPU p in particlesGPU.Values)
+		foreach (PlayerParticleGPU p in particlesGPU.Values.ToArray())
 			p.Rollback(frame);
 	}
 

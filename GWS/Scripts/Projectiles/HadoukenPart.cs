@@ -99,8 +99,6 @@ public class HadoukenPart : Node2D
 	protected bool movingRight;
 
 	protected Player targetPlayer;
-
-	private HadoukenState hadState;
 	protected Dictionary<string, int> specificState = new Dictionary<string, int>();
 
 	public string ownerName;
@@ -241,12 +239,12 @@ public class HadoukenPart : Node2D
 
 	}
 
-    public override void _Process(float delta)
-    {
-        base._Process(delta);
-        if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
-            Update();
-    }
+	public override void _Process(float delta)
+	{
+		base._Process(delta);
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+			Update();
+	}
 
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
@@ -446,10 +444,7 @@ public class HadoukenPart : Node2D
 
 	public virtual void SetState(HadoukenState newState) 
 	{
-        
-        hadState = newState;
-        
-        Position = new Vector2(newState.pos[0], newState.pos[1]);
+		Position = new Vector2(newState.pos[0], newState.pos[1]);
 		speed = new Vector2(newState.speed[0], newState.speed[1]);
 		
 		active = newState.active;

@@ -579,14 +579,12 @@ public class GameScene : BaseGame
 
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
-        CallDeferred("add_child", h); // Add the hadouken as a child
 		gsObj.NewHadouken(h); // let the gamestate object control it. this still needs to be cleaned up on deletion
-
+		CallDeferred("add_child", h); // Add the hadouken as a child
 	}
 
 	public void OnHadoukenRemoved(HadoukenPart h)
 	{
-
 		gsObj.RemoveHadouken(h);
 	}
 

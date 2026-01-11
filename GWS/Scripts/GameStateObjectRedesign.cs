@@ -531,7 +531,7 @@ public class GameStateObjectRedesign : Node
 		hadoukens.Remove(h.Name);
 		h.freed = true;
 		h.RemoveNum();
-		mainScene.RemoveChild(h);
+		mainScene.CallDeferred("remove_child", h);
 		
 		
 	}

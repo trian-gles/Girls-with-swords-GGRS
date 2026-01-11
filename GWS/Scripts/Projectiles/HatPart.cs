@@ -60,9 +60,9 @@ public class HatPart : HadoukenPart
 	protected override Dictionary<string, int> GetStateSpecific()
 	{
 		specificState["speedx"] = (int)speed.x;
-        specificState["speedy"] = (int)speed.y;
+		specificState["speedy"] = (int)speed.y;
 
-        return base.GetStateSpecific();
+		return base.GetStateSpecific();
 	}
 
 	protected override void SetStateSpecific(Dictionary<string, int> dict)

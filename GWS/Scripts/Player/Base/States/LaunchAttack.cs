@@ -21,6 +21,8 @@ public class LaunchAttack : AirAttack
 	[Export]
 	public bool emitGhost = false;
 
+	private Vector2 dustEmissionVector = new Vector2();
+
 	/// <summary>
 	/// This doesn't call base.FrameAdvance() because that state includes things we don't want
 	/// </summary>
@@ -79,8 +81,10 @@ public class LaunchAttack : AirAttack
 
 		if (dustFrames.Contains(frameCount))
 		{
+			dustEmissionVector.x = owner.internalPos.x;
+			dustEmissionVector.y = owner.GetCollisionRect().End.y;
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+			dustEmissionVector,
 			"dust", owner.facingRight);
 		}
 	}

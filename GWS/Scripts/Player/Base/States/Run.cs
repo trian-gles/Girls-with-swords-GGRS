@@ -27,6 +27,7 @@ public class Run : MoveState
 		soundRate = 10;
 	}
 
+	private Vector2 dustEmissionVector = new Vector2();
 	public override void Enter()
 	{
 		base.Enter();
@@ -34,8 +35,10 @@ public class Run : MoveState
 		else { owner.velocity.x = owner.dashSpeed;}
 
 		owner.GainMeter(500);
+		dustEmissionVector.x = owner.internalPos.x;
+		dustEmissionVector.y = owner.GetCollisionRect().End.y;
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+			dustEmissionVector,
 			"dust", owner.facingRight);
 
 		if (owner.CheckHeldKey('8'))

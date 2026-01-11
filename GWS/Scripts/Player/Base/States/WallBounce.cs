@@ -38,9 +38,8 @@ public class WallBounce : AirKnockdown
 
 	public override Dictionary<string, int> Save()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["bounced"] = Convert.ToInt32(bounced);
-		return dict;
+		stateStateDict["bounced"] = Convert.ToInt32(bounced);
+		return stateStateDict;
 	}
 
 	public override void HitWall()

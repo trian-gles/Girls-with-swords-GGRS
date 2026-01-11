@@ -252,6 +252,7 @@ public class HadoukenPart : Node2D
 	{
 		if (frame > 0)
 		{
+			
 			Vector2 trueSpeed = new Vector2(speed);
 			if (hits > 0 && postHitSpeed != Vector2.Zero)
 				trueSpeed = new Vector2(postHitSpeed);
@@ -263,7 +264,7 @@ public class HadoukenPart : Node2D
 
 
 			Position += trueSpeed;
-			//Globals.Log($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
+			Globals.Log($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
 		}
 
 
@@ -412,6 +413,7 @@ public class HadoukenPart : Node2D
 		return new Rect2(position, extents);
 	}
 
+	HadoukenState hadState = new HadoukenState();
 	public HadoukenState GetState()
 	{
 		hadState.pos = new int[] {(int) Position.x, (int) Position.y};
@@ -481,7 +483,5 @@ public class HadoukenPart : Node2D
 			if (active)
 				DrawRect(tinyRect, hurtColor);
 		}
-
-		
 	}
 }

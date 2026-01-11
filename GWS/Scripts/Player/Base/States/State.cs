@@ -105,9 +105,10 @@ public abstract class State : Node
 
 	}
 
+	protected Dictionary<string, int> stateStateDict = new Dictionary<string, int>();
 	public virtual Dictionary<string, int> Save()
 	{
-		return new Dictionary<string, int>();
+		return stateStateDict;
 	}
 
 	/// <summary>
@@ -184,33 +185,37 @@ public abstract class State : Node
 
 	protected char[] ReverseInput(char[] inp)
 	{
-		char[] newInp = new char[2];
-
-		inp.CopyTo(newInp, 0);
 
 		if (inp[0] == '4')
 		{
-			newInp[0] = '6';
+			if (inp[1] == 'r')
+				return Globals.RIGHTREL;
+			else
+				return Globals.RIGHTPRESS;
 
 		}
 
 		else if (inp[0] == '6')
 		{
-			newInp[0] = '4';
+			if (inp[1] == 'r')
+				return Globals.LEFTREL;
+			else
+				return Globals.LEFTPRESS;
 		}
 
-		return newInp;
+		return inp;
 	}
 
+	private List<char[]> reversedInputs = new List<char[]>();
 	protected List<char[]> ReverseInputs(List<char[]> origInputs)
 	{
-		var newInputs = new List<char[]>();
+		reversedInputs.Clear();
 		foreach (char[] inp in origInputs)
 		{
-			newInputs.Add(ReverseInput(inp));
+			reversedInputs.Add(ReverseInput(inp));
 		}
 
-		return newInputs;
+		return reversedInputs;
 	}
 
 
@@ -490,7 +495,6 @@ public abstract class State : Node
 			return;
 		foreach (CommandGatling comGat in commandGatlings)
 		{
-
 			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
 			if (!owner.facingRight && comGat.flipInputs)
 			{
@@ -717,7 +721,7 @@ public abstract class State : Node
 		else
 		{
 			int mod = (owner.velocity.x < 0) ? -1 : 1;
-			owner.velocity = new Vector2(owner.velocity.x - slowdownSpeed * mod, owner.velocity.y);
+			owner.velocity.x -= slowdownSpeed * mod;
 
 		}
 	}
@@ -886,7 +890,7 @@ public abstract class State : Node
 
 	public virtual void ReceiveHit(Globals.AttackDetails details)
 	{
-		owner.velocity = new Vector2(0, 0);
+		owner.velocity = Vector2.Zero;
 		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
@@ -949,9 +953,6 @@ public abstract class State : Node
 
 	protected virtual void ReceiveHitNoBlock(Globals.AttackDetails details)
 	{
-
-
-		bool launchBool = false;
 		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:
@@ -970,7 +971,6 @@ public abstract class State : Node
 		if (!(details.opponentLaunch == Vector2.Zero))
 		{
 			owner.velocity = details.opponentLaunch;
-			launchBool = true;
 		}
 
 		if (owner.velocity.y < 0) // make sure the player is registered as in the air if launched 
@@ -982,7 +982,8 @@ public abstract class State : Node
 		EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 
 	}
-
+		private Fix64 baseProration = new Fix64(1);
+	private Fix64 prorationScaling = new Fix64(5);
 	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		Globals.Log($"Receiving damage {details.dmg}");
@@ -1000,7 +1001,7 @@ public abstract class State : Node
 
 		var prorActual = details.ignoreProration ? 24 : owner.proration;
 		var fixDmg = new Fix64(details.dmg * prorActual);
-		var comboPror = new Fix64(1) + new Fix64(owner.combo) / new Fix64(5);;
+		var comboPror =  baseProration + new Fix64(owner.combo) / prorationScaling;;
 
 		if (!details.ignoreProration)
         {

@@ -69,12 +69,11 @@ public class SL : Player
 
 	protected override Dictionary<string, int> GetStateCharSpecific()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["leftCornerSnail"] = Convert.ToInt32(leftCornerSnail);
-		dict["rightCornerSnail"] = Convert.ToInt32(rightCornerSnail);
-		dict["leftCornerSnailArrived"] = Convert.ToInt32(leftCornerSnailArrived);
-		dict["rightCornerSnailArrived"] = Convert.ToInt32(rightCornerSnailArrived);
-		return dict;
+		charSpecificData["leftCornerSnail"] = Convert.ToInt32(leftCornerSnail);
+		charSpecificData["rightCornerSnail"] = Convert.ToInt32(rightCornerSnail);
+		charSpecificData["leftCornerSnailArrived"] = Convert.ToInt32(leftCornerSnailArrived);
+		charSpecificData["rightCornerSnailArrived"] = Convert.ToInt32(rightCornerSnailArrived);
+		return charSpecificData;
 	}
 
 	protected override void SetStateCharSpecific(Dictionary<string, int> dict)

@@ -14,14 +14,14 @@ public class PreJump : State
 		stop = false;
 		AddEasyGroundSpecials();
 	}
-	//public override bool DelayInputs()
-	//{
-	//	return true;
-	//}
-
+    //public override bool DelayInputs()
+    //{
+    //	return true;
+    //}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+		//Globals.Log($"prejump frameAdvance with position {owner.internalPos}, velocity " + owner.velocity.ToString());
 		if (frameCount == len)
 		{
 			if (owner.CanSuperJump())
@@ -39,15 +39,17 @@ public class PreJump : State
 
 	public override void HandleInput(char[] inputArr)
 	{
-		base.HandleInput(inputArr);
 		
-		if (inputArr == new char[] {'6', 'p'})
+		base.HandleInput(inputArr);
+		if (Globals.CompareInput(inputArr, Globals.RIGHTPRESS))
 		{
 			owner.velocity.x = owner.speed;
 		}
-			
-		else if (inputArr == new char[] { '4', 'p' })
+		else if (Globals.CompareInput(inputArr, Globals.LEFTPRESS))
+		{
 			owner.velocity.x = -owner.speed;
+		}
+			
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

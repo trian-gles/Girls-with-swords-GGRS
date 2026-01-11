@@ -80,11 +80,10 @@ public class GL : Player
 
 	protected override Dictionary<string, int> GetStateCharSpecific()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["BlackHoleFrames"] = PoweredBlackHoleFramesRemaining;
-		dict["BlackHolesTotal"] = BlackHolesTotal;
-		dict["Stamina"] = Stamina;
-		return dict;
+		charSpecificData["BlackHoleFrames"] = PoweredBlackHoleFramesRemaining;
+		charSpecificData["BlackHolesTotal"] = BlackHolesTotal;
+		charSpecificData["Stamina"] = Stamina;
+		return charSpecificData;
 	}
 
 	protected override void SetStateCharSpecific(Dictionary<string, int> dict)

@@ -9,6 +9,8 @@ public class Backdash: Walk
 	[Export]
 	public int hopForce = 100;
 
+	private Vector2 dustEmissionVector = new Vector2();
+
 	public override void Enter()
 	{
 		frameCount = 0;
@@ -20,9 +22,11 @@ public class Backdash: Walk
 		owner.velocity.y = -1 * hopForce;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
 		owner.grounded = false;
+		dustEmissionVector.x = owner.internalPos.x;
+		dustEmissionVector.y = owner.GetCollisionRect().End.y;
 
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), 
-			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y), 
+			dustEmissionVector, 
 			"dust", !owner.facingRight);
 	}
 

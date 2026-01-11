@@ -63,11 +63,10 @@ public class HL : Player
 
 	protected override Dictionary<string, int> GetStateCharSpecific()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["hatted"] = hatted ? 1: 0;
-		dict["hattx"] = (int)hatCoors.x;
-		dict["hatty"] = (int)hatCoors.y;
-		return dict;
+		charSpecificData["hatted"] = hatted ? 1: 0;
+		charSpecificData["hattx"] = (int)hatCoors.x;
+		charSpecificData["hatty"] = (int)hatCoors.y;
+		return charSpecificData;
 	}
 
 	protected override void SetStateCharSpecific(Dictionary<string, int> dict)

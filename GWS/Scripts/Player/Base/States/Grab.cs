@@ -66,9 +66,8 @@ public class Grab : State
 
 	public override Dictionary<string, int> Save()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["released"] = Convert.ToInt32(released);
-		return dict;
+		stateStateDict["released"] = Convert.ToInt32(released);
+		return stateStateDict;
 
 	}
 
@@ -76,7 +75,7 @@ public class Grab : State
 	{
 		owner.ZIndex = 1;
 		base.Enter();
-		owner.velocity = new Vector2(0, 0);
+		owner.velocity = Vector2.Zero;
 
 		if (owner.facingRight && owner.internalPos.x + 4000 > Globals.rightWall)
 			owner.internalPos.x = Globals.rightWall - 4000;

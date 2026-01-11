@@ -41,6 +41,7 @@ public class MovingAttack : ComNorm
 		}
 	}
 
+	private Vector2 dustEmissionVector = new Vector2();
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
@@ -55,8 +56,10 @@ public class MovingAttack : ComNorm
 
 		if (dustFrames.Contains(frameCount))
 		{
+			dustEmissionVector.x = owner.internalPos.x;
+			dustEmissionVector.y = owner.GetCollisionRect().End.y;
             GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-            new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
+            dustEmissionVector,
             "dust", owner.facingRight);
         }
 		

@@ -7,40 +7,105 @@ class SyncTestManager : StateManager
 {
 
 	public bool broken = false;
-	/// <summary>
-	/// Yeah Enqueue is O(N) but whatever nerds...
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class FixedSizedQueue<T>
+	public sealed class FixedSizedQueue<T>
 	{
-		List<T> q = new List<T>();
+		private readonly T[] _buffer;
+		private int _head;   // index of oldest element
+		private int _tail;   // index for next write
+		private int _count;
 
-		public int Limit { get; set; }
-		public FixedSizedQueue(int limit) => Limit = limit;
+		public int Capacity { get; }
+		public int Count { get { return _count; } }
+		public bool IsEmpty { get { return _count == 0; } }
 
-			
-		public void Enqueue(T obj)
+		public FixedSizedQueue(int capacity)
 		{
-			q.Add(obj);
+			if (capacity <= 0)
+				throw new ArgumentOutOfRangeException(nameof(capacity));
+
+			Capacity = capacity;
+			_buffer = new T[capacity];
+		}
+
+		/// <summary>
+		/// Returns true if the queue is saturated (full).
+		/// </summary>
+		public bool Full()
+		{
+			return _count == Capacity;
+		}
+
+		/// <summary>
+		/// Enqueues an item. If the queue is full, the oldest item is overwritten.
+		/// </summary>
+		public void Enqueue(T item)
+		{
+			_buffer[_tail] = item;
+			_tail = (_tail + 1) % Capacity;
+
+			if (_count == Capacity)
 			{
-				while (q.Count > Limit)
-					q.RemoveAt(0);
+				_head = (_head + 1) % Capacity;
+			}
+			else
+			{
+				_count++;
 			}
 		}
 
+		/// <summary>
+		/// Removes and returns the oldest item.
+		/// </summary>
+		public T Dequeue()
+		{
+			if (_count == 0)
+				throw new InvalidOperationException("Queue is empty.");
+
+			T item = _buffer[_head];
+			_buffer[_head] = default(T);
+			_head = (_head + 1) % Capacity;
+			_count--;
+			return item;
+		}
+
+		public T Peek()
+		{
+			if (_count == 0)
+				throw new InvalidOperationException("Queue is empty.");
+
+			return _buffer[_head];
+		}
+
+		/// <summary>
+		/// Gets the element at the specified index (0 = oldest).
+		/// </summary>
 		public T this[int index]
 		{
 			get
 			{
-				return q[index];
+				if (index < 0 || index >= _count)
+					throw new ArgumentOutOfRangeException(nameof(index));
+
+				int actualIndex = _head + index;
+				if (actualIndex >= Capacity)
+					actualIndex -= Capacity;
+
+				return _buffer[actualIndex];
 			}
-			
 		}
-		public bool Full()
+
+		public void Clear()
 		{
-			return (q.Count == Limit);
+			if (_count > 0)
+			{
+				Array.Clear(_buffer, 0, Capacity);
+				_head = 0;
+				_tail = 0;
+				_count = 0;
+			}
 		}
 	}
+
 
 	[Export]
 	public int DEPTH = 3;
@@ -83,6 +148,13 @@ class SyncTestManager : StateManager
 		}
 			
 
+	}
+
+	public override void _Process(float delta)
+	{
+		base._Process(delta);
+		long mem = GC.GetTotalMemory(false); // allocated managed memory
+		GD.Print($"Allocated memory: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -131,36 +203,6 @@ class SyncTestManager : StateManager
 		return new int[] { p1Inputs, p2Inputs };
 	}
 
-	private int lastGen0Collections = 0;
-	private int lastGen1Collections = 0;
-	private int lastGen2Collections = 0;
-
-	public override void _Process(float delta)
-	{
-		int gen0 = GC.CollectionCount(0);
-		int gen1 = GC.CollectionCount(1);
-		int gen2 = GC.CollectionCount(2);
-
-		if (gen0 != lastGen0Collections)
-		{
-			GD.Print($"Gen0 collections: {gen0 - lastGen0Collections}");
-			lastGen0Collections = gen0;
-		}
-		if (gen1 != lastGen1Collections)
-		{
-			GD.Print($"Gen1 collections: {gen1 - lastGen1Collections}");
-			lastGen1Collections = gen1;
-		}
-		if (gen2 != lastGen2Collections)
-		{
-			GD.Print($"Gen2 collections: {gen2 - lastGen2Collections}");
-			lastGen2Collections = gen2;
-		}
-
-		long totalMemory = GC.GetTotalMemory(false);
-		GD.Print($"Allocated memory: {totalMemory / 1024} KB");
-	}
-
 	public override void _PhysicsProcess(float _delta)
 	{
 		RunFrameLoop();
@@ -199,10 +241,10 @@ class SyncTestManager : StateManager
 			combinedInps = new int[] { 0, 0 };
 
 		Globals.Log($"Sync test on frame {Globals.frame}");
-		
 		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
-		return;
+		
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
+		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
@@ -215,8 +257,6 @@ class SyncTestManager : StateManager
 		{
 			return;
 		}
-		
-
 		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
 		Globals.frame = Globals.frame - (DEPTH);
 		for (int i = 1; i < DEPTH + 1; i++)
@@ -245,11 +285,8 @@ class SyncTestManager : StateManager
 		OnReselectChar();
 	}
 
-	private int[] randInputs = new[] { 0, 0 };
 	private int[] GetRandomInputs()
 	{
-		randInputs[0] = 0;
-		randInputs[1] = random.Next(255);
-		return randInputs;
+		return new[] { GetInputs(""), random.Next(255) };
 	}
 }

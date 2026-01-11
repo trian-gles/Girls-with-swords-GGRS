@@ -116,7 +116,7 @@ public abstract class AirState : State
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		owner.velocity = new Vector2(0, 0);
+		owner.velocity = Vector2.Zero;
 		switch (details.dir)
 		{
 			case BaseAttack.ATTACKDIR.RIGHT:

@@ -18,7 +18,7 @@ public class Burst : LaunchAttack
 		if (frameCount == 8)
 		{
 			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			new Vector2(owner.internalPos.x, owner.internalPos.y),
+			owner.internalPos,
 			"burst", owner.facingRight);
 		}
 	}

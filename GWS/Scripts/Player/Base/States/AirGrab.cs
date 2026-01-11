@@ -52,9 +52,8 @@ public class AirGrab : State
 
 	public override Dictionary<string, int> Save()
 	{
-		var dict = new Dictionary<string, int>();
-		dict["released"] = Convert.ToInt32(released);
-		return dict;
+		stateStateDict["released"] = Convert.ToInt32(released);
+		return stateStateDict;
 
 	}
 
@@ -62,7 +61,7 @@ public class AirGrab : State
 	{
         owner.ZIndex = 1;
         base.Enter();
-		owner.velocity = new Vector2(0, 0);
+		owner.velocity = Vector2.Zero;
 		released = false;
 		owner.otherPlayer.ChangeState("Grabbed");
 		if (owner.CheckHeldKey('6'))

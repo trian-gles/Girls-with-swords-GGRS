@@ -23,7 +23,8 @@ public class PreRun : MoveState
 	{
 		frameCount++;
 		int mod = (owner.velocity.x > 0) ? 1 : -1;
-		owner.velocity = new Vector2(owner.velocity.x + owner.accel * mod, 0);
+		owner.velocity.x += owner.accel * mod;
+		owner.velocity.y = 0;
 		if (Math.Abs(owner.velocity.x) >= owner.dashSpeed)
 		{
 			EmitSignal(nameof(StateFinished), "Run");

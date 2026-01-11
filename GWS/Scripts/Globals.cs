@@ -64,6 +64,29 @@ public class Globals : Node
 	public const int SPECIAL = 128;
 	public const int STRING = 256;
 	public const int DASH = 512;
+
+
+	public static char[] RIGHTPRESS = new[] {'6', 'p'};
+	public static char[] LEFTPRESS = new[] {'4', 'p'};
+	public static char[] UPPRESS = new[] {'8', 'p'};
+	public static char[] DOWNPRESS = new[] {'2', 'p'};
+	public static char[] JABPRESS = new[] {'p', 'p'};
+	public static char[] KICKPRESS = new[] {'k', 'p'};
+	public static char[] SLASHPRESS = new[] {'s', 'p'};
+	public static char[] SPECIALPRESS = new[] {'a', 'p'};
+	public static char[] STRINGPRESS = new[] {'b', 'p'};
+	public static char[] DASHPRESS = new[] {'c', 'p'};
+
+	public static char[] RIGHTREL = new[] {'6', 'r'};
+	public static char[] LEFTREL = new[] {'4', 'r'};
+	public static char[] UPREL = new[] {'8', 'r'};
+	public static char[] DOWNREL = new[] {'2', 'r'};
+	public static char[] JABREL = new[] {'p', 'r'};
+	public static char[] KICKREL = new[] {'k', 'r'};
+	public static char[] SLASHREL = new[] {'s', 'r'};
+	public static char[] SPECIALREL = new[] {'a', 'r'};
+	public static char[] STRINGREL = new[] {'b', 'r'};
+	public static char[] DASHREL = new[] {'c', 'r'};
 	static public Mode mode;
 
 	public static List<string> logBuffer = new List<string>();
@@ -98,8 +121,8 @@ public class Globals : Node
 
 	public const int MAXAIRDASHDEPTH = 21200;
 
-    public const int MAXJPDEPTH = 18000;
-    public enum Inputs
+	public const int MAXJPDEPTH = 18000;
+	public enum Inputs
 	{
 		UP = 1,
 		DOWN = 2,
@@ -365,10 +388,10 @@ public class Globals : Node
 		//Tests();
 	}
 
-    public static string GetVersion()
-    {
-        return VERSION;
-    }
+	public static string GetVersion()
+	{
+		return VERSION;
+	}
 
 	public static void ChangeDifficulty(int dif)
 	{
@@ -376,7 +399,7 @@ public class Globals : Node
 		GD.Print(aiDifficulty);
 	}
 
-    public static bool CheckTrainingMode()
+	public static bool CheckTrainingMode()
 	{
 		return mode == Mode.TRAINING; 
 	}
@@ -385,11 +408,11 @@ public class Globals : Node
 		alwaysBlock = state;
 	}
 
-    public static void SetAutoTech(bool state)
-    {
-        autoTech = state;
-    }
-    public static bool IsFrameConfirmed()
+	public static void SetAutoTech(bool state)
+	{
+		autoTech = state;
+	}
+	public static bool IsFrameConfirmed()
 	{
 		return frame == lastConfirmedFrame;
 	}
@@ -414,6 +437,11 @@ public class Globals : Node
 			i++;
 		}
 		return indexes;
+	}
+
+	public static bool CompareInput(char[] i1, char[] i2)
+	{
+		return i1[0] == i2[0] && i1[1] == i2[1];
 	}
 
 	public static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)

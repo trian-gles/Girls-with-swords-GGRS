@@ -2,7 +2,6 @@ using FixedMath.NET;
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 public class Player : Node2D
@@ -147,13 +146,13 @@ public class Player : Node2D
 	///
 	// All of these will be stored in gamestate
 	///
-	public PlayerState pState = new PlayerState();
+
 	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
 	public int health = 1800;
 	private int meter = 0;
-	public Vector2 velocity = new Vector2(0, 0);
+	public Vector2 velocity = Vector2.Zero;
 	public int terminalVelocity = 1100; // See CheckTerminalVelocity for details.  This is never directly accessed by state
 	public bool facingRight = true;
 	public bool grounded;
@@ -184,6 +183,10 @@ public class Player : Node2D
 
 
 
+	public Dictionary<string, int> charSpecificData = new Dictionary<string, int>();
+	public PlayerState pState = new PlayerState();
+
+
 	public bool trainingControlledPlayer;
 	public bool aiControlled = false;
 	private Random aiRng = new Random(); // ONLY FOR AI, NO RNG IN THE GAME PLEASE
@@ -202,7 +205,7 @@ public class Player : Node2D
 	/// Contains all vital data for saving gamestate
 	/// </summary>
 	[Serializable]
-	public struct PlayerState
+	public class PlayerState
 	{
 		public List<char[]> inBuf2 { get; set; }
 		public int inBuf2Timer { get; set; }
@@ -410,6 +413,7 @@ public class Player : Node2D
 		inputHandler.Reset();
 	}
 
+
 	public PlayerState GetState()
 	{
 		pState.inBuf2 = inputHandler.inBuf2;
@@ -417,6 +421,7 @@ public class Player : Node2D
 		pState.hitStopInputs = inputHandler.hitStopInputs;
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
+
 
 		pState.heldKeys = inputHandler.heldKeys;
 
@@ -433,11 +438,6 @@ public class Player : Node2D
 		pState.meter = meter;
 		
 		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
-
-		if (currentState.Name == "JumpC")
-		{
-			Globals.Log($"Saving state with JumpC position at {internalPos} and velocity {velocity}");
-		}
 		pState.animationCursor = animationPlayer.cursor;
 		pState.terminalVelocity = terminalVelocity;
 		pState.animationName = animationPlayer.AssignedAnimation;
@@ -477,7 +477,7 @@ public class Player : Node2D
 
 	protected virtual Dictionary<string, int> GetStateCharSpecific()
 	{
-		return new Dictionary<string, int>();
+		return charSpecificData;
 	}
 
 	protected virtual void SetStateCharSpecific(Dictionary<string, int> dict)
@@ -508,7 +508,8 @@ public class Player : Node2D
 		terminalVelocity = pState.terminalVelocity;
 		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
-		internalPos = new Vector2(pState.position[0], pState.position[1]);
+		internalPos.x = pState.position[0];
+		internalPos.y = pState.position[1];
 		lastPressedDownFrame = pState.lastPressedDownFrame;
 		lastPressedDashFrame = pState.lastPressedDashFrame;
 		lastPressedUpFrame = pState.lastPressedUpFrame;
@@ -517,12 +518,8 @@ public class Player : Node2D
 		wasOTGHit = pState.wasOTGHit;
 		hasHurtboxActive = pState.hasHurtboxActive;
 		
-
-		velocity = new Vector2(pState.velocity[0], pState.velocity[1]);
-		if (currentState.Name == "JumpC")
-		{
-			Globals.Log($"Loading state with JumpC position at {internalPos} and velocity {velocity}");
-		}
+		velocity.x = pState.velocity[0];
+		velocity.y = pState.velocity[1];
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
 		combo = pState.combo;
@@ -560,6 +557,20 @@ public class Player : Node2D
 		gfxHand.Rollback(frame);
 	}
 
+	public void ChangeIntPositionRel(int x, int y)
+	{
+		int oldx = (int)internalPos.x;
+		int oldy = (int)internalPos.y;
+		internalPos.x = oldx + x;
+		internalPos.y = oldy + y;
+	}
+
+	public void ChangeIntPositionAbs(int x, int y)
+	{
+		internalPos.x = x;
+		internalPos.y = y;
+	}
+
 	public void PrintBuffer()
 	{
 		GD.Print("Buffer ----");
@@ -593,10 +604,10 @@ public class Player : Node2D
 
 		public void Reset()
 		{
-			heldKeys = new List<char>();
-			rhythmHeldKeys = new List<char>();
-			hitStopInputs = new List<char[]>();
-			inBuf2 = new List<char[]>();
+			heldKeys.Clear();
+			rhythmHeldKeys.Clear();
+			hitStopInputs.Clear();
+			inBuf2.Clear();
 			inBuf2Timer = inBuf2TimerMax;
 		}
 
@@ -605,7 +616,7 @@ public class Player : Node2D
 			inBuf2Timer = inBuf2TimerMax;
 			inBuf2.Add(input);
 			if (inBuf2.Count > 55)
-				inBuf2 = new List<char[]>();
+				inBuf2.Clear();
 		}
 
 		private void BufTimerDecrement()
@@ -616,24 +627,14 @@ public class Player : Node2D
 			}
 			else
 			{
-				inBuf2 = new List<char[]>();
+				inBuf2.Clear();
 			}
 		}
 
 		public void SetInBuf2(List<char[]> newBuf)
 		{
-			inBuf2 = new List<char[]> { };
-			foreach (char[] inp in newBuf)
-			{
-				inBuf2.Add((char[])inp.Clone());
-			}
+			inBuf2 = newBuf;
 		}
-
-		public void EmptyHitStop()
-		{
-			hitStopInputs.Clear();
-		}
-
 		private void AddHitStopBuffer(List<char[]> unhandledInputs)
 		{
 			foreach (char[] inputArr in unhandledInputs)
@@ -642,101 +643,101 @@ public class Player : Node2D
 				hitStopInputs.Add(inputArr);
 			}
 		}
-
+		private List<char[]> unhandledInputs = new List<char[]>();
 		private List<char[]> ConvertInputs(int inputs)
 		{
-			var unhandledInputs = new List<char[]>();
+			unhandledInputs.Clear();
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
-				unhandledInputs.Add(new char[] { '8', 'p' });
+				unhandledInputs.Add(Globals.UPPRESS);
 				playerState.owner.lastPressedUpFrame = Globals.frame;
 			}
 			else if ((inputs & 1) == 0 && (lastFrameInputs & 1) != 0)
 			{
-				unhandledInputs.Add(new char[] { '8', 'r' });
+				unhandledInputs.Add(Globals.UPREL);
 			}
 
 			if ((inputs & 2) != 0 && (lastFrameInputs & 2) == 0)
 			{
-				unhandledInputs.Add(new char[] { '2', 'p' });
+				unhandledInputs.Add(Globals.DOWNPRESS);
 				playerState.owner.lastPressedDownFrame = Globals.frame;
 			}
 			else if ((inputs & 2) == 0 && (lastFrameInputs & 2) != 0)
 			{
-				unhandledInputs.Add(new char[] { '2', 'r' });
+				unhandledInputs.Add(Globals.DOWNREL);
 			}
 
 			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
 			{
-				unhandledInputs.Add(new char[] { '6', 'p' });
+				unhandledInputs.Add(Globals.RIGHTPRESS);
 			}
 			else if ((inputs & 4) == 0 && (lastFrameInputs & 4) != 0)
 			{
-				unhandledInputs.Add(new char[] { '6', 'r' });
+				unhandledInputs.Add(Globals.RIGHTREL);
 			}
 
 			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
 			{
-				unhandledInputs.Add(new char[] { '4', 'p' });
+				unhandledInputs.Add(Globals.LEFTPRESS);
 			}
 			else if ((inputs & 8) == 0 && (lastFrameInputs & 8) != 0)
 			{
-				unhandledInputs.Add(new char[] { '4', 'r' });
+				unhandledInputs.Add(Globals.LEFTREL);
 			}
 
 			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'p', 'p' });
+				unhandledInputs.Add(Globals.JABPRESS);
 			}
 			else if ((inputs & 16) == 0 && (lastFrameInputs & 16) != 0)
 			{
-				unhandledInputs.Add(new char[] { 'p', 'r' });
+				unhandledInputs.Add(Globals.JABREL);
 			}
 
 			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'k', 'p' });
+				unhandledInputs.Add(Globals.KICKPRESS);
 			}
 			else if ((inputs & 32) == 0 && (lastFrameInputs & 32) != 0)
 			{
-				unhandledInputs.Add(new char[] { 'k', 'r' });
+				unhandledInputs.Add(Globals.KICKREL);
 			}
 
 			if ((inputs & 64) != 0 && (lastFrameInputs & 64) == 0)
 			{
-				unhandledInputs.Add(new char[] { 's', 'p' });
+				unhandledInputs.Add(Globals.SLASHPRESS);
 			}
 			else if ((inputs & 64) == 0 && (lastFrameInputs & 64) != 0)
 			{
-				unhandledInputs.Add(new char[] { 's', 'r' });
+				unhandledInputs.Add(Globals.SLASHREL);
 			}
 
 			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'a', 'p' });
+				unhandledInputs.Add(Globals.SPECIALPRESS);
 			}
 			else if ((inputs & 128) == 0 && (lastFrameInputs & 128) != 0)
 			{
-				unhandledInputs.Add(new char[] { 'a', 'r' });
+				unhandledInputs.Add(Globals.SPECIALREL);
 			}
 
 			if ((inputs & 256) != 0 && (lastFrameInputs & 256) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'b', 'p' });
+				unhandledInputs.Add(Globals.STRINGPRESS);
 			}
 			else if ((inputs & 256) == 0 && (lastFrameInputs & 256) != 0)
 			{
-				unhandledInputs.Add(new char[] { 'b', 'r' });
+				unhandledInputs.Add(Globals.STRINGREL);
 			}
 
 			if ((inputs & 512) != 0 && (lastFrameInputs & 512) == 0)
 			{
-				unhandledInputs.Add(new char[] { 'c', 'p' });
+				unhandledInputs.Add(Globals.DASHPRESS);
 				playerState.owner.lastPressedDashFrame = Globals.frame;
 			}
 			else if ((inputs & 512) == 0 && (lastFrameInputs & 512) != 0)
 			{
-				unhandledInputs.Add(new char[] { 'c', 'r' });
+				unhandledInputs.Add(Globals.DASHREL);
 			}
 
 
@@ -751,20 +752,6 @@ public class Player : Node2D
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				if (Globals.rhythmGame)
-				{
-					// Hold or release keys for rhythm during or out of hitstop
-					if (inputArr[1] == 'p')
-					{
-						rhythmHeldKeys.Add(inputArr[0]);
-
-					}
-					else if (inputArr[1] == 'r')
-					{
-						rhythmHeldKeys.Remove(inputArr[0]);
-					}
-					playerState.HandleRhythmInput(inputArr); // For precise rhythmic timing, we need to check this during hitstop
-				}
 				if (inputArr[0] == 'a')
 				{
 					playerState.TrySpecialBreak();
@@ -779,26 +766,14 @@ public class Player : Node2D
 				AddHitStopBuffer(unhandledInputs);
 				return;
 			}
-			else
-			{
-				playerState.TryEnterRhythmState(); // only enter rhythm gatlings outside of hitstop
-			}
 
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
 
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
-			//unhandledInputs = SortInputs(unhandledInputs);
-			hitStopInputs = new List<char[]>();
+			hitStopInputs.Clear();
 			foreach (char[] inputArr in unhandledInputs)
 			{
-				if (playerState.DelayInputs())
-				{
-					hitStopInputs.Add(inputArr);
-					continue;
-				}
-
-
 				// Hold or release keys
 				if (inputArr[1] == 'p')
 				{
@@ -810,8 +785,6 @@ public class Player : Node2D
 					negEdgeCallback(inputArr[0]);
 					bool removeResult = heldKeys.Remove(inputArr[0]);
 				}
-
-
 				playerState.HandleInput(inputArr);
 			}
 			
@@ -819,19 +792,8 @@ public class Player : Node2D
 			unhandledInputs.Clear();
 		}
 
-		public List<char[]> SortInputs(List<char[]> inputs)
-		{
-			var jumpInputs = new List<char[]>();
-			var otherInputs = new List<char[]>();
-			foreach (char[] inputArr in inputs)
-			{
-				if (inputArr == new char[] {'6', 'p'} || inputArr == new char[] { '4', 'p' })
-					jumpInputs.Add(inputArr);
-				else
-					otherInputs.Add(inputArr);
-			}
-			return jumpInputs.Concat(otherInputs).ToList();
-		}
+		private List<char[]> tempJumpInputs = new List<char[]>();
+		private List<char[]> tempOtherInputs = new List<char[]>();
 
 		public List<char[]> GetBuffer() 
 		{
@@ -903,12 +865,6 @@ public class Player : Node2D
 		inputHandler.heldKeys.Clear();
 	}
 
-
-
-	public void ClearUnhandled()
-	{
-		inputHandler.EmptyHitStop();
-	}
 
 	public bool CheckHeldKey(char key) 
 	{
@@ -1008,12 +964,20 @@ public class Player : Node2D
 
 		if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
 		{
-			sprite.Scale = new Vector2(1.5f * direction, 1.5f);
-			sprite.Offset = new Vector2(sprite.Offset.x, 20);
+			var newScale = sprite.Scale;
+			newScale.x = 1.5f * direction;
+			newScale.y = 1.5f;
+			sprite.Scale = newScale;
+			var newOffset = sprite.Offset;
+			newOffset.y = 20;
+			sprite.Offset = newOffset;
 		}
 		else
 		{
-			sprite.Scale = new Vector2(3 * direction, 3);
+			var newScale = sprite.Scale;
+			newScale.x = 3 * direction;
+			newScale.y = 3;
+			sprite.Scale = newScale;
 		}
 	}
 
@@ -1031,20 +995,13 @@ public class Player : Node2D
 
 	}
 
-    public override void _Process(float delta)
-    {
-        base._Process(delta);
-        if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
-            Update();
-    }
-
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
 	public virtual void FrameAdvance() 
 	{
 		
-		
+		Update();
 		if (counterStopFrames > 0)
 		{
 			counterStopFrames--;
@@ -1158,8 +1115,7 @@ public class Player : Node2D
 			xChange = (MAXPLAYERDIST - curDistBetween) * dir;
 			currentState.HitWall();
 		}
-
-		internalPos += new Vector2(xChange, yChange);
+		ChangeIntPositionRel(xChange, yChange);
 		
 		CorrectPositionBounds();
 	}
@@ -1219,8 +1175,8 @@ public class Player : Node2D
 			xChange = (MAXPLAYERDIST - curDistBetween) * dir;
 			currentState.HitWall();
 		}
-
-		internalPos += new Vector2(xChange, yChange);
+		
+		ChangeIntPositionRel(xChange, yChange);
 		CorrectPositionBounds();
 	}
 
@@ -1239,7 +1195,10 @@ public class Player : Node2D
 	public void RenderPosition()
 	{
 		debugPos.Text = $"{internalPos.x}, {internalPos.y}";
-		Position = new Vector2((int)Math.Floor(internalPos.x / 100), (int)Math.Floor(internalPos.y / 100));
+		Vector2 tempPos = Position;
+		tempPos.x = (int)Math.Floor(internalPos.x / 100);
+		tempPos.y = (int)Math.Floor(internalPos.y / 100);
+		Position = tempPos;
 	}
 
 	/// <summary>
@@ -1249,18 +1208,18 @@ public class Player : Node2D
 	{
 		if (internalPos.y >= Globals.floor)
 		{
-			internalPos= new Vector2(internalPos.x, Globals.floor);
+			ChangeIntPositionAbs((int)internalPos.x, Globals.floor);
 			grounded = true;
 		}
 
 		if (internalPos.x > Globals.rightWall)
 		{
-			internalPos = new Vector2(Globals.rightWall, internalPos.y);
+			ChangeIntPositionAbs(Globals.rightWall, (int)internalPos.y);
 			currentState.HitWall();
 		}
 		else if (internalPos.x < Globals.leftWall)
 		{
-			internalPos = new Vector2(Globals.leftWall, internalPos.y);
+			ChangeIntPositionAbs(Globals.leftWall, (int)internalPos.y);
 			currentState.HitWall();
 		}
 	}
@@ -1293,7 +1252,7 @@ public class Player : Node2D
 		{
 			mod = -1;
 		}
-		internalPos = new Vector2(internalPos.x + 4 * mod, internalPos.y); // FIX THIS
+		ChangeIntPositionRel(4 * mod, (int)internalPos.y);
 	}
 
 	public void PushMovement(float xVel) 
@@ -1336,25 +1295,28 @@ public class Player : Node2D
 		}
 	}
 
+	private Vector2 facingRightScale = new Vector2(3, 3);
+	private Vector2 facingLeftScale = new Vector2(-3, 3);
+	private Vector2 facingLeftBoxScale = new Vector2(-1, 1);
 	public void TurnRight()
 	{
 		facingRight = true;
-		mainSprite.Scale = new Vector2(3, 3);
-		frontSprite.Scale = new Vector2(3, 3);
-		behindSprite.Scale = new Vector2(3, 3);
-
-		hurtBoxes.Scale = new Vector2(1, 1);
-		hitBoxes.Scale = new Vector2(1, 1);
+		mainSprite.Scale = facingRightScale;
+		frontSprite.Scale = facingRightScale;
+		behindSprite.Scale = facingRightScale;
+		
+		hurtBoxes.Scale = Vector2.One;
+		hitBoxes.Scale = Vector2.One;
 	}
 
 	public void TurnLeft()
 	{
 		facingRight = false;
-		mainSprite.Scale = new Vector2(-3, 3);
-		frontSprite.Scale = new Vector2(-3, 3);
-		behindSprite.Scale = new Vector2(-3, 3);
-		hurtBoxes.Scale = new Vector2(-1, 1);
-		hitBoxes.Scale = new Vector2(-1, 1);
+		mainSprite.Scale = facingLeftScale;
+		frontSprite.Scale = facingLeftScale;
+		behindSprite.Scale = facingLeftScale;
+		hurtBoxes.Scale = facingLeftBoxScale;
+		hitBoxes.Scale = facingLeftBoxScale;
 	}
 
 	/// <summary>
@@ -1431,7 +1393,7 @@ public class Player : Node2D
 				counterStopFrames = 2;
 			
 		}
-		velocity = new Vector2(0, 0);
+		velocity = Vector2.Zero;
 		wasHit = true;
 	}
 
@@ -1545,6 +1507,7 @@ public class Player : Node2D
 		EmitSignal(nameof(ComboChanged), Name, combo);
 	}
 
+	
 	public void DeductHealth(int dmg, bool chip = false)
 	{
 		if (otherPlayer.health <= 0)
@@ -1780,9 +1743,10 @@ public class Player : Node2D
 		return Vector2.Inf;
 	}
 
+	private List<Rect2>  allRects= new List<Rect2>();
 	public virtual List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
 	{
-		List<Rect2> allRects = new List<Rect2>();
+		allRects.Clear();
 		foreach (CollisionShape2D colShape in area.GetChildren()) 
 		{
 			if (!colShape.Disabled)
@@ -1794,33 +1758,39 @@ public class Player : Node2D
 		return allRects;
 	}
 
+	private Vector2 tempRectPos = new Vector2();
+	private Rect2 tempRect = new Rect2();
 	public Rect2 GetRect(CollisionShape2D colShape, bool globalPosition = false) 
 	{
 		RectangleShape2D shape = (RectangleShape2D)colShape.Shape;
 		Vector2 extents = shape.Extents * 2;
-		Vector2 position;
 		if (facingRight)
 		{
-			position = colShape.Position - extents / 2;
+			tempRectPos = colShape.Position - extents / 2;
 		}
 		else
 		{
-			position = new Vector2(-colShape.Position.x - extents.x / 2, colShape.Position.y - extents.y / 2);
+			tempRectPos.x = -colShape.Position.x - extents.x / 2;
+			tempRectPos.y = colShape.Position.y - extents.y / 2;
 		}
 		if (globalPosition)
 		{
-			position *= 100;
-			position += new Vector2(internalPos.x, internalPos.y);
+			tempRectPos *= 100;
+			tempRectPos += internalPos;
 			extents *= 100;
 		}
-		return new Rect2(position, extents);
+		return new Rect2(tempRectPos, extents);
 	}
 
+	private Vector2 tempStart = new Vector2();
+	private Vector2 collisionRectSize = new Vector2(1400, 4800);
 	public Rect2 GetCollisionRect()
 	{
-		Vector2 start = new Vector2(internalPos.x - 700, internalPos.y - 900);
-		Vector2 size = new Vector2(1400, 4800);
-		return new Rect2(start, size);
+		tempStart.x = internalPos.x - 700;
+		tempStart.y = internalPos.y - 900;
+		
+		
+		return new Rect2(tempStart, collisionRectSize);
 	}
 
 	public bool CheckCollisionRectActive()

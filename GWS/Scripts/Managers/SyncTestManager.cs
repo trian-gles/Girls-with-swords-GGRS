@@ -154,7 +154,8 @@ class SyncTestManager : StateManager
 	{
 		base._Process(delta);
 		long mem = GC.GetTotalMemory(false); // allocated managed memory
-		GD.Print($"Allocated memory: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+		GD.Print($"DELTA MEM: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+		
 	}
 
 	public override void _Input(InputEvent @event)
@@ -216,8 +217,6 @@ class SyncTestManager : StateManager
 
 		int[] combinedInps;
 		Globals.frame++;
-		if (Globals.frame == logFrame)
-			Globals.logOn = true;
 		Globals.rollbackFrame = 0;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
 		{
@@ -240,10 +239,17 @@ class SyncTestManager : StateManager
 		else
 			combinedInps = new int[] { 0, 0 };
 
-		Globals.Log($"Sync test on frame {Globals.frame}");
+		if (Globals.logOn)
+			Globals.Log($"Sync test on frame {Globals.frame}");
+		
+		
 		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
+
+		
+		
 		
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
+		
 		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);

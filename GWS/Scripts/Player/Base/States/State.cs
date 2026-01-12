@@ -594,34 +594,6 @@ public abstract class State : Node
 				{
 					testedInputs = ReverseInputs(testedInputs);
 				}
-
-				if (owner.CheckRhythmHeldKey(testedInputs[0][0]))
-				{
-					Globals.Log($"Properly holding key {testedInputs[0][0]}");
-
-					if (rhythmGatling.reqCall != null) // check the required callback
-					{
-						if (!rhythmGatling.reqCall())
-						{
-							continue;
-						}
-					}
-
-					if (rhythmGatling.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input, fix this!!
-					{
-						continue;
-					}
-					
-
-					if (rhythmGatling.postCall != null)
-					{
-						rhythmGatling.postCall();
-					}
-					owner.rhythmState = rhythmGatling.state;
-					owner.EmitSignal(nameof(Player.RhythmHitTry), owner.Name);
-					
-					return;
-				}
 			}
 		}
 	}
@@ -986,7 +958,8 @@ public abstract class State : Node
 	private Fix64 prorationScaling = new Fix64(5);
 	public virtual void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		Globals.Log($"Receiving damage {details.dmg}");
+		if (Globals.logOn)
+			Globals.Log($"Receiving damage {details.dmg}");
 		int hitProration = details.prorationLevel;
 		if (owner.combo == 1)
         {

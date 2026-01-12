@@ -10,6 +10,7 @@ extents = Vector2( 8, 12 )
 [node name="Hat" instance=ExtResource( 1 )]
 z_index = 1
 script = ExtResource( 2 )
+startup = 7
 speed = Vector2( 4, -1 )
 dieAfterHit = false
 startSpeed = Vector2( 4, -1 )

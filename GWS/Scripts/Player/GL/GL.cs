@@ -93,7 +93,8 @@ public class GL : Player
 			PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
 			BlackHolesTotal = dict["BlackHolesTotal"];
 			Stamina = dict["Stamina"];
-			Globals.Log($"Loading state for {Name}, black holes is now = {BlackHolesTotal}");
+			if (Globals.logOn)
+				Globals.Log($"Loading state for {Name}, black holes is now = {BlackHolesTotal}");
 
 		}
 			

@@ -25,7 +25,8 @@ public class BlackHolePlace : Hadouken
         {
             if (gl.BlackHolesTotal > 1)
             {
-                Globals.Log($"Too many black holes for {owner.Name}, total black holes = {gl.BlackHolesTotal}");
+                if (Globals.logOn)
+                    Globals.Log($"Too many black holes for {owner.Name}, total black holes = {gl.BlackHolesTotal}");
                 EmitSignal(nameof(StateFinished), "Fall");
                 return;
             }
@@ -37,7 +38,8 @@ public class BlackHolePlace : Hadouken
     {
         var h =  base.EmitHadouken();
         gl.BlackHolesTotal++;
-        Globals.Log($"Emitting black hole for {owner.Name}, Total black holes now = {gl.BlackHolesTotal}");
+        if (Globals.logOn)
+            Globals.Log($"Emitting black hole for {owner.Name}, Total black holes now = {gl.BlackHolesTotal}");
         return h;
     }
 }

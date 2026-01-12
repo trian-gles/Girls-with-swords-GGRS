@@ -169,8 +169,6 @@ class GGRSManager : StateManager
 			GetNetStats();
 			int currentGGRSFrame = (int)GGRS.Call("get_current_frame");
 			Globals.lastConfirmedFrame = (int)GGRS.Call("get_confirmed_frame");
-			if (hosting && Globals.frame != currentGGRSFrame)
-				Globals.Log($"FRAME MISMATCH Last confirmed frame is {Globals.lastConfirmedFrame}, current GGRS frame is {currentGGRSFrame}");
 
 			// prediction threshold reached
 			if (currentGGRSFrame - Globals.lastConfirmedFrame > 7)
@@ -240,9 +238,6 @@ class GGRSManager : StateManager
 
 	public void ggrs_load_game_state(int @frame, byte[] buffer, int checksum)
 	{
-
-		if (Math.Abs(Globals.frame - frame) > 8)
-			Globals.Log($"Suspicious rollback from {Globals.frame} to {frame}");
 		Globals.frame = @frame;
 		currGame.LoadState(@frame, buffer, checksum);
 	}

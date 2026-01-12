@@ -18,15 +18,6 @@ public class GameScene : BaseGame
 	[Signal]
 	public delegate void GameWon(string winner, int chosenCharacter);
 
-	public class Recording
-	{
-		public int p1char { get; set; }
-		public int p2char { get; set; }
-		public int p1col { get; set; }
-		public int p2col { get; set; }
-		public int[,] allInputs { get; set; }
-	}
-
 	/// <summary>
 	/// Used to prevent physics process
 	/// </summary>
@@ -316,11 +307,13 @@ public class GameScene : BaseGame
 	/// <param name="p2Inps"></param>
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
-
+		
+		
 		if (currTime == TimeStatus.GAME)
 		{
+			
 			gsObj.Update(p1Inps, p2Inps);
-
+			
 			if (recordMatch)
 				SaveFrameInputs(p1Inps, p2Inps);
 		}
@@ -330,6 +323,7 @@ public class GameScene : BaseGame
 		}
 
 		HandleTime();
+		
 	}
 
 	public override void TimeAdvance()

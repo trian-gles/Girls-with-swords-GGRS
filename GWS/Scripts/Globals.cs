@@ -96,8 +96,10 @@ public class Globals : Node
 		logOn = true;
 	}
 
+	public static string lastLogMessage = "";
 	public static void Log(string msg)
 	{
+		lastLogMessage = msg;
 		if (rollbackFrame != 0)
 		{
 			msg = rollbackFrame + " : " + msg;
@@ -106,8 +108,6 @@ public class Globals : Node
 		string logMsg = frame + " : " + loggingName + " : " + msg;
 
 		if (logOn)
-			GD.Print(logMsg);
-		else
 			logBuffer.Add(logMsg);
 
 		

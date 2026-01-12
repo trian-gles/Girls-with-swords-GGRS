@@ -52,6 +52,17 @@ public class GameStateObjectRedesign : Node
 
 	private Dictionary<string, HadoukenPart> hadoukens;
 	private List<HadoukenPart> deleteQueued;
+
+	public GameStateObjectRedesign()
+	{
+		hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
+
+		gState = new GameState
+		{
+			hadoukenStates = new List<HadoukenPart.HadoukenState>()
+		};
+		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
+	}
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
 	{
 		this.P1 = P1;
@@ -82,13 +93,9 @@ public class GameStateObjectRedesign : Node
 		P1.CheckTurnAround();
 		P2.CheckTurnAround();
 
-		hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
-
-		gState = new GameState
-		{
-			hadoukenStates = new List<HadoukenPart.HadoukenState>()
-		};
-		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
+		hadoukens.Clear();
+		gState.hadoukenStates.Clear();
+		deleteQueued.Clear();
 		Globals.Log("GameState config finished");
 	}
 
@@ -242,14 +249,16 @@ public class GameStateObjectRedesign : Node
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
-		
-		Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
+		if (Globals.logOn)
+			Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
 		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
 		{
-			Globals.Log($"Loading state for hadouken {hState.name}");
+			if (Globals.logOn)
+				Globals.Log($"Loading state for hadouken {hState.name}");
 			if (hadoukens.ContainsKey(hState.name))
 			{
-				Globals.Log($"Rolling back {hState.name} to frame {gState.frame}");
+				if (Globals.logOn)
+					Globals.Log($"Rolling back {hState.name} to frame {gState.frame}");
 				hadoukens[hState.name].SetState(hState);
 			}
 		}
@@ -260,7 +269,8 @@ public class GameStateObjectRedesign : Node
 
 			if (thisHadouken.creationFrame > gState.frame)
 			{
-				Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
+				if (Globals.logOn)
+					Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
 				
 				RemoveHadouken(thisHadouken);
 			}
@@ -321,12 +331,11 @@ public class GameStateObjectRedesign : Node
 	public void Update(int p1inps, int p2inps)
 	{
 		//GD.Print($"Advancing frame to {Frame}");
-
-		AdvanceFrameAndHitstop();
-		FrameAdvancePlayers(p1inps, p2inps);
-		rhythmTrack.AdvanceFrame(Globals.frame);
 		
-
+		AdvanceFrameAndHitstop();
+		
+		FrameAdvancePlayers(p1inps, p2inps);
+		
 	}
 
 	private void AdvanceFrameAndHitstop()
@@ -351,23 +360,32 @@ public class GameStateObjectRedesign : Node
 	{
 		Player hostPlayer = P1;
 		Player joinPlayer = P2;
-
+		
+		
 		hostPlayer.FrameAdvanceInputs(hitStopRemaining, p1inp);
 		joinPlayer.FrameAdvanceInputs(hitStopRemaining, p2inp);
+		
+		
+		
 		hostPlayer.AlwaysFrameAdvance();
 		joinPlayer.AlwaysFrameAdvance();
+		
+		
 
 		if (hitStopRemaining < 1)
 		{
+			
 			hostPlayer.FrameAdvance();
 			joinPlayer.FrameAdvance();
-
+			
 			foreach (var entry in hadoukens)
 			{
 				entry.Value.FrameAdvance();
 			}
-
+			
 			CleanupHadoukens();
+			
+			
 			hostPlayer.CheckHit();
 			joinPlayer.CheckHit();
 			hostPlayer.CalculateHit();
@@ -378,7 +396,10 @@ public class GameStateObjectRedesign : Node
 			CheckFixCollision();
 			hostPlayer.RenderPosition();
 			joinPlayer.RenderPosition();
+			
+			
 		}
+		
 		
 		
 	}
@@ -427,7 +448,6 @@ public class GameStateObjectRedesign : Node
 				{
 					if ((P1above || P2Hit) && !(P1Hit))
 					{
-						Globals.Log("P1 is above or p2 is hit");
 						P1.internalPos = new Vector2(P1.internalPos.x - 1, P1.internalPos.y);
 						P2.internalPos = new Vector2(P2.internalPos.x + 1, P2.internalPos.y);
 					}
@@ -544,7 +564,8 @@ public class GameStateObjectRedesign : Node
 		{
 			mainScene.ConnectSnail((Snail)h);
 		}
-		Globals.Log($"Adding hadouken {h.Name} on frame {Globals.frame}");
+		if (Globals.logOn)
+			Globals.Log($"Adding hadouken {h.Name} on frame {Globals.frame}");
 	}
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)

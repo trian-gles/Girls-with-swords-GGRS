@@ -11,6 +11,7 @@ extents = Vector2( 10, 12 )
 scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
 level = 3
+startup = 7
 chEffect = 3
 speed = Vector2( 3, 0 )
 postHitSpeed = Vector2( 6, 0 )

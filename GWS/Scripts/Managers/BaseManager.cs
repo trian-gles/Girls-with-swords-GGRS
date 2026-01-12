@@ -133,9 +133,6 @@ public class BaseManager : Node2D
 	// ----------------
 	public virtual void OnNewGame()
 	{
-
-
-		Globals.Log($"Restarting game");
 			
 		currGame = gameScene;
 		MoveChild(charSelectScene, 0);

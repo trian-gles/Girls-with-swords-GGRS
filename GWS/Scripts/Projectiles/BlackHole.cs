@@ -140,7 +140,8 @@ public class BlackHole : HadoukenPart
 		particles2D.Emitting = false;
 		createdByPlayer.BlackHolesTotal--;
 		speed.y = 4;
-		Globals.Log($"Making black hole inactive for {createdByPlayer.Name}, setting black holes to = {createdByPlayer.BlackHolesTotal}");
+		if (Globals.logOn)
+			Globals.Log($"Making black hole inactive for {createdByPlayer.Name}, setting black holes to = {createdByPlayer.BlackHolesTotal}");
 
 	}
 

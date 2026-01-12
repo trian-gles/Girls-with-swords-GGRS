@@ -748,6 +748,7 @@ public class Player : Node2D
 
 		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
 		{ 
+			
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
@@ -770,7 +771,10 @@ public class Player : Node2D
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
 
+			
+			
 			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
+			
 			hitStopInputs.Clear();
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -819,7 +823,8 @@ public class Player : Node2D
 		if (altState.Contains(nextStateName))
 		{ nextStateName = charName + nextStateName; }
 		currentState = GetNode<State>("StateTree/" + nextStateName);
-		Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
+		if (Globals.logOn)
+			Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
 		if (currentState.animationName != "None")
 			animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
@@ -1001,6 +1006,7 @@ public class Player : Node2D
 	public virtual void FrameAdvance() 
 	{
 		
+			
 		Update();
 		if (counterStopFrames > 0)
 		{
@@ -1038,7 +1044,6 @@ public class Player : Node2D
 		if (invulnFrames > 0)
 		{
 			invulnFrames--;
-			Globals.Log($"lowering invuln frames to {invulnFrames}");
 		}
 			
 		if (grabInvulnFrames > 0)

@@ -58,6 +58,7 @@ extents = Vector2( 6, 6 )
 [node name="CellPhone" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 level = 3
+startup = 7
 modifiedHitStun = 20
 modifiedCounterHitStun = 33
 effect = 3

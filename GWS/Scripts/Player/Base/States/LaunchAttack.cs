@@ -64,9 +64,9 @@ public class LaunchAttack : AirAttack
 				if (exitOnLand)
 				{
 					if (owner.landingRecoveryFramesRemaining > 0)
-						EmitSignal(nameof(StateFinished), "LandingRecovery");
+						owner.ChangeState("LandingRecovery");
 					else
-						EmitSignal(nameof(StateFinished), "Landing");
+						owner.ChangeState("Landing");
 				}
 			}
 		}
@@ -91,6 +91,6 @@ public class LaunchAttack : AirAttack
 
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Fall");
+		owner.ChangeState("Fall");
 	}
 }

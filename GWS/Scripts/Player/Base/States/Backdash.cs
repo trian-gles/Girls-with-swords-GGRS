@@ -16,7 +16,7 @@ public class Backdash: Walk
 		frameCount = 0;
 		if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "PreJump");
+			owner.ChangeState("PreJump");
 		}
 
 		owner.velocity.y = -1 * hopForce;
@@ -40,7 +40,7 @@ public class Backdash: Walk
 		frameCount++;
 		if (frameCount == len)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 		}
 		ApplyGravity();
 	}

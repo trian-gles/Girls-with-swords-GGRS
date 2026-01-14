@@ -15,7 +15,7 @@ public class RandomMash : BehaviourState
 
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
-        distance = Math.Abs(state.P1State.position[0] - state.P2State.position[0]);
+        distance = Math.Abs(state.P1State.positionx - state.P2State.positionx);
         if (state.P2State.grounded)
         {
             if (distance < 2000 && state.P1State.grounded)
@@ -48,9 +48,9 @@ public class RandomMash : BehaviourState
                 if (state.P1State.grounded)
                 {
                     int kickInp = DoButtonPress(Globals.KICK);
-                    if (state.P1State.position[0] % 3 == 0)
+                    if (state.P1State.positionx % 3 == 0)
                         return kickInp;
-                    else if (state.P1State.position[0] % 3 == 1)
+                    else if (state.P1State.positionx % 3 == 1)
                         return 2 + kickInp;
                     else
                         return kickInp + GetForwardInput(state);
@@ -91,13 +91,13 @@ public class RandomMash : BehaviourState
         else if (AIBehaviour.mixupConfirmStates.Contains(state.P1State.currentState))
             return "Mixup";
 
-        if (Math.Abs(state.P1State.position[0] - state.P2State.position[0]) > 2000)
+        if (Math.Abs(state.P1State.positionx - state.P2State.positionx) > 2000)
         {
             if (random.Next(90) == 1)
                 return "Chase";
         }
 
-        if (Math.Abs(state.P1State.position[0] - state.P2State.position[0]) > 8000)
+        if (Math.Abs(state.P1State.positionx - state.P2State.positionx) > 8000)
         {
             var rand = random.Next(4);
             if (rand == 1)

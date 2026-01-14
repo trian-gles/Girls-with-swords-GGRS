@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 
 
@@ -15,6 +16,10 @@ public abstract class BaseGame : Node2D
 	protected Control HUDText;
 	protected Label inputText;
 	protected Label inputTextP2;
+
+	public BaseManager manager;
+	
+	
 
 	/// <summary>
 	/// Used only by local game modes
@@ -45,7 +50,7 @@ public abstract class BaseGame : Node2D
 			}
 			if (node.GetType().GetProperty("Visible") != null)
 			{
-				((CanvasItem)node).Visible = false;
+				node.Set("visible", false);
 			}
 		}
 	}
@@ -88,19 +93,29 @@ public abstract class BaseGame : Node2D
 	// ----------------
 	// Private methods
 	// ----------------
-
+	private BinaryFormatter formatter = new BinaryFormatter();
+	MemoryStream stream = new MemoryStream();
+	private long maxLen = 0;
+	
 	protected byte[] Serialize<T>(T data)
-	where T : struct
+		where T : struct
 	{
-        var json = JsonConvert.SerializeObject(data);
-        return Encoding.UTF8.GetBytes(json);
-    }
+		stream.Position = 0;
+		stream.SetLength(0);
+		formatter.Serialize(stream, data);
+		return stream.ToArray();
+	}
 	protected T Deserialize<T>(byte[] array)
 		where T : struct
 	{
-        var json = Encoding.UTF8.GetString(array);
-        return JsonConvert.DeserializeObject<T>(json);
+		stream.Position = 0;
+		stream.SetLength(0);
+		stream.Write(array, 0, array.Length);
+		stream.Position = 0;
+		return (T)formatter.Deserialize(stream);
 	}
+	
+	
 
 	protected bool CompareValues(int valueA, int valueB, string name)
 	{

@@ -183,7 +183,7 @@ public class Player : Node2D
 
 
 
-	public Dictionary<string, int> charSpecificData = new Dictionary<string, int>();
+	public int[] charSpecificData = new int[] {0, 0, 0, 0};
 	public PlayerState pState = new PlayerState();
 
 
@@ -205,14 +205,14 @@ public class Player : Node2D
 	/// Contains all vital data for saving gamestate
 	/// </summary>
 	[Serializable]
-	public class PlayerState
+	public unsafe struct PlayerState
 	{
 		public List<char[]> inBuf2 { get; set; }
 		public int inBuf2Timer { get; set; }
 		public List<char[]> hitStopInputs { get; set; }
 		public List<char> heldKeys { get; set; }
 		public string currentState { get; set; }
-		public Dictionary<string, int> stateData { get; set; }
+		public int[] stateData {get; set;}
 		public bool canDoubleJump { get; set; }
 		public bool canAirDash { get; set; }
 		public bool hitConnect { get; set; }
@@ -222,8 +222,10 @@ public class Player : Node2D
 		public bool flipH { get; set; }
 		public int health { get; set; }
 		public int meter { get; set; }
-		public int[] position { get; set; }
-		public int[] velocity { get; set; }
+		public int positionx {get; set;}
+		public int positiony {get; set;}
+		public int velocityx {get; set;}
+		public int velocityy {get; set;}
 
 		public int terminalVelocity { get; set; }
 		public bool facingRight { get; set; }
@@ -254,7 +256,7 @@ public class Player : Node2D
 		public bool hasBeenLaunched { get; set; }
 		public bool hasDoubleOrSuperJumped { get; set; }
 		public bool hasHurtboxActive { get; set; }
-		public Dictionary<string, int> charSpecificData { get; set; }
+		public int[] charSpecificData { get; set; }
 
 	}
 
@@ -325,6 +327,7 @@ public class Player : Node2D
 	private GFXHandler gfxHand;
 	private Label debugPos;
 	private Node2D electricity;
+	private Node stateTree;
 
 	[Export]
 	public PackedScene plusFrameTextScene;
@@ -337,6 +340,7 @@ public class Player : Node2D
 
 	public override void _Ready()
 	{
+		stateTree = GetNode<Node>("StateTree");
 		damageMod = new Fix64(damageModInt) / new Fix64(10);
 		mainSprite = GetNode<Sprite>("Sprite");
 		spriteAnim = GetNode<Godot.AnimationPlayer>("Sprite/SpriteModulations");
@@ -437,11 +441,15 @@ public class Player : Node2D
 		pState.health = health;
 		pState.meter = meter;
 		
-		pState.position = new int[] { (int)internalPos.x, (int)internalPos.y };
+		pState.positionx = (int)internalPos.x;
+		pState.positiony = (int)internalPos.y;
+		pState.velocityx = (int)velocity.x;
+		pState.velocityy = (int)velocity.y;
+		
 		pState.animationCursor = animationPlayer.cursor;
 		pState.terminalVelocity = terminalVelocity;
 		pState.animationName = animationPlayer.AssignedAnimation;
-		pState.velocity = new int[] { (int)velocity.x, (int)velocity.y };
+		
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
 		pState.combo = combo;
@@ -475,12 +483,12 @@ public class Player : Node2D
 		return pState;
 	}
 
-	protected virtual Dictionary<string, int> GetStateCharSpecific()
+	protected virtual int[] GetStateCharSpecific()
 	{
 		return charSpecificData;
 	}
 
-	protected virtual void SetStateCharSpecific(Dictionary<string, int> dict)
+	protected virtual void SetStateCharSpecific(int[] charSpecificData)
 	{
 
 	}
@@ -508,8 +516,8 @@ public class Player : Node2D
 		terminalVelocity = pState.terminalVelocity;
 		EmitSignal(nameof(HealthSet), Name, health);
 		EmitSignal(nameof(MeterChanged), Name, meter);
-		internalPos.x = pState.position[0];
-		internalPos.y = pState.position[1];
+		internalPos.x = pState.positionx;
+		internalPos.y = pState.positiony;
 		lastPressedDownFrame = pState.lastPressedDownFrame;
 		lastPressedDashFrame = pState.lastPressedDashFrame;
 		lastPressedUpFrame = pState.lastPressedUpFrame;
@@ -518,8 +526,8 @@ public class Player : Node2D
 		wasOTGHit = pState.wasOTGHit;
 		hasHurtboxActive = pState.hasHurtboxActive;
 		
-		velocity.x = pState.velocity[0];
-		velocity.y = pState.velocity[1];
+		velocity.x = pState.velocityx;
+		velocity.y = pState.velocityy;
 		facingRight = pState.facingRight;
 		grounded = pState.grounded;
 		combo = pState.combo;
@@ -595,7 +603,6 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 5;
 		public int inBuf2Timer = 5;
 		public List<char> heldKeys = new List<char>();
-		public List<char> rhythmHeldKeys = new List<char>();
 		public State playerState;
 		/// <summary>
 		/// Used for checking if a key has been pressed or released
@@ -605,7 +612,6 @@ public class Player : Node2D
 		public void Reset()
 		{
 			heldKeys.Clear();
-			rhythmHeldKeys.Clear();
 			hitStopInputs.Clear();
 			inBuf2.Clear();
 			inBuf2Timer = inBuf2TimerMax;
@@ -748,7 +754,6 @@ public class Player : Node2D
 
 		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
 		{ 
-			
 			List<char[]> unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
@@ -821,8 +826,8 @@ public class Player : Node2D
 		hasHurtboxActive = false;
 		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
-		{ nextStateName = charName + nextStateName; }
-		currentState = GetNode<State>("StateTree/" + nextStateName);
+			nextStateName = charName + nextStateName; // TODO : FIX
+		currentState = stateTree.GetNode<State>(nextStateName);
 		if (Globals.logOn)
 			Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
 		if (currentState.animationName != "None")
@@ -902,11 +907,6 @@ public class Player : Node2D
 				key = '6';
 		}
 		return (inputHandler.heldKeys.Contains(key));
-	}
-
-	public bool CheckRhythmHeldKey(char key)
-	{
-		return (inputHandler.rhythmHeldKeys.Contains(key));
 	}
 
 	public bool CheckLastBufInput(char[] key)
@@ -1005,8 +1005,6 @@ public class Player : Node2D
 	/// </summary>
 	public virtual void FrameAdvance() 
 	{
-		
-			
 		Update();
 		if (counterStopFrames > 0)
 		{
@@ -1022,6 +1020,7 @@ public class Player : Node2D
 		}		
 
 		animationPlayer.FrameAdvance();
+		
 
 		if (wasHurtboxPreviouslyActive) // here we test to see if we have swtiched from active hurtboxes to inactive hurboxes
 		{
@@ -1039,8 +1038,12 @@ public class Player : Node2D
 		
 		if (!facingRight)
 			sprite.RotationDegrees *= -1;
+		
 		currentState.FrameAdvance();
+		
 		CharSpecificFrameAdvance();
+		
+		
 		if (invulnFrames > 0)
 		{
 			invulnFrames--;
@@ -1074,7 +1077,6 @@ public class Player : Node2D
 		AdjustHitpush(); // make sure this is placed in the right spot...
 		
 		MoveSlideDeterministicOne();
-		
 	}
 
 	private void GFXSpecialFrameAdvance()
@@ -1199,7 +1201,7 @@ public class Player : Node2D
 	/// </summary>
 	public void RenderPosition()
 	{
-		debugPos.Text = $"{internalPos.x}, {internalPos.y}";
+		//debugPos.Text = $"{internalPos.x}, {internalPos.y}";
 		Vector2 tempPos = Position;
 		tempPos.x = (int)Math.Floor(internalPos.x / 100);
 		tempPos.y = (int)Math.Floor(internalPos.y / 100);

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using static GameScene;
 
 class SyncTestManager : StateManager
@@ -122,10 +123,10 @@ class SyncTestManager : StateManager
 
 
 	public FixedSizedQueue<byte[]> serializedStates;
-	public FixedSizedQueue<int[]> pastInputs;
+	public FixedSizedQueue<CombinedInputs> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private bool randomInputs = true;
+	private bool randomInputs = false;
 	private Random random;
 
 	[Export]
@@ -137,7 +138,7 @@ class SyncTestManager : StateManager
 		base._Ready();
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
-		pastInputs = new FixedSizedQueue<int[]>(DEPTH + 1);
+		pastInputs = new FixedSizedQueue<CombinedInputs>(DEPTH + 1);
 		Globals.logOn = false;
 
 		
@@ -149,12 +150,14 @@ class SyncTestManager : StateManager
 			
 
 	}
-
+	long prevMem = 0;
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
 		long mem = GC.GetTotalMemory(false); // allocated managed memory
-		GD.Print($"DELTA MEM: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+		if (mem > prevMem)
+			GD.Print(mem / 1024);
+		prevMem = mem;
 		
 	}
 
@@ -164,58 +167,16 @@ class SyncTestManager : StateManager
 			HandleSpecialInputs(@event);
 	}
 
-	private int[] GetTrainingModeInputs()
-	{
-		int p1Inputs;
-		int p2Inputs;
-		int playerInputs = GetInputs("");
-		int otherInputs = 0;
-
-		if (recordingInputs)
-			recordedInputs.Add(playerInputs);
-
-		if (playbackInputs)
-		{
-			if (inputHead < recordedInputs.Count)
-			{
-				otherInputs = recordedInputs[inputHead];
-			}
-			else
-			{
-				StopInputPlayback();
-			}
-		}
-
-
-		if (flippedPlayers)
-		{
-			p1Inputs = otherInputs;
-			p2Inputs = playerInputs;
-		}
-		else
-		{
-			p1Inputs = playerInputs;
-			p2Inputs = otherInputs;
-		}
-
-		if (recordingInputs || playbackInputs)
-			inputHead++;
-
-		return new int[] { p1Inputs, p2Inputs };
-	}
-
 	public override void _PhysicsProcess(float _delta)
 	{
 		RunFrameLoop();
 		if (doubleSpeed)
 			RunFrameLoop();
 	}
-
+	
 	public void RunFrameLoop()
 	{
-		
-
-		int[] combinedInps;
+		CombinedInputs combinedInps = new CombinedInputs();
 		Globals.frame++;
 		Globals.rollbackFrame = 0;
 		if (readyForChange && --waitBeforeChangeFrames < 0)
@@ -228,32 +189,31 @@ class SyncTestManager : StateManager
 		if (currGame.AcceptingInputs())
 		{
 			if (matchFilename != "" && currGame.Name == "GameScene")
-				combinedInps = GetMatchInputs();
+				GetMatchInputs();
 			else if (randomInputs)
-				combinedInps = GetRandomInputs();
-			else if (trainingMode)
-				combinedInps = GetTrainingModeInputs();
+			{
+				combinedInps.SetInputs(GetInputs(""), random.Next(255));
+			}
 			else
-				combinedInps = new int[] { GetInputs(""), GetInputs("b") };
+				combinedInps.SetInputs(GetInputs(""), GetInputs("b"));
 		}
 		else
-			combinedInps = new int[] { 0, 0 };
+			combinedInps.SetInputs(0, 0);
 
 		if (Globals.logOn)
 			Globals.Log($"Sync test on frame {Globals.frame}");
-		
-		
-		currGame.GGRSAdvanceFrame(combinedInps[0], combinedInps[1]);
 
+		long startmem = Globals.TestGC1();
+		currGame.GGRSAdvanceFrame(combinedInps.p1Inps, combinedInps.p2Inps);
+		Globals.TestGC2(startmem, "Initial game frame");
 		
-		
-		
+		startmem = Globals.TestGC1();
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
-		
 		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
+		Globals.TestGC2(startmem, "Saving");
 		
 
 		if (!serializedStates.Full()) // we haven't accrued enough states to rollback
@@ -263,20 +223,29 @@ class SyncTestManager : StateManager
 		{
 			return;
 		}
+		startmem = Globals.TestGC1();
 		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
+		Globals.TestGC2(startmem, "Loading");
+		
 		Globals.frame = Globals.frame - (DEPTH);
+		startmem = Globals.TestGC1();
 		for (int i = 1; i < DEPTH + 1; i++)
 		{
-			int[] tempInputs = pastInputs[i];
+			CombinedInputs tempInputs = pastInputs[i];
 			Globals.frame++;
 			Globals.rollbackFrame = i;
-			currGame.GGRSAdvanceFrame(tempInputs[0], tempInputs[1]);
+			currGame.GGRSAdvanceFrame(tempInputs.p1Inps, tempInputs.p2Inps);
 		}
-
+		Globals.TestGC2(startmem, "Resimulation");
+		
+		//if (Globals.frame == 1200)
+		//	gameScene.WriteLogs();
+		startmem = Globals.TestGC1();
 		if (!currGame.CompareStates(serializedGamestate) && !broken){
 			gameScene.WriteLogs();
 			broken = true;
 		}
+		Globals.TestGC2(startmem, "Comparison");
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)
@@ -287,12 +256,6 @@ class SyncTestManager : StateManager
 
 	public override void OnGameWon(string winner, int character)
 	{
-		GD.Print("Game won");
 		OnReselectChar();
-	}
-
-	private int[] GetRandomInputs()
-	{
-		return new[] { GetInputs(""), random.Next(255) };
 	}
 }

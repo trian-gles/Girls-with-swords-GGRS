@@ -28,7 +28,7 @@ public class Kick : GroundAttack
     {
         base.Enter();
 		if ((owner.CheckHeldKey('6') && owner.facingRight) || (owner.CheckHeldKey('4') && !owner.facingRight))
-			EmitSignal(nameof(StateFinished), "6K");
+			owner.ChangeState("6K");
 	}
 }
 

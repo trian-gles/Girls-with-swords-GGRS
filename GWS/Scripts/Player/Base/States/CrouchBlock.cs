@@ -15,20 +15,20 @@ public class CrouchBlock : Block
 		if (stunRemaining == 0)
 		{
 			if (owner.CheckHeldKey('2'))
-				EmitSignal(nameof(StateFinished), "Crouch");
+				owner.ChangeState("Crouch");
 			else
-				EmitSignal(nameof(StateFinished), "Idle");
+				owner.ChangeState("Idle");
 
 		}
 
         if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
         {
-            EmitSignal(nameof(StateFinished), "GuardCancel");
+            owner.ChangeState("GuardCancel");
         }
     }
 
     public override void EnterShieldState()
     {
-        EmitSignal(nameof(StateFinished), "CrouchShield");
+        owner.ChangeState("CrouchShield");
     }
 }

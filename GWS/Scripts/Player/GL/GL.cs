@@ -78,26 +78,27 @@ public class GL : Player
 			PoweredBlackHoleFramesRemaining--;
 	}
 
-	protected override Dictionary<string, int> GetStateCharSpecific()
+	private const int BLACKHOLEFRAMEINDEX = 0;
+	private const int BLACKHOLETOTALINDEX = 1;
+	private const int STAMINAINDEX = 2;
+	protected override int[] GetStateCharSpecific()
 	{
-		charSpecificData["BlackHoleFrames"] = PoweredBlackHoleFramesRemaining;
-		charSpecificData["BlackHolesTotal"] = BlackHolesTotal;
-		charSpecificData["Stamina"] = Stamina;
+		charSpecificData[BLACKHOLEFRAMEINDEX] = PoweredBlackHoleFramesRemaining;
+		charSpecificData[BLACKHOLETOTALINDEX] = BlackHolesTotal;
+		charSpecificData[STAMINAINDEX] = Stamina;
 		return charSpecificData;
 	}
 
-	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
+	protected override void SetStateCharSpecific(int[] newCharSpecificData)
 	{
-		if (dict != null)
+		if (newCharSpecificData != null)
 		{
-			PoweredBlackHoleFramesRemaining = dict["BlackHoleFrames"];
-			BlackHolesTotal = dict["BlackHolesTotal"];
-			Stamina = dict["Stamina"];
+			PoweredBlackHoleFramesRemaining = newCharSpecificData[BLACKHOLEFRAMEINDEX];
+			BlackHolesTotal = newCharSpecificData[BLACKHOLETOTALINDEX];
+			Stamina = newCharSpecificData[STAMINAINDEX];
 			if (Globals.logOn)
 				Globals.Log($"Loading state for {Name}, black holes is now = {BlackHolesTotal}");
-
-		}
-			
+		}	
 	}
 
 	public override void Reset() 

@@ -44,7 +44,7 @@ public class CharSelectScene : BaseGame
 	private int selectStagePlayer = 0;
 	private int p1Color;
 	private int p2Color;
-	private int[] lastInputs;
+	private BaseManager.CombinedInputs lastInputs;
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
 
@@ -63,7 +63,7 @@ public class CharSelectScene : BaseGame
 
 
 	[Serializable]
-	private struct GameState
+	private unsafe struct GameState
 	{
 		public int p1Pos { get; set; }
 		public int p2Pos { get; set; }
@@ -73,7 +73,7 @@ public class CharSelectScene : BaseGame
 		public int selectStagePlayer { get; set; }
 		public int p1Color { get; set; }
 		public int p2Color	{ get; set; }
-		public int[] lastFrameInputs { get; set; }
+		public BaseManager.CombinedInputs lastFrameInputs { get; set; }
 		public int extraFrames { get; set; }
 		public int selectedStage { get; set; }
 		public int charSelectFrame { get; set; }
@@ -98,7 +98,7 @@ public class CharSelectScene : BaseGame
 		HUDText = GetNode<Control>("CanvasLayer/DebugText");
 		base._Ready();
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
-		lastInputs = new int[2] { 0, 0 };
+		lastInputs.SetInputs(0, 0);
 		P1Cursor = GetNode<Sprite>("CanvasLayer/P1Cursor");
 		P2Cursor = GetNode<Sprite>("CanvasLayer/P2Cursor");
 
@@ -196,6 +196,8 @@ public class CharSelectScene : BaseGame
 
 		//		CheckOverlap();
 	}
+	
+	private BaseManager.CombinedInputs combinedInputs;
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
@@ -203,13 +205,16 @@ public class CharSelectScene : BaseGame
 		if (charSelectFrame < 120)
 			return;
 
-		int[] combinedInputs = new int[] { p1Inps, p2Inps };
+		combinedInputs = new BaseManager.CombinedInputs
+		{
+			p1Inps = p1Inps,
+			p2Inps = p2Inps
+		};
 
 		if (timeStatus == TimeStatus.SELECT) SelectUpdate(combinedInputs);
 		else if (timeStatus == TimeStatus.FAKEEND) FakeEndUpdate();
 		else if (timeStatus == TimeStatus.TRUEEND) TrueEndUpdate();
-
-		lastInputs = combinedInputs;
+		lastInputs.SetInputs(p1Inps, p2Inps);
 	}
 
 	
@@ -366,12 +371,12 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	private void SelectUpdate(int[] combinedInputs)
+	private void SelectUpdate(BaseManager.CombinedInputs combinedInputs)
 	{
 		for (int i = 0; i <= 1; i++)
 		{
-			int inputs = combinedInputs[i];
-			int lastFrameInputs = lastInputs[i];
+			int inputs = combinedInputs.GetInputs(i);
+			int lastFrameInputs = lastInputs.GetInputs(i);
 
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
 			{
@@ -443,8 +448,7 @@ public class CharSelectScene : BaseGame
 		if (charSelectFrame == finishFrame)
 		{
 			StopMusic();
-			EmitSignal("CharacterSelected", p1Pos, p2Pos,
-					p1Color, p2Color, selectedStage);
+			manager.OnCharactersSelected(p1Pos, p2Pos, p1Color, p2Color, selectedStage);
 		}
 	}
 
@@ -479,15 +483,16 @@ public class CharSelectScene : BaseGame
 	public void Reload()
 	{
 		ShowAll();
-		lastInputs = new[] { 16 + 32 + 64, 16 + 32 + 64 }; // prevent held down keys from immediately selecting
+		lastInputs.SetInputs(16 + 32 + 64, 16 + 32 + 64); // prevent held down keys from immediately selecting
 		Reset();
 		HighlightChar(0, p1Pos);
 
 		HighlightChar(1, p2Pos);
-
-		foreach (Sprite bkg in bkgImages)
+		
+		for (int i = 0; i < bkgImages.Count; i++)
 		{
-			bkg.Visible = false;
+			Sprite bkgImage = (Sprite)bkgImages[i];
+			bkgImage.Visible = false;
 		}
 
 		((Sprite)bkgImages[selectedStage]).Visible = true;

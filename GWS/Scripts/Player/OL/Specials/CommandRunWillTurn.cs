@@ -13,7 +13,7 @@ public class CommandRunWillTurn : CommandRunBase
 		base.FrameAdvance();
 		if (frameCount == checkTurnFrame)
 		{
-			EmitSignal(nameof(StateFinished), "CommandRunTurn");
+			owner.ChangeState("CommandRunTurn");
 		}
 	}
 }

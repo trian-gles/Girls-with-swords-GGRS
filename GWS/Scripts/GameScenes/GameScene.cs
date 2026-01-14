@@ -1,9 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using static GameScene;
 
 
 /// <summary>
@@ -120,9 +117,6 @@ public class GameScene : BaseGame
 		P2CORNEREDLEFT,
 		P2CORNEREDRIGHT
 	}
-
-	private Dictionary<string, PackedScene> characterMap = new Dictionary<string, PackedScene>();
-
 	public override void _Ready()
 	{
 		var splashText = GetNode<Control>("HUD/SplashText");
@@ -428,7 +422,8 @@ public class GameScene : BaseGame
 			else
 			{
 				P1Combo.Call("off");
-				EmitSignal("ComboFinished", "P1");
+				if (Globals.mode == Globals.Mode.TRAINING)
+					EmitSignal("ComboFinished", "P1");
 			}
 		}
 
@@ -441,7 +436,8 @@ public class GameScene : BaseGame
 			else
 			{
 				P2Combo.Call("off");
-				EmitSignal("ComboFinished", "P2");
+				if (Globals.mode == Globals.Mode.TRAINING)
+					EmitSignal("ComboFinished", "P1");
 			}
 		}
 	}

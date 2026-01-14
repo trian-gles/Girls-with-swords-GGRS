@@ -66,25 +66,30 @@ public class SL : Player
 		else
 			ChangeState("SnailRide");
 	}
-
-	protected override Dictionary<string, int> GetStateCharSpecific()
+	
+	private const int LEFTCORNERSNAILINDEX = 0;
+	private const int RIGHTCORNERSNAILINDEX = 1;
+	private const int LEFTCORNERSNAILARRIVEDINDEX = 2;
+	private const int RIGHTCORNERSNAILARRIVEDINDEX = 3;
+	protected override int[] GetStateCharSpecific()
 	{
-		charSpecificData["leftCornerSnail"] = Convert.ToInt32(leftCornerSnail);
-		charSpecificData["rightCornerSnail"] = Convert.ToInt32(rightCornerSnail);
-		charSpecificData["leftCornerSnailArrived"] = Convert.ToInt32(leftCornerSnailArrived);
-		charSpecificData["rightCornerSnailArrived"] = Convert.ToInt32(rightCornerSnailArrived);
+		charSpecificData[LEFTCORNERSNAILINDEX] = leftCornerSnail ? 1 : 0;
+		charSpecificData[RIGHTCORNERSNAILINDEX] = rightCornerSnail ? 1 : 0;
+		charSpecificData[LEFTCORNERSNAILARRIVEDINDEX] = leftCornerSnailArrived ? 1 : 0;
+		charSpecificData[RIGHTCORNERSNAILARRIVEDINDEX] = rightCornerSnailArrived ? 1 : 0;
 		return charSpecificData;
 	}
 
-	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
+	protected override void SetStateCharSpecific(int[] newCharSpecificData)
 	{
-		if (dict != null)
+		if (newCharSpecificData != null)
 		{
-			leftCornerSnail = dict["leftCornerSnail"] == 1;
-			rightCornerSnail = dict["rightCornerSnail"] == 1;
-			leftCornerSnailArrived = dict["leftCornerSnail"] == 1;
-			rightCornerSnailArrived = dict["rightCornerSnail"] == 1;
-		}
+			leftCornerSnail = Convert.ToBoolean(newCharSpecificData[LEFTCORNERSNAILINDEX]);
+			rightCornerSnail = Convert.ToBoolean(newCharSpecificData[RIGHTCORNERSNAILINDEX]);
+			leftCornerSnailArrived = Convert.ToBoolean(newCharSpecificData[LEFTCORNERSNAILARRIVEDINDEX]);
+			rightCornerSnailArrived = Convert.ToBoolean(newCharSpecificData[RIGHTCORNERSNAILARRIVEDINDEX]);
+			
+		}	
 	}
 
 	protected override void PostHitCall()

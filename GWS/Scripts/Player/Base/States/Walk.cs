@@ -51,16 +51,16 @@ public class Walk : MoveState
 		base.Enter();
 		if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "PreJump");
+			owner.ChangeState("PreJump");
 		}
 
-		if (owner.CheckHeldKey('c') && owner.CheckBuffer(new[] {'c', 'p'}))
+		if (owner.CheckHeldKey('c') && owner.CheckBuffer(Globals.SLASHPRESS))
         {
 			if ((owner.velocity.x > 0) == owner.facingRight) {
 				owner.velocity.x = owner.speed; 
 				if (!owner.facingRight) 
 					owner.velocity.x *= -1;
-				EmitSignal(nameof(StateFinished), "PreRun");
+				owner.ChangeState("PreRun");
 
 			}
 

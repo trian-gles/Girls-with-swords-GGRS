@@ -13,7 +13,6 @@ public class GameStateObjectRedesign : Node
 {
 	public Player P1;
 	public Player P2;
-	private RhythmTrack rhythmTrack;
 	private GameScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
 
 	[Signal]
@@ -41,7 +40,7 @@ public class GameStateObjectRedesign : Node
 		public int frame { get; set; }
 		public Player.PlayerState P1State { get; set; }
 		public Player.PlayerState P2State { get; set; }
-
+		public int totalHadoukens {get; set;}
 		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
 		public int hitStopRemaining { get; set; }
 
@@ -68,7 +67,6 @@ public class GameStateObjectRedesign : Node
 		this.P1 = P1;
 		this.P2 = P2;
 		
-		rhythmTrack = (RhythmTrack)mainScene.GetNode("HUD/RhythmTrack");
 
 		this.mainScene = mainScene;
 		this.hosting = hosting;
@@ -77,9 +75,6 @@ public class GameStateObjectRedesign : Node
 
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
-		
-		P1.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
-		P2.Connect("RhythmHitTry", this, nameof(OnRhythmHitTry));
 
 		P1.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
 		P2.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
@@ -173,13 +168,13 @@ public class GameStateObjectRedesign : Node
 		{
 			errMsg = AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
 			errMsg = AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
-			errMsg = AddError(errMsg, playerNames[i] + " xPos", pStates[0].position[0], pStates[1].position[0]);
-			errMsg = AddError(errMsg, playerNames[i] + " yPos", pStates[0].position[1], pStates[1].position[1]);
+			errMsg = AddError(errMsg, playerNames[i] + " xPos", pStates[0].positionx, pStates[1].positionx);
+			errMsg = AddError(errMsg, playerNames[i] + " yPos", pStates[0].positiony, pStates[1].positiony);
 			errMsg = AddError(errMsg, playerNames[i] + " currState", pStates[0].currentState, pStates[1].currentState);
 			errMsg = AddError(errMsg, playerNames[i] + " hitConnect", pStates[0].hitConnect, pStates[1].hitConnect);
 			errMsg = AddError(errMsg, playerNames[i] + " stateFrame", pStates[0].frameCount, pStates[1].frameCount);
-			errMsg = AddError(errMsg, playerNames[i] + " xvel", pStates[0].velocity[0], pStates[1].velocity[0]);
-			errMsg = AddError(errMsg, playerNames[i] + " yvel", pStates[0].velocity[1], pStates[1].velocity[1]);
+			errMsg = AddError(errMsg, playerNames[i] + " xvel", pStates[0].velocityx, pStates[1].velocityx);
+			errMsg = AddError(errMsg, playerNames[i] + " yvel", pStates[0].velocityy, pStates[1].velocityy);
 			errMsg = AddError(errMsg, playerNames[i] + " health", pStates[0].health, pStates[1].health);
 			errMsg = AddError(errMsg, playerNames[i] + " proration", pStates[0].proration, pStates[1].proration);
 			errMsg = AddError(errMsg, playerNames[i] + " stun remaining", pStates[0].stunRemaining, pStates[1].stunRemaining);
@@ -361,7 +356,6 @@ public class GameStateObjectRedesign : Node
 		Player hostPlayer = P1;
 		Player joinPlayer = P2;
 		
-		
 		hostPlayer.FrameAdvanceInputs(hitStopRemaining, p1inp);
 		joinPlayer.FrameAdvanceInputs(hitStopRemaining, p2inp);
 		
@@ -378,12 +372,15 @@ public class GameStateObjectRedesign : Node
 			hostPlayer.FrameAdvance();
 			joinPlayer.FrameAdvance();
 			
+		
+			
 			foreach (var entry in hadoukens)
 			{
 				entry.Value.FrameAdvance();
 			}
 			
 			CleanupHadoukens();
+			
 			
 			
 			hostPlayer.CheckHit();
@@ -399,8 +396,6 @@ public class GameStateObjectRedesign : Node
 			
 			
 		}
-		
-		
 		
 	}
 
@@ -497,38 +492,6 @@ public class GameStateObjectRedesign : Node
 		else
 			P1.counterStopFrames = 30;
 		
-	}
-	
-	public void OnRhythmHitTry(string playerName){
-		if (rhythmTrack.TryHit(playerName)){
-			if (playerName == "P1")
-			{
-				P1.ConfirmRhythmHit();
-				mainScene.P1Rhythm.Text = "SWINGIN";
-				mainScene.P1Rhythm.Call("display", Globals.frame);
-			}
-			else
-			{
-				P2.ConfirmRhythmHit();
-				mainScene.P2Rhythm.Text = "SWINGIN";
-				mainScene.P2Rhythm.Call("display", Globals.frame);
-			}
-		}
-		else
-		{
-			if (playerName == "P1")
-			{
-				P1.RhythmHitFailure();
-				mainScene.P1Rhythm.Text = "JIVE";
-				mainScene.P1Rhythm.Call("display", Globals.frame);
-			}
-			else
-			{
-				P2.RhythmHitFailure();
-				mainScene.P2Rhythm.Text = "JIVE";
-				mainScene.P2Rhythm.Call("display", Globals.frame);
-			}
-		}
 	}
 
 	public void OnLevelUp()

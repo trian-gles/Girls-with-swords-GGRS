@@ -21,9 +21,9 @@ public class Jive : Stagger
     public override void AnimationFinished()
     {
         if (!owner.grounded)
-            EmitSignal(nameof(StateFinished), "Fall");
+            owner.ChangeState("Fall");
         else
-            EmitSignal(nameof(StateFinished), "Idle");
+            owner.ChangeState("Idle");
     }
 }
 

@@ -41,11 +41,11 @@ public class Tech : Fall
 	{
 		if (frameCount == 0 && !owner.grounded)
 		{
-			if (inputArr.SequenceEqual(new char[] { '6', 'p' }))
+			if (inputArr.SequenceEqual(Globals.RIGHTPRESS))
 			{
 				owner.velocity = techVector;
 			}
-			else if (inputArr.SequenceEqual(new char[] { '4', 'p' }))
+			else if (inputArr.SequenceEqual(Globals.LEFTPRESS))
 			{
 				owner.velocity.x = -techVector.x;
 				owner.velocity.y = techVector.y;

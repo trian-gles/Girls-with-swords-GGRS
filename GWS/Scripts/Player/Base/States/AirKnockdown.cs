@@ -20,9 +20,9 @@ public class AirKnockdown : Float
 		if (owner.grounded)
 		{
 			if (owner.health > 0)
-				EmitSignal(nameof(StateFinished), "Knockdown");
+				owner.ChangeState("Knockdown");
 			else
-				EmitSignal(nameof(StateFinished), "Down");
+				owner.ChangeState("Down");
 				owner.ResetComboAndProration();
 		}
 		ApplyGravity();

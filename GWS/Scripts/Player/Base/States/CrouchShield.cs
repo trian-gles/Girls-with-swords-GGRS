@@ -10,14 +10,14 @@ public class CrouchShield : Shield
     protected override void ExitShield()
     {
         if (owner.CheckHeldKey('2'))
-            EmitSignal(nameof(StateFinished), "Crouch");
+            owner.ChangeState("Crouch");
         else
-            EmitSignal(nameof(StateFinished), "Idle");
+            owner.ChangeState("Idle");
     }
 
     protected override void CheckShieldSwitch()
     {
         if (!owner.CheckHeldKey('2'))
-            EmitSignal(nameof(StateFinished), "Shield");
+            owner.ChangeState("Shield");
     }
 }

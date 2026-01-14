@@ -12,7 +12,7 @@ public class Teleport : BaseAttack
         {
             if (((HL)owner).hatted)
             {
-                EmitSignal(nameof(StateFinished), "Idle");
+                owner.ChangeState("Idle");
             }
             else
             {
@@ -26,7 +26,7 @@ public class Teleport : BaseAttack
         owner.CheckTurnAround();
         if (frameCount == teleFrame + 1)
         {
-            EmitSignal(nameof(StateFinished), "Fall");
+            owner.ChangeState("Fall");
         }
         base.FrameAdvance();
     }

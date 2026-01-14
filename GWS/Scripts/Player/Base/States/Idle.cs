@@ -50,14 +50,14 @@ public class Idle : State
 		{
 			if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
 			{
-                EmitSignal(nameof(StateFinished), "Shield");
+                owner.ChangeState("Shield");
                 return;
             }
                 
         }
 		if (owner.CheckHeldKey('2'))
 		{
-			EmitSignal(nameof(StateFinished), "Crouch");
+			owner.ChangeState("Crouch");
 			return;
 		}
 
@@ -65,20 +65,20 @@ public class Idle : State
 		{
 			owner.velocity.x = owner.speed;
 			
-			EmitSignal(nameof(StateFinished), "Walk");
+			owner.ChangeState("Walk");
 			return;
 		}
 
 		else if (owner.CheckHeldKey('4'))
 		{
 			owner.velocity.x = -owner.speed;
-			EmitSignal(nameof(StateFinished), "Walk");
+			owner.ChangeState("Walk");
 			return;
 		}
 
 		else if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "PreJump");
+			owner.ChangeState("PreJump");
 			return;
 		}
 	}

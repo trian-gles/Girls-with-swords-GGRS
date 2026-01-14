@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class AnimationPlayer : Godot.AnimationPlayer
 {
@@ -67,13 +66,6 @@ public class AnimationPlayer : Godot.AnimationPlayer
 		else
 		{
 			EmitSignal(nameof(AnimationFinished), CurrentAnimation);
-		}
-
-
-
-		if (IsPlaying())
-		{
-			GD.Print("This SHOULD NOT BE CALLED");
 		}
 	}
 

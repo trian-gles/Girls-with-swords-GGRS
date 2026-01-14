@@ -75,11 +75,11 @@ public abstract class AirAttack : BaseAttack
 
 	//	if (!knockdown)
 	//	{
-	//		EmitSignal(nameof(StateFinished), "CounterFloat");
+	//		owner.ChangeState("CounterFloat");
 	//	}
 	//	else
 	//	{
-	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
+	//		owner.ChangeState("AirKnockdown");
 	//	}
 	//}
 
@@ -89,9 +89,9 @@ public abstract class AirAttack : BaseAttack
 		if (owner.grounded && frameCount > 1)
 		{
 			if (owner.landingRecoveryFramesRemaining > 0)
-				EmitSignal(nameof(StateFinished), "LandingRecovery");
+				owner.ChangeState("LandingRecovery");
 			else
-				EmitSignal(nameof(StateFinished), "Landing");
+				owner.ChangeState("Landing");
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))

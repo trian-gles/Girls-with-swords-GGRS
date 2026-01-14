@@ -58,11 +58,11 @@ public class HitState : State
 		if (stunRemaining <= 0)
 		{
 			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-				EmitSignal(nameof(StateFinished), "Tech");
+				owner.ChangeState("Tech");
 			else if (owner.wasOTGHit)
 			{
 				owner.invulnFrames = 8;
-				EmitSignal(nameof(StateFinished), "Tech");
+				owner.ChangeState("Tech");
 			}
 		}
 	}

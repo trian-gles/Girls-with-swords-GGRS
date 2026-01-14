@@ -32,7 +32,7 @@ public class Landing : State
 	{
 		base.FrameAdvance();
 		if (frameCount == len)
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

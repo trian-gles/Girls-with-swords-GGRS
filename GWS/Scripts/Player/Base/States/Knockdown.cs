@@ -23,7 +23,7 @@ public class Knockdown : HitState
 
         owner.ResetComboAndProration();
         owner.invulnFrames = 2;
-        EmitSignal(nameof(StateFinished), "Idle");
+        owner.ChangeState("Idle");
     }
 
     public override void ReceiveHit(Globals.AttackDetails details)

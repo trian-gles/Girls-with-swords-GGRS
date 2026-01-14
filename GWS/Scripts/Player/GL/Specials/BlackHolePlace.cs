@@ -27,7 +27,7 @@ public class BlackHolePlace : Hadouken
             {
                 if (Globals.logOn)
                     Globals.Log($"Too many black holes for {owner.Name}, total black holes = {gl.BlackHolesTotal}");
-                EmitSignal(nameof(StateFinished), "Fall");
+                owner.ChangeState("Fall");
                 return;
             }
 

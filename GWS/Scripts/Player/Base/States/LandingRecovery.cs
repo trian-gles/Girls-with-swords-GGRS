@@ -27,7 +27,7 @@ public class LandingRecovery : State
 	{
 		base.FrameAdvance();
 		if (owner.landingRecoveryFramesRemaining-- == 0)
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

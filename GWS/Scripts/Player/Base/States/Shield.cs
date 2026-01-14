@@ -56,18 +56,18 @@ public class Shield : HitState
 	{
 		if (owner.grounded)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 		}
 		else
 		{
-			EmitSignal(nameof(StateFinished), "Fall");
+			owner.ChangeState("Fall");
 		}
 	}
 
 	protected virtual void CheckShieldSwitch()
 	{
 		if (owner.CheckHeldKey('2') && owner.grounded)
-			EmitSignal(nameof(StateFinished), "CrouchShield");
+			owner.ChangeState("CrouchShield");
 	}
 
 
@@ -125,7 +125,7 @@ public class Shield : HitState
 		else if (stateName == "CrouchBlock")
 			stateName = "CrouchShield";
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "shield", owner.OtherPlayerOnLeft());
-		EmitSignal(nameof(StateFinished), stateName);
+		owner.ChangeState(stateName);
 		owner.EmitSignal("HitConfirm", blockStop);
 	}
 }

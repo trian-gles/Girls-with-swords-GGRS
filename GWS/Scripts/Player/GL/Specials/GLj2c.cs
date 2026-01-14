@@ -43,11 +43,11 @@ public class GLj2c : BaseAttack
 
 	//	if (!knockdown)
 	//	{
-	//		EmitSignal(nameof(StateFinished), "CounterFloat");
+	//		owner.ChangeState("CounterFloat");
 	//	}
 	//	else
 	//	{
-	//		EmitSignal(nameof(StateFinished), "AirKnockdown");
+	//		owner.ChangeState("AirKnockdown");
 	//	}
 	//}
 
@@ -66,6 +66,6 @@ public class GLj2c : BaseAttack
 
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Fall");
+		owner.ChangeState("Fall");
 	}
 }

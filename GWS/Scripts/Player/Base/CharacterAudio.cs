@@ -84,14 +84,16 @@ public class CharacterAudio : Node
 			_players.Add((AudioStreamPlayer)child);
 		}
 	}
+
+	private string[] staggerOptions = new string[] { "Stagger1", "Stagger2", "Stagger3", "Stagger4" };
 	public void PlaySound(string name)
 	{
 
 		if (Globals.DISABLESFX)
 			return;
-			
+
 		if (name == "Stagger")
-			name = name + random.Next(1, 4).ToString();
+			name = staggerOptions[random.Next(1, 4)];
 
 		if (!soundDict.ContainsKey(name))
 			return;

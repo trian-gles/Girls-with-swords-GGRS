@@ -16,7 +16,7 @@ public class SL6S : SixK
         base.FrameAdvance();
         if (frameCount == holdFrame && owner.CheckHeldKey(holdKey[0]))
         {
-            EmitSignal(nameof(StateFinished), holdState);
+            owner.ChangeState(holdState);
         }
     }
 }

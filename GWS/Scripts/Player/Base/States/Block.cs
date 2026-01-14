@@ -25,7 +25,7 @@ public class Block : HitState
 
 	public virtual void EnterShieldState()
 	{
-        EmitSignal(nameof(StateFinished), "Shield");
+        owner.ChangeState("Shield");
     }
 	public override void FrameAdvance() // Note that CrouchBlock overrides this!!!!!
 	{
@@ -36,18 +36,18 @@ public class Block : HitState
 		{
 			if (owner.grounded)
 			{
-				EmitSignal(nameof(StateFinished), "Idle");
+				owner.ChangeState("Idle");
 			}
 			else
 			{
-				EmitSignal(nameof(StateFinished), "Fall");
+				owner.ChangeState("Fall");
 			}
 			
 		}
 
 		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
 		{
-			EmitSignal(nameof(StateFinished), "GuardCancel");
+			owner.ChangeState("GuardCancel");
 		}
 
 		if (!owner.grounded)

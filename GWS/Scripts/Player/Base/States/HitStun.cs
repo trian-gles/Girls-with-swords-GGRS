@@ -38,7 +38,7 @@ public class HitStun : HitState
             ReceiveElectrocution();
         }
         else
-            EmitSignal(nameof(StateFinished), "Idle");
+            owner.ChangeState("Idle");
     }
 	
 	public override void ReceiveHit(Globals.AttackDetails details)

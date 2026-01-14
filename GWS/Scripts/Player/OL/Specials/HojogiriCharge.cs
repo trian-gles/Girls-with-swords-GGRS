@@ -20,6 +20,6 @@ public class HojogiriCharge : GroundAttack // used only to inherit counter hit
 
     public override void AnimationFinished()
     {
-        EmitSignal(nameof(StateFinished), "CommandRunCharged");
+        owner.ChangeState("CommandRunCharged");
     }
 }

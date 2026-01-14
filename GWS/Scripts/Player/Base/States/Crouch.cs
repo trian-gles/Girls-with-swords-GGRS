@@ -29,7 +29,7 @@ public class Crouch : State
         if (owner.CheckFlippableHeldKey('4'))
         {
             if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
-                EmitSignal(nameof(StateFinished), "CrouchShield");
+                owner.ChangeState("CrouchShield");
             return;
         }
     }

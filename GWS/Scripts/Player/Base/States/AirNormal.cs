@@ -23,7 +23,7 @@ public abstract class AirNormal : AirAttack
 
     public override void AnimationFinished()
     {
-        EmitSignal(nameof(StateFinished), "Fall");
+        owner.ChangeState("Fall");
     }
 
     public override void Enter()

@@ -129,7 +129,7 @@ public class Jump : AirState
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 0) 
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 		}
 		ApplyGravity();
 		if (!owner.canDoubleJump)
@@ -139,7 +139,7 @@ public class Jump : AirState
 
 		if (DelayInputs() && owner.CheckHitStopBuffer(new char[] { 'k', 'p' }) && owner.CheckHitStopBuffer(new char[] { 's', 'p' }))
 		{
-			EmitSignal(nameof(StateFinished), "AirGrabStart");
+			owner.ChangeState("AirGrabStart");
 		}
 		
 	}
@@ -150,7 +150,7 @@ public class Jump : AirState
 
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Fall");
+		owner.ChangeState("Fall");
 	}
 
     public override void ReceiveHit(Globals.AttackDetails details)

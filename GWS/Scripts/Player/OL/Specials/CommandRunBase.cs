@@ -48,7 +48,7 @@ public class CommandRunBase : GroundAttack
 		base.FrameAdvance();
 		if (frameCount > len)
 		{
-			EmitSignal(nameof(StateFinished), exitState);
+			owner.ChangeState(exitState);
 		}
 
 	}

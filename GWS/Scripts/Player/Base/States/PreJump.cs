@@ -27,11 +27,11 @@ public class PreJump : State
 			if (owner.CanSuperJump())
 			{
 				owner.hasDoubleOrSuperJumped = true;
-				EmitSignal(nameof(StateFinished), "SuperJump");
+				owner.ChangeState("SuperJump");
 			}
 			else
 			{
-				EmitSignal(nameof(StateFinished), "Jump");
+				owner.ChangeState("Jump");
 			}
 		}
 			

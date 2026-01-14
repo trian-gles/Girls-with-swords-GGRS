@@ -37,7 +37,7 @@ public class SnailCall : State
 			else
 				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.RightSnailAttack);
 		}
-		EmitSignal(nameof(StateFinished), "PhonePutAway");
+		owner.ChangeState("PhonePutAway");
 	}
 
 	private void SendSnailJump()
@@ -52,7 +52,7 @@ public class SnailCall : State
 			else
 				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.RightSnailJump);
 		}
-		EmitSignal(nameof(StateFinished), "PhonePutAway");
+		owner.ChangeState("PhonePutAway");
 	}
 
 	public override void FrameAdvance()
@@ -63,7 +63,7 @@ public class SnailCall : State
 			if (callMode == 1)
 				SendSnailJump();
 			else if (callMode == 2)
-				EmitSignal(nameof(StateFinished), "PhoneToss");
+				owner.ChangeState("PhoneToss");
 			else
 				SendSnailAttack();
 		}

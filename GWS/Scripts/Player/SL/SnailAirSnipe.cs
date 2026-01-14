@@ -35,7 +35,7 @@ public class SnailAirSnipe : AirGrabStart
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
 		if (collisionPnt != Vector2.Inf)
 		{
-			EmitSignal(nameof(StateFinished), "AirGrab");
+			owner.ChangeState("AirGrab");
 		}
 	}
 

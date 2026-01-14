@@ -9,7 +9,7 @@ public class HojogiriCharged : Hojogiri
     {
         base.FrameAdvance();
         if (frameCount > 10)
-            EmitSignal(nameof(StateFinished), "HojogiriChargedSlash");
+            owner.ChangeState("HojogiriChargedSlash");
     }
 
 }

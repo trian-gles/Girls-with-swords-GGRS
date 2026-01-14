@@ -34,10 +34,15 @@ class SnailStrike : Hadouken
 	{
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "snail-strike", Name);
 		int strikeNum = (frameCount - releaseFrame) / gapBetweenStrikes;
-
-
-		var h = hadoukenScene.Instance() as HadoukenPart;
-
+		HadoukenPart h = null;
+		foreach (HadoukenPart cachedPart in cachedHadoukens)
+		{
+			if (cachedPart.freed)
+			{
+				h = cachedPart;
+			}
+		}
+		h.active = true;
 		h.Spawn(owner.facingRight, owner.otherPlayer);
 		owner.EmitHadouken(h);
 

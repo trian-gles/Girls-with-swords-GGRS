@@ -24,7 +24,7 @@ public class MainGFX : Node
 // render all particles NOW since C# has no preload
 		for (int i = 0; i < 15; i++)
 		{
-			Sprite newGhost = (Sprite)dashGhost.Instance();
+			Sprite newGhost = (Sprite)dashGhost.Instance(); // Added to tree and thus freed automatically
             CallDeferred("add_child", newGhost);
 			ghosts.Add(newGhost);
 		}
@@ -77,7 +77,7 @@ public class MainGFX : Node
 
 	private ParticleSprite ReleaseNewParticle(Vector2 location, string particleName, bool flipH)
 	{
-		var newPart = (ParticleSprite)particleSprites[particleName].Instance();
+		var newPart = (ParticleSprite)particleSprites[particleName].Instance(); // Added to tree and thus freed automatically
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
 		CallDeferred("add_child", newPart);

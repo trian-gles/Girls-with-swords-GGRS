@@ -345,6 +345,7 @@ playback={
 
 [mono]
 
+debugger_agent/wait_timeout=6000
 project/assembly_name="GWS-GGPO"
 
 [physics]

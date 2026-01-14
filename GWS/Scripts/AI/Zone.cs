@@ -27,7 +27,7 @@ public class Zone : BehaviourState
         int specialChance = 2;
         if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO)
             specialChance = 6;
-        distance = state.P1State.position[0] - state.P2State.position[0];
+        distance = state.P1State.positionx - state.P2State.positionx;
         ChooseDirection(distance);
         int action = 0;
         if (random.Next(2) == 1) {

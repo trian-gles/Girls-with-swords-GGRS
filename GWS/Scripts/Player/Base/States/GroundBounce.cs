@@ -6,6 +6,7 @@ public class GroundBounce : Float
 {
 	public override string animationName { get { return "Float"; } }
 	private bool bounced = false;
+	private int BOUNCEINDEX = 0;
 
 
 	public override void Enter()
@@ -13,15 +14,15 @@ public class GroundBounce : Float
 		base.Enter();
 		bounced = false;
 	}
-	public override void Load(Dictionary<string, int> loadData)
+	public override void Load(int[] loadData)
 	{
-		bounced = Convert.ToBoolean(loadData["bounced"]);
+		bounced = Convert.ToBoolean(loadData[BOUNCEINDEX]);
 	}
 
-	public override Dictionary<string, int> Save()
+	public override int[] Save()
 	{
-		stateStateDict["bounced"] = Convert.ToInt32(bounced);
-		return stateStateDict;
+		stateStateArray[BOUNCEINDEX] = Convert.ToInt32(bounced);
+		return stateStateArray;
 	}
 
     public override int CheckTerminalVelocity()
@@ -40,7 +41,7 @@ public class GroundBounce : Float
 			if (bounced)
 			{
 				if (stunRemaining > 20)
-					EmitSignal(nameof(StateFinished), "Knockdown");
+					owner.ChangeState("Knockdown");
 				else
 				{
 					owner.grounded = false;

@@ -97,6 +97,25 @@ public class Globals : Node
 	}
 
 	public static string lastLogMessage = "";
+
+	public static long TestGC1()
+	{
+		return GC.GetTotalMemory(false); // allocated managed memory
+	}
+
+	public static void TestGC2(long mem)
+	{
+		mem = GC.GetTotalMemory(false) - mem;
+		if (mem > 0)
+			GD.Print($"DELTA MEM: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+	}
+
+	public static void TestGC2(long mem, string why)
+	{
+		mem = GC.GetTotalMemory(false) - mem;
+		if (mem > 0)
+			GD.Print($"DELTA MEM {why}: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+	}
 	public static void Log(string msg)
 	{
 		lastLogMessage = msg;

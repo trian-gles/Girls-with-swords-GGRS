@@ -27,7 +27,7 @@ public class PreRun : MoveState
 		owner.velocity.y = 0;
 		if (Math.Abs(owner.velocity.x) >= owner.dashSpeed)
 		{
-			EmitSignal(nameof(StateFinished), "Run");
+			owner.ChangeState("Run");
 		}
 	}
 

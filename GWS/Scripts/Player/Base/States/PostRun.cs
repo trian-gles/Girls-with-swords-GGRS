@@ -26,7 +26,7 @@ public class PostRun : MoveState
 		base.FrameAdvance();
 		if (frameCount  == 12)
 		{
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 		}
 	}
 

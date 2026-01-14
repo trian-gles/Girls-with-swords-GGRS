@@ -220,7 +220,7 @@ public class HadoukenPart : Node2D
 	}
 
 	[Serializable]
-	public struct HadoukenState
+	public unsafe struct HadoukenState
 	{
 		public int[] pos { get; set; }
 		public int[] speed { get; set; }
@@ -248,7 +248,7 @@ public class HadoukenPart : Node2D
 
 	public virtual void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
-		//long mem = GC.GetTotalMemory(false); // allocated managed memory
+		
 		if (frame > 0)
 		{
 			
@@ -266,17 +266,15 @@ public class HadoukenPart : Node2D
 			
 			//Globals.Log($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
 		}
+		
 
-
-
+		
 		if (Position.x > 1900 || Position.x < -1600 || Position.y > 1800) // To ensure the fireball isn't deleted before it could be potentially rolled back, these values are quite high.
 		{
 			//Globals.Log($"Deleting hadouken {Name}, out of bounds");
 			targetPlayer.DeleteHadouken(this); // this shouldn't be done this way, but every possible solution is very inelegant...
 		}
-		//mem = GC.GetTotalMemory(false) - mem;
-		//if (mem > 0)
-		//	GD.Print($"DELTA MEM: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+		
 		if (active && hits == 0  && frame >= startup)
 		{
 			Vector2 collisionPnt = CheckRect();

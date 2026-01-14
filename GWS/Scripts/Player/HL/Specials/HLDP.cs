@@ -11,13 +11,13 @@ public class HLDP : DP
         base.Enter();
         if (!((HL)owner).hatted)
         {
-            EmitSignal(nameof(StateFinished), "TeleportDP");
+            owner.ChangeState("TeleportDP");
         }
     }
     public override void FrameAdvance()
     {
         base.FrameAdvance();
         if (frameCount == throwFrame && ((HL)owner).hatted && owner.CheckHeldKey('a'))
-            EmitSignal(nameof(StateFinished), "AirHat");
+            owner.ChangeState("AirHat");
     }
 }

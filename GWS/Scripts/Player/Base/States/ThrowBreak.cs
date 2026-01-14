@@ -19,12 +19,12 @@ public class ThrowBreak : HitStun
         if (!owner.grounded)
         {
             stunRemaining = 0;
-            EmitSignal(nameof(StateFinished), "Float");
+            owner.ChangeState("Float");
         }
     }
 
     public override void ExitHitstun()
     {
-        EmitSignal(nameof(StateFinished), "Fall");
+        owner.ChangeState("Fall");
     }
 }

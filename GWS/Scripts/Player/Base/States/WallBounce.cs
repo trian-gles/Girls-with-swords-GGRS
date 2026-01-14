@@ -8,6 +8,8 @@ public class WallBounce : AirKnockdown
 
 	public override string animationName { get { return "Float"; } }
 
+	private int BOUNCEINDEX = 0;
+
 
 	public override void Enter()
 	{
@@ -31,15 +33,15 @@ public class WallBounce : AirKnockdown
 		
 			
 	}
-	public override void Load(Dictionary<string, int> loadData)
+	public override void Load(int[] loadData)
 	{
-		bounced = Convert.ToBoolean(loadData["bounced"]);
+		bounced = Convert.ToBoolean(loadData[BOUNCEINDEX]);
 	}
 
-	public override Dictionary<string, int> Save()
+	public override int[] Save()
 	{
-		stateStateDict["bounced"] = Convert.ToInt32(bounced);
-		return stateStateDict;
+		stateStateArray[BOUNCEINDEX] = Convert.ToInt32(bounced);
+		return stateStateArray;
 	}
 
 	public override void HitWall()

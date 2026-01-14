@@ -16,7 +16,7 @@ public class JoeRogan : LaunchAttack
     public override void AnimationFinished()
     {
         if (owner.CheckHeldKey('a') && !((HL)owner).hatted)
-            EmitSignal(nameof(StateFinished), "Teleport");
+            owner.ChangeState("Teleport");
         else
             base.AnimationFinished();
     }

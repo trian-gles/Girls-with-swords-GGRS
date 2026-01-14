@@ -31,7 +31,7 @@ public class Grabbed : State
         owner.velocity = Vector2.Zero;
         
         if (!owner.otherPlayer.currentState.tags.Contains("grab"))
-            EmitSignal(nameof(StateFinished), "Fall");
+            owner.ChangeState("Fall");
 	}
 
     public override void TryBurst()
@@ -67,6 +67,6 @@ public class Grabbed : State
         owner.grounded = false;
 
 
-        EmitSignal(nameof(StateFinished), "AirKnockdown");
+        owner.ChangeState("AirKnockdown");
 	}
 }

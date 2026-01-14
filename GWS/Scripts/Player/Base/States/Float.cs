@@ -68,15 +68,15 @@ public class Float : HitStun
 		owner.ComboUp();
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
-			EmitSignal(nameof(StateFinished), "GroundBounce");
+			owner.ChangeState("GroundBounce");
 		}
 		else if (knockdown || owner.health <= 0)
 		{
-			EmitSignal(nameof(StateFinished), "AirKnockdown");
+			owner.ChangeState("AirKnockdown");
 		}
 		else
 		{
-			EmitSignal(nameof(StateFinished), "Float");
+			owner.ChangeState("Float");
 		}
 
 	}
@@ -112,7 +112,7 @@ public class Float : HitStun
 			{
 				if (!owner.TrySpendBurst()) return;
 				owner.EmitSignal("Recovery", owner.Name);
-				EmitSignal(nameof(StateFinished), "Burst");
+				owner.ChangeState("Burst");
 			}
 		}
 		
@@ -123,7 +123,7 @@ public class Float : HitStun
 		//if (frameCount == 9 && owner.internalPos.y < 14000 && owner.velocity.y < -300) 
 		//{
 		//	owner.EmitSignal(nameof(Player.LevelUp));
-		//	EmitSignal(nameof(StateFinished), "AirKnockdown");
+		//	owner.ChangeState("AirKnockdown");
 		//}
 
 
@@ -132,11 +132,11 @@ public class Float : HitStun
 
 	protected void TryGroundTech()
 	{
-		//EmitSignal(nameof(StateFinished), "Tech");
+		//owner.ChangeState("Tech");
 		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-			EmitSignal(nameof(StateFinished), "Tech");
+			owner.ChangeState("Tech");
 		else
-			EmitSignal(nameof(StateFinished), "SoftKD");
+			owner.ChangeState("SoftKD");
 	}
 
     public override void ReceiveHit(Globals.AttackDetails details)

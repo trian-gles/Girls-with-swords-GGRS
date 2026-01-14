@@ -272,9 +272,9 @@ public abstract class BaseAttack : State
 	public override void AnimationFinished()
 	{
 		if (owner.grounded)
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 		else
-			EmitSignal(nameof(StateFinished), "Fall");
+			owner.ChangeState("Fall");
 	}
 
 	public override void TryBurst()
@@ -374,9 +374,9 @@ public abstract class BaseAttack : State
 		if (exitOnHit)
 		{
 			if (owner.grounded)
-				EmitSignal(nameof(StateFinished), "Idle");
+				owner.ChangeState("Idle");
 			else
-				EmitSignal(nameof(StateFinished), "Fall");
+				owner.ChangeState("Fall");
 		}
 
 
@@ -412,7 +412,7 @@ public abstract class BaseAttack : State
 					karaGat.postCall?.Invoke();
 
 
-					EmitSignal(nameof(StateFinished), karaGat.state);
+					owner.ChangeState(karaGat.state);
 
 					return;
 				}
@@ -424,7 +424,7 @@ public abstract class BaseAttack : State
 			foreach (var whiffGat in whiffGatlings)
 			{
 				if (Enumerable.SequenceEqual(whiffGat.input, inputArr))
-					EmitSignal(nameof(StateFinished), whiffGat.state);
+					owner.ChangeState(whiffGat.state);
 			}
 		}
 		if ((gatlingWinEnd == 0 || frameCount < gatlingWinEnd) && hitConnect)

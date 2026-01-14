@@ -23,7 +23,7 @@ public class SoftKD : HitState
         owner.ResetComboAndProration();
         owner.invulnFrames = 2;
         owner.EmitSignal("MissedTech", owner.Name);
-        EmitSignal(nameof(StateFinished), "Idle");
+        owner.ChangeState("Idle");
     }
 
     public override void ReceiveHit(Globals.AttackDetails details)

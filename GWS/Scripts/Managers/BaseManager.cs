@@ -76,6 +76,27 @@ public class BaseManager : Node2D
 	protected int colorOne, colorTwo;
 	protected int bkgIndex;
 
+	[Serializable]
+	public unsafe struct CombinedInputs
+	{
+		public int p1Inps;
+		public int p2Inps;
+
+		public int GetInputs(int num)
+		{
+			if (num == 0)
+				return p1Inps;
+			else
+				return p2Inps;
+		}
+
+		public void SetInputs(int p1, int p2)
+		{
+			p1Inps = p1;
+			p2Inps = p2;
+		}
+	}
+
 	public override void _Ready()
 	{
 		// Careful, GGRSManager replaces this
@@ -107,18 +128,20 @@ public class BaseManager : Node2D
 	protected void CreateGamescenes()
 	{
 		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
+		charSelectScene.manager = this;
 		AddChild(charSelectScene);
-		charSelectScene.Connect("CharacterSelected", this, nameof(OnCharactersSelected));
 		currGame = charSelectScene;
 
 		gameScene = packedGameScene.Instance() as GameScene;
 		gameScene.Connect("GameWon", this, nameof(OnGameWon));
 		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
+		gameScene.manager = this;
 		AddChild(gameScene);
 
 		winScene = packedWinScene.Instance() as WinScene;
 		winScene.Connect("Rematch", this, nameof(OnRematch));
 		winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
+		winScene.manager = this;
 		AddChild(winScene);
 	}
 
@@ -232,55 +255,112 @@ public class BaseManager : Node2D
 	protected int GetInputs(string end)
 	{
 		int inputs = 0;
-		if (Input.IsActionPressed("8" + end))
+		if (end == "")
 		{
-			inputs |= 1;
-		}
+			if (Input.IsActionPressed("8"))
+			{
+				inputs |= 1;
+			}
 
-		if (Input.IsActionPressed("2" + end))
-		{
-			inputs |= 2;
-		}
+			if (Input.IsActionPressed("2"))
+			{
+				inputs |= 2;
+			}
 
-		if (Input.IsActionPressed("6" + end) && !Input.IsActionPressed("4" + end))
-		{
-			inputs |= 4;
-		}
+			if (Input.IsActionPressed("6") && !Input.IsActionPressed("4"))
+			{
+				inputs |= 4;
+			}
 
-		if (Input.IsActionPressed("4" + end) && !Input.IsActionPressed("6" + end))
-		{
-			inputs |= 8;
-		}
+			if (Input.IsActionPressed("4") && !Input.IsActionPressed("6"))
+			{
+				inputs |= 8;
+			}
 
-		if (Input.IsActionPressed("p" + end))
-		{
-			inputs |= 16;
-		}
+			if (Input.IsActionPressed("p"))
+			{
+				inputs |= 16;
+			}
 
-		if (Input.IsActionPressed("k" + end))
-		{
-			inputs |= 32;
-		}
+			if (Input.IsActionPressed("k"))
+			{
+				inputs |= 32;
+			}
 
-		if (Input.IsActionPressed("s" + end))
-		{
-			inputs |= 64;
-		}
+			if (Input.IsActionPressed("s"))
+			{
+				inputs |= 64;
+			}
 
-		if (Input.IsActionPressed("a" + end))
-		{
-			inputs |= 128;
-		}
+			if (Input.IsActionPressed("a"))
+			{
+				inputs |= 128;
+			}
 
-		if (Input.IsActionPressed("b" + end))
-		{
-			inputs |= 256;
-		}
+			if (Input.IsActionPressed("b"))
+			{
+				inputs |= 256;
+			}
 
-		if (Input.IsActionPressed("c" + end))
-		{
-			inputs |= 512;
+			if (Input.IsActionPressed("c"))
+			{
+				inputs |= 512;
+			}
 		}
+		else
+		{
+			if (Input.IsActionPressed("8b"))
+			{
+				inputs |= 1;
+			}
+
+			if (Input.IsActionPressed("2b"))
+			{
+				inputs |= 2;
+			}
+
+			if (Input.IsActionPressed("6b") && !Input.IsActionPressed("4b"))
+			{
+				inputs |= 4;
+			}
+
+			if (Input.IsActionPressed("4b") && !Input.IsActionPressed("6b"))
+			{
+				inputs |= 8;
+			}
+
+			if (Input.IsActionPressed("pb"))
+			{
+				GD.Print("P2 Punch");
+				inputs |= 16;
+			}
+
+			if (Input.IsActionPressed("kb"))
+			{
+				inputs |= 32;
+			}
+
+			if (Input.IsActionPressed("sb"))
+			{
+				inputs |= 64;
+			}
+
+			if (Input.IsActionPressed("ab"))
+			{
+				inputs |= 128;
+			}
+
+			if (Input.IsActionPressed("bb"))
+			{
+				inputs |= 256;
+			}
+
+			if (Input.IsActionPressed("cb"))
+			{
+				inputs |= 512;
+			}
+		}
+		
 
 		return inputs;
 	}

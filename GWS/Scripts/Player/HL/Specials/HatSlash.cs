@@ -21,7 +21,7 @@ public class HatSlash : Hadouken
 	public override void AnimationFinished()
 	{
 		if (owner.CheckHeldKey('a'))
-			EmitSignal(nameof(StateFinished), "Teleport");
+			owner.ChangeState("Teleport");
 		else
 			base.AnimationFinished();
 	}

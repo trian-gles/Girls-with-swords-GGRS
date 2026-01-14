@@ -24,7 +24,7 @@ public class HatThrow : Hadouken
 		base.Enter();
 		if (!((HL)owner).hatted)
 		{
-			EmitSignal(nameof(StateFinished), noHatState);
+			owner.ChangeState(noHatState);
 		}
 			
 		

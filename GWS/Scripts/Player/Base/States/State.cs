@@ -100,15 +100,15 @@ public abstract class State : Node
 		animationLength = owner.GetAnimationLength(animationName);
 	}
 
-	public virtual void Load(Dictionary<string, int> loadData)
+	public virtual void Load(int[] loadData)
 	{
 
 	}
 
-	protected Dictionary<string, int> stateStateDict = new Dictionary<string, int>();
-	public virtual Dictionary<string, int> Save()
+	protected int[] stateStateArray = new int[] {0, 0, 0};
+	public virtual int[] Save()
 	{
-		return stateStateDict;
+		return stateStateArray;
 	}
 
 	/// <summary>
@@ -533,7 +533,7 @@ public abstract class State : Node
 
 					// this gatling doesn't actually lead to a state (confusing, I know)
 					if (comGat.state != "")
-						EmitSignal(nameof(StateFinished), comGat.state);
+						owner.ChangeState(comGat.state);
 
 					return;
 				}
@@ -558,7 +558,7 @@ public abstract class State : Node
 				normGat.postCall?.Invoke();
 
 				if (normGat.state != "")
-					EmitSignal(nameof(StateFinished), normGat.state);
+					owner.ChangeState(normGat.state);
 				
 				return;
 			}
@@ -609,7 +609,7 @@ public abstract class State : Node
 			owner.rhythmState = "";
 			owner.rhythmStateConfirmed = false;
 			owner.CorrectGrounded(); // We may be in the air from a launching attack
-			EmitSignal(nameof(StateFinished), enterState);
+			owner.ChangeState(enterState);
 
 		}
 	}
@@ -659,7 +659,7 @@ public abstract class State : Node
 		{
 			if (!owner.TrySpendBurst()) return;
 			owner.EmitSignal("Recovery", owner.Name);
-			EmitSignal(nameof(StateFinished), "Burst");
+			owner.ChangeState("Burst");
 		}
 	}
 
@@ -672,6 +672,7 @@ public abstract class State : Node
 	}
 	
 	public void TryRhythm(){
+		
 		owner.EmitSignal("RhythmHitTry", owner.Name);
 	}
 
@@ -714,7 +715,6 @@ public abstract class State : Node
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 
@@ -737,11 +737,11 @@ public abstract class State : Node
 
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
-			EmitSignal(nameof(StateFinished), "GroundBounce");
+			owner.ChangeState("GroundBounce");
 		}
 		else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
 		{
-			EmitSignal(nameof(StateFinished), "WallBounce");
+			owner.ChangeState("WallBounce");
 		}
 
 		else if (airState && !knockdown)
@@ -750,25 +750,25 @@ public abstract class State : Node
 			{
 				owner.velocity.y = -400;
 			}
-			EmitSignal(nameof(StateFinished), "Float");
+			owner.ChangeState("Float");
 		}
 		else if (airState && knockdown)
 		{
-			EmitSignal(nameof(StateFinished), "AirKnockdown");
+			owner.ChangeState("AirKnockdown");
 		}
 		else if (!airState && knockdown)
 		{
-			EmitSignal(nameof(StateFinished), "HitStun");
+			owner.ChangeState("HitStun");
 
 		}
 		else if (!airState && effect == BaseAttack.EXTRAEFFECT.STAGGER)
 		{
-			EmitSignal(nameof(StateFinished), "Stagger");
+			owner.ChangeState("Stagger");
 
 		}
 		else
 		{
-			EmitSignal(nameof(StateFinished), "HitStun");
+			owner.ChangeState("HitStun");
 		}
 	}
 
@@ -814,7 +814,7 @@ public abstract class State : Node
 		
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
 		
-		EmitSignal(nameof(StateFinished), stateName);
+		owner.ChangeState(stateName);
 		owner.EmitSignal("HitConfirm", blockStop);
 
 	}
@@ -837,7 +837,10 @@ public abstract class State : Node
 		else
 		{
 			if (owner.CheckFlippableHeldKey('4'))
+			{
 				owner.EmitSignal("Mixup", owner.Name);
+			}
+				
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
     }
@@ -912,7 +915,10 @@ public abstract class State : Node
 			else
 			{
 				if (owner.CheckFlippableHeldKey('4'))
+				{
 					owner.EmitSignal("Mixup", owner.Name);
+				}
+					
 				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 			}
 		}

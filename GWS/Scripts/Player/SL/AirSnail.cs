@@ -44,7 +44,7 @@ public class AirSnail : Hadouken
 			if (owner.grounded)
 			{
 				owner.velocity.x = 0;
-				EmitSignal(nameof(StateFinished), "LandingRecovery");
+				owner.ChangeState("LandingRecovery");
 			}
 		}
 	}

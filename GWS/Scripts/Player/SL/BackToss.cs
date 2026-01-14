@@ -16,7 +16,7 @@ public class BackToss : Hadouken
 		base.FrameAdvance();
 		var sl = (SL)owner;
 		if (sl.leftCornerSnail && sl.rightCornerSnail && frameCount > earlyReleaseFrame)
-			EmitSignal(nameof(StateFinished), "Idle");
+			owner.ChangeState("Idle");
 
 	}
 }

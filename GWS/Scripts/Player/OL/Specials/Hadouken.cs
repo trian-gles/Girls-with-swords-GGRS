@@ -26,7 +26,7 @@ public class Hadouken : BaseAttack
 	[Export]
 	public bool mustCooldown = false;
 
-	private List<HadoukenPart> cachedHadoukens;
+	protected List<HadoukenPart> cachedHadoukens;
 
 	public override void _Ready()
 	{
@@ -38,7 +38,6 @@ public class Hadouken : BaseAttack
 			cachedHadoukens.Add(h);
 			h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		}
-		// this looks silly but is necessary so that the hadouken loads at game start
 	}	
 
 	public override void Enter()
@@ -75,8 +74,8 @@ public class Hadouken : BaseAttack
 				int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
 				int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
 				h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
-				
-				Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
+				if (Globals.logOn)
+					Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
 				if (mustCooldown ) 
 					owner.hadoukenCooldownRemaining = 55;
 				return h;
@@ -90,5 +89,14 @@ public class Hadouken : BaseAttack
 		
 
 	}
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+		foreach (HadoukenPart cachedPart in cachedHadoukens)
+		{
+			cachedPart.QueueFree();
+		}
+    }
 
 }

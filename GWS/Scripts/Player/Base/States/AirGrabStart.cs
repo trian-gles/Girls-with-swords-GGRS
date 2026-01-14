@@ -15,7 +15,7 @@ public abstract class AirGrabStart : AirState
 
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Fall");
+		owner.ChangeState("Fall");
 	}
 
 	public override void CheckHit()
@@ -23,7 +23,7 @@ public abstract class AirGrabStart : AirState
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
 		if (collisionPnt != Vector2.Inf && owner.otherPlayer.IsAirGrabbable())
 		{
-			EmitSignal(nameof(StateFinished), "AirGrab");
+			owner.ChangeState("AirGrab");
 		}
 	}
 
@@ -38,7 +38,7 @@ public abstract class AirGrabStart : AirState
         base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
-			EmitSignal(nameof(StateFinished), "Landing");
+			owner.ChangeState("Landing");
 		}
 		ApplyGravity();
 	}

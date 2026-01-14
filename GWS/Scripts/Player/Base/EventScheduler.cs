@@ -50,10 +50,11 @@ public class EventScheduler : Node
 		ev.creationFrame = Globals.frame;
 		scheduledEvents.Add(ev);
 	}
-
+	
+	private List<Event> removeEvents = new List<Event>();
 	public void FrameAdvance()
 	{
-		List<Event> removeEvents = new List<Event>();
+		removeEvents.Clear();
 		foreach (Event @event in scheduledEvents)
 		{
 			TryEvent(@event, removeEvents);

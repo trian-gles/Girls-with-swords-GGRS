@@ -43,11 +43,11 @@ public class Run : MoveState
 
 		if (owner.CheckHeldKey('8'))
 		{
-			EmitSignal(nameof(StateFinished), "PreJump");
+			owner.ChangeState("PreJump");
 		}
 		if (!owner.CheckHeldKey('6') && !owner.CheckHeldKey('4')) // this will need to be fixed
 		{
-			EmitSignal(nameof(StateFinished), "PostRun");
+			owner.ChangeState("PostRun");
 		}
 	}
 

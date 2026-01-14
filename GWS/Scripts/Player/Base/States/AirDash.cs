@@ -30,7 +30,7 @@ public class AirDash: Fall
 		frameCount++;
 		if (frameCount == len)
 		{
-			EmitSignal(nameof(StateFinished), "Fall");
+			owner.ChangeState("Fall");
 		}
 		if (frameCount % 5 == 0)
 		{

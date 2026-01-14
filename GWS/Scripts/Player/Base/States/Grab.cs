@@ -40,6 +40,8 @@ public class Grab : State
 
 	public bool rightGrab = true;
 
+	private int RELEASEINDEX = 0;
+	
 	public override void _Ready()
 	{
 		base._Ready();
@@ -58,17 +60,16 @@ public class Grab : State
 
 		shrinkOtherSprite = setShrinkOtherSpriteTrue;
 	}
-
-	public override void Load(Dictionary<string, int> loadData)
+	
+	public override void Load(int[] loadData)
 	{
-		released = Convert.ToBoolean(loadData["released"]);
+		released = Convert.ToBoolean(loadData[RELEASEINDEX]);
 	}
 
-	public override Dictionary<string, int> Save()
+	public override int[] Save()
 	{
-		stateStateDict["released"] = Convert.ToInt32(released);
-		return stateStateDict;
-
+		stateStateArray[RELEASEINDEX] = Convert.ToInt32(released);
+		return stateStateArray;
 	}
 
 	public override void Enter()
@@ -176,6 +177,6 @@ public class Grab : State
 
 	public override void AnimationFinished()
 	{
-		EmitSignal(nameof(StateFinished), "Idle");
+		owner.ChangeState("Idle");
 	}
 }

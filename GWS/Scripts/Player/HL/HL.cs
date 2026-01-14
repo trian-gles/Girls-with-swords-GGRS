@@ -61,24 +61,27 @@ public class HL : Player
 		//AddAltState("Idle");
 	}
 
-	protected override Dictionary<string, int> GetStateCharSpecific()
+
+	private const int HATTEDINDEX = 0;
+	private const int HATXINDEX = 1;
+	private const int HATYINDEX = 2;
+	protected override int[] GetStateCharSpecific()
 	{
-		charSpecificData["hatted"] = hatted ? 1: 0;
-		charSpecificData["hattx"] = (int)hatCoors.x;
-		charSpecificData["hatty"] = (int)hatCoors.y;
+		charSpecificData[HATTEDINDEX] = hatted ? 1: 0;
+		charSpecificData[HATXINDEX] = (int)hatCoors.x;
+		charSpecificData[HATYINDEX] = (int)hatCoors.y;
 		return charSpecificData;
 	}
 
-	protected override void SetStateCharSpecific(Dictionary<string, int> dict)
+	protected override void SetStateCharSpecific(int[] newCharSpecificData)
 	{
-		if (dict != null)
+		if (newCharSpecificData != null)
 		{
-			hatted = (dict["hatted"] == 1);
-			hatCoors.x = dict["hattx"];
-			hatCoors.y = dict["hatty"];
-
-		}
-
+			hatted = Convert.ToBoolean(newCharSpecificData[HATTEDINDEX]);
+			hatCoors.x = newCharSpecificData[HATXINDEX];
+			hatCoors.y = newCharSpecificData[HATYINDEX];
+			
+		}	
 	}
 
 	public override void Reset()

@@ -35,13 +35,14 @@ public class WinScene : BaseGame
 	private Node events;
 
 	[Serializable]
-	private struct GameState
+	private unsafe struct GameState
 	{
 		public int winScreenFrame { get; set; }
 		public int p1Pos {get; set; }
 		public int p2Pos {get; set; }
-		public int[] lastFrameInputs { get; set; }
-		public bool[] selected { get; set; }
+		public BaseManager.CombinedInputs lastFrameInputs { get; set; }
+		public bool p1Selected { get; set; }
+		public bool p2Selected { get; set; }
 	}
 
 	[Signal]
@@ -105,13 +106,12 @@ public class WinScene : BaseGame
 	public override byte[] SaveState(int winScreenFrame)
 	{
 		var state = new WinScene.GameState();
-		state.selected = new bool[2];
 		state.winScreenFrame = this.winScreenFrame;
 		state.p1Pos = this.cursorPositions[0];
 		state.p2Pos = this.cursorPositions[1];
-		state.lastFrameInputs = lastFrameInputs;
-		state.selected[0] = this.selected[0];
-		state.selected[1] = this.selected[1];
+		state.lastFrameInputs.SetInputs(lastFrameInputs[0], lastFrameInputs[1]);
+		state.p1Selected = this.selected[0];
+		state.p2Selected = this.selected[1];
 		return Serialize<WinScene.GameState>(state);
 	}
 
@@ -121,9 +121,10 @@ public class WinScene : BaseGame
 		this.winScreenFrame = state.winScreenFrame;
 		cursorPositions[0] = state.p1Pos;
 		cursorPositions[1] = state.p2Pos;
-		this.lastFrameInputs = state.lastFrameInputs;
-		this.selected[0] = state.selected[0];
-		this.selected[1] = state.selected[1];
+		this.lastFrameInputs[0] = state.lastFrameInputs.p1Inps;
+		this.lastFrameInputs[1] = state.lastFrameInputs.p2Inps;
+		this.selected[0] = state.p1Selected;
+		this.selected[1] = state.p2Selected;
 		if (timeStatus == TimeStatus.FAKEEND && winScreenFrame < falseEndFrame) timeStatus = TimeStatus.SELECT;
 		if (timeStatus == TimeStatus.TRUEEND && winScreenFrame < trueEndFrame) timeStatus = TimeStatus.FAKEEND;
 	}

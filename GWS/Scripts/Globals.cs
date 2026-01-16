@@ -436,13 +436,13 @@ public class Globals : Node
 		return frame == lastConfirmedFrame;
 	}
 
-	public static bool ArrayInList(List<char[]> arr, char[] element)
+	public static bool ArrayInList(InputContainer arr, char[] element)
 	{
 		var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));
 		return elementTest.Contains(true);
 	}
 
-	public static List<int> PositionsOfArrayInList(List<char[]> arr, char[] element) //this is really dumb I'm sure there's a better way
+	public static List<int> PositionsOfArrayInList(InputContainer arr, char[] element) //this is really dumb I'm sure there's a better way
 	{
 		var indexes = new List<int>();
 		var trueFalse = (from e in arr select Enumerable.SequenceEqual(e, element));
@@ -469,22 +469,25 @@ public class Globals : Node
 			   || potentialDescendant == potentialBase;
 	}
 
+	private static InputContainer tempContainer = new InputContainer(9);
 	/// <summary>
 	/// Tests if the elements are found in that order but possibly separated by other elements within the array.  
 	/// </summary>
 	/// <param name="arr"> The array to search in </param>
 	/// <param name="elements"> The elements to search for in order </param>
 	/// <returns></returns>
-	public static bool ArrOfArraysComplexInList(List<char[]> arr, List<char[]> elements)
+	public static bool ArrOfArraysComplexInList(InputContainer arr, InputContainer elements)
 	{
-		if (arr.Count > 9) // prevents huge buffers
+		tempContainer.Clear();
+		int maxLen = Math.Min(arr.Count, 9);
+		for (int i = arr.Count - maxLen; i < arr.Count; i++)
 		{
-			arr = arr.GetRange(arr.Count - 9, 9);
+			tempContainer.Add(arr[i]);
 		}
 		int cursor = -1; // used to make sure moves are in the correct order
 		foreach (char[] element in elements)
 		{
-			List<int> indexes = PositionsOfArrayInList(arr, element);
+			List<int> indexes = PositionsOfArrayInList(tempContainer, element);
 			if (indexes == null) // The element does not exist in the list
 			{
 				return false; 
@@ -582,7 +585,7 @@ public class Globals : Node
 	public static void Tests()
 	{
 		
-		var arr = new List<char[]>();
+		var arr = new InputContainer(8);
 		arr.Add(new char[] { 'p', 'p' });
 		arr.Add(new char[] { 'k', 'p' });
 		arr.Add(new char[] { 'p', 'r' });
@@ -599,12 +602,12 @@ public class Globals : Node
 
 
 		GD.Print($"Testing {nameof(ArrOfArraysComplexInList)}");
-		var elements = new List<char[]>();
+		var elements = new InputContainer(5);
 		elements.Add(new char[] { 'p', 'p' });
 		elements.Add(new char[] { 'p', 'p' });
 		GD.Print($"Result of testing punch-punch in array = {ArrOfArraysComplexInList(arr, elements)}");
 
-		elements = new List<char[]>();
+		elements = new InputContainer(5);
 		elements.Add(new char[] { 'p', 'p' });
 		elements.Add(new char[] { 'k', 'p' });
 		GD.Print($"Result of testing punch-kick in array = {ArrOfArraysComplexInList(arr, elements)}");

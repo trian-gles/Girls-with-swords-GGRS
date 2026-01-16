@@ -32,19 +32,19 @@ public class HL : Player
 
 		easySuper = "Super";
 
-		dashSpecials.Add(new Special(new List<char[]>() { new char[] { 's', 'p' } }, "DashAttack"));
+		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 
 
 		//DP
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
 
 		//Hadouken
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "UpHat"));
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "UpUpHat"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "UpHat"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "UpUpHat"));
 
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "JoeRogan"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "JoeRogan"));
 
 	}
 	public override void _Ready()

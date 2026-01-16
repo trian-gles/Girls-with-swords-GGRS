@@ -207,10 +207,14 @@ public class Player : Node2D
 	[Serializable]
 	public unsafe struct PlayerState
 	{
-		public List<char[]> inBuf2 { get; set; }
+		public char[] inBuf2 { get; set; }
+		public int inBuf2Count {get; set;}
+		public char[] hitStopInputs { get; set; }
+		public int hitStopInputsCount {get; set;}
+		public char[] heldKeys { get; set; }
+		public int heldKeysCount {get; set;}
+
 		public int inBuf2Timer { get; set; }
-		public List<char[]> hitStopInputs { get; set; }
-		public List<char> heldKeys { get; set; }
 		public string currentState { get; set; }
 		public int[] stateData {get; set;}
 		public bool canDoubleJump { get; set; }
@@ -265,10 +269,10 @@ public class Player : Node2D
 	/// </summary>
 	public struct Special
 	{
-		public List<char[]> inputs;
+		public InputContainer inputs;
 		public string state;
 
-		public Special(List<char[]> inputsList, string newState) 
+		public Special(InputContainer inputsList, string newState) 
 		{
 			inputs = inputsList;
 			state = newState;
@@ -349,6 +353,10 @@ public class Player : Node2D
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		animationPlayer.Setup();
 
+		pState.inBuf2 = new char[55];
+		pState.hitStopInputs = new char[30];
+		pState.heldKeys = new char[12];
+
 		grabPos = GetNode<Position2D>("GrabPos");
 		hitBoxes = GetNode<Area2D>("HitBoxes");
 		hurtBoxes = GetNode<Area2D>("HurtBoxes");
@@ -420,14 +428,11 @@ public class Player : Node2D
 
 	public PlayerState GetState()
 	{
-		pState.inBuf2 = inputHandler.inBuf2;
-
-		pState.hitStopInputs = inputHandler.hitStopInputs;
+		pState.inBuf2Count = inputHandler.inBuf2.GetState(pState.inBuf2);
+		pState.hitStopInputsCount = inputHandler.hitStopInputs.GetState(pState.hitStopInputs);
+		pState.heldKeysCount = inputHandler.heldKeys.GetState(pState.heldKeys);
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
-
-
-		pState.heldKeys = inputHandler.heldKeys;
 
 		pState.canDoubleJump = canDoubleJump;
 		pState.canAirDash = canAirDash;
@@ -495,10 +500,14 @@ public class Player : Node2D
 
 	public void SetState(PlayerState pState)
 	{
-		inputHandler.SetInBuf2(pState.inBuf2);
+		// TODO : REWRITE
+
+		inputHandler.inBuf2.SetState(pState.inBuf2Count, pState.inBuf2);
+		inputHandler.hitStopInputs.SetState(pState.hitStopInputsCount, pState.hitStopInputs);
+		inputHandler.heldKeys.SetState(pState.heldKeysCount, pState.heldKeys);
+
+
 		inputHandler.inBuf2Timer = pState.inBuf2Timer;
-		inputHandler.hitStopInputs = pState.hitStopInputs;
-		inputHandler.heldKeys = pState.heldKeys;
 		currentState = GetNode<State>("StateTree/" + pState.currentState);
 		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
@@ -595,14 +604,14 @@ public class Player : Node2D
 	/// </summary>
 	private class InputHandler 
 	{
-		public List<char[]> inBuf2 = new List<char[]>();
-		public List<char[]> hitStopInputs = new List<char[]>();
+		public InputContainer inBuf2 = new InputContainer(55);
+		public InputContainer hitStopInputs = new InputContainer(20);
 
 		//private List<char> order = new List<char>() { 's', 'k', 'p', '6', '4', ''}; consider input priority later
 
 		public int inBuf2TimerMax = 5;
 		public int inBuf2Timer = 5;
-		public List<char> heldKeys = new List<char>();
+		public HeldKeys heldKeys = new HeldKeys(12);
 		public State playerState;
 		/// <summary>
 		/// Used for checking if a key has been pressed or released
@@ -620,9 +629,10 @@ public class Player : Node2D
 		private void BufAddInput(char[] input)
 		{
 			inBuf2Timer = inBuf2TimerMax;
-			inBuf2.Add(input);
-			if (inBuf2.Count > 55)
+			if (inBuf2.Count >= 55)
 				inBuf2.Clear();
+			inBuf2.Add(input);
+			
 		}
 
 		private void BufTimerDecrement()
@@ -636,12 +646,7 @@ public class Player : Node2D
 				inBuf2.Clear();
 			}
 		}
-
-		public void SetInBuf2(List<char[]> newBuf)
-		{
-			inBuf2 = newBuf;
-		}
-		private void AddHitStopBuffer(List<char[]> unhandledInputs)
+		private void AddHitStopBuffer(InputContainer unhandledInputs)
 		{
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -649,8 +654,8 @@ public class Player : Node2D
 				hitStopInputs.Add(inputArr);
 			}
 		}
-		private List<char[]> unhandledInputs = new List<char[]>();
-		private List<char[]> ConvertInputs(int inputs)
+		private InputContainer unhandledInputs = new InputContainer(20);
+		private InputContainer ConvertInputs(int inputs)
 		{
 			unhandledInputs.Clear();
 			if ((inputs & 1) != 0 && (lastFrameInputs & 1) == 0)
@@ -754,7 +759,7 @@ public class Player : Node2D
 
 		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
 		{ 
-			List<char[]> unhandledInputs = ConvertInputs(inputs);
+			InputContainer unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
 			foreach (char[] inputArr in unhandledInputs)
 			{
@@ -778,7 +783,7 @@ public class Player : Node2D
 
 			
 			
-			unhandledInputs = hitStopInputs.Concat(unhandledInputs).ToList();
+			unhandledInputs.Prepend(hitStopInputs);
 			
 			hitStopInputs.Clear();
 			foreach (char[] inputArr in unhandledInputs)
@@ -801,15 +806,15 @@ public class Player : Node2D
 			unhandledInputs.Clear();
 		}
 
-		private List<char[]> tempJumpInputs = new List<char[]>();
-		private List<char[]> tempOtherInputs = new List<char[]>();
+		private InputContainer tempJumpInputs = new InputContainer(20);
+		private InputContainer tempOtherInputs = new InputContainer(20);
 
-		public List<char[]> GetBuffer() 
+		public InputContainer GetBuffer() 
 		{
 			return inBuf2;
 		}
 
-		public List<char[]> GetHitStopBuffer()
+		public InputContainer GetHitStopBuffer()
 		{
 			return hitStopInputs;
 		}
@@ -936,7 +941,7 @@ public class Player : Node2D
 	/// </summary>
 	/// <param name="elements"></param>
 	/// <returns></returns>C
-	public bool CheckBufferComplex(List<char[]> elements)
+	public bool CheckBufferComplex(InputContainer elements)
 	{
 		return Globals.ArrOfArraysComplexInList(inputHandler.GetBuffer(), elements);
 	}

@@ -32,31 +32,31 @@ public class GL : Player
 		easySuper = "GLDP";
 
 		//DP
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
 		//Air DP
 		//Black hole
-		//airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' }}, "BlackHolePlace"));
-		//airSpecials.Add(new Special(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { '8', 'p' }, new char[] { 's', 'p' } }, "BlackHolePlace")); // allow TK
+		//airSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' }}, "BlackHolePlace"));
+		//airSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { '8', 'p' }, new char[] { 's', 'p' } }, "BlackHolePlace")); // allow TK
 
 		//Black Hole Powerup
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
-		//groundExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
+		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "PowerBlackholes"));
 
 
 		//allow forward as last input for air DP
-		//airExSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
-		//airExSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
+		//airExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
+		//airExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 'p', 'p' } }, "GLDP"));
 
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "GunBlazed"));
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "Feint"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "GunBlazed"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "Feint"));
 
-		//groundSpecials.Add(new Special(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "HadoukenAir"));
+		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "HadoukenAir"));
 
-		dashSpecials.Add(new Special(new List<char[]>() { new char[] { 's', 'p' } }, "DashAttack"));
+		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }),  "DashAttack"));
 	}
 	public override void _Ready()
 	{

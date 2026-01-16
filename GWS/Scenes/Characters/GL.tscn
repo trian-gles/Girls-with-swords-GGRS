@@ -8614,7 +8614,7 @@ texture = ExtResource( 22 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 248
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 58 )
@@ -8631,7 +8631,7 @@ texture = ExtResource( 18 )
 offset = Vector2( 0.5, 0 )
 hframes = 255
 vframes = 2
-frame = 248
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )

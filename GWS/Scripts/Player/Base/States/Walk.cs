@@ -20,19 +20,18 @@ public class Walk : MoveState
 		AddCommandNormals(owner.commandNormals);
 		AddEasyGroundSpecials();
 		AddNormals();
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
-
-        AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, () => owner.backdashCooldownRemaining == 0, "Backdash",
-            () =>
-            {
-                owner.velocity.x = owner.speed * -2;
-                if (!owner.facingRight)
-                {
-                    owner.velocity.x *= -1;
-                }
-                owner.backdashCooldownRemaining = 30;
-            },
-            false);
+		AddGatling(new InputContainer( new[]{ new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }), "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+		AddGatling(new InputContainer( new[] { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }), () => owner.backdashCooldownRemaining == 0, "Backdash", 
+			() => 
+			{ 
+				owner.velocity.x = owner.speed * -2; 
+				if (!owner.facingRight) 
+				{ 
+					owner.velocity.x *= -1; 
+				} 
+				owner.backdashCooldownRemaining = 30;
+			}, 
+			false);
 
         AddGatling(new[] { 'c', 'p' }, () => { return ((owner.velocity.x > 0) == owner.facingRight); },
 			"PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } });

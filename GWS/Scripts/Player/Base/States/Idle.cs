@@ -22,8 +22,8 @@ public class Idle : State
 		AddNormals();
 		
 
-		AddGatling(new List<char[]>() { new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }, "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
-		AddGatling(new List<char[]>() { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }, () => owner.backdashCooldownRemaining == 0, "Backdash", 
+		AddGatling(new InputContainer( new[]{ new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }), "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+		AddGatling(new InputContainer( new[] { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }), () => owner.backdashCooldownRemaining == 0, "Backdash", 
 			() => 
 			{ 
 				owner.velocity.x = owner.speed * -2; 

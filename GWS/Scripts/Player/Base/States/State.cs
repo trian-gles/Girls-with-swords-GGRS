@@ -157,7 +157,7 @@ public abstract class State : Node
 	/// </summary>
 	protected struct CommandGatling
 	{
-		public List<char[]> inputs;
+		public InputContainer inputs;
 		public string state;
 		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
 		public PostInputCallback postCall;
@@ -175,7 +175,7 @@ public abstract class State : Node
 
 	protected struct RhythmGatling
 	{
-		public List<char[]> inputs;
+		public InputContainer inputs;
 		public string state;
 		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
 		public PostInputCallback postCall;
@@ -206,8 +206,8 @@ public abstract class State : Node
 		return inp;
 	}
 
-	private List<char[]> reversedInputs = new List<char[]>();
-	protected List<char[]> ReverseInputs(List<char[]> origInputs)
+	private InputContainer reversedInputs = new InputContainer(20);
+	protected InputContainer ReverseInputs(InputContainer origInputs)
 	{
 		reversedInputs.Clear();
 		foreach (char[] inp in origInputs)
@@ -290,7 +290,7 @@ public abstract class State : Node
 		karaGatlings.Add(newGatling);
 	}
 
-	protected void AddGatling(List<char[]> inputs, string state, bool preventMash = true, bool flipInputs = true)
+	protected void AddGatling(InputContainer inputs, string state, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
 		{
@@ -302,7 +302,7 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
-	protected void AddGatling(List<char[]> inputs, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
+	protected void AddGatling(InputContainer inputs, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
 		{
@@ -315,7 +315,7 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
-	protected void AddGatling(List<char[]> inputs, RequiredConditionCallback reqCall, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
+	protected void AddGatling(InputContainer inputs, RequiredConditionCallback reqCall, string state, PostInputCallback postCall, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
 		{
@@ -329,7 +329,7 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
-	protected void AddRhythmGatling(List<char[]> inputs, string state)
+	protected void AddRhythmGatling(InputContainer inputs, string state)
 	{
 		var newGatling = new RhythmGatling
 		{
@@ -503,7 +503,7 @@ public abstract class State : Node
 
 			if (Enumerable.SequenceEqual(firstInp, inputArr))
 			{
-				List<char[]> testedInputs = comGat.inputs;
+				InputContainer testedInputs = comGat.inputs;
 
 				if (!owner.facingRight && comGat.flipInputs)
 				{
@@ -588,7 +588,7 @@ public abstract class State : Node
 			if (Enumerable.SequenceEqual(firstInp, inputArr))
 			{
 
-				List<char[]> testedInputs = rhythmGatling.inputs;
+				InputContainer testedInputs = rhythmGatling.inputs;
 
 				if (!owner.facingRight)
 				{

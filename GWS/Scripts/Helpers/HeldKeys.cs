@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Godot;
 
 public sealed class HeldKeys : IEnumerable<char>
 {
@@ -114,6 +115,7 @@ public sealed class HeldKeys : IEnumerable<char>
         int count = 0;
         foreach (char key in this){
             buffer[count] = key;
+            count++;
         }
         return count;
     }
@@ -121,6 +123,13 @@ public sealed class HeldKeys : IEnumerable<char>
     public void SetState(int count, char[] buffer){
         Clear();
         for (int i = 0; i < count; i++)
-            Add(buffer[i]);   
+            Add(buffer[i]);
+    }
+
+    public void DumpTest()
+    {
+        
+        foreach (char key in this)
+            GD.Print(key);
     }
 }

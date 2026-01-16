@@ -1,5 +1,5 @@
 using System;
-
+/*
 public static unsafe class UnsafeSerializer
 {
 	// Serialize a struct into a preallocated byte[] buffer
@@ -28,3 +28,4 @@ public static unsafe class UnsafeSerializer
 		}
 	}
 }
+*/

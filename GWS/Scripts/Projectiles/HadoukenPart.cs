@@ -220,7 +220,7 @@ public class HadoukenPart : Node2D
 	}
 
 	[Serializable]
-	public unsafe struct HadoukenState
+	public struct HadoukenState
 	{
 		public int[] pos { get; set; }
 		public int[] speed { get; set; }

@@ -77,7 +77,7 @@ public class BaseManager : Node2D
 	protected int bkgIndex;
 
 	[Serializable]
-	public unsafe struct CombinedInputs
+	public struct CombinedInputs
 	{
 		public int p1Inps;
 		public int p2Inps;

@@ -159,20 +159,13 @@ public sealed class InputContainer : IEnumerable<char[]>
 		}
 	}
 
-	private char[] temp = new char[] {' ', ' '};
 	public void SetState(int count, char[] buffer){
-		Clear();
-		for (int i = 0; i < count; i++){
-			temp[0] = buffer[i * 2];
-			temp[1] = buffer[i * 2 + 1];
-			Add(temp);
-		}
+		Array.Copy(buffer, _buffer, count * 2);
+		_count = count;
 	}
 
 	public int GetState(char[] buffer){
-		for (int i = 0; i < _count; i++){
-			buffer[i] = _buffer[i];
-		}
+		Array.Copy(_buffer, buffer, _count * 2);
 		return _count;
 	}
 

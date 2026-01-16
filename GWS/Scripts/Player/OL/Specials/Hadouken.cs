@@ -90,13 +90,13 @@ public class Hadouken : BaseAttack
 
 	}
 
-    public override void _ExitTree()
-    {
-        base._ExitTree();
+	public override void _ExitTree()
+	{
+		base._ExitTree();
 		foreach (HadoukenPart cachedPart in cachedHadoukens)
 		{
 			cachedPart.QueueFree();
 		}
-    }
+	}
 
 }

@@ -206,7 +206,7 @@ class SyncTestManager : StateManager
 		long startmem = Globals.TestGC1();
 		currGame.GGRSAdvanceFrame(combinedInps.p1Inps, combinedInps.p2Inps);
 		Globals.TestGC2(startmem, "Initial game frame");
-		return;
+		
 		startmem = Globals.TestGC1();
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
 		

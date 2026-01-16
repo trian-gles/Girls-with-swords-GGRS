@@ -205,7 +205,7 @@ public class Player : Node2D
 	/// Contains all vital data for saving gamestate
 	/// </summary>
 	[Serializable]
-	public unsafe struct PlayerState
+	public struct PlayerState
 	{
 		public char[] inBuf2 { get; set; }
 		public int inBuf2Count {get; set;}
@@ -353,8 +353,8 @@ public class Player : Node2D
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		animationPlayer.Setup();
 
-		pState.inBuf2 = new char[55];
-		pState.hitStopInputs = new char[30];
+		pState.inBuf2 = new char[110];
+		pState.hitStopInputs = new char[60];
 		pState.heldKeys = new char[12];
 
 		grabPos = GetNode<Position2D>("GrabPos");
@@ -797,7 +797,7 @@ public class Player : Node2D
 				else if (inputArr[1] == 'r')
 				{
 					negEdgeCallback(inputArr[0]);
-					bool removeResult = heldKeys.Remove(inputArr[0]);
+					heldKeys.Remove(inputArr[0]);
 				}
 				playerState.HandleInput(inputArr);
 			}

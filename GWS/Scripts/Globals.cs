@@ -438,11 +438,15 @@ public class Globals : Node
 
 	public static bool ArrayInList(InputContainer arr, char[] element)
 	{
-		var elementTest = (from e in arr select Enumerable.SequenceEqual(e, element));
-		return elementTest.Contains(true);
+		foreach (var listItem in arr)
+		{
+			if (CompareInput(listItem, element))
+				return true;
+		}
+		return false;
 	}
 
-	public static List<int> PositionsOfArrayInList(InputContainer arr, char[] element) //this is really dumb I'm sure there's a better way
+	public static List<int> PositionsOfArrayInList(InputContainer arr, char[] element) //TODO : change this function to be zero allocation
 	{
 		var indexes = new List<int>();
 		var trueFalse = (from e in arr select Enumerable.SequenceEqual(e, element));

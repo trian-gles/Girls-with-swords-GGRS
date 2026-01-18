@@ -115,23 +115,18 @@ public sealed class InputContainer : IEnumerable<char[]>
 		if (other._count == 0)
 			return;
 
+		if (other._count > _capacity)
+		{
+			throw new InvalidOperationException("Prepending InputContainer exceeding capacity");
+		}
+
 		if (_count + other._count > _capacity)
-			throw new InvalidOperationException("InputContainer capacity exceeded.");
+			_count = _capacity - other._count;
 
 		// Special case: self-prepend
 		if (ReferenceEquals(this, other))
 		{
-			int originalCount = _count;
-			int charsToMove = originalCount * 2;
-
-			Array.Copy(_buffer, 0, _buffer, originalCount * 2, charsToMove);
-			Array.Copy(_buffer, originalCount * 2, _buffer, 0, charsToMove);
-
-			_count = originalCount * 2 > _capacity * 2
-				? throw new InvalidOperationException("InputContainer capacity exceeded.")
-				: originalCount * 2;
-
-			return;
+			throw new InvalidOperationException("InputContainer self prepend");
 		}
 
 		int existingChars = _count * 2;

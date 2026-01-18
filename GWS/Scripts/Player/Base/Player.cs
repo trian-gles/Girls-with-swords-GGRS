@@ -650,6 +650,8 @@ public class Player : Node2D
 		{
 			foreach (char[] inputArr in unhandledInputs)
 			{
+				if (hitStopInputs.Count + 1 >= hitStopInputs.Capacity)
+					hitStopInputs.Clear();
 
 				hitStopInputs.Add(inputArr);
 			}

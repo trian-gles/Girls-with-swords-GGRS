@@ -99,7 +99,7 @@ public class HadoukenPart : Node2D
 	protected bool movingRight;
 
 	protected Player targetPlayer;
-	protected Dictionary<string, int> specificState = new Dictionary<string, int>();
+	protected int[] specificState = new int[6];
 
 	public string ownerName;
 
@@ -231,7 +231,7 @@ public class HadoukenPart : Node2D
 		public int hits { get; set; }
 		public bool visible { get; set; }
 
-		public Dictionary<string, int> dict { get; set; }
+		public int[] dict { get; set; }
 	}
 
 	public virtual void AlwaysUpdate()
@@ -430,12 +430,12 @@ public class HadoukenPart : Node2D
 		return hadState;
 	}
 
-	protected virtual Dictionary<string, int> GetStateSpecific()
+	protected virtual int[] GetStateSpecific()
 	{
 		return specificState;
 	}
 
-	protected virtual void SetStateSpecific(Dictionary<string, int> dict)
+	protected virtual void SetStateSpecific(int[] dict)
 	{
 
 	}

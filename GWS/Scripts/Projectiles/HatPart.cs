@@ -57,18 +57,20 @@ public class HatPart : HadoukenPart
 		MakeInactive();
 	}
 
-	protected override Dictionary<string, int> GetStateSpecific()
+	private int SPEEDXINDEX = 0;
+	private int SPEEDYINDEX = 1;
+	protected override int[] GetStateSpecific()
 	{
-		specificState["speedx"] = (int)speed.x;
-		specificState["speedy"] = (int)speed.y;
+		specificState[SPEEDXINDEX] = (int)speed.x;
+		specificState[SPEEDYINDEX] = (int)speed.y;
 
 		return base.GetStateSpecific();
 	}
 
-	protected override void SetStateSpecific(Dictionary<string, int> dict)
+	protected override void SetStateSpecific(int[] dict)
 	{
-		speed.x = dict["speedx"];
-		speed.y = dict["speedy"];
+		speed.x = dict[SPEEDXINDEX];
+		speed.y = dict[SPEEDYINDEX];
 	}
 
 	public override void FrameAdvance()

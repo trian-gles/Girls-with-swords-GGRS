@@ -350,22 +350,26 @@ public class Snail : HadoukenPart
 		TryWalkSound();
 	}
 
-	protected override Dictionary<string, int> GetStateSpecific()
+	private int MODEINDEX = 0;
+	private int HITCONNECTFRAMEINDEX = 1;
+	private int OVERHEADINDEX = 2;
+	private int ACTIVATEFRAMEINDEX = 3;
+	protected override int[] GetStateSpecific()
 	{
-		specificState["mode"] = (int)mode;
-		specificState["hitConnectFrame"] = (int)hitConnectFrame;
-		specificState["overhead"] = Globals.BoolToInt(overhead);
-		specificState["activateFrame"] = activateFrame;
+		specificState[MODEINDEX] = (int)mode;
+		specificState[HITCONNECTFRAMEINDEX] = (int)hitConnectFrame;
+		specificState[OVERHEADINDEX] = Globals.BoolToInt(overhead);
+		specificState[ACTIVATEFRAMEINDEX] = activateFrame;
 
 		return base.GetStateSpecific();
 	}
 
-	protected override void SetStateSpecific(Dictionary<string, int> dict)
+	protected override void SetStateSpecific(int[] dict)
 	{
-		mode = (SnailMode)dict["mode"];
-		overhead = Globals.IntToBool(dict["overhead"]);
-		hitConnectFrame = dict["hitConnectFrame"];
-		activateFrame = dict["activateFrame"];
+		mode = (SnailMode)dict[MODEINDEX];
+		overhead = Globals.IntToBool(dict[OVERHEADINDEX]);
+		hitConnectFrame = dict[HITCONNECTFRAMEINDEX];
+		activateFrame = dict[ACTIVATEFRAMEINDEX];
 	}
 
 	private void HandleAttackCommand()

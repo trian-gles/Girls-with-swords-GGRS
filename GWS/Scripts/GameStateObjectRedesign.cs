@@ -35,12 +35,14 @@ public class GameStateObjectRedesign : Node
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
 	[Serializable]
-	public struct GameState
+	public unsafe struct GameState
 	{
 		public int frame { get; set; }
 		public Player.PlayerState P1State { get; set; }
 		public Player.PlayerState P2State { get; set; }
 		public int totalHadoukens {get; set;}
+
+		public fixed byte hadoukenStates[sizeof(HadoukenPart.HadoukenState)];
 		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
 		public int hitStopRemaining { get; set; }
 

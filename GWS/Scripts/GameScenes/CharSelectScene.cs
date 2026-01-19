@@ -133,10 +133,14 @@ public class CharSelectScene : BaseGame
 
 	}
 
-	public override bool CompareStates(byte[] serializedOldState)
+	public unsafe override bool CompareStates(byte[] serializedOldState)
 	{
 		base.CompareStates(serializedOldState);
-		var oldState = Deserialize<GameState>(serializedOldState);
+		GameState oldState;
+		fixed (byte* p = serializedOldState)
+		{
+			oldState = DeserializeState(p);
+		}
 		CompareValues(p1Pos, oldState.p1Pos, "p1Pos");
 		CompareValues(p2Pos, oldState.p2Pos, "p2Pos");
 		CompareValues(p1Color, oldState.p1Color, "p1Color");
@@ -149,7 +153,18 @@ public class CharSelectScene : BaseGame
 	
 	}
 
-	public override byte[] SaveState(int frame)
+	private unsafe static void SerializeState(ref GameState value, byte* buffer)
+	{
+		*(GameState*)buffer = value;
+	}
+
+	private unsafe static GameState DeserializeState(byte* buffer)
+	{
+		return *(GameState*)buffer;
+	}
+
+
+	public unsafe override byte[] SaveState(int frame)
 	{
 		var state = new GameState();
 		state.p1Color = p1Color;
@@ -163,12 +178,23 @@ public class CharSelectScene : BaseGame
 		state.selectedStage = selectedStage;
 		state.charSelectFrame = charSelectFrame;
 		state.selectStagePlayer = selectStagePlayer;
-		return Serialize<GameState>(state);
+
+		var arr = new byte[sizeof(GameState)];
+		fixed (byte* p = arr)
+		{
+			SerializeState(ref state, p);
+		}
+		
+		return arr;
 	}
 
-	public override void LoadState(int frame, byte[] buffer, int checksum)
+	public unsafe override void LoadState(int frame, byte[] buffer, int checksum)
 	{
-		var state = Deserialize<GameState>(buffer);
+		GameState state;
+		fixed (byte* p = buffer)
+		{
+			state = DeserializeState(p);
+		}
 		p1Selected = state.p1Selected;
 		p2Selected = state.p2Selected;
 		p1Color = state.p1Color;

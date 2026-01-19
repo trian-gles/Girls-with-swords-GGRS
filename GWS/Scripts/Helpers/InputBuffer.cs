@@ -154,13 +154,15 @@ public sealed class InputContainer : IEnumerable<char[]>
 		}
 	}
 
-	public void SetState(int count, char[] buffer){
-		Array.Copy(buffer, _buffer, count * 2);
+	public unsafe void SetState(int count, char* buffer){
+		for (int i = 0; i < count * 2; i++)
+			_buffer[i] = buffer[i];
 		_count = count;
 	}
 
-	public int GetState(char[] buffer){
-		Array.Copy(_buffer, buffer, _count * 2);
+	public unsafe int GetState(char* buffer){
+		for (int i = 0; i < _count * 2; i++)
+			buffer[i] = _buffer[i];
 		return _count;
 	}
 

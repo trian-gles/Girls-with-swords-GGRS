@@ -111,7 +111,7 @@ public sealed class HeldKeys : IEnumerable<char>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public int GetState(char[] buffer){
+    public unsafe int GetState(char* buffer){
         int count = 0;
         foreach (char key in this){
             buffer[count] = key;
@@ -120,7 +120,7 @@ public sealed class HeldKeys : IEnumerable<char>
         return count;
     }
 
-    public void SetState(int count, char[] buffer){
+    public unsafe void SetState(int count, char* buffer){
         Clear();
         for (int i = 0; i < count; i++)
             Add(buffer[i]);

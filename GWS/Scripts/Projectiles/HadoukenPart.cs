@@ -220,10 +220,12 @@ public class HadoukenPart : Node2D
 	}
 
 	[Serializable]
-	public struct HadoukenState
+	public unsafe struct HadoukenState
 	{
-		public int[] pos { get; set; }
-		public int[] speed { get; set; }
+		public int posx;
+		public int posy;
+		public int speedx;
+		public int speedy;
 		public bool active { get; set; }
 		public string name { get; set; }
 		public int frame { get; set; }
@@ -231,7 +233,7 @@ public class HadoukenPart : Node2D
 		public int hits { get; set; }
 		public bool visible { get; set; }
 
-		public int[] dict { get; set; }
+		public fixed int dict[6];
 	}
 
 	public virtual void AlwaysUpdate()

@@ -126,7 +126,7 @@ class SyncTestManager : StateManager
 	public FixedSizedQueue<CombinedInputs> pastInputs;
 	public FixedSizedQueue<bool> pastInputAcceptance;
 
-	private bool randomInputs = false;
+	private bool randomInputs = true;
 	private Random random;
 
 	[Export]

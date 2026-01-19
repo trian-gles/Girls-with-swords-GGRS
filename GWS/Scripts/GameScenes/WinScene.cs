@@ -51,6 +51,16 @@ public class WinScene : BaseGame
 	[Signal]
 	public delegate void ReselectChar(string winner);
 
+	private unsafe static void SerializeState(ref GameState value, byte* buffer)
+	{
+		*(GameState*)buffer = value;
+	}
+
+	private unsafe static GameState DeserializeState(byte* buffer)
+	{
+		return *(GameState*)buffer;
+	}
+
 	private void HideSelf()
 	{
 		ui.Visible = false;
@@ -103,7 +113,7 @@ public class WinScene : BaseGame
 		cursorPositions[player] %= 3;
 	}
 
-	public override byte[] SaveState(int winScreenFrame)
+	public unsafe override byte[] SaveState(int winScreenFrame)
 	{
 		var state = new WinScene.GameState();
 		state.winScreenFrame = this.winScreenFrame;
@@ -112,12 +122,22 @@ public class WinScene : BaseGame
 		state.lastFrameInputs.SetInputs(lastFrameInputs[0], lastFrameInputs[1]);
 		state.p1Selected = this.selected[0];
 		state.p2Selected = this.selected[1];
-		return Serialize<WinScene.GameState>(state);
+		var arr = new byte[sizeof(GameState)];
+		fixed (byte* p = arr)
+		{
+			SerializeState(ref state, p);
+		}
+		
+		return arr;
 	}
 
-	public override void LoadState(int winScreenFrame, byte[] buffer, int checksum)
+	public unsafe override void LoadState(int winScreenFrame, byte[] buffer, int checksum)
 	{
-		var state = Deserialize<WinScene.GameState>(buffer);
+		GameState state;
+		fixed (byte* p = buffer)
+		{
+			state = DeserializeState(p);
+		}
 		this.winScreenFrame = state.winScreenFrame;
 		cursorPositions[0] = state.p1Pos;
 		cursorPositions[1] = state.p2Pos;

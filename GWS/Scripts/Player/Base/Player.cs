@@ -180,10 +180,8 @@ public class Player : Node2D
 	public bool hasBeenLaunched = false;
 	public bool hasDoubleOrSuperJumped = false;
 	public bool hasHurtboxActive = false;
+	protected int[] charSpecificData = new int[4];
 
-
-
-	public int[] charSpecificData = new int[] {0, 0, 0, 0};
 	public PlayerState pState = new PlayerState();
 
 
@@ -205,18 +203,18 @@ public class Player : Node2D
 	/// Contains all vital data for saving gamestate
 	/// </summary>
 	[Serializable]
-	public struct PlayerState
+	public unsafe struct PlayerState
 	{
-		public char[] inBuf2 { get; set; }
+		public fixed char inBuf2[55];
 		public int inBuf2Count {get; set;}
-		public char[] hitStopInputs { get; set; }
+		public fixed char hitStopInputs[20];
 		public int hitStopInputsCount {get; set;}
-		public char[] heldKeys { get; set; }
+		public fixed char heldKeys[12];
 		public int heldKeysCount {get; set;}
 
 		public int inBuf2Timer { get; set; }
 		public string currentState { get; set; }
-		public int[] stateData {get; set;}
+		public fixed int stateData[6];
 		public bool canDoubleJump { get; set; }
 		public bool canAirDash { get; set; }
 		public bool hitConnect { get; set; }
@@ -260,7 +258,7 @@ public class Player : Node2D
 		public bool hasBeenLaunched { get; set; }
 		public bool hasDoubleOrSuperJumped { get; set; }
 		public bool hasHurtboxActive { get; set; }
-		public int[] charSpecificData { get; set; }
+		public fixed int charSpecificData[4];
 
 	}
 
@@ -353,10 +351,6 @@ public class Player : Node2D
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		animationPlayer.Setup();
 
-		pState.inBuf2 = new char[110];
-		pState.hitStopInputs = new char[60];
-		pState.heldKeys = new char[12];
-
 		grabPos = GetNode<Position2D>("GrabPos");
 		hitBoxes = GetNode<Area2D>("HitBoxes");
 		hurtBoxes = GetNode<Area2D>("HurtBoxes");
@@ -426,18 +420,32 @@ public class Player : Node2D
 	}
 
 
-	public PlayerState GetState()
+	public unsafe PlayerState GetState()
 	{
-		pState.inBuf2Count = inputHandler.inBuf2.GetState(pState.inBuf2);
-		pState.hitStopInputsCount = inputHandler.hitStopInputs.GetState(pState.hitStopInputs);
-		pState.heldKeysCount = inputHandler.heldKeys.GetState(pState.heldKeys);
+		fixed (char* p = pState.inBuf2)
+		{
+			pState.inBuf2Count = inputHandler.inBuf2.GetState(p);
+		}
+		fixed (char* p = pState.hitStopInputs)
+		{
+			pState.inBuf2Count = inputHandler.hitStopInputs.GetState(p);
+		}
+		fixed (char* p = pState.heldKeys)
+		{
+			pState.inBuf2Count = inputHandler.heldKeys.GetState(p);
+		}
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
 
 		pState.canDoubleJump = canDoubleJump;
 		pState.canAirDash = canAirDash;
 		pState.currentState = currentState.Name;
-		pState.stateData = currentState.Save();
+		var currentStateData = currentState.Save();
+		fixed (int* p = pState.stateData)
+		{
+			for (int i = 0; i < currentStateData.Length; i++)
+				p[i] = currentStateData[i];
+		}
 		pState.frameCount = currentState.frameCount;
 		pState.hitConnect = currentState.hitConnect;
 		pState.stunRemaining = currentState.stunRemaining;
@@ -467,7 +475,13 @@ public class Player : Node2D
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
 		pState.electrocuted = electrocuted;
-		pState.charSpecificData = GetStateCharSpecific();
+		var charSpecificData = GetStateCharSpecific();
+
+		fixed (int* p = pState.charSpecificData)
+		{
+			for (int i = 0; i < charSpecificData.Length; i++)
+				p[i] = charSpecificData[i];
+		}
 		pState.wasOTGHit = wasOTGHit;
 		pState.burstMeter = burstMeter;
 
@@ -498,7 +512,8 @@ public class Player : Node2D
 
 	}
 
-	public void SetState(PlayerState pState)
+	private int[] tempStateData = new int[4];
+	public unsafe void SetState(PlayerState pState)
 	{
 		// TODO : REWRITE
 
@@ -512,7 +527,9 @@ public class Player : Node2D
 		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
-		currentState.Load(pState.stateData);
+		for (int i = 0; i < 4; i++)
+			tempStateData[i] = pState.stateData[i];
+		currentState.Load(tempStateData);
 		string animation = pState.animationName;
 		animationPlayer.SetAnimationAndFrame(animation, pState.animationCursor);
 		currentState.stunRemaining = pState.stunRemaining;
@@ -549,7 +566,9 @@ public class Player : Node2D
 		lastStateName = pState.lastStateName;
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
-		SetStateCharSpecific(pState.charSpecificData);
+		for (int i = 0; i < charSpecificData.Length; i++)
+			charSpecificData[i] = pState.charSpecificData[i];
+		SetStateCharSpecific(charSpecificData);
 		if (pState.specialBreakFramesRemaining > 0 && specialBreakFramesRemaining == 0)
 			GreySprite();
 		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)

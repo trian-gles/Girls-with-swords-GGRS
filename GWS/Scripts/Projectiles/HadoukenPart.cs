@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using static BaseAttack;
 
+using System.Runtime.InteropServices;
+
 public class HadoukenPart : Node2D
 {
 	[Signal]
@@ -91,6 +93,7 @@ public class HadoukenPart : Node2D
 	public delegate void OnHitConnected(int hitPush);
 
 	protected int lastHitFrame = -20;
+	public int id;
 
 	protected int hits = 0;
 	
@@ -210,7 +213,10 @@ public class HadoukenPart : Node2D
 			i++;
 
 		hadoukenNums.Add(i);
-		Name = targetPlayer.Name + Globals.frame; // provides a unique name for each hadouken that can be accessed by the gamestateobj
+		id = Globals.frame;
+		if (targetPlayer.Name == "P2")
+			id += 10000;
+		
 		num = i;
 	}
 
@@ -219,21 +225,21 @@ public class HadoukenPart : Node2D
 		hadoukenNums.Remove(num);
 	}
 
-	[Serializable]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public unsafe struct HadoukenState
 	{
-		public int posx;
-		public int posy;
-		public int speedx;
-		public int speedy;
-		public bool active { get; set; }
-		public string name { get; set; }
-		public int frame { get; set; }
-		public int lastHitFrame { get; set; }
-		public int hits { get; set; }
-		public bool visible { get; set; }
+		public int posx { get; set; } // 4 bytes
+		public int posy { get; set; }  // 4 bytes
+		public int speedx { get; set; } // 4 bytes
+		public int speedy { get; set; } // 4 bytes
+		public bool active { get; set; } // 1 byte
+		public int id; // 2 * 7 = 14 bytes
+		public int frame { get; set; } // 4 bytes
+		public int lastHitFrame { get; set; } // 4 bytes
+		public int hits { get; set; } // 4 bytes
+		public bool visible { get; set; } // 1 byte
 
-		public fixed int dict[6];
+		public fixed int dict[6]; // 4 * 6 = 24 bytes
 	}
 
 	public virtual void AlwaysUpdate()
@@ -418,16 +424,22 @@ public class HadoukenPart : Node2D
 	}
 
 	HadoukenState hadState = new HadoukenState();
-	public HadoukenState GetState()
+	private int[] tempDict = new int[6];
+	public unsafe HadoukenState GetState()
 	{
-		hadState.pos = new int[] {(int) Position.x, (int) Position.y};
-		hadState.speed = new int[] { (int)speed.x, (int)speed.y };
+		hadState.posx = (int) Position.x;
+
+		hadState.posy = (int) Position.y;
+		hadState.speedx = (int)speed.x;
+		hadState.speedy = (int)speed.y;
 		hadState.active = active;
-		hadState.name = Name;
+		hadState.id = id;
 		hadState.frame = frame;
 		hadState.hits = hits;
 		hadState.lastHitFrame = lastHitFrame;
-		hadState.dict = GetStateSpecific();
+		tempDict = GetStateSpecific();
+		for (int i = 0; i < tempDict.Length; i++)
+			hadState.dict[i] = tempDict[i];
 		hadState.visible = Visible;
 		return hadState;
 	}
@@ -448,17 +460,20 @@ public class HadoukenPart : Node2D
 			MakeInactive();
 	}
 
-	public virtual void SetState(HadoukenState newState) 
+	
+	public unsafe virtual void SetState(HadoukenState newState) 
 	{
-		Position = new Vector2(newState.pos[0], newState.pos[1]);
-		speed = new Vector2(newState.speed[0], newState.speed[1]);
+		Position = new Vector2(newState.posx, newState.posy);
+		speed = new Vector2(newState.speedx, newState.speedy);
 		
 		active = newState.active;
 		Visible = newState.visible;
 		frame = newState.frame;
 		hits = newState.hits;
 		lastHitFrame = newState.lastHitFrame;
-		SetStateSpecific(newState.dict);
+		for (int i = 0; i < tempDict.Length; i++)
+			tempDict[i] = newState.dict[i];
+		SetStateSpecific(tempDict);
 		if (Globals.logOn)
 			Globals.Log($"Rolling back hadouken {Name}, setting hits to {hits}");
 	}

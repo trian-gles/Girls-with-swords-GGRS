@@ -2,7 +2,14 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>GWSGGPO</RootNamespace>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 	<ItemGroup>
 		<CSFile Include="addons\WAT\core\assertions\Assertions.cs" />

@@ -31,19 +31,21 @@ public class GameStateObjectRedesign : Node
 	/// </summary>
 	private GameState lastGs;
 
+	private const int HADOUKENSTATESIZE = 68;
 	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
 	[Serializable]
 	public unsafe struct GameState
 	{
+		private const int HadoukenStateSize = 16;
 		public int frame { get; set; }
 		public Player.PlayerState P1State { get; set; }
 		public Player.PlayerState P2State { get; set; }
 		public int totalHadoukens {get; set;}
 
-		public fixed byte hadoukenStates[sizeof(HadoukenPart.HadoukenState)];
-		public List<HadoukenPart.HadoukenState> hadoukenStates { get; set; }
+		
+		public fixed byte hadoukenStates[HADOUKENSTATESIZE * 20]; // assuming a size of 68 bytes for now.  May need to change
 		public int hitStopRemaining { get; set; }
 
 		// From gameScene
@@ -51,17 +53,13 @@ public class GameStateObjectRedesign : Node
 		public int possibleEndingFrame { get; set; }
 	}
 
-	private Dictionary<string, HadoukenPart> hadoukens;
+	private Dictionary<int, HadoukenPart> hadoukens;
 	private List<HadoukenPart> deleteQueued;
 
 	public GameStateObjectRedesign()
 	{
-		hadoukens = new Dictionary<string, HadoukenPart>(); // indexed as {name, object}
-
-		gState = new GameState
-		{
-			hadoukenStates = new List<HadoukenPart.HadoukenState>()
-		};
+		hadoukens = new Dictionary<int, HadoukenPart>(); // indexed as {name, object}
+		gState = new GameState();
 		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
 	}
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
@@ -91,7 +89,6 @@ public class GameStateObjectRedesign : Node
 		P2.CheckTurnAround();
 
 		hadoukens.Clear();
-		gState.hadoukenStates.Clear();
 		deleteQueued.Clear();
 		Globals.Log("GameState config finished");
 	}
@@ -99,35 +96,40 @@ public class GameStateObjectRedesign : Node
 	private BinaryFormatter formatter = new BinaryFormatter();
 	MemoryStream stream = new MemoryStream();
 	private long maxLen = 0;
-	private byte[] Serialize<T>(T data)
-	where T : struct
+
+	private unsafe static void SerializeHadoukenState(ref HadoukenPart.HadoukenState value, byte* buffer)
 	{
-		stream.Position = 0;
-		stream.SetLength(0);
-		formatter.Serialize(stream, data);
-		return stream.ToArray();
-	}
-	private T Deserialize<T>(byte[] array)
-		where T : struct
-	{
-		stream.Position = 0;
-		stream.SetLength(0);
-		stream.Write(array, 0, array.Length);
-		stream.Position = 0;
-		return (T)formatter.Deserialize(stream);
+		*(HadoukenPart.HadoukenState*)buffer = value;
 	}
 
-	public GameState GetGameState()
+	private unsafe static HadoukenPart.HadoukenState DeserializeHadoukenState(byte* buffer)
+	{
+		return *(HadoukenPart.HadoukenState*)buffer;
+	}
+
+	private unsafe void SerializeHadoukens(byte* arr)
+	{
+		int i = 0;
+		foreach (var h in hadoukens)
+		{
+			var state = h.Value.GetState();
+			SerializeHadoukenState(ref state, arr + i * HADOUKENSTATESIZE);
+			i++;
+		}
+	}
+
+	public unsafe GameState GetGameState()
 	{
 		gState.frame = Globals.frame;
 		
 		gState.P1State = P1.GetState();
 		gState.P2State = P2.GetState();
-		gState.hadoukenStates.Clear();
-		foreach (var entry in hadoukens)
-		{
-			gState.hadoukenStates.Add(entry.Value.GetState());
+		gState.totalHadoukens = hadoukens.Count;
+		fixed (byte* b = gState.hadoukenStates){
+			SerializeHadoukens(b);
 		}
+		
+		
 		gState.hitStopRemaining = hitStopRemaining;
 
 		// From gameScene
@@ -145,6 +147,61 @@ public class GameStateObjectRedesign : Node
 	public byte[] SaveGameState()
 	{
 		return Serialize<GameState>(GetGameState());
+	}
+
+	private unsafe void DeserializeHadoukens(byte* arr, int totalHadoukens)
+	{
+		
+		for (int i = 0; i < totalHadoukens; i++)
+		{
+			var hState = DeserializeHadoukenState(arr + i * HADOUKENSTATESIZE);
+			if (Globals.logOn)
+				Globals.Log($"Loading state for hadouken {hState.id}");
+			if (hadoukens.ContainsKey(hState.id))
+			{
+				if (Globals.logOn)
+					Globals.Log($"Rolling back {hState.id} to frame {gState.frame}");
+				hadoukens[hState.id].SetState(hState);
+			}
+		}
+	}
+	private unsafe void SetGameState(GameState gState)
+	{
+		
+		hitStopRemaining = gState.hitStopRemaining;
+		P1.SetState(gState.P1State);
+		P2.SetState(gState.P2State);
+		if (Globals.logOn)
+			Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
+		
+		DeserializeHadoukens(gState.hadoukenStates, gState.totalHadoukens);
+
+		foreach (var entry in hadoukens)
+		{
+			HadoukenPart thisHadouken = entry.Value;
+
+			if (thisHadouken.creationFrame > gState.frame)
+			{
+				if (Globals.logOn)
+					Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
+				
+				RemoveHadouken(thisHadouken);
+			}
+		}
+		CleanupHadoukens();
+
+		mainScene.currTime = (GameScene.TimeStatus)gState.timeMode;
+		mainScene.possibleEndingFrame = gState.possibleEndingFrame;
+
+	}
+
+	/// <summary>
+	/// Load the game state provided by GGPO
+	/// </summary>
+	/// <param name="stream"></param>
+	public void LoadGameState(byte[] stream)
+	{
+		SetGameState(Deserialize<GameState>(stream));
 	}
 
 	 public bool RedesignCompareStates(byte[] buffer)
@@ -183,7 +240,7 @@ public class GameStateObjectRedesign : Node
 			i++;
 		}
 
-		errMsg = AddError(errMsg, $"Hadouken count", firstGs.hadoukenStates.Count, secondGs.hadoukenStates.Count);
+		/*errMsg = AddError(errMsg, $"Hadouken count", firstGs.hadoukenStates.Count, secondGs.hadoukenStates.Count);
 		if (firstGs.hadoukenStates.Count != secondGs.hadoukenStates.Count) return errMsg;
 		foreach (var hState1 in firstGs.hadoukenStates)
 		{
@@ -200,7 +257,7 @@ public class GameStateObjectRedesign : Node
 			}
 			if (!matched)
 				errMsg += $"Hadouken {hState1.name} has no match";
-		}
+		}*/
 		return errMsg;
 	}
 
@@ -238,54 +295,6 @@ public class GameStateObjectRedesign : Node
 		}
 		errMsg += $"{msg} does not match: 1: {val1}, 2: {val2} \n";
 		return errMsg;
-	}
-
-	private void SetGameState(GameState gState)
-	{
-		
-		hitStopRemaining = gState.hitStopRemaining;
-		P1.SetState(gState.P1State);
-		P2.SetState(gState.P2State);
-		if (Globals.logOn)
-			Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
-		foreach (HadoukenPart.HadoukenState hState in gState.hadoukenStates) // only update each saved hadouken if it still exists
-		{
-			if (Globals.logOn)
-				Globals.Log($"Loading state for hadouken {hState.name}");
-			if (hadoukens.ContainsKey(hState.name))
-			{
-				if (Globals.logOn)
-					Globals.Log($"Rolling back {hState.name} to frame {gState.frame}");
-				hadoukens[hState.name].SetState(hState);
-			}
-		}
-		
-		foreach (var entry in hadoukens)
-		{
-			HadoukenPart thisHadouken = entry.Value;
-
-			if (thisHadouken.creationFrame > gState.frame)
-			{
-				if (Globals.logOn)
-					Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
-				
-				RemoveHadouken(thisHadouken);
-			}
-		}
-		CleanupHadoukens();
-
-		mainScene.currTime = (GameScene.TimeStatus)gState.timeMode;
-		mainScene.possibleEndingFrame = gState.possibleEndingFrame;
-
-	}
-
-	/// <summary>
-	/// Load the game state provided by GGPO
-	/// </summary>
-	/// <param name="stream"></param>
-	public void LoadGameState(byte[] stream)
-	{
-		SetGameState(Deserialize<GameState>(stream));
 	}
 
 	public void SyncTestUpdate(Godot.Collections.Array thisFrameInputs)
@@ -513,7 +522,7 @@ public class GameStateObjectRedesign : Node
 	}
 	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
 	{
-		hadoukens.Remove(h.Name);
+		hadoukens.Remove(h.id);
 		h.freed = true;
 		h.RemoveNum();
 		mainScene.CallDeferred("remove_child", h);
@@ -522,7 +531,7 @@ public class GameStateObjectRedesign : Node
 	}
 	public void NewHadouken(HadoukenPart h)
 	{
-		hadoukens.Add(h.Name, h); 
+		hadoukens.Add(h.id, h); 
 		h.creationFrame = Globals.frame;
 
 		if (h is Snail)
@@ -549,18 +558,18 @@ public class GameStateObjectRedesign : Node
 		h.ShouldNotExist();
 	}
 
-	private HashSet<string> handledHadoukens = new HashSet<string>();
+	private HashSet<int> handledHadoukens = new HashSet<int>();
 	private void HandleHadoukenCollisions()
 	{
 		handledHadoukens.Clear();
-		foreach (KeyValuePair<string, HadoukenPart> h in hadoukens)
+		foreach (KeyValuePair<int, HadoukenPart> h in hadoukens)
 		{
 			handledHadoukens.Add(h.Key);
 			if (!h.Value.active)
 			{
 				continue;
 			}
-			foreach (KeyValuePair<string, HadoukenPart> otherH in hadoukens)
+			foreach (KeyValuePair<int, HadoukenPart> otherH in hadoukens)
 			{
 				if (handledHadoukens.Contains(otherH.Key) || !otherH.Value.active)
 				{

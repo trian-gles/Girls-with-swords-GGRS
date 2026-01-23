@@ -20,9 +20,9 @@ public class RandomMash : BehaviourState
         {
             if (distance < 2000 && state.P1State.grounded)
             {
-                if (state.P1State.currentState == "Knockdown")
+                if (AIBehaviour.CheckP1CurrentState(state, "Knockdown"))
                     return 1;
-                else if (!state.P2State.currentState.Contains("Run"))
+                else if (!AIBehaviour.GetP2CurrentState(state).Contains("Run"))
                     return DoGrab();
                 else
                 {
@@ -86,9 +86,9 @@ public class RandomMash : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
+        if (AIBehaviour.groundHitConfirmStates.Contains(AIBehaviour.GetP1CurrentState(state)))
             return "Combo";
-        else if (AIBehaviour.mixupConfirmStates.Contains(state.P1State.currentState))
+        else if (AIBehaviour.mixupConfirmStates.Contains(AIBehaviour.GetP1CurrentState(state)))
             return "Mixup";
 
         if (Math.Abs(state.P1State.positionx - state.P2State.positionx) > 2000)

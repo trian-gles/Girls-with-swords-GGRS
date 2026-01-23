@@ -45,7 +45,7 @@ public class Chase : BehaviourState
 		if (state.P2State.stunRemaining == 1)
 			intent = (Intent)((int)intent + 1 % 4);
 
-		if (!possibleStates.Contains(state.P2State.currentState))
+		if (!possibleStates.Contains(AIBehaviour.GetP2CurrentState(state)))
 			return 0;
 
 

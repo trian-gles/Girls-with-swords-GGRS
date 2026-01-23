@@ -22,7 +22,7 @@ public class WakeupBackdash : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-       if (!(state.P2State.currentState == "Knockdown") && state.P2State.frameCount > 6)
+       if (!(AIBehaviour.CheckP2CurrentState(state, "Knockdown")) && state.P2State.frameCount > 6)
         {
             if (random.Next(2) == 1)
                 return "Zone";

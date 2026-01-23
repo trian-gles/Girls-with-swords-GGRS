@@ -228,16 +228,16 @@ public class HadoukenPart : Node2D
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public unsafe struct HadoukenState
 	{
-		public int posx { get; set; } // 4 bytes
-		public int posy { get; set; }  // 4 bytes
-		public int speedx { get; set; } // 4 bytes
-		public int speedy { get; set; } // 4 bytes
-		public bool active { get; set; } // 1 byte
+		public int posx; // 4 bytes
+		public int posy;  // 4 bytes
+		public int speedx; // 4 bytes
+		public int speedy; // 4 bytes
+		public bool active; // 1 byte
 		public int id; // 2 * 7 = 14 bytes
-		public int frame { get; set; } // 4 bytes
-		public int lastHitFrame { get; set; } // 4 bytes
-		public int hits { get; set; } // 4 bytes
-		public bool visible { get; set; } // 1 byte
+		public int frame; // 4 bytes
+		public int lastHitFrame; // 4 bytes
+		public int hits; // 4 bytes
+		public bool visible; // 1 byte
 
 		public fixed int dict[6]; // 4 * 6 = 24 bytes
 	}

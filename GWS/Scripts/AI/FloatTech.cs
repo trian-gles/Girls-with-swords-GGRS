@@ -14,7 +14,7 @@ public class FloatTech : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (!AIBehaviour.floatStates.Contains(state.P2State.currentState))
+        if (!AIBehaviour.floatStates.Contains(AIBehaviour.GetP2CurrentState(state)))
         {
             return "Chase";
         }

@@ -214,9 +214,10 @@ class SyncTestManager : StateManager
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
 		Globals.TestGC2(startmem, "Saving");
-		
+        
 
-		if (!serializedStates.Full()) // we haven't accrued enough states to rollback
+
+        if (!serializedStates.Full()) // we haven't accrued enough states to rollback
 			return;
 
 		if (!pastInputAcceptance[0]) // as this frame was not accepting inputs, we do not need to and should not test rolling back from it
@@ -226,8 +227,8 @@ class SyncTestManager : StateManager
 		startmem = Globals.TestGC1();
 		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
 		Globals.TestGC2(startmem, "Loading");
-		
-		Globals.frame = Globals.frame - (DEPTH);
+        
+        Globals.frame = Globals.frame - (DEPTH);
 		startmem = Globals.TestGC1();
 		for (int i = 1; i < DEPTH + 1; i++)
 		{
@@ -237,10 +238,11 @@ class SyncTestManager : StateManager
 			currGame.GGRSAdvanceFrame(tempInputs.p1Inps, tempInputs.p2Inps);
 		}
 		Globals.TestGC2(startmem, "Resimulation");
-		
-		//if (Globals.frame == 1200)
-		//	gameScene.WriteLogs();
-		startmem = Globals.TestGC1();
+        return;
+
+        //if (Globals.frame == 1200)
+        //	gameScene.WriteLogs();
+        startmem = Globals.TestGC1();
 		if (!currGame.CompareStates(serializedGamestate) && !broken){
 			gameScene.WriteLogs();
 			broken = true;

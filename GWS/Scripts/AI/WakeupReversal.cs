@@ -13,7 +13,7 @@ public class WakeupReversal : BehaviourState
     Random random = new Random();
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
-        if (state.P2State.currentState == "Knockdown")
+        if (AIBehaviour.CheckP2CurrentState(state, "Knockdown"))
         {
             GD.Print("Trying to reversal but knocked down");
             return 0;

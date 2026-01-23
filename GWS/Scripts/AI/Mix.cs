@@ -29,12 +29,12 @@ public class Mixup : BehaviourState
     public override int Poll(GameStateObjectRedesign.GameState state)
     {
         
-        if (state.P2State.currentState == "Jab" || state.P2State.currentState == "CrouchA")
+        if (AIBehaviour.CheckP2CurrentState(state, "Jab") || AIBehaviour.CheckP2CurrentState(state, "CrouchA"))
         {
             return DoButtonPress(jabFollowChoice) + GetForwardInput(state) + jabFollowCrouch;  
         }
 
-        if (state.P2State.currentState == "Kick" || state.P2State.currentState == "CrouchB")
+        if (AIBehaviour.CheckP2CurrentState(state, "Kick") || AIBehaviour.CheckP2CurrentState(state, "CrouchB"))
         {
             
             if (kickFollowChoice == Globals.KICK)
@@ -52,7 +52,7 @@ public class Mixup : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (AIBehaviour.mixupConfirmStates.Contains(state.P1State.currentState))
+        if (AIBehaviour.mixupConfirmStates.Contains(AIBehaviour.GetP1CurrentState(state)))
         {
             if (random.Next(90) == 1)
                 return "Chase";
@@ -60,7 +60,7 @@ public class Mixup : BehaviourState
                 return "";
             
         }
-        else if (AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
+        else if (AIBehaviour.groundHitConfirmStates.Contains(AIBehaviour.GetP1CurrentState(state)))
         {
             return "Combo";
         }

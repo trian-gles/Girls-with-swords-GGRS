@@ -206,58 +206,58 @@ public class Player : Node2D
 	public unsafe struct PlayerState
 	{
 		public fixed char inBuf2[55];
-		public int inBuf2Count {get; set;}
+		public int inBuf2Count;
 		public fixed char hitStopInputs[20];
-		public int hitStopInputsCount {get; set;}
+		public int hitStopInputsCount;
 		public fixed char heldKeys[12];
-		public int heldKeysCount {get; set;}
+		public int heldKeysCount;
 
-		public int inBuf2Timer { get; set; }
-		public string currentState { get; set; }
+		public int inBuf2Timer;
+		public fixed char currentState[20];
 		public fixed int stateData[6];
-		public bool canDoubleJump { get; set; }
-		public bool canAirDash { get; set; }
-		public bool hitConnect { get; set; }
-		public int frameCount { get; set; }
-		public int stunRemaining { get; set; }
-		public int hitPushRemaining { get; set; }
-		public bool flipH { get; set; }
-		public int health { get; set; }
-		public int meter { get; set; }
-		public int positionx {get; set;}
-		public int positiony {get; set;}
-		public int velocityx {get; set;}
-		public int velocityy {get; set;}
+		public bool canDoubleJump;
+		public bool canAirDash;
+		public bool hitConnect;
+		public int frameCount;
+		public int stunRemaining;
+		public int hitPushRemaining;
+		public bool flipH;
+		public int health;
+		public int meter;
+		public int positionx;
+		public int positiony;
+		public int velocityx;
+		public int velocityy;
 
-		public int terminalVelocity { get; set; }
-		public bool facingRight { get; set; }
-		public bool touchingWall { get; set; }
-		public bool grounded { get; set; }
-		public int combo { get; set; }
-		public int proration { get; set; }
-		public string animationName { get; set; }
-		public int animationCursor { get; set; }
-		public int lastFrameInputs { get; set; }
-		public int invulnFrames { get; set; }
-		public int airDashFrames { get; set; }
-		public int grabInvulnFrames { get; set; }
-		public string lastStateName { get; set; }
-		public int counterStopFrames { get; set; }
-		public bool canGroundbounce { get; set; }
-		public int specialBreakFramesRemaining { get; set; }
-		public int landingRecoveryFramesRemaining { get; set; }
-		public int lastPressedDownFrame { get; set; }
-		public int lastPressedDashFrame { get; set; }
-		public int lastPressedUpFrame { get; set; }
-		public bool electrocuted { get; set; }
-		public bool wasOTGHit { get; set; }
-		public int burstMeter {  get; set; }
-		public int backdashCooldownRemaining { get; set; }
-		public int hadoukenCooldownRemaining { get; set; }
-		public int meterGainCooldownRemaining { get; set; }
-		public bool hasBeenLaunched { get; set; }
-		public bool hasDoubleOrSuperJumped { get; set; }
-		public bool hasHurtboxActive { get; set; }
+		public int terminalVelocity;
+		public bool facingRight;
+		public bool touchingWall;
+		public bool grounded;
+		public int combo;
+		public int proration;
+		public string animationName;
+		public int animationCursor;
+		public int lastFrameInputs;
+		public int invulnFrames;
+		public int airDashFrames;
+		public int grabInvulnFrames;
+		public string lastStateName;
+		public int counterStopFrames;
+		public bool canGroundbounce;
+		public int specialBreakFramesRemaining;
+		public int landingRecoveryFramesRemaining;
+		public int lastPressedDownFrame;
+		public int lastPressedDashFrame;
+		public int lastPressedUpFrame;
+		public bool electrocuted;
+		public bool wasOTGHit;
+		public int burstMeter;
+		public int backdashCooldownRemaining;
+		public int hadoukenCooldownRemaining;
+		public int meterGainCooldownRemaining;
+		public bool hasBeenLaunched;
+		public bool hasDoubleOrSuperJumped;
+		public bool hasHurtboxActive;
 		public fixed int charSpecificData[4];
 
 	}
@@ -428,18 +428,27 @@ public class Player : Node2D
 		}
 		fixed (char* p = pState.hitStopInputs)
 		{
-			pState.inBuf2Count = inputHandler.hitStopInputs.GetState(p);
+			pState.hitStopInputsCount = inputHandler.hitStopInputs.GetState(p);
 		}
 		fixed (char* p = pState.heldKeys)
 		{
-			pState.inBuf2Count = inputHandler.heldKeys.GetState(p);
+			pState.heldKeysCount = inputHandler.heldKeys.GetState(p);
 		}
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
 
 		pState.canDoubleJump = canDoubleJump;
 		pState.canAirDash = canAirDash;
-		pState.currentState = currentState.Name;
+
+		int j = 0;
+		foreach (char c in currentState.Name)
+		{
+			pState.currentState[j] = c;
+			j++;
+		}
+		pState.currentState[j] = '\0';
+			
+		
 		var currentStateData = currentState.Save();
 		fixed (int* p = pState.stateData)
 		{
@@ -523,7 +532,8 @@ public class Player : Node2D
 
 
 		inputHandler.inBuf2Timer = pState.inBuf2Timer;
-		currentState = GetNode<State>("StateTree/" + pState.currentState);
+
+		currentState = GetNode<State>("StateTree/" + new string(pState.currentState));
 		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;

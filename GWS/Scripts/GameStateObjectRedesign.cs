@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// This object controls all the actual management of gameplay, and passes this information to GGPO
@@ -35,22 +36,19 @@ public class GameStateObjectRedesign : Node
 	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>
-	[Serializable]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public unsafe struct GameState
 	{
-		private const int HadoukenStateSize = 16;
-		public int frame { get; set; }
-		public Player.PlayerState P1State { get; set; }
-		public Player.PlayerState P2State { get; set; }
-		public int totalHadoukens {get; set;}
-
-		
-		public fixed byte hadoukenStates[HADOUKENSTATESIZE * 20]; // assuming a size of 68 bytes for now.  May need to change
-		public int hitStopRemaining { get; set; }
+		public int frame;
+		public Player.PlayerState P1State;
+		public Player.PlayerState P2State;
+		public int totalHadoukens;
+		public int hitStopRemaining;
 
 		// From gameScene
-		public int timeMode { get; set; }
-		public int possibleEndingFrame { get; set; }
+		public int timeMode;
+		public int possibleEndingFrame;
+		public fixed byte hadoukenStates[HADOUKENSTATESIZE * 20]; // assuming a size of 68 bytes for now.  May need to change
 	}
 
 	private Dictionary<int, HadoukenPart> hadoukens;
@@ -144,9 +142,26 @@ public class GameStateObjectRedesign : Node
 	/// Return the serialized game state for GGPO to hold on to
 	/// </summary>
 	/// <returns></returns>
-	public byte[] SaveGameState()
+	public unsafe byte[] SaveGameState()
 	{
-		return Serialize<GameState>(GetGameState());
+		var buf = new byte[sizeof(GameState)];
+		var state = GetGameState();
+		fixed (byte *p = buf)
+		{
+			SerializeGameState(ref state, p);
+		}
+			
+		return buf;
+	}
+
+	private unsafe static void SerializeGameState(ref GameState value, byte* buffer)
+	{
+		*(GameState*)buffer = value;
+	}
+
+	private unsafe static GameState DeserializeGameState(byte* buffer)
+	{
+		return *(GameState*)buffer;
 	}
 
 	private unsafe void DeserializeHadoukens(byte* arr, int totalHadoukens)
@@ -199,14 +214,25 @@ public class GameStateObjectRedesign : Node
 	/// Load the game state provided by GGPO
 	/// </summary>
 	/// <param name="stream"></param>
-	public void LoadGameState(byte[] stream)
+	public unsafe void LoadGameState(byte[] stream)
 	{
-		SetGameState(Deserialize<GameState>(stream));
+		GameState newState;
+		fixed (byte* p = stream)
+		{
+			newState = DeserializeGameState(p);
+		}
+		
+
+		SetGameState(newState);
 	}
 
-	 public bool RedesignCompareStates(byte[] buffer)
+	 public unsafe bool RedesignCompareStates(byte[] buffer)
 	{
-		GameState oldState = Deserialize<GameState>(buffer);
+		GameState oldState;
+		fixed (byte* p = buffer)
+		{
+			oldState = DeserializeGameState(p);
+		}
 		string error = CompareGameStates(oldState, GetGameState());
 		if (error != "")
 		{
@@ -216,7 +242,7 @@ public class GameStateObjectRedesign : Node
 		return true;
 	}
 
-	private string CompareGameStates(GameState firstGs, GameState secondGs)
+	private unsafe string CompareGameStates(GameState firstGs, GameState secondGs)
 	{
 		string errMsg = "";
 		errMsg = AddError(errMsg, "Frame", firstGs.frame, secondGs.frame);
@@ -225,11 +251,11 @@ public class GameStateObjectRedesign : Node
 		int i = 0;
 		foreach (Player.PlayerState[] pStates in new[]{ new[]{firstGs.P1State, secondGs.P1State}, new[]{firstGs.P2State, secondGs.P2State } })
 		{
+			//var currentStateNew = new string(pStates[0].currentState);
 			errMsg = AddError(errMsg, playerNames[i] + " inBuf2Timer", pStates[0].inBuf2Timer, pStates[1].inBuf2Timer);
-			errMsg = AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
+			//errMsg = AddError(errMsg, playerNames[i] + " currentState", pStates[0].currentState, pStates[1].currentState);
 			errMsg = AddError(errMsg, playerNames[i] + " xPos", pStates[0].positionx, pStates[1].positionx);
 			errMsg = AddError(errMsg, playerNames[i] + " yPos", pStates[0].positiony, pStates[1].positiony);
-			errMsg = AddError(errMsg, playerNames[i] + " currState", pStates[0].currentState, pStates[1].currentState);
 			errMsg = AddError(errMsg, playerNames[i] + " hitConnect", pStates[0].hitConnect, pStates[1].hitConnect);
 			errMsg = AddError(errMsg, playerNames[i] + " stateFrame", pStates[0].frameCount, pStates[1].frameCount);
 			errMsg = AddError(errMsg, playerNames[i] + " xvel", pStates[0].velocityx, pStates[1].velocityx);

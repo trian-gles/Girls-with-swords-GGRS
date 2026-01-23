@@ -19,7 +19,7 @@ public class Combo : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (!AIBehaviour.groundHitConfirmStates.Contains(state.P1State.currentState))
+        if (!AIBehaviour.groundHitConfirmStates.Contains(AIBehaviour.GetP1CurrentState(state)))
         {
             return "Oki";
         }

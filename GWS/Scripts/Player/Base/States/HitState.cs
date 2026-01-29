@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class HitState : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "hitstate" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.hitstate };
 
 	public override bool wasHit
 	{ get { return true; } }

@@ -7,8 +7,8 @@ public abstract class AirState : State
 {
 	[Export]
 	public int preAirdashFrames = 0;
-
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "aerial"};
+	private string blockString = "Block";
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.attack};
 	public override void _Ready()
 	{
 		base._Ready();
@@ -150,11 +150,11 @@ public abstract class AirState : State
 		else
 		{
 			if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+				EnterBlockState(blockString, details.collisionPnt, details.hitStop);
 
 			else if (rightBlock || leftBlock || anyBlock)
 			{
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+				EnterBlockState(blockString, details.collisionPnt, details.hitStop);
 			}
 			else
 			{

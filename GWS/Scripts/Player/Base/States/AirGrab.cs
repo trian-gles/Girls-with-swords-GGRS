@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AirGrab : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() {Globals.Tags.grab };
 
 	[Export]
 	public int level = 0;
@@ -31,6 +31,9 @@ public class AirGrab : State
 
 	public bool rightGrab = true;
 	private int RELEASEINDEX = 0;
+
+	private string grabbedString = "Grabbed";
+	private string fallString = "Fall";
 
 	public override void _Ready()
 	{
@@ -63,7 +66,7 @@ public class AirGrab : State
         base.Enter();
 		owner.velocity = Vector2.Zero;
 		released = false;
-		owner.otherPlayer.ChangeState("Grabbed");
+		owner.otherPlayer.ChangeState(grabbedString);
 		if (owner.CheckHeldKey('6'))
 		{
 			owner.TurnRight();
@@ -149,6 +152,6 @@ public class AirGrab : State
     }
     public override void AnimationFinished()
 	{
-		owner.ChangeState("Fall");
+		owner.ChangeState(fallString);
 	}
 }

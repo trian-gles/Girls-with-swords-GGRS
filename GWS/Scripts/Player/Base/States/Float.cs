@@ -4,11 +4,22 @@ using static Godot.SpatialMaterial;
 
 public class Float : HitStun
 {
+	private const string HitString = "hit";
+	private const string LaunchString = "Launch";
+	private const string GroundBounceString = "GroundBounce";
+	private const string AirKnockdownString = "AirKnockdown";
+	private const string FloatStateString = "Float";
+	private const string TechString = "Tech";
+	private const string SoftKDString = "SoftKD";
+	private const string CanTechString = "CanTech";
+	private const string MissedTechString = "MissedTech";
+	private const string RecoveryString = "Recovery";
+	private const string BurstString = "Burst";
 	public override void _Ready()
 	{
 		base._Ready();
 		stop = false;
-		tags.Add("aerial");
+		tags.Add(Globals.Tags.aerial);
 	}
 
 	public override bool DelayInputs()
@@ -38,7 +49,7 @@ public class Float : HitStun
 	/// <param name="launch"></param>
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
+		globalsEvents.EmitSignal(nameof(PlayerFXEmitted), collisionPnt, HitString, owner.OtherPlayerOnLeft());
 
 		if (!(launch == Vector2.Zero))
 		{
@@ -48,7 +59,7 @@ public class Float : HitStun
 
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
-			owner.EmitSignal(nameof(Player.GenericGFX), "Launch", owner.otherPlayer.Name);
+			owner.EmitSignal(nameof(Player.GenericGFX), LaunchString, owner.otherPlayer.Name);
 			if (owner.hasBeenLaunched)
 			{
 				owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
@@ -68,15 +79,15 @@ public class Float : HitStun
 		owner.ComboUp();
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
-			owner.ChangeState("GroundBounce");
+			owner.ChangeState(GroundBounceString);
 		}
 		else if (knockdown || owner.health <= 0)
 		{
-			owner.ChangeState("AirKnockdown");
+			owner.ChangeState(AirKnockdownString);
 		}
 		else
 		{
-			owner.ChangeState("Float");
+			owner.ChangeState(FloatStateString);
 		}
 
 	}
@@ -86,9 +97,9 @@ public class Float : HitStun
 		frameCount++;
 		if (stunRemaining <= 0)
 		{
-			owner.EmitSignal("CanTech", owner.Name);
+			owner.EmitSignal(CanTechString, owner.Name);
 			if (owner.grounded)
-				owner.EmitSignal("MissedTech", owner.Name);
+				owner.EmitSignal(MissedTechString, owner.Name);
 		}
 		if (owner.grounded)
 		{
@@ -111,8 +122,8 @@ public class Float : HitStun
 			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
 			{
 				if (!owner.TrySpendBurst()) return;
-				owner.EmitSignal("Recovery", owner.Name);
-				owner.ChangeState("Burst");
+				owner.EmitSignal(RecoveryString, owner.Name);
+				owner.ChangeState(BurstString);
 			}
 		}
 		
@@ -134,15 +145,15 @@ public class Float : HitStun
 	{
 		//owner.ChangeState("Tech");
 		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-			owner.ChangeState("Tech");
+			owner.ChangeState(TechString);
 		else
-			owner.ChangeState("SoftKD");
+			owner.ChangeState(SoftKDString);
 	}
 
     public override void ReceiveHit(Globals.AttackDetails details)
     {
 		if (stunRemaining <= 0)
-			owner.EmitSignal("MissedTech", owner.Name);
+			owner.EmitSignal(MissedTechString, owner.Name);
         base.ReceiveHit(details);
     }
 

@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 public class Fall : AirState
 {
+	private string landingString = "Landing";
+	private string landingRecoveryString = "LandingRecovery";
 	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
-		tags.Add("recovery");
+		tags.Add(Globals.Tags.aerial);
 
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
@@ -51,12 +53,12 @@ public class Fall : AirState
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 0)
 		{
-			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Landing");
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, landingString);
 
 			if (owner.landingRecoveryFramesRemaining > 0)
-				owner.ChangeState("LandingRecovery");
+				owner.ChangeState(landingRecoveryString);
 			else
-				owner.ChangeState("Landing");
+				owner.ChangeState(landingString);
 		}
 		if (!owner.canDoubleJump)
 		{

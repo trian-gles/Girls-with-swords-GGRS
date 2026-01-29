@@ -3,7 +3,8 @@ using System;
 
 public class CounterFloat : Float
 {
-	public override string animationName { get { return "Float"; } }
+private string floatString = "Float";
+public override string animationName { get { return floatString; } }
 
 	public override void receiveStun(int hitStun, int blockStun)
 	{

@@ -7,7 +7,7 @@ public class HitStun : HitState
 	{
 		base._Ready();
 		loop = false;
-		tags.Add("hurtstate");
+		tags.Add(Globals.Tags.hitstate);
 	}
 	public override void Enter()
 	{

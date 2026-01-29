@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 public abstract class AirGrabStart : AirState
 {
-    public override void _Ready()
+	private string fallString = "Fall";
+	private string landingString = "Landing";
+
+	public override void _Ready()
     {
         base._Ready();
 		owner.canDoubleJump = false;
@@ -15,7 +18,7 @@ public abstract class AirGrabStart : AirState
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState("Fall");
+		owner.ChangeState(fallString);
 	}
 
 	public override void CheckHit()
@@ -38,7 +41,7 @@ public abstract class AirGrabStart : AirState
         base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
-			owner.ChangeState("Landing");
+			owner.ChangeState(landingString);
 		}
 		ApplyGravity();
 	}

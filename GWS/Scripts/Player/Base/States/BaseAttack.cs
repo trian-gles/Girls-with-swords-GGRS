@@ -6,8 +6,14 @@ using System.Linq;
 
 public abstract class BaseAttack : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "attack" };
-
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.attack };
+	private string prejumpString = "Prejump";
+	private string idleString = "Idle";
+	private string ohshitString = "OHSHIT";
+	private string fallString = "Fall";
+	private string superFlashString = "SuperFlash";
+	private string superPowerUpString = "SuperPowerUp";
+	private string spikeString = "Spike";
 	[Export]
 	public int level = 0;
 
@@ -234,21 +240,23 @@ public abstract class BaseAttack : State
 
 	protected virtual void AddJumpCancel()
 	{
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), "PreJump", () => owner.velocity.x = owner.speed);
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), "PreJump", () => owner.velocity.x = -owner.speed);
-		AddGatling(new char[] { '8', 'p' }, "PreJump");
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), prejumpString, () => owner.velocity.x = owner.speed);
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), prejumpString, () => owner.velocity.x = -owner.speed);
+		AddGatling(new char[] { '8', 'p' }, prejumpString);
 	}
 	public override void Enter()
 	{
+		var startmem = Globals.TestGC1();
 		owner.ZIndex = 1;
 		base.Enter();
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 		if (superFrame != 0)
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "OHSHIT", Name);
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, ohshitString, Name);
 		if (turnAroundOnEnter)
 			owner.CheckTurnAround();
+		Globals.TestGC2(startmem, ">>>>>>>>> Baseattack Enter");
 	}
 
 	/// <summary>
@@ -259,8 +267,8 @@ public abstract class BaseAttack : State
 		base.FrameAdvance();
 		if (frameCount > 0 && frameCount == superFrame)
 		{
-			owner.EmitSignal("SuperFlash", owner.Name);
-			owner.GFXEvent("SuperPowerUp");
+			owner.EmitSignal(superFlashString, owner.Name);
+			owner.GFXEvent(superPowerUpString);
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
@@ -272,9 +280,9 @@ public abstract class BaseAttack : State
 	public override void AnimationFinished()
 	{
 		if (owner.grounded)
-			owner.ChangeState("Idle");
+			owner.ChangeState(idleString);
 		else
-			owner.ChangeState("Fall");
+			owner.ChangeState(fallString);
 	}
 
 	public override void TryBurst()
@@ -310,7 +318,7 @@ public abstract class BaseAttack : State
 		if (owner.hasDoubleOrSuperJumped && hitDetails.spike && owner.otherPlayer.combo > 2)
 		{
 			hitDetails.ignoreProration = true;
-			owner.EmitSignal(nameof(Player.GenericGFX), "Spike", owner.Name);
+			owner.EmitSignal(nameof(Player.GenericGFX), spikeString, owner.Name);
         }
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
@@ -374,9 +382,9 @@ public abstract class BaseAttack : State
 		if (exitOnHit)
 		{
 			if (owner.grounded)
-				owner.ChangeState("Idle");
+				owner.ChangeState(idleString);
 			else
-				owner.ChangeState("Fall");
+				owner.ChangeState(fallString);
 		}
 
 

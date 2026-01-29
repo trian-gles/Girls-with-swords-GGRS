@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Idle : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "idle", "recovery" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle };
 
 	public override void _Ready()
 	{

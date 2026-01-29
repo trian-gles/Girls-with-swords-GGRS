@@ -4,7 +4,16 @@ using System.Collections.Generic;
 public class Block : HitState
 {
 
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "block" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block };
+	protected char[] guardCancelKeys = new[] { 'p', 'k' };
+	private string blockString = "Block";
+	private string crouchBlockString = "CrouchBlock";
+	private string shieldString = "Shield";
+	private string idleString = "Idle";
+	private string fallString = "Fall";
+	private string mixupString = "Mixup";
+	private string lightString = "Light";
+	private string guardCancelString = "GuardCancel";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -19,13 +28,13 @@ public class Block : HitState
 		{
 			EnterShieldState();
         }
-		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, blockString); // this will be inherited by crouchblock
 		owner.GainMeter(300);
 	}
 
 	public virtual void EnterShieldState()
 	{
-        owner.ChangeState("Shield");
+        owner.ChangeState(shieldString);
     }
 	public override void FrameAdvance() // Note that CrouchBlock overrides this!!!!!
 	{
@@ -36,18 +45,18 @@ public class Block : HitState
 		{
 			if (owner.grounded)
 			{
-				owner.ChangeState("Idle");
+				owner.ChangeState(idleString);
 			}
 			else
 			{
-				owner.ChangeState("Fall");
+				owner.ChangeState(fallString);
 			}
 			
 		}
 
-		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
+		if (owner.CheckHeldKeys(guardCancelKeys) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
 		{
-			owner.ChangeState("GuardCancel");
+			owner.ChangeState(guardCancelString);
 		}
 
 		if (!owner.grounded)
@@ -58,22 +67,20 @@ public class Block : HitState
 
 	public override GFXStates GetExtraGFXState()
 	{
-		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('4'))
+		if (owner.CheckHeldKeys(guardCancelKeys) && owner.CheckFlippableHeldKey('4'))
 			return GFXStates.SHIELDACTIVE;
 		return GFXStates.NONE;
-		
+	
 	}
-
 
 	public override void receiveStun(int hitStun, int blockStun)
 	{
-
 		stunRemaining = blockStun;
 	}
 	
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		owner.GFXEvent("Light", details.collisionPnt / 100);
+		owner.GFXEvent(lightString, details.collisionPnt / 100);
 		stunRemaining = details.blockStun;
 		if (details.chipDmg)
 			owner.DeductHealth(details.dmg);
@@ -82,15 +89,15 @@ public class Block : HitState
 	protected override void ReceiveHighBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckOverrideBlock())
-			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
 		else if (!owner.CheckHeldKey('2'))
 		{
-			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
 		}
 		else
 		{
 			if (owner.CheckFlippableHeldKey('4'))
-				owner.EmitSignal("Mixup", owner.Name);
+				owner.EmitSignal(mixupString, owner.Name);
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
     }
@@ -98,9 +105,9 @@ public class Block : HitState
 	protected override void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckHeldKey('2') && owner.grounded)
-			EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+			EnterBlockState(crouchBlockString, details.collisionPnt, details.hitStop);
 		else
-			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
     }
 
 

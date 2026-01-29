@@ -13,7 +13,7 @@ public abstract class State : Node
 
 	[Export]
 	public bool hasGravity = true; // certain flying states need to ignore gravity, see ApplyGravity()
-	public virtual HashSet<String> tags { get; set; } = new HashSet<String>();
+	public virtual HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>();
 
 	public Player owner;
 	public int frameCount
@@ -94,9 +94,12 @@ public abstract class State : Node
 	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
 	protected delegate bool RequiredConditionCallback();
 	protected delegate void PostInputCallback();
+
+	protected Node globalsEvents;
 	public override void _Ready()
 	{
 		owner = GetOwner<Player>();
+		globalsEvents = GetNode<Node>("/root/Globals");
 		animationLength = owner.GetAnimationLength(animationName);
 	}
 
@@ -543,14 +546,14 @@ public abstract class State : Node
 		{
 			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
 				continue;
-			char[] testInp = normGat.input;
-			testInp = ReverseInput(testInp);
+
+			
 			if (Enumerable.SequenceEqual(normGat.input, inputArr))
 			{
 				if (normGat.reqCall != null)
 				{
 					if (!normGat.reqCall())
-					{
+					{ 
 						continue;
 					}
 				}
@@ -561,39 +564,6 @@ public abstract class State : Node
 					owner.ChangeState(normGat.state);
 				
 				return;
-			}
-		}
-	}
-
-	/// <summary>
-	/// Rhythm inputs need to be handled during hitstop
-	/// </summary>
-	/// <param name="inputArr"></param>
-	public void HandleRhythmInput(char[] inputArr)
-	{
-
-		if (frameCount < 4 || owner.rhythmState != "") // better way to handle this probs
-			return;
-
-		foreach (RhythmGatling rhythmGatling in rhythmGatlings)
-		{
-			char[] firstInp = rhythmGatling.inputs[rhythmGatling.inputs.Count - 1];
-			if (!owner.facingRight)
-			{
-				firstInp = ReverseInput(firstInp);
-			}
-
-			
-
-			if (Enumerable.SequenceEqual(firstInp, inputArr))
-			{
-
-				InputContainer testedInputs = rhythmGatling.inputs;
-
-				if (!owner.facingRight)
-				{
-					testedInputs = ReverseInputs(testedInputs);
-				}
 			}
 		}
 	}
@@ -653,9 +623,11 @@ public abstract class State : Node
 		}
 	}
 
+	private char[] burstKeys = new[] { 'p', 'k', 'a' };
+
 	public virtual void TryBurst()
 	{
-		if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+		if (owner.CheckHeldKeys(burstKeys))
 		{
 			if (!owner.TrySpendBurst()) return;
 			owner.EmitSignal("Recovery", owner.Name);

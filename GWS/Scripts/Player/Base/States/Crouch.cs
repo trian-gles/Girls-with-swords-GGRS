@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Crouch : State
 {
-    public override HashSet<string> tags { get; set; } = new HashSet<string>() { "idle", "crouching" };
-
+    public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle, Globals.Tags.crouching };
+    private string crouchShield = "CrouchShield";
     public override void _Ready()
     {
         base._Ready();
@@ -29,7 +29,7 @@ public class Crouch : State
         if (owner.CheckFlippableHeldKey('4'))
         {
             if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
-                owner.ChangeState("CrouchShield");
+                owner.ChangeState(crouchShield);
             return;
         }
     }

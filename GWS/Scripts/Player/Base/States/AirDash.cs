@@ -12,6 +12,10 @@ public class AirDash: Fall
 	[Export]
 	private int preAttackFrames = 6;
 
+	private string backdashString = "Backdash";
+	private string airDashString = "AirDash";
+	private string fallString = "Fall";
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -21,7 +25,7 @@ public class AirDash: Fall
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Backdash", "AirDash");
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, backdashString, airDashString);
 		owner.velocity.y = 0;
 	}
 
@@ -30,11 +34,11 @@ public class AirDash: Fall
 		frameCount++;
 		if (frameCount == len)
 		{
-			owner.ChangeState("Fall");
+			owner.ChangeState(fallString);
 		}
 		if (frameCount % 5 == 0)
 		{
-			GetNode<Node>("/root/Globals").EmitSignal(nameof(GhostEmitted), (Player)owner);
+			globalsEvents.EmitSignal(nameof(GhostEmitted), (Player)owner);
 		}
 	}
 

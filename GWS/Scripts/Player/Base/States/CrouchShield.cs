@@ -4,20 +4,24 @@ using System.Collections.Generic;
 
 public class CrouchShield : Shield
 {
-    public override HashSet<string> tags { get; set; } = new HashSet<string>() { "block", "crouching" };
-    public override string animationName { get { return "CrouchBlock"; } }
+    private string crouchBlockString = "CrouchBlock";
+    private string crouchString = "Crouch";
+    private string idleString = "Idle";
+    private string shieldString = "Shield";
+    public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block, Globals.Tags.crouching };
+    public override string animationName { get { return crouchBlockString;} }
 
     protected override void ExitShield()
     {
         if (owner.CheckHeldKey('2'))
-            owner.ChangeState("Crouch");
+            owner.ChangeState(crouchString);
         else
-            owner.ChangeState("Idle");
+            owner.ChangeState(idleString);
     }
 
     protected override void CheckShieldSwitch()
     {
         if (!owner.CheckHeldKey('2'))
-            owner.ChangeState("Shield");
+            owner.ChangeState(shieldString);
     }
 }

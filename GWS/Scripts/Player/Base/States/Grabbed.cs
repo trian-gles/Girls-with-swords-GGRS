@@ -30,7 +30,7 @@ public class Grabbed : State
         base.FrameAdvance();
         owner.velocity = Vector2.Zero;
         
-        if (!owner.otherPlayer.currentState.tags.Contains("grab"))
+        if (!owner.otherPlayer.currentState.tags.Contains(Globals.Tags.grab))
             owner.ChangeState("Fall");
 	}
 

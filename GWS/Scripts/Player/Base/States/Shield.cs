@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class Shield : HitState
 {
 
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() { "block" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block };
+	protected char[] requiredKeys = new[] { 'p', 'k', '4' };
 
 	public override string animationName { get { return "Block"; } }
 	public override void _Ready()
@@ -28,7 +29,7 @@ public class Shield : HitState
 				ExitShield();
 			}
 
-			bool ownerHoldingInput = owner.CheckHeldFlippableKeys(new[] { 'p', 'k', '4' });
+			bool ownerHoldingInput = owner.CheckHeldFlippableKeys(requiredKeys);
 			if (!ownerHoldingInput && (stunRemaining == 0) && (frameCount > 2))
 			{
 				ExitShield();

@@ -7,12 +7,15 @@ using System.Linq;
 public abstract class AirAttack : BaseAttack
 {
 
+	private string landingString = "Landing";
+	private string landingRecoveryString = "Landing Recovery";
+
 	[Export]
 	public int landingRecoveryFrames = 0;
 	public override void _Ready()
 	{
 		base._Ready();
-		tags.Add("aerial");
+		tags.Add(Globals.Tags.aerial);
 		slowdownSpeed = 0;
 		AddCancel("Fall");
 		hitDetails.airBlockable = true;
@@ -89,9 +92,9 @@ public abstract class AirAttack : BaseAttack
 		if (owner.grounded && frameCount > 1)
 		{
 			if (owner.landingRecoveryFramesRemaining > 0)
-				owner.ChangeState("LandingRecovery");
+				owner.ChangeState(landingRecoveryString);
 			else
-				owner.ChangeState("Landing");
+				owner.ChangeState(landingString);
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))

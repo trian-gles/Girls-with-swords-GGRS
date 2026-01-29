@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Grab : State
 {
-	public override HashSet<string> tags { get; set; } = new HashSet<string>() {"grab" };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() {Globals.Tags.grab };
 
 	[Export]
 	public int level = 0;

@@ -167,7 +167,13 @@ public class Globals : Node
 		MeterChanged,
 		BurstSet,
 		ComboSet,
+		ComboChanged,
 		HealthChanged,
+		Counter,
+		Mixup,
+		CanTech,
+		MissedTech,
+		SuperFlash
 
 	}
 
@@ -187,8 +193,11 @@ public class Globals : Node
 	{
 		if (!singleArgSignalListeners.ContainsKey(signal))
 		{
-			GD.Print("UHOH, DOUBLE CONNECTING SIGNAL " + nameof(signal));
 			singleArgSignalListeners[signal] = null;
+		}
+		else
+		{
+			GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
 		}
 		singleArgSignalListeners[signal] += listener;
 	}
@@ -200,8 +209,11 @@ public class Globals : Node
 	{
 		if (!noArgSignalListeners.ContainsKey(signal))
 		{
-			GD.Print("UHOH, DOUBLE CONNECTING SIGNAL " + nameof(signal));
 			noArgSignalListeners[signal] = null;
+		}
+		else
+		{
+			GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
 		}
 		noArgSignalListeners[signal] += listener;
 	}
@@ -214,11 +226,11 @@ public class Globals : Node
 		}
 		else
 		{
-			GD.Print("UHOH, EMITTING UNCONNECTED SIGNAL " + nameof(signal));
+			GD.Print("UHOH, EMITTING UNCONNECTED SIGNAL " + signal.ToString());
 		}
 	}
 
-	public static void EmitNoArgSignal(PlayerSignal signal, string name)
+	public static void EmitSignal(PlayerSignal signal, string name)
 	{
 		if (noArgSignalListeners.ContainsKey(signal))
 		{
@@ -226,7 +238,7 @@ public class Globals : Node
 		}
 		else
 		{
-			GD.Print("UHOH, EMITTING UNCONNECTED NO-ARG SIGNAL " + nameof(signal));
+			GD.Print("UHOH, EMITTING UNCONNECTED NO-ARG SIGNAL " + signal.ToString());
 		}
 	}
 

@@ -48,13 +48,7 @@ public abstract class State : Node
 	protected float animationLength;
 
 	[Signal]
-	public delegate void StateFinished(string nextStateName);
-
-	[Signal]
 	public delegate void PlayerFXEmitted(Vector2 pos, ParticleSprite particle, bool flipH);
-
-	[Signal]
-	public delegate void GhostEmitted(Player p);
 
 	public int stunRemaining 
 	{ get; set; }
@@ -656,10 +650,6 @@ public abstract class State : Node
 	{
 
 	}
-	
-	public void TryRhythm(){
-		owner.EmitSignal(RhythmHitTryString, owner.Name);
-	}
 
 	/// <summary>
 	/// Get pushed by the opposing player from pure movement
@@ -821,7 +811,7 @@ public abstract class State : Node
 		{
 			if (owner.CheckFlippableHeldKey('4'))
 			{
-				owner.EmitSignal(MixupString, owner.Name);
+				Globals.EmitSignal(Globals.PlayerSignal.Mixup, owner.Name);
 			}
 				
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
@@ -899,7 +889,7 @@ public abstract class State : Node
 			{
 				if (owner.CheckFlippableHeldKey('4'))
 				{
-					owner.EmitSignal(MixupString, owner.Name);
+					Globals.EmitSignal(Globals.PlayerSignal.Mixup, owner.Name);
 				}
 					
 				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);

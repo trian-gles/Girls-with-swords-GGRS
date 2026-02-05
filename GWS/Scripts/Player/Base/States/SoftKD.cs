@@ -24,7 +24,7 @@ public class SoftKD : HitState
 
         owner.ResetComboAndProration();
         owner.invulnFrames = 2;
-        owner.EmitSignal(MissedTechString, owner.Name);
+        Globals.EmitSignal(Globals.PlayerSignal.MissedTech, owner.Name);
         owner.ChangeState(IdleString);
     }
 

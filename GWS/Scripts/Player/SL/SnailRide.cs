@@ -14,8 +14,7 @@ public class SnailRide : MovingAttack
     {
         base.FrameAdvance();
         if (frameCount % 5 == 0)
-            GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y),
-			DustString, owner.facingRight);
+            Globals.EmitPlayerFXEmitted(new Vector2(owner.internalPos.x, owner.GetCollisionRect().End.y), DustString, owner.facingRight);
+			
     }
 }

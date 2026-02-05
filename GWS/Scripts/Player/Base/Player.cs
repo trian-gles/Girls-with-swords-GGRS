@@ -411,8 +411,7 @@ public class Player : Node2D
 		}
 
 		inputHandler = new InputHandler();
-		Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
-		string stateFinished = "StateFinished";
+		Godot.Collections.Array allStates = stateTree.GetChildren();
 		string none = "None";
 		foreach (Node state in allStates) 
 		{
@@ -424,7 +423,6 @@ public class Player : Node2D
 			allStateDict[state.Name] = (State)state;
 			if (altState.Contains(state.Name))
 				altStateDict.Add(state.Name, (State)state);
-			state.Connect(stateFinished, this, nameof(ChangeState));
 		}
 		currentState = allStateDict[idleString];
 		ChangeState(idleString);
@@ -441,9 +439,7 @@ public class Player : Node2D
 		terminalVelocity = standardTerminalVelocity;
 
 		ColorSprite();
-
-		EmitSignal(nameof(MeterChanged), Name, 0);
-		
+		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, 0);
 	}
 
 	public virtual void Reset()
@@ -459,6 +455,7 @@ public class Player : Node2D
 			meter = 10000;
 			burstMeter = 100;
 			EmitSignal(nameof(BurstSet), Name, burstMeter);
+			Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 		}
 
 		else
@@ -602,8 +599,8 @@ public class Player : Node2D
 		health = pState.health;
 		meter = pState.meter;
 		terminalVelocity = pState.terminalVelocity;
-		EmitSignal(nameof(HealthSet), Name, health);
-		EmitSignal(nameof(MeterChanged), Name, meter);
+		Globals.EmitSignal(Globals.PlayerSignal.HealthSet, Name, health);
+		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, meter);
 		internalPos.x = pState.positionx;
 		internalPos.y = pState.positiony;
 		lastPressedDownFrame = pState.lastPressedDownFrame;
@@ -624,7 +621,7 @@ public class Player : Node2D
 		invulnFrames = pState.invulnFrames;
 		airDashFrames = pState.airDashFrames;
 		grabInvulnFrames = pState.grabInvulnFrames;
-		EmitSignal(nameof(ComboSet), Name, combo);
+		Globals.EmitSignal(Globals.PlayerSignal.ComboSet, Name, combo);
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
 		for (int i = 0; i < charSpecificData.Length; i++)
@@ -642,7 +639,7 @@ public class Player : Node2D
 		backdashCooldownRemaining = pState.backdashCooldownRemaining;
 		meterGainCooldownRemaining = pState.meterGainCooldownRemaining;
 		hasBeenLaunched = pState.hasBeenLaunched;
-		EmitSignal(nameof(BurstSet), Name, burstMeter);
+		Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 	}
 
 	/// <summary>
@@ -1477,10 +1474,10 @@ public class Player : Node2D
 			receivedHit = Globals.otgHit;
 
 		}
-			if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
-			{
-				receivedHit = chDetails;
-				otherPlayer.EmitSignal(nameof(CounterHit), otherPlayer.Name);
+		if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
+		{
+			receivedHit = chDetails;
+			Globals.EmitSignal(Globals.PlayerSignal.Counter, otherPlayer.Name);
 			if (!grounded)
 				counterStopFrames = 10;
 			else if (currentState.tags.Contains(Globals.Tags.attack))
@@ -1489,7 +1486,7 @@ public class Player : Node2D
 				counterStopFrames = 2;
 			
 		}
-		velocity = Vector2.Zero;
+	velocity = Vector2.Zero;
 		wasHit = true;
 	}
 
@@ -1595,13 +1592,13 @@ public class Player : Node2D
 		canGroundbounce = true;
 		terminalVelocity = standardTerminalVelocity;
 		hasBeenLaunched = false;
-		EmitSignal(nameof(ComboChanged), Name, combo);
+		Globals.EmitSignal(Globals.PlayerSignal.ComboChanged, Name, combo);
 	}
 
 	public void ComboUp()
 	{
 		combo++;
-		EmitSignal(nameof(ComboChanged), Name, combo);
+		Globals.EmitSignal(Globals.PlayerSignal.ComboChanged, Name, combo);
 	}
 
 	
@@ -1621,11 +1618,11 @@ public class Player : Node2D
 
 		if (health <= 0)
 		{
-			currentState.EmitSignal(nameof(State.StateFinished), AirKnockdownString);
+			ChangeState(AirKnockdownString);
 			velocity.y = -200;
 		}
-			
-		EmitSignal(nameof(HealthChanged), Name, health);
+		
+		Globals.EmitSignal(Globals.PlayerSignal.HealthChanged, Name, health);
 	}
 
 	public void GainMeter(int gains)
@@ -1634,14 +1631,14 @@ public class Player : Node2D
 			gains = 1;
 		}
 		meter = Math.Min(meter + gains, 10000);
-		EmitSignal(nameof(MeterChanged), Name, meter);
+		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, meter);
 	}
 
 	public void GainBurst()
 	{
 		if (burstMeter == 100) return;
 		burstMeter += 2;
-		EmitSignal(nameof(BurstSet), Name, burstMeter);
+		Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 	}
 
 	public bool TrySpendMeter(int cost = 5000)
@@ -1654,7 +1651,7 @@ public class Player : Node2D
 			{
 				meterGainCooldownRemaining = 180;
 			}
-			EmitSignal(nameof(MeterChanged), Name, meter);
+			Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, meter);
 			return true;
 		}
 		else
@@ -1666,7 +1663,7 @@ public class Player : Node2D
 	public void EmptyMeter()
 	{
 		meter = 0;
-		EmitSignal(nameof(MeterChanged), Name, meter);
+		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, meter);
 	}
 
 	public bool TrySpendBurst()
@@ -1674,7 +1671,7 @@ public class Player : Node2D
 		if (burstMeter == 100)
 		{
 			burstMeter = 0;
-			EmitSignal(nameof(BurstSet), Name, burstMeter);
+			Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 			currentState.stunRemaining = 0;
 			return true;
 		}

@@ -24,34 +24,6 @@ public class GLj2c : BaseAttack
 			ApplyGravity();
 	}
 
-	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-	//{
-	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-	//	bool launchBool = false;
-	//	owner.ComboUp();
-	//	if (!(launch == Vector2.Zero))
-	//	{
-	//		owner.velocity = launch;
-	//		launchBool = true;
-	//	}
-
-	//	if (launch.y == 0)
-	//	{
-	//		owner.velocity.y = -400;
-	//	}
-
-	//	bool airState = (launchBool || !owner.grounded);
-
-	//	if (!knockdown)
-	//	{
-	//		owner.ChangeState("CounterFloat");
-	//	}
-	//	else
-	//	{
-	//		owner.ChangeState("AirKnockdown");
-	//	}
-	//}
-
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 		if (owner.grounded)

@@ -103,7 +103,7 @@ public class Block : HitState
 		else
 		{
 			if (owner.CheckFlippableHeldKey('4'))
-				owner.EmitSignal(MixupString, owner.Name);
+				Globals.EmitSignal(Globals.PlayerSignal.Mixup, owner.Name);
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
     }
@@ -111,7 +111,7 @@ public class Block : HitState
 	protected override void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckHeldKey('2') && owner.grounded)
-				owner.EmitSignal(MixupString, owner.Name);
+			Globals.EmitSignal(Globals.PlayerSignal.Mixup, owner.Name);
 		else
 			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
     }

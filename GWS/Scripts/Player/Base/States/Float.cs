@@ -97,9 +97,9 @@ public class Float : HitStun
 		frameCount++;
 		if (stunRemaining <= 0)
 		{
-			owner.EmitSignal(CanTechString, owner.Name);
+			Globals.EmitSignal(Globals.PlayerSignal.CanTech, owner.Name);
 			if (owner.grounded)
-				owner.EmitSignal(MissedTechString, owner.Name);
+				Globals.EmitSignal(Globals.PlayerSignal.MissedTech, owner.Name);
 		}
 		if (owner.grounded)
 		{

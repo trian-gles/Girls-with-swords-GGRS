@@ -238,41 +238,27 @@ public class GameScene : BaseGame
 
 		SetPos(ResetPos.ROUNDSTART);
 
-		P1.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
-		P2.Connect("ComboChanged", this, nameof(OnPlayerComboChange));
-		P1.Connect("ComboSet", this, nameof(OnPlayerComboSet));
-		P2.Connect("ComboSet", this, nameof(OnPlayerComboSet));
-		P1.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
-		P2.Connect("HealthChanged", this, nameof(OnPlayerHealthChange));
-		P1.Connect("HealthSet", this, nameof(OnPlayerHealthSet));
-		P2.Connect("HealthSet", this, nameof(OnPlayerHealthSet));
-		P1.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
-		P2.Connect("MeterChanged", this, nameof(OnPlayerMeterChange));
-		P1.Connect("BurstSet", this, nameof(OnPlayerBurstChange));
-		P2.Connect("BurstSet", this, nameof(OnPlayerBurstChange));
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboChanged, OnPlayerComboChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboSet, OnPlayerComboSet);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthChanged, OnPlayerHealthChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthSet, OnPlayerHealthSet);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.MeterChanged, OnPlayerMeterChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.BurstSet, OnPlayerBurstSet);
+
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Counter, OnPlayerCounterHit);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Mixup, OnPlayerMixup);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.CanTech, OnPlayerCanEscape);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.MissedTech, OnPlayerMissedEscape);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.SuperFlash, OnSuperActivate);
+		GD.Print("Calling gamecene config");
+
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
-		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
-		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
-
-
-		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
-		P2.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
-		P1.Connect("Mixup", this, nameof(OnPlayerMixup));
-		P2.Connect("Mixup", this, nameof(OnPlayerMixup));
-		P1.Connect("CanTech", this, nameof(OnPlayerCanEscape));
-		P2.Connect("CanTech", this, nameof(OnPlayerCanEscape));
-		P1.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
-		P2.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
-
 		
 		P1.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
 		P2.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
-
-
-
 
 		P1Combo = GetNode<HUDCombo>("HUD/P1Combo");
 		P2Combo = GetNode<HUDCombo>("HUD/P2Combo");
@@ -292,8 +278,6 @@ public class GameScene : BaseGame
 
 		gsObj = new GameStateObjectRedesign();
 		gsObj.config(P1, P2, this, hosting);
-		P1.Connect("LevelUp", this, nameof(OnLevelUp));
-		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 		SetPos(ResetPos.ROUNDSTART);
 		music.Call(PlayIdxCallString, bkg);
 		ConfigTime();
@@ -613,7 +597,7 @@ public class GameScene : BaseGame
 			P2Meter.Value = (int)Math.Floor((double)meter / 100);
 	}
 
-	public void OnPlayerBurstChange(string name, int burstMeter)
+	public void OnPlayerBurstSet(string name, int burstMeter)
 	{
 		if (name == PlayerOneString)
 			P1Salt.Value = burstMeter;
@@ -632,11 +616,6 @@ public class GameScene : BaseGame
 	public void OnHadoukenRemoved(HadoukenPart h)
 	{
 		gsObj.RemoveHadouken(h);
-	}
-
-	public void OnLevelUp()
-	{
-		mainGFX.LevelUp(Globals.frame);
 	}
 
 	public void OnGhostEmitted()
@@ -928,8 +907,8 @@ public class GameScene : BaseGame
 		
 		P1.QueueFree();
 		P2.QueueFree();
-		OnPlayerBurstChange(PlayerOneString, 100);
-		OnPlayerBurstChange(PlayerTwoString, 100);
+		OnPlayerBurstSet(PlayerOneString, 100);
+		OnPlayerBurstSet(PlayerTwoString, 100);
 		configured = false;
 		HUD.Layer = -1;
 	}

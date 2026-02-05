@@ -4,6 +4,8 @@ using System;
 public class BlackHolePlace : Hadouken
 {
     GL gl;
+    private const string WarpSpawnString = "WarpSpawn";
+    private const string FallString = "Fall";
     public override void _Ready()
     {
         base._Ready();
@@ -15,7 +17,7 @@ public class BlackHolePlace : Hadouken
         owner.velocity.y = 0;
         
         owner.landingRecoveryFramesRemaining = 7;
-        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, WarpSpawnString, Name);
     }
 
     public override void FrameAdvance()
@@ -27,7 +29,7 @@ public class BlackHolePlace : Hadouken
             {
                 if (Globals.logOn)
                     Globals.Log($"Too many black holes for {owner.Name}, total black holes = {gl.BlackHolesTotal}");
-                owner.ChangeState("Fall");
+                owner.ChangeState(FallString);
                 return;
             }
 

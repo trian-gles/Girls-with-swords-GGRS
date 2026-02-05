@@ -7,7 +7,7 @@ public abstract class AirNormal : AirAttack
 {
     [Export]
 	public bool j2CGatling = false;
-    private string fallString = "Fall";
+    private const string FallString = "Fall";
     public override void _Ready()
     {
         base._Ready();
@@ -23,7 +23,7 @@ public abstract class AirNormal : AirAttack
 
     public override void AnimationFinished()
     {
-        owner.ChangeState(fallString);
+        owner.ChangeState(FallString);
     }
 
     public override void Enter()

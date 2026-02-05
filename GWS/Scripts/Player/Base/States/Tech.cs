@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class Tech : Fall
 {
+
+	private const string TechString = "Tech";
+	private const string UkemiString = "Ukemi";
 	[Export]
 	public Vector2 techVector = new Vector2(0, 0);
 
@@ -15,8 +18,8 @@ public class Tech : Fall
 	{
 		base.Enter();
 		owner.wasOTGHit = false;
-		owner.GFXEvent("Tech");
-		owner.EmitSignal(nameof(Player.GenericGFX), "Ukemi", owner.Name);
+		owner.GFXEvent(TechString);
+		owner.EmitSignal(nameof(Player.GenericGFX), UkemiString, owner.Name);
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.hasDoubleOrSuperJumped = false;

@@ -15,13 +15,16 @@ public class AirSnail : Hadouken
 	public override void _Ready()
 	{
 		base._Ready();
-		tags.Add("aerial");
+		tags.Add(Globals.Tags.aerial);
 		slowdownSpeed = 0;
 	}
+
+	private const string BackTossString = "BackToss";
+	private const string LandingRecoveryString = "LandingRecovery";
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "BackToss", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, BackTossString, Name);
 		owner.landingRecoveryFramesRemaining = landingRecovery;
 	}
 	public override void FrameAdvance()
@@ -44,7 +47,7 @@ public class AirSnail : Hadouken
 			if (owner.grounded)
 			{
 				owner.velocity.x = 0;
-				owner.ChangeState("LandingRecovery");
+				owner.ChangeState(LandingRecoveryString);
 			}
 		}
 	}

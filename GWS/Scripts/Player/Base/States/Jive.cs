@@ -3,6 +3,8 @@ using System;
 
 public class Jive : Stagger
 {
+    private const string FallString = "Fall";
+    private const string IdleString = "Idle";
 
     public override void Enter()
     {
@@ -21,9 +23,9 @@ public class Jive : Stagger
     public override void AnimationFinished()
     {
         if (!owner.grounded)
-            owner.ChangeState("Fall");
+            owner.ChangeState(FallString);
         else
-            owner.ChangeState("Idle");
+            owner.ChangeState(IdleString);
     }
 }
 

@@ -139,7 +139,6 @@ class SyncTestManager : StateManager
 		serializedStates = new FixedSizedQueue<byte[]>(DEPTH + 1);
 		pastInputAcceptance = new FixedSizedQueue<bool>(DEPTH + 1);
 		pastInputs = new FixedSizedQueue<CombinedInputs>(DEPTH + 1);
-		Globals.logOn = false;
 
 		
 
@@ -189,47 +188,41 @@ class SyncTestManager : StateManager
 		if (currGame.AcceptingInputs())
 		{
 			if (matchFilename != "" && currGame.Name == "GameScene")
-				GetMatchInputs();
+			{
+				var inps = GetMatchInputs();
+				combinedInps.SetInputs(inps[0], inps[1]);
+			}
+				
 			else if (randomInputs)
 			{
-				combinedInps.SetInputs(GetInputs(""), random.Next(255));
+				combinedInps.SetInputs(GetInputs(0), random.Next(255));
 			}
 			else
-				combinedInps.SetInputs(GetInputs(""), GetInputs("b"));
+				combinedInps.SetInputs(GetInputs(0), GetInputs(1));
 		}
 		else
 			combinedInps.SetInputs(0, 0);
 
 		if (Globals.logOn)
 			Globals.Log($"Sync test on frame {Globals.frame}");
-
-		long startmem = Globals.TestGC1();
 		currGame.GGRSAdvanceFrame(combinedInps.p1Inps, combinedInps.p2Inps);
-		Globals.TestGC2(startmem, "Initial game frame");
-		
-		startmem = Globals.TestGC1();
 		byte[] serializedGamestate = currGame.SaveState(Globals.frame);
 		
 		serializedStates.Enqueue(serializedGamestate);
 		pastInputs.Enqueue(combinedInps);
 		pastInputAcceptance.Enqueue(currGame.AcceptingInputs());
-		Globals.TestGC2(startmem, "Saving");
-        
 
 
-        if (!serializedStates.Full()) // we haven't accrued enough states to rollback
+		if (!serializedStates.Full()) // we haven't accrued enough states to rollback
 			return;
 
 		if (!pastInputAcceptance[0]) // as this frame was not accepting inputs, we do not need to and should not test rolling back from it
 		{
 			return;
 		}
-		startmem = Globals.TestGC1();
 		currGame.LoadState(Globals.frame - (DEPTH), serializedStates[0], 0);
-		Globals.TestGC2(startmem, "Loading");
-        
-        Globals.frame = Globals.frame - (DEPTH);
-		startmem = Globals.TestGC1();
+		
+		Globals.frame = Globals.frame - (DEPTH);
 		for (int i = 1; i < DEPTH + 1; i++)
 		{
 			CombinedInputs tempInputs = pastInputs[i];
@@ -237,17 +230,13 @@ class SyncTestManager : StateManager
 			Globals.rollbackFrame = i;
 			currGame.GGRSAdvanceFrame(tempInputs.p1Inps, tempInputs.p2Inps);
 		}
-		Globals.TestGC2(startmem, "Resimulation");
-        return;
 
-        //if (Globals.frame == 1200)
-        //	gameScene.WriteLogs();
-        startmem = Globals.TestGC1();
+		//if (Globals.frame == 1200)
+		//	gameScene.WriteLogs();
 		if (!currGame.CompareStates(serializedGamestate) && !broken){
 			gameScene.WriteLogs();
 			broken = true;
 		}
-		Globals.TestGC2(startmem, "Comparison");
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)

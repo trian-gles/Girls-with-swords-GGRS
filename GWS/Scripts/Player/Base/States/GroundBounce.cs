@@ -4,9 +4,12 @@ using System.Collections.Generic;
 
 public class GroundBounce : Float
 {
-	public override string animationName { get { return "Float"; } }
+	private const string FloatAnimString = "Float";
+	public override string animationName { get { return FloatAnimString; } }
 	private bool bounced = false;
 	private int BOUNCEINDEX = 0;
+	private const string KnockdownString = "Knockdown";
+	private const string GroundBounceGfx = "GroundBounce";
 
 
 	public override void Enter()
@@ -41,7 +44,7 @@ public class GroundBounce : Float
 			if (bounced)
 			{
 				if (stunRemaining > 20)
-					owner.ChangeState("Knockdown");
+					owner.ChangeState(KnockdownString);
 				else
 				{
 					owner.grounded = false;
@@ -52,7 +55,7 @@ public class GroundBounce : Float
 			}
 			else if (owner.canGroundbounce)
 			{
-				owner.GFXEvent("GroundBounce");
+					owner.GFXEvent(GroundBounceGfx);
 				bounced = true;
 				owner.grounded = false;
 				owner.velocity.y = (int)Math.Floor(owner.velocity.y * -3 / 5);

@@ -11,6 +11,8 @@ public class WinScene : BaseGame
 
 	private bool[] selected = {false, false};
 
+	private MemoryPool memoryPool;
+
 	const int TOTALFRAMES = 300;
 
 	private List<Control> winPortraits = new List<Control>();
@@ -33,6 +35,8 @@ public class WinScene : BaseGame
 
 
 	private Node events;
+	private const string MainMenuPressedString = "MainMenuPressed";
+	private const string SetCursorCallString = "SetCursor";
 
 	[Serializable]
 	private unsafe struct GameState
@@ -83,6 +87,14 @@ public class WinScene : BaseGame
 		{
 			winPortraits.Add((Control)c);
 		}
+
+		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		{
+			unsafe
+			{
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+			}
+		}
 		
 
 
@@ -122,7 +134,7 @@ public class WinScene : BaseGame
 		state.lastFrameInputs.SetInputs(lastFrameInputs[0], lastFrameInputs[1]);
 		state.p1Selected = this.selected[0];
 		state.p2Selected = this.selected[1];
-		var arr = new byte[sizeof(GameState)];
+		var arr = memoryPool.Get();
 		fixed (byte* p = arr)
 		{
 			SerializeState(ref state, p);
@@ -233,15 +245,15 @@ public class WinScene : BaseGame
 	{
 		if (cursorPositions[0] == 2 || cursorPositions[1] == 2)
 		{
-			events.Call("emit_signal", "MainMenuPressed");
+			events.Call("emit_signal", MainMenuPressedString);
 		}
 		else if (cursorPositions[0] == 1 || cursorPositions[1] == 1)
 		{
-			EmitSignal("ReselectChar");
+			EmitSignal(nameof(ReselectChar));
 		}
 		else
 		{
-			EmitSignal("Rematch");
+			EmitSignal(nameof(Rematch));
 		}
 	}
 
@@ -261,7 +273,7 @@ public class WinScene : BaseGame
 			bool h = Globals.hosting; 
 			pos = h ? 0 : 1;
 		}
-		cursors.Call("SetCursor", cursorPositions[pos]);
+		cursors.Call(SetCursorCallString, cursorPositions[pos]);
 		if (selected[pos]) // sloppy, I know...
 			cursors.Visible = false;
 		

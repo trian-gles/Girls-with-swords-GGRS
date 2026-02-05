@@ -8,6 +8,10 @@ public class SL : Player
 	public bool rightCornerSnail = false;
 	public bool leftCornerSnailArrived = false;
 	public bool rightCornerSnailArrived = false;
+
+	private const string SnailAirSnipeString = "SnailAirSnipe";
+	private const string SnailRideString = "SnailRide";
+		private const string SnailCommandString = "Snail";
 	public override void _EnterTree()
 	{
 		base._EnterTree();
@@ -62,9 +66,9 @@ public class SL : Player
 	public void SnailRide()
 	{
 		if (!otherPlayer.grounded)
-			ChangeState("SnailAirSnipe");
+			ChangeState(SnailAirSnipeString);
 		else
-			ChangeState("SnailRide");
+			ChangeState(SnailRideString);
 	}
 	
 	private const int LEFTCORNERSNAILINDEX = 0;
@@ -95,11 +99,11 @@ public class SL : Player
 	protected override void PostHitCall()
 	{
 		base.PostHitCall();
-		if (currentState.tags.Contains("hurtstate"))
+		if (currentState.tags.Contains(Globals.Tags.hitstate))
 		{
-			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
-			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
-			CommandHadouken("Snail", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(SnailCommandString, HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(SnailCommandString, HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(SnailCommandString, HadoukenPart.ProjectileCommand.Kill);
 		}
 	}
 }

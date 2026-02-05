@@ -5,9 +5,13 @@ using System.Linq;
 
 public class GFXHandler : Node
 {
-	private Dictionary<string, PlayerParticle> particlesCPU;
-	private Dictionary<string, PlayerParticleGPU> particlesGPU;
-	private Node drawFX;
+	private Dictionary<string, PlayerParticle> particlesCPUDict;
+	private Dictionary<string, PlayerParticleGPU> particlesGPUDict;
+
+	private PlayerParticle[] particlesCPU;
+	private PlayerParticleGPU[] particlesGPU;
+	private const string SlashString = "Slash";
+	private DrawFX drawFX;
 	
 	
 	//private PlayerParticle blood;
@@ -17,22 +21,24 @@ public class GFXHandler : Node
 
 	public override void _Ready()
 	{
-		particlesCPU = new Dictionary<string, PlayerParticle>();
-		particlesGPU = new Dictionary<string, PlayerParticleGPU>();
-		drawFX = GetNode("DrawFX");
+		particlesCPUDict = new Dictionary<string, PlayerParticle>();
+		particlesGPUDict = new Dictionary<string, PlayerParticleGPU>();
+		drawFX = GetNode<DrawFX>("DrawFX");
 		
 
 		foreach (object node in GetChildren())
 		{
 			if (node.GetType() == typeof(PlayerParticle))
 			{
-				particlesCPU.Add(((PlayerParticle)node).Name, (PlayerParticle)node);
+				particlesCPUDict.Add(((PlayerParticle)node).Name, (PlayerParticle)node);
 			}
 			else if (node.GetType() == typeof(PlayerParticleGPU))
 			{
-				particlesGPU.Add(((PlayerParticleGPU)node).Name, (PlayerParticleGPU)node);
+				particlesGPUDict.Add(((PlayerParticleGPU)node).Name, (PlayerParticleGPU)node);
 			}
 		}
+		particlesCPU = particlesCPUDict.Values.ToArray();
+		particlesGPU = particlesGPUDict.Values.ToArray();
 		//blood = GetNode<PlayerParticle>("Blood");
 		//cancel = GetNode<PlayerParticle>("Cancel");
 		//light = GetNode<PlayerParticleGPU>("Light");
@@ -42,17 +48,17 @@ public class GFXHandler : Node
 	{
 		if (Globals.DISABLEPARTICLES)
 			return;
-		if (particlesCPU.ContainsKey(name))
+		if (particlesCPUDict.ContainsKey(name))
 		{
-			particlesCPU[name].Trigger(0, pos, facingRight);
+			particlesCPUDict[name].Trigger(0, pos, facingRight);
 		}
-		else if (particlesGPU.ContainsKey(name))
+		else if (particlesGPUDict.ContainsKey(name))
 		{
-			particlesGPU[name].Trigger(0, pos, facingRight);
+			particlesGPUDict[name].Trigger(0, pos, facingRight);
 		}
-		else if (name == "Slash")
+		else if (name == SlashString)
 		{
-			drawFX.Call("slash", pos);
+			drawFX.Slash(pos);
 		}
 		else
 		{ 
@@ -62,11 +68,11 @@ public class GFXHandler : Node
 
 	public void Rollback(int frame)
 	{
-		foreach (PlayerParticle p in particlesCPU.Values.ToArray())
-			p.Rollback(frame);
+		for (int i = 0; i < particlesCPU.Length; i ++)
+			particlesCPU[i].Rollback(frame);
 
-		foreach (PlayerParticleGPU p in particlesGPU.Values.ToArray())
-			p.Rollback(frame);
+		for (int i = 0; i < particlesCPU.Length; i ++)
+			particlesGPU[i].Rollback(frame);
 	}
 
 

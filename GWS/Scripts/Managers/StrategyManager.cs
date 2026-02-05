@@ -49,7 +49,7 @@ public class StrategyManager : TutorialManager
 		{
 			p2StateFrame = 0,
 			p1State = "AntiAir",
-			p1FailTags = new HashSet<string>() { "hitstate" }
+			p1FailTags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 

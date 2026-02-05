@@ -28,7 +28,7 @@ public class SuperJump : Jump
         base.FrameAdvance();
         if (frameCount % 5 == 0)
         {
-            globalsEvents.EmitSignal(nameof(GhostEmitted), (Player)owner);
+            Globals.EmitGhostEmitted(owner);
         }
     }
 

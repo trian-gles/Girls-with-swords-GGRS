@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 public class Block : HitState
 {
@@ -14,15 +15,21 @@ public class Block : HitState
 	private string mixupString = "Mixup";
 	private string lightString = "Light";
 	private string guardCancelString = "GuardCancel";
+	private const string BlockString = "Block";
+	private const string CrouchBlockString = "CrouchBlock";
+	private const string ShieldString = "Shield";
+	private const string IdleString = "Idle";
+	private const string FallString = "Fall";
+	private const string MixupString = "Mixup";
+	private const string LightString = "Light";
+	private const string GuardCancelString = "GuardCancel";
 	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
 	}
-
-	public override void Enter()
-	{
-		
+	
+	public override void Enter(){
 		base.Enter();
 		if (owner.CheckHeldKeys(new[] { 'p', 'k' }))
 		{
@@ -54,7 +61,7 @@ public class Block : HitState
 			
 		}
 
-		if (owner.CheckHeldKeys(guardCancelKeys) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
+		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
 		{
 			owner.ChangeState(guardCancelString);
 		}
@@ -64,7 +71,6 @@ public class Block : HitState
 			ApplyGravity();
 		}
 	}
-
 	public override GFXStates GetExtraGFXState()
 	{
 		if (owner.CheckHeldKeys(guardCancelKeys) && owner.CheckFlippableHeldKey('4'))
@@ -97,7 +103,7 @@ public class Block : HitState
 		else
 		{
 			if (owner.CheckFlippableHeldKey('4'))
-				owner.EmitSignal(mixupString, owner.Name);
+				owner.EmitSignal(MixupString, owner.Name);
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
     }
@@ -105,13 +111,13 @@ public class Block : HitState
 	protected override void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckHeldKey('2') && owner.grounded)
-			EnterBlockState(crouchBlockString, details.collisionPnt, details.hitStop);
+				owner.EmitSignal(MixupString, owner.Name);
 		else
 			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
     }
 
 
-    public override void TrySpecialBreak()
+   	public override void TrySpecialBreak()
     {
         base.TrySpecialBreak();
 		owner.SpecialBreak();

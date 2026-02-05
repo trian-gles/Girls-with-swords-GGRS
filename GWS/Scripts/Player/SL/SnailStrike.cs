@@ -8,6 +8,8 @@ using Godot;
 class SnailStrike : Hadouken
 {
 
+	private const string SnailStrikeAudioString = "snail-strike";
+
 	[Export]
 	public int xOffset = 0;
 
@@ -32,7 +34,7 @@ class SnailStrike : Hadouken
 
 	protected override HadoukenPart EmitHadouken()
 	{
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "snail-strike", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, SnailStrikeAudioString, Name);
 		int strikeNum = (frameCount - releaseFrame) / gapBetweenStrikes;
 		HadoukenPart h = null;
 		foreach (HadoukenPart cachedPart in cachedHadoukens)
@@ -58,3 +60,4 @@ class SnailStrike : Hadouken
 
 
 }
+

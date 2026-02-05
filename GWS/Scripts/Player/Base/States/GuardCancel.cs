@@ -4,6 +4,8 @@ using System;
 public class GuardCancel : GroundAttack
 {
 
+	private const string GuardCancelString = "GuardCancel";
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -12,8 +14,8 @@ public class GuardCancel : GroundAttack
 	public override void Enter()
 	{
 		base.Enter();
-		owner.GFXEvent("GuardCancel");
-		owner.EmitSignal(nameof(Player.GenericGFX), "GuardCancel", owner.Name);
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "GuardCancel", Name);
+		owner.GFXEvent(GuardCancelString);
+		owner.EmitSignal(nameof(Player.GenericGFX), GuardCancelString, owner.Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, GuardCancelString, Name);
     }
 }

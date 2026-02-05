@@ -5,6 +5,8 @@ public class Stagger : HitStun
 {
 	[Export]
 	public int dur = 40;
+
+	private const string StaggerString = "Stagger";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -19,7 +21,7 @@ public class Stagger : HitStun
 			owner.velocity.x = 0;
 		}
 		stunRemaining = dur;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Stagger", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, StaggerString, Name);
 	}
 
 	/// <summary>

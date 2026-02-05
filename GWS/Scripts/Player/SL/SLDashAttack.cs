@@ -48,7 +48,8 @@ public class SLDashAttack : MovingAttack
 		int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
 		int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
 		h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
-		Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
+		if (Globals.logOn)
+			Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
 	}
 
 	public override bool CollisionActive()

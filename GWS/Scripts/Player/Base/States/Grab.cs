@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Grab : State
 {
+	private const string IdleString = "Idle";
+	private const string GrabbedString = "Grabbed";
+	private const string PurpleGfxString = "Purple";
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() {Globals.Tags.grab };
 
 	[Export]
@@ -86,7 +89,7 @@ public class Grab : State
 
 
 		released = false;
-		owner.otherPlayer.ChangeState("Grabbed");
+		owner.otherPlayer.ChangeState(GrabbedString);
 
 		rightGrab = owner.facingRight;
 	}
@@ -160,7 +163,7 @@ public class Grab : State
 			owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 			if (effect == BaseAttack.GRAPHICEFFECT.PURPLE)
 			{
-				owner.otherPlayer.GFXEvent("Purple");
+				owner.otherPlayer.GFXEvent(PurpleGfxString);
 
 			}
 			
@@ -177,6 +180,6 @@ public class Grab : State
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState("Idle");
+		owner.ChangeState(IdleString);
 	}
 }

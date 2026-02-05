@@ -111,25 +111,41 @@ public sealed class HeldKeys : IEnumerable<char>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public unsafe int GetState(char* buffer){
-        int count = 0;
-        foreach (char key in this){
-            buffer[count] = key;
-            count++;
-        }
-        return count;
-    }
-
-    public unsafe void SetState(int count, char* buffer){
-        Clear();
-        for (int i = 0; i < count; i++)
-            Add(buffer[i]);
-    }
-
-    public void DumpTest()
+    public unsafe void GetState(char* buffer)
     {
-        
+        int idx = 0;
+        for (int i = 0; i < _capacity; i++)
+        {
+            buffer[idx++] = _occupied[i] ? _keys[i] : '\0';
+        }
+    }
+
+
+    public unsafe void SetState(char* buffer)
+    {
+        _count = 0;
+        for (int i = 0; i < _capacity; i++)
+        {
+            char key = buffer[i];
+            if (key != '\0')
+            {
+                _keys[i] = key;
+                _occupied[i] = true;
+                _count++;
+            }
+            else
+            {
+                _occupied[i] = false;
+            }
+        }
+    }
+
+    public string DumpTest()
+    {
+        string s = "";
         foreach (char key in this)
-            GD.Print(key);
+            s += key;
+
+        return s;
     }
 }

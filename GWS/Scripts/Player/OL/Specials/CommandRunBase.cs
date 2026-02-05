@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class CommandRunBase : GroundAttack
 {
+	private const string HojogiriString = "Hojogiri";
+	private const string CommandRunAnimString = "CommandRun";
 
 	[Export]
 	public int len = 10;
@@ -17,14 +19,14 @@ public class CommandRunBase : GroundAttack
 	/// </summary>
 	protected string exitState;
 
-	public override string animationName { get { return "CommandRun"; } }
+	public override string animationName { get { return CommandRunAnimString; } }
 
 
 	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
-		exitState = "Hojogiri";
+		exitState = HojogiriString;
 		turnAroundOnExit = false;
 		slowdownSpeed = 0;
 

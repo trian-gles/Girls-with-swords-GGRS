@@ -1,11 +1,11 @@
 public class AirBackdash : AirDash 
 {
-	private string backdashString = "Backdash";
-	private string airBackdashString = "AirBackDash";
+	private const string BackdashString = "Backdash";
+	private const string AirBackdashString = "AirBackDash";
 	public override void Enter()
 	{
 		base.Enter();
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, backdashString, airBackdashString);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, BackdashString, AirBackdashString);
 		owner.velocity.y = 0;
 	}
 }

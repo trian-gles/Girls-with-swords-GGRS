@@ -92,6 +92,36 @@ public abstract class State : Node
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
 	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
+	private const string CrouchAString = "CrouchA";
+	private const string CrouchBString = "CrouchB";
+	private const string CrouchCString = "CrouchC";
+	private const string JabString = "Jab";
+	private const string KickString = "Kick";
+	private const string SlashString = "Slash";
+	private const string BurstString = "Burst";
+	private const string CancelGfxString = "Cancel";
+	private const string RcString = "RC";
+	private const string HitFxString = "hit";
+	private const string LaunchString = "Launch";
+	private const string GroundBounceString = "GroundBounce";
+	private const string WallBounceString = "WallBounce";
+	private const string FloatStateString = "Float";
+	private const string AirKnockdownString = "AirKnockdown";
+	private const string HitStunString = "HitStun";
+	private const string StaggerString = "Stagger";
+	private const string ExplosionGfxString = "Explosion";
+	private const string PurpleString = "Purple";
+	private const string SparksString = "Sparks";
+	private const string ShockString = "shock";
+	private const string ElectricityString = "electricity";
+	private const string RecoveryString = "Recovery";
+	private const string RhythmHitTryString = "RhythmHitTry";
+	private const string HitConfirmString = "HitConfirm";
+	private const string MixupString = "Mixup";
+	private const string BlockFxString = "block";
+	private const string BlockStateString = "Block";
+	private const string CrouchBlockStateString = "CrouchBlock";
+	private const string EmptyString = "";
 	protected delegate bool RequiredConditionCallback();
 	protected delegate void PostInputCallback();
 
@@ -375,13 +405,13 @@ public abstract class State : Node
 
 	protected void AddNormals()
 	{
-		AddGatling(new[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), "CrouchA");
-		AddGatling(new[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
-		AddGatling(new[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
-		AddGatling(new[] { 'p', 'p' }, "Jab");
-		AddGatling(new[] { 'k', 'p' }, "Kick");
-		AddGatling(new[] { 's', 'p' }, "Slash");
-		AddGatling(new[] { 'b', 'p' }, "Jab");
+		AddGatling(new[] { 'p', 'p' }, () => owner.CheckHeldKey('2'), CrouchAString);
+		AddGatling(new[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), CrouchBString);
+		AddGatling(new[] { 's', 'p' }, () => owner.CheckHeldKey('2'), CrouchCString);
+		AddGatling(new[] { 'p', 'p' }, JabString);
+		AddGatling(new[] { 'k', 'p' }, KickString);
+		AddGatling(new[] { 's', 'p' }, SlashString);
+		AddGatling(new[] { 'b', 'p' }, JabString);
 	}
 
 	protected void AddAirCommandNormals(List<Player.CommandNormal> commandNormals)
@@ -447,8 +477,8 @@ public abstract class State : Node
 
 	protected void AddBurstKara(char key1, char key2)
 	{
-		AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), "Burst");
-		AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), "Burst");
+		AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), BurstString);
+		AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), BurstString);
 	}
 	protected void AddSpecials(List<Player.Special> specials)
 	{
@@ -485,8 +515,8 @@ public abstract class State : Node
 				cancelState,
 				() => {
 					owner.landingRecoveryFramesRemaining = 0;
-					owner.GFXEvent("Cancel");
-					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "RC", cancelState);
+					owner.GFXEvent(CancelGfxString);
+					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, RcString, cancelState);
 				});
 		}
 		
@@ -535,7 +565,7 @@ public abstract class State : Node
 					}
 
 					// this gatling doesn't actually lead to a state (confusing, I know)
-					if (comGat.state != "")
+					if (comGat.state != EmptyString)
 						owner.ChangeState(comGat.state);
 
 					return;
@@ -560,27 +590,11 @@ public abstract class State : Node
 
 				normGat.postCall?.Invoke();
 
-				if (normGat.state != "")
+				if (normGat.state != EmptyString)
 					owner.ChangeState(normGat.state);
 				
 				return;
 			}
-		}
-	}
-
-	/// <summary>
-	/// Called at the end of hitstop.  Stored in state because the input manager has access to it
-	/// </summary>
-	public void TryEnterRhythmState()
-	{
-		if (owner.rhythmStateConfirmed)
-		{
-			string enterState = String.Copy(owner.rhythmState);
-			owner.rhythmState = "";
-			owner.rhythmStateConfirmed = false;
-			owner.CorrectGrounded(); // We may be in the air from a launching attack
-			owner.ChangeState(enterState);
-
 		}
 	}
 
@@ -630,8 +644,8 @@ public abstract class State : Node
 		if (owner.CheckHeldKeys(burstKeys))
 		{
 			if (!owner.TrySpendBurst()) return;
-			owner.EmitSignal("Recovery", owner.Name);
-			owner.ChangeState("Burst");
+			owner.EmitSignal(RecoveryString, owner.Name);
+			owner.ChangeState(BurstString);
 		}
 	}
 
@@ -644,8 +658,7 @@ public abstract class State : Node
 	}
 	
 	public void TryRhythm(){
-		
-		owner.EmitSignal("RhythmHitTry", owner.Name);
+		owner.EmitSignal(RhythmHitTryString, owner.Name);
 	}
 
 	/// <summary>
@@ -687,13 +700,13 @@ public abstract class State : Node
 	/// <param name="launch"></param>
 	protected virtual void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", owner.OtherPlayerOnLeft());
+		Globals.EmitPlayerFXEmitted(collisionPnt, HitFxString, owner.OtherPlayerOnLeft());
 		bool launchBool = false;
 
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
 			owner.hasBeenLaunched = true;
-			owner.EmitSignal(nameof(Player.GenericGFX), "Launch", owner.otherPlayer.Name);
+			owner.EmitSignal(nameof(Player.GenericGFX), LaunchString, owner.otherPlayer.Name);
 		}
 
 		owner.ComboUp();
@@ -709,11 +722,11 @@ public abstract class State : Node
 
 		if (effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
 		{
-			owner.ChangeState("GroundBounce");
+			owner.ChangeState(GroundBounceString);
 		}
 		else if (effect == BaseAttack.EXTRAEFFECT.WALLBOUNCE)
 		{
-			owner.ChangeState("WallBounce");
+			owner.ChangeState(WallBounceString);
 		}
 
 		else if (airState && !knockdown)
@@ -722,25 +735,25 @@ public abstract class State : Node
 			{
 				owner.velocity.y = -400;
 			}
-			owner.ChangeState("Float");
+			owner.ChangeState(FloatStateString);
 		}
 		else if (airState && knockdown)
 		{
-			owner.ChangeState("AirKnockdown");
+			owner.ChangeState(AirKnockdownString);
 		}
 		else if (!airState && knockdown)
 		{
-			owner.ChangeState("HitStun");
+			owner.ChangeState(HitStunString);
 
 		}
 		else if (!airState && effect == BaseAttack.EXTRAEFFECT.STAGGER)
 		{
-			owner.ChangeState("Stagger");
+			owner.ChangeState(StaggerString);
 
 		}
 		else
 		{
-			owner.ChangeState("HitStun");
+			owner.ChangeState(HitStunString);
 		}
 	}
 
@@ -748,24 +761,24 @@ public abstract class State : Node
 	{
 		if (gfx == BaseAttack.GRAPHICEFFECT.EXPLOSION)
 		{
-			owner.GFXEvent("Explosion");
+			owner.GFXEvent(ExplosionGfxString);
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.PURPLE)
 		{
-			owner.GFXEvent("Purple");
+			owner.GFXEvent(PurpleString);
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SPARKS)
 		{
-			owner.ForceEvent(EventScheduler.EventType.AUDIO, "shock");
-			owner.GFXEvent("Sparks");
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, ShockString);
+			owner.GFXEvent(SparksString);
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.SLASH)
 		{
-			owner.GFXEvent("Slash", owner.otherPlayer.CheckHurtRect() / 100);
+			owner.GFXEvent(SlashString, owner.otherPlayer.CheckHurtRect() / 100);
 		}
 		else if (gfx == BaseAttack.GRAPHICEFFECT.ELECTROCUTE)
 		{
-			owner.ForceEvent(EventScheduler.EventType.AUDIO, "electricity");
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, ElectricityString);
 			owner.electrocuted = true;
 		}
 	}
@@ -780,26 +793,24 @@ public abstract class State : Node
 
 	}
 
-
 	protected virtual void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
-		
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "block", owner.OtherPlayerOnLeft());
+		Globals.EmitPlayerFXEmitted(collisionPnt, BlockFxString, owner.OtherPlayerOnLeft());
 		
 		owner.ChangeState(stateName);
-		owner.EmitSignal("HitConfirm", blockStop);
+		owner.EmitSignal(HitConfirmString, blockStop);
 
 	}
 
 	protected virtual void ReceiveHighBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
-    {
-        if (owner.CheckOverrideBlock())
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+	{
+		if (owner.CheckOverrideBlock())
+				EnterBlockState(BlockStateString, details.collisionPnt, details.hitStop);
 		else if (!owner.CheckHeldKey('2'))
 		{
 			if (rightBlock || leftBlock || anyBlock)
 			{
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+				EnterBlockState(BlockStateString, details.collisionPnt, details.hitStop);
 			}
 			else
 			{
@@ -810,30 +821,30 @@ public abstract class State : Node
 		{
 			if (owner.CheckFlippableHeldKey('4'))
 			{
-				owner.EmitSignal("Mixup", owner.Name);
+				owner.EmitSignal(MixupString, owner.Name);
 			}
 				
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
-    }
+	}
 
 	protected virtual void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
-    {
-        if (owner.CheckOverrideBlock())
-			EnterBlockState("Block", details.collisionPnt, details.hitStop);
+	{
+		if (owner.CheckOverrideBlock())
+			EnterBlockState(BlockStateString, details.collisionPnt, details.hitStop);
 
 		else if (rightBlock || leftBlock || anyBlock)
 		{
 			if (owner.CheckHeldKey('2') && owner.grounded)
-				EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+				EnterBlockState(CrouchBlockStateString, details.collisionPnt, details.hitStop);
 			else
-				EnterBlockState("Block", details.collisionPnt, details.hitStop);
+				EnterBlockState(BlockStateString, details.collisionPnt, details.hitStop);
 		}
 		else 
 		{
 			EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
 		}
-    }
+	}
 
 	public virtual void ReceiveHit(Globals.AttackDetails details)
 	{
@@ -872,12 +883,12 @@ public abstract class State : Node
 		else if (details.height == HEIGHT.LOW) 
 		{
 			if (owner.CheckOverrideBlock() && owner.grounded)
-				EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+				EnterBlockState(CrouchBlockStateString, details.collisionPnt, details.hitStop);
 			else if (owner.CheckHeldKey('2') && owner.grounded)
 			{
 				if (rightBlock || leftBlock || anyBlock)
 				{
-					EnterBlockState("CrouchBlock", details.collisionPnt, details.hitStop);
+					EnterBlockState(CrouchBlockStateString, details.collisionPnt, details.hitStop);
 				}
 				else
 				{
@@ -888,7 +899,7 @@ public abstract class State : Node
 			{
 				if (owner.CheckFlippableHeldKey('4'))
 				{
-					owner.EmitSignal("Mixup", owner.Name);
+					owner.EmitSignal(MixupString, owner.Name);
 				}
 					
 				EnterHitState(details.knockdown, details.opponentLaunch, details.collisionPnt, details.effect, details.graphicFX);
@@ -940,12 +951,12 @@ public abstract class State : Node
 			Globals.Log($"Receiving damage {details.dmg}");
 		int hitProration = details.prorationLevel;
 		if (owner.combo == 1)
-        {
+		{
 			if (hitProration > 0)
 				hitProration *= 3;
 			else
 				hitProration = 0;
-        }
+		}
 
 
 		stunRemaining = details.hitStun;
@@ -955,9 +966,9 @@ public abstract class State : Node
 		var comboPror =  baseProration + new Fix64(owner.combo) / prorationScaling;;
 
 		if (!details.ignoreProration)
-        {
-            fixDmg /= comboPror;
-        }
+		{
+			fixDmg /= comboPror;
+		}
 			
 		
 		owner.DeductHealth((int)fixDmg + 10);

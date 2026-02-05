@@ -32,7 +32,7 @@ public class BaseManager : Node2D
 
 	// Need to debug:
 	//
-	protected string matchFilename = "";
+	protected string matchFilename = "20261251157";
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -100,6 +100,7 @@ public class BaseManager : Node2D
 	public override void _Ready()
 	{
 		// Careful, GGRSManager replaces this
+		Globals.ClearSignals();
 		CreateGamescenes();
 
 		ClearHUDText();
@@ -176,30 +177,30 @@ public class BaseManager : Node2D
 			{
 				if (p2KeyReleased)
 				{
-					p1Inputs = GetInputs("");
+					p1Inputs = GetInputs(0);
 				}
 				else
 				{
-					p2KeyReleased = (GetInputs("") != lastP2Key);
+					p2KeyReleased = (GetInputs(0) != lastP2Key);
 				}
 
 			}
 			else if (p1KeyReleased)
 			{
-				p2Inputs = GetInputs("");
+				p2Inputs = GetInputs(0);
 				lastP2Key = p2Inputs;
 
 			}
 			else
 			{
-				p1KeyReleased = (GetInputs("") != lastP1Key);
+				p1KeyReleased = (GetInputs(0) != lastP1Key);
 			}
 		}
 
 
 		else
 		{
-			p1Inputs = GetInputs("");
+			p1Inputs = GetInputs(0);
 			lastP1Key = p1Inputs;
 		}
 		return new Tuple<int, int>(p1Inputs, p2Inputs);
@@ -252,110 +253,109 @@ public class BaseManager : Node2D
 		MoveChild(gameScene, 0);
 	}
 
-	protected int GetInputs(string end)
+	protected int GetInputs(int player)
 	{
 		int inputs = 0;
-		if (end == "")
+		if (player == 0)
 		{
-			if (Input.IsActionPressed("8"))
+			if (Input.IsActionPressed(Globals.P1UPACTION))
 			{
 				inputs |= 1;
 			}
 
-			if (Input.IsActionPressed("2"))
+			if (Input.IsActionPressed(Globals.P1DOWNACTION))
 			{
 				inputs |= 2;
 			}
 
-			if (Input.IsActionPressed("6") && !Input.IsActionPressed("4"))
+			if (Input.IsActionPressed(Globals.P1RIGHTACTION) && !Input.IsActionPressed(Globals.P1LEFTACTION))
 			{
 				inputs |= 4;
 			}
 
-			if (Input.IsActionPressed("4") && !Input.IsActionPressed("6"))
+			if (Input.IsActionPressed(Globals.P1LEFTACTION) && !Input.IsActionPressed(Globals.P1RIGHTACTION))
 			{
 				inputs |= 8;
 			}
 
-			if (Input.IsActionPressed("p"))
+			if (Input.IsActionPressed(Globals.P1PUNCHACTION))
 			{
 				inputs |= 16;
 			}
 
-			if (Input.IsActionPressed("k"))
+			if (Input.IsActionPressed(Globals.P1KICKACTION))
 			{
 				inputs |= 32;
 			}
 
-			if (Input.IsActionPressed("s"))
+			if (Input.IsActionPressed(Globals.P1SLASHACTION))
 			{
 				inputs |= 64;
 			}
 
-			if (Input.IsActionPressed("a"))
+			if (Input.IsActionPressed(Globals.P1SPECIALACTION))
 			{
 				inputs |= 128;
 			}
 
-			if (Input.IsActionPressed("b"))
+			if (Input.IsActionPressed(Globals.P1STRINGACTION))
 			{
 				inputs |= 256;
 			}
 
-			if (Input.IsActionPressed("c"))
+			if (Input.IsActionPressed(Globals.P1DASHACTION))
 			{
 				inputs |= 512;
 			}
 		}
 		else
 		{
-			if (Input.IsActionPressed("8b"))
+			if (Input.IsActionPressed(Globals.P2UPACTION))
 			{
 				inputs |= 1;
 			}
 
-			if (Input.IsActionPressed("2b"))
+			if (Input.IsActionPressed(Globals.P2DOWNACTION))
 			{
 				inputs |= 2;
 			}
 
-			if (Input.IsActionPressed("6b") && !Input.IsActionPressed("4b"))
+			if (Input.IsActionPressed(Globals.P2RIGHTACTION) && !Input.IsActionPressed(Globals.P2LEFTACTION))
 			{
 				inputs |= 4;
 			}
 
-			if (Input.IsActionPressed("4b") && !Input.IsActionPressed("6b"))
+			if (Input.IsActionPressed(Globals.P2LEFTACTION) && !Input.IsActionPressed(Globals.P2RIGHTACTION))
 			{
 				inputs |= 8;
 			}
 
-			if (Input.IsActionPressed("pb"))
+			if (Input.IsActionPressed(Globals.P2PUNCHACTION))
 			{
-				GD.Print("P2 Punch");
 				inputs |= 16;
 			}
 
-			if (Input.IsActionPressed("kb"))
+			if (Input.IsActionPressed(Globals.P2KICKACTION))
 			{
 				inputs |= 32;
 			}
 
-			if (Input.IsActionPressed("sb"))
+			if (Input.IsActionPressed(Globals.P2SLASHACTION))
 			{
 				inputs |= 64;
 			}
 
-			if (Input.IsActionPressed("ab"))
+			if (Input.IsActionPressed(Globals.P2SPECIALACTION))
 			{
 				inputs |= 128;
 			}
 
-			if (Input.IsActionPressed("bb"))
+			if (Input.IsActionPressed(Globals.P2STRINGACTION))
 			{
 				inputs |= 256;
 			}
 
-			if (Input.IsActionPressed("cb"))
+			if (Input.IsActionPressed(Globals.P2DASHACTION))
 			{
 				inputs |= 512;
 			}
@@ -525,12 +525,12 @@ public class BaseManager : Node2D
 		return new int[] { p1Inputs, p2Inputs};
 	}
 
-	public HashSet<string> GetP1Tags()
+	public HashSet<Globals.Tags> GetP1Tags()
 	{
 		return gameScene.GetP1Tags();
 	}
 
-	public HashSet<string> GetP2Tags()
+	public HashSet<Globals.Tags> GetP2Tags()
 	{
 		return gameScene.GetP2Tags();
 	}

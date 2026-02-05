@@ -44,6 +44,8 @@
 [ext_resource path="res://Scripts/Player/Base/States/GroundBounce.cs" type="Script" id=42]
 [ext_resource path="res://Scripts/Player/Base/States/WallBounce.cs" type="Script" id=43]
 [ext_resource path="res://Scripts/Player/Base/GFX/SpriteModulations.gd" type="Script" id=44]
+[ext_resource path="res://Scripts/Player/Base/GFX/DrawFX.cs" type="Script" id=45]
+[ext_resource path="res://Scripts/Player/Base/GFX/ShieldFX.cs" type="Script" id=46]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hadouken.cs" type="Script" id=47]
 [ext_resource path="res://Scripts/Player/Base/States/Landing.cs" type="Script" id=48]
 [ext_resource path="res://Scripts/Player/Base/States/Stagger.cs" type="Script" id=49]
@@ -56,11 +58,9 @@
 [ext_resource path="res://Scripts/Player/Base/States/SuperJump.cs" type="Script" id=56]
 [ext_resource path="res://Scripts/Tool/SpriteSync.gd" type="Script" id=57]
 [ext_resource path="res://Scripts/Player/Base/States/LandingRecovery.cs" type="Script" id=58]
-[ext_resource path="res://Scripts/Player/Base/GFX/DrawFX.gd" type="Script" id=59]
-[ext_resource path="res://Scripts/Player/Base/GFX/Shield.gd" type="Script" id=60]
+[ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.cs" type="Script" id=59]
 [ext_resource path="res://Scripts/Player/Base/States/Shield.cs" type="Script" id=61]
 [ext_resource path="res://Scripts/Player/Base/States/CrouchShield.cs" type="Script" id=62]
-[ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.gd" type="Script" id=63]
 [ext_resource path="res://Scripts/Player/Base/States/Burst.cs" type="Script" id=64]
 [ext_resource path="res://Scripts/Player/Base/States/GuardCancel.cs" type="Script" id=65]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/Outline.tres" type="Material" id=66]
@@ -223,6 +223,7 @@ scale = Vector2( 9, 9 )
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 0.00990099, 0.00990099, 1 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
@@ -253,7 +254,7 @@ gravity = Vector2( 0, 0 )
 scale_amount = 3.0
 color = Color( 0.101961, 1, 0, 0.243137 )
 hue_variation = 1.0
-script = ExtResource( 60 )
+script = ExtResource( 46 )
 
 [node name="ShieldHit" type="CPUParticles2D" parent="Shield"]
 z_index = 7
@@ -731,10 +732,10 @@ script = ExtResource( 36 )
 
 [node name="DrawFX" type="Node2D" parent="GFXHandler"]
 z_index = 6
-script = ExtResource( 59 )
+script = ExtResource( 45 )
 
 [node name="ElectricShock" type="Node2D" parent="."]
-script = ExtResource( 63 )
+script = ExtResource( 59 )
 
 [node name="Timer" type="Timer" parent="ElectricShock"]
 wait_time = 0.104

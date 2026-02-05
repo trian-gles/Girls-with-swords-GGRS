@@ -5,6 +5,12 @@ using System.Linq;
 
 public class LaunchAttack : AirAttack
 {
+	private const string SuperFlashString = "SuperFlash";
+	private const string SuperPowerUpString = "SuperPowerUp";
+	private const string LandingRecoveryString = "LandingRecovery";
+	private const string LandingString = "Landing";
+	private const string FallString = "Fall";
+	private const string DustString = "dust";
 
 	[Export]
 	protected Vector2 launch = new Vector2();
@@ -36,8 +42,8 @@ public class LaunchAttack : AirAttack
 
 		if (frameCount > 0 && frameCount == superFrame)
 		{
-			owner.EmitSignal("SuperFlash", owner.Name);
-			owner.GFXEvent("SuperPowerUp");
+			owner.EmitSignal(SuperFlashString, owner.Name);
+			owner.GFXEvent(SuperPowerUpString);
 		}
 
 
@@ -64,9 +70,9 @@ public class LaunchAttack : AirAttack
 				if (exitOnLand)
 				{
 					if (owner.landingRecoveryFramesRemaining > 0)
-						owner.ChangeState("LandingRecovery");
+						owner.ChangeState(LandingRecoveryString);
 					else
-						owner.ChangeState("Landing");
+						owner.ChangeState(LandingString);
 				}
 			}
 		}
@@ -75,7 +81,7 @@ public class LaunchAttack : AirAttack
 		{
 			if (frameCount % 5 == 0)
 			{
-				GetNode<Node>("/root/Globals").EmitSignal(nameof(GhostEmitted), (Player)owner);
+				Globals.EmitGhostEmitted(owner);
 			}
 		}
 
@@ -83,14 +89,12 @@ public class LaunchAttack : AirAttack
 		{
 			dustEmissionVector.x = owner.internalPos.x;
 			dustEmissionVector.y = owner.GetCollisionRect().End.y;
-			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			dustEmissionVector,
-			"dust", owner.facingRight);
+			Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, owner.facingRight);
 		}
 	}
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState("Fall");
+		owner.ChangeState(FallString);
 	}
 }

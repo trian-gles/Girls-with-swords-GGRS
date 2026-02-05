@@ -3,10 +3,11 @@ using System;
 
 public class GLj2c : BaseAttack
 {
+	private const string FallString = "Fall";
 	public override void _Ready()
 	{
 		base._Ready();
-		tags.Add("aerial");
+		tags.Add(Globals.Tags.aerial);
 		AddSpecials(owner.airSpecials);
 		AddExSpecials(owner.airExSpecials);
 		slowdownSpeed = 0;
@@ -66,6 +67,6 @@ public class GLj2c : BaseAttack
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState("Fall");
+		owner.ChangeState(FallString);
 	}
 }

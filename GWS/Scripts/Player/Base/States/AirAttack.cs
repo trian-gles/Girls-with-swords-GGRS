@@ -7,8 +7,10 @@ using System.Linq;
 public abstract class AirAttack : BaseAttack
 {
 
-	private string landingString = "Landing";
-	private string landingRecoveryString = "Landing Recovery";
+	private const string LandingString = "Landing";
+	private const string LandingRecoveryString = "Landing Recovery";
+	private const string FallString = "Fall";
+	private const string DoubleJumpString = "DoubleJump";
 
 	[Export]
 	public int landingRecoveryFrames = 0;
@@ -17,7 +19,7 @@ public abstract class AirAttack : BaseAttack
 		base._Ready();
 		tags.Add(Globals.Tags.aerial);
 		slowdownSpeed = 0;
-		AddCancel("Fall");
+		AddCancel(FallString);
 		hitDetails.airBlockable = true;
 	}
 
@@ -30,21 +32,21 @@ public abstract class AirAttack : BaseAttack
 
 	protected override void AddJumpCancel()
 	{
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, "DoubleJump", () =>
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, DoubleJumpString, () =>
 		{
 			owner.velocity.x = owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 			owner.hasDoubleOrSuperJumped = true;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, "DoubleJump", () =>
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, DoubleJumpString, () =>
 		{
 			owner.velocity.x = -owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 			owner.hasDoubleOrSuperJumped = true;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, "DoubleJump", () =>
+		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, DoubleJumpString, () =>
 		{
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
@@ -52,49 +54,15 @@ public abstract class AirAttack : BaseAttack
 		});
 	}
 
-	//public override bool DelayInputs()
-	//{
-	//	return owner.internalPos.y > 19000;
-//
-	//}
-
-	//protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect)
-	//{
-	//	GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "hit", false);
-	//	bool launchBool = false;
-	//	owner.ComboUp();
-	//	if (!(launch == Vector2.Zero))
-	//	{
-	//		owner.velocity = launch;
-	//		launchBool = true;
-	//	}
-
-	//	if (launch.y == 0)
-	//	{
-	//		owner.velocity.y = -400;
-	//	}
-
-	//	bool airState = (launchBool || !owner.grounded);
-
-	//	if (!knockdown)
-	//	{
-	//		owner.ChangeState("CounterFloat");
-	//	}
-	//	else
-	//	{
-	//		owner.ChangeState("AirKnockdown");
-	//	}
-	//}
-
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
 			if (owner.landingRecoveryFramesRemaining > 0)
-				owner.ChangeState(landingRecoveryString);
+				owner.ChangeState(LandingRecoveryString);
 			else
-				owner.ChangeState(landingString);
+				owner.ChangeState(LandingString);
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))

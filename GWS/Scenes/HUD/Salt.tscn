@@ -42,3 +42,5 @@ margin_top = -40.0
 margin_right = 32.0
 margin_bottom = 40.0
 texture = ExtResource( 1 )
+
+[connection signal="value_changed" from="TextureProgress" to="." method="_on_TextureProgress_value_changed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset/OL_Full_Moveset_gray.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Player/OL/Specials/CommandRunTurn.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
+[ext_resource path="res://Scripts/Player/Base/GFX/ShieldFX.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Player/OL/OL.cs" type="Script" id=11]
 [ext_resource path="res://Scenes/Projectiles/Coffee.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharge.cs" type="Script" id=14]
@@ -8738,6 +8739,9 @@ offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
 frame = 229
+
+[node name="Shield" parent="." index="6"]
+script = ExtResource( 10 )
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )

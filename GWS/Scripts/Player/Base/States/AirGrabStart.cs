@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 public abstract class AirGrabStart : AirState
 {
-	private string fallString = "Fall";
-	private string landingString = "Landing";
+	private const string FallString = "Fall";
+	private const string LandingString = "Landing";
+	private const string AirGrabString = "AirGrab";
 
 	public override void _Ready()
     {
@@ -18,7 +19,7 @@ public abstract class AirGrabStart : AirState
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState(fallString);
+		owner.ChangeState(FallString);
 	}
 
 	public override void CheckHit()
@@ -26,7 +27,7 @@ public abstract class AirGrabStart : AirState
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
 		if (collisionPnt != Vector2.Inf && owner.otherPlayer.IsAirGrabbable())
 		{
-			owner.ChangeState("AirGrab");
+			owner.ChangeState(AirGrabString);
 		}
 	}
 
@@ -41,7 +42,7 @@ public abstract class AirGrabStart : AirState
         base.FrameAdvance();
 		if (owner.grounded && frameCount > 1)
 		{
-			owner.ChangeState(landingString);
+			owner.ChangeState(LandingString);
 		}
 		ApplyGravity();
 	}

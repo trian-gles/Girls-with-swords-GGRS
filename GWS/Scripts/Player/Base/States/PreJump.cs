@@ -7,7 +7,10 @@ public class PreJump : State
 	[Export]
 	public int len = 3;
 
-	public override string animationName { get { return "None"; } }
+	private const string NoneAnim = "None";
+	private const string SuperJumpString = "SuperJump";
+	private const string JumpString = "Jump";
+	public override string animationName { get { return NoneAnim; } }
 	public override void _Ready()
 	{
 		base._Ready();
@@ -27,11 +30,11 @@ public class PreJump : State
 			if (owner.CanSuperJump())
 			{
 				owner.hasDoubleOrSuperJumped = true;
-				owner.ChangeState("SuperJump");
+				owner.ChangeState(SuperJumpString);
 			}
 			else
 			{
-				owner.ChangeState("Jump");
+				owner.ChangeState(JumpString);
 			}
 		}
 			

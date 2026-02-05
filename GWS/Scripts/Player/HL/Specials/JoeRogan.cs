@@ -8,15 +8,18 @@ using Godot;
 public class JoeRogan : LaunchAttack
 {
 
+    private const string JoeRoganString = "JoeRogan";
+    private const string TeleportString = "Teleport";
+
     public override void Enter()
     {
         base.Enter();
-        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "JoeRogan", Name);
+        owner.ScheduleEvent(EventScheduler.EventType.AUDIO, JoeRoganString, Name);
     }
     public override void AnimationFinished()
     {
         if (owner.CheckHeldKey('a') && !((HL)owner).hatted)
-            owner.ChangeState("Teleport");
+            owner.ChangeState(TeleportString);
         else
             base.AnimationFinished();
     }

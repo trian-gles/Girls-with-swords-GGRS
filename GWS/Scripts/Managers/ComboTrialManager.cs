@@ -221,7 +221,7 @@ public class ComboTrialManager : TutorialManager
 
 		Challenge extendedComboChallenge = new Challenge("Hard Meterless Corner Carry Combo");
 		dFJumpGoal.p1StateFrame = 1;
-		dFJumpGoal.p1Tags = new HashSet<string>() { "aerial" };
+		dFJumpGoal.p1Tags = new HashSet<Globals.Tags> { Globals.Tags.aerial };
 		dFJumpGoal.p1State = null;
 		extendedComboChallenge.goals.Add(ckickGoal);
 		extendedComboChallenge.goals.Add(slashGoal);

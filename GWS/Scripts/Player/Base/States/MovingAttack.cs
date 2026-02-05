@@ -18,6 +18,8 @@ public class MovingAttack : ComNorm
 
 	[Export]
 	protected Array<int> dustFrames = new Array<int>();
+
+	private const string DustString = "dust";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -58,9 +60,7 @@ public class MovingAttack : ComNorm
 		{
 			dustEmissionVector.x = owner.internalPos.x;
 			dustEmissionVector.y = owner.GetCollisionRect().End.y;
-            GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-            dustEmissionVector,
-            "dust", owner.facingRight);
+            Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, owner.facingRight);
         }
 		
 	}

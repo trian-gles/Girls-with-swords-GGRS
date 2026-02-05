@@ -19,6 +19,7 @@ public class EventScheduler : Node
 	}
 
 	private List<Event> scheduledEvents = new List<Event>();
+	private List<Event> removeEvents = new List<Event>();
 	private CharacterAudio audioPlay;
 
 
@@ -51,7 +52,7 @@ public class EventScheduler : Node
 		scheduledEvents.Add(ev);
 	}
 	
-	private List<Event> removeEvents = new List<Event>();
+	
 	public void FrameAdvance()
 	{
 		removeEvents.Clear();

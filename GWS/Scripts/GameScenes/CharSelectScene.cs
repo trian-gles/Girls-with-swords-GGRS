@@ -32,9 +32,13 @@ public class CharSelectScene : BaseGame
 	
 	private CharSelectAudio audio;
 
+	private Control scrollText;
+	private AudioStreamPlayer charSelectMusic;
 	private List<List<Sprite>> charImages;
 	
 	private Godot.Collections.Array bkgImages;
+
+	private MemoryPool memoryPool;
 
 	private int p1Pos = 0;
 	private int p2Pos = 1;
@@ -47,6 +51,13 @@ public class CharSelectScene : BaseGame
 	private BaseManager.CombinedInputs lastInputs;
 	private int charSelectFrame = 0;
 	private int selectedStage = 0;
+
+	// runtime string constants
+	private const string CharSelectSoundString = "CharSelect";
+	private const string AnimRightString = "Right";
+	private const string AnimLeftString = "Left";
+	private const string ChooseStageCallString = "choose_stage";
+	private const string ResetCallString = "reset";
 
 	private enum TimeStatus
 	{
@@ -97,12 +108,22 @@ public class CharSelectScene : BaseGame
 		
 		HUDText = GetNode<Control>("CanvasLayer/DebugText");
 		base._Ready();
+		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		{
+			unsafe
+			{
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+			}
+		}
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
 		lastInputs.SetInputs(0, 0);
 		P1Cursor = GetNode<Sprite>("CanvasLayer/P1Cursor");
 		P2Cursor = GetNode<Sprite>("CanvasLayer/P2Cursor");
 
 		audio = GetNode<CharSelectAudio>("CharSelectAudio");
+		// cache frequently used nodes
+		scrollText = GetNode<Control>("CanvasLayer/ScrollText");
+		charSelectMusic = GetNode<AudioStreamPlayer>("CharSelectMusic");
 
 		var p1CharImages = new List<Sprite>() {
 			GetNode<Sprite>("CanvasLayer/P1Selected/OLSprite"),
@@ -179,7 +200,7 @@ public class CharSelectScene : BaseGame
 		state.charSelectFrame = charSelectFrame;
 		state.selectStagePlayer = selectStagePlayer;
 
-		var arr = new byte[sizeof(GameState)];
+		var arr = memoryPool.Get();
 		fixed (byte* p = arr)
 		{
 			SerializeState(ref state, p);
@@ -339,7 +360,7 @@ public class CharSelectScene : BaseGame
 		p2Selected = true;
 		p2Color = 0;
 		p2Pos = 1;
-		GetNode<Control>("CanvasLayer/ScrollText").Visible = false;
+		scrollText.Visible = false;
 
 	}
 
@@ -348,7 +369,7 @@ public class CharSelectScene : BaseGame
 		
 		if (playerNum == 0 && !p1Selected)
 		{
-			audio.PlaySound("CharSelect");
+			audio.PlaySound(CharSelectSoundString);
 			P1Cursor.Visible = false;
 			p1Selected = true;
 			p1Color = color;
@@ -363,7 +384,7 @@ public class CharSelectScene : BaseGame
 			P2Cursor.Visible = false;
 			p2Selected = true;
 			p2Color = color;
-			audio.PlaySound("CharSelect");
+			audio.PlaySound(CharSelectSoundString);
 			if (!p1Selected)
 			{
 				selectStagePlayer = playerNum;
@@ -378,7 +399,7 @@ public class CharSelectScene : BaseGame
 		{
 			if (stageSelected)
 			{
-				audio.PlaySound("CharSelect");
+				audio.PlaySound(CharSelectSoundString);
 				if (p2Color == p1Color && p1Pos == p2Pos)
 				{
 					if (p2Color == 0)
@@ -391,7 +412,7 @@ public class CharSelectScene : BaseGame
 			}
 			else
 			{
-				GetNode("CanvasLayer/ScrollText").Call("choose_stage", selectStagePlayer);
+				scrollText.Call(ChooseStageCallString, selectStagePlayer);
 			}
 		}
 
@@ -425,7 +446,7 @@ public class CharSelectScene : BaseGame
 				MoveCursor(i, 1);
 				if (i == 0)
 				{
-					animationPlayer.Play("Right");
+					animationPlayer.Play(AnimRightString);
 				}
 			}
 
@@ -435,7 +456,7 @@ public class CharSelectScene : BaseGame
 				MoveCursor(i, -1);
 				if (i == 0)
 				{
-					animationPlayer.Play("Left");
+					animationPlayer.Play(AnimLeftString);
 				}
 			}
 
@@ -480,7 +501,7 @@ public class CharSelectScene : BaseGame
 
 	public void StopMusic()
 	{
-		GetNode<AudioStreamPlayer>("CharSelectMusic").Stop();
+		charSelectMusic.Stop();
 	}
 
 
@@ -503,7 +524,7 @@ public class CharSelectScene : BaseGame
 		p1Selected = false;
 		p2Selected = false;
 		stageSelected = false;
-		GetNode("CanvasLayer/ScrollText").Call("reset");
+		scrollText.Call(ResetCallString);
 	}
 
 	public void Reload()

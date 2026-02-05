@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class CrouchB : GroundAttack
 {
+	private const string CrouchCString = "CrouchC";
+	private const string SlashString = "Slash";
+	private const string GrabStartString = "GrabStart";
+	private const string CrouchShieldString = "CrouchShield";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -11,12 +15,12 @@ public class CrouchB : GroundAttack
 		AddExSpecials(owner.groundExSpecials);
         AddCommandNormals(owner.commandNormals);
         AddEasyGroundSpecials();
-		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
+		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), CrouchCString);
 
-		AddGatling(new char[] { 's', 'p' }, "Slash");
-		AddGatling(new char[] { 'b', 'p' }, "Slash");
-		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
+		AddGatling(new char[] { 's', 'p' }, SlashString);
+		AddGatling(new char[] { 'b', 'p' }, SlashString);
+		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), GrabStartString);
 
-        AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), "CrouchShield");
+        AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), CrouchShieldString);
     }
 }

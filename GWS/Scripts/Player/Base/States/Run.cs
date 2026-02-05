@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class Run : MoveState
 {
+	private const string PreJumpString = "PreJump";
+	private const string PostRunString = "PostRun";
+	private const string DustString = "dust";
+	private const string StepString = "Step";
 	protected int soundRate = 15;
 	public override void _Ready()
 	{
@@ -11,7 +15,7 @@ public class Run : MoveState
 		loop = true;
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
 			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
-		AddGatling(new[] { '8', 'p' }, "PreJump");
+		AddGatling(new[] { '8', 'p' }, PreJumpString);
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
 		AddEasyGroundSpecials();
@@ -19,8 +23,8 @@ public class Run : MoveState
 		
 		
 		AddNormals();
-		AddGatling(new[] { '6', 'r' }, "PostRun");
-		AddGatling(new[] { '4', 'r' }, "PostRun");
+		AddGatling(new[] { '6', 'r' }, PostRunString);
+		AddGatling(new[] { '4', 'r' }, PostRunString);
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
 			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
 
@@ -37,17 +41,15 @@ public class Run : MoveState
 		owner.GainMeter(500);
 		dustEmissionVector.x = owner.internalPos.x;
 		dustEmissionVector.y = owner.GetCollisionRect().End.y;
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			dustEmissionVector,
-			"dust", owner.facingRight);
+		Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, !owner.facingRight);
 
 		if (owner.CheckHeldKey('8'))
 		{
-			owner.ChangeState("PreJump");
+			owner.ChangeState(PreJumpString);
 		}
 		if (!owner.CheckHeldKey('6') && !owner.CheckHeldKey('4')) // this will need to be fixed
 		{
-			owner.ChangeState("PostRun");
+			owner.ChangeState(PostRunString);
 		}
 	}
 
@@ -57,7 +59,7 @@ public class Run : MoveState
 
 		if (frameCount % soundRate == 0)
 		{
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Step", Name);
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, StepString, Name);
 		}
 	}
 

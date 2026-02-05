@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 
 public class HadoukenPart : Node2D
 {
+	private const string HitStunString = "HitStun";
+	private const string HadoukenTypeString = "Hadouken";
 	[Signal]
 	public delegate void OnHadoukenOffscreen();
 
@@ -17,6 +19,7 @@ public class HadoukenPart : Node2D
 	protected Globals.AttackDetails hitDetails;
 	protected Globals.AttackDetails chDetails;
 	protected AnimatedSprite animatedSprite;
+	protected CollisionShape2D collisionShape2D;
 
 	private Color hurtColor = new Color(255, 0, 0, 0.9f);
 
@@ -111,11 +114,11 @@ public class HadoukenPart : Node2D
 
 	public int creationFrame;
 
-	static protected HashSet<int> hadoukenNums = new HashSet<int>();
+	static protected HashSet<int> hadoukenNums = new HashSet<int>();  // TODO : should be fixed size
 
 	protected int num;
 
-	public virtual string hadoukenType { get; } = "Hadouken";
+	public virtual string hadoukenType { get; } = HadoukenTypeString;
 
 	public enum ProjectileCommand
 	{
@@ -188,7 +191,10 @@ public class HadoukenPart : Node2D
 	/// <param name="targetPlayer"> the targeted player </param>
 	public virtual void Spawn(bool movingRight, Player targetPlayer)
 	{
-		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		if (animatedSprite == null)
+			animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		if (collisionShape2D == null)
+			collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		animatedSprite.Frame = 0;
 		animatedSprite.Playing = true;
 		this.movingRight = movingRight;
@@ -214,7 +220,7 @@ public class HadoukenPart : Node2D
 
 		hadoukenNums.Add(i);
 		id = Globals.frame;
-		if (targetPlayer.Name == "P2")
+		if (targetPlayer.Name[1] == '2')
 			id += 10000;
 		
 		num = i;
@@ -295,7 +301,7 @@ public class HadoukenPart : Node2D
 
 		if ((hits > 0) && (hits < totalHits) && ((frame - lastHitFrame) == breakBetweenHits))
 		{
-			if (!(targetPlayer.currentState.tags.Contains("hitstate") || targetPlayer.currentState.tags.Contains("block"))) {
+			if (!(targetPlayer.currentState.tags.Contains(Globals.Tags.hitstate) || targetPlayer.currentState.tags.Contains(Globals.Tags.block))) {
 				hits = totalHits;
 				return;
 			}
@@ -307,16 +313,19 @@ public class HadoukenPart : Node2D
 		
 	}
 
+	protected Rect2[] playerRects = new Rect2[3];
 	/// <summary>
 	/// checks if the targeted player is inside the collision box
 	/// </summary>
 	/// <returns></returns>
 	protected Vector2 CheckRect()
 	{
-		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
-		List<Rect2> otherRects = targetPlayer.GetRects(targetPlayer.hitBoxes, true);
-		foreach (Rect2 pRect in otherRects)
+		Rect2 myRect = GetRect(collisionShape2D, true);
+		targetPlayer.GetRects(targetPlayer.hitBoxes, playerRects, true);
+
+		for (int i = 0; i < 3; i++)
 		{
+			var pRect = playerRects[i];
 			if (myRect.Intersects(pRect))
 			{
 
@@ -341,7 +350,7 @@ public class HadoukenPart : Node2D
 
 	public Rect2 GetCollisionRect()
 	{
-		return GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
+		return GetRect(collisionShape2D, true);
 	}
 
 	protected virtual void HurtPlayer(Vector2 collisionPnt)
@@ -355,7 +364,7 @@ public class HadoukenPart : Node2D
 		var chHitDetailsCopy = chDetails;
 		hits++;
 
-		targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, "HitStun");
+		targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, HitStunString);
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{
 			hitDetailsCopy.opponentLaunch = Vector2.Zero;
@@ -493,7 +502,7 @@ public class HadoukenPart : Node2D
 		
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
-			Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), false);
+			Rect2 myRect = GetRect(collisionShape2D, false);
 			var tinyExtents = myRect.Size / 100;
 			var tinyPos = myRect.Position / 100;
 			var tinyRect = new Rect2(tinyPos, tinyExtents);

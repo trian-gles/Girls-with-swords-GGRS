@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public abstract class GrabStart : State
 {
+	private const string IdleString = "Idle";
+	private const string GrabString = "Grab";
     public override void _Ready()
     {
         base._Ready();
@@ -27,7 +29,7 @@ public abstract class GrabStart : State
 
     public override void AnimationFinished()
 	{
-		owner.ChangeState("Idle");
+		owner.ChangeState(IdleString);
 	}
 
 	public override void CheckHit()
@@ -35,7 +37,7 @@ public abstract class GrabStart : State
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
 		if (collisionPnt != Vector2.Inf && owner.otherPlayer.IsGrabbable())
 		{
-			owner.ChangeState("Grab");
+			owner.ChangeState(GrabString);
 		}
 	}
 

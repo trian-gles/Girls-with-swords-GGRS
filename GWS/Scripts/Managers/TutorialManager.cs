@@ -23,8 +23,8 @@ public class TutorialManager : TrainingManager
 			for (int i = 1; i < goals.Count; i++)
 			{
 				goals[i] = goals[i].Copy();
-				goals[i].p2FailTags.Add("recovery");
-				goals[i].p2Tags.Add("hitstate");
+				goals[i].p2FailTags.Add(Globals.Tags.recovery);
+				goals[i].p2Tags.Add(Globals.Tags.hitstate);
 			}
 		}
 		public GameScene.ResetPos resetPos;
@@ -58,10 +58,10 @@ public class TutorialManager : TrainingManager
 				minFramesSinceLastGoal = minFramesSinceLastGoal,
 				p1FailState = p1FailState,
 				p2FailState = p2FailState,
-				p1Tags = new HashSet<string>(p1Tags),
-				p2Tags = new HashSet<string>(p2Tags),
-				p1FailTags = new HashSet<string>(p1FailTags),
-				p2FailTags = new HashSet<string>(p2FailTags),
+				p1Tags = new HashSet<Globals.Tags>(p1Tags),
+				p2Tags = new HashSet<Globals.Tags>(p2Tags),
+				p1FailTags = new HashSet<Globals.Tags>(p1FailTags),
+				p2FailTags = new HashSet<Globals.Tags>(p2FailTags),
 			};
 			return newGoal;
 		}
@@ -79,13 +79,13 @@ public class TutorialManager : TrainingManager
 		public int p2StateFrame = -1;
 		public int minFramesSinceLastGoal = 0;
 
-		public HashSet<string> p1Tags = new HashSet<string>();
-		public HashSet<string> p2Tags = new HashSet<string>();
+		public HashSet<Globals.Tags> p1Tags = new HashSet<Globals.Tags>();
+		public HashSet<Globals.Tags> p2Tags = new HashSet<Globals.Tags>();
 		public string p1FailState;
 		public string p2FailState;
 
-		public HashSet<string> p1FailTags = new HashSet<string>();
-		public HashSet<string> p2FailTags = new HashSet<string>();
+		public HashSet<Globals.Tags> p1FailTags = new HashSet<Globals.Tags>();
+		public HashSet<Globals.Tags> p2FailTags = new HashSet<Globals.Tags>();
 		public OtherRequirement otherRequirement;
 	}
 
@@ -99,6 +99,18 @@ public class TutorialManager : TrainingManager
 	private Goal currGoal;
 
 	private Node tutorialContainer;
+
+	private Node events;
+
+	// runtime call targets for tutorial container
+	private const string TutorialResetCallString = "reset";
+	private const string TutorialAddGoalCallString = "add_goal";
+	private const string TutorialCurrGoalCallString = "curr_goal";
+	private const string TutorialPlaybackFinishedCallString = "playback_finished";
+	private const string TutorialSuccessAllCallString = "success_all";
+	private const string TutorialFinishCallString = "finish";
+	private const string TutorialFailGoalCallString = "fail_goal";
+	private const string TutorialSuccessGoalCallString = "success_goal";
 
 	private bool shouldAdvance = false;
 	private bool failed = false;
@@ -201,7 +213,7 @@ public class TutorialManager : TrainingManager
 	/// </summary>
 	public virtual void AddChallenges()
 	{
-		// Walk
+					tutorialContainer.Call(TutorialResetCallString);
 		Challenge moveChallenge = new Challenge("Basic Movement");
 
 		moveChallenge.popupText = "Welcome to the Girls with Swords tutorial!  First let's go over some basic movement.  Press START or ESC at any time to see the currently configured controls.";
@@ -406,7 +418,7 @@ public class TutorialManager : TrainingManager
 		overheadChallenge.popupText = "By holding back with no other buttons, you'll block aerial and mid height attacks";
 		Goal blockGoalOvr = new Goal("block mid and aerial", "left", "hold");
 		blockGoalOvr.p1State = "Block";
-		blockGoalOvr.p1FailTags.Add("hitstate");
+		blockGoalOvr.p1FailTags.Add(Globals.Tags.hitstate);
 		blockGoalOvr.p1StateFrame = 1;
 		blockGoalOvr.minFramesSinceLastGoal = 20;
 		overheadChallenge.goals.Add(blockGoalOvr);
@@ -418,7 +430,7 @@ public class TutorialManager : TrainingManager
 		lowChallenge.popupText = "By holding back AND down, you'll block low and mid height attacks";
 		Goal blockGoalLow = new Goal("block mids and lows", "down", "left", "hold");
 		blockGoalLow.p1State = "CrouchBlock";
-		blockGoalLow.p1FailTags.Add("hitstate");
+		blockGoalLow.p1FailTags.Add(Globals.Tags.hitstate);
 		blockGoalLow.p1StateFrame = 1;
 		blockGoalLow.minFramesSinceLastGoal = 20;
 		lowChallenge.goals.Add(blockGoalLow);
@@ -496,7 +508,7 @@ public class TutorialManager : TrainingManager
 		burstChallenge.goals.Add(getHitGoal2);
 		Goal burst = new Goal("Burst", "p", "k", "special");
 		burst.p1State = "Burst";
-		burst.p1FailTags.Add("recovery");
+		burst.p1FailTags.Add(Globals.Tags.recovery);
 		burstChallenge.goals.Add(burst);
 		burstChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(burstChallenge);
@@ -509,6 +521,7 @@ public class TutorialManager : TrainingManager
 		Globals.autoTech = false;
 
 		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
+		events = GetNode("/root/Events");
 
 
 		// Setting up default goals
@@ -527,7 +540,7 @@ public class TutorialManager : TrainingManager
 		jabGoal = new Goal("Punch", "p")
 		{
 			p1State = "Jab",
-			p2Tags = new HashSet<string> { "hitstate" },
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate },
 			p2StateFrame = 0
 		};
 
@@ -535,56 +548,56 @@ public class TutorialManager : TrainingManager
 		{
 			p1State = "Kick",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		slashGoal = new Goal("Slash", "s")
 		{
 			p1State = "Slash",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		cjabGoal = new Goal("Crouching Punch", "down", "p")
 		{
 			p1State = "CrouchA",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		ckickGoal = new Goal("Crouching Kick", "down", "k")
 		{
 			p1State = "CrouchB",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		cslashGoal = new Goal("Crouching Slash (sweep)", "down", "s")
 		{
 			p1State = "CrouchC",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		jJabGoal = new Goal("Air Punch", "air", "p")
 		{
 			p1State = "JumpA",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		jKickGoal = new Goal("Air Kick", "air", "k")
 		{
 			p1State = "JumpB",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		jSlashGoal = new Goal("Air Slash", "air", "s")
 		{
 			p1State = "JumpC",
 			p2StateFrame = 0,
-			p2Tags = new HashSet<string> { "hitstate" }
+			p2Tags = new HashSet<Globals.Tags> { Globals.Tags.hitstate }
 		};
 
 		adGoal = new Goal("Airdash", "air", "right", "dash");
@@ -792,8 +805,8 @@ public class TutorialManager : TrainingManager
 	private void CompleteAllChallenges()
 	{
 
-		var events = GetNode("/root/Events");
-		events.Call("emit_signal", "MainMenuPressed");
+		const string MainMenuPressedString = "MainMenuPressed";
+		events.Call("emit_signal", MainMenuPressedString);
 
 	}
 
@@ -820,14 +833,14 @@ public class TutorialManager : TrainingManager
 	{
 		if (playbackInputs2)
 		{
-			tutorialContainer.Call("playback_finished");
+				tutorialContainer.Call(TutorialPlaybackFinishedCallString);
 			return;
 		}
 		shouldAdvance = true;
-		tutorialContainer.Call("success_all");
+			tutorialContainer.Call(TutorialSuccessAllCallString);
 		if (currChallengePtr == challenges.Count - 1)
 		{
-			tutorialContainer.Call("finish");
+				tutorialContainer.Call(TutorialFinishCallString);
 		}
 	}
 
@@ -839,7 +852,7 @@ public class TutorialManager : TrainingManager
 
 	private void FailGoal()
 	{
-		tutorialContainer.Call("fail_goal", currGoalPtr);
+		tutorialContainer.Call(TutorialFailGoalCallString, currGoalPtr);
 		failed = true;
 	}
 
@@ -847,7 +860,7 @@ public class TutorialManager : TrainingManager
 	{
 
 
-		tutorialContainer.Call("success_goal", currGoalPtr);
+			tutorialContainer.Call(TutorialSuccessGoalCallString, currGoalPtr);
 		currGoalPtr++;
 		lastGoalCompletedFrame = Globals.frame;
 
@@ -858,7 +871,7 @@ public class TutorialManager : TrainingManager
 		else
 		{
 			currGoal = currChallenge.goals[currGoalPtr];
-			tutorialContainer.Call("curr_goal", currGoalPtr);
+				tutorialContainer.Call(TutorialCurrGoalCallString, currGoalPtr);
 			// gameScene.highlightGoal(currGoalPtr)
 		}
 	}

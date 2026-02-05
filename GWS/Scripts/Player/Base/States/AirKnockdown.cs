@@ -6,11 +6,11 @@ using System;
 /// </summary>
 public class AirKnockdown : Float
 {
-	private string floatString = "Float";
-	private string knockdownString = "Knockdown";
-	private string downString = "Down";
+	private const string FloatString = "Float";
+	private const string KnockdownString = "Knockdown";
+	private const string DownString = "Down";
 
-	public override string animationName { get { return floatString; } }
+	public override string animationName { get { return FloatString; } }
 
     public override void Enter()
     {
@@ -23,9 +23,9 @@ public class AirKnockdown : Float
 		if (owner.grounded)
 		{
 			if (owner.health > 0)
-				owner.ChangeState(knockdownString);
+				owner.ChangeState(KnockdownString);
 			else
-				owner.ChangeState(downString);
+				owner.ChangeState(DownString);
 				owner.ResetComboAndProration();
 		}
 		ApplyGravity();

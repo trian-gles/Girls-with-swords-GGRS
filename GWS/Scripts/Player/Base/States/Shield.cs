@@ -5,11 +5,21 @@ using System.Collections.Generic;
 
 public class Shield : HitState
 {
+	private const string BlockAnim = "Block";
+	private const string IdleString = "Idle";
+	private const string FallString = "Fall";
+	private const string CrouchShieldString = "CrouchShield";
+	private const string ShieldStateString = "Shield";
+	private const string CrouchBlockString = "CrouchBlock";
+	private const string ShieldFxString = "shield";
+	private const string HitConfirmString = "HitConfirm";
+	private const string BlockString = "Block";
+	private const string LightString = "Light";
 
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block };
 	protected char[] requiredKeys = new[] { 'p', 'k', '4' };
 
-	public override string animationName { get { return "Block"; } }
+	public override string animationName { get { return BlockAnim; } }
 	public override void _Ready()
 	{
 		base._Ready();
@@ -57,18 +67,18 @@ public class Shield : HitState
 	{
 		if (owner.grounded)
 		{
-			owner.ChangeState("Idle");
+			owner.ChangeState(IdleString);
 		}
 		else
 		{
-			owner.ChangeState("Fall");
+			owner.ChangeState(FallString);
 		}
 	}
 
 	protected virtual void CheckShieldSwitch()
 	{
 		if (owner.CheckHeldKey('2') && owner.grounded)
-			owner.ChangeState("CrouchShield");
+			owner.ChangeState(CrouchShieldString);
 	}
 
 
@@ -96,12 +106,12 @@ public class Shield : HitState
 	{
 
 		stunRemaining = blockStun + 3;
-		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block"); // this will be inherited by crouchblock
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, BlockString); // this will be inherited by crouchblock
 	}
 
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
-		owner.GFXEvent("Light", details.collisionPnt / 100);
+		owner.GFXEvent(LightString, details.collisionPnt / 100);
 		if (!owner.TrySpendMeter(300)) owner.EmptyMeter();
 
 		stunRemaining = details.blockStun;
@@ -121,12 +131,12 @@ public class Shield : HitState
 
 	protected override void EnterBlockState(string stateName, Vector2 collisionPnt, int blockStop)
 	{
-		if (stateName == "Block")
-			stateName = "Shield";
-		else if (stateName == "CrouchBlock")
-			stateName = "CrouchShield";
-		GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted), collisionPnt, "shield", owner.OtherPlayerOnLeft());
+		if (stateName == BlockString)
+			stateName = ShieldStateString;
+		else if (stateName == CrouchBlockString)
+			stateName = CrouchShieldString;
+		Globals.EmitPlayerFXEmitted(collisionPnt, ShieldFxString, owner.OtherPlayerOnLeft());
 		owner.ChangeState(stateName);
-		owner.EmitSignal("HitConfirm", blockStop);
+		owner.EmitSignal(HitConfirmString, blockStop);
 	}
 }

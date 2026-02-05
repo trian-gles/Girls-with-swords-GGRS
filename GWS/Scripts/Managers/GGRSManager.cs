@@ -51,7 +51,8 @@ class GGRSManager : StateManager
 	
 	public void OnUpdateRequiredConfirmed()
 	{
-		events.Call("emit_signal", "MainMenuPressed");
+		const string MainMenuPressedString = "MainMenuPressed";
+		events.Call("emit_signal", MainMenuPressedString);
 		QueueFree();
 	}
 
@@ -196,7 +197,7 @@ class GGRSManager : StateManager
 
 			if (currGame.AcceptingInputs())
 			{
-				int inputs = GetInputs("");
+				int inputs = GetInputs(0);
 				if (aiTest)
 					inputs = random.Next(255);
 

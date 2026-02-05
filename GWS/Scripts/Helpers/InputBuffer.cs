@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Godot;
 
 public sealed class InputContainer : IEnumerable<char[]>
 {
@@ -108,38 +109,53 @@ public sealed class InputContainer : IEnumerable<char[]>
 	/// Order is preserved.
 	/// </summary>
 	public void Prepend(InputContainer other)
+{
+	if (other == null)
+		throw new ArgumentNullException(nameof(other));
+
+	if (other._count == 0)
+		return;
+
+	if (other._count > _capacity)
+		throw new InvalidOperationException("Prepending InputContainer exceeding capacity");
+
+	if (ReferenceEquals(this, other))
+		throw new InvalidOperationException("InputContainer self prepend");
+
+	int oldCount = _count;
+
+	int keepCount = oldCount;
+	if (oldCount + other._count > _capacity)
+		keepCount = _capacity - other._count;
+
+	int charsPerInput = 2;
+
+	int existingChars = keepCount * charsPerInput;
+	int prependChars = other._count * charsPerInput;
+
+	int srcOffset = (oldCount - keepCount) * charsPerInput;
+
+	// Shift surviving existing inputs forward
+	Array.Copy(_buffer, srcOffset, _buffer, prependChars, existingChars);
+
+	// Copy prepended inputs
+	Array.Copy(other._buffer, 0, _buffer, 0, prependChars);
+
+	_count = keepCount + other._count;
+	if (Globals.logOn)
 	{
-		if (other == null)
-			throw new ArgumentNullException(nameof(other));
-
-		if (other._count == 0)
-			return;
-
-		if (other._count > _capacity)
-		{
-			throw new InvalidOperationException("Prepending InputContainer exceeding capacity");
-		}
-
-		if (_count + other._count > _capacity)
-			_count = _capacity - other._count;
-
-		// Special case: self-prepend
-		if (ReferenceEquals(this, other))
-		{
-			throw new InvalidOperationException("InputContainer self prepend");
-		}
-
-		int existingChars = _count * 2;
-		int prependChars = other._count * 2;
-
-		// Shift existing contents forward
-		Array.Copy(_buffer, 0, _buffer, prependChars, existingChars);
-
-		// Copy other contents to front
-		Array.Copy(other._buffer, 0, _buffer, 0, prependChars);
-
-		_count += other._count;
+		string s = "";
+		for (int i = 0; i < _count * 2; i++)
+			{
+				s += _buffer[i];
+			}
+		Globals.Log(s);
+		
 	}
+	
+
+}
+
 
 	public IEnumerator<char[]> GetEnumerator()
 	{
@@ -155,13 +171,13 @@ public sealed class InputContainer : IEnumerable<char[]>
 	}
 
 	public unsafe void SetState(int count, char* buffer){
-		for (int i = 0; i < count * 2; i++)
+		for (int i = 0; i < Capacity; i++)
 			_buffer[i] = buffer[i];
 		_count = count;
 	}
 
 	public unsafe int GetState(char* buffer){
-		for (int i = 0; i < _count * 2; i++)
+		for (int i = 0; i < Capacity; i++)
 			buffer[i] = _buffer[i];
 		return _count;
 	}

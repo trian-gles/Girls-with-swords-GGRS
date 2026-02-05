@@ -7,6 +7,8 @@ public class SnailAirSnipe : AirGrabStart
 	[Export]
 	public Vector2 launch = new Vector2();
 
+	private const string AirGrabString = "AirGrab";
+
 	public override void Enter()
 	{
 		base.Enter();
@@ -35,7 +37,7 @@ public class SnailAirSnipe : AirGrabStart
 		Vector2 collisionPnt = owner.CheckHurtRectGrab();
 		if (collisionPnt != Vector2.Inf)
 		{
-			owner.ChangeState("AirGrab");
+			owner.ChangeState(AirGrabString);
 		}
 	}
 

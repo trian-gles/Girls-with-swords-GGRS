@@ -92,7 +92,7 @@ public class Note : Polygon2D
 
 		else if (Position.x < 60 + rate && Position.x >= (60)) 
 		{
-			EmitSignal("NoteLand");
+			EmitSignal(nameof(NoteLand));
 		}
 
 		else if (status == Status.onTarget && Position.x < (60 - rate * window))

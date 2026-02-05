@@ -24,6 +24,7 @@ public class Globals : Node
 
 	public static string VERSION = "1.0.0";
 	public static string netplaySessionName = "";
+	public static int ROLLBACKDEPTH = 8;
 
 	public static int frame = 0;
 	public static int lastConfirmedFrame = 0;
@@ -53,6 +54,27 @@ public class Globals : Node
 	{
 		OLID, GLID, SLID, HLID
 	}
+
+	public const string P1UPACTION = "8";
+	public const string P1DOWNACTION = "2";
+	public const string P1RIGHTACTION = "6";
+	public const string P1LEFTACTION = "4";
+	public const string P1PUNCHACTION = "p";
+	public const string P1KICKACTION = "k";
+	public const string P1SLASHACTION = "s";
+	public const string P1SPECIALACTION = "a";
+	public const string P1STRINGACTION = "b";
+	public const string P1DASHACTION = "c";
+	public const string P2UPACTION = "8b";
+	public const string P2DOWNACTION = "2b";
+	public const string P2RIGHTACTION = "6b";
+	public const string P2LEFTACTION = "4b";
+	public const string P2PUNCHACTION = "pb";
+	public const string P2KICKACTION = "kb";
+	public const string P2SLASHACTION = "sb";
+	public const string P2SPECIALACTION = "ab";
+	public const string P2STRINGACTION = "bb";
+	public const string P2DASHACTION = "cb";
 	
 	public const int UP = 1;
 	public const int DOWN = 2;
@@ -103,6 +125,8 @@ public class Globals : Node
 		return GC.GetTotalMemory(false); // allocated managed memory
 	}
 
+	public static bool TESTGC = false;
+
 	public static void TestGC2(long mem)
 	{
 		mem = GC.GetTotalMemory(false) - mem;
@@ -114,7 +138,11 @@ public class Globals : Node
 	{
 		mem = GC.GetTotalMemory(false) - mem;
 		if (mem > 0)
+		{
 			GD.Print($"DELTA MEM {why}: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+			Log($"DELTA MEM {why}: {mem / 1024} KB, Gen0: {GC.CollectionCount(0)}, Gen2: {GC.CollectionCount(2)}");
+		}
+			
 	}
 	public static void Log(string msg)
 	{
@@ -130,6 +158,109 @@ public class Globals : Node
 			logBuffer.Add(logMsg);
 
 		
+	}
+
+
+	public enum PlayerSignal
+	{
+		HealthSet,
+		MeterChanged,
+		BurstSet,
+		ComboSet,
+		HealthChanged,
+
+	}
+
+	public delegate void PlayerSingleArgSignalListener(string name, int arg);
+	public delegate void PlayerNoArgSignalListener(string name);
+	public delegate void PlayerSignalListener(Player p);
+	public delegate void GFXParticleSignalListener(Vector2 location, string particleName, bool flipH);
+	private static Dictionary<PlayerSignal, PlayerSingleArgSignalListener> singleArgSignalListeners = new Dictionary<PlayerSignal, PlayerSingleArgSignalListener>();
+	private static Dictionary<PlayerSignal, PlayerNoArgSignalListener> noArgSignalListeners = new Dictionary<PlayerSignal, PlayerNoArgSignalListener>();
+	private static List<PlayerSignalListener> ghostListeners = new List<PlayerSignalListener>();
+	private static List<GFXParticleSignalListener> gfxParticleListeners = new List<GFXParticleSignalListener>();
+
+	public static void ConnectPlayerSingleArgSignalListener(
+		PlayerSignal signal,
+		PlayerSingleArgSignalListener listener
+	)
+	{
+		if (!singleArgSignalListeners.ContainsKey(signal))
+		{
+			GD.Print("UHOH, DOUBLE CONNECTING SIGNAL " + nameof(signal));
+			singleArgSignalListeners[signal] = null;
+		}
+		singleArgSignalListeners[signal] += listener;
+	}
+
+	public static void ConnectPlayerNoArgSignalListener(
+		PlayerSignal signal,
+		PlayerNoArgSignalListener listener
+	)
+	{
+		if (!noArgSignalListeners.ContainsKey(signal))
+		{
+			GD.Print("UHOH, DOUBLE CONNECTING SIGNAL " + nameof(signal));
+			noArgSignalListeners[signal] = null;
+		}
+		noArgSignalListeners[signal] += listener;
+	}
+
+	public static void EmitSignal(PlayerSignal signal, string name, int arg)
+	{
+		if (singleArgSignalListeners.ContainsKey(signal))
+		{
+			singleArgSignalListeners[signal]?.Invoke(name, arg);
+		}
+		else
+		{
+			GD.Print("UHOH, EMITTING UNCONNECTED SIGNAL " + nameof(signal));
+		}
+	}
+
+	public static void EmitNoArgSignal(PlayerSignal signal, string name)
+	{
+		if (noArgSignalListeners.ContainsKey(signal))
+		{
+			noArgSignalListeners[signal]?.Invoke(name);
+		}
+		else
+		{
+			GD.Print("UHOH, EMITTING UNCONNECTED NO-ARG SIGNAL " + nameof(signal));
+		}
+	}
+
+
+	public static void ConnectGhostEmitted(PlayerSignalListener listener)
+	{
+		ghostListeners.Add(listener);
+	}
+
+	public static void ConnectGFXParticleEmitted(GFXParticleSignalListener listener)
+	{
+		gfxParticleListeners.Add(listener);
+	}
+
+	public static void EmitGhostEmitted(Player p)
+	{
+		foreach (var listener in ghostListeners)
+		{
+			listener(p);
+		}
+	}
+
+	public static void EmitPlayerFXEmitted(Vector2 location, string particleName, bool flipH)
+	{
+		foreach (var listener in gfxParticleListeners)
+		{
+			listener(location, particleName, flipH);
+		}
+	}
+
+	public static void ClearSignals()
+	{
+		ghostListeners.Clear();
+		gfxParticleListeners.Clear();
 	}
 	
 	public const bool rhythmGame = false;
@@ -166,6 +297,19 @@ public class Globals : Node
 		SYNCTEST = 3,
 		CPU = 4,
 		TUTORIAL = 5
+	}
+
+	public enum Tags
+	{
+		attack,
+		aerial,
+		hitstate,
+		tech,
+		block,
+		crouching,
+		recovery,
+		grab,
+		idle
 	}
 
 	public struct AttackDetails
@@ -446,21 +590,26 @@ public class Globals : Node
 		return false;
 	}
 
-	public static List<int> PositionsOfArrayInList(InputContainer arr, char[] element) //TODO : change this function to be zero allocation
+	private static int[] tempResultBuffer = new int[64];
+
+
+	private static bool ArraysEqual(char[] a, char[] b)
 	{
-		var indexes = new List<int>();
-		var trueFalse = (from e in arr select Enumerable.SequenceEqual(e, element));
-		int i = 0;
-		foreach (bool b in trueFalse)
+		if (ReferenceEquals(a, b))
+			return true;
+
+		if (a == null || b == null || a.Length != b.Length)
+			return false;
+
+		for (int i = 0; i < a.Length; i++)
 		{
-			if (b)
-			{
-				indexes.Add(i);
-			}
-			i++;
+			if (a[i] != b[i])
+				return false;
 		}
-		return indexes;
+
+		return true;
 	}
+
 
 	public static bool CompareInput(char[] i1, char[] i2)
 	{
@@ -480,43 +629,44 @@ public class Globals : Node
 	/// <param name="arr"> The array to search in </param>
 	/// <param name="elements"> The elements to search for in order </param>
 	/// <returns></returns>
-	public static bool ArrOfArraysComplexInList(InputContainer arr, InputContainer elements)
+	public static bool ArrOfArraysComplexInList(
+		InputContainer arr,
+		InputContainer elements
+	)
 	{
-		tempContainer.Clear();
-		int maxLen = Math.Min(arr.Count, 9);
-		for (int i = arr.Count - maxLen; i < arr.Count; i++)
-		{
-			tempContainer.Add(arr[i]);
-		}
-		int cursor = -1; // used to make sure moves are in the correct order
+		int arrCount = arr.Count;
+		int windowSize = Math.Min(arrCount, 9);
+		int windowStart = arrCount - windowSize;
+
+		int cursor = -1; // relative to windowStart
+
 		foreach (char[] element in elements)
 		{
-			List<int> indexes = PositionsOfArrayInList(tempContainer, element);
-			if (indexes == null) // The element does not exist in the list
+			bool found = false;
+
+			// search forward from cursor + 1
+			for (int i = cursor + 1; i < windowSize; i++)
 			{
-				return false; 
-			}
-			bool indexFound = false;
-			foreach (int index in indexes)
-			{
-				if (index > cursor)
+				int arrIndex = windowStart + i;
+
+				if (ArraysEqual(arr[arrIndex], element))
 				{
-					
-					if (cursor >= 0 && index - cursor > 9) // the buffer is too long.  Prevents unwanted specials
+					if (cursor >= 0 && i - cursor > 9)
 						return false;
-					cursor = index;
-					indexFound = true;
+
+					cursor = i;
+					found = true;
 					break;
 				}
 			}
 
-			if (!indexFound) // If we can't find the element at a greater index than that of the last
-			{
+			if (!found)
 				return false;
-			}
 		}
+
 		return true;
 	}
+
 
 	public static int IntSqrt(int num)
 	{
@@ -599,11 +749,7 @@ public class Globals : Node
 		arr.Add(new char[] { 'p', 'r' });
 		arr.Add(new char[] { '2', 'p' });
 
-		GD.Print($"Testing {nameof(PositionsOfArrayInList)}");
-		var element = new char[] { 'p', 'p' };
-		List<int> positions = PositionsOfArrayInList(arr, element);
-		GD.Print($"Result of finding indeces of punch-punch in array = {positions.SequenceEqual(new List<int> { 0, 4 })}");
-
+		
 
 		GD.Print($"Testing {nameof(ArrOfArraysComplexInList)}");
 		var elements = new InputContainer(5);

@@ -14,8 +14,8 @@ class LocalManager : BaseManager
 
 	public override void _PhysicsProcess(float delta)
 	{
-		int p1Inputs = GetInputs("");
-		int p2Inputs = GetInputs("b");
+		int p1Inputs = GetInputs(0);
+		int p2Inputs = GetInputs(1);
 		Globals.frame++;
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 	}

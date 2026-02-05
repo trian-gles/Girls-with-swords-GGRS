@@ -6,6 +6,8 @@ public class BlackHole : HadoukenPart
 {
 	private CPUParticles2D particles2D;
 
+	private const string BlackHoleTypeString = "BlackHole";
+
 	[Export]
 	private int startUp = 10;
 
@@ -14,7 +16,7 @@ public class BlackHole : HadoukenPart
 
 	protected GL createdByPlayer;
 
-	public override string hadoukenType { get; } = "BlackHole";
+	public override string hadoukenType { get; } = BlackHoleTypeString;
 
 	public override void _Ready()
 	{
@@ -25,7 +27,8 @@ public class BlackHole : HadoukenPart
 
 	public override void Spawn(bool movingRight, Player targetPlayer)
 	{
-		particles2D = GetNode<CPUParticles2D>("CPUParticles2D");
+		if (particles2D == null)
+			particles2D = GetNode<CPUParticles2D>("CPUParticles2D");
 		particles2D.Emitting = true;
 		
 		base.Spawn(movingRight, targetPlayer);
@@ -43,7 +46,7 @@ public class BlackHole : HadoukenPart
 			if (frame > duration)
 				MakeInactive();
 
-			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains("tech"))
+			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains(Globals.Tags.tech))
 			{
 				return;
 			}
@@ -105,7 +108,7 @@ public class BlackHole : HadoukenPart
 					targetPlayer.velocity.y = (float)Math.Floor((double)targetPlayer.velocity.y * 2 / 3);
 				}
 
-				if (adjustedPull > pullStrength && targetPlayer.currentState.tags.Contains("hitstate"))
+				if (adjustedPull > pullStrength && targetPlayer.currentState.tags.Contains(Globals.Tags.hitstate))
 				{
 					//targetPlayer.currentState.stunRemaining += 1; this causes desyncs...
 				}

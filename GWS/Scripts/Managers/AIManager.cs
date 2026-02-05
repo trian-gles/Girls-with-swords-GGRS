@@ -31,7 +31,7 @@ class AIManager : LocalManager
 
 		if (currGame.Name == "GameScene" && currGame.AcceptingInputs())
 		{
-			p1Inputs = GetInputs("");
+			p1Inputs = GetInputs(0);
 			p2Inputs = ai.Poll(gameScene.GetGameState());
 		}
 		else if (currGame.Name == "CharSelectScreen")
@@ -39,7 +39,7 @@ class AIManager : LocalManager
 			(p1Inputs, p2Inputs) = GetCharSelectSceneP1Inputs();
 			
 		}
-		else { p1Inputs = GetInputs(""); }
+		else { p1Inputs = GetInputs(0); }
 
 		currGame.AdvanceFrame(p1Inputs, p2Inputs);
 

@@ -12,6 +12,12 @@ public class CharacterAudio : Node
 
 	private Random random = new Random();
 
+	private const string StaggerKey = "Stagger";
+	private const string Stagger1Key = "Stagger1";
+	private const string Stagger2Key = "Stagger2";
+	private const string Stagger3Key = "Stagger3";
+	private const string Stagger4Key = "Stagger4";
+
 	private void AddSound(string name, AudioStream stream)
 	{
 		soundDict.Add(name, new Sound() { audio = stream, lastPlayedFrame = -1000, level = -5.0f });
@@ -85,14 +91,15 @@ public class CharacterAudio : Node
 		}
 	}
 
-	private string[] staggerOptions = new string[] { "Stagger1", "Stagger2", "Stagger3", "Stagger4" };
+	private string[] staggerOptions = new string[] { Stagger1Key, Stagger2Key, Stagger3Key, Stagger4Key };
 	public void PlaySound(string name)
 	{
 
 		if (Globals.DISABLESFX)
 			return;
 
-		if (name == "Stagger")
+
+		if (name == StaggerKey)
 			name = staggerOptions[random.Next(1, 4)];
 
 		if (!soundDict.ContainsKey(name))

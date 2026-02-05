@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class HitState : State
 {
+    private const string TechString = "Tech";
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.hitstate };
 
 	public override bool wasHit
@@ -55,15 +56,15 @@ public class HitState : State
 		if (stunRemaining == 1 && owner.electrocuted)
 			ReceiveElectrocution();
 
-		if (stunRemaining <= 0)
-		{
-			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-				owner.ChangeState("Tech");
-			else if (owner.wasOTGHit)
+			if (stunRemaining <= 0)
 			{
-				owner.invulnFrames = 8;
-				owner.ChangeState("Tech");
+				if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+					owner.ChangeState(TechString);
+				else if (owner.wasOTGHit)
+				{
+					owner.invulnFrames = 8;
+					owner.ChangeState(TechString);
+				}
 			}
-		}
 	}
 }

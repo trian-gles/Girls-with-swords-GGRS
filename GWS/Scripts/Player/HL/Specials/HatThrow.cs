@@ -5,6 +5,7 @@ using Godot;
 
 public class HatThrow : Hadouken
 {
+	private const string HadoukenAnimString = "Hadouken";
 	[Export]
 	public string negEdgeButton = "p";
 
@@ -17,7 +18,7 @@ public class HatThrow : Hadouken
 	[Export]
 	public string noHatState = "Teleport";
 
-	public override string animationName { get { return "Hadouken"; } } // Required as we reuse both this script AND animation
+	public override string animationName { get { return HadoukenAnimString; } } // Required as we reuse both this script AND animation
 
 	public override void Enter()
 	{

@@ -7,7 +7,9 @@ public abstract class AirState : State
 {
 	[Export]
 	public int preAirdashFrames = 0;
-	private string blockString = "Block";
+	private const string BlockString = "Block";
+	private const string AirDashString = "AirDash";
+	private const string AirBackdashString = "AirBackdash";
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.attack};
 	public override void _Ready()
 	{
@@ -26,7 +28,7 @@ public abstract class AirState : State
 	protected void AddAirdash()
     {
         // AIRDASH
-		AddGatling(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '6', 'p' } }), () => owner.facingRight && CheckAirDashConditions(), "AirDash", () =>
+			AddGatling(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '6', 'p' } }), () => owner.facingRight && CheckAirDashConditions(), AirDashString, () =>
 		{
 			owner.velocity.x = owner.airDashSpeed;
 			owner.canDoubleJump = false;
@@ -34,21 +36,21 @@ public abstract class AirState : State
 		}, false, false);
 
 
-		AddGatling(new InputContainer(new[] { new char[] { '4', 'p' }, new char[] { '4', 'p' } }), () => !owner.facingRight && CheckAirDashConditions(), "AirDash", () =>
+			AddGatling(new InputContainer(new[] { new char[] { '4', 'p' }, new char[] { '4', 'p' } }), () => !owner.facingRight && CheckAirDashConditions(), AirDashString, () =>
 		{
 			owner.velocity.x = owner.airDashSpeed * -1;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 		}, false, false);
 
-		AddGatling(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '6', 'p' } }), () => !owner.facingRight && CheckAirDashConditions(), "AirBackdash", () =>
+			AddGatling(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '6', 'p' } }), () => !owner.facingRight && CheckAirDashConditions(), AirBackdashString, () =>
 		{
 			owner.velocity.x = owner.airBackdashSpeed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 		}, false, false);
 
-		AddGatling(new InputContainer(new[] { new char[] { '4', 'p' }, new char[] { '4', 'p' } }), () => owner.facingRight && CheckAirDashConditions(), "AirBackdash", () =>
+			AddGatling(new InputContainer(new[] { new char[] { '4', 'p' }, new char[] { '4', 'p' } }), () => owner.facingRight && CheckAirDashConditions(), AirBackdashString, () =>
 		{
 			owner.velocity.x = owner.airBackdashSpeed * -1;
 			owner.canDoubleJump = false;
@@ -56,7 +58,7 @@ public abstract class AirState : State
 		}, false, false);
 
 		// EASY AIRDASH
-		AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('6') && CheckAirDashConditions(), "AirDash", () =>
+			AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('6') && CheckAirDashConditions(), AirDashString, () =>
 		{
 			owner.velocity.x = owner.airDashSpeed;
 			if (!owner.facingRight)
@@ -65,7 +67,7 @@ public abstract class AirState : State
 			owner.canAirDash = false;
 		});
 		
-		AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('4') && CheckAirDashConditions(), "AirBackdash", () => {
+			AddGatling(new char[] { 'c', 'p' }, () => owner.CheckFlippableHeldKey('4') && CheckAirDashConditions(), AirBackdashString, () => {
 			owner.velocity.x = owner.airBackdashSpeed;
 			if (owner.facingRight)
 				owner.velocity.x *= -1;
@@ -73,9 +75,9 @@ public abstract class AirState : State
 			owner.canAirDash = false;
 		});
 
-		AddGatling(new char[] { '6', 'p' },
+			AddGatling(new char[] { '6', 'p' },
 			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
-			"AirDash",
+				AirDashString,
 			() =>
 		{
 			owner.velocity.x = owner.airDashSpeed;
@@ -83,9 +85,9 @@ public abstract class AirState : State
 			owner.canAirDash = false;
 		});
 
-		AddGatling(new char[] { '6', 'p' },
+			AddGatling(new char[] { '6', 'p' },
 			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && !owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
-			"AirBackdash",
+				AirBackdashString,
 			() =>
 		{
 			owner.velocity.x = owner.airBackdashSpeed;
@@ -93,9 +95,9 @@ public abstract class AirState : State
 			owner.canAirDash = false;
 		});
 
-		AddGatling(new char[] { '4', 'p' },
+			AddGatling(new char[] { '4', 'p' },
 			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
-			"AirBackdash",
+				AirBackdashString,
 			() =>
 		{
 			owner.velocity.x = -owner.airBackdashSpeed;
@@ -103,9 +105,9 @@ public abstract class AirState : State
 			owner.canAirDash = false;
 		});
 
-		AddGatling(new char[] { '4', 'p' },
+			AddGatling(new char[] { '4', 'p' },
 			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && !owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
-			"AirDash",
+				AirDashString,
 			() =>
 		{
 			owner.velocity.x = -owner.airDashSpeed;
@@ -150,11 +152,11 @@ public abstract class AirState : State
 		else
 		{
 			if (owner.CheckOverrideBlock())
-				EnterBlockState(blockString, details.collisionPnt, details.hitStop);
+					EnterBlockState(BlockString, details.collisionPnt, details.hitStop);
 
 			else if (rightBlock || leftBlock || anyBlock)
 			{
-				EnterBlockState(blockString, details.collisionPnt, details.hitStop);
+					EnterBlockState(BlockString, details.collisionPnt, details.hitStop);
 			}
 			else
 			{

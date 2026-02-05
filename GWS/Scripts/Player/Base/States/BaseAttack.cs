@@ -7,13 +7,13 @@ using System.Linq;
 public abstract class BaseAttack : State
 {
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.attack };
-	private string prejumpString = "Prejump";
-	private string idleString = "Idle";
-	private string ohshitString = "OHSHIT";
-	private string fallString = "Fall";
-	private string superFlashString = "SuperFlash";
-	private string superPowerUpString = "SuperPowerUp";
-	private string spikeString = "Spike";
+	private const string PrejumpString = "PreJump";
+	private const string IdleString = "Idle";
+	private const string OhshitString = "OHSHIT";
+	private const string FallString = "Fall";
+	private const string SuperFlashString = "SuperFlash";
+	private const string SuperPowerUpString = "SuperPowerUp";
+	private const string SpikeString = "Spike";
 	[Export]
 	public int level = 0;
 
@@ -240,23 +240,21 @@ public abstract class BaseAttack : State
 
 	protected virtual void AddJumpCancel()
 	{
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), prejumpString, () => owner.velocity.x = owner.speed);
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), prejumpString, () => owner.velocity.x = -owner.speed);
-		AddGatling(new char[] { '8', 'p' }, prejumpString);
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6'), PrejumpString, () => owner.velocity.x = owner.speed);
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4'), PrejumpString, () => owner.velocity.x = -owner.speed);
+		AddGatling(new char[] { '8', 'p' }, PrejumpString);
 	}
 	public override void Enter()
 	{
-		var startmem = Globals.TestGC1();
 		owner.ZIndex = 1;
 		base.Enter();
 		hitConnect = false;
 		owner.grabInvulnFrames = grabInvulnFrames;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, whiffSound, Name);
 		if (superFrame != 0)
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, ohshitString, Name);
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, OhshitString, Name);
 		if (turnAroundOnEnter)
 			owner.CheckTurnAround();
-		Globals.TestGC2(startmem, ">>>>>>>>> Baseattack Enter");
 	}
 
 	/// <summary>
@@ -267,8 +265,8 @@ public abstract class BaseAttack : State
 		base.FrameAdvance();
 		if (frameCount > 0 && frameCount == superFrame)
 		{
-			owner.EmitSignal(superFlashString, owner.Name);
-			owner.GFXEvent(superPowerUpString);
+			owner.EmitSignal(SuperFlashString, owner.Name);
+			owner.GFXEvent(SuperPowerUpString);
 		}
 
 		if (restoreHitFrames != null && restoreHitFrames.Contains(frameCount))
@@ -280,9 +278,9 @@ public abstract class BaseAttack : State
 	public override void AnimationFinished()
 	{
 		if (owner.grounded)
-			owner.ChangeState(idleString);
+			owner.ChangeState(IdleString);
 		else
-			owner.ChangeState(fallString);
+			owner.ChangeState(FallString);
 	}
 
 	public override void TryBurst()
@@ -306,20 +304,20 @@ public abstract class BaseAttack : State
 	public override void InHurtbox(Vector2 collisionPnt)
 	{
 
-        var hitDetails = this.hitDetails;
+		var hitDetails = this.hitDetails;
 		var chDetails = this.chDetails;
 
 		if (pullInHitFrame > 0 && frameCount > pullInHitFrame)
-        {
-            hitDetails.hitPush *= -1;
+		{
+			hitDetails.hitPush *= -1;
 			chDetails.hitPush *= -1;
-        }
+		}
 
 		if (owner.hasDoubleOrSuperJumped && hitDetails.spike && owner.otherPlayer.combo > 2)
 		{
 			hitDetails.ignoreProration = true;
-			owner.EmitSignal(nameof(Player.GenericGFX), spikeString, owner.Name);
-        }
+			owner.EmitSignal(nameof(Player.GenericGFX), SpikeString, owner.Name);
+		}
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
 		{
@@ -369,10 +367,10 @@ public abstract class BaseAttack : State
 		{
 			owner.otherPlayer.terminalVelocity = slowTerminalVelocity;
 		}
-        else
-        {
-            owner.otherPlayer.currentState.ResetTerminalVelocity();
-        }
+		else
+		{
+			owner.otherPlayer.currentState.ResetTerminalVelocity();
+		}
 		owner.otherPlayer.ReceiveHit(hitDetails, chDetails);
 		
 		
@@ -382,9 +380,9 @@ public abstract class BaseAttack : State
 		if (exitOnHit)
 		{
 			if (owner.grounded)
-				owner.ChangeState(idleString);
+				owner.ChangeState(IdleString);
 			else
-				owner.ChangeState(fallString);
+				owner.ChangeState(FallString);
 		}
 
 

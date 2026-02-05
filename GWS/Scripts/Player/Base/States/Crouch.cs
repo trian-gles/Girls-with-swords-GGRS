@@ -5,7 +5,11 @@ using System.Collections.Generic;
 public class Crouch : State
 {
     public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle, Globals.Tags.crouching };
-    private string crouchShield = "CrouchShield";
+    private const string CrouchShieldString = "CrouchShield";
+    private const string IdleString = "Idle";
+    private const string CrouchAString = "CrouchA";
+    private const string CrouchBString = "CrouchB";
+    private const string CrouchCString = "CrouchC";
     public override void _Ready()
     {
         base._Ready();
@@ -14,10 +18,10 @@ public class Crouch : State
         AddCommandNormals(owner.commandNormals);
         AddExSpecials(owner.groundExSpecials);
         AddEasyGroundSpecials();
-        AddGatling(new[] { '2', 'r' }, "Idle");
-        AddGatling(new[] { 'p', 'p' }, "CrouchA");
-        AddGatling(new[] { 'k', 'p' }, "CrouchB");
-        AddGatling(new[] { 's', 'p' }, "CrouchC");
+        AddGatling(new[] { '2', 'r' }, IdleString);
+        AddGatling(new[] { 'p', 'p' }, CrouchAString);
+        AddGatling(new[] { 'k', 'p' }, CrouchBString);
+        AddGatling(new[] { 's', 'p' }, CrouchCString);
         
     }
     public override void Enter()
@@ -29,7 +33,7 @@ public class Crouch : State
         if (owner.CheckFlippableHeldKey('4'))
         {
             if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
-                owner.ChangeState(crouchShield);
+                owner.ChangeState(CrouchShieldString);
             return;
         }
     }

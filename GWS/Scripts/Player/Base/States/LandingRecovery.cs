@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class LandingRecovery : State
 {
-
-	public override string animationName { get { return "Crouch"; } }
+	private const string IdleString = "Idle";
+	private const string CrouchAnimString = "Crouch";
+	public override string animationName { get { return CrouchAnimString; } }
 	public override void _Ready()
 	{
 		base._Ready();
@@ -27,7 +28,7 @@ public class LandingRecovery : State
 	{
 		base.FrameAdvance();
 		if (owner.landingRecoveryFramesRemaining-- == 0)
-			owner.ChangeState("Idle");
+			owner.ChangeState(IdleString);
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

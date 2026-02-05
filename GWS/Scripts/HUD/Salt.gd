@@ -4,15 +4,18 @@ extends Control
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+var textProgress
+var textRect
+var textRectAnim
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	textProgress = $TextureProgress
+	textRect = $TextureRect
+	textRectAnim = $TextureRectAnim
 
-
-func set_level(level):
-	$TextureProgress.value = level
-	$TextureProgress.visible = (level != 100)
-	$TextureRect.visible = (level != 100)
-	$TextureRectAnim.visible = (level == 100)
+func _on_TextureProgress_value_changed(value):
+	textProgress.visible = (value != 100)
+	textRect.visible = (value != 100)
+	textRectAnim.visible = (value == 100)
+	

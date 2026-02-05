@@ -22,47 +22,75 @@ public class GameScene : BaseGame
 
 	public Player P1;
 	public Player P2;
-	private Label P1Combo;
-	private Label P2Combo;
+	private HUDCombo P1Combo;
+	private HUDCombo P2Combo;
 	private TextureProgress P1Health;
 	private TextureProgress P2Health;
-	private Camera2D camera;
+	private Camera camera;
 	private GameStateObjectRedesign gsObj;
 	private Label timer;
 	private Label centerText;
 	private Label statsText;
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
+	private Control[] debugControls;
+	private Control rhythmTrack;
 	private CanvasLayer HUD;
-	private Label P1Counter;
-	private Label P2Counter;
-	private Label P1Mixup;
-	private Label P2Mixup;
-	private Label P1Escape;
-	private Label P2Escape;
-	private Label P1Missed;
-	private Label P2Missed;
-	private Control P1SnailRadar;
-	private Control P2SnailRadar;
-	public Label P1Rhythm;
-	public Label P2Rhythm;
+	private SplashText P1Mixup;
+	private SplashText P2Mixup;
+	private SplashText P1Escape;
+	private SplashText P2Escape;
+	private SplashText P1Missed;
+	private SplashText P2Missed;
+	private SnailRadar P1SnailRadar;
+	private SnailRadar P2SnailRadar;
+	public SplashText P1Rhythm;
+	public SplashText P2Rhythm;
 	private Label superText;
-	private Control P1Meter;
-	private Control P2Meter;
-	private Control P1Salt;
-	private Control P2Salt;
+	private ProgressBar P1Meter;
+	private ProgressBar P2Meter;
+	private TextureProgress P1Salt;
+	private TextureProgress P2Salt;
 	private AudioStreamPlayer music;
 	private HBoxContainer p1RoundCounters;
 	private HBoxContainer p2RoundCounters;
 	private Node2D p1Logos;
 	private Node2D p2Logos;
-
+	private Control splashText;
+	private Godot.Collections.Array<SplashText> splashTexts;
 	private Label recordingText;
 	private ColorRect recordingBack;
 
 	// WIN STATE
 	private int p1Wins = 0;
 	private int p2Wins = 0;
+
+	private const string CounterString = "COUNTER";
+	private const string CounterLowerString = "Counter";
+	private const string FightString = "FIGHT";
+	private const string ThreeString = "THREE";
+	private const string TwoString = "TWO";
+	private const string OneString = "ONE";
+	private const string DownString = "DOWN";
+
+	// Display and runtime call strings
+	private const string PlayerOneString = "P1";
+	private const string PlayerTwoString = "P2";
+	private const string DownDisplayString = "DOWN!";
+	private const string FightDisplayString = "FIGHT!";
+	private const string TimeUpString = "TIME UP";
+	private const string SelectedCharLogoString = "selected_char_logo";
+	private const string WinCounterUpString = "win_counter_up";
+	private const string ClearCallString = "clear";
+	private const string InputsCallString = "inputs";
+	private const string ComboCallString = "combo";
+	private const string ComboOffString = "off";
+	private const string ComboSetCallString = "combo_set";
+	private const string DisplayCallString = "display";
+	private const string SetMeterCallString = "set_meter";
+	private const string SetLevelCallString = "set_level";
+	private const string PlayIdxCallString = "play_idx";
+	private const string DrawSnailCallString = "draw_snail";
 
 
 	// TIME HANDLING
@@ -119,34 +147,49 @@ public class GameScene : BaseGame
 	}
 	public override void _Ready()
 	{
-		var splashText = GetNode<Control>("HUD/SplashText");
+		splashText = GetNode<Control>("HUD/SplashText");
+		splashTexts = new Godot.Collections.Array<SplashText>();
+		foreach (var c in splashText.GetChildren())
+		{
+			splashTexts.Add((SplashText)c);
+		}
 		HUDText = GetNode<Control>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
 		inputTextP2 = GetNode<Label>("HUD/InputTextP2");
-		P1Counter = splashText.GetNode<Label>("P1Counter");
-		P2Counter = splashText.GetNode<Label>("P2Counter");
-		P1Mixup = splashText.GetNode<Label>("P1Mixup");
-		P2Mixup = splashText.GetNode<Label>("P2Mixup");
-		P1Missed = splashText.GetNode<Label>("P1Missed");
-		P2Missed = splashText.GetNode<Label>("P2Missed");
-		P1Escape = splashText.GetNode<Label>("P1Escape");
-		P2Escape = splashText.GetNode<Label>("P2Escape");
-		P1Rhythm = splashText.GetNode<Label>("P1Rhythm");
-		P2Rhythm = splashText.GetNode<Label>("P2Rhythm");
-		P1Meter = GetNode<Control>("HUD/P1Meter");
-		P2Meter = GetNode<Control>("HUD/P2Meter");
-		P1Salt = GetNode<Control>("HUD/Salt");
-		P2Salt = GetNode<Control>("HUD/Salt2");
+		P1Mixup = splashText.GetNode<SplashText>("P1Mixup");
+		P2Mixup = splashText.GetNode<SplashText>("P2Mixup");
+		P1Missed = splashText.GetNode<SplashText>("P1Missed");
+		P2Missed = splashText.GetNode<SplashText>("P2Missed");
+		P1Escape = splashText.GetNode<SplashText>("P1Escape");
+		P2Escape = splashText.GetNode<SplashText>("P2Escape");
+		P1Rhythm = splashText.GetNode<SplashText>("P1Rhythm");
+		P2Rhythm = splashText.GetNode<SplashText>("P2Rhythm");
+		P1Meter = GetNode<ProgressBar>("HUD/P1Meter/ProgressBar");
+		P2Meter = GetNode<ProgressBar>("HUD/P2Meter/ProgressBar");
+		P1Salt = GetNode<TextureProgress>("HUD/Salt/TextureProgress");
+		P2Salt = GetNode<TextureProgress>("HUD/Salt2/TextureProgress");
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		music = GetNode<AudioStreamPlayer>("BkgMusic");
 		superText = GetNode<Label>("HUD/OhShit");
-		P1SnailRadar = GetNode<Control>("HUD/P1SnailRadar");
-		P2SnailRadar = GetNode<Control>("HUD/P2SnailRadar");
+		P1SnailRadar = GetNode<SnailRadar>("HUD/P1SnailRadar");
+		P2SnailRadar = GetNode<SnailRadar>("HUD/P2SnailRadar");
 		p1RoundCounters = GetNode<HBoxContainer>("HUD/P1RoundCounters");
 		p2RoundCounters = GetNode<HBoxContainer>("HUD/P2RoundCounters");
 		p1Logos = GetNode<Node2D>("HUD/P1Logo");
 		p2Logos = GetNode<Node2D>("HUD/P2Logo");
+		// cache frequently used HUD controls to avoid runtime GetNode calls
+		mainGFX = GetNode<MainGFX>("MainGFX");
+		rhythmTrack = GetNode<Control>("HUD/RhythmTrack");
+		debugControls = new Control[] {
+			GetNode<Control>("HUD/InputBack"),
+			GetNode<Control>("HUD/InputBackP2"),
+			GetNode<Control>("HUD/DebugText"),
+			GetNode<Control>("HUD/DebugText/DebugTextLabel")
+		};
+
+		splashText = GetNode<Control>("HUD/SplashText");
+
 
 		base._Ready();
 
@@ -167,31 +210,31 @@ public class GameScene : BaseGame
 
 	public void config(int playerOneIndex, int playerTwoIndex, int colorOne, int colorTwo, bool hosting, int frame, int bkg)
 	{
-		((MainGFX)GetNode("MainGFX")).Init(bkg);
+		mainGFX.Init(bkg);
 		HUD.Transform = new Transform2D(Vector2.Right, Vector2.Down, Vector2.Zero);
 		HUD.Layer = 1;
 
 		//p1
 		var playerOne = charScenes[playerOneIndex];
 		P1 = playerOne.Instance() as Player;
-		P1.Name = "P1";
+		P1.Name = PlayerOneString;
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = colorOne;
 		AddChild(P1);
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
-		p1Logos.Call("selected_char_logo", playerOneIndex);
+		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
 
 		//p2
 		var playerTwo = charScenes[playerTwoIndex];
 		P2 = playerTwo.Instance() as Player;
-		P2.Name = "P2";
+		P2.Name = PlayerTwoString;
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = colorTwo;
 		AddChild(P2);
 		MoveChild(P2, 5);
 		p2Ind = playerTwoIndex;
-		p2Logos.Call("selected_char_logo", playerTwoIndex);
+		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
 
 		SetPos(ResetPos.ROUNDSTART);
 
@@ -211,6 +254,10 @@ public class GameScene : BaseGame
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
 		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
+		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
+		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
+
+
 		P1.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P2.Connect("CounterHit", this, nameof(OnPlayerCounterHit));
 		P1.Connect("Mixup", this, nameof(OnPlayerMixup));
@@ -219,8 +266,7 @@ public class GameScene : BaseGame
 		P2.Connect("CanTech", this, nameof(OnPlayerCanEscape));
 		P1.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
 		P2.Connect("MissedTech", this, nameof(OnPlayerMissedEscape));
-		P1.Connect("SuperFlash", this, nameof(OnSuperActivate));
-		P2.Connect("SuperFlash", this, nameof(OnSuperActivate));
+
 		
 		P1.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
 		P2.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
@@ -228,18 +274,18 @@ public class GameScene : BaseGame
 
 
 
-		P1Combo = GetNode<Label>("HUD/P1Combo");
-		P2Combo = GetNode<Label>("HUD/P2Combo");
+		P1Combo = GetNode<HUDCombo>("HUD/P1Combo");
+		P2Combo = GetNode<HUDCombo>("HUD/P2Combo");
 		P1Health = GetNode<TextureProgress>("HUD/P1Health");
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
 		statsText = GetNode<Label>("HUD/NetStats");
 		mainGFX = GetNode<MainGFX>("MainGFX");
-		camera = GetNode<Camera2D>("Camera2D");
+		camera = GetNode<Camera>("Camera2D");
 		centerText.Visible = true;
-		inputText.Call("clear");
-		inputTextP2.Call("clear");
+		inputText.Call(ClearCallString);
+		inputTextP2.Call(ClearCallString);
 
 		P1Combo.Text = "";
 		P2Combo.Text = "";
@@ -249,10 +295,16 @@ public class GameScene : BaseGame
 		P1.Connect("LevelUp", this, nameof(OnLevelUp));
 		P2.Connect("LevelUp", this, nameof(OnLevelUp));
 		SetPos(ResetPos.ROUNDSTART);
-		music.Call("play_idx", bkg);
+		music.Call(PlayIdxCallString, bkg);
 		ConfigTime();
 		configured = true;
 
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+		Globals.ClearSignals();
 	}
 
 	public void SetP2AI()
@@ -261,13 +313,13 @@ public class GameScene : BaseGame
 	}
 	public void SetDebugVisibility(bool visible)
 	{
-		foreach (var path in new string[] { "HUD/InputBack", "HUD/InputBackP2", "HUD/DebugText", "HUD/DebugText/DebugTextLabel" })
-			((Control)GetNode(path)).Visible = visible;
+		foreach (var c in debugControls)
+			c.Visible = visible;
 	}
 
 	public void SetRhythmVisibility(bool visible)
 	{
-		((Control)GetNode("HUD/RhythmTrack")).Visible = visible;
+		rhythmTrack.Visible = visible;
 	}
 
 	public void SetRecordingText(string msg)
@@ -324,13 +376,13 @@ public class GameScene : BaseGame
 	{
 		P1.TimeAdvance();
 		P2.TimeAdvance();
-		camera.Call("adjust", P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
+		camera.Adjust(P1.Position, P2.Position); // Camera is written in GDscript due to my own laziness
 	}
 
 	public void ScreenShake(float amount) {
 		if (Globals.DISABLESHAKE)
 			return;
-		camera.Call("set_trauma", amount);
+		camera.SetTrauma(amount);
 	}
 
 	/// <summary>
@@ -346,8 +398,8 @@ public class GameScene : BaseGame
 	{
 		if (configured)
 		{
-			inputText.Call("inputs", p1Inps);
-			inputTextP2.Call("inputs", p2Inps);
+			inputText.Call(InputsCallString, p1Inps);
+			inputTextP2.Call(InputsCallString, p2Inps);
 		}
 
 	}
@@ -359,7 +411,7 @@ public class GameScene : BaseGame
 	{
 		if (!configured)
 			return;
-		camera.Call("adjust", P1.Position, P2.Position);
+		camera.Adjust(P1.Position, P2.Position);
 	}
 
 
@@ -386,9 +438,11 @@ public class GameScene : BaseGame
 
 		gsObj.LoadGameState(buffer);
 		mainGFX.Rollback(frame);
-		var splashText = GetNode<Control>("HUD/SplashText");
-		foreach (Node child in splashText.GetChildren())
-			child.Call("rollback", frame);
+		for (int i = 0; i < splashTexts.Count; i++)
+		{
+			var txt = splashTexts[i];
+			txt.Rollback(frame);
+		}
 	}
 
 	public override void GGRSAdvanceFrame(int p1Inps, int p2Inps)
@@ -406,24 +460,25 @@ public class GameScene : BaseGame
 	// ----------------
 	public void OnGenericGFXEmitted(string fxName, string playerName)
 	{
-		var splashText = GetNode<Control>("HUD/SplashText");
-		splashText.GetNode<Control>(playerName + fxName).Call("display", Globals.frame);
+		
+		SplashText textNode = splashText.GetNode<SplashText>(playerName + fxName);
+		textNode.Display(Globals.frame);
 	}
 
 
 	public void OnPlayerComboChange(string name, int combo)
 	{
-		if (name == "P2")
+		if (name == PlayerTwoString)
 		{
 			if (combo > 1)
 			{
-				P1Combo.Call("combo", combo);
+				P1Combo.Combo(combo);
 			}
 			else
 			{
-				P1Combo.Call("off");
+				P1Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING)
-					EmitSignal("ComboFinished", "P1");
+					EmitSignal(nameof(ComboFinished), PlayerOneString);
 			}
 		}
 
@@ -431,78 +486,77 @@ public class GameScene : BaseGame
 		{
 			if (combo > 1)
 			{
-				P2Combo.Call("combo", combo);
+				P2Combo.Combo(combo);
 			}
 			else
 			{
-				P2Combo.Call("off");
+				P2Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING)
-					EmitSignal("ComboFinished", "P1");
+					EmitSignal(nameof(ComboFinished), PlayerTwoString);
 			}
 		}
 	}
 
 	public void OnPlayerComboSet(string name, int combo)
 	{
-		if (name == "P2")
+		if (name == PlayerTwoString)
 		{
-			P1Combo.Call("combo_set", combo);
+			P1Combo.ComboSet(combo);
 		}
 
 		else
 		{
-			P2Combo.Call("combo_set", combo);
+			P2Combo.ComboSet(combo);
 		}
 	}
 
 	public void OnPlayerCounterHit(string name)
 	{
-		if (name == "P1")
+		OnGenericGFXEmitted(CounterLowerString, name);
+		if (name == PlayerOneString)
 		{
-			P1Counter.Call("display", Globals.frame);
-			P1.ForceEvent(EventScheduler.EventType.AUDIO, "COUNTER");
+			P1.ForceEvent(EventScheduler.EventType.AUDIO, CounterString);
 		}
 		else
 		{
-			P2Counter.Call("display", Globals.frame);
-			P2.ForceEvent(EventScheduler.EventType.AUDIO, "COUNTER");
+			P2.ForceEvent(EventScheduler.EventType.AUDIO, CounterString);
 		}
 		ScreenShake(0.6f);
 	}
 
 	public void OnPlayerMixup(string name)
 	{
-		if (name == "P1")
-			P1Mixup.Call("display", Globals.frame);
+		if (name == PlayerOneString)
+			P1Mixup.Display(Globals.frame);
 		else
-			P2Mixup.Call("display", Globals.frame);
+			P2Mixup.Display(Globals.frame);
 	}
 	public void OnPlayerCanEscape(string name)
 	{
-		if (name == "P1")
+		if (name == PlayerOneString)
 		{
-			P1Escape.Call("display", Globals.frame);
+			P1Escape.Display(Globals.frame);
 			P1Missed.Visible = false;
 		}
 		else
 		{
-			P2Escape.Call("display", Globals.frame);
+			P2Escape.Display(Globals.frame);
 			P2Missed.Visible = false;
 		}
 			
 	}
 	public void OnPlayerMissedEscape(string name)
 	{
-		if (name == "P1")
+		if (name == PlayerOneString)
 		{
-			P1Missed.Call("display", Globals.frame);
-			P1Escape.Call("display", Globals.frame);
+			P1Missed.Display(Globals.frame);
+			P1Escape.Display(Globals.frame);
 		}
 
 		else
 		{
-			P2Missed.Call("display", Globals.frame);
-			P2Escape.Call("display", Globals.frame);
+			P2Missed.Display(Globals.frame);
+			P2Escape.Display(Globals.frame);
 		}
 			
 	}
@@ -514,7 +568,7 @@ public class GameScene : BaseGame
 	/// <param name="health"></param>
 	public void OnPlayerHealthSet(string name, int health)
 	{
-		if (name == "P1")
+		if (name == PlayerOneString)
 		{
 			P1Health.Value = health;
 		}
@@ -529,7 +583,7 @@ public class GameScene : BaseGame
 	{
 
 		int prevHealth;
-		if (name == "P1")
+		if (name == PlayerOneString)
 		{
 			prevHealth = (int)P1Health.Value;
 			P1Health.Value = health;
@@ -546,31 +600,33 @@ public class GameScene : BaseGame
 		if (prevHealth >= 1 && health < 1)
 		{
 			centerText.Visible = true;
-			centerText.Text = "DOWN!";
+			centerText.Text = DownDisplayString;
 
 			TryEndRound();
 		}
 
 	}
 	public void OnPlayerMeterChange(string name, int meter) {
-		if (name == "P1")
-			P1Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
+		if (name == PlayerOneString)
+			P1Meter.Value = (int)Math.Floor((double)meter / 100);
 		else
-			P2Meter.Call("set_meter", (int)Math.Floor((double)meter / 100));
+			P2Meter.Value = (int)Math.Floor((double)meter / 100);
 	}
 
 	public void OnPlayerBurstChange(string name, int burstMeter)
 	{
-		if (name == "P1")
-			P1Salt.Call("set_level", burstMeter);
+		if (name == PlayerOneString)
+			P1Salt.Value = burstMeter;
 		else
-			P2Salt.Call("set_level", burstMeter);
+			P2Salt.Value = burstMeter;
 	}
 
 	public void OnHadoukenEmitted(HadoukenPart h)
 	{
 		gsObj.NewHadouken(h); // let the gamestate object control it. this still needs to be cleaned up on deletion
-		CallDeferred("add_child", h); // Add the hadouken as a child
+		AddChild(h);
+		
+		//CallDeferred("add_child", h); // Add the hadouken as a child
 	}
 
 	public void OnHadoukenRemoved(HadoukenPart h)
@@ -590,7 +646,7 @@ public class GameScene : BaseGame
 
 	public void OnSuperActivate(string name)
 	{
-		superText.Call("display", Globals.frame);
+		superText.Call(DisplayCallString, Globals.frame);
 		gsObj.SuperFreeze(name);
 	}
 
@@ -602,13 +658,13 @@ public class GameScene : BaseGame
 
 	public void OnSnailUpdate(string name, int pos, Color color)
 	{
-		if (name == "P1")
+		if (name == PlayerOneString)
 		{
-			P1SnailRadar.Call("draw_snail", pos, color);
+			P1SnailRadar.DrawSnail(pos, color);
 		}
 		else
 		{
-			P2SnailRadar.Call("draw_snail", pos, color);
+			P2SnailRadar.DrawSnail(pos, color);
 		}
 	}
 
@@ -660,8 +716,8 @@ public class GameScene : BaseGame
 		if (Globals.frame == startFrame)
 		{
 			currTime = TimeStatus.GAME;
-			centerText.Text = "FIGHT!";
-			P1.ForceEvent(EventScheduler.EventType.AUDIO, "FIGHT");
+			centerText.Text = FightDisplayString;
+			P1.ForceEvent(EventScheduler.EventType.AUDIO, FightString);
 			return;
 		}
 
@@ -674,11 +730,11 @@ public class GameScene : BaseGame
 		if (trueFrame % 60 == 1)
 		{
 			if (displayNum == 3)
-				P1.ForceEvent(EventScheduler.EventType.AUDIO, "THREE");
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, ThreeString);
 			if (displayNum == 2)
-				P1.ForceEvent(EventScheduler.EventType.AUDIO, "TWO");
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, TwoString);
 			if (displayNum == 1)
-				P1.ForceEvent(EventScheduler.EventType.AUDIO, "ONE");
+				P1.ForceEvent(EventScheduler.EventType.AUDIO, OneString);
 		}
 			
 
@@ -694,7 +750,7 @@ public class GameScene : BaseGame
 		if (Globals.frame == timeOutFrame)
 		{
 			TryEndRound();
-			centerText.Text = "TIME UP";
+			centerText.Text = TimeUpString;
 			timer.Text = "0";
 			return;
 		}
@@ -723,12 +779,12 @@ public class GameScene : BaseGame
 			if (P1Health.Value > P2Health.Value)
 			{
 				p1Wins++;
-				p1RoundCounters.Call("win_counter_up", p1Wins);
+				p1RoundCounters.Call(WinCounterUpString, p1Wins);
 			}
 			else
 			{
 				p2Wins++;
-				p2RoundCounters.Call("win_counter_up", p2Wins);
+				p2RoundCounters.Call(WinCounterUpString, p2Wins);
 			}
 		}
 			
@@ -739,14 +795,14 @@ public class GameScene : BaseGame
 				//GD.Print($"P1 has 2 wins! {Globals.frame}");
 				ResetWin(); 
 				
-				EmitSignal("GameWon", "P1", p1Ind);
+				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind);
 
 			}
 			else if (p2Wins == 2)
 			{
 				//GD.Print($"P2 has 2 wins! {Globals.frame}");
 				ResetWin();
-				EmitSignal("GameWon", "P2", p2Ind);
+				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind);
 
 			}
 			else
@@ -764,7 +820,7 @@ public class GameScene : BaseGame
 	private void EndRound()
 	{
 
-		P1.ForceEvent(EventScheduler.EventType.AUDIO, "DOWN");
+		P1.ForceEvent(EventScheduler.EventType.AUDIO, DownString);
 		currTime = TimeStatus.TRUEEND;
 		exitFrame = Globals.frame + 180;
 		
@@ -780,7 +836,7 @@ public class GameScene : BaseGame
 		OnPlayerHealthChange(player, 1800);
 
 
-		if (player == "P1")
+		if (player == PlayerOneString)
 		{
 			P1.ResetHealth();
 		}
@@ -823,8 +879,8 @@ public class GameScene : BaseGame
 
 	public override void Reset()
 	{
-		ResetHealth("P1");
-		ResetHealth("P2");
+		ResetHealth(PlayerOneString);
+		ResetHealth(PlayerTwoString);
 		P1.Reset();
 		P2.Reset();
 		gsObj.ResetHadoukens();
@@ -832,13 +888,13 @@ public class GameScene : BaseGame
 		ConfigTime();
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
-			P1Meter.Call("set_meter", 100);
-			P2Meter.Call("set_meter", 100);
+			P1Meter.Value = 100;
+			P2Meter.Value = 100;
 		}
 		else
 		{
-			P1Meter.Call("set_meter", 0);
-			P2Meter.Call("set_meter", 0);
+			P1Meter.Value = 0;
+			P2Meter.Value = 0;
 		}
 		if (recordMatch)
 			savedFile = false;
@@ -849,16 +905,16 @@ public class GameScene : BaseGame
 	/// </summary>
 	public void ResetTraining()
 	{
-		ResetHealth("P1");
-		ResetHealth("P2");
+		ResetHealth(PlayerOneString);
+		ResetHealth(PlayerTwoString);
 
 		gsObj.ResetHadoukens();
 		SetPos(ResetPos.ROUNDSTART);
 
 		P1.Reset();
 		P2.Reset();
-		P1Meter.Call("set_meter", 100);
-		P2Meter.Call("set_meter", 100);
+		P1Meter.Value = 100;
+		P2Meter.Value = 100;
 	}
 
 	private void ResetWin() 
@@ -872,8 +928,8 @@ public class GameScene : BaseGame
 		
 		P1.QueueFree();
 		P2.QueueFree();
-		OnPlayerBurstChange("P1", 100);
-		OnPlayerBurstChange("P2", 100);
+		OnPlayerBurstChange(PlayerOneString, 100);
+		OnPlayerBurstChange(PlayerTwoString, 100);
 		configured = false;
 		HUD.Layer = -1;
 	}
@@ -889,12 +945,12 @@ public class GameScene : BaseGame
 	// Specifically for AI
 	////
 	
-	public HashSet<string> GetP2Tags()
+	public HashSet<Globals.Tags> GetP2Tags()
 	{
 		return P2.currentState.tags;
 	}
 
-	public HashSet<string> GetP1Tags()
+	public HashSet<Globals.Tags> GetP1Tags()
 	{
 		return P1.currentState.tags;
 	}

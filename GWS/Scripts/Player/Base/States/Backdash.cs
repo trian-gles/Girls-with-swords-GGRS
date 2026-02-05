@@ -8,9 +8,9 @@ public class Backdash: Walk
 
 	[Export]
 	public int hopForce = 100;
-	private string preJumpString = "PreJump";
-	private string dustString = "dust";
-	private string idleString = "Idle";
+	private const string PreJumpString = "PreJump";
+	private const string DustString = "dust";
+	private const string IdleString = "Idle";
 	private Vector2 dustEmissionVector = new Vector2();
 
 	public override void Enter()
@@ -18,7 +18,7 @@ public class Backdash: Walk
 		frameCount = 0;
 		if (owner.CheckHeldKey('8'))
 		{
-			owner.ChangeState(preJumpString);
+			owner.ChangeState(PreJumpString);
 		}
 
 		owner.velocity.y = -1 * hopForce;
@@ -27,9 +27,7 @@ public class Backdash: Walk
 		dustEmissionVector.x = owner.internalPos.x;
 		dustEmissionVector.y = owner.GetCollisionRect().End.y;
 
-		globalsEvents.EmitSignal(nameof(PlayerFXEmitted), 
-			dustEmissionVector, 
-			dustString, !owner.facingRight);
+		Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, !owner.facingRight);
 	}
 
 	public override void HandleInput(char[] inputArr)
@@ -42,7 +40,7 @@ public class Backdash: Walk
 		frameCount++;
 		if (frameCount == len)
 		{
-			owner.ChangeState(idleString);
+			owner.ChangeState(IdleString);
 		}
 		ApplyGravity();
 	}

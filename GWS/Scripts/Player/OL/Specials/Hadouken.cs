@@ -49,8 +49,8 @@ public class Hadouken : BaseAttack
 	{
 		base.FrameAdvance();
 
-		if (frameCount == releaseFrame - 6)
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hadoukenSound, Name);
+		//if (frameCount == releaseFrame - 6)
+			//owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hadoukenSound, Name);
 		if (frameCount == releaseFrame)
 			EmitHadouken();
 	}

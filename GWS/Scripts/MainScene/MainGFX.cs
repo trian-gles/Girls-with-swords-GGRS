@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MainGFX : Node
 {
@@ -8,10 +9,18 @@ public class MainGFX : Node
 	private List<Sprite> ghosts = new List<Sprite>();
 	private PackedScene dashGhost = (PackedScene) ResourceLoader.Load("res://Scenes/DashGhost.tscn");
 	private Dictionary<string, PackedScene> particleSprites = new Dictionary<string, PackedScene>();
+	private Node2D stages;
+	private Godot.Collections.Array<Node> children = new Godot.Collections.Array<Node>();
+
+	// runtime call strings
+	private const string SetBkgCallString = "set_bkg";
+	private const string LevelUpCallString = "level_up";
 	public override void _Ready()
 	{
-		GetNode("/root/Globals").Connect("GhostEmitted", this, nameof(OnGhostEmitted));
-		GetNode("/root/Globals").Connect("PlayerFXEmitted", this, nameof(OnGFXParticleEmitted));
+		Globals.ConnectGhostEmitted(OnGhostEmitted);
+		Globals.ConnectGFXParticleEmitted(OnGFXParticleEmitted);
+		stages = GetNode<Node2D>("Stages");
+		children = new Godot.Collections.Array<Node>();
 
 // store referencecs to all particles
 		particleSprites.Add("hit", (PackedScene)ResourceLoader.Load("res://Scenes/Particles/HitFX.tscn"));
@@ -25,8 +34,9 @@ public class MainGFX : Node
 		for (int i = 0; i < 15; i++)
 		{
 			Sprite newGhost = (Sprite)dashGhost.Instance(); // Added to tree and thus freed automatically
-            CallDeferred("add_child", newGhost);
+			CallDeferred("add_child", newGhost);
 			ghosts.Add(newGhost);
+			children.Add(newGhost);
 		}
 
 
@@ -43,12 +53,12 @@ public class MainGFX : Node
 	}
 	
 	public void Init(int background){
-		GetNode("Stages").Call("set_bkg", background);
+		stages.Call(SetBkgCallString, background);
 	}
 
 	public void LevelUp(int frame)
 	{
-		GetNode<Node2D>("Stages").Call("level_up");
+		stages.Call(LevelUpCallString);
 		lastLevelUp = frame;
 	}
 
@@ -57,8 +67,9 @@ public class MainGFX : Node
 		if (Globals.DISABLEGFX)
 			return;
 		location /= 100;
-		foreach (var child in GetChildren())
+		for (int i = 0; i < children.Count; i++)
 		{
+			var child = children[i];
 			var partSprite = child as ParticleSprite;
 			if (partSprite != null && partSprite.type == particleName && !partSprite.Visible) // try to reassign the particle to save on GC
 			{
@@ -81,6 +92,7 @@ public class MainGFX : Node
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
 		CallDeferred("add_child", newPart);
+		children.Add(newPart);
 		newPart.FlipH = flipH;
 		newPart.Position = location;
 		return newPart;
@@ -90,7 +102,7 @@ public class MainGFX : Node
 	{
 		if (Globals.DISABLEGFX)
 			return;
-		foreach (Sprite newGhost in ghosts)
+		foreach (DashGhost newGhost in ghosts.Cast<DashGhost>())
 		{
 			if (!newGhost.Visible)
 			{
@@ -102,7 +114,7 @@ public class MainGFX : Node
 				newGhost.Frame = p.sprite.Frame;
 				newGhost.Scale = p.sprite.Scale;
 				newGhost.FlipH = p.sprite.FlipH;
-				newGhost.Call("run", Globals.frame);
+				newGhost.Run(Globals.frame);
 				return;
 			}
 		}
@@ -111,9 +123,18 @@ public class MainGFX : Node
 
 	public void Rollback(int frame)
 	{
-		foreach (Node child in GetChildren())
+		for (int i = 0; i < children.Count; i++)
 		{
-			child.Call("Rollback", frame);
+			var child = children[i];
+			if (child is DashGhost ghost)
+			{
+				ghost.Rollback(frame);
+			}
+			
+			if (child is ParticleSprite sprite)
+			{
+				sprite.Rollback(frame);
+			}
 		}
 	}
 }

@@ -49,7 +49,7 @@ public class Float : HitStun
 	/// <param name="launch"></param>
 	protected override void EnterHitState(bool knockdown, Vector2 launch, Vector2 collisionPnt, BaseAttack.EXTRAEFFECT effect, BaseAttack.GRAPHICEFFECT gfx)
 	{
-		globalsEvents.EmitSignal(nameof(PlayerFXEmitted), collisionPnt, HitString, owner.OtherPlayerOnLeft());
+		Globals.EmitPlayerFXEmitted(collisionPnt, HitString, owner.OtherPlayerOnLeft());
 
 		if (!(launch == Vector2.Zero))
 		{

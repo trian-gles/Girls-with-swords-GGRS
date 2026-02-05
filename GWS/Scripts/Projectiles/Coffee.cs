@@ -6,6 +6,8 @@ using FixedMath.NET;
 
 class Coffee : HadoukenPart
 {
+	private const string CoffeeString = "coffee";
+	private const string CoffeeExplosionString = "CoffeeExplosion";
 	Fix64 offset = new Fix64(225);
 	Fix64 mult = new Fix64(32);
 	Fix64 div = new Fix64(8);
@@ -28,7 +30,7 @@ class Coffee : HadoukenPart
 		base.HurtPlayer(collisionPnt);
 		GetNode<Node>("/root/Globals").EmitSignal(nameof(State.PlayerFXEmitted),
 			Position * 100,
-			"coffee", movingRight);
-		targetPlayer.ScheduleEvent(EventScheduler.EventType.GRAPHIC, "CoffeeExplosion");
+			CoffeeString, movingRight);
+		targetPlayer.ScheduleEvent(EventScheduler.EventType.GRAPHIC, CoffeeExplosionString);
 	}
 }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 public class Snail : HadoukenPart
 {
+	private const string SnailWalkString = "snail-walk";
+	private const string SnailTypeString = "Snail";
 	[Export]
 	public int gravity;
 
@@ -18,7 +20,7 @@ public class Snail : HadoukenPart
 	[Signal]
 	public delegate void SnailUpdate(int x, Color color);
 
-	public override string hadoukenType { get; } = "Snail";
+	public override string hadoukenType { get; } = SnailTypeString;
 
 	private bool overhead = false;
 	private int activateFrame = 0;
@@ -126,15 +128,15 @@ public class Snail : HadoukenPart
 		switch (mode)
 		{
 			case SnailMode.GetInPosition:
-				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, setupColor);
+				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, setupColor);
 				break;
 			case SnailMode.Standby:
-				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, readyColor);
+				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, readyColor);
 				break;
 			case SnailMode.Inactive:
 				break;
 			default:
-				EmitSignal("SnailUpdate", snailOwner.Name, Position.x, attackColor);
+				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, attackColor);
 				break;
 		}
 	}
@@ -265,7 +267,7 @@ public class Snail : HadoukenPart
 	private void TryWalkSound()
 	{
 		if (frame % 15 == 0 && sprite.Visible && Position.x * 100 < Globals.rightWall && Position.x * 100 > Globals.leftWall)
-			targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, "snail-walk");
+				targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, SnailWalkString);
 	}
 
 	private void Attack2Update()
@@ -442,11 +444,12 @@ public class Snail : HadoukenPart
 
 	private void TryRide()
 	{
-		if (!snailOwner.grounded || snailOwner.currentState.tags.Contains("hitstate")) return;
-		Rect2 myRect = GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true);
-		List<Rect2> otherRects = snailOwner.GetRects(targetPlayer.hitBoxes, true);
-		foreach (Rect2 pRect in otherRects)
+		if (!snailOwner.grounded || snailOwner.currentState.tags.Contains(Globals.Tags.hitstate)) return;
+		Rect2 myRect = GetRect(collisionShape2D, true);
+		snailOwner.GetRects(targetPlayer.hitBoxes, playerRects, true);
+		for (int i = 0; i < 3; i++)
 		{
+			var pRect = playerRects[i];
 			if (myRect.Intersects(pRect))
 			{
 				snailOwner.SnailRide();

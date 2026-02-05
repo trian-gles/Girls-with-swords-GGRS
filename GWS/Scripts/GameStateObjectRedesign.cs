@@ -15,6 +15,7 @@ public class GameStateObjectRedesign : Node
 	public Player P1;
 	public Player P2;
 	private GameScene mainScene; // this seems like a bad idea, but the gsobj needs to add and remove nodes to the mainscene
+	private MemoryPool memoryPool;
 
 	[Signal]
 	public delegate void LevelUp();
@@ -51,14 +52,26 @@ public class GameStateObjectRedesign : Node
 		public fixed byte hadoukenStates[HADOUKENSTATESIZE * 20]; // assuming a size of 68 bytes for now.  May need to change
 	}
 
-	private Dictionary<int, HadoukenPart> hadoukens;
-	private List<HadoukenPart> deleteQueued;
+	private const int MAX_HADOUKENS = 20;
+
+	// Dense storage
+	private HadoukenPart[] hadoukens = new HadoukenPart[MAX_HADOUKENS];
+	private int hadoukenCount = 0;
+
+	// Delete queue (also fixed)
+	private HadoukenPart[] deleteQueued = new HadoukenPart[MAX_HADOUKENS];
+	private int deleteQueuedCount = 0;
 
 	public GameStateObjectRedesign()
 	{
-		hadoukens = new Dictionary<int, HadoukenPart>(); // indexed as {name, object}
 		gState = new GameState();
-		deleteQueued = new List<HadoukenPart>(); // I can't remove items from a list while enumerating that list so I use this instead
+		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		{
+			unsafe
+			{
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+			}
+		}
 	}
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
 	{
@@ -86,14 +99,18 @@ public class GameStateObjectRedesign : Node
 		P1.CheckTurnAround();
 		P2.CheckTurnAround();
 
-		hadoukens.Clear();
-		deleteQueued.Clear();
-		Globals.Log("GameState config finished");
+		ResetHadoukens();
 	}
 
-	private BinaryFormatter formatter = new BinaryFormatter();
-	MemoryStream stream = new MemoryStream();
-	private long maxLen = 0;
+	private int FindHadoukenIndexById(int id)
+	{
+		for (int i = 0; i < hadoukenCount; i++)
+		{
+			if (hadoukens[i].id == id)
+				return i;
+		}
+		return -1;
+	}
 
 	private unsafe static void SerializeHadoukenState(ref HadoukenPart.HadoukenState value, byte* buffer)
 	{
@@ -106,15 +123,13 @@ public class GameStateObjectRedesign : Node
 	}
 
 	private unsafe void SerializeHadoukens(byte* arr)
+{
+	for (int i = 0; i < hadoukenCount; i++)
 	{
-		int i = 0;
-		foreach (var h in hadoukens)
-		{
-			var state = h.Value.GetState();
-			SerializeHadoukenState(ref state, arr + i * HADOUKENSTATESIZE);
-			i++;
-		}
+		var state = hadoukens[i].GetState();
+		SerializeHadoukenState(ref state, arr + i * HADOUKENSTATESIZE);
 	}
+}
 
 	public unsafe GameState GetGameState()
 	{
@@ -122,7 +137,7 @@ public class GameStateObjectRedesign : Node
 		
 		gState.P1State = P1.GetState();
 		gState.P2State = P2.GetState();
-		gState.totalHadoukens = hadoukens.Count;
+		gState.totalHadoukens = hadoukenCount;
 		fixed (byte* b = gState.hadoukenStates){
 			SerializeHadoukens(b);
 		}
@@ -144,7 +159,7 @@ public class GameStateObjectRedesign : Node
 	/// <returns></returns>
 	public unsafe byte[] SaveGameState()
 	{
-		var buf = new byte[sizeof(GameState)];
+		var buf = memoryPool.Get();
 		var state = GetGameState();
 		fixed (byte *p = buf)
 		{
@@ -165,44 +180,35 @@ public class GameStateObjectRedesign : Node
 	}
 
 	private unsafe void DeserializeHadoukens(byte* arr, int totalHadoukens)
+{
+	for (int i = 0; i < totalHadoukens; i++)
 	{
-		
-		for (int i = 0; i < totalHadoukens; i++)
+		var hState = DeserializeHadoukenState(arr + i * HADOUKENSTATESIZE);
+		int index = FindHadoukenIndexById(hState.id);
+		if (index >= 0)
 		{
-			var hState = DeserializeHadoukenState(arr + i * HADOUKENSTATESIZE);
-			if (Globals.logOn)
-				Globals.Log($"Loading state for hadouken {hState.id}");
-			if (hadoukens.ContainsKey(hState.id))
-			{
-				if (Globals.logOn)
-					Globals.Log($"Rolling back {hState.id} to frame {gState.frame}");
-				hadoukens[hState.id].SetState(hState);
-			}
+			hadoukens[index].SetState(hState);
 		}
 	}
+}
+
 	private unsafe void SetGameState(GameState gState)
 	{
-		
 		hitStopRemaining = gState.hitStopRemaining;
 		P1.SetState(gState.P1State);
 		P2.SetState(gState.P2State);
-		if (Globals.logOn)
-			Globals.Log($"Setting gamestate for {hadoukens.Count} hadoukens because of rollback to {gState.frame}");
-		
 		DeserializeHadoukens(gState.hadoukenStates, gState.totalHadoukens);
-
-		foreach (var entry in hadoukens)
+		if (Globals.logOn)
+			Globals.Log($"Setting gamestate for {hadoukenCount} hadoukens because of rollback to {gState.frame}");
+		for (int i = 0; i < hadoukenCount; i++)
 		{
-			HadoukenPart thisHadouken = entry.Value;
-
-			if (thisHadouken.creationFrame > gState.frame)
+			HadoukenPart h = hadoukens[i];
+			if (h.creationFrame > gState.frame)
 			{
-				if (Globals.logOn)
-					Globals.Log($"deleting hadouken created on frame {thisHadouken.creationFrame}");
-				
-				RemoveHadouken(thisHadouken);
+				RemoveHadouken(h);
 			}
 		}
+
 		CleanupHadoukens();
 
 		mainScene.currTime = (GameScene.TimeStatus)gState.timeMode;
@@ -221,7 +227,6 @@ public class GameStateObjectRedesign : Node
 		{
 			newState = DeserializeGameState(p);
 		}
-		
 
 		SetGameState(newState);
 	}
@@ -378,9 +383,9 @@ public class GameStateObjectRedesign : Node
 			hitStopRemaining--;
 		}
 
-		foreach (var entry in hadoukens)
+		for (int i = 0; i < hadoukenCount; i++)
 		{
-			entry.Value.AlwaysUpdate();
+			hadoukens[i].AlwaysUpdate();
 		}
 		HandleHadoukenCollisions();
 	}
@@ -395,58 +400,46 @@ public class GameStateObjectRedesign : Node
 		
 		hostPlayer.FrameAdvanceInputs(hitStopRemaining, p1inp);
 		joinPlayer.FrameAdvanceInputs(hitStopRemaining, p2inp);
-		
-		
-		
 		hostPlayer.AlwaysFrameAdvance();
 		joinPlayer.AlwaysFrameAdvance();
-		
 		
 
 		if (hitStopRemaining < 1)
 		{
-			
 			hostPlayer.FrameAdvance();
 			joinPlayer.FrameAdvance();
-			
 		
-			
-			foreach (var entry in hadoukens)
+			for (int i = 0; i < hadoukenCount; i++)
 			{
-				entry.Value.FrameAdvance();
+				hadoukens[i].FrameAdvance();
 			}
+
 			
 			CleanupHadoukens();
-			
-			
-			
 			hostPlayer.CheckHit();
 			joinPlayer.CheckHit();
 			hostPlayer.CalculateHit();
 			joinPlayer.CalculateHit();
+			
 			CheckFixCollision();
 			hostPlayer.MoveSlideDeterministicTwo();
 			joinPlayer.MoveSlideDeterministicTwo();
 			CheckFixCollision();
 			hostPlayer.RenderPosition();
 			joinPlayer.RenderPosition();
-			
-			
 		}
 		
 	}
 
 	private void CleanupHadoukens()
 	{
-		foreach (HadoukenPart h in deleteQueued)
+		for (int i = 0; i < deleteQueuedCount; i++)
 		{
-			CleanupHadouken(h);
+			CleanupHadouken(deleteQueued[i]);
 		}
-		if (deleteQueued.Count > 0)
-		{
-			deleteQueued.Clear();
-		}
+		deleteQueuedCount = 0;
 	}
+
 
 	/// <summary>
 	/// Check if player collision boxes are colliding and adjust accordingly
@@ -538,82 +531,93 @@ public class GameStateObjectRedesign : Node
 
 	public void ResetHadoukens()
 	{
-		foreach (HadoukenPart h in hadoukens.Values)
+		for (int i = 0; i < hadoukenCount; i++)
 		{
+			HadoukenPart h = hadoukens[i];
 			h.RemoveNum();
 			h.freed = true;
 			mainScene.RemoveChild(h);
+			hadoukens[i] = null;
 		}
-		hadoukens.Clear();
+		hadoukenCount = 0;
 	}
-	private void CleanupHadouken(HadoukenPart h) //completely remove a Hadouken
+
+	private void CleanupHadouken(HadoukenPart h)
 	{
-		hadoukens.Remove(h.id);
+		int index = FindHadoukenIndexById(h.id);
+		if (index < 0)
+			return;
+
+		// Swap remove
+		int last = hadoukenCount - 1;
+		hadoukens[index] = hadoukens[last];
+		hadoukens[last] = null;
+		hadoukenCount--;
+
 		h.freed = true;
 		h.RemoveNum();
-		mainScene.CallDeferred("remove_child", h);
-		
-		
+		mainScene.RemoveChild(h);
 	}
+
+
 	public void NewHadouken(HadoukenPart h)
 	{
-		hadoukens.Add(h.id, h); 
+		if (hadoukenCount >= MAX_HADOUKENS)
+			return;
+
 		h.creationFrame = Globals.frame;
+		hadoukens[hadoukenCount++] = h;
 
 		if (h is Snail)
-		{
 			mainScene.ConnectSnail((Snail)h);
-		}
+
 		if (Globals.logOn)
 			Globals.Log($"Adding hadouken {h.Name} on frame {Globals.frame}");
 	}
 
 	public void HadoukenCommand(string playerName, string hadName, HadoukenPart.ProjectileCommand command)
 	{
-		//Globals.Log($"Hadouken command sent from {playerName} for hadouken {hadName}");
-		foreach (HadoukenPart h in hadoukens.Values)
+		for (int i = 0; i < hadoukenCount; i++)
 		{
-			if (h.hadoukenType == hadName && playerName == h.ownerName)
+			HadoukenPart h = hadoukens[i];
+			if (h.hadoukenType == hadName && h.ownerName == playerName)
+			{
 				h.ReceiveCommand(command);
+			}
 		}
 	}
+
 
 	public void RemoveHadouken(HadoukenPart h)
 	{
-		deleteQueued.Add(h);
-		h.ShouldNotExist();
+		if (deleteQueuedCount < MAX_HADOUKENS)
+		{
+			deleteQueued[deleteQueuedCount++] = h;
+			h.ShouldNotExist();
+		}
 	}
 
-	private HashSet<int> handledHadoukens = new HashSet<int>();
 	private void HandleHadoukenCollisions()
 	{
-		handledHadoukens.Clear();
-		foreach (KeyValuePair<int, HadoukenPart> h in hadoukens)
+		for (int i = 0; i < hadoukenCount; i++)
 		{
-			handledHadoukens.Add(h.Key);
-			if (!h.Value.active)
-			{
-				continue;
-			}
-			foreach (KeyValuePair<int, HadoukenPart> otherH in hadoukens)
-			{
-				if (handledHadoukens.Contains(otherH.Key) || !otherH.Value.active)
-				{
-					continue;
-				}
-				if (h.Value.ownerName == otherH.Value.ownerName)
-					continue;
-				var rect1 = h.Value.GetCollisionRect();
-				var rect2 = otherH.Value.GetCollisionRect();
-				if (rect1.Intersects(rect2))
-				{
-					h.Value.HandleOverlap();
-					otherH.Value.HandleOverlap();
-				}
-			}
+			var h = hadoukens[i];
+			if (!h.active) continue;
 
+			for (int j = i + 1; j < hadoukenCount; j++)
+			{
+				var other = hadoukens[j];
+				if (!other.active) continue;
+				if (h.ownerName == other.ownerName) continue;
+
+				if (h.GetCollisionRect().Intersects(other.GetCollisionRect()))
+				{
+					h.HandleOverlap();
+					other.HandleOverlap();
+				}
+			}
 		}
-
 	}
+
 	
 }

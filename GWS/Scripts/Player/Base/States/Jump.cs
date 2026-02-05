@@ -5,6 +5,10 @@ using System.Linq;
 
 public class Jump : AirState
 {
+	private const string IdleString = "Idle";
+	private const string AirGrabStartString = "AirGrabStart";
+	private const string FallString = "Fall";
+	private const string JumpString = "Jump";
 	[Export]
 	public int startupFrames = 8;
 
@@ -78,7 +82,7 @@ public class Jump : AirState
 		base.Enter();
 		owner.velocity.y = -1 * owner.jumpForce;
 		owner.grounded = false;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Jump", Name);
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, JumpString, Name);
 
 		if (owner.CheckHeldKey('6'))
 		{
@@ -110,12 +114,12 @@ public class Jump : AirState
 		// Allows the user to choose direction slightly into the jump
 		if (frameCount < 3)
 		{
-			if (Enumerable.SequenceEqual(inputArr, new char[] { '6', 'p' }))
+			if (Enumerable.SequenceEqual(inputArr, Globals.RIGHTPRESS))
             {
 				owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			}
 				
-			else if (Enumerable.SequenceEqual(inputArr, new char[] { '4', 'p' }))
+			else if (Enumerable.SequenceEqual(inputArr, Globals.LEFTPRESS))
             {
 				owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 			}
@@ -129,7 +133,7 @@ public class Jump : AirState
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 0) 
 		{
-			owner.ChangeState("Idle");
+			owner.ChangeState(IdleString);
 		}
 		ApplyGravity();
 		if (!owner.canDoubleJump)
@@ -137,9 +141,9 @@ public class Jump : AirState
 			owner.CheckTurnAround();
         }
 
-		if (DelayInputs() && owner.CheckHitStopBuffer(new char[] { 'k', 'p' }) && owner.CheckHitStopBuffer(new char[] { 's', 'p' }))
+		if (DelayInputs() && owner.CheckHitStopBuffer(Globals.KICKPRESS) && owner.CheckHitStopBuffer(Globals.SLASHPRESS))
 		{
-			owner.ChangeState("AirGrabStart");
+			owner.ChangeState(AirGrabStartString);
 		}
 		
 	}
@@ -150,7 +154,7 @@ public class Jump : AirState
 
 	public override void AnimationFinished()
 	{
-		owner.ChangeState("Fall");
+		owner.ChangeState(FallString);
 	}
 
     public override void ReceiveHit(Globals.AttackDetails details)

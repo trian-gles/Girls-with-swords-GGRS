@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class Landing : State
 {
+	private const string IdleString = "Idle";
 	[Export]
 	public int len = 3;
-
-	public override string animationName { get { return "Crouch"; } }
+	private const string CrouchAnimString = "Crouch";
+	public override string animationName { get { return CrouchAnimString; } }
 	public override void _Ready()
 	{
 		base._Ready();
@@ -32,7 +33,7 @@ public class Landing : State
 	{
 		base.FrameAdvance();
 		if (frameCount == len)
-			owner.ChangeState("Idle");
+			owner.ChangeState(IdleString);
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

@@ -4,11 +4,13 @@ using System;
 
 public class Burst : LaunchAttack
 {
+	private const string BurstString = "Burst";
+	private const string BurstLowerString = "burst";
 	public override void Enter()
 	{
 		base.Enter();
 		owner.ClearHit();
-		owner.EmitSignal(nameof(Player.GenericGFX), "Burst", owner.Name);
+		owner.EmitSignal(nameof(Player.GenericGFX), BurstString, owner.Name);
 		owner.landingRecoveryFramesRemaining = 5;
 	}
 
@@ -17,9 +19,7 @@ public class Burst : LaunchAttack
 		base.FrameAdvance();
 		if (frameCount == 8)
 		{
-			GetNode<Node>("/root/Globals").EmitSignal(nameof(PlayerFXEmitted),
-			owner.internalPos,
-			"burst", owner.facingRight);
+			Globals.EmitPlayerFXEmitted(owner.internalPos, BurstLowerString, owner.facingRight);
 		}
 	}
 

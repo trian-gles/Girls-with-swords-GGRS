@@ -3,6 +3,8 @@ using System;
 
 public class HitStun : HitState
 {
+	private const string BloodGfxString = "Blood";
+	private const string IdleString = "Idle";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -13,7 +15,7 @@ public class HitStun : HitState
 	{
 		base.Enter();
 		
-		owner.GFXEvent("Blood");
+		owner.GFXEvent(BloodGfxString);
 		owner.GainMeter(200);
     }
 
@@ -37,8 +39,8 @@ public class HitStun : HitState
         {
             ReceiveElectrocution();
         }
-        else
-            owner.ChangeState("Idle");
+		else
+			owner.ChangeState(IdleString);
     }
 	
 	public override void ReceiveHit(Globals.AttackDetails details)

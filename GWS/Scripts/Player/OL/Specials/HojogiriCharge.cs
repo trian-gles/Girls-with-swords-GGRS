@@ -3,6 +3,7 @@ using System;
 
 public class HojogiriCharge : GroundAttack // used only to inherit counter hit
 {
+    private const string CommandRunChargedString = "CommandRunCharged";
     public override void _Ready()
     {
         base._Ready();
@@ -20,6 +21,6 @@ public class HojogiriCharge : GroundAttack // used only to inherit counter hit
 
     public override void AnimationFinished()
     {
-        owner.ChangeState("CommandRunCharged");
+        owner.ChangeState(CommandRunChargedString);
     }
 }

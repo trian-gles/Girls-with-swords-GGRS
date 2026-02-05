@@ -60,8 +60,14 @@ public class LobbyRedesign : Node2D
 	public bool host = false;
 	
 	private BaseManager activeManager;
+	private Node events;
+	private AudioStreamPlayer lobbyMusic;
 	
 	private static Random random = new Random();
+
+	// runtime string constants
+	private const string MainMenuPressedString = "MainMenuPressed";
+	private const string BackButtonPressedCallString = "_on_BackButton_pressed";
 
 	public static string RandomString(int length)
 	{
@@ -94,7 +100,10 @@ public class LobbyRedesign : Node2D
 		column = inputmenu.GetNode<VBoxContainer>("ConfigOverlay/Column");
 
 		// connect in game menu
-		GetNode<Node>("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
+		events = GetNode<Node>("/root/Events");
+			events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
+		// cache lobby music player
+		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
 
 		// set up debug globals
 		Globals.autoTech = autoTech;
@@ -107,6 +116,7 @@ public class LobbyRedesign : Node2D
 
 	private void syncTestBegin()
 	{
+		Globals.mode = Globals.Mode.SYNCTEST;
 		BeginManager(syncTestManager);
 	}
 
@@ -198,7 +208,7 @@ public class LobbyRedesign : Node2D
 	private void BeginManager(PackedScene managerScene){
 		activeManager = managerScene.Instance<BaseManager>();
 		AddChild(activeManager);
-		GetNode<AudioStreamPlayer>("LobbyMusic").Stop();
+		lobbyMusic.Stop();
 		HideButtons();
 	}
 
@@ -210,7 +220,7 @@ public class LobbyRedesign : Node2D
 
 	private void OnNetPlayConnected()
 	{
-		GetNode<AudioStreamPlayer>("LobbyMusic").Stop();
+		lobbyMusic.Stop();
 		HideButtons();
 	}
 
@@ -221,7 +231,7 @@ public class LobbyRedesign : Node2D
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
 		column.GetNode<Button>("ReturnMainMenu").Visible = true;
 		column.GetNode<Button>("ReturnToInGameMenu").Visible = false;
-		GetNode("/root/Events").Connect("MainMenuPressed", this, nameof(OnLobbyReset));
+			events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
 	}
 	
 	public void OnButtonCheckDownInGame()
@@ -240,7 +250,7 @@ public class LobbyRedesign : Node2D
 			activeManager = null;
 		}
 			
-		var menu = GetNode<Control>("MenuRoot");
+		var menu = menuroot;
 		menu.Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
@@ -248,12 +258,12 @@ public class LobbyRedesign : Node2D
 		{
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
-		GetNode<AudioStreamPlayer>("LobbyMusic").Play();
+		lobbyMusic.Play();
 		waitingForOtherPlayerLabel.Visible = false;
 		sendToFriendLabel.Visible = false;
 		newMatchId.Text = "";
 
-		menu.Call("_on_BackButton_pressed");
+			menu.Call(BackButtonPressedCallString);
 	}
 
 	private void HideButtons()

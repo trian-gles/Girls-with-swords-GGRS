@@ -6,7 +6,10 @@ public class WallBounce : AirKnockdown
 {
 	private bool bounced = false;
 
-	public override string animationName { get { return "Float"; } }
+	private const string WallBounceString = "WallBounce";
+	private const string FloatAnimString = "Float";
+
+	public override string animationName { get { return FloatAnimString; } }
 
 	private int BOUNCEINDEX = 0;
 
@@ -50,7 +53,7 @@ public class WallBounce : AirKnockdown
 		{
 			bounced = true;
 			owner.velocity.x *= -1;
-			owner.GFXEvent("WallBounce");
+			owner.GFXEvent(WallBounceString);
 		}
 	}
 

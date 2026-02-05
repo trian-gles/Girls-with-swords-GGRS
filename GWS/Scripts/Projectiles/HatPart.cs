@@ -7,7 +7,8 @@ public class HatPart : HadoukenPart
 	[Export]
 	public Vector2 startSpeed;
 
-	public override string hadoukenType { get; } = "Hat";
+	private const string HatHadoukenTypeString = "Hat";
+	public override string hadoukenType { get; } = HatHadoukenTypeString;
 	public Vector2 targetPos = Vector2.Zero;
 
 	public override void Spawn(bool movingRight, Player targetPlayer)

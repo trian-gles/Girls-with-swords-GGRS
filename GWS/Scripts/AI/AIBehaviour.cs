@@ -14,25 +14,25 @@ public class AIBehaviour
 	private int lastKickFrame = 0;
 
 	private int frame = 0;
-
+	// TODO : FIX ALL OF THIS
 	public static unsafe bool CheckP1CurrentState(GameStateObjectRedesign.GameState state, string comparison)
 	{
-		return new string(state.P1State.currentState) == comparison;
+		return false;//return new string(state.P1State.currentState) == comparison;
 	}
 
 	public static unsafe bool CheckP2CurrentState(GameStateObjectRedesign.GameState state, string comparison)
 	{
-		return new string(state.P2State.currentState) == comparison;
+		return false;//return new string(state.P2State.currentState) == comparison;
 	}
 
 	public static unsafe string GetP1CurrentState(GameStateObjectRedesign.GameState state)
 	{
-		return new string(state.P1State.currentState);
+		return "";//return new string(state.P1State.currentState);
 	}
 
 	public static unsafe string GetP2CurrentState(GameStateObjectRedesign.GameState state)
 	{
-		return new string(state.P2State.currentState);
+		return "";//return new string(state.P2State.currentState);
 	}
 
 	public Globals.CHARID controlledChar;

@@ -9,16 +9,19 @@ public class ParticleSprite : Sprite
 
 	public int initFrame;
 	public string type;
+	private Godot.AnimationPlayer animationPlayer;
+	private const string AnimationNameString = "Animation";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GetNode<Godot.AnimationPlayer>("AnimationPlayer").Play("Animation");
+		animationPlayer = GetNode<Godot.AnimationPlayer>("AnimationPlayer");
+		animationPlayer.Play(AnimationNameString);
     }
 
 	public void Reassign()
 	{
-        GetNode<Godot.AnimationPlayer>("AnimationPlayer").Play("Animation");
+		animationPlayer.Play(AnimationNameString);
         Visible = true;
     }
 

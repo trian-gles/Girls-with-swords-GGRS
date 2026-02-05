@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PostRun : MoveState
 {
+	private const string IdleString = "Idle";
 	public override void _Ready()
 	{
 		base._Ready();
@@ -26,7 +27,7 @@ public class PostRun : MoveState
 		base.FrameAdvance();
 		if (frameCount  == 12)
 		{
-			owner.ChangeState("Idle");
+			owner.ChangeState(IdleString);
 		}
 	}
 

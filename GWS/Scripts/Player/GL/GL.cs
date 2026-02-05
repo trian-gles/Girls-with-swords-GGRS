@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GL : Player
 {
+	private const string BlackHoleString = "BlackHole";
+	private const string HadoukenString = "Hadouken";
 
 	public int PoweredBlackHoleFramesRemaining = 0;
 	public int BlackHolesTotal = 0;
@@ -68,7 +70,7 @@ public class GL : Player
 	{
 		if (!base.CalculateHit())
 			return false;
-		CommandHadouken("BlackHole", HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
+		CommandHadouken(BlackHoleString, HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
 		return true;
 	}
 
@@ -111,10 +113,10 @@ public class GL : Player
 	protected override void PostHitCall()
 	{
 		base.PostHitCall();
-		if (currentState.tags.Contains("hurtstate"))
+		if (currentState.tags.Contains(Globals.Tags.hitstate))
 		{
-			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
-			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(HadoukenString, HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(HadoukenString, HadoukenPart.ProjectileCommand.Kill);
 		}
 	}
 

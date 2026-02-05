@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 public class Idle : State
 {
+	private const string CrouchString = "Crouch";
+	private const string WalkString = "Walk";
+	private const string PreJumpString = "PreJump";
+	private const string PreRunString = "PreRun";
+	private const string BackdashString = "Backdash";
+	private const string ShieldString = "Shield";
 	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle };
 
 	public override void _Ready()
@@ -15,15 +21,15 @@ public class Idle : State
 		AddCommandNormals(owner.commandNormals);
 		AddEasyGroundSpecials();
 
-		AddGatling(new[] { '2', 'p' }, "Crouch");
-		AddGatling(new[] { '6', 'p' }, "Walk", () => owner.velocity.x = owner.speed);
-		AddGatling(new[] { '4', 'p' }, "Walk", () => owner.velocity.x = -owner.speed);
-		AddGatling(new[] { '8', 'p' }, "PreJump");
+		AddGatling(new[] { '2', 'p' }, CrouchString);
+		AddGatling(new[] { '6', 'p' }, WalkString, () => owner.velocity.x = owner.speed);
+		AddGatling(new[] { '4', 'p' }, WalkString, () => owner.velocity.x = -owner.speed);
+		AddGatling(new[] { '8', 'p' }, PreJumpString);
 		AddNormals();
 		
 
-		AddGatling(new InputContainer( new[]{ new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }), "PreRun", () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
-		AddGatling(new InputContainer( new[] { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }), () => owner.backdashCooldownRemaining == 0, "Backdash", 
+		AddGatling(new InputContainer( new[]{ new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' } }), PreRunString, () => { owner.velocity.x = owner.speed; if (!owner.facingRight) { owner.velocity.x *= -1; } }, false);
+		AddGatling(new InputContainer( new[] { new char[] { '4', 'p' }, new char[] { '4', 'r' }, new char[] { '4', 'p' } }), () => owner.backdashCooldownRemaining == 0, BackdashString, 
 			() => 
 			{ 
 				owner.velocity.x = owner.speed * -2; 
@@ -50,14 +56,14 @@ public class Idle : State
 		{
 			if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))
 			{
-                owner.ChangeState("Shield");
+				owner.ChangeState(ShieldString);
                 return;
             }
                 
         }
 		if (owner.CheckHeldKey('2'))
 		{
-			owner.ChangeState("Crouch");
+			owner.ChangeState(CrouchString);
 			return;
 		}
 
@@ -65,20 +71,20 @@ public class Idle : State
 		{
 			owner.velocity.x = owner.speed;
 			
-			owner.ChangeState("Walk");
+			owner.ChangeState(WalkString);
 			return;
 		}
 
 		else if (owner.CheckHeldKey('4'))
 		{
 			owner.velocity.x = -owner.speed;
-			owner.ChangeState("Walk");
+			owner.ChangeState(WalkString);
 			return;
 		}
 
 		else if (owner.CheckHeldKey('8'))
 		{
-			owner.ChangeState("PreJump");
+			owner.ChangeState(PreJumpString);
 			return;
 		}
 	}

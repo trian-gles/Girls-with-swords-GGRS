@@ -32,13 +32,13 @@ public class AirGrab : State
 	public bool rightGrab = true;
 	private int RELEASEINDEX = 0;
 
-	private string grabbedString = "Grabbed";
-	private string fallString = "Fall";
+	private const string GrabbedString = "Grabbed";
+	private const string FallString = "Fall";
 
 	public override void _Ready()
 	{
 		base._Ready();
-		AddCancel("Fall");
+		AddCancel(FallString);
 
 		isCounter = true;
 		hitDetails = Globals.attackLevels[level].hit;
@@ -66,7 +66,7 @@ public class AirGrab : State
         base.Enter();
 		owner.velocity = Vector2.Zero;
 		released = false;
-		owner.otherPlayer.ChangeState(grabbedString);
+		owner.otherPlayer.ChangeState(GrabbedString);
 		if (owner.CheckHeldKey('6'))
 		{
 			owner.TurnRight();
@@ -152,6 +152,6 @@ public class AirGrab : State
     }
     public override void AnimationFinished()
 	{
-		owner.ChangeState(fallString);
+		owner.ChangeState(FallString);
 	}
 }

@@ -28,7 +28,7 @@ public class TrainingManager : BaseManager
 		}
 		else
 		{
-			int playerInputs = GetInputs("");
+			int playerInputs = GetInputs(0);
 			int otherInputs = 0;
 
 			if (recordingInputs)

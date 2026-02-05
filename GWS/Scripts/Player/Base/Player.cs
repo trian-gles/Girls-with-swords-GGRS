@@ -3,6 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 
 public class Player : Node2D
 {
@@ -52,6 +53,11 @@ public class Player : Node2D
 	public delegate void GenericGFX(string fxName, string playerName);
 
 	public const int MAXPLAYERDIST = 30000;
+
+	private const string ExplosionGfxString = "Explosion";
+	private const string PurpleGfxString = "Purple";
+	private const string FireAnimString = "fire";
+	private const string PurpleAnimString = "purple";
 
 	[Export]
 	public int speed = 400;
@@ -205,15 +211,16 @@ public class Player : Node2D
 	[Serializable]
 	public unsafe struct PlayerState
 	{
-		public fixed char inBuf2[55];
+		public fixed char inBuf2[56];
 		public int inBuf2Count;
 		public fixed char hitStopInputs[20];
 		public int hitStopInputsCount;
 		public fixed char heldKeys[12];
-		public int heldKeysCount;
 
 		public int inBuf2Timer;
-		public fixed char currentState[20];
+		public int currentStateIndex;
+		public int lastStateIndex;
+		public int animationIndex;
 		public fixed int stateData[6];
 		public bool canDoubleJump;
 		public bool canAirDash;
@@ -235,13 +242,11 @@ public class Player : Node2D
 		public bool grounded;
 		public int combo;
 		public int proration;
-		public string animationName;
 		public int animationCursor;
 		public int lastFrameInputs;
 		public int invulnFrames;
 		public int airDashFrames;
 		public int grabInvulnFrames;
-		public string lastStateName;
 		public int counterStopFrames;
 		public bool canGroundbounce;
 		public int specialBreakFramesRemaining;
@@ -259,6 +264,7 @@ public class Player : Node2D
 		public bool hasDoubleOrSuperJumped;
 		public bool hasHurtboxActive;
 		public fixed int charSpecificData[4];
+		public int safety;
 
 	}
 
@@ -318,10 +324,28 @@ public class Player : Node2D
 	private Color colColor = new Color(0, 255, 0, 0.5f);
 	private Color grabColor = new Color(0, 0, 0, 0.5f);
 
+	// States
+	protected Godot.Collections.Dictionary<string, State> allStateDict = new Godot.Collections.Dictionary<string, State>();
+	protected Godot.Collections.Array<string> allStates = new Godot.Collections.Array<string>();
+	protected Godot.Collections.Array<string> allAnimations = new Godot.Collections.Array<string>();
+	protected Godot.Collections.Dictionary<string, State> altStateDict = new Godot.Collections.Dictionary<string, State>();
+	public string idleString = "Idle";
+	public string grabString = "Grab";
+	public string grabbedString = "Grabbed";
+	private const string KnockdownString = "Knockdown";
+	private const string AirKnockdownString = "AirKnockdown";
+	private const string JiveString = "Jive";
+
+	// Temp arrays
+	public Rect2[] tempHurtboxArray = new Rect2[3];
+	public Rect2[] tempHitboxArray = new Rect2[3];
+
 	// Sub nodes
 	public Position2D grabPos;
-	public Area2D hitBoxes;
-	public Area2D hurtBoxes;
+	public Godot.Collections.Array<CollisionShape2D> hitBoxes;
+	public Godot.Collections.Array<CollisionShape2D> hurtBoxes;
+	protected Area2D hitBoxParent;
+	protected Area2D hurtBoxParent;
 	private CollisionShape2D colBox;
 	public AnimationPlayer animationPlayer;
 	public Sprite sprite;
@@ -330,6 +354,8 @@ public class Player : Node2D
 	private Label debugPos;
 	private Node2D electricity;
 	private Node stateTree;
+	private ShieldFX shield;
+	private CPUParticles2D shieldEmission;
 
 	[Export]
 	public PackedScene plusFrameTextScene;
@@ -352,8 +378,16 @@ public class Player : Node2D
 		animationPlayer.Setup();
 
 		grabPos = GetNode<Position2D>("GrabPos");
-		hitBoxes = GetNode<Area2D>("HitBoxes");
-		hurtBoxes = GetNode<Area2D>("HurtBoxes");
+		hitBoxParent = GetNode<Area2D>("HitBoxes");
+		hitBoxes = new Godot.Collections.Array<CollisionShape2D>();
+		foreach (CollisionShape2D child in hitBoxParent.GetChildren()){
+			hitBoxes.Add(child);
+		}
+		hurtBoxParent = GetNode<Area2D>("HurtBoxes");
+		hurtBoxes = new Godot.Collections.Array<CollisionShape2D>();
+		foreach (CollisionShape2D child in hurtBoxParent.GetChildren()){
+			hurtBoxes.Add(child);
+		}
 		colBox = GetNode<CollisionShape2D>("CollisionBox");
 		
 		sprite = GetNode<Sprite>("Sprite");
@@ -361,26 +395,39 @@ public class Player : Node2D
 		gfxHand = GetNode<GFXHandler>("GFXHandler");
 		debugPos = GetNode<Label>("DebugPos");
 
+		shield = GetNode<ShieldFX>("Shield");
+		shieldEmission = shield.GetNode<CPUParticles2D>("ShieldHit");
+
 		electricity = (Node2D)GetNode("ElectricShock");
 
 		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
-		foreach (CollisionShape2D box in hitBoxes.GetChildren()) 
+		foreach (CollisionShape2D box in hitBoxes)
 		{
 			box.Shape = new RectangleShape2D();
 		}
-		foreach (CollisionShape2D box in hurtBoxes.GetChildren())
+		foreach (CollisionShape2D box in hurtBoxes)
 		{
 			box.Shape = new RectangleShape2D();
 		}
 
 		inputHandler = new InputHandler();
 		Godot.Collections.Array allStates = GetNode<Node>("StateTree").GetChildren();
+		string stateFinished = "StateFinished";
+		string none = "None";
 		foreach (Node state in allStates) 
 		{
-			state.Connect("StateFinished", this, nameof(ChangeState));
+			this.allStates.Add(state.Name);
+			if (((State)state).animationName != none)
+			{ 
+				allAnimations.Add(((State)state).animationName);
+			}
+			allStateDict[state.Name] = (State)state;
+			if (altState.Contains(state.Name))
+				altStateDict.Add(state.Name, (State)state);
+			state.Connect(stateFinished, this, nameof(ChangeState));
 		}
-		currentState = GetNode<State>("StateTree/Idle");
-		ChangeState("Idle");
+		currentState = allStateDict[idleString];
+		ChangeState(idleString);
 
 		if (debugPress)
 		{
@@ -402,7 +449,7 @@ public class Player : Node2D
 	public virtual void Reset()
 	{
 		ResetComboAndProration();
-		ChangeState("Idle");
+		ChangeState(idleString);
 		velocity = Vector2.Zero;
 		electrocuted = false;
 		hitPushRemaining = 0;
@@ -432,7 +479,7 @@ public class Player : Node2D
 		}
 		fixed (char* p = pState.heldKeys)
 		{
-			pState.heldKeysCount = inputHandler.heldKeys.GetState(p);
+			inputHandler.heldKeys.GetState(p);
 		}
 
 		pState.inBuf2Timer = inputHandler.inBuf2Timer;
@@ -440,14 +487,16 @@ public class Player : Node2D
 		pState.canDoubleJump = canDoubleJump;
 		pState.canAirDash = canAirDash;
 
-		int j = 0;
-		foreach (char c in currentState.Name)
-		{
-			pState.currentState[j] = c;
-			j++;
-		}
-		pState.currentState[j] = '\0';
-			
+		// currentState.Name
+		string name = currentState.Name;
+		pState.currentStateIndex = allStates.IndexOf(name);
+
+		// lastStateName
+		pState.lastStateIndex = allStates.IndexOf(lastStateName);
+
+		// animationPlayer.AssignedAnimation
+		pState.animationIndex = allAnimations.IndexOf(animationPlayer.AssignedAnimation);
+
 		
 		var currentStateData = currentState.Save();
 		fixed (int* p = pState.stateData)
@@ -470,7 +519,6 @@ public class Player : Node2D
 		
 		pState.animationCursor = animationPlayer.cursor;
 		pState.terminalVelocity = terminalVelocity;
-		pState.animationName = animationPlayer.AssignedAnimation;
 		
 		pState.facingRight = facingRight;
 		pState.grounded = grounded;
@@ -480,7 +528,7 @@ public class Player : Node2D
 		pState.invulnFrames = invulnFrames;
 		pState.airDashFrames = airDashFrames;
 		pState.grabInvulnFrames = grabInvulnFrames;
-		pState.lastStateName = lastStateName;
+		
 		pState.counterStopFrames = counterStopFrames;
 		pState.canGroundbounce = canGroundbounce;
 		pState.electrocuted = electrocuted;
@@ -507,6 +555,7 @@ public class Player : Node2D
 
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
 		pState.hasHurtboxActive = hasHurtboxActive;
+		pState.safety = 3;
 		
 		return pState;
 	}
@@ -524,23 +573,26 @@ public class Player : Node2D
 	private int[] tempStateData = new int[4];
 	public unsafe void SetState(PlayerState pState)
 	{
-		// TODO : REWRITE
+		if (pState.safety != 3)
+			GD.Print("SAFETY BROKEN");
 
 		inputHandler.inBuf2.SetState(pState.inBuf2Count, pState.inBuf2);
 		inputHandler.hitStopInputs.SetState(pState.hitStopInputsCount, pState.hitStopInputs);
-		inputHandler.heldKeys.SetState(pState.heldKeysCount, pState.heldKeys);
+		inputHandler.heldKeys.SetState(pState.heldKeys);
 
 
 		inputHandler.inBuf2Timer = pState.inBuf2Timer;
 
-		currentState = GetNode<State>("StateTree/" + new string(pState.currentState));
+		string stateName = allStates[pState.currentStateIndex];
+		currentState = allStateDict[stateName];
+		lastStateName = allStates[pState.lastStateIndex];
 		inputHandler.playerState = currentState;
 		currentState.hitConnect = pState.hitConnect;
 		currentState.frameCount = pState.frameCount;
 		for (int i = 0; i < 4; i++)
 			tempStateData[i] = pState.stateData[i];
 		currentState.Load(tempStateData);
-		string animation = pState.animationName;
+		string animation = allAnimations[pState.animationIndex];
 		animationPlayer.SetAnimationAndFrame(animation, pState.animationCursor);
 		currentState.stunRemaining = pState.stunRemaining;
 		sprite.FlipH = pState.flipH;
@@ -573,7 +625,6 @@ public class Player : Node2D
 		airDashFrames = pState.airDashFrames;
 		grabInvulnFrames = pState.grabInvulnFrames;
 		EmitSignal(nameof(ComboSet), Name, combo);
-		lastStateName = pState.lastStateName;
 		counterStopFrames = pState.counterStopFrames;
 		canGroundbounce = pState.canGroundbounce;
 		for (int i = 0; i < charSpecificData.Length; i++)
@@ -633,7 +684,7 @@ public class Player : Node2D
 	/// </summary>
 	private class InputHandler 
 	{
-		public InputContainer inBuf2 = new InputContainer(55);
+		public InputContainer inBuf2 = new InputContainer(56);
 		public InputContainer hitStopInputs = new InputContainer(20);
 
 		//private List<char> order = new List<char>() { 's', 'k', 'p', '6', '4', ''}; consider input priority later
@@ -658,7 +709,7 @@ public class Player : Node2D
 		private void BufAddInput(char[] input)
 		{
 			inBuf2Timer = inBuf2TimerMax;
-			if (inBuf2.Count >= 55)
+			if (inBuf2.Count >= 56)
 				inBuf2.Clear();
 			inBuf2.Add(input);
 			
@@ -677,15 +728,15 @@ public class Player : Node2D
 		}
 		private void AddHitStopBuffer(InputContainer unhandledInputs)
 		{
-			foreach (char[] inputArr in unhandledInputs)
-			{
-				if (hitStopInputs.Count + 1 >= hitStopInputs.Capacity)
+			for (int i = 0; i < unhandledInputs.Count; i++){
+				var inputArr = unhandledInputs[i];
+				if (hitStopInputs.Count == hitStopInputs.Capacity)
 					hitStopInputs.Clear();
 
 				hitStopInputs.Add(inputArr);
 			}
 		}
-		private InputContainer unhandledInputs = new InputContainer(20);
+		private InputContainer unhandledInputs = new InputContainer(40);
 		private InputContainer ConvertInputs(int inputs)
 		{
 			unhandledInputs.Clear();
@@ -789,56 +840,56 @@ public class Player : Node2D
 		
 
 		public virtual void FrameAdvance(int hitStop, int inputs, NegEdgeCallback negEdgeCallback)
-		{ 
+		{
 			InputContainer unhandledInputs = ConvertInputs(inputs);
 			lastFrameInputs = inputs;
-			foreach (char[] inputArr in unhandledInputs)
+			
+			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
+				var inputArr = unhandledInputs[i];
 				if (inputArr[0] == 'a')
 				{
 					playerState.TrySpecialBreak();
 				}
-					
 				BufAddInput(inputArr);
 			}
-				
+			
+			
+			// Hold or release keys REGARDLESS of hitstop
 
-			if (hitStop > 0 || playerState.DelayInputs()) // delay the handling of inputs until after hitstop ends
+			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
-				AddHitStopBuffer(unhandledInputs);
-				return;
-			}
-
-			if (unhandledInputs.Count == 0)
-				BufTimerDecrement();
-
-			
-			
-			unhandledInputs.Prepend(hitStopInputs);
-			
-			hitStopInputs.Clear();
-			foreach (char[] inputArr in unhandledInputs)
-			{
-				// Hold or release keys
+				var inputArr = unhandledInputs[i];
 				if (inputArr[1] == 'p')
 				{
 					heldKeys.Add(inputArr[0]);
 
 				}
+				
 				else if (inputArr[1] == 'r')
 				{
 					negEdgeCallback(inputArr[0]);
 					heldKeys.Remove(inputArr[0]);
 				}
-				playerState.HandleInput(inputArr);
+			}	
+			if (hitStop > 0 || playerState.DelayInputs()) // delay the handling of inputs until after hitstop ends
+			{
+				AddHitStopBuffer(unhandledInputs);
+				return;
 			}
+			if (unhandledInputs.Count == 0)
+				BufTimerDecrement();
+			if (hitStopInputs.Count > 0)
+				unhandledInputs.Prepend(hitStopInputs);
 			
+			hitStopInputs.Clear();
+			for (int i = 0; i < unhandledInputs.Count; i++)
+			{
+				playerState.HandleInput(unhandledInputs[i]);
+			}
 			
 			unhandledInputs.Clear();
 		}
-
-		private InputContainer tempJumpInputs = new InputContainer(20);
-		private InputContainer tempOtherInputs = new InputContainer(20);
 
 		public InputContainer GetBuffer() 
 		{
@@ -862,15 +913,20 @@ public class Player : Node2D
 		hasHurtboxActive = false;
 		lastStateName = currentState.Name;
 		if (altState.Contains(nextStateName))
-			nextStateName = charName + nextStateName; // TODO : FIX
-		currentState = stateTree.GetNode<State>(nextStateName);
+			currentState = altStateDict[nextStateName];
+		else if (allStateDict.ContainsKey(nextStateName))
+			currentState = allStateDict[nextStateName];
+		else
+			GD.PrintErr($"State {nextStateName} not found for player {Name}");
+		
+		
 		if (Globals.logOn)
 			Globals.Log($"{Name} changing state from {previousState.Name} > {currentState.Name}");
 		if (currentState.animationName != "None")
 			animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
 		
-		if (grounded && nextStateName != "Grab" && previousState.turnAroundOnExit)
+		if (grounded && nextStateName != grabString && previousState.turnAroundOnExit)
 		{
 			CheckTurnAround();
 		}
@@ -945,6 +1001,11 @@ public class Player : Node2D
 		return (inputHandler.heldKeys.Contains(key));
 	}
 
+	public string LogHeldKeys()
+	{
+		return inputHandler.heldKeys.DumpTest();
+	}
+
 	public bool CheckLastBufInput(char[] key)
 	{
 		var buf = inputHandler.GetBuffer();
@@ -1003,7 +1064,7 @@ public class Player : Node2D
 		if (otherPlayer == null || !Godot.Object.IsInstanceValid(otherPlayer))
 			return; // Sloppy fix, I know...
 
-		if (currentState.Name == "Grabbed" && otherPlayer.ShrinkOtherSprite())
+		if (currentState.Name == grabbedString && otherPlayer.ShrinkOtherSprite())
 		{
 			var newScale = sprite.Scale;
 			newScale.x = 1.5f * direction;
@@ -1049,20 +1110,19 @@ public class Player : Node2D
 		}
 		bool wasHurtboxPreviouslyActive = false;
 
-		foreach (CollisionShape2D box in hurtBoxes.GetChildren()) // record before the frame advance whether hurtBoxes are active
+		for (int i = 0; i < hurtBoxes.Count; i++) //  record before the frame advance whether hurtBoxes are active
 		{
+			var box = hurtBoxes[i];
 			if (!box.Disabled)
 				wasHurtboxPreviouslyActive = true;
-		}		
-
+		}
 		animationPlayer.FrameAdvance();
-		
-
 		if (wasHurtboxPreviouslyActive) // here we test to see if we have swtiched from active hurtboxes to inactive hurboxes
 		{
 			bool allHurtboxesInactive = true;
-			foreach (CollisionShape2D box in hurtBoxes.GetChildren())
+			for (int i = 0; i < hurtBoxes.Count; i++)
 			{
+				var box = hurtBoxes[i];
 				if (!box.Disabled)
 					allHurtboxesInactive = false;
 			}
@@ -1074,11 +1134,9 @@ public class Player : Node2D
 		
 		if (!facingRight)
 			sprite.RotationDegrees *= -1;
-		
+
 		currentState.FrameAdvance();
-		
 		CharSpecificFrameAdvance();
-		
 		
 		if (invulnFrames > 0)
 		{
@@ -1107,19 +1165,14 @@ public class Player : Node2D
 			}
 		}
 
-		
 		GFXSpecialFrameAdvance(); // purely graphic, should be moved
-
 		AdjustHitpush(); // make sure this is placed in the right spot...
-		
 		MoveSlideDeterministicOne();
 	}
 
 	private void GFXSpecialFrameAdvance()
 	{
-		var shield = GetNode<Node2D>("Shield");
-		var shieldEmission = shield.GetNode<Node2D>("ShieldHit");
-		shield.Set("crouching", currentState.tags.Contains("crouching"));
+		shield.crouching = currentState.tags.Contains(Globals.Tags.crouching);
 
 		switch (currentState.GetExtraGFXState())
 		{
@@ -1348,8 +1401,8 @@ public class Player : Node2D
 		frontSprite.Scale = facingRightScale;
 		behindSprite.Scale = facingRightScale;
 		
-		hurtBoxes.Scale = Vector2.One;
-		hitBoxes.Scale = Vector2.One;
+		hurtBoxParent.Scale = Vector2.One;
+		hitBoxParent.Scale = Vector2.One;
 	}
 
 	public void TurnLeft()
@@ -1358,8 +1411,8 @@ public class Player : Node2D
 		mainSprite.Scale = facingLeftScale;
 		frontSprite.Scale = facingLeftScale;
 		behindSprite.Scale = facingLeftScale;
-		hurtBoxes.Scale = facingLeftBoxScale;
-		hitBoxes.Scale = facingLeftBoxScale;
+		hitBoxParent.Scale = facingLeftBoxScale;
+		hurtBoxParent.Scale = facingLeftBoxScale;
 	}
 
 	/// <summary>
@@ -1391,7 +1444,7 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool CanShield()
 	{
-		return !GetNode<State>("StateTree/" + lastStateName).tags.Contains("attack") && CheckFlippableHeldKey('4');
+		return !allStateDict[lastStateName].tags.Contains(Globals.Tags.attack) && CheckFlippableHeldKey('4');
 	}
 	public void Prorate(int prorationLevel)
 	{
@@ -1418,19 +1471,19 @@ public class Player : Node2D
 			wasOTGHit = false;
 		}
 
-		if ((currentState.Name == "Knockdown" || wasOTGHit) && !hitDetails.removeOTG)
+		if ((currentState.Name == KnockdownString || wasOTGHit) && !hitDetails.removeOTG)
 		{
 			wasOTGHit = true;
 			receivedHit = Globals.otgHit;
 
 		}
-		if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
-		{
-			receivedHit = chDetails;
-			otherPlayer.EmitSignal("CounterHit", otherPlayer.Name);
+			if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
+			{
+				receivedHit = chDetails;
+				otherPlayer.EmitSignal(nameof(CounterHit), otherPlayer.Name);
 			if (!grounded)
 				counterStopFrames = 10;
-			else if (currentState.tags.Contains("attack"))
+			else if (currentState.tags.Contains(Globals.Tags.attack))
 				counterStopFrames = Globals.attackLevels[((BaseAttack)currentState).level].counterStopFrames;
 			else
 				counterStopFrames = 2;
@@ -1483,7 +1536,7 @@ public class Player : Node2D
 	public void CalculatePlusFrames(int opponentStun)
 	{
 
-		if (!currentState.tags.Contains("attack"))
+		if (!currentState.tags.Contains(Globals.Tags.attack))
 			return;
 		var diff = opponentStun - animationPlayer.GetRemainingFrames();
 		var plusText = plusFrameTextScene.Instance() as PlusFrames;
@@ -1494,9 +1547,10 @@ public class Player : Node2D
 
 	public bool HurtboxesInactive()
 	{
-		foreach (var hurtBox in hurtBoxes.GetChildren())
+		for (int i = 0; i < hurtBoxes.Count; i++)
 		{
-			if (!((CollisionShape2D)hurtBox).Disabled){
+			var hurtBox = hurtBoxes[i];
+			if (!hurtBox.Disabled){
 				return false;
 			}
 		}
@@ -1567,7 +1621,7 @@ public class Player : Node2D
 
 		if (health <= 0)
 		{
-			currentState.EmitSignal(nameof(State.StateFinished), "AirKnockdown");
+			currentState.EmitSignal(nameof(State.StateFinished), AirKnockdownString);
 			velocity.y = -200;
 		}
 			
@@ -1665,11 +1719,6 @@ public class Player : Node2D
 		rhythmStateConfirmed = true;
 	}
 
-	public void RhythmHitFailure()
-	{
-		currentState.EmitSignal(nameof(State.StateFinished), "Jive");
-	}
-
 	public bool CheckOverrideBlock()
 	{
 		if (aiControlled)
@@ -1715,10 +1764,10 @@ public class Player : Node2D
 		if (Globals.DISABLEGFX)
 			return;
 		gfxHand.Effect(name, Position, facingRight);
-		if (name == "Explosion")
-			spriteAnim.Play("fire");
-		else if (name == "Purple")
-			spriteAnim.Play("purple");
+		if (name == ExplosionGfxString)
+			spriteAnim.Play(FireAnimString);
+		else if (name == PurpleGfxString)
+			spriteAnim.Play(PurpleAnimString);
 	}
 
 	public void GFXEvent(string name, Vector2 pos)
@@ -1728,17 +1777,16 @@ public class Player : Node2D
 
 	private void ShowShield()
 	{
-		GetNode<Node2D>("Shield").Visible = true;
+		shield.Visible = true;
 	}
 
 	private void HideShield()
 	{
-		GetNode<Node2D>("Shield").Visible = true;
+		shield.Visible = false;
 	}
-
 	public bool AreHitboxesActive()
 	{
-		return GetRects(hitBoxes, false).Count() > 0;
+		return GetRects(hitBoxes, tempHitboxArray);
 
 		
 	}
@@ -1754,10 +1802,13 @@ public class Player : Node2D
 	/// <returns></returns>
 	public Vector2 CheckHurtRectGrab()
 	{
-		List<Rect2> myRects = GetRects(hurtBoxes, true);
+		GetRects(hurtBoxes, tempHurtboxArray, true);
 		Rect2 otherRect = otherPlayer.GetCollisionRect();
-		foreach (Rect2 hurtRect in myRects)
+		for (int i = 0; i < 3; i++)
 		{
+			var hurtRect = tempHurtboxArray[i];
+			if (hurtRect.Area == 0)
+				continue; 
 			if (hurtRect.Intersects(otherRect))
 			{
 				Rect2 clip = hurtRect.Clip(otherRect);
@@ -1769,12 +1820,18 @@ public class Player : Node2D
 	}
 	public Vector2 CheckHurtRect()
 	{
-		List<Rect2> myRects = GetRects(hurtBoxes, true);
-		List<Rect2> otherRects = otherPlayer.GetRects(otherPlayer.hitBoxes, true);
-		foreach (Rect2 hurtRect in myRects)
+		GetRects(hurtBoxes, tempHurtboxArray, true);
+		otherPlayer.GetRects(otherPlayer.hitBoxes, otherPlayer.tempHitboxArray, true);
+		for (int i = 0; i < 3; i++)
 		{
-			foreach (Rect2 hitRect in otherRects)
+			var hurtRect = tempHurtboxArray[i];
+			if (hurtRect == null)
+				continue;
+			for (int j = 0; j < 3; j++)
 			{
+				var hitRect = otherPlayer.tempHitboxArray[j];
+				if (hitRect == null)
+					continue;
 				if (hurtRect.Intersects(hitRect))
 				{
 					Rect2 clip = hurtRect.Clip(hitRect);
@@ -1786,19 +1843,23 @@ public class Player : Node2D
 		return Vector2.Inf;
 	}
 
-	private List<Rect2>  allRects= new List<Rect2>();
-	public virtual List<Rect2> GetRects(Area2D area, bool globalPosition = false) 
+	public virtual bool GetRects(Godot.Collections.Array<CollisionShape2D> colShapes, Rect2[] array, bool globalPosition = false) 
 	{
-		allRects.Clear();
-		foreach (CollisionShape2D colShape in area.GetChildren()) 
+		bool active = false;
+		for (int i = 0; i < colShapes.Count; i++) 
 		{
-			if (!colShape.Disabled)
-			{
-				allRects.Add(GetRect(colShape, globalPosition));
+			CollisionShape2D colShape = (CollisionShape2D)colShapes[i];
+			if (!colShape.Disabled){
+				array[i] = GetRect(colShape, globalPosition);
+				active = true;
 			}
-			
+			else
+			{
+				array[i] = new Rect2();
+			}
 		}
-		return allRects;
+
+		return active;
 	}
 
 	private Vector2 tempRectPos = new Vector2();
@@ -1862,20 +1923,20 @@ public class Player : Node2D
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
-			List<Rect2> hitRects = GetRects(hitBoxes);
-			List<Rect2> hurtRects = GetRects(hurtBoxes);
+			GetRects(hitBoxes, tempHitboxArray);
+			GetRects(hurtBoxes, tempHurtboxArray);
 			Rect2 colRect = GetRect(colBox);
 
 			DrawRect(colRect, colColor);
-			foreach (Rect2 rect in hitRects)
+			for (int i = 0; i < 3; i++)
 			{
-				DrawRect(rect, hitColor);
+				DrawRect(tempHitboxArray[i], hitColor);
 			}
 			if (IsInvuln())
 				return;
-			foreach (Rect2 rect in hurtRects)
+			for (int i = 0; i < 3; i++)
 			{
-				DrawRect(rect, hurtColor);
+				DrawRect(tempHurtboxArray[i], hurtColor);
 			}
 			
 			

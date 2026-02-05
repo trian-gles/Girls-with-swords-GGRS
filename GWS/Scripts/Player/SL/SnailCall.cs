@@ -5,6 +5,11 @@ using System.Collections.Generic;
 public class SnailCall : State
 {
 
+	private const string PhonePutAwayString = "PhonePutAway";
+	private const string PhoneTossString = "PhoneToss";
+    private const string SnailString = "Snail";
+	private const string SnailCallAnimString = "SnailCall";
+
 	/// <summary>
 	/// 0 : jumping snail, 1 : double snail, 2: phone call
 	/// </summary>
@@ -17,7 +22,7 @@ public class SnailCall : State
 	[Export]
 	public int snailRideLastFrame = 10;
 
-	public override string animationName { get { return "SnailCall"; } }
+	public override string animationName { get { return SnailCallAnimString; } }
 
 	public override void _Ready()
 	{
@@ -29,30 +34,30 @@ public class SnailCall : State
 	{
 		var sl = (SL)owner;
 		if (!sl.leftCornerSnail || !sl.rightCornerSnail)
-			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailAttack);
+			owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.SnailAttack);
 		else
 		{
 			if (owner.facingRight && sl.leftCornerSnailArrived || !sl.rightCornerSnailArrived)
-				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.LeftSnailAttack);
+				owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.LeftSnailAttack);
 			else
-				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.RightSnailAttack);
+				owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.RightSnailAttack);
 		}
-		owner.ChangeState("PhonePutAway");
+		owner.ChangeState(PhonePutAwayString);
 	}
 
 	private void SendSnailJump()
 	{
 		var sl = (SL)owner;
 		if (!sl.leftCornerSnail || !sl.rightCornerSnail)
-			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailJump);
+			owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.SnailJump);
 		else
 		{
 			if (owner.facingRight)
-				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.LeftSnailJump);
+				owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.LeftSnailJump);
 			else
-				owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.RightSnailJump);
+				owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.RightSnailJump);
 		}
-		owner.ChangeState("PhonePutAway");
+		owner.ChangeState(PhonePutAwayString);
 	}
 
 	public override void FrameAdvance()
@@ -63,14 +68,14 @@ public class SnailCall : State
 			if (callMode == 1)
 				SendSnailJump();
 			else if (callMode == 2)
-				owner.ChangeState("PhoneToss");
+				owner.ChangeState(PhoneTossString);
 			else
 				SendSnailAttack();
 		}
 
 		if (frameCount > 2 && frameCount < snailRideLastFrame)
 		{
-			owner.CommandHadouken("Snail", HadoukenPart.ProjectileCommand.SnailRide);
+			owner.CommandHadouken(SnailString, HadoukenPart.ProjectileCommand.SnailRide);
 		}
 	}
 

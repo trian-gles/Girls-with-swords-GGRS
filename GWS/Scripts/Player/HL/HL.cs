@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class HL : Player
 {
+	private const string HatString = "Hat";
 
 	public bool hatted = true;
 	public Vector2 hatCoors = new Vector2(0, 0);
@@ -108,12 +109,12 @@ public class HL : Player
 		{
 			if (CheckHeldKey('s'))
 			{
-					CommandHadouken("Hat", HadoukenPart.ProjectileCommand.MoveHatRight);
+					CommandHadouken(HatString, HadoukenPart.ProjectileCommand.MoveHatRight);
 			}
 
 			if (CheckHeldKey('k'))
 			{
-					CommandHadouken("Hat", HadoukenPart.ProjectileCommand.MoveHatLeft);
+					CommandHadouken(HatString, HadoukenPart.ProjectileCommand.MoveHatLeft);
 			}
 		}
 
@@ -121,21 +122,23 @@ public class HL : Player
 		base.FrameAdvance();
 	}
 
-	public override List<Rect2> GetRects(Area2D area, bool globalPosition = false)
+		public override bool GetRects(Godot.Collections.Array<CollisionShape2D> colShapes, Rect2[] array, bool globalPosition = false) 
 	{
-		List<Rect2> allRects = new List<Rect2>();
-		int i = 0;
-		foreach (CollisionShape2D colShape in area.GetChildren())
+		bool active = false;
+		for (int i = 0; i < colShapes.Count; i++) 
 		{
-			i++;
-			if (!hatted && i > 1) continue; // the second and third boxes are for the hat
-			if (!colShape.Disabled)
-			{
-				allRects.Add(GetRect(colShape, globalPosition));
+			var colShape = colShapes[i];
+			if (!colShape.Disabled && (hatted || i == 0)){
+				array[i] = GetRect(colShape, globalPosition);
+				active = true;
 			}
-			
+			else
+			{
+				array[i] = new Rect2(); // TODO : make sure this isn't breaking anything
+			}
 		}
-		return allRects;
+
+		return active;
 	}
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -4,18 +4,26 @@ using System.Collections.Generic;
 
 public class Grabbed : State
 {
-    private HashSet<string> techableStates = new HashSet<string>() { "Idle", "Crouch", "Walk", "Jump", "Fall"};
+    private const string IdleString = "Idle";
+    private const string CrouchString = "Crouch";
+    private const string WalkString = "Walk";
+    private const string JumpString = "Jump";
+    private const string FallString = "Fall";
+    private const string ThrowBreakString = "ThrowBreak";
+    private const string GrabbedGfxString = "Grabbed";
+    private const string AirKnockdownString = "AirKnockdown";
+    private HashSet<string> techableStates = new HashSet<string>() { IdleString, CrouchString, WalkString, JumpString, FallString };
     public override void _Ready()
     {
         base._Ready();
-        AddGatling(new char[] { 'k', 'p' }, CanThrowBreak, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
-        AddGatling(new char[] { 's', 'p' }, CanThrowBreak, "ThrowBreak", () => owner.otherPlayer.ChangeState("ThrowBreak"));
+        AddGatling(new char[] { 'k', 'p' }, CanThrowBreak, ThrowBreakString, () => owner.otherPlayer.ChangeState(ThrowBreakString));
+        AddGatling(new char[] { 's', 'p' }, CanThrowBreak, ThrowBreakString, () => owner.otherPlayer.ChangeState(ThrowBreakString));
     }
 
     public override void Enter()
     {
         base.Enter();
-        owner.EmitSignal(nameof(Player.GenericGFX), "Grabbed", owner.Name);
+        owner.EmitSignal(nameof(Player.GenericGFX), GrabbedGfxString, owner.Name);
     }
 
     public bool CanThrowBreak()
@@ -31,7 +39,7 @@ public class Grabbed : State
         owner.velocity = Vector2.Zero;
         
         if (!owner.otherPlayer.currentState.tags.Contains(Globals.Tags.grab))
-            owner.ChangeState("Fall");
+            owner.ChangeState(FallString);
 	}
 
     public override void TryBurst()
@@ -67,6 +75,6 @@ public class Grabbed : State
         owner.grounded = false;
 
 
-        owner.ChangeState("AirKnockdown");
+        owner.ChangeState(AirKnockdownString);
 	}
 }

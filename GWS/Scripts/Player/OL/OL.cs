@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class OL : Player
 {
+	private const string HadoukenString = "Hadouken";
 	public override void _EnterTree()
 	{
 		base._EnterTree();
@@ -59,9 +60,9 @@ public class OL : Player
 	protected override void PostHitCall()
 	{
 		base.PostHitCall();
-		if (currentState.tags.Contains("hurtstate"))
+		if (currentState.tags.Contains(Globals.Tags.hitstate))
 		{
-			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+			CommandHadouken(HadoukenString, HadoukenPart.ProjectileCommand.Kill);
 		}
 	}
 }

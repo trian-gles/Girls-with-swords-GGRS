@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
+using System.Data.Odbc;
 
 
 public class AIBehaviour
@@ -15,25 +16,9 @@ public class AIBehaviour
 
 	private int frame = 0;
 	// TODO : FIX ALL OF THIS
-	public static unsafe bool CheckP1CurrentState(GameStateObjectRedesign.GameState state, string comparison)
-	{
-		return false;//return new string(state.P1State.currentState) == comparison;
-	}
 
-	public static unsafe bool CheckP2CurrentState(GameStateObjectRedesign.GameState state, string comparison)
-	{
-		return false;//return new string(state.P2State.currentState) == comparison;
-	}
-
-	public static unsafe string GetP1CurrentState(GameStateObjectRedesign.GameState state)
-	{
-		return "";//return new string(state.P1State.currentState);
-	}
-
-	public static unsafe string GetP2CurrentState(GameStateObjectRedesign.GameState state)
-	{
-		return "";//return new string(state.P2State.currentState);
-	}
+	public HashSet<Globals.Tags> p1Tags;
+	public HashSet<Globals.Tags> p2Tags;
 
 	public Globals.CHARID controlledChar;
 	private BehaviourState behaviour;
@@ -108,10 +93,10 @@ public class AIBehaviour
 		frame = state.frame;
 		string nextState = behaviour.GetNextState(state);
 		// Global handling which must be done here
-		if (floatStates.Contains(GetP2CurrentState(state)))
+		if (p2Tags.Contains(Globals.Tags.@float))
 			nextState = "FloatTech";
 
-		if (CheckP2CurrentState(state, "Knockdown") && behaviourName.Substr(0, 6) != "Wakeup")
+		if (p2Tags.Contains(Globals.Tags.knockdown) && behaviourName.Substr(0, 6) != "Wakeup") // TODO - remove this string concat
 		{
 			switch (random.Next(4))
 			{
@@ -167,5 +152,17 @@ public class AIBehaviour
 	public bool CanSlashWithoutGrabbing()
 	{
 		return (frame - lastKickFrame > 7);
+	}
+
+	public bool CheckGroundHitConfirm(GameStateObjectRedesign.GameState state)
+	{
+		
+		return (state.P2State.grounded && p1Tags.Contains(Globals.Tags.hitstate) && !p1Tags.Contains(Globals.Tags.block));
+	}
+
+	public bool CheckMixupConfirm(GameStateObjectRedesign.GameState state)
+	{
+		
+		return (state.P2State.grounded && p1Tags.Contains(Globals.Tags.block));
 	}
 }

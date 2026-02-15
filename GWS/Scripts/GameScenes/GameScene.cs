@@ -9,8 +9,6 @@ using System.Collections.Generic;
 /// 
 public class GameScene : BaseGame
 {
-	[Export]
-	public PackedScene[] charScenes = new PackedScene[0];
 
 	[Signal]
 	public delegate void GameWon(string winner, int chosenCharacter);
@@ -34,7 +32,6 @@ public class GameScene : BaseGame
 	private Node mainMenuReturn;
 	private MainGFX mainGFX;
 	private Control[] debugControls;
-	private Control rhythmTrack;
 	private CanvasLayer HUD;
 	private SplashText P1Mixup;
 	private SplashText P2Mixup;
@@ -44,8 +41,6 @@ public class GameScene : BaseGame
 	private SplashText P2Missed;
 	private SnailRadar P1SnailRadar;
 	private SnailRadar P2SnailRadar;
-	public SplashText P1Rhythm;
-	public SplashText P2Rhythm;
 	private Label superText;
 	private ProgressBar P1Meter;
 	private ProgressBar P2Meter;
@@ -91,6 +86,7 @@ public class GameScene : BaseGame
 	private const string SetLevelCallString = "set_level";
 	private const string PlayIdxCallString = "play_idx";
 	private const string DrawSnailCallString = "draw_snail";
+	private const string SnailUpdateString = "SnailUpdate";
 
 
 	// TIME HANDLING
@@ -145,13 +141,22 @@ public class GameScene : BaseGame
 		P2CORNEREDLEFT,
 		P2CORNEREDRIGHT
 	}
+
+	public Godot.Collections.Dictionary<string, SplashText> p1SplashTexts = new Godot.Collections.Dictionary<string, SplashText>();
+	public Godot.Collections.Dictionary<string, SplashText> p2SplashTexts = new Godot.Collections.Dictionary<string, SplashText>();
 	public override void _Ready()
 	{
 		splashText = GetNode<Control>("HUD/SplashText");
 		splashTexts = new Godot.Collections.Array<SplashText>();
 		foreach (var c in splashText.GetChildren())
 		{
-			splashTexts.Add((SplashText)c);
+			var sText = (SplashText) c;
+			splashTexts.Add(sText);
+			var nameEnd = sText.Name.Substr(2, sText.Name.Length - 2);
+			if (sText.Name.BeginsWith(PlayerOneString))
+				p1SplashTexts.Add(nameEnd, sText);
+			else
+				p2SplashTexts.Add(nameEnd, sText);
 		}
 		HUDText = GetNode<Control>("HUD/DebugText");
 		inputText = GetNode<Label>("HUD/InputText");
@@ -162,8 +167,6 @@ public class GameScene : BaseGame
 		P2Missed = splashText.GetNode<SplashText>("P2Missed");
 		P1Escape = splashText.GetNode<SplashText>("P1Escape");
 		P2Escape = splashText.GetNode<SplashText>("P2Escape");
-		P1Rhythm = splashText.GetNode<SplashText>("P1Rhythm");
-		P2Rhythm = splashText.GetNode<SplashText>("P2Rhythm");
 		P1Meter = GetNode<ProgressBar>("HUD/P1Meter/ProgressBar");
 		P2Meter = GetNode<ProgressBar>("HUD/P2Meter/ProgressBar");
 		P1Salt = GetNode<TextureProgress>("HUD/Salt/TextureProgress");
@@ -180,7 +183,6 @@ public class GameScene : BaseGame
 		p2Logos = GetNode<Node2D>("HUD/P2Logo");
 		// cache frequently used HUD controls to avoid runtime GetNode calls
 		mainGFX = GetNode<MainGFX>("MainGFX");
-		rhythmTrack = GetNode<Control>("HUD/RhythmTrack");
 		debugControls = new Control[] {
 			GetNode<Control>("HUD/InputBack"),
 			GetNode<Control>("HUD/InputBackP2"),
@@ -192,7 +194,7 @@ public class GameScene : BaseGame
 
 
 		base._Ready();
-
+		gsObj = new GameStateObjectRedesign();
 		// hide the recording text
 		SetRecordingText("");
 
@@ -202,8 +204,6 @@ public class GameScene : BaseGame
 
 		// the default, which will be changed for certain modes
 		SetDebugVisibility(false);
-
-		SetRhythmVisibility(Globals.rhythmGame);
 
 		Globals.logBuffer.Clear();
 	}
@@ -215,24 +215,25 @@ public class GameScene : BaseGame
 		HUD.Layer = 1;
 
 		//p1
-		var playerOne = charScenes[playerOneIndex];
-		P1 = playerOne.Instance() as Player;
+		P1 = Globals.P1Characters[playerOneIndex];
 		P1.Name = PlayerOneString;
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = colorOne;
 		AddChild(P1);
+		P1.Show();
+		P1.SetProcess(true);
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
 		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
 
 		//p2
-		var playerTwo = charScenes[playerTwoIndex];
-		P2 = playerTwo.Instance() as Player;
+		P2 = Globals.P2Characters[playerTwoIndex];
 		P2.Name = PlayerTwoString;
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = colorTwo;
 		AddChild(P2);
 		MoveChild(P2, 5);
+		
 		p2Ind = playerTwoIndex;
 		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
 
@@ -276,7 +277,7 @@ public class GameScene : BaseGame
 		P1Combo.Text = "";
 		P2Combo.Text = "";
 
-		gsObj = new GameStateObjectRedesign();
+		
 		gsObj.config(P1, P2, this, hosting);
 		SetPos(ResetPos.ROUNDSTART);
 		music.Call(PlayIdxCallString, bkg);
@@ -299,11 +300,6 @@ public class GameScene : BaseGame
 	{
 		foreach (var c in debugControls)
 			c.Visible = visible;
-	}
-
-	public void SetRhythmVisibility(bool visible)
-	{
-		rhythmTrack.Visible = visible;
 	}
 
 	public void SetRecordingText(string msg)
@@ -444,9 +440,14 @@ public class GameScene : BaseGame
 	// ----------------
 	public void OnGenericGFXEmitted(string fxName, string playerName)
 	{
-		
-		SplashText textNode = splashText.GetNode<SplashText>(playerName + fxName);
-		textNode.Display(Globals.frame);
+		Godot.Collections.Dictionary<string, SplashText> dict;
+
+		if (playerName == PlayerOneString)
+			dict = p1SplashTexts;
+		else
+			dict = p2SplashTexts;
+
+		dict[fxName].Display(Globals.frame);
 	}
 
 
@@ -631,8 +632,8 @@ public class GameScene : BaseGame
 
 	public void ConnectSnail(Snail s)
 	{
-		if (!s.IsConnected("SnailUpdate", this, nameof(OnSnailUpdate)))
-			s.Connect("SnailUpdate", this, nameof(OnSnailUpdate));
+		if (!s.IsConnected(SnailUpdateString, this, nameof(OnSnailUpdate)))
+			s.Connect(SnailUpdateString, this, nameof(OnSnailUpdate));
 	}
 
 	public void OnSnailUpdate(string name, int pos, Color color)
@@ -755,6 +756,7 @@ public class GameScene : BaseGame
 
 		if (Globals.frame == trueEndingFrame + 30)
 		{
+			GD.Print($"True frame reached. P1 wins = {p1Wins} P2 wins = {p2Wins}");
 			if (P1Health.Value > P2Health.Value)
 			{
 				p1Wins++;
@@ -769,9 +771,9 @@ public class GameScene : BaseGame
 			
 		if (Globals.frame == exitFrame)
 		{
+			
 			if (p1Wins == 2)
 			{
-				//GD.Print($"P1 has 2 wins! {Globals.frame}");
 				ResetWin(); 
 				
 				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind);
@@ -779,13 +781,12 @@ public class GameScene : BaseGame
 			}
 			else if (p2Wins == 2)
 			{
-				//GD.Print($"P2 has 2 wins! {Globals.frame}");
 				ResetWin();
 				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind);
 
 			}
 			else
-				Reset();
+				ResetRound();
 		}
 	}
 
@@ -856,7 +857,31 @@ public class GameScene : BaseGame
 		}
 	}
 
-	public override void Reset()
+	public void Quit()
+	{
+		if (configured)
+		{
+			ResetRound();
+			mainGFX.Quit();
+			OnPlayerBurstSet(PlayerOneString, 100);
+			OnPlayerBurstSet(PlayerTwoString, 100);
+			p1Wins = 0;
+			p2Wins = 0;
+			centerText.Text = "";
+			p1RoundCounters.Call("_ready");
+			p2RoundCounters.Call("_ready");
+			RemoveChild(P1);
+			RemoveChild(P2);
+			configured = false;
+			HUD.Layer = -1;
+			music.Stop();
+		}
+	}
+
+/// <summary>
+/// 
+/// </summary>
+	public override void ResetRound()
 	{
 		ResetHealth(PlayerOneString);
 		ResetHealth(PlayerTwoString);
@@ -864,6 +889,7 @@ public class GameScene : BaseGame
 		P2.Reset();
 		gsObj.ResetHadoukens();
 		SetPos(ResetPos.ROUNDSTART);
+		
 		ConfigTime();
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
@@ -898,15 +924,14 @@ public class GameScene : BaseGame
 
 	private void ResetWin() 
 	{
-		Reset();
-		p1Wins = 0;
-		p2Wins = 0;
+		ResetRound();
 		centerText.Text = "";
 		p1RoundCounters.Call("_ready");
 		p2RoundCounters.Call("_ready");
-		
-		P1.QueueFree();
-		P2.QueueFree();
+		p1Wins = 0;
+		p2Wins = 0;
+		RemoveChild(P1);
+		RemoveChild(P2);
 		OnPlayerBurstSet(PlayerOneString, 100);
 		OnPlayerBurstSet(PlayerTwoString, 100);
 		configured = false;

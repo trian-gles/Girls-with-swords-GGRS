@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-class AIManager : LocalManager
+public class AIManager : LocalManager
 {
 
 	private AIBehaviour ai;
@@ -10,9 +10,9 @@ class AIManager : LocalManager
 	
 	private Random random = new Random();
 
-	public override void _Ready()
+	public override void Start()
 	{
-		base._Ready();
+		base.Start();
 		Globals.mode = Globals.Mode.CPU;
 	}
 
@@ -32,6 +32,8 @@ class AIManager : LocalManager
 		if (currGame.Name == "GameScene" && currGame.AcceptingInputs())
 		{
 			p1Inputs = GetInputs(0);
+			ai.p1Tags = gameScene.GetP1Tags();
+			ai.p2Tags = gameScene.GetP2Tags();
 			p2Inputs = ai.Poll(gameScene.GetGameState());
 		}
 		else if (currGame.Name == "CharSelectScreen")

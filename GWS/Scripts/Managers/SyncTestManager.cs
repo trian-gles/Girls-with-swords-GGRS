@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using static GameScene;
 
-class SyncTestManager : StateManager
+public class SyncTestManager : StateManager
 {
 
 	public bool broken = false;
@@ -150,15 +150,6 @@ class SyncTestManager : StateManager
 
 	}
 	long prevMem = 0;
-	public override void _Process(float delta)
-	{
-		base._Process(delta);
-		long mem = GC.GetTotalMemory(false); // allocated managed memory
-		if (mem > prevMem)
-			GD.Print(mem / 1024);
-		prevMem = mem;
-		
-	}
 
 	public override void _Input(InputEvent @event)
 	{
@@ -231,12 +222,22 @@ class SyncTestManager : StateManager
 			currGame.GGRSAdvanceFrame(tempInputs.p1Inps, tempInputs.p2Inps);
 		}
 
-		//if (Globals.frame == 1200)
-		//	gameScene.WriteLogs();
-		if (!currGame.CompareStates(serializedGamestate) && !broken){
+		var checkSumOld = ComputeAdditionChecksum(serializedGamestate);
+		var checkSumNew = ComputeAdditionChecksum(currGame.SaveState(Globals.frame));
+
+		if (checkSumNew != checkSumOld && !broken)
+		{
 			gameScene.WriteLogs();
 			broken = true;
 		}
+
+		if (Globals.logOn && !currGame.CompareStates(serializedGamestate) && !broken){
+			//gameScene.WriteLogs();
+			broken = true;
+		}
+
+		
+		
 	}
 
 	public override void OnCharactersSelected(int playerOne, int playerTwo, int colorOne, int colorTwo, int bkgIndex)

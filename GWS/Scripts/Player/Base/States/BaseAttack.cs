@@ -231,7 +231,7 @@ public abstract class BaseAttack : State
 			AddBurstKara('k', 'p');
 		}
 
-		if (selfGatlingInp != " ")
+		if (selfGatlingInp[0] != ' ')
 		{
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
 		}
@@ -265,7 +265,6 @@ public abstract class BaseAttack : State
 		base.FrameAdvance();
 		if (frameCount > 0 && frameCount == superFrame)
 		{
-			owner.EmitSignal(SuperFlashString, owner.Name);
 			Globals.EmitSignal(Globals.PlayerSignal.SuperFlash, owner.Name);
 			owner.GFXEvent(SuperPowerUpString);
 		}

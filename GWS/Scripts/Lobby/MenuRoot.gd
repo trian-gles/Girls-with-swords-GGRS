@@ -49,6 +49,7 @@ func move_to_previous_menu():
 		current_menu = previous_menu
 		$MainMenu.visible = true
 		$LocalMenu.visible = false
+		$LearnMenu.visible = false
 		$NetPlayMenu.visible = false
 		$MainMenu/CenterContainer/MainMenuButtons/Local.grab_focus()
 		

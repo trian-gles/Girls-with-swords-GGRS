@@ -10,5 +10,6 @@ public abstract class MoveState : State
     {
         base._Ready();
         stop = false;
+        tags.Add(Globals.Tags.movestate);
     }
 }

@@ -92,7 +92,7 @@ public class WinScene : BaseGame
 		{
 			unsafe
 			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 			}
 		}
 		

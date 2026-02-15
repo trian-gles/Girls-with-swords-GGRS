@@ -11,6 +11,7 @@ public class PreRun : MoveState
 	{
 		base._Ready();
 		loop = true;
+		tags.Add(Globals.Tags.run);
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
 		AddEasyGroundSpecials();

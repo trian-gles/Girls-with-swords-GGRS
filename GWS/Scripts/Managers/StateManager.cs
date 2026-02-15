@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-class StateManager : BaseManager
+public class StateManager : BaseManager
 {
 	protected const int WAITBEFORECHANGEMAX = 12;
 	protected int waitBeforeChangeFrames = WAITBEFORECHANGEMAX;
@@ -39,6 +39,20 @@ class StateManager : BaseManager
 				break;
 		}
 		
+	}
+
+	public static byte ComputeAdditionChecksum(byte[] data)
+	{
+		byte sum = 0;
+		unchecked // Let overflow occur without exceptions
+		{
+			for (int i = 0; i < data.Length; i++)
+			{
+				var b = data[i];
+				sum += b;
+			}
+		}
+		return sum;
 	}
 
 }

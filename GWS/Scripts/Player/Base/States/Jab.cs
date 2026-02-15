@@ -7,6 +7,7 @@ public class Jab : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.jab);
 		AddSpecials(owner.groundSpecials);
 		AddEasyGroundSpecials();
 		AddExSpecials(owner.groundExSpecials);

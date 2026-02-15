@@ -24,7 +24,6 @@ public class PreJump : State
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
-		//Globals.Log($"prejump frameAdvance with position {owner.internalPos}, velocity " + owner.velocity.ToString());
 		if (frameCount == len)
 		{
 			if (owner.CanSuperJump())
@@ -47,10 +46,14 @@ public class PreJump : State
 		if (Globals.CompareInput(inputArr, Globals.RIGHTPRESS))
 		{
 			owner.velocity.x = owner.speed;
+			//if (Globals.logOn)
+			//	Globals.Log("Right press during prejump");
 		}
 		else if (Globals.CompareInput(inputArr, Globals.LEFTPRESS))
 		{
 			owner.velocity.x = -owner.speed;
+			//if (Globals.logOn)
+			//	Globals.Log("Left press during prejump");
 		}
 			
 	}

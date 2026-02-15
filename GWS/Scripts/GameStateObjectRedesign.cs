@@ -69,7 +69,7 @@ public class GameStateObjectRedesign : Node
 		{
 			unsafe
 			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 			}
 		}
 	}
@@ -123,13 +123,13 @@ public class GameStateObjectRedesign : Node
 	}
 
 	private unsafe void SerializeHadoukens(byte* arr)
-{
-	for (int i = 0; i < hadoukenCount; i++)
 	{
-		var state = hadoukens[i].GetState();
-		SerializeHadoukenState(ref state, arr + i * HADOUKENSTATESIZE);
+		for (int i = 0; i < hadoukenCount; i++)
+		{
+			var state = hadoukens[i].GetState();
+			SerializeHadoukenState(ref state, arr + i * HADOUKENSTATESIZE);
+		}
 	}
-}
 
 	public unsafe GameState GetGameState()
 	{

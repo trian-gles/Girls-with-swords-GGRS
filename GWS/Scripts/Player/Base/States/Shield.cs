@@ -7,6 +7,7 @@ public class Shield : HitState
 {
 	private const string BlockAnim = "Block";
 	private const string IdleString = "Idle";
+	private const string WalkString = "Walk";
 	private const string FallString = "Fall";
 	private const string CrouchShieldString = "CrouchShield";
 	private const string ShieldStateString = "Shield";
@@ -26,6 +27,13 @@ public class Shield : HitState
 		loop = true;
 		stop = false;
 	}
+
+    public override void Enter()
+    {
+        base.Enter();
+		if (owner.grounded)
+			owner.velocity.x = 0;
+    }
 
 	public override void FrameAdvance()
 	{
@@ -56,10 +64,6 @@ public class Shield : HitState
 		{
 			ApplyGravity();
 		}
-		else
-		{
-			owner.velocity.x = 0;
-		}
 			
 	}
 
@@ -67,6 +71,15 @@ public class Shield : HitState
 	{
 		if (owner.grounded)
 		{
+			if (owner.CheckHeldKey('4'))
+			{
+				owner.velocity.x = -owner.speed;
+				owner.ChangeState(WalkString);
+			}
+			else if (owner.CheckHeldKey('6')) {
+				owner.velocity.x = owner.speed;
+				owner.ChangeState(WalkString);
+			}
 			owner.ChangeState(IdleString);
 		}
 		else
@@ -139,4 +152,10 @@ public class Shield : HitState
 		owner.ChangeState(stateName);
 		owner.EmitSignal(HitConfirmString, blockStop);
 	}
+
+    public override void Land()
+    {
+        base.Land();
+		owner.velocity.x = 0;
+    }
 }

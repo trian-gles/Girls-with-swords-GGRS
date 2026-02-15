@@ -8,7 +8,7 @@ public abstract class AirAttack : BaseAttack
 {
 
 	private const string LandingString = "Landing";
-	private const string LandingRecoveryString = "Landing Recovery";
+	private const string LandingRecoveryString = "LandingRecovery";
 	private const string FallString = "Fall";
 	private const string DoubleJumpString = "DoubleJump";
 

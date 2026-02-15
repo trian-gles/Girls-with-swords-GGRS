@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=2]
@@ -26,6 +26,13 @@
 [ext_resource path="res://Music/GWS-title-screen.ogg" type="AudioStream" id=24]
 [ext_resource path="res://Scripts/Lobby/ExistingMatchContainer.gd" type="Script" id=25]
 [ext_resource path="res://Scripts/Lobby/SelectDifficulty.gd" type="Script" id=26]
+[ext_resource path="res://Scenes/Games/CharSelectScreen.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Scenes/Games/GameScene.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Scenes/Games/WinScreen.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=33]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -183,15 +190,18 @@ default_font = ExtResource( 7 )
 [node name="LobbyRedesign" type="Node2D"]
 position = Vector2( 1, 0 )
 script = ExtResource( 6 )
-syncTest = true
-localManager = ExtResource( 11 )
-trainingManager = ExtResource( 14 )
-aiManager = ExtResource( 12 )
-ggrsManager = ExtResource( 17 )
-syncTestManager = ExtResource( 18 )
-tutorialManager = ExtResource( 15 )
-comboTrialManager = ExtResource( 13 )
-strategyManager = ExtResource( 19 )
+localManagerScene = ExtResource( 11 )
+trainingManagerScene = ExtResource( 14 )
+aiManagerScene = ExtResource( 12 )
+ggrsManagerScene = ExtResource( 17 )
+syncTestManagerScene = ExtResource( 18 )
+tutorialManagerScene = ExtResource( 15 )
+comboTrialManagerScene = ExtResource( 13 )
+strategyManagerScene = ExtResource( 19 )
+charScenes = [ ExtResource( 32 ), ExtResource( 31 ), ExtResource( 30 ), ExtResource( 33 ) ]
+packedGameScene = ExtResource( 28 )
+packedCharSelectScene = ExtResource( 27 )
+packedWinScene = ExtResource( 29 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
 layer = 9
@@ -206,6 +216,9 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
 theme = ExtResource( 4 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="MenuRoot"]
 material = SubResource( 4 )

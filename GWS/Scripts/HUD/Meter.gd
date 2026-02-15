@@ -11,14 +11,8 @@ var super_hint
 func _ready():
 	bar = $ProgressBar
 	super_hint = $SuperHint
-
-func set_meter(value : int):
-	bar.value = value
 	
-
-
-func _on_ProgressBar_changed():
-	var value = bar.value
+func _on_ProgressBar_value_changed(value):
 	super_hint.visible = (value > 50)
 	if value < 50:
 		bar.modulate = Color(0, 255, 255, 255)

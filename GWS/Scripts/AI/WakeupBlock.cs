@@ -14,7 +14,7 @@ public class WakeupBlock : BehaviourState
 
     public override string GetNextState(GameStateObjectRedesign.GameState state)
     {
-        if (!(AIBehaviour.CheckP2CurrentState(state, "Knockdown")) && state.P2State.frameCount > 6)
+        if (!owner.p2Tags.Contains(Globals.Tags.knockdown) && state.P2State.frameCount > 6)
         {
             if (random.Next(2) == 1)
                 return "Zone";

@@ -10,13 +10,14 @@ extents = Vector2( 12, 12 )
 [node name="GLProjectileArc" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 startup = 7
-modifiedHitStun = 18
-modifiedCounterHitStun = 18
+modifiedHitStun = 20
+modifiedCounterHitStun = 20
 chEffect = 3
 hitGfx = 1
 speed = Vector2( 5, 0 )
 duration = 65
 totalHits = 3
+slowTerminalVelocity = 300
 
 [node name="AnimatedSprite" parent="." index="0"]
 rotation = 0.523599

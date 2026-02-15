@@ -44,6 +44,18 @@ public class Globals : Node
 
 	public static AIDIFFICULTY aiDifficulty = AIDIFFICULTY.HI;
 
+	public static Player[] P1Characters = new Player[4];
+	public static Player[] P2Characters = new Player[4];
+
+	public static void GenerateCharacters(PackedScene[] playerScenes)
+	{
+		for (int i = 0; i < playerScenes.Length; i++)
+		{
+			P1Characters[i] = playerScenes[i].Instance() as Player;
+			P2Characters[i] = playerScenes[i].Instance() as Player;
+		}
+	}
+
 	public enum AIDIFFICULTY
 	{
 		LO, HI
@@ -271,11 +283,12 @@ public class Globals : Node
 
 	public static void ClearSignals()
 	{
+		noArgSignalListeners.Clear();
+		singleArgSignalListeners.Clear();
 		ghostListeners.Clear();
 		gfxParticleListeners.Clear();
 	}
 	
-	public const bool rhythmGame = false;
 
 	public const int rightWall = 46500;
 	public const int leftWall = 1500;
@@ -313,15 +326,8 @@ public class Globals : Node
 
 	public enum Tags
 	{
-		attack,
-		aerial,
-		hitstate,
-		tech,
-		block,
-		crouching,
-		recovery,
-		grab,
-		idle
+		attack,	aerial, hitstate, tech, block, crouching, recovery, grab, idle, knockdown, @float, run, 
+		jab, kick, slash, special, movestate
 	}
 
 	public struct AttackDetails

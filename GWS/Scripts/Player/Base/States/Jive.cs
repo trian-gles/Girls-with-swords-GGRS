@@ -11,7 +11,6 @@ public class Jive : Stagger
         base.Enter();
         owner.CorrectGrounded();
         owner.velocity = new Vector2(0, owner.velocity.y);
-        owner.rhythmState = "";
     }
     public override void FrameAdvance()
     {

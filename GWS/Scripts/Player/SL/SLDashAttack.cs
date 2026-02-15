@@ -25,7 +25,7 @@ public class SLDashAttack : MovingAttack
 		cachedHadoukens = new List<HadoukenPart>();
 		for (int i = 0; i < 10; i++)
 		{
-			var h = hadoukenScene.Instance() as HadoukenPart; // freed in exittree
+			var h = hadoukenScene.Instance() as HadoukenPart;
 			cachedHadoukens.Add(h);
 			h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		}
@@ -56,14 +56,5 @@ public class SLDashAttack : MovingAttack
 	{
 		return false;
 	}
-
-	public override void _ExitTree()
-    {
-        base._ExitTree();
-		foreach (HadoukenPart cachedPart in cachedHadoukens)
-		{
-			cachedPart.QueueFree();
-		}
-    }
 
 }

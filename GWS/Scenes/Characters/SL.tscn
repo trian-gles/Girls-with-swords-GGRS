@@ -7474,7 +7474,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 14 ),
+"times": PoolRealArray( 0, 12 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 48, 50 ]
@@ -9874,11 +9874,10 @@ position = Vector2( -2, 0 )
 position = Vector2( 36, 2 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 34, -20 )
-disabled = false
+position = Vector2( 24, -35 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 45, -56 )
+position = Vector2( 42, -50 )
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 70 )
@@ -9969,9 +9968,10 @@ emitGhost = true
 [node name="PhoneToss" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 7 )
 isSpecial = true
-releaseFrame = 14
+releaseFrame = 11
 hadoukenScene = ExtResource( 8 )
 hadoukenSound = "Whiff"
+xOffset = -5
 mustCooldown = true
 
 [node name="SnailCall" type="Node" parent="StateTree" index="26"]

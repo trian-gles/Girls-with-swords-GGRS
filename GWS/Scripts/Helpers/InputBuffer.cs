@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Godot;
@@ -142,19 +142,17 @@ public sealed class InputContainer : IEnumerable<char[]>
 	Array.Copy(other._buffer, 0, _buffer, 0, prependChars);
 
 	_count = keepCount + other._count;
-	if (Globals.logOn)
+}
+
+	public string Dump()
 	{
 		string s = "";
 		for (int i = 0; i < _count * 2; i++)
 			{
 				s += _buffer[i];
 			}
-		Globals.Log(s);
-		
+		return s;
 	}
-	
-
-}
 
 
 	public IEnumerator<char[]> GetEnumerator()
@@ -170,17 +168,29 @@ public sealed class InputContainer : IEnumerable<char[]>
 		}
 	}
 
-	public unsafe void SetState(int count, char* buffer){
-		for (int i = 0; i < Capacity; i++)
+	public unsafe void SetState(int count, char* buffer)
+	{
+		if ((uint)count > (uint)_capacity)
+			throw new ArgumentOutOfRangeException(nameof(count));
+
+		int charCount = count * 2;
+
+		for (int i = 0; i < charCount; i++)
 			_buffer[i] = buffer[i];
+
 		_count = count;
 	}
 
-	public unsafe int GetState(char* buffer){
-		for (int i = 0; i < Capacity; i++)
+	public unsafe int GetState(char* buffer)
+	{
+		int charCount = _count * 2;
+
+		for (int i = 0; i < charCount; i++)
 			buffer[i] = _buffer[i];
+
 		return _count;
 	}
+
 
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

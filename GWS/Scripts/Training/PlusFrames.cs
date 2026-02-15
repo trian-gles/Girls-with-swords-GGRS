@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class PlusFrames : Label
 {
@@ -12,32 +13,42 @@ public class PlusFrames : Label
 	[Export]
 	public int speed = 5;
 
+	private static Dictionary<int, string> plusStrings = new Dictionary<int, string>();
+
 	public override void _Ready()
 	{
-		
+		for (int i = -100; i < 100; i++)
+		{
+			if (!plusStrings.ContainsKey(i))
+			{
+				if (i > 0)
+				{
+					plusStrings[i] = "+" + i.ToString();
+				}
+				else
+				{
+					plusStrings[i] = i.ToString();
+				}
+			}
+		}
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
 		base._PhysicsProcess(delta);
-
-		RectPosition = new Vector2(RectPosition.x, RectPosition.y - speed);
+		if (!Visible)
+			return;
+		
 
 		if (RectGlobalPosition.y < -20)
-		{
-			QueueFree();
-		}
+			Visible = false;
+
+		RectPosition = new Vector2(RectPosition.x, RectPosition.y - speed);
 	}
 
 	public void Init(int frames)
 	{
-		if (frames > 0)
-		{
-			Text = "+" + frames.ToString();
-		}
-		else
-		{
-			Text = frames.ToString();
-		}
+		Visible = true;
+		Text = plusStrings[frames];
 	}
 }

@@ -25,10 +25,10 @@ public class ComboTrialManager : TutorialManager
 
 	}
 
-	public override void _Ready()
+	public override void Start()
 	{
 		comboTrial = true;
-		base._Ready();
+		base.Start();
 	}
 
 	protected void AddOLChallenges()

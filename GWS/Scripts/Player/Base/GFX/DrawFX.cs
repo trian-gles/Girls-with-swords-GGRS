@@ -32,6 +32,6 @@ public class DrawFX : Node2D
     {
         base._Draw();
         if (drawFrames > 0)
-		    DrawLine(start, end, new Color(0, 0, 0), drawFrames / 3);
+		    DrawLine(start, end, new Color(255, 255, 255), drawFrames / 3);
     }
 }

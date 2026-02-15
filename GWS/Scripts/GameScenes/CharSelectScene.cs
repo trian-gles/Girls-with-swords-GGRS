@@ -112,7 +112,7 @@ public class CharSelectScene : BaseGame
 		{
 			unsafe
 			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH + 2);
+				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 			}
 		}
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
@@ -169,6 +169,12 @@ public class CharSelectScene : BaseGame
 		CompareValues(p1Selected, oldState.p1Selected, "p1Selected");
 		CompareValues(p2Selected, oldState.p2Selected, "p2Selected");
 		CompareValues(charSelectFrame, oldState.charSelectFrame, "Char select frame");
+		CompareValues(selectedStage, oldState.selectedStage, "selectedStage");
+		CompareValues(stageSelected, oldState.stageSelected, "stage selected");
+		CompareValues(charSelectFrame, oldState.charSelectFrame, "char select frame");
+		CompareValues(selectStagePlayer, oldState.selectStagePlayer, "char select frame");
+		CompareValues(lastInputs.p1Inps, oldState.lastFrameInputs.p1Inps, "p1 last frame inputs");
+		CompareValues(lastInputs.p2Inps, oldState.lastFrameInputs.p2Inps, "p2 last frame inputs");
 
 		return true;
 	
@@ -187,20 +193,22 @@ public class CharSelectScene : BaseGame
 
 	public unsafe override byte[] SaveState(int frame)
 	{
-		var state = new GameState();
-		state.p1Color = p1Color;
-		state.p2Color = p2Color;
-		state.p1Pos = p1Pos;
-		state.p2Pos = p2Pos;
-		state.p1Selected = p1Selected;
-		state.p2Selected = p2Selected;
-		state.stageSelected = stageSelected;
-		state.lastFrameInputs = lastInputs;
-		state.selectedStage = selectedStage;
-		state.charSelectFrame = charSelectFrame;
-		state.selectStagePlayer = selectStagePlayer;
+        var state = new GameState
+        {
+            p1Color = p1Color,
+            p2Color = p2Color,
+            p1Pos = p1Pos,
+            p2Pos = p2Pos,
+            p1Selected = p1Selected,
+            p2Selected = p2Selected,
+            stageSelected = stageSelected,
+            lastFrameInputs = lastInputs,
+            selectedStage = selectedStage,
+            charSelectFrame = charSelectFrame,
+            selectStagePlayer = selectStagePlayer
+        };
 
-		var arr = memoryPool.Get();
+        var arr = memoryPool.Get();
 		fixed (byte* p = arr)
 		{
 			SerializeState(ref state, p);
@@ -518,9 +526,9 @@ public class CharSelectScene : BaseGame
 		finishFrame = charSelectFrame + 30;
 	}
 
-	public override void Reset()
+	public override void ResetRound()
 	{
-		base.Reset();
+		base.ResetRound();
 		p1Selected = false;
 		p2Selected = false;
 		stageSelected = false;
@@ -531,7 +539,7 @@ public class CharSelectScene : BaseGame
 	{
 		ShowAll();
 		lastInputs.SetInputs(16 + 32 + 64, 16 + 32 + 64); // prevent held down keys from immediately selecting
-		Reset();
+		ResetRound();
 		HighlightChar(0, p1Pos);
 
 		HighlightChar(1, p2Pos);

@@ -81,7 +81,7 @@ public abstract class BaseGame : Node2D
 		}
 	}
 
-	public virtual void Reset() { }
+	public virtual void ResetRound() { }
 
 	public void ChangeHUDText(string msg)
 	{

@@ -32,7 +32,7 @@ public class BaseManager : Node2D
 
 	// Need to debug:
 	//
-	protected string matchFilename = "20261251157";
+	protected string matchFilename = ""; // 
 	protected Godot.Collections.Array matchInputs;
 
 	/// <summary>
@@ -99,10 +99,11 @@ public class BaseManager : Node2D
 
 	public override void _Ready()
 	{
-		// Careful, GGRSManager replaces this
-		Globals.ClearSignals();
-		CreateGamescenes();
 
+	}
+
+	public virtual void Start()
+	{
 		ClearHUDText();
 		
 		Globals.frame = 0;
@@ -114,10 +115,12 @@ public class BaseManager : Node2D
 			LoadMatchFile();
 			OnNewGame();
 		}
-	//gameScene.Visible = false;
-
-
-
+		else
+		{
+			charSelectScene.Reload();
+			currGame = charSelectScene;
+			MoveChild(gameScene, 0);
+		}
 	}
 
 	protected void ClearHUDText()
@@ -126,6 +129,9 @@ public class BaseManager : Node2D
 		gameScene.ChangeHUDText("");
 	}
 
+	/// <summary>
+	/// DEPRECATED
+	/// </summary>
 	protected void CreateGamescenes()
 	{
 		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
@@ -146,9 +152,44 @@ public class BaseManager : Node2D
 		AddChild(winScene);
 	}
 
+/// <summary>
+/// Adds the cached gamescenes to this manager
+/// </summary>
+/// <param name="charSelectScene"></param>
+/// <param name="gameScene"></param>
+/// <param name="winScene"></param>
+	public void AttachGamescenes(CharSelectScene charSelectScene, GameScene gameScene, WinScene winScene)
+	{
+		this.charSelectScene = charSelectScene;
+		charSelectScene.manager = this;
+		AddChild(charSelectScene);
+		currGame = charSelectScene;
+
+		this.gameScene = gameScene;
+		gameScene.Connect("GameWon", this, nameof(OnGameWon));
+		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
+		gameScene.manager = this;
+		AddChild(gameScene);
+
+		this.winScene = winScene;
+		winScene.Connect("Rematch", this, nameof(OnRematch));
+		winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
+		winScene.manager = this;
+		AddChild(winScene);
+	}
+
 	protected virtual void ChangeGame()
 	{
 		
+	}
+
+	public void Quit()
+	{
+		gameScene.Quit();
+		charSelectScene.Reload();
+		RemoveChild(charSelectScene);
+		RemoveChild(gameScene);
+		RemoveChild(winScene);
 	}
 
 
@@ -162,7 +203,7 @@ public class BaseManager : Node2D
 		MoveChild(charSelectScene, 0);
 		gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);
 		charSelectScene.HideAll();
-		charSelectScene.Reset();
+		charSelectScene.ResetRound();
 			
 	}
 
@@ -227,11 +268,6 @@ public class BaseManager : Node2D
 		this.bkgIndex = bkgIndex;
 		p2KeyReleased = false;
 		p1KeyReleased = false;
-	}
-
-	public virtual void OnQuit()
-	{
-		QueueFree();
 	}
 
 	public virtual void OnComboFinished(string player)

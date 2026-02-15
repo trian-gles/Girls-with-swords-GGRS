@@ -16,7 +16,6 @@ func _ready():
 	pass # Replace with function body.
 
 func selected_char_logo(char_selected: int):
-	print("Char selected" + str(char_selected))
 	var i = 0
 	for child in get_children():
 		if (child is Sprite):

@@ -39,6 +39,8 @@ public class Float : HitStun
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		details.hitStun += 2;
+		if (details.projectile)
+			details.hitStun += 2;
 		base.ReceiveStunDamage(details);
 	}
 

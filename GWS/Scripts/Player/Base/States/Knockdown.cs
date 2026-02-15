@@ -9,6 +9,7 @@ public class Knockdown : HitState
     {
         base._Ready();
         loop = false;
+        tags.Add(Globals.Tags.knockdown);
     }
     public override void Enter()
     {

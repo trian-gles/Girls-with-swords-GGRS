@@ -3,6 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security;
 
 public class Player : Node2D
@@ -38,8 +39,6 @@ public class Player : Node2D
 	public delegate void HadoukenEmitted(HadoukenPart h);
 	[Signal]
 	public delegate void HadoukenRemoved(HadoukenPart h);
-	[Signal]
-	public delegate void RhythmHitTry(string name);
 	[Signal]
 	public delegate void SuperFlash(string name);
 
@@ -131,8 +130,6 @@ public class Player : Node2D
 	public List<Special> groundSpecials = new List<Special>();
 	public List<Special> airSpecials = new List<Special>();
 	public List<Special> dashSpecials = new List<Special>();
-	public List<Special> rhythmSpecials = new List<Special>();
-	public List<Special> airRhythmSpecials = new List<Special>();
 	public List<Special> groundExSpecials = new List<Special>();
 	public List<Special> airExSpecials = new List<Special>();
 	public List<CommandNormal> easyCommandSpecials = new List<CommandNormal>();
@@ -193,17 +190,11 @@ public class Player : Node2D
 
 	public bool trainingControlledPlayer;
 	public bool aiControlled = false;
+	private const int MAXPLUSFRAMES = 8;
+	private int currPlusFrameIndex;
+	private PlusFrames[] plusFrames = new PlusFrames[MAXPLUSFRAMES];
 	private Random aiRng = new Random(); // ONLY FOR AI, NO RNG IN THE GAME PLEASE
 
-
-	/// <summary>
-	/// The rhythm state to enter, which might be stored during hitstop
-	/// </summary>
-	public string rhythmState = "";
-	/// <summary>
-	/// The rhythm game will set this to `true` allowing us to enter our rhythm state
-	/// </summary>
-	public bool rhythmStateConfirmed = false;
 
 	/// <summary>
 	/// Contains all vital data for saving gamestate
@@ -211,9 +202,9 @@ public class Player : Node2D
 	[Serializable]
 	public unsafe struct PlayerState
 	{
-		public fixed char inBuf2[56];
+		public fixed char inBuf2[112];
 		public int inBuf2Count;
-		public fixed char hitStopInputs[20];
+		public fixed char hitStopInputs[40];
 		public int hitStopInputsCount;
 		public fixed char heldKeys[12];
 
@@ -366,6 +357,15 @@ public class Player : Node2D
 	public Sprite behindSprite;
 	public Sprite frontSprite;
 
+	private bool hasEnterTree = false;
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+		if (hasEnterTree)
+			return;
+		hasEnterTree = true;
+	}
+
 	public override void _Ready()
 	{
 		stateTree = GetNode<Node>("StateTree");
@@ -399,8 +399,6 @@ public class Player : Node2D
 		shieldEmission = shield.GetNode<CPUParticles2D>("ShieldHit");
 
 		electricity = (Node2D)GetNode("ElectricShock");
-
-		animationPlayer.Connect("AnimationFinished", this, nameof(AnimationFinished));
 		foreach (CollisionShape2D box in hitBoxes)
 		{
 			box.Shape = new RectangleShape2D();
@@ -426,6 +424,13 @@ public class Player : Node2D
 		}
 		currentState = allStateDict[idleString];
 		ChangeState(idleString);
+
+		for (int i = 0; i < MAXPLUSFRAMES; i++)
+		{
+			plusFrames[i] = plusFrameTextScene.Instance() as PlusFrames;
+			plusFrames[i].Visible = false;
+			AddChild(plusFrames[i]);
+		}
 
 		if (debugPress)
 		{
@@ -454,7 +459,6 @@ public class Player : Node2D
 		{
 			meter = 10000;
 			burstMeter = 100;
-			EmitSignal(nameof(BurstSet), Name, burstMeter);
 			Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 		}
 
@@ -474,6 +478,7 @@ public class Player : Node2D
 		{
 			pState.hitStopInputsCount = inputHandler.hitStopInputs.GetState(p);
 		}
+		Globals.Log("Get state for hitStopInputs : " + inputHandler.hitStopInputs.Dump());
 		fixed (char* p = pState.heldKeys)
 		{
 			inputHandler.heldKeys.GetState(p);
@@ -575,6 +580,7 @@ public class Player : Node2D
 
 		inputHandler.inBuf2.SetState(pState.inBuf2Count, pState.inBuf2);
 		inputHandler.hitStopInputs.SetState(pState.hitStopInputsCount, pState.hitStopInputs);
+		Globals.Log("Set state for hitstopinputs : " + inputHandler.hitStopInputs.Dump());
 		inputHandler.heldKeys.SetState(pState.heldKeys);
 
 
@@ -727,10 +733,9 @@ public class Player : Node2D
 		{
 			for (int i = 0; i < unhandledInputs.Count; i++){
 				var inputArr = unhandledInputs[i];
+				hitStopInputs.Add(inputArr);
 				if (hitStopInputs.Count == hitStopInputs.Capacity)
 					hitStopInputs.Clear();
-
-				hitStopInputs.Add(inputArr);
 			}
 		}
 		private InputContainer unhandledInputs = new InputContainer(40);
@@ -877,7 +882,14 @@ public class Player : Node2D
 			if (unhandledInputs.Count == 0)
 				BufTimerDecrement();
 			if (hitStopInputs.Count > 0)
+			{
+				//if (Globals.logOn)
+				//	Globals.Log("Emptying hit stop inputs " + hitStopInputs.Dump() + " to " + unhandledInputs.Dump());
 				unhandledInputs.Prepend(hitStopInputs);
+				//if (Globals.logOn)
+				//	Globals.Log("Result " + unhandledInputs.Dump());
+				
+			}
 			
 			hitStopInputs.Clear();
 			for (int i = 0; i < unhandledInputs.Count; i++)
@@ -896,6 +908,17 @@ public class Player : Node2D
 		public InputContainer GetHitStopBuffer()
 		{
 			return hitStopInputs;
+		}
+
+		public string DumpHitStopBuffer()
+		{
+			List<char> buf = new List<char>();
+			foreach (char[] input in hitStopInputs)
+			{
+				buf.Add(input[0]);
+				buf.Add(input[1]);
+			}
+			return String.Join("", buf);
 		}
 	}
 
@@ -1085,7 +1108,6 @@ public class Player : Node2D
 	/// </summary>
 	public void TimeAdvance()
 	{
-		eventSched.TimeAdvance();
 		
 	}
 
@@ -1303,6 +1325,7 @@ public class Player : Node2D
 		{
 			ChangeIntPositionAbs((int)internalPos.x, Globals.floor);
 			grounded = true;
+			currentState.Land();
 		}
 
 		if (internalPos.x > Globals.rightWall)
@@ -1329,9 +1352,6 @@ public class Player : Node2D
 		}
 	}
 
-	/// <summary>
-	/// Recheck the grounded status.  Required for Rhythm cancels which can cancel launch moves
-	/// </summary>
 	public void CorrectGrounded()
 	{
 		grounded = !(internalPos.y < Globals.floor);
@@ -1524,21 +1544,22 @@ public class Player : Node2D
 		wasHit = false;
 
 		if (Globals.mode == Globals.Mode.TRAINING)
-			otherPlayer.CalculatePlusFrames(currentState.stunRemaining);
+			otherPlayer.DisplayPlusFrames(currentState.stunRemaining);
 		return true;
 	}
 	
 	protected virtual void PostHitCall(){}
 
-	public void CalculatePlusFrames(int opponentStun)
+	public void DisplayPlusFrames(int opponentStun)
 	{
 
-		if (!currentState.tags.Contains(Globals.Tags.attack))
+		if (!currentState.tags.Contains(Globals.Tags.attack) || !grounded || otherPlayer.currentState.tags.Contains(Globals.Tags.knockdown))
 			return;
 		var diff = opponentStun - animationPlayer.GetRemainingFrames();
-		var plusText = plusFrameTextScene.Instance() as PlusFrames;
+		var plusText = plusFrames[currPlusFrameIndex];
+		currPlusFrameIndex = (currPlusFrameIndex + 1) % MAXPLUSFRAMES;
+		plusText.SetPosition(Vector2.Zero);
 		plusText.Init(diff);
-		AddChild(plusText);
 		
 	}
 
@@ -1709,11 +1730,6 @@ public class Player : Node2D
 	public bool ShrinkOtherSprite()
 	{
 		return currentState.shrinkOtherSprite;
-	}
-
-	public void ConfirmRhythmHit()
-	{
-		rhythmStateConfirmed = true;
 	}
 
 	public bool CheckOverrideBlock()

@@ -13,6 +13,7 @@ public class Kick : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.kick);
 		AddCommandNormals(owner.commandNormals);
 		AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), CrouchBString);
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), CrouchCString);

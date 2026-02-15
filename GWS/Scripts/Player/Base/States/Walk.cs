@@ -58,7 +58,6 @@ public class Walk : MoveState
 		{
 			owner.ChangeState(PreJumpString);
 		}
-
 		if (owner.CheckHeldKey('c') && owner.CheckBuffer(Globals.SLASHPRESS))
         {
 			if ((owner.velocity.x > 0) == owner.facingRight) {

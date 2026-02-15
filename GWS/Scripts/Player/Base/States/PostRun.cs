@@ -9,6 +9,7 @@ public class PostRun : MoveState
 	{
 		base._Ready();
 		loop = true;
+		tags.Add(Globals.Tags.run);
 		slowdownSpeed = 30;
 		//AddGatling(new[] { 's', 'p' }, () => {
 		//	bool pos = Mathf.Abs(owner.internalPos.x - owner.otherPlayer.internalPos.x) < 3000;

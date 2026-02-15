@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class GGRSManager : StateManager
+public class GGRSManager : StateManager
 {
 
 	// Networking Objs
@@ -44,9 +44,17 @@ class GGRSManager : StateManager
 		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 		events = GetNode<Node>("/root/Events");
 		GGRS = GetNode("GodotGGRS");
+	}
+
+	public override void Start()
+	{
+		ClearHUDText();
+		
+		Globals.frame = 0;
 		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
 		NatTraversal(); // Defers the base._ready() call
+	//gameScene.Visible = false;
 	}
 	
 	public void OnUpdateRequiredConfirmed()

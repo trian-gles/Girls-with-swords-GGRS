@@ -1,115 +1,126 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
 public class EventScheduler : Node
 {
-	public enum EventType
-	{
-		AUDIO,
-		GRAPHIC
-	}
-	private struct Event
-	{
-		public string name;
-		public string expectedState;
-		public EventType type;
-		public int scheduledFrame;
-		public int creationFrame;
-	}
+    public enum EventType
+    {
+        AUDIO,
+        GRAPHIC
+    }
 
-	private List<Event> scheduledEvents = new List<Event>();
-	private List<Event> removeEvents = new List<Event>();
-	private CharacterAudio audioPlay;
+    private struct ScheduledEvent
+    {
+        public string name;
+        public EventType type;
+        public int scheduledFrame;
+        public int creationFrame;
+        public bool active;
+    }
 
+    private const int MaxEvents = 10;
 
-	[Export]
-	public int frameDelay = 4;
+    private ScheduledEvent[] events = new ScheduledEvent[MaxEvents];
+    private int eventCount = 0;
 
-	public override void _Ready()
-	{
-		audioPlay = GetNode<CharacterAudio>("CharacterAudioHandler");
-	}
+    private CharacterAudio audioPlay;
 
-	public void TimeAdvance()
-	{
-	}
+    [Export]
+    public int frameDelay = 4;
 
-	/// <summary>
-	/// Schedule a GFX/SFX event to take place provided rollbacks don't interfere (the past is rewritten)
-	/// </summary>
-	/// <param name="name">Either the name of the current state, or the name of the inherited state that was used to store the expected effect</param>
-	/// <param name="expectedState">UNUSED.  IGNORE THIS</param>
-	/// <param name="type">audio or graphic</param>
-	public void ScheduleEvent(string name, string expectedState, EventType type)
-	{
-		var ev = new Event();
-		ev.name = name;
-		ev.expectedState = expectedState;
-		ev.type = type;
-		ev.scheduledFrame = Globals.frame + frameDelay;
-		ev.creationFrame = Globals.frame;
-		scheduledEvents.Add(ev);
-	}
-	
-	
-	public void FrameAdvance()
-	{
-		removeEvents.Clear();
-		foreach (Event @event in scheduledEvents)
-		{
-			TryEvent(@event, removeEvents);
-		}
+    public override void _Ready()
+    {
+        audioPlay = GetNode<CharacterAudio>("CharacterAudioHandler");
+    }
 
-		foreach (Event @event in removeEvents)
-		{
-			scheduledEvents.Remove(@event);
-		}
-	}
+    /// <summary>
+    /// Schedule a GFX/SFX event (max 10 total).
+    /// </summary>
+    public void ScheduleEvent(string name, string expectedState, EventType type)
+    {
+        if (eventCount >= MaxEvents)
+            return; // Or overwrite oldest if desired
 
-	private void TryEvent(Event @event, List<Event> removeEvents)
-	{
-		if ((Globals.frame == @event.scheduledFrame))
-			
-		{
-			ExecuteEvent(@event);
-			removeEvents.Add(@event);
-		}
+        events[eventCount].name = name;
+        events[eventCount].type = type;
+        events[eventCount].scheduledFrame = Globals.frame + frameDelay;
+        events[eventCount].creationFrame = Globals.frame;
+        events[eventCount].active = true;
 
-		else if ((Globals.frame < @event.creationFrame))
-		{
-			removeEvents.Add(@event);
-		}
-	}
+        eventCount++;
+    }
 
+    public void FrameAdvance()  // TODO - check that this shouldn't be TimeAdvance instead
+    {
+        int i = 0;
 
-	private void ExecuteEvent(Event @event)
-	{
-		if (@event.type == EventType.AUDIO)
-		{
-			audioPlay.PlaySound(@event.name);
-		}
+        while (i < eventCount)
+        {
+            if (ShouldExecuteOrRemove(ref events[i]))
+            {
+                RemoveAt(i);
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
 
-		else if (@event.type == EventType.GRAPHIC)
-		{
+    private bool ShouldExecuteOrRemove(ref ScheduledEvent ev)
+    {
+        if (Globals.frame == ev.scheduledFrame)
+        {
+            ExecuteEvent(ref ev);
+            return true;
+        }
 
-		}
-	}
+        if (Globals.frame < ev.creationFrame)
+        {
+            return true;
+        }
 
-	/// <summary>
-	/// Immediately play a sound.  Useful for landing
-	/// </summary>
-	/// <param name="name"></param>
-	public void ForceEvent(EventType type, string name)
-	{
-		if (type == EventType.AUDIO)
-		{
-			audioPlay.PlaySound(name);
-		}
-		else if (type == EventType.GRAPHIC)
-		{
+        return false;
+    }
 
-		}
-		
-	}
+    private void RemoveAt(int index)
+    {
+        eventCount--;
+
+        if (index != eventCount)
+        {
+            events[index] = events[eventCount];
+        }
+
+        // Optional: clear last slot (not required, but cleaner)
+        events[eventCount].active = false;
+        events[eventCount].name = null;
+    }
+
+    private void ExecuteEvent(ref ScheduledEvent ev)
+    {
+        if (ev.type == EventType.AUDIO)
+        {
+            audioPlay.PlaySound(ev.name);
+        }
+        else if (ev.type == EventType.GRAPHIC)
+        {
+            // Add graphic handling here
+        }
+    }
+
+    /// <summary>
+    /// Immediately play an event.
+    /// </summary>
+    public void ForceEvent(EventType type, string name)
+    {
+        if (type == EventType.AUDIO)
+        {
+            audioPlay.PlaySound(name);
+        }
+        else if (type == EventType.GRAPHIC)
+        {
+            // Add graphic handling here
+        }
+    }
 }

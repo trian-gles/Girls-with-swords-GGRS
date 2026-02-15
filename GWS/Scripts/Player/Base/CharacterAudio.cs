@@ -18,6 +18,15 @@ public class CharacterAudio : Node
 	private const string Stagger3Key = "Stagger3";
 	private const string Stagger4Key = "Stagger4";
 
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+		foreach (var kvp in soundDict)
+		{
+			kvp.Value.lastPlayedFrame = -1000;
+		}
+    }
+
 	private void AddSound(string name, AudioStream stream)
 	{
 		soundDict.Add(name, new Sound() { audio = stream, lastPlayedFrame = -1000, level = -5.0f });

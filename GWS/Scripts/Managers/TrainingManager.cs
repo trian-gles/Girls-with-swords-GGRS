@@ -7,14 +7,15 @@ public class TrainingManager : BaseManager
 	
 	private bool inputsOnRecovery = false;
 
-	public override void _Ready()
+	public override void Start()
 	{
-		base._Ready();
+		base.Start();
 		Globals.autoTech = true;
 		charSelectScene.ChangeHUDText("P1");
 		gameScene.ChangeHUDText("P1");
 		gameScene.recordMatch = false;
 		Globals.mode = Globals.Mode.TRAINING;
+		
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -115,7 +116,7 @@ public class TrainingManager : BaseManager
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
 		gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
-		gameScene.Reset();
+		gameScene.ResetRound();
 	}
 
 	public override void OnGameWon(string winner, int character)

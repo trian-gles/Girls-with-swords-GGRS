@@ -10,7 +10,7 @@ public abstract class AirState : State
 	private const string BlockString = "Block";
 	private const string AirDashString = "AirDash";
 	private const string AirBackdashString = "AirBackdash";
-	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.attack};
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.aerial};
 	public override void _Ready()
 	{
 		base._Ready();

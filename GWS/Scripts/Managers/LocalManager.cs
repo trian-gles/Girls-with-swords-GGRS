@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-class LocalManager : BaseManager
+public class LocalManager : BaseManager
 {
 
-	public override void _Ready()
+	public override void Start()
 	{
-		base._Ready();
+		base.Start();
 		Globals.mode = Globals.Mode.LOCAL;
 		Globals.autoTech = false;
 	}

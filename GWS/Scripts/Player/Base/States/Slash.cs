@@ -11,6 +11,7 @@ public class Slash : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.slash);
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");
 		AddGatling(new char[] { 'b', 'p' }, "CrouchC");
 		AddExSpecials(owner.groundExSpecials);

@@ -31,11 +31,12 @@ func _on_AutoBlock_toggled(button_pressed):
 
 
 func _on_AutoTech_toggled(button_pressed):
-	get_node("/root/Globals").call("SetAutoTech", button_pressed)
+	if is_inside_tree():
+		get_node("/root/Globals").call("SetAutoTech", button_pressed)
 
 
 func _on_MainMenu_button_down():
-	scene_tree.paused = false
+	set_paused(false)
 	Events.emit_signal("MainMenuPressed")
 	$PauseOverlay/PauseMenu/AutoBlock.pressed = false
 	$PauseOverlay/PauseMenu/AutoTech.pressed = false

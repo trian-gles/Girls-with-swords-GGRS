@@ -85,7 +85,6 @@ public abstract class State : Node
 	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
-	protected List<RhythmGatling> rhythmGatlings = new List<RhythmGatling>();
 	private const string CrouchAString = "CrouchA";
 	private const string CrouchBString = "CrouchB";
 	private const string CrouchCString = "CrouchC";
@@ -109,7 +108,6 @@ public abstract class State : Node
 	private const string ShockString = "shock";
 	private const string ElectricityString = "electricity";
 	private const string RecoveryString = "Recovery";
-	private const string RhythmHitTryString = "RhythmHitTry";
 	private const string HitConfirmString = "HitConfirm";
 	private const string MixupString = "Mixup";
 	private const string BlockFxString = "block";
@@ -158,6 +156,14 @@ public abstract class State : Node
 		hitConnect = false;
 	}
 
+/// <summary>
+/// Called when colliding with the ground
+/// </summary>
+	public virtual void Land()
+	{
+		
+	}
+
 	protected virtual void ApplyGravity()
 	{
 		if (owner.counterStopFrames > 0 || !hasGravity)
@@ -198,16 +204,6 @@ public abstract class State : Node
 		public string state;
 		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
 		public PostInputCallback postCall;
-	}
-
-	protected struct RhythmGatling
-	{
-		public InputContainer inputs;
-		public string state;
-		public RequiredConditionCallback reqCall; //if this returns true, we can enter the specified state
-		public PostInputCallback postCall;
-		public bool preventMash;
-		public bool flipInputs; // if this input should change depending on which way we are facing
 	}
 
 	protected char[] ReverseInput(char[] inp)
@@ -356,16 +352,6 @@ public abstract class State : Node
 		commandGatlings.Add(newGatling);
 	}
 
-	protected void AddRhythmGatling(InputContainer inputs, string state)
-	{
-		var newGatling = new RhythmGatling
-		{
-			inputs = inputs,
-			state = state
-		};
-		rhythmGatlings.Add(newGatling);
-	}
-
 	internal static List<List<char>> Permutations(List<char> chars)
 	{
 		var result = new List<List<char>>();
@@ -489,16 +475,6 @@ public abstract class State : Node
 			AddGatling(special.inputs, () => owner.TrySpendMeter(), special.state, () => { }); // last function does nothing, I'm lazy...
 		}
 	}
-
-	protected void AddRhythmSpecials(List<Player.Special> specials)
-	{
-		foreach (var special in specials)
-		{
-			AddRhythmGatling(special.inputs, special.state);
-		}
-	}
-
-
 
 	protected void AddCancel(string cancelState)
 	{
@@ -939,6 +915,11 @@ public abstract class State : Node
 	{
 		if (Globals.logOn)
 			Globals.Log($"Receiving damage {details.dmg}");
+		if (details.projectile)
+		{
+			details.hitStun += 3;
+			details.blockStun += 3;
+		}
 		int hitProration = details.prorationLevel;
 		if (owner.combo == 1)
 		{

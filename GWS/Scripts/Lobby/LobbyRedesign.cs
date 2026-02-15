@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Management.Instrumentation;
 
 public class LobbyRedesign : Node2D
 {
@@ -34,28 +35,41 @@ public class LobbyRedesign : Node2D
 	public bool autoTech = false;
 
 	[Export]
-	public PackedScene localManager;
+	public PackedScene localManagerScene;
 
 	[Export]
-	public PackedScene trainingManager;
+	public PackedScene trainingManagerScene;
 
 	[Export]
-	public PackedScene aiManager;
+	public PackedScene aiManagerScene;
 
 	[Export]
-	public PackedScene ggrsManager;
+	public PackedScene ggrsManagerScene;
 
 	[Export]
-	public PackedScene syncTestManager;
+	public PackedScene syncTestManagerScene;
 
 	[Export]
-	public PackedScene tutorialManager;
+	public PackedScene tutorialManagerScene;
 
 	[Export]
-	public PackedScene comboTrialManager;
+	public PackedScene comboTrialManagerScene;
 
 	[Export]
-	public PackedScene strategyManager;
+	public PackedScene strategyManagerScene;
+
+	[Export]
+	public PackedScene[] charScenes = new PackedScene[0];
+
+	public LocalManager localManager;
+	public TrainingManager trainingManager;
+	public AIManager aiManager;
+	public GGRSManager ggrsManager;
+	public SyncTestManager syncTestManager;
+	public TutorialManager tutorialManager;
+	public ComboTrialManager comboTrialManager;
+	public StrategyManager strategyManager;
+
 
 	public bool host = false;
 	
@@ -64,6 +78,18 @@ public class LobbyRedesign : Node2D
 	private AudioStreamPlayer lobbyMusic;
 	
 	private static Random random = new Random();
+
+
+	[Export]
+	public PackedScene packedGameScene;
+	[Export]
+	public PackedScene packedCharSelectScene;
+	[Export]
+	public PackedScene packedWinScene;
+
+	private GameScene gameScene;
+	private CharSelectScene charSelectScene;
+	private WinScene winScene;
 
 	// runtime string constants
 	private const string MainMenuPressedString = "MainMenuPressed";
@@ -78,6 +104,7 @@ public class LobbyRedesign : Node2D
 	
 	public override void _Ready()
 	{
+		Globals.GenerateCharacters(charScenes);
 		menuroot = GetNode<Control>("MenuRoot");
 		mainmenu = menuroot.GetNode<MarginContainer>("MainMenu");
 		mainmenubuttons = mainmenu.GetNode<VBoxContainer>("CenterContainer/MainMenuButtons");
@@ -85,7 +112,7 @@ public class LobbyRedesign : Node2D
 		netplaymenu = menuroot.GetNode<MarginContainer>("NetPlayMenu");
 		localmenubuttons = localmenu.GetNode<VBoxContainer>("LocalButtons");
 		entries = netplaymenu.GetNode<VBoxContainer>("Entries");
-		netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
+		//netplaybuttons = entries.GetNode<HBoxContainer>("NetPlayButtons");
 
 		newMatchId = entries.GetNode<LineEdit>("NewMatchContainer/NewMatchID");
 		sendToFriendLabel = newMatchId.GetNode<Label>("SendToFriend");
@@ -101,7 +128,7 @@ public class LobbyRedesign : Node2D
 
 		// connect in game menu
 		events = GetNode<Node>("/root/Events");
-			events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
+		events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
 		// cache lobby music player
 		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
 
@@ -109,9 +136,36 @@ public class LobbyRedesign : Node2D
 		Globals.autoTech = autoTech;
 		Globals.alwaysBlock = alwaysBlock;
 		Globals.logOn = log;
+		CreateGamescenes();
+
+		aiManager = aiManagerScene.Instance<AIManager>();
+		ggrsManager = ggrsManagerScene.Instance<GGRSManager>();
+		localManager = localManagerScene.Instance<LocalManager>();
+		trainingManager = trainingManagerScene.Instance<TrainingManager>();
+		syncTestManager = syncTestManagerScene.Instance<SyncTestManager>();
+		tutorialManager = tutorialManagerScene.Instance<TutorialManager>();
+		comboTrialManager = comboTrialManagerScene.Instance<ComboTrialManager>();
+		strategyManager = strategyManagerScene.Instance<StrategyManager>();
 
 		if (syncTest)
 			syncTestBegin();
+	}
+
+	protected void CreateGamescenes()
+	{
+		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
+		gameScene = packedGameScene.Instance() as GameScene;
+		winScene = packedWinScene.Instance() as WinScene;
+	}
+
+	long prevMem = 0;
+	public override void _Process(float delta)
+	{
+		base._Process(delta);
+		long mem = GC.GetTotalMemory(false); // allocated managed memory
+		if (mem > prevMem)
+			GD.Print(mem / 1024);
+		prevMem = mem;
 	}
 
 	private void syncTestBegin()
@@ -124,7 +178,7 @@ public class LobbyRedesign : Node2D
 	public void OnHostButtonDown()
 	{
 		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		activeManager = ggrsManager.Instance<GGRSManager>();
+		activeManager = ggrsManagerScene.Instance<GGRSManager>();
 		AddChild(activeManager);
 		HideButtons();
 		((GGRSManager)activeManager).ManualConfig(ip, true);
@@ -133,7 +187,7 @@ public class LobbyRedesign : Node2D
 	public void OnJoinButtonDown()
 	{
 		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		activeManager = ggrsManager.Instance<GGRSManager>();
+		activeManager = ggrsManagerScene.Instance<GGRSManager>();
 		AddChild(activeManager);
 		HideButtons();
 		((GGRSManager)activeManager).ManualConfig(ip, false);
@@ -145,7 +199,7 @@ public class LobbyRedesign : Node2D
 		Globals.netplaySessionName = newMatchId.Text;
 		sendToFriendLabel.Visible = true;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManager);
+		BeginNetplayManager(ggrsManagerScene);
 	}
 
 	public void OnJoinNetplayMatch()
@@ -153,7 +207,7 @@ public class LobbyRedesign : Node2D
 		GD.Print(existingMatchId.Text);
 		Globals.netplaySessionName = existingMatchId.Text;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManager);
+		BeginNetplayManager(ggrsManagerScene);
 	}
 
 	public void OnAutoConnectDown()
@@ -205,17 +259,23 @@ public class LobbyRedesign : Node2D
 		BeginManager(tutorialManager);
 	}
 	
-	private void BeginManager(PackedScene managerScene){
-		activeManager = managerScene.Instance<BaseManager>();
+	private void BeginManager(BaseManager manager){
+		activeManager = manager;
 		AddChild(activeManager);
 		lobbyMusic.Stop();
 		HideButtons();
+		activeManager.Visible = true;
+		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		activeManager.Start();
 	}
 
 	private void BeginNetplayManager(PackedScene managerScene)
 	{
 		activeManager = managerScene.Instance<BaseManager>();
 		AddChild(activeManager);
+		activeManager.Visible = true;
+		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		activeManager.Start();
 	}
 
 	private void OnNetPlayConnected()
@@ -231,7 +291,6 @@ public class LobbyRedesign : Node2D
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = true;
 		column.GetNode<Button>("ReturnMainMenu").Visible = true;
 		column.GetNode<Button>("ReturnToInGameMenu").Visible = false;
-			events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
 	}
 	
 	public void OnButtonCheckDownInGame()
@@ -244,14 +303,11 @@ public class LobbyRedesign : Node2D
 	
 	public void OnLobbyReset()
 	{
-		if (activeManager != null)
-		{
-			activeManager.QueueFree();
-			activeManager = null;
-		}
-			
-		var menu = menuroot;
-		menu.Visible = true;
+		activeManager.Visible = false;
+		activeManager.Quit();
+		RemoveChild(activeManager);
+		
+		menuroot.Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 		
 		if (menuroot.GetNode<MarginContainer>("MainMenu").Visible == true)
@@ -262,13 +318,12 @@ public class LobbyRedesign : Node2D
 		waitingForOtherPlayerLabel.Visible = false;
 		sendToFriendLabel.Visible = false;
 		newMatchId.Text = "";
-
-			menu.Call(BackButtonPressedCallString);
+		menuroot.Call(BackButtonPressedCallString);
 	}
 
 	private void HideButtons()
 	{
-		GetNode<Control>("MenuRoot").Visible = false;
+		menuroot.Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
 	}
 	

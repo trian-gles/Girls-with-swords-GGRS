@@ -13,6 +13,7 @@ public class Run : MoveState
 	{
 		base._Ready();
 		loop = true;
+		tags.Add(Globals.Tags.run);
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
 			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
 		AddGatling(new[] { '8', 'p' }, PreJumpString);

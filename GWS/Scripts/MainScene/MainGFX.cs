@@ -14,11 +14,10 @@ public class MainGFX : Node
 
 	// runtime call strings
 	private const string SetBkgCallString = "set_bkg";
+	private const string QuitString = "quit";
 	private const string LevelUpCallString = "level_up";
 	public override void _Ready()
 	{
-		Globals.ConnectGhostEmitted(OnGhostEmitted);
-		Globals.ConnectGFXParticleEmitted(OnGFXParticleEmitted);
 		stages = GetNode<Node2D>("Stages");
 		children = new Godot.Collections.Array<Node>();
 
@@ -34,7 +33,7 @@ public class MainGFX : Node
 		for (int i = 0; i < 15; i++)
 		{
 			Sprite newGhost = (Sprite)dashGhost.Instance(); // Added to tree and thus freed automatically
-			CallDeferred("add_child", newGhost);
+			AddChild(newGhost);
 			ghosts.Add(newGhost);
 			children.Add(newGhost);
 		}
@@ -54,6 +53,12 @@ public class MainGFX : Node
 	
 	public void Init(int background){
 		stages.Call(SetBkgCallString, background);
+		Globals.ConnectGhostEmitted(OnGhostEmitted);
+		Globals.ConnectGFXParticleEmitted(OnGFXParticleEmitted);
+	}
+
+	public void Quit(){
+		stages.Call(QuitString);
 	}
 
 	public void LevelUp(int frame)
@@ -91,7 +96,7 @@ public class MainGFX : Node
 		var newPart = (ParticleSprite)particleSprites[particleName].Instance(); // Added to tree and thus freed automatically
 		newPart.type = particleName;
 		newPart.initFrame = Globals.frame;
-		CallDeferred("add_child", newPart);
+		AddChild(newPart);
 		children.Add(newPart);
 		newPart.FlipH = flipH;
 		newPart.Position = location;

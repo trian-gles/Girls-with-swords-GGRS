@@ -7,6 +7,7 @@ public class CrouchC : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.slash);
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
 		AddEasyGroundSpecials();

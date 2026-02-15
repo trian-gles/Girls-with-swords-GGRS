@@ -12,6 +12,12 @@ public class AirKnockdown : Float
 
 	public override string animationName { get { return FloatString; } }
 
+    public override void _Ready()
+    {
+        base._Ready();
+		tags.Add(Globals.Tags.knockdown);
+    }
+
     public override void Enter()
     {
         base.Enter();

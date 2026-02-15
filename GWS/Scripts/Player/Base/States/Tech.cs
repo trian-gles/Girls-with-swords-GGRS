@@ -35,7 +35,11 @@ public class Tech : Fall
 			owner.velocity.y = techVector.y;
 		}
 		else
+		{
 			owner.velocity.x = 0;
+			owner.velocity.y = techVector.y;
+		}
+			
 
 		owner.grounded = false;
 	}

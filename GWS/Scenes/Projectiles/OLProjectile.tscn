@@ -12,6 +12,7 @@ chEffect = 3
 speed = Vector2( 3, 0 )
 postHitSpeed = Vector2( 3, 0 )
 duration = 200
+slowTerminalVelocity = 300
 
 [node name="AnimatedSprite" parent="." index="0"]
 scale = Vector2( 3, 3 )

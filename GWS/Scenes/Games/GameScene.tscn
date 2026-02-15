@@ -1,8 +1,7 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scripts/GameScenes/GameScene.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/UserInterface.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/GameScenes/InputsText.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD/Camera.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/HUD/HUDCombo.cs" type="Script" id=6]
@@ -17,15 +16,12 @@
 [ext_resource path="res://Scenes/Rhythm/RhythmTrack.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/HUD/Meter.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Music/snail-sufferage-4-6-25.ogg" type="AudioStream" id=17]
-[ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Scenes/Characters/SL.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/HUD/SnailRadar.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/HUD/RoundCounters.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Fonts/KiwiSoda.ttf" type="DynamicFontData" id=22]
 [ext_resource path="res://Fonts/IsWasted.ttf" type="DynamicFontData" id=23]
 [ext_resource path="res://Scenes/HUD/PlayerLogo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Sprites/Overlay/Player Number2.png" type="Texture" id=25]
-[ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Scripts/HUD/DebugBack.gd" type="Script" id=27]
 [ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=28]
 [ext_resource path="res://Scenes/HUD/TutorialGoal.tscn" type="PackedScene" id=29]
@@ -79,7 +75,6 @@ font_data = ExtResource( 23 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
-charScenes = [ ExtResource( 18 ), ExtResource( 3 ), ExtResource( 19 ), ExtResource( 26 ) ]
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 layer = 100
@@ -91,6 +86,9 @@ pause_mode = 2
 offset = Vector2( 240, 127 )
 current = true
 script = ExtResource( 5 )
+Decay = 0.99
+MaxOffset = Vector2( 30, 15 )
+MaxRoll = 0.05
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -414,6 +412,9 @@ text = "1
 0
 "
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="InputBackP2" type="ColorRect" parent="HUD"]
 anchor_left = 1.0

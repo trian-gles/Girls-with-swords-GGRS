@@ -518,8 +518,6 @@ public class TutorialManager : TrainingManager
 	public override void _Ready()
 	{
 		base._Ready();
-		Globals.autoTech = false;
-
 		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
 		events = GetNode("/root/Events");
 
@@ -605,8 +603,13 @@ public class TutorialManager : TrainingManager
 
 		grabGoal = new Goal("Grab", "k", "s");
 		grabGoal.p1State = "Grab";
+	}
 
+    public override void Start()
+    {
+        base.Start();
 
+		Globals.autoTech = false;
 		if (comboTrial)
 		{
 			Globals.autoTech = true;
@@ -633,7 +636,7 @@ public class TutorialManager : TrainingManager
 
 
 		Globals.mode = Globals.Mode.TUTORIAL;
-	}
+    }
 
 	public override void OnNewGame()
 	{
@@ -643,7 +646,7 @@ public class TutorialManager : TrainingManager
 		gameScene.ignoreTime = true;
 		gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
-		gameScene.Reset();
+		gameScene.ResetRound();
 		InitChallenge(currChallenge);
 	}
 

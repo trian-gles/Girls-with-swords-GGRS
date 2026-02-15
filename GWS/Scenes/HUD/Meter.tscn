@@ -64,4 +64,4 @@ margin_top = 7.0
 margin_right = -26.0
 margin_bottom = 17.0
 
-[connection signal="changed" from="ProgressBar" to="." method="_on_ProgressBar_changed"]
+[connection signal="value_changed" from="ProgressBar" to="." method="_on_ProgressBar_value_changed"]

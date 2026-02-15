@@ -65,7 +65,7 @@ public class AnimationPlayer : Godot.AnimationPlayer
 		}
 		else
 		{
-			EmitSignal(nameof(AnimationFinished), CurrentAnimation);
+			owner.AnimationFinished(CurrentAnimation);
 		}
 	}
 

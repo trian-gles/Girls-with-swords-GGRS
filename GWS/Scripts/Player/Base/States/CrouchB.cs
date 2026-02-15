@@ -11,6 +11,7 @@ public class CrouchB : GroundAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.kick);
 		AddSpecials(owner.groundSpecials);
 		AddExSpecials(owner.groundExSpecials);
         AddCommandNormals(owner.commandNormals);

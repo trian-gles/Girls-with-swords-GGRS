@@ -479,6 +479,9 @@ margin_right = 265.28
 margin_bottom = 232.62
 custom_constants/separation = 15
 script = ExtResource( 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TutorialGoal" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
 anchor_right = 0.0

@@ -111,7 +111,7 @@ public class Block : HitState
 	protected override void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckHeldKey('2') && owner.grounded)
-			Globals.EmitSignal(Globals.PlayerSignal.Mixup, owner.Name);
+			EnterBlockState(crouchBlockString, details.collisionPnt, details.hitStop);
 		else
 			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
     }

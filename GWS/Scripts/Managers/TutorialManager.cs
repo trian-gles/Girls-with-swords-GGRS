@@ -213,7 +213,7 @@ public class TutorialManager : TrainingManager
 	/// </summary>
 	public virtual void AddChallenges()
 	{
-					tutorialContainer.Call(TutorialResetCallString);
+		tutorialContainer.Call(TutorialResetCallString);
 		Challenge moveChallenge = new Challenge("Basic Movement");
 
 		moveChallenge.popupText = "Welcome to the Girls with Swords tutorial!  First let's go over some basic movement.  Press START or ESC at any time to see the currently configured controls.";
@@ -330,7 +330,7 @@ public class TutorialManager : TrainingManager
 
 		Challenge airGrabChallenge = new Challenge("Air Grab");
 		airGrabChallenge.p2Inputs = new List<int>() { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 };
-		airGrabChallenge.popupText = "If the opponent is in the air, you can perform a special Air Grab.  The timing is tricky, you must be close and a bit below the opponent";
+		airGrabChallenge.popupText = "If the opponent is in the air, you can perform an Air Grab.  The timing is tricky!";
 		var airGrabGoal = new Goal("Air Grab", "air", "k", "s");
 
 		airGrabGoal.p1State = "AirGrab";
@@ -364,21 +364,15 @@ public class TutorialManager : TrainingManager
 		gatlingChallenge.MakeComboChallenge();
 		gatlingChallenge.popupText = "By pressing a heavier attack immediately after a weaker attack connects, you can \"Gatling\" into the heavier attack allowing combos and blockstrings.  Experiment with what works on your character of choice!";
 
-		Challenge jcChallenge = new Challenge("Jump Cancelling");
-		jcChallenge.goals.Add(slashGoal);
-		jcChallenge.goals.Add(jumpGoal);
-		jcChallenge.MakeComboChallenge();
-		jcChallenge.popupText = "If you hold jump after starting an attack, you will \"cancel\" the recovery of the attack with a jump, allowing stronger combos and offense.";
-
 		Goal rcGoal = new Goal("Rapid Cancel", "p", "k", "s")
 		{
 			p1State = "Idle"
 		};
-		Challenge rcChallenge = new Challenge("Force Cancel");
+		Challenge rcChallenge = new Challenge("Rapid Cancel");
 		rcChallenge.goals.Add(sixSGoal);
 		rcChallenge.goals.Add(rcGoal);
 		rcChallenge.MakeComboChallenge();
-		rcChallenge.popupText = "With a Force Cancel, you can spend half a bar of meter to cancel the recovery of any attack that connects with the opponent.";
+		rcChallenge.popupText = "With a Rapid Cancel, you can spend half a bar of meter to cancel the recovery of any attack that connects with the opponent.";
 
 
 		Challenge superChallenge = new Challenge("OH SHIT");
@@ -399,7 +393,6 @@ public class TutorialManager : TrainingManager
 		challenges.Add(specialAttackChallenge);
 		challenges.Add(superChallenge);
 		challenges.Add(gatlingChallenge);
-		challenges.Add(jcChallenge);
 		challenges.Add(rcChallenge);
 
 		////
@@ -448,14 +441,6 @@ public class TutorialManager : TrainingManager
 		hiBlockGoal.p1FailState = "HitStun";
 		hiBlockGoal.p1StateFrame = 1;
 
-		Challenge mixUpChallenge = new Challenge("Blocking High-Low mixups", GameScene.ResetPos.P1CORNEREDLEFT);
-		mixUpChallenge.popupText = "Your opponent may switch between high and low attacks to try to break your guard.";
-		mixUpChallenge.goals.Add(loBlockGoal);
-		mixUpChallenge.goals.Add(hiBlockGoal);
-		mixUpChallenge.goals.Add(loBlockGoal);
-		mixUpChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16 + 32 + 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		challenges.Add(mixUpChallenge);
-
 		Challenge grabEvadeChallenge = new Challenge("Evading grabs", GameScene.ResetPos.P1CORNEREDLEFT);
 		grabEvadeChallenge.popupText = "Grabs cannot be blocked! Try jumping out of GL's grab";
 		Goal grabEvadeJump = new Goal("Jump out of the grab", "up");
@@ -465,7 +450,7 @@ public class TutorialManager : TrainingManager
 		grabEvadeJump.p1FailState = "Grabbed";
 
 		grabEvadeChallenge.goals.Add(grabEvadeJump);
-		grabEvadeChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		grabEvadeChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(grabEvadeChallenge);
 
 
@@ -478,7 +463,7 @@ public class TutorialManager : TrainingManager
 		shieldChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(shieldChallenge);
 
-		Challenge guardCancelChallenge = new Challenge("Shield", GameScene.ResetPos.P1CORNEREDLEFT);
+		Challenge guardCancelChallenge = new Challenge("Guard Cancel", GameScene.ResetPos.P1CORNEREDLEFT);
 		guardCancelChallenge.popupText = "By pressing punch, kick and forward while blocking you can spend half a bar of meter to kick the opponent off of you.";
 		Goal gcGoal = new Goal("FUCK OFF", "right", "p", "k");
 		gcGoal.p1State = "GuardCancel";
@@ -605,9 +590,9 @@ public class TutorialManager : TrainingManager
 		grabGoal.p1State = "Grab";
 	}
 
-    public override void Start()
-    {
-        base.Start();
+	public override void Start()
+	{
+		base.Start();
 
 		Globals.autoTech = false;
 		if (comboTrial)
@@ -636,11 +621,12 @@ public class TutorialManager : TrainingManager
 
 
 		Globals.mode = Globals.Mode.TUTORIAL;
-    }
+	}
 
 	public override void OnNewGame()
 	{
 		base.OnNewGame();
+		challenges.Clear();
 		AddChallenges();
 		currChallenge = challenges[currChallengePtr];
 		gameScene.ignoreTime = true;

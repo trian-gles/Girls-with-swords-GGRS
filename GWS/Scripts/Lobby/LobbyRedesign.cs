@@ -261,11 +261,12 @@ public class LobbyRedesign : Node2D
 	
 	private void BeginManager(BaseManager manager){
 		activeManager = manager;
-		AddChild(activeManager);
 		lobbyMusic.Stop();
 		HideButtons();
 		activeManager.Visible = true;
 		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		AddChild(activeManager);
+		GD.Print("Attaching gamescenes and starting manager");
 		activeManager.Start();
 	}
 

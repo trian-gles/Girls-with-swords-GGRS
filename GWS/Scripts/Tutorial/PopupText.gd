@@ -9,7 +9,8 @@ func _ready():
 	
 func set_text(txt):
 	$Label.text = txt
-	get_tree().paused = true
+	if (get_tree()):
+		get_tree().paused = true
 
 
 func _process(delta):

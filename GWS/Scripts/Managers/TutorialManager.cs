@@ -102,7 +102,26 @@ public class TutorialManager : TrainingManager
 
 	private Node events;
 
-	// runtime call targets for tutorial container
+
+
+	// Recording / File
+	private const string RecordingNameConst = "Fundies";
+	private const string FileNotFoundString = "File not found";
+	private const string DemoString = "DEMO";
+	private const string RecString = "REC";
+	private const string SavedRecordingsPathFormat = "res://SavedRecordings/{0}/{1}.json";
+
+	// Actions
+	private const string RecordAction = "record";
+	private const string PlaybackAction = "playback";
+	private const string SaveRecordingAction = "save_recording";
+	private const string ResetAction = "reset";
+
+	// Nodes
+	private const string TutorialContainerPath = "HUD/TutorialContainer";
+	private const string EventsPath = "/root/Events";
+
+	// Tutorial container calls
 	private const string TutorialResetCallString = "reset";
 	private const string TutorialAddGoalCallString = "add_goal";
 	private const string TutorialCurrGoalCallString = "curr_goal";
@@ -111,6 +130,74 @@ public class TutorialManager : TrainingManager
 	private const string TutorialFinishCallString = "finish";
 	private const string TutorialFailGoalCallString = "fail_goal";
 	private const string TutorialSuccessGoalCallString = "success_goal";
+
+	// Events
+	private const string EmitSignalString = "emit_signal";
+	private const string MainMenuPressedString = "MainMenuPressed";
+
+	// Common States
+	private const string StateJump = "Jump";
+	private const string StateWalk = "Walk";
+	private const string StateRun = "Run";
+	private const string StateBackdash = "Backdash";
+	private const string StateCrouch = "Crouch";
+	private const string StateBlock = "Block";
+	private const string StateCrouchBlock = "CrouchBlock";
+	private const string StateIdle = "Idle";
+	private const string StateHitStun = "HitStun";
+	private const string StateGrab = "Grab";
+	private const string StateGrabbed = "Grabbed";
+	private const string StateFloat = "Float";
+	private const string StateStagger = "Stagger";
+	private const string StateShield = "Shield";
+	private const string StateGuardCancel = "GuardCancel";
+	private const string StateTech = "Tech";
+	private const string StateKnockdown = "Knockdown";
+	private const string StateBurst = "Burst";
+	private const string StateAirDash = "AirDash";
+	private const string StateAirGrab = "AirGrab";
+	private const string StateDoubleJump = "DoubleJump";
+	private const string StateSuper = "Super";
+	private const string StateInstantOverhead = "InstantOverhead";
+	private const string StatePostRun = "PostRun";
+
+	// Common Inputs
+	private const string InputUp = "up";
+	private const string InputDown = "down";
+	private const string InputLeft = "left";
+	private const string InputRight = "right";
+	private const string InputDash = "dash";
+	private const string InputHold = "hold";
+	private const string InputAir = "air";
+	private const string InputP = "p";
+	private const string InputK = "k";
+	private const string InputS = "s";
+	private const string InputSpecial = "special";
+	private const string InputWait = "wait";
+
+	// Challenge Names
+	private const string ChallengeBasicMovement = "Basic Movement";
+	private const string ChallengeDashing = "Dashing";
+	private const string ChallengeBasicAttacks = "Basic Attacks";
+	private const string ChallengeCrouchingAttacks = "Crouching Attacks";
+	private const string ChallengeAirAttacks = "Air Attacks";
+	private const string ChallengeCommandAttacks = "Command Attacks";
+	private const string ChallengeDashAttack = "Dash Attack";
+	private const string ChallengeGrab = "Grab";
+	private const string ChallengeAirGrab = "Air Grab";
+	private const string ChallengeSpecialAttacks = "Special Attacks";
+	private const string ChallengeGatlings = "Gatlings";
+	private const string ChallengeRapidCancel = "Rapid Cancel";
+	private const string ChallengeSuper = "OH SHIT";
+	private const string ChallengeBlocking = "Blocking";
+	private const string ChallengeOverheadBlocking = "Overhead blocking";
+	private const string ChallengeLowBlocking = "Low blocking";
+	private const string ChallengeEvadingGrabs = "Evading grabs";
+	private const string ChallengeShield = "Shield";
+	private const string ChallengeGuardCancel = "Guard Cancel";
+	private const string ChallengeTech = "Tech/Ukemi";
+	private const string ChallengeBurst = "Burst";
+
 
 	private bool shouldAdvance = false;
 	private bool failed = false;

@@ -11,7 +11,7 @@ public class Tech : Fall
 	[Export]
 	public Vector2 techVector = new Vector2(0, 0);
 
-	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.tech };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.tech, Globals.Tags.aerial, Globals.Tags.recovery };
 
 	public int length = 15;
 	public override void Enter()

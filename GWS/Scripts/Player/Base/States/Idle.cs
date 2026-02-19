@@ -10,7 +10,7 @@ public class Idle : State
 	private const string PreRunString = "PreRun";
 	private const string BackdashString = "Backdash";
 	private const string ShieldString = "Shield";
-	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags> { Globals.Tags.idle, Globals.Tags.recovery };
 
 	public override void _Ready()
 	{

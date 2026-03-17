@@ -90,4 +90,3 @@ func center_game_window() -> void:
 	var screenSize = OS.get_screen_size()
 	var newPosition = (screenSize - windowSize) / 2
 	OS.set_window_position(newPosition)
-	#print("Game window centered.")

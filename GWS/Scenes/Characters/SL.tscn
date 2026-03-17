@@ -588,7 +588,7 @@ tracks/11/keys = {
 
 [sub_resource type="Animation" id=63]
 resource_name = "6P"
-length = 29.0
+length = 26.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -597,7 +597,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 4, 8, 14, 19 ),
+"times": PoolRealArray( 0, 3, 6, 12, 19 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 204, 205, 206, 209, 207 ]
@@ -609,7 +609,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 8 ),
+"times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 11, 14 ) ]
@@ -621,7 +621,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 8, 14, 24 ),
+"times": PoolRealArray( 0, 6, 12, 24 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true, true ]
@@ -633,7 +633,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 8 ),
+"times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 34, -20 ) ]
@@ -693,7 +693,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 4, 8, 14, 19 ),
+"times": PoolRealArray( 0, 3, 6, 14, 19 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( -2, 16 ), Vector2( 6, 16 ), Vector2( 12, 16 ), Vector2( 2, 10 ), Vector2( 0, 10 ) ]
@@ -729,7 +729,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0, 4, 8, 19 ),
+"times": PoolRealArray( 0, 3, 6, 19 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 0, 0 ), Vector2( 3, 0 ), Vector2( 4, 0 ), Vector2( 2, 0 ) ]
@@ -9874,7 +9874,8 @@ position = Vector2( -2, 0 )
 position = Vector2( 36, 2 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 24, -35 )
+position = Vector2( 34, -20 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 42, -50 )
@@ -9949,6 +9950,7 @@ isSpecial = true
 script = ExtResource( 28 )
 hasGravity = false
 isSpecial = true
+specialBurstKara = true
 hadoukenScene = ExtResource( 11 )
 yOffset = 22
 earlyReleaseFrame = 12
@@ -9968,6 +9970,7 @@ emitGhost = true
 [node name="PhoneToss" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 7 )
 isSpecial = true
+specialBurstKara = true
 releaseFrame = 11
 hadoukenScene = ExtResource( 8 )
 hadoukenSound = "Whiff"
@@ -10168,8 +10171,8 @@ script = ExtResource( 21 )
 level = 3
 modifiedHitStun = 30
 modifiedCounterHitStun = 45
-opponentLaunch = Vector2( -300, 300 )
-chLaunch = Vector2( -300, 300 )
+opponentLaunch = Vector2( -250, 300 )
+chLaunch = Vector2( -250, 300 )
 slowTerminalVelocity = 300
 modifiedHitPush = 10
 chEffect = 1

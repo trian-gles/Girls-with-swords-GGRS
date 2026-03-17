@@ -7,8 +7,10 @@ public class SnailCall : State
 
 	private const string PhonePutAwayString = "PhonePutAway";
 	private const string PhoneTossString = "PhoneToss";
-    private const string SnailString = "Snail";
+	private const string SnailString = "Snail";
 	private const string SnailCallAnimString = "SnailCall";
+	private const string Sound1String = "Talking1";
+	private const string Sound2String = "Talking2";
 
 	/// <summary>
 	/// 0 : jumping snail, 1 : double snail, 2: phone call
@@ -28,6 +30,15 @@ public class SnailCall : State
 	{
 		base._Ready();
 		AddKara(new char[] { 's', 'p' }, () => owner.CheckFlippableHeldKey('6') && owner.grounded && owner.TrySpendMeter(), owner.easySuper);
+	}
+
+	public override void Enter()
+	{
+		base.Enter();
+		if (callMode == 0)
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Sound1String, Name);
+		if (callMode == 1)
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Sound2String, Name);
 	}
 
 	private void SendSnailAttack()

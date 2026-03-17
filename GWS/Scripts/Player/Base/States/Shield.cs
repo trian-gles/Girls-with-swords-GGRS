@@ -17,7 +17,7 @@ public class Shield : HitState
 	private const string BlockString = "Block";
 	private const string LightString = "Light";
 
-	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block };
+	public override HashSet<Globals.Tags> tags { get; set; } = new HashSet<Globals.Tags>() { Globals.Tags.block, Globals.Tags.shield };
 	protected char[] requiredKeys = new[] { 'p', 'k', '4' };
 
 	public override string animationName { get { return BlockAnim; } }
@@ -109,7 +109,7 @@ public class Shield : HitState
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		details.hitPush = (int)Math.Floor(details.hitPush * 1.5);
+		details.hitPush = (int)Math.Floor(details.hitPush * 1.5f);
 		details.airBlockable = true;
 		base.ReceiveHit(details);
 	}

@@ -220,6 +220,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Demo" type="Label" parent="MenuRoot"]
+margin_left = 403.0
+margin_top = 246.0
+margin_right = 463.0
+margin_bottom = 262.0
+theme = ExtResource( 3 )
+text = "Demo"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ColorRect" type="ColorRect" parent="MenuRoot"]
 material = SubResource( 4 )
 margin_left = -4.0
@@ -239,9 +250,6 @@ anims/fade_in = SubResource( 5 )
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
 margin_right = 480.0
@@ -250,10 +258,11 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="MenuRoot/MainMenu/CenterContainer"]
-margin_left = 138.0
-margin_top = 43.0
-margin_right = 342.0
-margin_bottom = 227.0
+margin_left = 162.0
+margin_top = 42.0
+margin_right = 317.0
+margin_bottom = 228.0
+grow_horizontal = 2
 mouse_filter = 0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -263,21 +272,22 @@ __meta__ = {
 }
 
 [node name="Logo" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 23 )]
-position = Vector2( 100, 0 )
+position = Vector2( 70, 0 )
 scale = Vector2( 2, 2 )
 
 [node name="GwSTitle" type="Label" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
-margin_right = 204.0
-margin_bottom = 16.0
+margin_right = 155.0
+margin_bottom = 18.0
 theme = ExtResource( 3 )
 text = "Girls with Swords"
 percent_visible = 0.0
 
 [node name="Local" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 26.0
-margin_right = 204.0
-margin_bottom = 44.0
+margin_top = 28.0
+margin_right = 155.0
+margin_bottom = 46.0
+grow_horizontal = 2
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 size_flags_vertical = 4
@@ -292,9 +302,9 @@ __meta__ = {
 
 [node name="NetPlay" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 54.0
-margin_right = 204.0
-margin_bottom = 72.0
+margin_top = 56.0
+margin_right = 155.0
+margin_bottom = 74.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 text = "Net Play"
@@ -305,9 +315,9 @@ __meta__ = {
 
 [node name="Learn" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 82.0
-margin_right = 204.0
-margin_bottom = 100.0
+margin_top = 84.0
+margin_right = 155.0
+margin_bottom = 102.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 text = "Learn and Practice"
@@ -317,9 +327,9 @@ __meta__ = {
 
 [node name="ButtonConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 110.0
-margin_right = 204.0
-margin_bottom = 128.0
+margin_top = 112.0
+margin_right = 155.0
+margin_bottom = 130.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 text = "Button Configuration"
@@ -330,9 +340,9 @@ __meta__ = {
 
 [node name="AVConfig" type="ToolButton" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 138.0
-margin_right = 204.0
-margin_bottom = 156.0
+margin_top = 140.0
+margin_right = 155.0
+margin_bottom = 158.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 text = "AUDIO VIDEO CONFIG"
@@ -344,7 +354,7 @@ __meta__ = {
 [node name="SyncTest" type="Button" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons"]
 visible = false
 margin_top = 125.0
-margin_right = 272.0
+margin_right = 190.0
 margin_bottom = 148.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
@@ -352,9 +362,9 @@ text = "Sync Test"
 
 [node name="Quit" parent="MenuRoot/MainMenu/CenterContainer/MainMenuButtons" instance=ExtResource( 10 )]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 166.0
-margin_right = 204.0
-margin_bottom = 184.0
+margin_top = 168.0
+margin_right = 155.0
+margin_bottom = 186.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 theme = SubResource( 6 )
@@ -382,17 +392,17 @@ __meta__ = {
 }
 
 [node name="LocalLabel" type="Label" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 44.0
+margin_top = 43.0
 margin_right = 300.0
-margin_bottom = 60.0
+margin_bottom = 61.0
 theme = ExtResource( 3 )
 text = "Local Mode"
 align = 1
 
 [node name="Local" type="Button" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 64.0
+margin_top = 65.0
 margin_right = 300.0
-margin_bottom = 82.0
+margin_bottom = 83.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_right = NodePath(".")
 focus_neighbour_bottom = NodePath("../HBoxContainer/CPU")
@@ -405,9 +415,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 86.0
+margin_top = 87.0
 margin_right = 300.0
-margin_bottom = 104.0
+margin_bottom = 105.0
 
 [node name="CPU" type="Button" parent="MenuRoot/LocalMenu/LocalButtons/HBoxContainer"]
 margin_right = 249.0
@@ -433,9 +443,9 @@ align = 1
 script = ExtResource( 26 )
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/LocalMenu/LocalButtons"]
-margin_top = 108.0
+margin_top = 109.0
 margin_right = 300.0
-margin_bottom = 126.0
+margin_bottom = 127.0
 focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../HBoxContainer/CPU")
 focus_neighbour_right = NodePath(".")
@@ -557,9 +567,9 @@ align = 1
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 44.0
+margin_top = 43.0
 margin_right = 390.0
-margin_bottom = 226.0
+margin_bottom = 227.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -569,15 +579,15 @@ __meta__ = {
 
 [node name="NetPlayLabel" type="Label" parent="MenuRoot/NetPlayMenu/Entries"]
 margin_right = 300.0
-margin_bottom = 16.0
+margin_bottom = 18.0
 theme = ExtResource( 3 )
 text = "Net Play"
 align = 1
 
 [node name="NewMatch" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 20.0
+margin_top = 22.0
 margin_right = 300.0
-margin_bottom = 38.0
+margin_bottom = 40.0
 focus_neighbour_bottom = NodePath("../NewMatchContainer/CopyClipboard")
 size_flags_horizontal = 3
 text = "Create new match"
@@ -594,9 +604,9 @@ text = "send this match id to your opponent:"
 align = 1
 
 [node name="NewMatchContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 42.0
+margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 66.0
+margin_bottom = 68.0
 script = ExtResource( 9 )
 
 [node name="NewMatchID" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer"]
@@ -628,9 +638,9 @@ focus_neighbour_left = NodePath("../../NewMatch")
 text = "Copy to clipboard"
 
 [node name="Join" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 70.0
+margin_top = 72.0
 margin_right = 300.0
-margin_bottom = 88.0
+margin_bottom = 90.0
 focus_neighbour_top = NodePath("../NewMatchContainer/CopyClipboard")
 size_flags_horizontal = 3
 text = "Join EXISTING MATCH"
@@ -639,9 +649,9 @@ __meta__ = {
 }
 
 [node name="ExistingMatchContainer" type="HBoxContainer" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 92.0
+margin_top = 94.0
 margin_right = 300.0
-margin_bottom = 116.0
+margin_bottom = 118.0
 script = ExtResource( 25 )
 
 [node name="ExistingMatchID" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer"]
@@ -670,27 +680,27 @@ __meta__ = {
 }
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 120.0
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 138.0
+margin_bottom = 140.0
 text = "HOSTTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 142.0
+margin_top = 144.0
 margin_right = 300.0
-margin_bottom = 160.0
+margin_bottom = 162.0
 text = "JOINTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 164.0
+margin_top = 166.0
 margin_right = 300.0
-margin_bottom = 182.0
+margin_bottom = 184.0
 text = "Back"
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]
@@ -705,9 +715,9 @@ __meta__ = {
 
 [node name="AVConfigButtons" type="VBoxContainer" parent="MenuRoot/AVConfigMenu"]
 margin_left = 90.0
-margin_top = 28.0
+margin_top = 26.0
 margin_right = 390.0
-margin_bottom = 241.0
+margin_bottom = 243.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6

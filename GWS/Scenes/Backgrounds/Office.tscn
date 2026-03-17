@@ -23,7 +23,7 @@ shader = ExtResource( 10 )
 shader_param/color = Color( 0.207843, 0.203922, 0.298039, 1 )
 shader_param/reflection_intensity = 0.763
 shader_param/scale_y = 0.638957
-shader_param/zoom_y = 1.38174
+shader_param/zoom_y = 3.7755
 shader_param/transition_gradient = SubResource( 2 )
 
 [node name="Background" type="Node2D"]
@@ -109,6 +109,8 @@ scale_amount = 2.0
 scale_amount_random = 0.84
 
 [node name="Office Interior" type="Sprite" parent="."]
+position = Vector2( 0.5, 1 )
+scale = Vector2( 1.00208, 1.00741 )
 texture = ExtResource( 9 )
 
 [node name="MirrorYPlane" type="Sprite" parent="."]
@@ -116,16 +118,13 @@ modulate = Color( 0.14902, 0.14902, 0.14902, 0.501961 )
 light_mask = 0
 material = SubResource( 3 )
 position = Vector2( 1.15107, 103.899 )
-scale = Vector2( 5.92327, 0.638957 )
+scale = Vector2( 6, 0.639 )
 texture = ExtResource( 11 )
 script = ExtResource( 12 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = -239.0
 margin_top = -133.0
-margin_right = 238.0
-margin_bottom = 136.0
+margin_right = 243.0
+margin_bottom = 138.0
 color = Color( 0, 0, 0, 0.223529 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

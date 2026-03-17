@@ -54,6 +54,17 @@ public class Snail : HadoukenPart
 	{
 		base._Ready();
 		sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		sprite.Rotation = 0;
+	}
+
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+		if (sprite != null)
+		{
+			sprite.Rotation = 0;
+			sprite.Visible = true;
+		}
 	}
 
 	public override void Spawn(bool movingRight, Player targetPlayer)
@@ -64,6 +75,9 @@ public class Snail : HadoukenPart
 		hitConnectFrame = 0;
 		mode = SnailMode.GetInPosition;
 		snailOwner = (SL)targetPlayer.otherPlayer;
+		
+		Visible = true;
+		
 
 		if (snailOwner.rightCornerSnail && snailOwner.leftCornerSnail)
 			Destroy();
@@ -125,6 +139,8 @@ public class Snail : HadoukenPart
 	public override void AlwaysUpdate()
 	{
 		base.AlwaysUpdate();
+		if (!sprite.Visible)
+			return;
 		switch (mode)
 		{
 			case SnailMode.GetInPosition:

@@ -2,10 +2,8 @@
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
-font_path = "res://Fonts/pixelated.ttf"
+font_path = "res://Fonts/KiwiSoda.ttf"
 
 [resource]
-size = 17
 outline_size = 1
-extra_spacing_top = -3
 font_data = SubResource( 1 )

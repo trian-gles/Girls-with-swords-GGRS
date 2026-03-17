@@ -586,6 +586,12 @@ public class TutorialManager : TrainingManager
 		challenges.Add(burstChallenge);
 	}
 
+    public override void Quit()
+    {
+        base.Quit();
+		currChallengePtr = 0;
+    }
+
 
 	public override void _Ready()
 	{
@@ -765,7 +771,7 @@ public class TutorialManager : TrainingManager
 
 		if (shouldAdvance || failed)
 			return;
-		if (CheckFail())
+		if (CheckFail() && currGoalPtr < currChallenge.goals.Count)
 		{
 			FailGoal();
 			return;
@@ -934,9 +940,7 @@ public class TutorialManager : TrainingManager
 
 	private void CompleteGoal()
 	{
-
-
-			tutorialContainer.Call(TutorialSuccessGoalCallString, currGoalPtr);
+		tutorialContainer.Call(TutorialSuccessGoalCallString, currGoalPtr);
 		currGoalPtr++;
 		lastGoalCompletedFrame = Globals.frame;
 
@@ -965,5 +969,4 @@ public class TutorialManager : TrainingManager
 		recordingInputs2 = false;
 		gameScene.SetRecordingText("");
 	}
-
 }

@@ -26,7 +26,6 @@ public class HL : Player
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat", false, true));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "UpUpHat", true));
-		//easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "Feint"));
 		easySpecial = "Hadouken";
 
 		easyAirSpecial = "JoeRogan";
@@ -35,31 +34,11 @@ public class HL : Player
 
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 
-
-		//DP
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "DP"));
-
-		//Hadouken
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "Hadouken"));
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "UpHat"));
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "UpUpHat"));
-
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'p', 'p' } }, "JoeRogan"));
-
 	}
 	public override void _Ready()
 	{
-		//GD.Print("Calling HL Ready");
 		base._Ready();
 		charName = "HL";
-
-
-		//AddAltState("CrouchB");
-		//AddAltState("Walk");
-		//AddAltState("Slash");
-		//AddAltState("Crouch");
-		//AddAltState("Idle");
 	}
 
 

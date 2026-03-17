@@ -35,9 +35,6 @@ margin_right = 1.47195
 margin_bottom = -0.751617
 theme = ExtResource( 9 )
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 playerselect_path = NodePath("ConfigOverlay/Column/PlayerMenu/PlayerSelect")
 p1_action_list_path = NodePath("ConfigOverlay/Column/HBoxContainer/P1/ScrollContainer/ActionList")
 p2_action_list_path = NodePath("ConfigOverlay/Column/HBoxContainer/P2/ScrollContainer/ActionList")

@@ -32,7 +32,7 @@ public class Hadouken : BaseAttack
 	{
 		base._Ready();
 		cachedHadoukens = new List<HadoukenPart>();
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 16; i++)
 		{
 			var h = hadoukenScene.Instance() as HadoukenPart;
 			cachedHadoukens.Add(h);
@@ -73,7 +73,10 @@ public class Hadouken : BaseAttack
 
 				int xPos = (int)Mathf.Floor(owner.internalPos.x / 100);
 				int yPos = (int)Mathf.Floor(owner.internalPos.y / 100);
-				h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
+				if (owner.facingRight)
+					h.Position = new Vector2(xPos + xOffset, yPos + yOffset);
+				else
+					h.Position = new Vector2(xPos - xOffset, yPos + yOffset);
 				if (Globals.logOn)
 					Globals.Log($"Emitting hadouken at position {h.Position}, our position = {owner.Position}, our frameCount = {frameCount}");
 				if (mustCooldown ) 

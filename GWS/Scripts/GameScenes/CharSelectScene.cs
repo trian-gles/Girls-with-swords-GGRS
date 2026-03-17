@@ -29,6 +29,7 @@ public class CharSelectScene : BaseGame
 	private Sprite P2Cursor;
 	
 	private Godot.AnimationPlayer animationPlayer;
+	private AnimationTree animationTree;
 	
 	private CharSelectAudio audio;
 
@@ -105,7 +106,7 @@ public class CharSelectScene : BaseGame
 	public override void _Ready()
 	{
 		animationPlayer = GetNode<Godot.AnimationPlayer>("CanvasLayer/P1ColorSelect/Animation");
-		
+		animationTree = GetNode<AnimationTree>("CanvasLayer/StartupAnimation");
 		HUDText = GetNode<Control>("CanvasLayer/DebugText");
 		base._Ready();
 		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
@@ -193,22 +194,22 @@ public class CharSelectScene : BaseGame
 
 	public unsafe override byte[] SaveState(int frame)
 	{
-        var state = new GameState
-        {
-            p1Color = p1Color,
-            p2Color = p2Color,
-            p1Pos = p1Pos,
-            p2Pos = p2Pos,
-            p1Selected = p1Selected,
-            p2Selected = p2Selected,
-            stageSelected = stageSelected,
-            lastFrameInputs = lastInputs,
-            selectedStage = selectedStage,
-            charSelectFrame = charSelectFrame,
-            selectStagePlayer = selectStagePlayer
-        };
+		var state = new GameState
+		{
+			p1Color = p1Color,
+			p2Color = p2Color,
+			p1Pos = p1Pos,
+			p2Pos = p2Pos,
+			p1Selected = p1Selected,
+			p2Selected = p2Selected,
+			stageSelected = stageSelected,
+			lastFrameInputs = lastInputs,
+			selectedStage = selectedStage,
+			charSelectFrame = charSelectFrame,
+			selectStagePlayer = selectStagePlayer
+		};
 
-        var arr = memoryPool.Get();
+		var arr = memoryPool.Get();
 		fixed (byte* p = arr)
 		{
 			SerializeState(ref state, p);
@@ -538,6 +539,8 @@ public class CharSelectScene : BaseGame
 	public void Reload()
 	{
 		ShowAll();
+		var stateMachine = (AnimationNodeStateMachinePlayback) animationTree.Get("parameters/playback");
+		stateMachine.Start("Init");
 		lastInputs.SetInputs(16 + 32 + 64, 16 + 32 + 64); // prevent held down keys from immediately selecting
 		ResetRound();
 		HighlightChar(0, p1Pos);

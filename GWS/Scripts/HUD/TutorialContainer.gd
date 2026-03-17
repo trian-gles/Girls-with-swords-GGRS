@@ -39,11 +39,11 @@ func curr_goal(ptr):
 	
 func fail_goal(ptr):
 	goals[ptr].fail()
-	$Swingin.text = "CHALLENGE FAILED! \nPress `reset` to restart\nPress `playback` for a demo"
+	$Swingin.text = "CHALLENGE FAILED! Press `reset` to restart \n`playback` for a demo"
 	$Swingin.visible = true
 	
 func success_all():
-	$Swingin.text = "SWINGIN! \nPress `reset` to continue"
+	$Swingin.text = "SWINGIN! Press `reset` to continue"
 	$Swingin.visible = true
 	
 func playback_finished():
@@ -52,7 +52,7 @@ func playback_finished():
 	
 	
 func finish():
-	$Swingin.text = "SWINGIN! \nPress `reset` to exit"
+	$Swingin.text = "SWINGIN! Press `reset` to exit"
 	$Complete.visible = true
 	
 	

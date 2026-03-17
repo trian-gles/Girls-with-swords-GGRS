@@ -8,11 +8,15 @@ extents = Vector2( 24, 12 )
 
 [node name="OLProjectile" instance=ExtResource( 1 )]
 level = 3
+opponentLaunch = Vector2( 0, -1000 )
+chLaunch = Vector2( 0, -1000 )
+launchOnGrounded = false
 chEffect = 3
 speed = Vector2( 3, 0 )
 postHitSpeed = Vector2( 3, 0 )
 duration = 200
-slowTerminalVelocity = 300
+slowTerminalVelocity = 250
+modifiedProration = -1
 
 [node name="AnimatedSprite" parent="." index="0"]
 scale = Vector2( 3, 3 )

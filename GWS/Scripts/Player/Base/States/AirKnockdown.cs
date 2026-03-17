@@ -31,8 +31,11 @@ public class AirKnockdown : Float
 			if (owner.health > 0)
 				owner.ChangeState(KnockdownString);
 			else
+			{
 				owner.ChangeState(DownString);
 				owner.ResetComboAndProration();
+			}
+
 		}
 		ApplyGravity();
 	}

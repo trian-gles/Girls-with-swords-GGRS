@@ -93,7 +93,7 @@ public class AIBehaviour
 		frame = state.frame;
 		string nextState = behaviour.GetNextState(state);
 		// Global handling which must be done here
-		if (p2Tags.Contains(Globals.Tags.@float))
+		if (p2Tags.Contains(Globals.Tags.techable))
 			nextState = "FloatTech";
 
 		if (p2Tags.Contains(Globals.Tags.knockdown) && behaviourName.Substr(0, 6) != "Wakeup") // TODO - remove this string concat
@@ -157,7 +157,7 @@ public class AIBehaviour
 	public bool CheckGroundHitConfirm(GameStateObjectRedesign.GameState state)
 	{
 		
-		return (state.P2State.grounded && p1Tags.Contains(Globals.Tags.hitstate) && !p1Tags.Contains(Globals.Tags.block));
+		return (state.P2State.grounded && p1Tags.Contains(Globals.Tags.hitstate) && !p1Tags.Contains(Globals.Tags.block) && !p1Tags.Contains(Globals.Tags.knockdown));
 	}
 
 	public bool CheckMixupConfirm(GameStateObjectRedesign.GameState state)

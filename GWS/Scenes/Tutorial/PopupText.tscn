@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Themes/WhiteHUDText.tres" type="Theme" id=1]
+[ext_resource path="res://Themes/Subtitles.tres" type="Theme" id=1]
 [ext_resource path="res://Scripts/Tutorial/PopupText.gd" type="Script" id=2]
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -25,7 +25,5 @@ margin_top = 30.0
 margin_right = 180.0
 margin_bottom = 185.0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 text = "Hello there!"
 autowrap = true

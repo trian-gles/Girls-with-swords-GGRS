@@ -95,6 +95,9 @@ public class HadoukenPart : Node2D
 	[Signal]
 	public delegate void OnHitConnected(int hitPush);
 
+	[Export]
+	public int modifiedProration = 0;
+
 	protected int lastHitFrame = -20;
 	public int id;
 
@@ -165,6 +168,14 @@ public class HadoukenPart : Node2D
 		chDetails.height = height;
 		hitDetails.airBlockable = true;
 
+		hitDetails.opponentLaunch = opponentLaunch;
+		chDetails.opponentLaunch = chLaunch;
+		if (modifiedProration != 0)
+		{
+			hitDetails.prorationLevel = modifiedProration;
+			chDetails.prorationLevel = modifiedProration;
+		}
+
 		hitDetails.graphicFX = hitGfx;
 		chDetails.graphicFX = hitGfx;
 
@@ -198,6 +209,9 @@ public class HadoukenPart : Node2D
 		animatedSprite.Frame = 0;
 		animatedSprite.Playing = true;
 		this.movingRight = movingRight;
+		var tempScale = collisionShape2D.Scale;
+		tempScale.x = movingRight ? 1 : -1;
+		collisionShape2D.Scale = tempScale;
 		this.targetPlayer = targetPlayer;
 
 		// this is a bit lazy...
@@ -377,7 +391,11 @@ public class HadoukenPart : Node2D
 			hitDetailsCopy.opponentLaunch = opponentLaunch;
 			chHitDetailsCopy.opponentLaunch = chLaunch;
 			if (!launchOnGrounded)
-				hitDetailsCopy.hitStun += 10;
+			{
+				hitDetailsCopy.hitStun += 15;
+				chHitDetailsCopy.hitStun += 15;
+			}
+				
 		}
 
 		hitDetailsCopy.dir = BaseAttack.ATTACKDIR.RIGHT;

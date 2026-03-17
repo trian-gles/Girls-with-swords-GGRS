@@ -20,6 +20,7 @@ public class Float : HitStun
 		base._Ready();
 		stop = false;
 		tags.Add(Globals.Tags.aerial);
+		tags.Add(Globals.Tags.techable);
 	}
 
 	public override bool DelayInputs()
@@ -53,7 +54,7 @@ public class Float : HitStun
 	{
 		Globals.EmitPlayerFXEmitted(collisionPnt, HitString, owner.OtherPlayerOnLeft());
 
-		if (!(launch == Vector2.Zero))
+		if (launch != Vector2.Zero)
 		{
 			owner.velocity = launch;
 			owner.velocity.y += owner.combo * 20;

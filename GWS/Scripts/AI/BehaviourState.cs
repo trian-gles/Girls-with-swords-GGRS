@@ -35,7 +35,14 @@ public class BehaviourState
         if (Globals.aiDifficulty == Globals.AIDIFFICULTY.LO && rng.Next(3) != 1)
             return 0;
         else
-            return 32 + 64;
+        {
+            if (!(((owner.lastInp & Globals.KICK) == 0)&&((owner.lastInp & Globals.SLASH) == 0)))
+                return 0;
+            else
+                return Globals.KICK + Globals.SLASH;
+        }
+            
+            
     }
 
     public void Init(AIBehaviour owner)

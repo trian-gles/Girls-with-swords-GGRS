@@ -61,4 +61,4 @@ states/SLFadeIn/node = SubResource( 7 )
 states/SLFadeIn/position = Vector2( 513.54, 149.625 )
 transitions = [ "Init", "OLFadeIn", SubResource( 8 ), "OLFadeIn", "GLFadeIn", SubResource( 9 ), "GLFadeIn", "SLFadeIn", SubResource( 10 ), "CursorFadeIn", "Blink", SubResource( 11 ), "SLFadeIn", "HLFadeIn", SubResource( 12 ), "HLFadeIn", "CursorFadeIn", SubResource( 13 ) ]
 start_node = "Init"
-graph_offset = Vector2( 168.17, 0 )
+graph_offset = Vector2( -374.367, 0 )

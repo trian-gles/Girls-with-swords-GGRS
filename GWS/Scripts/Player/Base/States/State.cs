@@ -485,6 +485,7 @@ public abstract class State : Node
 				cancelState,
 				() => {
 					owner.landingRecoveryFramesRemaining = 0;
+					owner.ClearInputs();
 					owner.GFXEvent(CancelGfxString);
 					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, RcString, cancelState);
 				});
@@ -797,7 +798,7 @@ public abstract class State : Node
 	protected virtual void ReceiveMidBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
 	{
 		if (owner.CheckOverrideBlock())
-			EnterBlockState(BlockStateString, details.collisionPnt, details.hitStop);
+			EnterBlockState(CrouchBlockStateString, details.collisionPnt, details.hitStop);
 
 		else if (rightBlock || leftBlock || anyBlock)
 		{
@@ -941,7 +942,8 @@ public abstract class State : Node
 			fixDmg /= comboPror;
 		}
 			
-		
+		if (owner.combo == 1 ) // no negative proration from initial hits
+			hitProration = Math.Max(hitProration, 0);
 		owner.DeductHealth((int)fixDmg + 10);
 		owner.Prorate(hitProration);
 	}

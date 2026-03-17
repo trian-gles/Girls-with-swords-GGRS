@@ -874,12 +874,14 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P1 Chooses Stage"
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 269, 118 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
 texture = ExtResource( 4 )
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 189, 118 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
@@ -993,12 +995,10 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 4
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P1ColorSelect"]
 texture = ExtResource( 29 )
 hframes = 16
-frame = 4
 
 [node name="P2ColorSelect" type="Node2D" parent="CanvasLayer"]
 position = Vector2( 76.5433, 150.308 )
@@ -1011,13 +1011,13 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 1
+frame = 2
 
 [node name="ColorRight" type="Sprite" parent="CanvasLayer/P2ColorSelect"]
 position = Vector2( -191.789, 0 )
 texture = ExtResource( 29 )
 hframes = 16
-frame = 1
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/P2ColorSelect"]
 anims/Bounce = SubResource( 23 )
@@ -1034,15 +1034,19 @@ parameters/playback = SubResource( 30 )
 [node name="P2Selected" parent="CanvasLayer" instance=ExtResource( 7 )]
 position = Vector2( 440, 145 )
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 480.0
+margin_bottom = 270.0
+color = Color( 0.184314, 0.196078, 0.278431, 1 )
+
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource( 44 )
 margin_top = -13.0
 margin_right = 480.0
 margin_bottom = 277.0
 color = Color( 0.141176, 0.180392, 0.235294, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CharSelectAudio" type="AudioStreamPlayer" parent="."]
 bus = "UI"

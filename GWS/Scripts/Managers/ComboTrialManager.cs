@@ -68,6 +68,13 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6P"
 		};
 
+		Goal hadoukenGoal = new Goal("Hadouken", "down", "special")
+		{
+			p2StateFrame = 0,
+			p1State = "Hadouken"
+		};
+		Goal runGoal = new Goal("Run", "right", "dash");
+		runGoal.p1State = "Run";
 
 
 		Challenge basicComboChallenge = new Challenge("Easy Combo");
@@ -123,16 +130,19 @@ public class ComboTrialManager : TutorialManager
 		challenges.Add(cornerThrowCombo);
 
 		Challenge cornerPunish = new Challenge("Corner punish", GameScene.ResetPos.P2CORNEREDRIGHT);
-		cornerPunish.goals.Add(cjabGoal);
+
+		cornerPunish.goals.Add(sixPGoal);
+		cornerPunish.goals.Add(sixSGoal);
+		cornerPunish.goals.Add(hadoukenGoal);
+		cornerPunish.goals.Add(runGoal);
+		cornerPunish.goals.Add(kickGoal);
+		cornerPunish.goals.Add(sixSGoal);
+		cornerPunish.goals.Add(hadoukenGoal);
 		cornerPunish.goals.Add(sixPGoal);
 		cornerPunish.goals.Add(fJumpGoal);
-		cornerPunish.goals.Add(jKickGoal);
-		cornerPunish.goals.Add(jSlashGoal);
+		cornerPunish.goals.Add(adGoal);
+		cornerPunish.goals.Add(jJabGoal);
 		cornerPunish.goals.Add(dpGoal);
-		cornerPunish.goals.Add(sixSGoal);
-		cornerPunish.goals.Add(hojogiriGoal);
-		cornerPunish.goals.Add(cjabGoal);
-		cornerPunish.goals.Add(kickGoal);
 		cornerPunish.goals.Add(sixSGoal);
 		cornerPunish.goals.Add(hojogiriGoal);
 		cornerPunish.MakeComboChallenge();

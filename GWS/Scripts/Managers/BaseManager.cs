@@ -129,29 +129,6 @@ public class BaseManager : Node2D
 		gameScene.ChangeHUDText("");
 	}
 
-	/// <summary>
-	/// DEPRECATED
-	/// </summary>
-	protected void CreateGamescenes()
-	{
-		charSelectScene = packedCharSelectScene.Instance() as CharSelectScene;
-		charSelectScene.manager = this;
-		AddChild(charSelectScene);
-		currGame = charSelectScene;
-
-		gameScene = packedGameScene.Instance() as GameScene;
-		gameScene.Connect("GameWon", this, nameof(OnGameWon));
-		gameScene.Connect("ComboFinished", this, nameof(OnComboFinished));
-		gameScene.manager = this;
-		AddChild(gameScene);
-
-		winScene = packedWinScene.Instance() as WinScene;
-		winScene.Connect("Rematch", this, nameof(OnRematch));
-		winScene.Connect("ReselectChar", this, nameof(OnReselectChar));
-		winScene.manager = this;
-		AddChild(winScene);
-	}
-
 /// <summary>
 /// Adds the cached gamescenes to this manager
 /// </summary>
@@ -183,22 +160,21 @@ public class BaseManager : Node2D
 		
 	}
 
-	public void Quit()
+	public virtual void Quit()
 	{
 		gameScene.Quit();
 		charSelectScene.Reload();
+		gameScene.Disconnect("GameWon", this, nameof(OnGameWon));
+		gameScene.Disconnect("ComboFinished", this, nameof(OnComboFinished));
+		winScene.Disconnect("Rematch", this, nameof(OnRematch));
+		winScene.Disconnect("ReselectChar", this, nameof(OnReselectChar));
 		RemoveChild(charSelectScene);
 		RemoveChild(gameScene);
 		RemoveChild(winScene);
 	}
 
-
-	// ----------------
-	// Signal Receptors
-	// ----------------
 	public virtual void OnNewGame()
 	{
-			
 		currGame = gameScene;
 		MoveChild(charSelectScene, 0);
 		gameScene.config(playerOne, playerTwo, colorOne, colorTwo, hosting, Globals.frame, bkgIndex);

@@ -447,6 +447,13 @@ public class Player : Node2D
 		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, 0);
 	}
 
+	public virtual void Init()
+	{
+		ColorSprite();
+		Show();
+		SetProcess(true);
+	}
+
 	public virtual void Reset()
 	{
 		ResetComboAndProration();
@@ -454,6 +461,9 @@ public class Player : Node2D
 		velocity = Vector2.Zero;
 		electrocuted = false;
 		hitPushRemaining = 0;
+		lastPressedDownFrame = 0;
+		lastPressedDashFrame = 0;
+		lastPressedUpFrame = 0;
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
@@ -461,9 +471,11 @@ public class Player : Node2D
 			burstMeter = 100;
 			Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 		}
-
 		else
+		{
 			meter = 0;
+		}
+			
 		inputHandler.Reset();
 	}
 
@@ -682,6 +694,11 @@ public class Player : Node2D
 		
 	}
 
+	public void ClearInputs()
+	{
+		inputHandler.clearUnhandled = true;
+	}
+
 	/// <summary>
 	/// Deals with unhandled inputs, the input buffer, and a hitstop buffer.  Subject to constant change
 	/// </summary>
@@ -700,6 +717,10 @@ public class Player : Node2D
 		/// Used for checking if a key has been pressed or released
 		/// </summary>
 		public int lastFrameInputs;
+		/// <summary>
+		/// We need to not evaluate further inputs after beginning some action
+		/// </summary>
+		public bool clearUnhandled;
 
 		public void Reset()
 		{
@@ -856,9 +877,6 @@ public class Player : Node2D
 				BufAddInput(inputArr);
 			}
 			
-			
-			// Hold or release keys REGARDLESS of hitstop
-
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
 				var inputArr = unhandledInputs[i];
@@ -895,8 +913,10 @@ public class Player : Node2D
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
 				playerState.HandleInput(unhandledInputs[i]);
+				if (clearUnhandled)
+					break;
 			}
-			
+			clearUnhandled = false;
 			unhandledInputs.Clear();
 		}
 
@@ -1253,15 +1273,18 @@ public class Player : Node2D
 			}
 			else
 			{
+				var speed = hitPushSpeed;
+				if (currentState.tags.Contains(Globals.Tags.shield))
+					speed *= 2;
 				if (hitPushRemaining < 0)
 				{
-					internalPos.x -= hitPushSpeed;
-					hitPushRemaining += hitPushSpeed;
+					internalPos.x -= speed;
+					hitPushRemaining += speed;
 				}
 				else
 				{
-					internalPos.x += hitPushSpeed;
-					hitPushRemaining -= hitPushSpeed;
+					internalPos.x += speed;
+					hitPushRemaining -= speed;
 				}
 			}
 		}
@@ -1494,7 +1517,8 @@ public class Player : Node2D
 			receivedHit = Globals.otgHit;
 
 		}
-		if (currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial))
+		if ((currentState.isCounter && (!hasHurtboxActive || currentState.isSpecial)) || 
+		(Globals.alwaysCounter && combo == 0))
 		{
 			receivedHit = chDetails;
 			Globals.EmitSignal(Globals.PlayerSignal.Counter, otherPlayer.Name);

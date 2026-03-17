@@ -304,9 +304,12 @@ public class LobbyRedesign : Node2D
 	
 	public void OnLobbyReset()
 	{
-		activeManager.Visible = false;
-		activeManager.Quit();
-		RemoveChild(activeManager);
+		if (activeManager != null)
+		{
+			activeManager.Visible = false;
+			activeManager.Quit();
+			RemoveChild(activeManager);
+		}
 		
 		menuroot.Visible = true;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;

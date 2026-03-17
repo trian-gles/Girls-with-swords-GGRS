@@ -71,19 +71,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 17, 33 )
+extents = Vector2( 15, 26 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 14, 9 )
+extents = Vector2( 10, 13 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 6, 10 )
+extents = Vector2( 60, 60 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 22 )
+extents = Vector2( 19, 17 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 20, 8 )
@@ -431,7 +431,7 @@ len = 10
 
 [node name="Tech" type="Node" parent="StateTree"]
 script = ExtResource( 38 )
-techVector = Vector2( 400, -500 )
+techVector = Vector2( 400, -600 )
 
 [node name="GroundBounce" type="Node" parent="StateTree"]
 script = ExtResource( 42 )
@@ -475,6 +475,7 @@ script = ExtResource( 64 )
 opponentLaunch = Vector2( 800, -300 )
 chLaunch = Vector2( 1400, -300 )
 modifiedDmg = 1
+whiffSound = "Burst"
 landingRecoveryFrames = 16
 launch = Vector2( 0, -900 )
 

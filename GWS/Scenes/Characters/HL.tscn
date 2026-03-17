@@ -1919,10 +1919,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 12, 14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false, true ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -10140,13 +10140,13 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 17, 5 )
-disabled = false
+position = Vector2( 0, 0 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 55, 21 )
@@ -10161,14 +10161,14 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 69
+frame = 47
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
-offset = Vector2( 10, 0 )
+offset = Vector2( 0, -5 )
 hframes = 255
 vframes = 2
-frame = 69
+frame = 47
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -10194,6 +10194,7 @@ opponentLaunch = Vector2( 300, -1200 )
 modifiedHitPush = 6000
 restoreHitFrames = PoolIntArray( 12 )
 superKaraButton = "s"
+specialBurstKara = true
 launch = Vector2( 200, -1000 )
 launchFrame = 3
 throwFrame = 25
@@ -10201,6 +10202,7 @@ throwFrame = 25
 [node name="Teleport" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 6 )
 isSpecial = true
+specialBurstKara = true
 teleFrame = 10
 
 [node name="DoubleJump" parent="StateTree" index="25"]
@@ -10274,6 +10276,7 @@ hopForce = 40
 [node name="UpHat" type="Node" parent="StateTree" index="45"]
 script = ExtResource( 12 )
 isSpecial = true
+specialBurstKara = true
 releaseFrame = 14
 hadoukenScene = ExtResource( 7 )
 hadoukenSound = "Whiff"
@@ -10284,6 +10287,7 @@ noHatState = "HatSlash"
 [node name="AirHat" type="Node" parent="StateTree" index="46"]
 script = ExtResource( 14 )
 isSpecial = true
+specialBurstKara = true
 hadoukenScene = ExtResource( 25 )
 hadoukenSound = "Whiff"
 targetPos = Vector2( 100, 0 )
@@ -10293,6 +10297,7 @@ dropFrame = 15
 [node name="UpUpHat" type="Node" parent="StateTree" index="47"]
 script = ExtResource( 12 )
 isSpecial = true
+specialBurstKara = true
 releaseFrame = 14
 hadoukenScene = ExtResource( 8 )
 negEdgeButton = "s"
@@ -10425,6 +10430,8 @@ sweepCancel = true
 [node name="DashAttack" type="Node" parent="StateTree" index="62"]
 script = ExtResource( 27 )
 level = 2
+whiffSound = "PunchWhiff"
+hitSound = "PunchHit"
 grabInvulnFrames = 20
 sweepCancel = true
 commandNormalCancel = true
@@ -10434,6 +10441,7 @@ stopFrame = 14
 [node name="HatSlash" type="Node" parent="StateTree" index="64"]
 script = ExtResource( 28 )
 isSpecial = true
+specialBurstKara = true
 releaseFrame = 6
 hadoukenScene = ExtResource( 29 )
 hadoukenSound = "SlashWhiff"
@@ -10450,6 +10458,7 @@ opponentLaunch = Vector2( 0, -1200 )
 chLaunch = Vector2( 0, -1200 )
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+specialBurstKara = true
 launch = Vector2( 0, -600 )
 launchFrame = 8
 teleFrame = 7
@@ -10463,6 +10472,7 @@ modifiedHitPush = 2000
 height = 2
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
+specialBurstKara = true
 launchFrame = 8
 exitOnLand = true
 teleFrame = 8

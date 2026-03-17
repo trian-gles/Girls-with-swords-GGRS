@@ -91,8 +91,11 @@ public class CharacterAudio : Node
 
 		AddSound("FireThrow", LoadAudio("res://Sounds/hat-throw.ogg"), 2);
 
-		AddSound("Burst", LoadAudio("res://Sounds/burst.ogg"));
+		AddSound("Burst", LoadAudio("res://Sounds/burst.ogg"), 3);
 		AddSound("OHSHIT", LoadAudio("res://Sounds/OH-SHIT.ogg"), 3);
+
+		AddSound("Talking1", LoadAudio("res://Sounds/talking1.ogg"));
+		AddSound("Talking2", LoadAudio("res://Sounds/talking2.ogg"));
 
 		foreach (var child in GetChildren())
 		{

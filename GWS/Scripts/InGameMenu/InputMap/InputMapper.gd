@@ -92,15 +92,16 @@ func change_profile(profile_id, player_id):
 
 #called by change_profile above
 func change_action_key(action_name, key_scancode, device_id, player_id):
-	
 	erase_action_events(action_name)
 	var new_button = InputEventJoypadButton.new()
 	new_button.set_button_index(key_scancode)
 	new_button.device = device_id
 	InputMap.action_add_event(action_name, new_button)
+	InputMap.action_add_event('ui_accept', new_button)
 	
 	var new_key = InputEventKey.new()
 	new_key.set_scancode(key_scancode)
+	InputMap.action_add_event('ui_accept', new_key)
 	InputMap.action_add_event(action_name, new_key)
 
 #clears old action events called by change_action_key above

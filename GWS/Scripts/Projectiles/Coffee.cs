@@ -8,7 +8,7 @@ class Coffee : HadoukenPart
 {
 	private const string CoffeeString = "coffee";
 	private const string CoffeeExplosionString = "CoffeeExplosion";
-	Fix64 offset = new Fix64(225);
+	Fix64 offset = new Fix64(210);
 	Fix64 mult = new Fix64(32);
 	Fix64 div = new Fix64(8);
 	public override void FrameAdvance()

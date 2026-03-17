@@ -27,7 +27,8 @@ func set_paused(value: bool) -> void:
 		$PauseOverlay/PauseMenu/AutoTech.visible = in_training
 		
 func _on_AutoBlock_toggled(button_pressed):
-	get_node("/root/Globals").call("SetAlwaysBlock", button_pressed)
+	if is_inside_tree():
+		get_node("/root/Globals").call("SetAlwaysBlock", button_pressed)
 
 
 func _on_AutoTech_toggled(button_pressed):

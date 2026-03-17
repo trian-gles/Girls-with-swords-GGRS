@@ -35,6 +35,7 @@ public class Globals : Node
 	public static bool logOn = false;
 
 	public static bool alwaysBlock = false;
+	public static bool alwaysCounter = false;
 	public static bool autoTech = false;
 
 	public static bool DISABLESFX = false;
@@ -327,7 +328,7 @@ public class Globals : Node
 	public enum Tags
 	{
 		attack,	aerial, hitstate, tech, block, crouching, recovery, grab, idle, knockdown, @float, run, 
-		jab, kick, slash, special, movestate
+		jab, kick, slash, special, movestate, shield, techable
 	}
 
 	public struct AttackDetails

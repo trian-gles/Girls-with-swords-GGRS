@@ -55,6 +55,7 @@ public class GameScene : BaseGame
 	private Godot.Collections.Array<SplashText> splashTexts;
 	private Label recordingText;
 	private ColorRect recordingBack;
+	private Control tutorialContainer;
 
 	// WIN STATE
 	private int p1Wins = 0;
@@ -87,6 +88,7 @@ public class GameScene : BaseGame
 	private const string PlayIdxCallString = "play_idx";
 	private const string DrawSnailCallString = "draw_snail";
 	private const string SnailUpdateString = "SnailUpdate";
+	private const string TutorialContainerPath = "HUD/TutorialContainer";
 
 
 	// TIME HANDLING
@@ -181,6 +183,15 @@ public class GameScene : BaseGame
 		p2RoundCounters = GetNode<HBoxContainer>("HUD/P2RoundCounters");
 		p1Logos = GetNode<Node2D>("HUD/P1Logo");
 		p2Logos = GetNode<Node2D>("HUD/P2Logo");
+		P1Combo = GetNode<HUDCombo>("HUD/P1Combo");
+		P2Combo = GetNode<HUDCombo>("HUD/P2Combo");
+		P1Health = GetNode<TextureProgress>("HUD/P1Health");
+		P2Health = GetNode<TextureProgress>("HUD/P2Health");
+		timer = GetNode<Label>("HUD/Timer");
+		centerText = GetNode<Label>("HUD/CenterText");
+		statsText = GetNode<Label>("HUD/NetStats");
+		mainGFX = GetNode<MainGFX>("MainGFX");
+		camera = GetNode<Camera>("Camera2D");
 		// cache frequently used HUD controls to avoid runtime GetNode calls
 		mainGFX = GetNode<MainGFX>("MainGFX");
 		debugControls = new Control[] {
@@ -189,7 +200,7 @@ public class GameScene : BaseGame
 			GetNode<Control>("HUD/DebugText"),
 			GetNode<Control>("HUD/DebugText/DebugTextLabel")
 		};
-
+		tutorialContainer = GetNode<Control>(TutorialContainerPath);
 		splashText = GetNode<Control>("HUD/SplashText");
 
 
@@ -220,22 +231,40 @@ public class GameScene : BaseGame
 		P1.Position = new Vector2(133, 240);
 		P1.colorScheme = colorOne;
 		AddChild(P1);
-		P1.Show();
-		P1.SetProcess(true);
+		P1.Init();
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
 		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
+		P1.aiControlled = false;
 
 		//p2
 		P2 = Globals.P2Characters[playerTwoIndex];
 		P2.Name = PlayerTwoString;
 		P2.Position = new Vector2(330, 240);
 		P2.colorScheme = colorTwo;
+		P2.aiControlled = false;
 		AddChild(P2);
+		P2.Init();
 		MoveChild(P2, 5);
-		
 		p2Ind = playerTwoIndex;
 		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
+
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
+		{
+			P1Meter.Value = 100;
+			P2Meter.Value = 100;
+			p1RoundCounters.Visible = false;
+			p2RoundCounters.Visible = false;
+		}
+		else
+		{
+			p1RoundCounters.Visible = true;
+			p2RoundCounters.Visible = true;
+			P1Meter.Value = 0;
+			P2Meter.Value = 0;
+		}
+		
+		
 
 		SetPos(ResetPos.ROUNDSTART);
 
@@ -251,7 +280,6 @@ public class GameScene : BaseGame
 		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.CanTech, OnPlayerCanEscape);
 		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.MissedTech, OnPlayerMissedEscape);
 		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.SuperFlash, OnSuperActivate);
-		GD.Print("Calling gamecene config");
 
 		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
 		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
@@ -261,15 +289,7 @@ public class GameScene : BaseGame
 		P1.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
 		P2.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
 
-		P1Combo = GetNode<HUDCombo>("HUD/P1Combo");
-		P2Combo = GetNode<HUDCombo>("HUD/P2Combo");
-		P1Health = GetNode<TextureProgress>("HUD/P1Health");
-		P2Health = GetNode<TextureProgress>("HUD/P2Health");
-		timer = GetNode<Label>("HUD/Timer");
-		centerText = GetNode<Label>("HUD/CenterText");
-		statsText = GetNode<Label>("HUD/NetStats");
-		mainGFX = GetNode<MainGFX>("MainGFX");
-		camera = GetNode<Camera>("Camera2D");
+
 		centerText.Visible = true;
 		inputText.Call(ClearCallString);
 		inputTextP2.Call(ClearCallString);
@@ -462,7 +482,7 @@ public class GameScene : BaseGame
 			else
 			{
 				P1Combo.Off();
-				if (Globals.mode == Globals.Mode.TRAINING)
+				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 					EmitSignal(nameof(ComboFinished), PlayerOneString);
 			}
 		}
@@ -476,7 +496,7 @@ public class GameScene : BaseGame
 			else
 			{
 				P2Combo.Off();
-				if (Globals.mode == Globals.Mode.TRAINING)
+				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 					EmitSignal(nameof(ComboFinished), PlayerTwoString);
 			}
 		}
@@ -756,7 +776,6 @@ public class GameScene : BaseGame
 
 		if (Globals.frame == trueEndingFrame + 30)
 		{
-			GD.Print($"True frame reached. P1 wins = {p1Wins} P2 wins = {p2Wins}");
 			if (P1Health.Value > P2Health.Value)
 			{
 				p1Wins++;
@@ -859,8 +878,10 @@ public class GameScene : BaseGame
 
 	public void Quit()
 	{
+		music.Stop();
 		if (configured)
 		{
+			tutorialContainer.Call("reset");
 			ResetRound();
 			mainGFX.Quit();
 			OnPlayerBurstSet(PlayerOneString, 100);
@@ -874,7 +895,8 @@ public class GameScene : BaseGame
 			RemoveChild(P2);
 			configured = false;
 			HUD.Layer = -1;
-			music.Stop();
+			Globals.autoTech = false;
+			Globals.alwaysBlock = false;
 		}
 	}
 

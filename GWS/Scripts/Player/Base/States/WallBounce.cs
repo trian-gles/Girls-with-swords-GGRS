@@ -25,16 +25,7 @@ public class WallBounce : AirKnockdown
 			owner.velocity.x = 200;
 			if (sign != 0)
 				owner.velocity.x *= sign;
-			//GD.Print("Lower than min vel");
 		}
-		
-		
-		//if (owner.CheckTouchingWall())
-		//{
-		//	owner.velocity.x *= -1;
-		//}
-		
-			
 	}
 	public override void Load(int[] loadData)
 	{

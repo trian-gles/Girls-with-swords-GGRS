@@ -18,6 +18,12 @@ public class TrainingManager : BaseManager
 		
 	}
 
+    public override void Quit()
+    {
+		gameScene.ignoreTime = false;
+        base.Quit();
+    }
+
 	public override void _PhysicsProcess(float delta)
 	{
 		int p1Inputs;

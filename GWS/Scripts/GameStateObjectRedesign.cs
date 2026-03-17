@@ -95,6 +95,8 @@ public class GameStateObjectRedesign : Node
 		P2.otherPlayer = P1;
 		P1.internalPos = P1.Position * 100;
 		P2.internalPos = P2.Position * 100;
+		P1.Reset();
+		P2.Reset();
 
 		P1.CheckTurnAround();
 		P2.CheckTurnAround();

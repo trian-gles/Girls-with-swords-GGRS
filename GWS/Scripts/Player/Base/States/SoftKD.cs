@@ -18,6 +18,7 @@ public class SoftKD : HitState
         owner.velocity.y = 0;
         //owner.GFXEvent("Blood");
         ResetTerminalVelocity();
+        tags.Add(Globals.Tags.techable);
     }
     public override void AnimationFinished()
     {
@@ -38,7 +39,6 @@ public class SoftKD : HitState
         base.FrameAdvance();
         if (frameCount < 16)
         {
-            //GD.Print("Trying to tech from soft KD");
             TryTech();
         }
     }

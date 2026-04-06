@@ -256,7 +256,7 @@ func start_traversal(id, player_name, version):
 	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	check_version()
 	
-	#_try_create_session()
+	_try_create_session()
 	
 
 	

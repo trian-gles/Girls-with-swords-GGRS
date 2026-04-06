@@ -928,12 +928,14 @@ public abstract class State : Node
 				hitProration *= 3;
 			else
 				hitProration = 0;
+
+			hitProration += owner.otherPlayer.defaultInitialProrate;
 		}
 
 
 		stunRemaining = details.hitStun;
 
-		var prorActual = details.ignoreProration ? 24 : owner.proration;
+		var prorActual = details.ignoreProration ? 22 : owner.proration;
 		var fixDmg = new Fix64(details.dmg * prorActual);
 		var comboPror =  baseProration + new Fix64(owner.combo) / prorationScaling;;
 

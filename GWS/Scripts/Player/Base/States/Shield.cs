@@ -31,6 +31,7 @@ public class Shield : HitState
     public override void Enter()
     {
         base.Enter();
+		ResetTerminalVelocity();
 		if (owner.grounded)
 			owner.velocity.x = 0;
     }

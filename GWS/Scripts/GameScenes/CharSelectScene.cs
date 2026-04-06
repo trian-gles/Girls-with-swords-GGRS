@@ -543,8 +543,9 @@ public class CharSelectScene : BaseGame
 		stateMachine.Start("Init");
 		lastInputs.SetInputs(16 + 32 + 64, 16 + 32 + 64); // prevent held down keys from immediately selecting
 		ResetRound();
+		p1Pos = 0;
+		p2Pos = 1;
 		HighlightChar(0, p1Pos);
-
 		HighlightChar(1, p2Pos);
 		
 		for (int i = 0; i < bkgImages.Count; i++)

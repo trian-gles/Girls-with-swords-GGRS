@@ -586,11 +586,11 @@ public class TutorialManager : TrainingManager
 		challenges.Add(burstChallenge);
 	}
 
-    public override void Quit()
-    {
-        base.Quit();
+	public override void Quit()
+	{
+		base.Quit();
 		currChallengePtr = 0;
-    }
+	}
 
 
 	public override void _Ready()

@@ -418,10 +418,7 @@ public class GameStateObjectRedesign : Node
 
 			
 			CleanupHadoukens();
-			hostPlayer.CheckHit();
-			joinPlayer.CheckHit();
-			hostPlayer.CalculateHit();
-			joinPlayer.CalculateHit();
+			CheckHits(hostPlayer, joinPlayer);
 			
 			CheckFixCollision();
 			hostPlayer.MoveSlideDeterministicTwo();
@@ -431,6 +428,14 @@ public class GameStateObjectRedesign : Node
 			joinPlayer.RenderPosition();
 		}
 		
+	}
+
+	private void CheckHits(Player hostPlayer, Player joinPlayer)
+	{
+		hostPlayer.CheckHit();
+		joinPlayer.CheckHit();
+		hostPlayer.CalculateHit();
+		joinPlayer.CalculateHit();
 	}
 
 	private void CleanupHadoukens()

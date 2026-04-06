@@ -101,7 +101,7 @@ public class HL : Player
 		base.FrameAdvance();
 	}
 
-		public override bool GetRects(Godot.Collections.Array<CollisionShape2D> colShapes, Rect2[] array, bool globalPosition = false) 
+	public override bool GetRects(Godot.Collections.Array<CollisionShape2D> colShapes, Rect2[] array, bool globalPosition = false) 
 	{
 		bool active = false;
 		for (int i = 0; i < colShapes.Count; i++) 
@@ -113,7 +113,7 @@ public class HL : Player
 			}
 			else
 			{
-				array[i] = new Rect2(); // TODO : make sure this isn't breaking anything
+				array[i] = new Rect2(0, 0, 0, 0); // TODO : make sure this isn't breaking anything
 			}
 		}
 

@@ -106,6 +106,8 @@ public class Float : HitStun
 		}
 		if (owner.grounded)
 		{
+			if (stunRemaining > 0)
+				Globals.EmitSignal(Globals.PlayerSignal.CanTech, owner.Name);
 			if (owner.electrocuted)
 			{
 				ReceiveElectrocution();

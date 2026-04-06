@@ -31,6 +31,7 @@ public class Block : HitState
 	
 	public override void Enter(){
 		base.Enter();
+		ResetTerminalVelocity();
 		if (owner.CheckHeldKeys(new[] { 'p', 'k' }))
 		{
 			EnterShieldState();

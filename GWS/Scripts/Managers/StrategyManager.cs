@@ -16,10 +16,10 @@ public class StrategyManager : TutorialManager
 				AddGLChallenges();
 				return;
 			case 2:
-				AddHLChallenges();
+				AddSLChallenges();
 				return;
 			case 3:
-				AddGLChallenges();
+				AddHLChallenges();
 				return;
 		}
 
@@ -68,11 +68,12 @@ public class StrategyManager : TutorialManager
 
 
 
-		Goal dashAttackGoal = new Goal("Dashing slash", "right", "dash", "hold", "s");
-		dashAttackGoal.p1State = "InstantOverhead";
-		dashAttackGoal.p2State = "HitStun";
+        Goal dashAttackGoal = new Goal("Dashing slash", "right", "dash", "hold", "s")
+        {
+            p1State = "InstantOverhead"
+        };
 
-		Challenge hojogiriChallenge = new Challenge("Hojogiri");
+        Challenge hojogiriChallenge = new Challenge("Hojogiri");
 		hojogiriChallenge.popupText = "OL's advancing attack \"Hojogiri\" is normally dangerous against a blocking opponent, but can fake them out with the two effects.";
 		hojogiriChallenge.goals.Add(hojogiriGoal);
 		hojogiriChallenge.goals.Add(chargedHojoGoal);
@@ -122,7 +123,7 @@ public class StrategyManager : TutorialManager
 
 		Goal gunblazedGoal = new Goal("Gunblazed", "down", "special")
 		{
-			p1State = "Gunblazed"
+			p1State = "GunBlazed"
 		};
 
 		Challenge fireballChallenge = new Challenge("Fireballs");
@@ -156,7 +157,7 @@ public class StrategyManager : TutorialManager
 		challenges.Add(closeChallenge);
 		
 		Challenge halfscreenChallenge = new Challenge("Longer range");
-		halfscreenChallenge.popupText = "To apply pressure from further, GL can choose between a fireball, running in for a mixup, or ";
+		halfscreenChallenge.popupText = "GL generally applies pressure from a distance, choosing between a fireball, running in for a mixup, or her explosive gunblazed attack";
 		halfscreenChallenge.goals.Add(gunblazedGoal);
 		challenges.Add(halfscreenChallenge);
 	}
@@ -250,7 +251,7 @@ public class StrategyManager : TutorialManager
 			p1State = "SnailCallJump"
 		};
 		Challenge snailChallenge = new Challenge("Calling in the girls");
-		snailChallenge.popupText = "SL relies on her shelled buddies to win the match.  They must be deployed and then commanded.";
+		snailChallenge.popupText = "SL relies on her shelled buddies to win the match.  They must be first deployed and then commanded.";
 		snailChallenge.goals.Add(snailGoal);
 		snailChallenge.goals.Add(groundSnailGoal);
 		snailChallenge.goals.Add(airTossGoal);

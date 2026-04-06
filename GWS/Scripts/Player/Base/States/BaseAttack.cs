@@ -132,6 +132,12 @@ public abstract class BaseAttack : State
 	[Export]
 	public int pullInHitFrame = 0;
 
+	[Export]
+	public int whiffGatlingStart = 9;
+
+	[Export]
+	public bool ignoreProration = false;
+
 
 	public enum EXTRAEFFECT
 	{
@@ -313,10 +319,17 @@ public abstract class BaseAttack : State
 			chDetails.hitPush *= -1;
 		}
 
-		if (owner.hasDoubleOrSuperJumped && hitDetails.spike && owner.otherPlayer.combo > 2)
+		if (owner.hasDoubleOrSuperJumped && hitDetails.spike && owner.otherPlayer.combo > 1 && !owner.otherPlayer.hasBeenSpiked)
 		{
 			hitDetails.ignoreProration = true;
+			owner.otherPlayer.hasBeenSpiked = true;
 			owner.EmitSignal(nameof(Player.GenericGFX), SpikeString, owner.Name);
+		}
+
+		if (ignoreProration)
+		{
+			hitDetails.ignoreProration = true;
+			chDetails.ignoreProration = true;
 		}
 
 		if ((owner.otherPlayer.grounded && owner.otherPlayer.currentState.Name != "Knockdown") && !launchOnGrounded)
@@ -425,7 +438,7 @@ public abstract class BaseAttack : State
 			}
 		}
 
-		if (!hitConnect && frameCount > 8)
+		if (!hitConnect && frameCount > whiffGatlingStart)
 		{
 			foreach (var whiffGat in whiffGatlings)
 			{

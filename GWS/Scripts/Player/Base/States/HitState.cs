@@ -56,15 +56,15 @@ public class HitState : State
 		if (stunRemaining == 1 && owner.electrocuted)
 			ReceiveElectrocution();
 
-			if (stunRemaining <= 0)
+		if (stunRemaining <= 0)
+		{
+			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+				owner.ChangeState(TechString);
+			else if (owner.wasOTGHit)
 			{
-				if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-					owner.ChangeState(TechString);
-				else if (owner.wasOTGHit)
-				{
-					owner.invulnFrames = 8;
-					owner.ChangeState(TechString);
-				}
+				owner.invulnFrames = 8;
+				owner.ChangeState(TechString);
 			}
+		}
 	}
 }

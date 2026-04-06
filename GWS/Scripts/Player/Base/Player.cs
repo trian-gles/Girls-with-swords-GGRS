@@ -96,6 +96,14 @@ public class Player : Node2D
 	[Export]
 	public int damageModInt = 10; // divide by ten to get true modifier
 
+	[Export]
+	public int defaultInitialProrate = 0; // applied on every first hit
+
+	[Export]
+	public int damageDealtModifierInt = 10; // divided by ten to get the actual modifier
+
+	private Fix64 damageDealtMod;
+
 	private Fix64 damageMod;
 
 	[Export]
@@ -141,7 +149,8 @@ public class Player : Node2D
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
 	
-	public HashSet<string> noGrabStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA", "PostRun" };
+	public HashSet<string> noGrabLastStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA", "PostRun" };
+	public HashSet<string> noGrabStates = new HashSet<string>() { "Super" };
 
 	public delegate void NegEdgeCallback(char releasedkey);
 	public NegEdgeCallback negEdgeCallback = (char c) => { };
@@ -182,6 +191,7 @@ public class Player : Node2D
 	public int meterGainCooldownRemaining = 0;
 	public bool hasBeenLaunched = false;
 	public bool hasDoubleOrSuperJumped = false;
+	public bool hasBeenSpiked = false;
 	public bool hasHurtboxActive = false;
 	protected int[] charSpecificData = new int[4];
 
@@ -254,6 +264,7 @@ public class Player : Node2D
 		public bool hasBeenLaunched;
 		public bool hasDoubleOrSuperJumped;
 		public bool hasHurtboxActive;
+		public bool hasBeenSpiked;
 		public fixed int charSpecificData[4];
 		public int safety;
 
@@ -293,7 +304,7 @@ public class Player : Node2D
 	}
 
 	// components of a received attack
-	protected bool wasHit = false;
+	public bool wasHit = false;
 	private Globals.AttackDetails receivedHit;
 	private Globals.AttackDetails receivedCHit;
 
@@ -370,6 +381,7 @@ public class Player : Node2D
 	{
 		stateTree = GetNode<Node>("StateTree");
 		damageMod = new Fix64(damageModInt) / new Fix64(10);
+		damageDealtMod = new Fix64(damageDealtModifierInt) / new Fix64(10);
 		mainSprite = GetNode<Sprite>("Sprite");
 		spriteAnim = GetNode<Godot.AnimationPlayer>("Sprite/SpriteModulations");
 		behindSprite = GetNode<Sprite>("SpriteBehind");
@@ -566,7 +578,7 @@ public class Player : Node2D
 		pState.lastPressedUpFrame = lastPressedUpFrame;
 		pState.hasBeenLaunched = hasBeenLaunched;
 		pState.hasDoubleOrSuperJumped = hasDoubleOrSuperJumped;
-
+		pState.hasBeenSpiked = hasBeenSpiked;
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
 		pState.hasHurtboxActive = hasHurtboxActive;
 		pState.safety = 3;
@@ -653,6 +665,7 @@ public class Player : Node2D
 		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
 		landingRecoveryFramesRemaining = pState.landingRecoveryFramesRemaining;
 		burstMeter = pState.burstMeter;
+		hasBeenSpiked = pState.hasBeenSpiked;
 		hadoukenCooldownRemaining = pState.hadoukenCooldownRemaining;
 		backdashCooldownRemaining = pState.backdashCooldownRemaining;
 		meterGainCooldownRemaining = pState.meterGainCooldownRemaining;
@@ -1475,7 +1488,7 @@ public class Player : Node2D
 	/// <returns></returns>
 	public bool CanGrab()
 	{
-		return !noGrabStates.Contains(lastStateName);
+		return !noGrabStates.Contains(currentState.Name) && !noGrabLastStates.Contains(lastStateName);
 	}
 
 	/// <summary>
@@ -1633,6 +1646,7 @@ public class Player : Node2D
 	public void ResetComboAndProration()
 	{
 		combo = 0;
+		hasBeenSpiked = false;
 		proration = 24;
 		canGroundbounce = true;
 		terminalVelocity = standardTerminalVelocity;
@@ -1654,7 +1668,7 @@ public class Player : Node2D
 		
 		var fixDmg = new Fix64(dmg);
 
-		dmg = (int)Math.Floor((float)(fixDmg * damageMod));
+		dmg = (int)Math.Floor((float)(fixDmg * damageMod * otherPlayer.damageDealtMod));
 
 		health -= dmg;
 		if (chip && health <= 1)

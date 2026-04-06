@@ -11,8 +11,9 @@ extents = Vector2( 8, 12 )
 z_index = 1
 script = ExtResource( 2 )
 startup = 7
-speed = Vector2( 4, 0 )
+speed = Vector2( 6, 0 )
 dieAfterHit = false
+modifiedProration = 1
 startSpeed = Vector2( 4, 0 )
 
 [node name="AnimatedSprite" parent="." index="0"]

@@ -18,7 +18,7 @@ public class RandomMash : BehaviourState
         distance = Math.Abs(state.P1State.positionx - state.P2State.positionx);
         if (state.P2State.grounded)
         {
-            if (distance < 2000 && state.P1State.grounded)
+            if (distance < 1500 && state.P1State.grounded)
             {
                 if (owner.p1Tags.Contains(Globals.Tags.knockdown))
                     return 1;

@@ -19,6 +19,7 @@ public class SoftKD : HitState
         //owner.GFXEvent("Blood");
         ResetTerminalVelocity();
         tags.Add(Globals.Tags.techable);
+        Globals.EmitSignal(Globals.PlayerSignal.CanTech, owner.Name);
     }
     public override void AnimationFinished()
     {

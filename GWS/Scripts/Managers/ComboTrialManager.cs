@@ -271,6 +271,12 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6S"
 		};
 
+		Goal slash2xGoal = new Goal("Slash (2 hits)", "s")
+		{
+			p2StateFrame = 0,
+			p1State = "Slash"
+		};
+
 		Goal j2sGoal = new Goal("Down Slash", "air", "down", "s")
 		{
 			p2StateFrame = 0,
@@ -301,6 +307,7 @@ public class ComboTrialManager : TutorialManager
 		airCombo.goals.Add(sixPGoal);
 		airCombo.goals.Add(fJumpGoal);
 		airCombo.goals.Add(jJabGoal);
+		airCombo.goals.Add(jJabGoal);
 		airCombo.goals.Add(jKickGoal);
 		airCombo.goals.Add(jJabGoal);
 		airCombo.goals.Add(jKickGoal);
@@ -322,7 +329,7 @@ public class ComboTrialManager : TutorialManager
 		cornerCarry.goals.Add(fJumpGoal);
 		cornerCarry.goals.Add(adGoal);
 		cornerCarry.goals.Add(j2sGoal);
-		cornerCarry.goals.Add(slashGoal);
+		cornerCarry.goals.Add(slash2xGoal);
 		cornerCarry.goals.Add(sixCGoal);
 		cornerCarry.goals.Add(cslashGoal);
 		cornerCarry.MakeComboChallenge();
@@ -357,7 +364,7 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6C"
 		};
 
-		Goal sixCHoldGoal = new Goal("Heavy Slash", "right", "s", "hold")
+		Goal sixCHoldGoal = new Goal("2x Heavy Slash", "right", "s", "hold")
 		{
 			p2StateFrame = 0,
 			p1State = "6CH"
@@ -388,11 +395,21 @@ public class ComboTrialManager : TutorialManager
 			p1State = "JumpB"
 		};
 
+		Goal slash3HitsGoal = new Goal("Slash (3 hits)", "s")
+		{
+			p2StateFrame = 0,
+			p1State = "Slash"
+		};
 
-		Challenge basicComboChallenge = new Challenge("Easy Combo");
-		basicComboChallenge.goals.Add(jabGoal);
+		Goal runGoal = new Goal("Run", "right", "dash");
+		runGoal.p1State = "Run";
+
+
+		Challenge basicComboChallenge = new Challenge("Universal Combo");
+		basicComboChallenge.goals.Add(cjabGoal);
 		basicComboChallenge.goals.Add(kickGoal);
-		basicComboChallenge.goals.Add(slashGoal);
+		basicComboChallenge.goals.Add(slash3HitsGoal);
+		basicComboChallenge.goals.Add(sixCHoldGoal);
 		basicComboChallenge.goals.Add(cslashGoal);
 		basicComboChallenge.MakeComboChallenge();
 		challenges.Add(basicComboChallenge);
@@ -411,9 +428,13 @@ public class ComboTrialManager : TutorialManager
 		bigCornerDamage.goals.Add(sixCHoldGoal);
 		bigCornerDamage.goals.Add(phoneTossGoal);
 		bigCornerDamage.goals.Add(walkGoal);
-		bigCornerDamage.goals.Add(kickGoal);
+		bigCornerDamage.goals.Add(sixPGoal);
 		bigCornerDamage.goals.Add(sixCHoldGoal);
 		bigCornerDamage.goals.Add(phoneTossGoal);
+		bigCornerDamage.goals.Add(sixPGoal);
+		bigCornerDamage.goals.Add(sixCHoldGoal);
+		bigCornerDamage.goals.Add(sixPGoal);
+		bigCornerDamage.goals.Add(sixCHoldGoal);
 		bigCornerDamage.goals.Add(cslashGoal);
 		bigCornerDamage.MakeComboChallenge();
 		challenges.Add(bigCornerDamage);

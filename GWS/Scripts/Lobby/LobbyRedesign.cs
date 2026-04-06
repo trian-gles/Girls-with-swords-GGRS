@@ -199,7 +199,7 @@ public class LobbyRedesign : Node2D
 		Globals.netplaySessionName = newMatchId.Text;
 		sendToFriendLabel.Visible = true;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManagerScene);
+		BeginNetplayManager(ggrsManager);
 	}
 
 	public void OnJoinNetplayMatch()
@@ -207,7 +207,7 @@ public class LobbyRedesign : Node2D
 		GD.Print(existingMatchId.Text);
 		Globals.netplaySessionName = existingMatchId.Text;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManagerScene);
+		BeginNetplayManager(ggrsManager);
 	}
 
 	public void OnAutoConnectDown()
@@ -270,13 +270,14 @@ public class LobbyRedesign : Node2D
 		activeManager.Start();
 	}
 
-	private void BeginNetplayManager(PackedScene managerScene)
+	private async void BeginNetplayManager(BaseManager activeManager)
 	{
-		activeManager = managerScene.Instance<BaseManager>();
-		AddChild(activeManager);
-		activeManager.Visible = true;
-		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 		activeManager.Start();
+		var matchReadySignal = ToSignal(activeManager, "MatchReady");
+		await matchReadySignal;
+		AddChild(activeManager);
+		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		activeManager.Visible = true;
 	}
 
 	private void OnNetPlayConnected()

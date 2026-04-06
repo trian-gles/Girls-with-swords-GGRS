@@ -9771,10 +9771,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 8, 13 ),
+"times": PoolRealArray( 0, 6, 13 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false, true ]
+"values": [ false, true, false ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -9819,7 +9819,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 8, 13 ),
+"times": PoolRealArray( 0, 13 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Vector2( 17, 29 ), Vector2( 17, 34 ) ]
@@ -9831,7 +9831,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 8, 13 ),
+"times": PoolRealArray( 0, 13 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ Vector2( -5, 14 ), Vector2( 0, 8 ) ]
@@ -9867,10 +9867,10 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 6, 13 ),
+"times": PoolRealArray( 0, 8, 13 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ true, false, true ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("HurtBoxes/HurtB3:disabled")
@@ -10263,6 +10263,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
@@ -10276,7 +10277,6 @@ position = Vector2( 0, 8 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 0, -41 )
-disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 22, 5 )
@@ -10288,14 +10288,14 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 168
+frame = 169
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
 offset = Vector2( 0, 15 )
 hframes = 255
 vframes = 2
-frame = 168
+frame = 169
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )

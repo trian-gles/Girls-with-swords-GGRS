@@ -6,6 +6,9 @@ using System.Linq;
 public class GGRSManager : StateManager
 {
 
+	[Signal]
+	public delegate void MatchReady();
+
 	// Networking Objs
 	private Node GGRS;
 	private UPNP upnp;
@@ -48,13 +51,17 @@ public class GGRSManager : StateManager
 
 	public override void Start()
 	{
-		ClearHUDText();
-		
 		Globals.frame = 0;
 		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
 		NatTraversal(); // Defers the base._ready() call
-	//gameScene.Visible = false;
+		//gameScene.Visible = false;
+	}
+
+	public void OpponentConfirmed()
+	{
+		ClearHUDText();
+		Visible = true;
 	}
 	
 	public void OnUpdateRequiredConfirmed()
@@ -287,22 +294,20 @@ public class GGRSManager : StateManager
 		var holePuncher = (Node)holePuncherScript.Call("new");
 		holePuncher.Connect("wrong_version", this, nameof(OnWrongVersionReject));
 
-		holePuncher.Set("rendevouz_address", "127.0.0.1"); // production : "172.104.21.51"
+		holePuncher.Set("rendevouz_address", "172.104.215.127"); // production : "172.104.215.127"
 		holePuncher.Set("rendevouz_port", 4000);
 		AddChild(holePuncher);
 		string player_id = OS.GetUniqueId();
 		holePuncher.Call("start_traversal", Globals.netplaySessionName, player_id, version);
 		var result = (await ToSignal(holePuncher, "hole_punched"));
-		// EmitSignal("netplay_ready");
 		localPort = (int)result[0];
 		opponentPort = (int)result[1];
 		opponentIp = (string)result[2];
 		hosting = ((int)result[3]) == 1;
 		Globals.hosting = hosting;
 		holePunched = true;
+		EmitSignal(nameof(MatchReady));
 		GD.Print("WE HAVE PUNCHED ZE HOLE");
-		base._Ready(); // Yeah, I know this is fucking insane
-		Visible = true;
 		
 
 		//hole_puncher.rendevouz_address = "1.1.1.1"

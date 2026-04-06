@@ -310,6 +310,11 @@ public class CharSelectScene : BaseGame
 		foreach (var charImg in charImages[playerNum])
 			charImg.Visible = false;
 
+		if (playerNum == 0)
+			P1Cursor.Position = CalcCursor(p1Pos, p1TopPos);
+		else
+			P2Cursor.Position = CalcCursor(p2Pos, p2TopPos);
+
 		charImages[playerNum][sprite].Visible = true;
 		CheckOverlap();
 	}
@@ -328,7 +333,7 @@ public class CharSelectScene : BaseGame
 		{
 			if (!p1Selected) {
 				p1Pos = Math.Min(Math.Max(0, p1Pos + movement), 3);
-				P1Cursor.Position = CalcCursor(p1Pos, p1TopPos);
+				
 				HighlightChar(playerNum, p1Pos);
 			}
 			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
@@ -342,7 +347,6 @@ public class CharSelectScene : BaseGame
 		{
 			if (!p2Selected) {
 				p2Pos = Math.Min(Math.Max(0, p2Pos + movement), 3);
-				P2Cursor.Position = CalcCursor(p2Pos, p2TopPos); 
 				HighlightChar(playerNum, p2Pos);
 			}
 			else if (selectStagePlayer == playerNum && Math.Abs(movement) == 2)
@@ -539,14 +543,19 @@ public class CharSelectScene : BaseGame
 	public void Reload()
 	{
 		ShowAll();
+		p1Selected = false;
+		p2Selected = false;
+		p1Pos = 0;
+		p2Pos = 1;
+		selectedStage = 0;
+
+		HighlightChar(0, p1Pos);
+		HighlightChar(1, p2Pos);
 		var stateMachine = (AnimationNodeStateMachinePlayback) animationTree.Get("parameters/playback");
 		stateMachine.Start("Init");
 		lastInputs.SetInputs(16 + 32 + 64, 16 + 32 + 64); // prevent held down keys from immediately selecting
 		ResetRound();
-		p1Pos = 0;
-		p2Pos = 1;
-		HighlightChar(0, p1Pos);
-		HighlightChar(1, p2Pos);
+		
 		
 		for (int i = 0; i < bkgImages.Count; i++)
 		{

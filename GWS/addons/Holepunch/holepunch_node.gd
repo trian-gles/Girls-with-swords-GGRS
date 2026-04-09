@@ -210,7 +210,6 @@ func start_peer_contact():
 func finalize_peers(id):
 	var buffer = PoolByteArray()
 	buffer.append_array((EXCHANGE_PEERS+str(id)).to_utf8())
-	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 
@@ -218,14 +217,11 @@ func finalize_peers(id):
 func checkout():
 	var buffer = PoolByteArray()
 	buffer.append_array((CHECKOUT_CLIENT+client_name).to_utf8())
-	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 	
 func check_version():
 	var buffer = PoolByteArray()
 	buffer.append_array((CHECK_VERSION + version).to_utf8())
-	server_udp.close()
-	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 	
 
@@ -264,8 +260,6 @@ func start_traversal(id, player_name, version):
 func _try_create_session():
 	var buffer = PoolByteArray()
 	buffer.append_array((REGISTER_SESSION+str(session_id)+":"+str(MAX_PLAYER_COUNT)).to_utf8())
-	server_udp.close()
-	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 #Register a client with the server
@@ -274,8 +268,6 @@ func _send_client_to_server():
 	yield(get_tree().create_timer(2.0), "timeout")
 	var buffer = PoolByteArray()
 	buffer.append_array((REGISTER_CLIENT+client_name+":"+str(session_id)).to_utf8())
-	server_udp.close()
-	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 

@@ -6,12 +6,8 @@ using System.Linq;
 public class GGRSManager : StateManager
 {
 
-	[Signal]
-	public delegate void MatchReady();
-
 	// Networking Objs
 	private Node GGRS;
-	private UPNP upnp;
 	int port;
 
 	private Node events;
@@ -30,11 +26,7 @@ public class GGRSManager : StateManager
 	private string opponentIp;
 	private int opponentPort;
 	private int localPort;
-	private bool holePunched = false;
 	private bool connected = false;
-
-	private string nextGame;
-	private string winner;
 
 	// For AI integrated testing
 	private bool aiTest = false;
@@ -43,8 +35,6 @@ public class GGRSManager : StateManager
 
 	public override void _Ready()
 	{
-		
-		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 		events = GetNode<Node>("/root/Events");
 		GGRS = GetNode("GodotGGRS");
 	}
@@ -54,8 +44,6 @@ public class GGRSManager : StateManager
 		Globals.frame = 0;
 		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
-		NatTraversal(); // Defers the base._ready() call
-		//gameScene.Visible = false;
 	}
 
 	public void OpponentConfirmed()
@@ -72,38 +60,15 @@ public class GGRSManager : StateManager
 	}
 
 
-	public void ManualConfig(string ip, bool hosting)
+	public void ManualConfig(string ip, bool hosting, int localPort=7070, int remotePort=7071, bool aiTest=false)
 	{
 		charSelectScene.ChangeHUDText("Waiting for connection...\n ");
 		this.hosting = hosting;
 		Globals.hosting = hosting;
-		int localPort, remotePort;
-		if (hosting)
-		{
-			localPort = 7070;
-			remotePort = 7071;
-			if (ip == "127.0.0.1")
-			{
-				//Globals.SetLogging("P1");
-			}
-				
-		}
-		else
-		{
-			localPort = 7071;
-			remotePort = 7070;
-			
-			if (ip == "127.0.0.1")
-			{
-				GD.Print("RUNNING TEST 'AI'");
-				//Globals.SetLogging("P2");
-				aiTest = true;
-			}
-				
-
-		}
+		this.aiTest = aiTest;
+		
+		
 		port = localPort;
-		OpenPort(); //UPNP is unreliable.  Prefer NAT traversal.
 		GD.Print("Creating new session");
 		GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
 		GD.Print("Created new session");
@@ -118,7 +83,6 @@ public class GGRSManager : StateManager
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
 		connected = true;
-		holePunched = true;
 	}
 
 	private void GGRSConfig()
@@ -162,11 +126,6 @@ public class GGRSManager : StateManager
 
 	public override void _Process(float delta)
 	{
-		if (!holePunched)
-			return;
-		if (!connected)
-			GGRSConfig();
-
 		GGRS.Call("poll_remote_clients");
 	}
 
@@ -220,11 +179,6 @@ public class GGRSManager : StateManager
 			}
 			else
 				GGRS.Call("advance_frame", localPlayerHandle, 0);
-
-			
-
-			
-
 		}
 		else
 		{
@@ -279,97 +233,6 @@ public class GGRSManager : StateManager
 		else
 		{
 			currGame.GGRSAdvanceFrame(p2Inps, p1Inps);
-		}
-	}
-
-	// ----------------
-	// NAT
-	// ----------------
-	private async void NatTraversal()
-	{
-		var version = Globals.GetVersion();
-		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
-		
-
-		var holePuncher = (Node)holePuncherScript.Call("new");
-		holePuncher.Connect("wrong_version", this, nameof(OnWrongVersionReject));
-
-		holePuncher.Set("rendevouz_address", "172.104.215.127"); // production : "172.104.215.127"
-		holePuncher.Set("rendevouz_port", 4000);
-		AddChild(holePuncher);
-		string player_id = OS.GetUniqueId();
-		holePuncher.Call("start_traversal", Globals.netplaySessionName, player_id, version);
-		var result = (await ToSignal(holePuncher, "hole_punched"));
-		localPort = (int)result[0];
-		opponentPort = (int)result[1];
-		opponentIp = (string)result[2];
-		hosting = ((int)result[3]) == 1;
-		Globals.hosting = hosting;
-		holePunched = true;
-		EmitSignal(nameof(MatchReady));
-		GD.Print("WE HAVE PUNCHED ZE HOLE");
-		
-
-		//hole_puncher.rendevouz_address = "1.1.1.1"
-		//# the port the HolePuncher python application is running on
-		//hole_puncher.rendevouz_port = "3000"
-		//add_child(hole_puncher)
-
-	}
-
-	public void OnWrongVersionReject()
-	{
-		GD.Print("Outdated!");
-		mustUpdatePopup.PopupCentered();
-	}
-
-	// ----------------
-	// UPNP
-	// ----------------
-	private void OpenPort()
-	{
-		upnp = new UPNP();
-		int err = upnp.Discover();
-
-		if (err != 0)
-		{
-			GD.PushError(err.ToString());
-			return;
-		}
-
-		if ((upnp.GetGateway() != null) && upnp.GetGateway().IsValidGateway())
-		{
-			err = upnp.AddPortMapping(port, port, (string)ProjectSettings.GetSetting("application/config/name"), "UDP");
-			if (err != 0)
-			{
-				GD.PushError(err.ToString());
-				return;
-			}
-			else
-			{
-				GD.Print($"Port {port} opened by UPNP");
-			}
-		}
-		else
-		{
-			GD.Print("Unable to add UPNP for some reason");
-		}
-
-		
-	}
-
-	
-
-	public override void _Notification(int what)
-	{
-		if (what == MainLoop.NotificationWmQuitRequest)
-		{
-			if (upnp != null)
-			{
-				upnp.DeletePortMapping(port);
-			}
-
-			GetTree().Quit();
 		}
 	}
 }

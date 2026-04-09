@@ -256,7 +256,7 @@ func start_traversal(id, player_name, version):
 	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	check_version()
 	
-	_try_create_session()
+	# _try_create_session()
 	
 
 	
@@ -270,6 +270,7 @@ func _try_create_session():
 
 #Register a client with the server
 func _send_client_to_server():
+	print("Registering for our new session")
 	yield(get_tree().create_timer(2.0), "timeout")
 	var buffer = PoolByteArray()
 	buffer.append_array((REGISTER_CLIENT+client_name+":"+str(session_id)).to_utf8())

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 using System.Management.Instrumentation;
+using System.Threading.Tasks;
 
 public class LobbyRedesign : Node2D
 {
@@ -15,6 +16,11 @@ public class LobbyRedesign : Node2D
 	HBoxContainer netplaybuttons;
 	Label sendToFriendLabel;
 	Label waitingForOtherPlayerLabel;
+	Popup mustUpdatePopup;
+	private string opponentIp;
+	private int opponentPort;
+	private int localPort;
+	private bool hosting;
 
 	LineEdit newMatchId;
 	LineEdit existingMatchId;
@@ -131,6 +137,8 @@ public class LobbyRedesign : Node2D
 		events.Connect(MainMenuPressedString, this, nameof(OnLobbyReset));
 		// cache lobby music player
 		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
+
+		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 
 		// set up debug globals
 		Globals.autoTech = autoTech;
@@ -270,14 +278,19 @@ public class LobbyRedesign : Node2D
 		activeManager.Start();
 	}
 
-	private async void BeginNetplayManager(BaseManager activeManager)
+	private async void BeginNetplayManager(GGRSManager activeManager)
 	{
-		activeManager.Start();
-		var matchReadySignal = ToSignal(activeManager, "MatchReady");
-		await matchReadySignal;
-		AddChild(activeManager);
-		activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
-		activeManager.Visible = true;
+		
+		var result = await NatTraversal();
+		if (result)
+		{
+			activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+			AddChild(activeManager);
+			activeManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);
+			activeManager.Visible = true;
+			activeManager.Start();
+		}
+
 	}
 
 	private void OnNetPlayConnected()
@@ -330,6 +343,42 @@ public class LobbyRedesign : Node2D
 	{
 		menuroot.Visible = false;
 		inputmenu.GetNode<ColorRect>("ConfigOverlay").Visible = false;
+	}
+
+
+	// ----------------
+	// NAT
+	// ----------------
+	private async Task<bool> NatTraversal()
+	{
+		var version = Globals.GetVersion();
+		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
+		
+
+		var holePuncher = (Node)holePuncherScript.Call("new");
+		holePuncher.Connect("wrong_version", this, nameof(OnWrongVersionReject));
+
+		holePuncher.Set("rendevouz_address", "172.104.215.127"); // production : "172.104.215.127"
+		holePuncher.Set("rendevouz_port", 4000);
+		AddChild(holePuncher);
+		string player_id = OS.GetUniqueId();
+		holePuncher.Call("start_traversal", Globals.netplaySessionName, player_id, version);
+		var result = (await ToSignal(holePuncher, "hole_punched"));
+		localPort = (int)result[0];
+		opponentPort = (int)result[1];
+		opponentIp = (string)result[2];
+		hosting = ((int)result[3]) == 1;
+		Globals.hosting = hosting;
+		GD.Print("WE HAVE PUNCHED ZE HOLE");
+		RemoveChild(holePuncher);
+		holePuncher.QueueFree();
+		return true;
+	}
+
+	public void OnWrongVersionReject()
+	{
+		GD.Print("Outdated!");
+		mustUpdatePopup.PopupCentered();
 	}
 	
 }

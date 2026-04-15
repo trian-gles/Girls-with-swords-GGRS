@@ -109,12 +109,9 @@ public class CharSelectScene : BaseGame
 		animationTree = GetNode<AnimationTree>("CanvasLayer/StartupAnimation");
 		HUDText = GetNode<Control>("CanvasLayer/DebugText");
 		base._Ready();
-		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		unsafe
 		{
-			unsafe
-			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
-			}
+			memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 		}
 		characterScenes = new List<PackedScene>() { OLScene, GLScene };
 		lastInputs.SetInputs(0, 0);

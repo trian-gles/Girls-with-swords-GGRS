@@ -124,10 +124,10 @@ public class Float : HitStun
 		if (frameCount == 1)
 		{
 
-			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' }))
+			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' })) // ALLOCATION
 			{
 				if (!owner.TrySpendBurst()) return;
-				owner.EmitSignal(RecoveryString, owner.Name);
+				owner.EmitSignal(RecoveryString, owner.Name); // ALLOCATION
 				owner.ChangeState(BurstString);
 			}
 		}

@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
+[ext_resource path="res://Scripts/CharacterSelect/SelectedChar.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Characters/GLSprite.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Characters/OLSprite.tscn" type="PackedScene" id=7]
@@ -61,6 +62,7 @@ tracks/1/keys = {
 
 [node name="SelectedChar" type="Position2D"]
 position = Vector2( 45, 145 )
+script = ExtResource( 1 )
 
 [node name="OLSprite" parent="." instance=ExtResource( 7 )]
 material = SubResource( 38 )

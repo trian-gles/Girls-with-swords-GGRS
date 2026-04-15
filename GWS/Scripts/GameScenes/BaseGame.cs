@@ -49,14 +49,14 @@ public abstract class BaseGame : Node2D
 			}
 			if (node.GetType().GetProperty("Visible") != null)
 			{
-				node.Set("visible", false);
+				node.Set("visible", false); // ALLOCATION
 			}
 		}
 	}
 
 	public void ShowAll(Node root = null)
 	{
-		var queue = new Queue<Node>();
+		var queue = new Queue<Node>(); // ALLOCATION
 		if (root != null)
 		{
 			queue.Enqueue(root);
@@ -185,7 +185,7 @@ public abstract class BaseGame : Node2D
 
 	protected bool AnyButtonPressed(int inputs, int playerLastFrameInputs)
 	{
-		foreach (int num in new[] { 16, 32, 64, 128 })
+		foreach (int num in new[] { 16, 32, 64, 128 }) // ALLOCATION
 		{
 			if ((inputs & num) != 0 && (playerLastFrameInputs & num) == num)
 				return true;

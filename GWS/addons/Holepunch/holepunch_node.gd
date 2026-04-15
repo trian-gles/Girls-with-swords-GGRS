@@ -20,7 +20,7 @@ export(int) var rendevouz_port = 4000
 #This is the range of ports you will search if you hear no response from the first port tried
 export(int) var port_cascade_range = 10
 #The amount of messages of the same type you will send before cascading or giving up
-export(int) var response_window = 5
+export(int) var response_window = 30
 
 
 var found_server = false
@@ -156,9 +156,10 @@ func _cascade_peer(add, peer_port):
 
 
 func _ping_peer():
-	print("Pinging peer...")
+	
 	if not recieved_peer_confirm and greets_sent < response_window:
 		for p in peer.keys():
+			print("Pinging peer..." + str([peer[p].address, int(peer[p].port)]))
 			peer_udp.set_dest_address(peer[p].address, int(peer[p].port))
 			var buffer = PoolByteArray()
 			buffer.append_array(("greet:"+client_name+":"+str(own_port)+":"+peer[p].port).to_utf8())
@@ -201,8 +202,11 @@ func start_peer_contact():
 	if peer_udp.is_listening():
 		peer_udp.close()
 	var err = peer_udp.listen(own_port, "*")
+	
 	if err != OK:
 		print("Error listening on port: " + str(own_port) +" Error: " + str(err))
+	else:
+		print("Listening on port " + str(own_port))
 	p_timer.start()
 
 

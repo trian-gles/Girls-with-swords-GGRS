@@ -65,12 +65,9 @@ public class GameStateObjectRedesign : Node
 	public GameStateObjectRedesign()
 	{
 		gState = new GameState();
-		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		unsafe
 		{
-			unsafe
-			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
-			}
+			memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 		}
 	}
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)

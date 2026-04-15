@@ -96,7 +96,7 @@ public sealed class InputContainer : IEnumerable<char[]>
 				throw new ArgumentOutOfRangeException(nameof(index));
 
 			int offset = index * 2;
-			return new char[]
+			return new char[] // ALLOCATION
 			{
 				_buffer[offset],
 				_buffer[offset + 1]

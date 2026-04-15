@@ -8,6 +8,10 @@ public class GGRSManager : StateManager
 
 	// Networking Objs
 	private Node GGRS;
+
+	[Export]
+	private PackedScene ggrsScene;
+
 	int port;
 
 	private Node events;
@@ -36,14 +40,20 @@ public class GGRSManager : StateManager
 	public override void _Ready()
 	{
 		events = GetNode<Node>("/root/Events");
-		GGRS = GetNode("GodotGGRS");
+		//GGRS = GetNode("GodotGGRS");
 	}
 
 	public override void Start()
 	{
 		Globals.frame = 0;
-		Globals.mode = Globals.Mode.GGPO;
 		Globals.autoTech = false;
+	}
+
+	public override void Quit()
+	{
+		base.Quit();
+		GGRS.QueueFree();
+		RemoveChild(GGRS);
 	}
 
 	public void OpponentConfirmed()
@@ -56,12 +66,13 @@ public class GGRSManager : StateManager
 	{
 		const string MainMenuPressedString = "MainMenuPressed";
 		events.Call("emit_signal", MainMenuPressedString);
-		QueueFree();
 	}
 
 
-	public void ManualConfig(string ip, bool hosting, int localPort=7070, int remotePort=7071, bool aiTest=false)
+	public void ManualConfig(string ip, bool hosting, int localPort, int remotePort, bool aiTest=false)
 	{
+		GGRS = ggrsScene.Instance();
+		AddChild(GGRS);
 		charSelectScene.ChangeHUDText("Waiting for connection...\n ");
 		this.hosting = hosting;
 		Globals.hosting = hosting;
@@ -76,24 +87,6 @@ public class GGRSManager : StateManager
 		GD.Print($"added local player with handle {localPlayerHandle}");
 		var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{ip}:{remotePort}");
 		GD.Print($"added other player with handle {otherPlayerHandle} at {ip}:{remotePort}");
-
-
-		GGRS.Call("set_callback_node", this);
-		GGRS.Call("set_frame_delay", 2, localPlayerHandle);
-		GGRS.Call("start_session");
-		GD.Print("Settup finished");
-		connected = true;
-	}
-
-	private void GGRSConfig()
-	{
-		GD.Print("Creating new session");
-		GGRS.Call("create_new_session", localPort, PLAYERNUMBERS, 8);
-		GD.Print("Created new session");
-		localPlayerHandle = (int)GGRS.Call("add_local_player");
-		GD.Print($"added local player with handle {localPlayerHandle}");
-		var otherPlayerHandle = (int)GGRS.Call("add_remote_player", $"{opponentIp}:{opponentPort}");
-		GD.Print($"added other player with handle {otherPlayerHandle} at {opponentIp}:{opponentPort}");
 
 
 		GGRS.Call("set_callback_node", this);
@@ -126,7 +119,9 @@ public class GGRSManager : StateManager
 
 	public override void _Process(float delta)
 	{
-		GGRS.Call("poll_remote_clients");
+		if (connected)
+			GGRS.Call("poll_remote_clients");
+		
 	}
 
 	// ----------------

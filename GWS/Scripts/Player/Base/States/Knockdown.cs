@@ -17,7 +17,7 @@ public class Knockdown : HitState
         owner.velocity.x = 0;
         owner.velocity.y = 0;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO);
-        owner.EmitSignal(nameof(Player.GenericGFX), KnockdownGfxString, owner.Name);
+        owner.EmitSignal(nameof(Player.GenericGFX), KnockdownGfxString, owner.Name); // ALLOCATION
         //owner.GFXEvent("Blood");
         ResetTerminalVelocity();
     }

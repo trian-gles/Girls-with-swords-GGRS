@@ -23,7 +23,7 @@ public class Grabbed : State
     public override void Enter()
     {
         base.Enter();
-        owner.EmitSignal(nameof(Player.GenericGFX), GrabbedGfxString, owner.Name);
+        owner.EmitSignal(nameof(Player.GenericGFX), GrabbedGfxString, owner.Name); // ALLOCATION
     }
 
     public bool CanThrowBreak()

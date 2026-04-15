@@ -24,7 +24,7 @@ public class DashGhost : Sprite
 	public void Run(int frame)
 	{
 		Visible = true;
-		tween.InterpolateProperty(this, ModulateAlphaString, 1.0, 0.0, 2, Tween.TransitionType.Expo, Tween.EaseType.Out);
+		tween.InterpolateProperty(this, ModulateAlphaString, 1.0, 0.0, 2, Tween.TransitionType.Expo, Tween.EaseType.Out); // ALLOCATION
 		tween.Start();
 		initFrame = frame;
 	}

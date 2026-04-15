@@ -15,7 +15,7 @@ public class GuardCancel : GroundAttack
 	{
 		base.Enter();
 		owner.GFXEvent(GuardCancelString);
-		owner.EmitSignal(nameof(Player.GenericGFX), GuardCancelString, owner.Name);
+		owner.EmitSignal(nameof(Player.GenericGFX), GuardCancelString, owner.Name); // ALLOCATION
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, GuardCancelString, Name);
     }
 }

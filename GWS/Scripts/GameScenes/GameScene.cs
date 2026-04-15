@@ -234,7 +234,7 @@ public class GameScene : BaseGame
 		P1.Init();
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
-		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
+		p1Logos.Call(SelectedCharLogoString, playerOneIndex); // ALLOCATION
 		P1.aiControlled = false;
 
 		//p2
@@ -247,7 +247,7 @@ public class GameScene : BaseGame
 		P2.Init();
 		MoveChild(P2, 5);
 		p2Ind = playerTwoIndex;
-		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
+		p2Logos.Call(SelectedCharLogoString, playerTwoIndex); // ALLOCATION
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
@@ -300,7 +300,7 @@ public class GameScene : BaseGame
 		
 		gsObj.config(P1, P2, this, hosting);
 		SetPos(ResetPos.ROUNDSTART);
-		music.Call(PlayIdxCallString, bkg);
+		music.Call(PlayIdxCallString, bkg); // ALLOCATION
 		ConfigTime();
 		configured = true;
 
@@ -398,8 +398,8 @@ public class GameScene : BaseGame
 	{
 		if (configured)
 		{
-			inputText.Call(InputsCallString, p1Inps);
-			inputTextP2.Call(InputsCallString, p2Inps);
+			inputText.Call(InputsCallString, p1Inps); // ALLOCATION
+			inputTextP2.Call(InputsCallString, p2Inps); // ALLOCATION
 		}
 
 	}
@@ -483,7 +483,7 @@ public class GameScene : BaseGame
 			{
 				P1Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
-					EmitSignal(nameof(ComboFinished), PlayerOneString);
+					EmitSignal(nameof(ComboFinished), PlayerOneString); // ALLOCATION
 			}
 		}
 
@@ -497,7 +497,7 @@ public class GameScene : BaseGame
 			{
 				P2Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
-					EmitSignal(nameof(ComboFinished), PlayerTwoString);
+					EmitSignal(nameof(ComboFinished), PlayerTwoString); // ALLOCATION
 			}
 		}
 	}
@@ -646,7 +646,7 @@ public class GameScene : BaseGame
 
 	public void OnSuperActivate(string name)
 	{
-		superText.Call(DisplayCallString, Globals.frame);
+		superText.Call(DisplayCallString, Globals.frame); // ALLOCATION
 		gsObj.SuperFreeze(name);
 	}
 
@@ -759,7 +759,7 @@ public class GameScene : BaseGame
 
 		int timerFrame = Globals.frame - startFrame;
 
-		timer.Text = (99 - Math.Floor((float)timerFrame / 60)).ToString();
+		timer.Text = (99 - Math.Floor((float)timerFrame / 60)).ToString(); // ALLOCATION
 	}
 
 	private void HandleFakeEndTime()
@@ -779,12 +779,12 @@ public class GameScene : BaseGame
 			if (P1Health.Value > P2Health.Value)
 			{
 				p1Wins++;
-				p1RoundCounters.Call(WinCounterUpString, p1Wins);
+				p1RoundCounters.Call(WinCounterUpString, p1Wins); // ALLOCATION
 			}
 			else
 			{
 				p2Wins++;
-				p2RoundCounters.Call(WinCounterUpString, p2Wins);
+				p2RoundCounters.Call(WinCounterUpString, p2Wins);  // ALLOCATION
 			}
 		}
 			
@@ -795,13 +795,13 @@ public class GameScene : BaseGame
 			{
 				ResetWin(); 
 				
-				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind);
+				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind); // ALLOCATION
 
 			}
 			else if (p2Wins == 2)
 			{
 				ResetWin();
-				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind);
+				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind); // ALLOCATION
 
 			}
 			else
@@ -881,7 +881,7 @@ public class GameScene : BaseGame
 		music.Stop();
 		if (configured)
 		{
-			tutorialContainer.Call("reset");
+			tutorialContainer.Call("reset");  // ALLOCATION
 			ResetRound();
 			mainGFX.Quit();
 			OnPlayerBurstSet(PlayerOneString, 100);
@@ -889,8 +889,8 @@ public class GameScene : BaseGame
 			p1Wins = 0;
 			p2Wins = 0;
 			centerText.Text = "";
-			p1RoundCounters.Call("_ready");
-			p2RoundCounters.Call("_ready");
+			p1RoundCounters.Call("_ready"); // ALLOCATION
+			p2RoundCounters.Call("_ready"); // ALLOCATION
 			RemoveChild(P1);
 			RemoveChild(P2);
 			configured = false;
@@ -948,8 +948,8 @@ public class GameScene : BaseGame
 	{
 		ResetRound();
 		centerText.Text = "";
-		p1RoundCounters.Call("_ready");
-		p2RoundCounters.Call("_ready");
+		p1RoundCounters.Call("_ready"); // ALLOCATION
+		p2RoundCounters.Call("_ready"); // ALLOCATION
 		p1Wins = 0;
 		p2Wins = 0;
 		RemoveChild(P1);

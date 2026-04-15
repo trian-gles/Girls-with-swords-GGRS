@@ -138,7 +138,7 @@ public class LobbyRedesign : Node2D
 		// cache lobby music player
 		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
 
-		mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
+		//mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 
 		// set up debug globals
 		Globals.autoTech = autoTech;
@@ -182,24 +182,6 @@ public class LobbyRedesign : Node2D
 		BeginManager(syncTestManager);
 	}
 
-	//netplay buttons
-	public void OnHostButtonDown()
-	{
-		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		activeManager = ggrsManagerScene.Instance<GGRSManager>();
-		AddChild(activeManager);
-		HideButtons();
-		((GGRSManager)activeManager).ManualConfig(ip, true);
-	}
-
-	public void OnJoinButtonDown()
-	{
-		string ip = entries.GetNode<LineEdit>("OpponentIp").Text;
-		activeManager = ggrsManagerScene.Instance<GGRSManager>();
-		AddChild(activeManager);
-		HideButtons();
-		((GGRSManager)activeManager).ManualConfig(ip, false);
-	}
 
 	public void OnNewNetplayMatch()
 	{
@@ -207,7 +189,7 @@ public class LobbyRedesign : Node2D
 		Globals.netplaySessionName = newMatchId.Text;
 		sendToFriendLabel.Visible = true;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManager);
+		BeginNetplayManager();
 	}
 
 	public void OnJoinNetplayMatch()
@@ -215,24 +197,19 @@ public class LobbyRedesign : Node2D
 		GD.Print(existingMatchId.Text);
 		Globals.netplaySessionName = existingMatchId.Text;
 		waitingForOtherPlayerLabel.Visible = true;
-		BeginNetplayManager(ggrsManager);
+		BeginNetplayManager();
 	}
 
-	public void OnAutoConnectDown()
-	{
-		BeginManager(ggrsManager);
-	}
+
 
 	public void OnHostTestButtonDown()
 	{
-		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
-		OnHostButtonDown();
+		BeginTestNetplaySession(true);
 	}
 
 	public void OnJoinTestButtonDown()
 	{
-		entries.GetNode<LineEdit>("OpponentIp").Text = "127.0.0.1";
-		OnJoinButtonDown();
+		BeginTestNetplaySession(false);
 	}
 	
 	//local buttons
@@ -278,19 +255,34 @@ public class LobbyRedesign : Node2D
 		activeManager.Start();
 	}
 
-	private async void BeginNetplayManager(GGRSManager activeManager)
+	private async void BeginNetplayManager()
 	{
-		
+		activeManager = ggrsManager;
 		var result = await NatTraversal();
 		if (result)
 		{
 			activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 			AddChild(activeManager);
-			activeManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);
+			ggrsManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);
 			activeManager.Visible = true;
 			activeManager.Start();
 		}
 
+	}
+
+	private void BeginTestNetplaySession(bool hosting)
+	{
+		lobbyMusic.Stop();
+		HideButtons();
+		localPort = hosting ? 7001 : 7000;
+		opponentPort = hosting ? 7000 : 7001;
+		activeManager = ggrsManager;
+		ggrsManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		AddChild(ggrsManager);
+		Globals.mode = Globals.Mode.GGPO;
+		ggrsManager.Start();
+		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, hosting);
+		ggrsManager.Visible = true;
 	}
 
 	private void OnNetPlayConnected()
@@ -378,7 +370,7 @@ public class LobbyRedesign : Node2D
 	public void OnWrongVersionReject()
 	{
 		GD.Print("Outdated!");
-		mustUpdatePopup.PopupCentered();
+		//mustUpdatePopup.PopupCentered();
 	}
 	
 }

@@ -604,7 +604,6 @@ public class Player : Node2D
 
 		inputHandler.inBuf2.SetState(pState.inBuf2Count, pState.inBuf2);
 		inputHandler.hitStopInputs.SetState(pState.hitStopInputsCount, pState.hitStopInputs);
-		Globals.Log("Set state for hitstopinputs : " + inputHandler.hitStopInputs.Dump());
 		inputHandler.heldKeys.SetState(pState.heldKeys);
 
 
@@ -1034,12 +1033,12 @@ public class Player : Node2D
 
 	public bool CheckHeldKeys(char[] keys)
 	{
-		return keys.All(k => CheckHeldKey(k));
+		return keys.All(k => CheckHeldKey(k)); // ALLOCATION
 	}
 
 	public bool CheckHeldFlippableKeys(char[] keys)
 	{
-		return keys.All(k => CheckFlippableHeldKey(k));
+		return keys.All(k => CheckFlippableHeldKey(k)); // ALLOCATION
 	}
 
 	public bool CheckFlippableHeldKey(char key)
@@ -1575,7 +1574,7 @@ public class Player : Node2D
 		currentState.ReceiveHit(details);
 		currentState.ReceiveStunDamage(details);
 		if (!details.projectile)
-			EmitSignal(nameof(HitConfirm), details.hitStop);
+			EmitSignal(nameof(HitConfirm), details.hitStop); // ALLOCATION
 		PostHitCall();
 
 		wasHit = false;
@@ -1630,17 +1629,17 @@ public class Player : Node2D
 
 	public void EmitHadouken(HadoukenPart h)
 	{
-		EmitSignal(nameof(HadoukenEmitted), h);
+		EmitSignal(nameof(HadoukenEmitted), h); // ALLOCATION
 	}
 
 	public void DeleteHadouken(HadoukenPart h)
 	{
-		EmitSignal(nameof(HadoukenRemoved), h);
+		EmitSignal(nameof(HadoukenRemoved), h); // ALLOCATION
 	}
 
 	public void CommandHadouken(string hadName, HadoukenPart.ProjectileCommand command)
 	{
-		EmitSignal(nameof(HadoukenCommand), Name, hadName, command);
+		EmitSignal(nameof(HadoukenCommand), Name, hadName, command); // ALLOCATION
 	}
 
 	public void ResetComboAndProration()
@@ -1756,7 +1755,7 @@ public class Player : Node2D
 	{
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", palette);
-		shaderMaterial.SetShaderParam("palette_index", colorScheme);
+		shaderMaterial.SetShaderParam("palette_index", colorScheme); // ALLOCATION
 	}
 
 	public void EndSpecialBreak()

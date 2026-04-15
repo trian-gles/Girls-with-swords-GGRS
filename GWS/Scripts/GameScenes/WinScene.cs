@@ -87,13 +87,9 @@ public class WinScene : BaseGame
 		{
 			winPortraits.Add((Control)c);
 		}
-
-		if (Globals.mode == Globals.Mode.SYNCTEST || Globals.mode == Globals.Mode.GGPO)
+		unsafe
 		{
-			unsafe
-			{
-				memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
-			}
+			memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 		}
 		
 

@@ -44,15 +44,15 @@ public class Tech : Fall
 		owner.grounded = false;
 	}
 
-    public override void HandleInput(char[] inputArr)
+    public override void HandleInput(InputContainer.CharPair inputArr)
 	{
 		if (frameCount == 0 && !owner.grounded)
 		{
-			if (inputArr.SequenceEqual(Globals.RIGHTPRESS))
+			if (inputArr == Globals.RIGHTPRESS)
 			{
 				owner.velocity = techVector;
 			}
-			else if (inputArr.SequenceEqual(Globals.LEFTPRESS))
+			else if (inputArr == Globals.LEFTPRESS)
 			{
 				owner.velocity.x = -techVector.x;
 				owner.velocity.y = techVector.y;

@@ -17,6 +17,8 @@ public abstract class BaseGame : Node2D
 	protected Label inputTextP2;
 
 	public BaseManager manager;
+
+	private int[] anyButton = new[] { 16, 32, 64, 128 };
 	
 	
 
@@ -185,7 +187,7 @@ public abstract class BaseGame : Node2D
 
 	protected bool AnyButtonPressed(int inputs, int playerLastFrameInputs)
 	{
-		foreach (int num in new[] { 16, 32, 64, 128 }) // ALLOCATION
+		foreach (int num in anyButton)
 		{
 			if ((inputs & num) != 0 && (playerLastFrameInputs & num) == num)
 				return true;

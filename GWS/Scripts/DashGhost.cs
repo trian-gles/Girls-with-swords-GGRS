@@ -11,21 +11,49 @@ public class DashGhost : Sprite
 	public string type;
 
 	private Tween tween;
+	private bool fading = false;
+	private float fadeT = 0f;
 
 	private const string ModulateAlphaString = "modulate:a";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		tween = GetNode<Tween>("Tween");
 		Visible = false;
+	}
+
+	public void StartFade()
+	{
+		fadeT = 0f;
+		fading = true;
+		Visible = true;
+	}
+
+	public override void _Process(float delta)
+	{
+		if (!fading) return;
+
+		fadeT += delta;
+
+		float t = Mathf.Clamp(fadeT / 2f, 0, 1);
+		float eased = 1f - Mathf.Pow(2f, -10f * t);
+
+		float alpha = Mathf.Lerp(1f, 0f, eased);
+
+		Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, alpha);
+
+		if (t >= 1f)
+		{
+			fading = false;
+			Visible = false;
+		}
+			
 	}
 
 	public void Run(int frame)
 	{
 		Visible = true;
-		tween.InterpolateProperty(this, ModulateAlphaString, 1.0, 0.0, 2, Tween.TransitionType.Expo, Tween.EaseType.Out); // ALLOCATION
-		tween.Start();
+		StartFade();
 		initFrame = frame;
 	}
 
@@ -34,12 +62,13 @@ public class DashGhost : Sprite
 		if (frame < initFrame)
 		{
 			Visible = false;
+			fading = false;
 		}
 	}
 
 	private void _on_Tween_tween_completed(Godot.Object @object, NodePath key)
 	{
-		Visible = false;
+		
 	}
 }
 

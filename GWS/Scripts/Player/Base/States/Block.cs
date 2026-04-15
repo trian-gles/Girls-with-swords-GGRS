@@ -23,6 +23,7 @@ public class Block : HitState
 	private const string MixupString = "Mixup";
 	private const string LightString = "Light";
 	private const string GuardCancelString = "GuardCancel";
+	private char[] shieldKeys = new[] { 'p', 'k' };
 	public override void _Ready()
 	{
 		base._Ready();
@@ -32,7 +33,7 @@ public class Block : HitState
 	public override void Enter(){
 		base.Enter();
 		ResetTerminalVelocity();
-		if (owner.CheckHeldKeys(new[] { 'p', 'k' }))
+		if (owner.CheckHeldKeys(shieldKeys))
 		{
 			EnterShieldState();
         }
@@ -62,7 +63,7 @@ public class Block : HitState
 			
 		}
 
-		if (owner.CheckHeldKeys(new[] { 'p', 'k' }) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
+		if (owner.CheckHeldKeys(shieldKeys) && owner.CheckFlippableHeldKey('6') && owner.TrySpendMeter())
 		{
 			owner.ChangeState(guardCancelString);
 		}

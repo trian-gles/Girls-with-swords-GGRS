@@ -76,7 +76,7 @@ public abstract class AirState : State
 		});
 
 			AddGatling(new char[] { '6', 'p' },
-			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
 				AirDashString,
 			() =>
 		{
@@ -86,7 +86,7 @@ public abstract class AirState : State
 		});
 
 			AddGatling(new char[] { '6', 'p' },
-			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && !owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && !owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
 				AirBackdashString,
 			() =>
 		{
@@ -96,7 +96,7 @@ public abstract class AirState : State
 		});
 
 			AddGatling(new char[] { '4', 'p' },
-			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
 				AirBackdashString,
 			() =>
 		{
@@ -106,7 +106,7 @@ public abstract class AirState : State
 		});
 
 			AddGatling(new char[] { '4', 'p' },
-			() => owner.CheckBuffer(new char[] { 'c', 'p' }) && owner.canAirDash && !owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && !owner.facingRight && owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
 				AirDashString,
 			() =>
 		{

@@ -73,9 +73,9 @@ public class Jump : AirState
 	}
 	
 	private bool LateEnoughDoubleJump()
-    {
+	{
 		return frameCount > 13;
-    }
+	}
 
 	public override void Enter()
 	{
@@ -107,28 +107,28 @@ public class Jump : AirState
 		return frameCount < startupFrames && owner.canDoubleJump;
 	}
 
-    public override void HandleInput(char[] inputArr)
-    {
-        base.HandleInput(inputArr);
+	public override void HandleInput(InputContainer.CharPair inputArr)
+	{
+		base.HandleInput(inputArr);
 
 		// Allows the user to choose direction slightly into the jump
 		if (frameCount < 3)
 		{
-			if (Enumerable.SequenceEqual(inputArr, Globals.RIGHTPRESS))
-            {
+			if (inputArr == Globals.RIGHTPRESS)
+			{
 				owner.velocity.x = Math.Max(owner.speed, owner.velocity.x);
 			}
 				
-			else if (Enumerable.SequenceEqual(inputArr, Globals.LEFTPRESS))
-            {
+			else if (inputArr == Globals.LEFTPRESS)
+			{
 				owner.velocity.x = Mathf.Min(-owner.speed, owner.velocity.x);
 			}
 				
 		}
-    }
+	}
 
 
-    public override void FrameAdvance()
+	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
 		if (owner.grounded && frameCount > 0) 
@@ -137,9 +137,9 @@ public class Jump : AirState
 		}
 		ApplyGravity();
 		if (!owner.canDoubleJump)
-        {
+		{
 			owner.CheckTurnAround();
-        }
+		}
 
 		if (DelayInputs() && owner.CheckHitStopBuffer(Globals.KICKPRESS) && owner.CheckHitStopBuffer(Globals.SLASHPRESS))
 		{
@@ -157,13 +157,13 @@ public class Jump : AirState
 		owner.ChangeState(FallString);
 	}
 
-    public override void ReceiveHit(Globals.AttackDetails details)
-    {
+	public override void ReceiveHit(Globals.AttackDetails details)
+	{
 		if (frameCount < 3)
 			ReceiveHitNoBlock(details);
 		else
-        	base.ReceiveHit(details);
-    }
+			base.ReceiveHit(details);
+	}
 }
 
 

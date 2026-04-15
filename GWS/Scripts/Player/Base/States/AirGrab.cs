@@ -86,7 +86,7 @@ public class AirGrab : State
 
     }
 
-	public override void HandleInput(char[] inputArr)
+	public override void HandleInput(InputContainer.CharPair inputArr)
 	{
 		if (frameCount < releaseFrame)
 		{

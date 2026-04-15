@@ -206,21 +206,21 @@ public abstract class State : Node
 		public PostInputCallback postCall;
 	}
 
-	protected char[] ReverseInput(char[] inp)
+	protected InputContainer.CharPair ReverseInput(InputContainer.CharPair inp)
 	{
 
-		if (inp[0] == '4')
+		if (inp.A == '4')
 		{
-			if (inp[1] == 'r')
+			if (inp.B == 'r')
 				return Globals.RIGHTREL;
 			else
 				return Globals.RIGHTPRESS;
 
 		}
 
-		else if (inp[0] == '6')
+		else if (inp.A == '6')
 		{
-			if (inp[1] == 'r')
+			if (inp.B == 'r')
 				return Globals.LEFTREL;
 			else
 				return Globals.LEFTPRESS;
@@ -233,7 +233,7 @@ public abstract class State : Node
 	protected InputContainer ReverseInputs(InputContainer origInputs)
 	{
 		reversedInputs.Clear();
-		foreach (char[] inp in origInputs)
+		foreach (var inp in origInputs)
 		{
 			reversedInputs.Add(ReverseInput(inp));
 		}
@@ -493,19 +493,19 @@ public abstract class State : Node
 		
 	}
 
-	public virtual void HandleInput(char[] inputArr)
+	public virtual void HandleInput(InputContainer.CharPair inputArr)
 	{
 		if (owner.health <= 0)
 			return;
 		foreach (CommandGatling comGat in commandGatlings)
 		{
-			char[] firstInp = comGat.inputs[comGat.inputs.Count - 1];
+			var firstInp = comGat.inputs.Get(comGat.inputs.Count - 1);
 			if (!owner.facingRight && comGat.flipInputs)
 			{
 				firstInp = ReverseInput(firstInp);
 			}
 
-			if (Enumerable.SequenceEqual(firstInp, inputArr))
+			if (firstInp == inputArr)
 			{
 				InputContainer testedInputs = comGat.inputs;
 
@@ -548,8 +548,8 @@ public abstract class State : Node
 			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
 				continue;
 
-			
-			if (Enumerable.SequenceEqual(normGat.input, inputArr))
+			var input = new InputContainer.CharPair(normGat.input[0], normGat.input[1]);
+			if (input == inputArr)
 			{
 				if (normGat.reqCall != null)
 				{

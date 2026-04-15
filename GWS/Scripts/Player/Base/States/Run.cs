@@ -15,7 +15,7 @@ public class Run : MoveState
 		loop = true;
 		tags.Add(Globals.Tags.run);
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
-			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
+			AddGatling(new[] { dashSpecial.inputs.Get(0).A, dashSpecial.inputs.Get(0).B}, () => frameCount > 5, dashSpecial.state );
 		AddGatling(new[] { '8', 'p' }, PreJumpString);
 		AddExSpecials(owner.groundExSpecials);
 		AddSpecials(owner.groundSpecials);
@@ -27,8 +27,7 @@ public class Run : MoveState
 		AddGatling(new[] { '6', 'r' }, PostRunString);
 		AddGatling(new[] { '4', 'r' }, PostRunString);
 		foreach (Player.Special dashSpecial in owner.dashSpecials)
-			AddGatling(dashSpecial.inputs[0], () => frameCount > 5, dashSpecial.state);
-
+			AddGatling(new[] { dashSpecial.inputs.Get(0).A, dashSpecial.inputs.Get(0).B}, () => frameCount > 5, dashSpecial.state );
 		soundRate = 10;
 	}
 

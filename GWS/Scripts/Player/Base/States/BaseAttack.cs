@@ -410,15 +410,15 @@ public abstract class BaseAttack : State
 		return (frameCount > animationLength - 5);
 	}
 
-	public override void HandleInput(char[] inputArr)
+	public override void HandleInput(InputContainer.CharPair inputArr)
 	{
 		if (frameCount < 3)
 		{
 			foreach (KaraGatling karaGat in karaGatlings)
 			{
-				char[] testInp = karaGat.input;
+				InputContainer.CharPair testInp = new InputContainer.CharPair(karaGat.input[0], karaGat.input[1]);
 				testInp = ReverseInput(testInp);
-				if (Enumerable.SequenceEqual(karaGat.input, inputArr))
+				if (testInp == inputArr)
 				{
 					if (karaGat.reqCall != null)
 					{
@@ -442,7 +442,8 @@ public abstract class BaseAttack : State
 		{
 			foreach (var whiffGat in whiffGatlings)
 			{
-				if (Enumerable.SequenceEqual(whiffGat.input, inputArr))
+				InputContainer.CharPair testInp = new InputContainer.CharPair(whiffGat.input[0], whiffGat.input[1]);
+				if (testInp == inputArr)
 					owner.ChangeState(whiffGat.state);
 			}
 		}

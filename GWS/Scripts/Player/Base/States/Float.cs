@@ -15,6 +15,7 @@ public class Float : HitStun
 	private const string MissedTechString = "MissedTech";
 	private const string RecoveryString = "Recovery";
 	private const string BurstString = "Burst";
+	private char[] burstKeys = new[] { 'p', 'k', 'a' };
 	public override void _Ready()
 	{
 		base._Ready();
@@ -124,7 +125,7 @@ public class Float : HitStun
 		if (frameCount == 1)
 		{
 
-			if (owner.CheckHeldKeys(new[] { 'p', 'k', 'a' })) // ALLOCATION
+			if (owner.CheckHeldKeys(burstKeys))
 			{
 				if (!owner.TrySpendBurst()) return;
 				owner.EmitSignal(RecoveryString, owner.Name); // ALLOCATION

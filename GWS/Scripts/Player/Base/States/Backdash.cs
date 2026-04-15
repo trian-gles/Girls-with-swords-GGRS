@@ -30,7 +30,7 @@ public class Backdash: Walk
 		Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, !owner.facingRight);
 	}
 
-	public override void HandleInput(char[] inputArr)
+	public override void HandleInput(InputContainer.CharPair inputArr)
 	{
 
 	}

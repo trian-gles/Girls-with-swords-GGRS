@@ -56,6 +56,7 @@ public class GameScene : BaseGame
 	private Label recordingText;
 	private ColorRect recordingBack;
 	private Control tutorialContainer;
+	private List<string> timerStrings = new List<string>();
 
 	// WIN STATE
 	private int p1Wins = 0;
@@ -215,6 +216,11 @@ public class GameScene : BaseGame
 
 		// the default, which will be changed for certain modes
 		SetDebugVisibility(false);
+
+		for (int i = 0; i <= 99; i++)
+		{
+			timerStrings.Add((99 - i).ToString());
+		}
 
 		Globals.logBuffer.Clear();
 	}
@@ -759,7 +765,7 @@ public class GameScene : BaseGame
 
 		int timerFrame = Globals.frame - startFrame;
 
-		timer.Text = (99 - Math.Floor((float)timerFrame / 60)).ToString(); // ALLOCATION
+		timer.Text = timerStrings[(int)Math.Floor((float)timerFrame / 60)]; // ALLOCATION
 	}
 
 	private void HandleFakeEndTime()

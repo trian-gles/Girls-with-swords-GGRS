@@ -17,10 +17,10 @@ public class PreJump : State
 		stop = false;
 		AddEasyGroundSpecials();
 	}
-    //public override bool DelayInputs()
-    //{
-    //	return true;
-    //}
+	//public override bool DelayInputs()
+	//{
+	//	return true;
+	//}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
@@ -39,7 +39,7 @@ public class PreJump : State
 			
 	}
 
-	public override void HandleInput(char[] inputArr)
+	public override void HandleInput(InputContainer.CharPair inputArr)
 	{
 		
 		base.HandleInput(inputArr);

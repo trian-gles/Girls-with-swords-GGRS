@@ -101,27 +101,27 @@ public class Globals : Node
 	public const int DASH = 512;
 
 
-	public static char[] RIGHTPRESS = new[] {'6', 'p'};
-	public static char[] LEFTPRESS = new[] {'4', 'p'};
-	public static char[] UPPRESS = new[] {'8', 'p'};
-	public static char[] DOWNPRESS = new[] {'2', 'p'};
-	public static char[] JABPRESS = new[] {'p', 'p'};
-	public static char[] KICKPRESS = new[] {'k', 'p'};
-	public static char[] SLASHPRESS = new[] {'s', 'p'};
-	public static char[] SPECIALPRESS = new[] {'a', 'p'};
-	public static char[] STRINGPRESS = new[] {'b', 'p'};
-	public static char[] DASHPRESS = new[] {'c', 'p'};
+	public static InputContainer.CharPair RIGHTPRESS = new InputContainer.CharPair('6', 'p');
+	public static InputContainer.CharPair LEFTPRESS = new InputContainer.CharPair('4', 'p');
+	public static InputContainer.CharPair UPPRESS = new InputContainer.CharPair('8', 'p');
+	public static InputContainer.CharPair DOWNPRESS = new InputContainer.CharPair('2', 'p');
+	public static InputContainer.CharPair JABPRESS = new InputContainer.CharPair('p', 'p');
+	public static InputContainer.CharPair KICKPRESS = new InputContainer.CharPair('k', 'p');
+	public static InputContainer.CharPair SLASHPRESS = new InputContainer.CharPair('s', 'p');
+	public static InputContainer.CharPair SPECIALPRESS = new InputContainer.CharPair('a', 'p');
+	public static InputContainer.CharPair STRINGPRESS = new InputContainer.CharPair('b', 'p');
+	public static InputContainer.CharPair DASHPRESS = new InputContainer.CharPair('c', 'p');
 
-	public static char[] RIGHTREL = new[] {'6', 'r'};
-	public static char[] LEFTREL = new[] {'4', 'r'};
-	public static char[] UPREL = new[] {'8', 'r'};
-	public static char[] DOWNREL = new[] {'2', 'r'};
-	public static char[] JABREL = new[] {'p', 'r'};
-	public static char[] KICKREL = new[] {'k', 'r'};
-	public static char[] SLASHREL = new[] {'s', 'r'};
-	public static char[] SPECIALREL = new[] {'a', 'r'};
-	public static char[] STRINGREL = new[] {'b', 'r'};
-	public static char[] DASHREL = new[] {'c', 'r'};
+	public static InputContainer.CharPair RIGHTREL = new InputContainer.CharPair('6', 'r');
+	public static InputContainer.CharPair LEFTREL = new InputContainer.CharPair('4', 'r');
+	public static InputContainer.CharPair UPREL = new InputContainer.CharPair('8', 'r');
+	public static InputContainer.CharPair DOWNREL = new InputContainer.CharPair('2', 'r');
+	public static InputContainer.CharPair JABREL = new InputContainer.CharPair('p', 'r');
+	public static InputContainer.CharPair KICKREL = new InputContainer.CharPair('k', 'r');
+	public static InputContainer.CharPair SLASHREL = new InputContainer.CharPair('s', 'r');
+	public static InputContainer.CharPair SPECIALREL = new InputContainer.CharPair('a', 'r');
+	public static InputContainer.CharPair STRINGREL = new InputContainer.CharPair('b', 'r');
+	public static InputContainer.CharPair DASHREL = new InputContainer.CharPair('c', 'r');
 	static public Mode mode;
 
 	public static List<string> logBuffer = new List<string>();
@@ -599,7 +599,7 @@ public class Globals : Node
 		return frame == lastConfirmedFrame;
 	}
 
-	public static bool ArrayInList(InputContainer arr, char[] element)
+	public static bool ArrayInList(InputContainer arr, InputContainer.CharPair element)
 	{
 		foreach (var listItem in arr)
 		{
@@ -630,9 +630,9 @@ public class Globals : Node
 	}
 
 
-	public static bool CompareInput(char[] i1, char[] i2)
+	public static bool CompareInput(InputContainer.CharPair i1, InputContainer.CharPair i2)
 	{
-		return i1[0] == i2[0] && i1[1] == i2[1];
+		return i1.A == i2.A && i1.B == i2.B;
 	}
 
 	public static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)
@@ -659,7 +659,7 @@ public class Globals : Node
 
 		int cursor = -1; // relative to windowStart
 
-		foreach (char[] element in elements)
+		foreach (var element in elements)
 		{
 			bool found = false;
 
@@ -668,7 +668,7 @@ public class Globals : Node
 			{
 				int arrIndex = windowStart + i;
 
-				if (ArraysEqual(arr[arrIndex], element))
+				if (arr.Get(arrIndex) == element)
 				{
 					if (cursor >= 0 && i - cursor > 9)
 						return false;
@@ -753,44 +753,5 @@ public class Globals : Node
 	public static bool CheckKeyRelease(char[] input, char desiredRelease)
 	{
 		return (input[1] == 'r' && input[0] == desiredRelease);
-	}
-
-	public static void Tests()
-	{
-		
-		var arr = new InputContainer(8);
-		arr.Add(new char[] { 'p', 'p' });
-		arr.Add(new char[] { 'k', 'p' });
-		arr.Add(new char[] { 'p', 'r' });
-		arr.Add(new char[2]);
-		arr.Add(new char[] { 'p', 'p' });
-		arr.Add(new char[] { 'k', 'r' });
-		arr.Add(new char[] { 'p', 'r' });
-		arr.Add(new char[] { '2', 'p' });
-
-		
-
-		GD.Print($"Testing {nameof(ArrOfArraysComplexInList)}");
-		var elements = new InputContainer(5);
-		elements.Add(new char[] { 'p', 'p' });
-		elements.Add(new char[] { 'p', 'p' });
-		GD.Print($"Result of testing punch-punch in array = {ArrOfArraysComplexInList(arr, elements)}");
-
-		elements = new InputContainer(5);
-		elements.Add(new char[] { 'p', 'p' });
-		elements.Add(new char[] { 'k', 'p' });
-		GD.Print($"Result of testing punch-kick in array = {ArrOfArraysComplexInList(arr, elements)}");
-
-		elements.Add(new char[] { 's', 'p' });
-		bool result = (ArrOfArraysComplexInList(arr, elements) == false);
-		GD.Print($"Result of testing nonexistant elements in array = {result}");
-
-		var perms = State.Permutations(new List<char> {'a', 'b', 'c'});
-		GD.Print($"Permutations of abc = ");
-		foreach (List<char> perm in perms)
-		{
-			var thing = string.Join(",", perm);
-			GD.Print(thing);
-		}
 	}
 }

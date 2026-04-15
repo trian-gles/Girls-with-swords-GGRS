@@ -698,7 +698,7 @@ public class Player : Node2D
 	public void PrintBuffer()
 	{
 		GD.Print("Buffer ----");
-		foreach (char[] inp in inputHandler.inBuf2)
+		foreach (var inp in inputHandler.inBuf2)
 		{
 			GD.Print(string.Join(",", inp));
 		}
@@ -742,7 +742,7 @@ public class Player : Node2D
 			inBuf2Timer = inBuf2TimerMax;
 		}
 
-		private void BufAddInput(char[] input)
+		private void BufAddInput(InputContainer.CharPair input)
 		{
 			inBuf2Timer = inBuf2TimerMax;
 			if (inBuf2.Count >= 56)
@@ -765,7 +765,7 @@ public class Player : Node2D
 		private void AddHitStopBuffer(InputContainer unhandledInputs)
 		{
 			for (int i = 0; i < unhandledInputs.Count; i++){
-				var inputArr = unhandledInputs[i];
+				var inputArr = unhandledInputs.Get(i);
 				hitStopInputs.Add(inputArr);
 				if (hitStopInputs.Count == hitStopInputs.Capacity)
 					hitStopInputs.Clear();
@@ -881,8 +881,8 @@ public class Player : Node2D
 			
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
-				var inputArr = unhandledInputs[i];
-				if (inputArr[0] == 'a')
+				var inputArr = unhandledInputs.Get(i);
+				if (inputArr.A == 'a')
 				{
 					playerState.TrySpecialBreak();
 				}
@@ -891,17 +891,17 @@ public class Player : Node2D
 			
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
-				var inputArr = unhandledInputs[i];
-				if (inputArr[1] == 'p')
+				var inputArr = unhandledInputs.Get(i);
+				if (inputArr.B == 'p')
 				{
-					heldKeys.Add(inputArr[0]);
+					heldKeys.Add(inputArr.A);
 
 				}
 				
-				else if (inputArr[1] == 'r')
+				else if (inputArr.B == 'r')
 				{
-					negEdgeCallback(inputArr[0]);
-					heldKeys.Remove(inputArr[0]);
+					negEdgeCallback(inputArr.A);
+					heldKeys.Remove(inputArr.A);
 				}
 			}	
 			if (hitStop > 0 || playerState.DelayInputs()) // delay the handling of inputs until after hitstop ends
@@ -924,7 +924,7 @@ public class Player : Node2D
 			hitStopInputs.Clear();
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
-				playerState.HandleInput(unhandledInputs[i]);
+				playerState.HandleInput(unhandledInputs.Get(i));
 				if (clearUnhandled)
 					break;
 			}
@@ -945,10 +945,10 @@ public class Player : Node2D
 		public string DumpHitStopBuffer()
 		{
 			List<char> buf = new List<char>();
-			foreach (char[] input in hitStopInputs)
+			foreach (var input in hitStopInputs)
 			{
-				buf.Add(input[0]);
-				buf.Add(input[1]);
+				buf.Add(input.A);
+				buf.Add(input.B);
 			}
 			return String.Join("", buf);
 		}
@@ -1033,12 +1033,22 @@ public class Player : Node2D
 
 	public bool CheckHeldKeys(char[] keys)
 	{
-		return keys.All(k => CheckHeldKey(k)); // ALLOCATION
+		for (int i = 0; i < keys.Length; i++)
+		{
+			if (!CheckHeldKey(keys[i]))
+				return false;
+		}
+		return true;
 	}
 
 	public bool CheckHeldFlippableKeys(char[] keys)
 	{
-		return keys.All(k => CheckFlippableHeldKey(k)); // ALLOCATION
+		for (int i = 0; i < keys.Length; i++)
+		{
+			if (!CheckFlippableHeldKey(keys[i]))
+				return false;
+		}
+		return true;
 	}
 
 	public bool CheckFlippableHeldKey(char key)
@@ -1058,10 +1068,10 @@ public class Player : Node2D
 		return inputHandler.heldKeys.DumpTest();
 	}
 
-	public bool CheckLastBufInput(char[] key)
+	public bool CheckLastBufInput(InputContainer.CharPair key)
 	{
 		var buf = inputHandler.GetBuffer();
-		return (key[0] == buf[buf.Count - 2][0]);
+		return (key == buf.Get(buf.Count - 2));
 	}
 
 	/// <summary>
@@ -1069,13 +1079,13 @@ public class Player : Node2D
 	/// </summary>
 	/// <param name="key"></param>
 	/// <returns></returns>
-	public bool CheckBuffer(char[] key)
+	public bool CheckBuffer(InputContainer.CharPair key)
 	{
 		
 		return Globals.ArrayInList(inputHandler.GetBuffer(), key);
 	}
 
-	public bool CheckHitStopBuffer(char[] key)
+	public bool CheckHitStopBuffer(InputContainer.CharPair key)
 	{
 		return Globals.ArrayInList(inputHandler.GetHitStopBuffer(), key);
 	}

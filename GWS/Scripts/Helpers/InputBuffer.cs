@@ -3,11 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using Godot;
 
-public sealed class InputContainer : IEnumerable<char[]>
+public sealed class InputContainer
 {
 	private readonly char[] _buffer;   // flat: capacity * 2
 	private readonly int _capacity;
 	private int _count;
+
+	public readonly struct CharPair
+	{
+		public readonly char A;
+		public readonly char B;
+
+		public CharPair(char a, char b)
+		{
+			A = a;
+			B = b;
+		}
+
+		public static bool operator ==(CharPair left, CharPair right)
+		{
+			return left.A == right.A && left.B == right.B;
+		}
+
+		public static bool operator !=(CharPair left, CharPair right)
+		{
+			return !(left == right);
+		}
+
+		public bool Equals(CharPair other)
+		{
+			return A == other.A && B == other.B;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is CharPair other && Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				return (A * 397) ^ B;
+			}
+		}
+	}
 
 	// Fixed-capacity constructor
 	public InputContainer(int maxLength)
@@ -20,50 +60,74 @@ public sealed class InputContainer : IEnumerable<char[]>
 		_count = 0;
 	}
 
-	// Collection-initializer constructor
-	public InputContainer(IEnumerable<char[]> initial)
+	// Constructor from char[][]
+	public InputContainer(char[][] initial)
 	{
 		if (initial == null)
 			throw new ArgumentNullException(nameof(initial));
 
-		int count = 0;
-		foreach (var item in initial)
+		_capacity = initial.Length;
+		_buffer = new char[_capacity * 2];
+		_count = 0;
+
+		for (int i = 0; i < initial.Length; i++)
 		{
+			var item = initial[i];
+
 			if (item == null || item.Length != 2)
 				throw new ArgumentException("All elements must be char[2].", nameof(initial));
-			count++;
-		}
 
-		_capacity = count;
-		_buffer = new char[count * 2];
-
-		int i = 0;
-		foreach (var item in initial)
-		{
-			int offset = i * 2;
+			int offset = _count * 2;
 			_buffer[offset] = item[0];
 			_buffer[offset + 1] = item[1];
-			i++;
+			_count++;
+		}
+	}
+
+	public Enumerator GetEnumerator()
+	{
+		return new Enumerator(this);
+	}
+
+	public struct Enumerator
+	{
+		private readonly InputContainer _container;
+		private int _index;
+
+		public Enumerator(InputContainer container)
+		{
+			_container = container;
+			_index = -1;
 		}
 
-		_count = count;
+		public bool MoveNext()
+		{
+			_index++;
+			return _index < _container._count;
+		}
+
+		public CharPair Current
+		{
+			get
+			{
+				int offset = _index * 2;
+				return new CharPair(
+					_container._buffer[offset],
+					_container._buffer[offset + 1]
+				);
+			}
+		}
 	}
 
 	public int Count => _count;
 	public int Capacity => _capacity;
 
-	public void Add(char[] item)
+	public void Add(CharPair item)
 	{
-		if (item == null)
-			throw new ArgumentNullException(nameof(item));
-		if (item.Length != 2)
-			throw new ArgumentException("Input arrays must have length 2.", nameof(item));
-		if (_count >= _capacity)
-			throw new InvalidOperationException("InputContainer capacity exceeded.");
 
 		int offset = _count * 2;
-		_buffer[offset] = item[0];
-		_buffer[offset + 1] = item[1];
+		_buffer[offset] = item.A;
+		_buffer[offset + 1] = item.B;
 		_count++;
 	}
 
@@ -88,20 +152,13 @@ public sealed class InputContainer : IEnumerable<char[]>
 		return false;
 	}
 
-	public char[] this[int index]
+	public CharPair Get(int index)
 	{
-		get
-		{
-			if ((uint)index >= (uint)_count)
-				throw new ArgumentOutOfRangeException(nameof(index));
+		if ((uint)index >= (uint)_count)
+			throw new ArgumentOutOfRangeException(nameof(index));
 
-			int offset = index * 2;
-			return new char[] // ALLOCATION
-			{
-				_buffer[offset],
-				_buffer[offset + 1]
-			};
-		}
+		int offset = index * 2;
+		return new CharPair(_buffer[offset], _buffer[offset + 1]);
 	}
 
 	/// <summary>
@@ -154,20 +211,6 @@ public sealed class InputContainer : IEnumerable<char[]>
 		return s;
 	}
 
-
-	public IEnumerator<char[]> GetEnumerator()
-	{
-		for (int i = 0; i < _count; i++)
-		{
-			int offset = i * 2;
-			yield return new char[]
-			{
-				_buffer[offset],
-				_buffer[offset + 1]
-			};
-		}
-	}
-
 	public unsafe void SetState(int count, char* buffer)
 	{
 		if ((uint)count > (uint)_capacity)
@@ -190,7 +233,4 @@ public sealed class InputContainer : IEnumerable<char[]>
 
 		return _count;
 	}
-
-
-	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

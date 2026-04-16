@@ -502,7 +502,6 @@ public class Player : Node2D
 		{
 			pState.hitStopInputsCount = inputHandler.hitStopInputs.GetState(p);
 		}
-		Globals.Log("Get state for hitStopInputs : " + inputHandler.hitStopInputs.Dump());
 		fixed (char* p = pState.heldKeys)
 		{
 			inputHandler.heldKeys.GetState(p);

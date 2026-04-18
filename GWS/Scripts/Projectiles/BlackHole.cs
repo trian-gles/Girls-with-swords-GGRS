@@ -126,7 +126,6 @@ public class BlackHole : HadoukenPart
 			Vector2 collisionPnt = CheckRect();
 			if (collisionPnt != Vector2.Inf && hits < totalHits)
 			{
-				//Globals.Log("Hurting player on frame " + frame);
 				HurtPlayer(collisionPnt);
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
 				targetPlayer.counterStopFrames = 15;

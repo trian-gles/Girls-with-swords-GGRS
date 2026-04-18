@@ -19,7 +19,7 @@ public class Tech : Fall
 		base.Enter();
 		owner.wasOTGHit = false;
 		owner.GFXEvent(TechString);
-		owner.EmitSignal(nameof(Player.GenericGFX), UkemiString, owner.Name);
+		Globals.EmitPlayerGenericGfx(UkemiString, owner.Name);
 		owner.ResetComboAndProration();
 		owner.canDoubleJump = true;
 		owner.hasDoubleOrSuperJumped = false;

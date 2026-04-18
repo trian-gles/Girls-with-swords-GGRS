@@ -93,9 +93,6 @@ public abstract class BaseAttack : State
 	[Export]
 	public int[] restoreHitFrames;
 
-	[Signal]
-	public delegate void OnHitConnected(int hitPush);
-
 	[Export]
 	public int superFrame = 0;
 
@@ -175,7 +172,6 @@ public abstract class BaseAttack : State
 		stop = false;
 		isCounter = true;
 		slowdownSpeed = 80;
-		Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
 
@@ -323,7 +319,7 @@ public abstract class BaseAttack : State
 		{
 			hitDetails.ignoreProration = true;
 			owner.otherPlayer.hasBeenSpiked = true;
-			owner.EmitSignal(nameof(Player.GenericGFX), SpikeString, owner.Name);
+			Globals.EmitPlayerGenericGfx(SpikeString, owner.Name);
 		}
 
 		if (ignoreProration)
@@ -360,7 +356,7 @@ public abstract class BaseAttack : State
 		}
 
 		owner.GainMeter(hitDetails.dmg * 50);
-		EmitSignal(nameof(OnHitConnected), hitDetails.hitPush);
+		Globals.EmitSignal(Globals.PlayerSignal.HitPush, owner.Name, hitDetails.hitPush);
 		var direction = ATTACKDIR.EQUAL;
 
 		if (owner.OtherPlayerOnRight())

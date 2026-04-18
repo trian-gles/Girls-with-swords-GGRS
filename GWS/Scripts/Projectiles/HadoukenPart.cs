@@ -92,9 +92,6 @@ public class HadoukenPart : Node2D
 	[Export]
 	protected bool isProjectile = true;
 
-	[Signal]
-	public delegate void OnHitConnected(int hitPush);
-
 	[Export]
 	public int modifiedProration = 0;
 
@@ -117,7 +114,7 @@ public class HadoukenPart : Node2D
 
 	public int creationFrame;
 
-	static protected HashSet<int> hadoukenNums = new HashSet<int>();  // TODO : should be fixed size
+	static protected HashSet<int> hadoukenNums = new HashSet<int>(50);  // TODO : should be fixed size
 
 	protected int num;
 
@@ -413,7 +410,7 @@ public class HadoukenPart : Node2D
 			targetPlayer.terminalVelocity = slowTerminalVelocity;
 		}
 
-		EmitSignal(nameof(OnHitConnected), 0); // don't push ourselves if the opponent is in the corner eating a hadouken!
+		Globals.EmitSignal(Globals.PlayerSignal.HitPush, targetPlayer.Name, 0);
 		targetPlayer.ReceiveHit(hitDetailsCopy, chHitDetailsCopy);
 		lastHitFrame = frame;
 		

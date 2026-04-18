@@ -186,14 +186,18 @@ public class Globals : Node
 		Mixup,
 		CanTech,
 		MissedTech,
-		SuperFlash
-
+		SuperFlash,
+		Recovery,
+		HitPush,
+		HitStop
 	}
 
 	public delegate void PlayerSingleArgSignalListener(string name, int arg);
 	public delegate void PlayerNoArgSignalListener(string name);
 	public delegate void PlayerSignalListener(Player p);
 	public delegate void GFXParticleSignalListener(Vector2 location, string particleName, bool flipH);
+	public delegate void PlayerGenericGfxSignalListener(string fx, string name);
+	private static PlayerGenericGfxSignalListener playerGenericGfxSignalListener;
 	private static Dictionary<PlayerSignal, PlayerSingleArgSignalListener> singleArgSignalListeners = new Dictionary<PlayerSignal, PlayerSingleArgSignalListener>();
 	private static Dictionary<PlayerSignal, PlayerNoArgSignalListener> noArgSignalListeners = new Dictionary<PlayerSignal, PlayerNoArgSignalListener>();
 	private static List<PlayerSignalListener> ghostListeners = new List<PlayerSignalListener>();
@@ -210,7 +214,7 @@ public class Globals : Node
 		}
 		else
 		{
-			GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
+			//GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
 		}
 		singleArgSignalListeners[signal] += listener;
 	}
@@ -226,7 +230,7 @@ public class Globals : Node
 		}
 		else
 		{
-			GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
+			//GD.PrintErr("UHOH, DOUBLE CONNECTING SIGNAL " + signal.ToString());
 		}
 		noArgSignalListeners[signal] += listener;
 	}
@@ -251,7 +255,7 @@ public class Globals : Node
 		}
 		else
 		{
-			GD.Print("UHOH, EMITTING UNCONNECTED NO-ARG SIGNAL " + signal.ToString());
+			//GD.Print("UHOH, EMITTING UNCONNECTED NO-ARG SIGNAL " + signal.ToString());
 		}
 	}
 
@@ -265,6 +269,10 @@ public class Globals : Node
 	{
 		gfxParticleListeners.Add(listener);
 	}
+	public static void ConnectPlayerGenericGfxEmitted(PlayerGenericGfxSignalListener listener)
+	{
+		playerGenericGfxSignalListener = listener;
+	}
 
 	public static void EmitGhostEmitted(Player p)
 	{
@@ -273,7 +281,10 @@ public class Globals : Node
 			listener(p);
 		}
 	}
-
+	public static void EmitPlayerGenericGfx(string fxName, string name)
+	{
+		playerGenericGfxSignalListener(fxName, name);
+	}
 	public static void EmitPlayerFXEmitted(Vector2 location, string particleName, bool flipH)
 	{
 		foreach (var listener in gfxParticleListeners)

@@ -27,7 +27,6 @@ public class SLDashAttack : MovingAttack
 		{
 			var h = hadoukenScene.Instance() as HadoukenPart;
 			cachedHadoukens.Add(h);
-			h.Connect("OnHitConnected", owner, nameof(owner.OnHitConnected));
 		}
 	}
 

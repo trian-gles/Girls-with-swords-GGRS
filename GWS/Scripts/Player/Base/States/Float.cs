@@ -63,7 +63,7 @@ public class Float : HitStun
 
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
-			owner.EmitSignal(nameof(Player.GenericGFX), LaunchString, owner.otherPlayer.Name);
+			Globals.EmitPlayerGenericGfx(LaunchString, owner.otherPlayer.Name);
 			if (owner.hasBeenLaunched)
 			{
 				owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
@@ -128,7 +128,7 @@ public class Float : HitStun
 			if (owner.CheckHeldKeys(burstKeys))
 			{
 				if (!owner.TrySpendBurst()) return;
-				owner.EmitSignal(RecoveryString, owner.Name); // ALLOCATION
+				Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
 				owner.ChangeState(BurstString);
 			}
 		}

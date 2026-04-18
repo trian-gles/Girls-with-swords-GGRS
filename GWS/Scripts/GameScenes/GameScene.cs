@@ -41,7 +41,7 @@ public class GameScene : BaseGame
 	private SplashText P2Missed;
 	private SnailRadar P1SnailRadar;
 	private SnailRadar P2SnailRadar;
-	private Label superText;
+	private OhShit superText;
 	private ProgressBar P1Meter;
 	private ProgressBar P2Meter;
 	private TextureProgress P1Salt;
@@ -177,7 +177,7 @@ public class GameScene : BaseGame
 		recordingBack = GetNode<ColorRect>("HUD/RecordingBack");
 		recordingText = GetNode<Label>("HUD/RecordingText");
 		music = GetNode<AudioStreamPlayer>("BkgMusic");
-		superText = GetNode<Label>("HUD/OhShit");
+		superText = GetNode<OhShit>("HUD/OhShit");
 		P1SnailRadar = GetNode<SnailRadar>("HUD/P1SnailRadar");
 		P2SnailRadar = GetNode<SnailRadar>("HUD/P2SnailRadar");
 		p1RoundCounters = GetNode<HBoxContainer>("HUD/P1RoundCounters");
@@ -207,6 +207,7 @@ public class GameScene : BaseGame
 
 		base._Ready();
 		gsObj = new GameStateObjectRedesign();
+
 		// hide the recording text
 		SetRecordingText("");
 
@@ -222,6 +223,21 @@ public class GameScene : BaseGame
 			timerStrings.Add((99 - i).ToString());
 		}
 
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboChanged, OnPlayerComboChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboSet, OnPlayerComboSet);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthChanged, OnPlayerHealthChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthSet, OnPlayerHealthSet);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.MeterChanged, OnPlayerMeterChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.BurstSet, OnPlayerBurstSet);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HitStop, OnHitStop);
+
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Counter, OnPlayerCounterHit);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Mixup, OnPlayerMixup);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.CanTech, OnPlayerCanEscape);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.MissedTech, OnPlayerMissedEscape);
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.SuperFlash, OnSuperActivate);
+
+		Globals.ConnectPlayerGenericGfxEmitted(OnGenericGFXEmitted);
 		Globals.logBuffer.Clear();
 	}
 
@@ -240,7 +256,7 @@ public class GameScene : BaseGame
 		P1.Init();
 		MoveChild(P1, 4);
 		p1Ind = playerOneIndex;
-		p1Logos.Call(SelectedCharLogoString, playerOneIndex); // ALLOCATION
+		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
 		P1.aiControlled = false;
 
 		//p2
@@ -253,7 +269,7 @@ public class GameScene : BaseGame
 		P2.Init();
 		MoveChild(P2, 5);
 		p2Ind = playerTwoIndex;
-		p2Logos.Call(SelectedCharLogoString, playerTwoIndex); // ALLOCATION
+		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
@@ -269,32 +285,7 @@ public class GameScene : BaseGame
 			P1Meter.Value = 0;
 			P2Meter.Value = 0;
 		}
-		
-		
-
 		SetPos(ResetPos.ROUNDSTART);
-
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboChanged, OnPlayerComboChange);
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboSet, OnPlayerComboSet);
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthChanged, OnPlayerHealthChange);
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthSet, OnPlayerHealthSet);
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.MeterChanged, OnPlayerMeterChange);
-		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.BurstSet, OnPlayerBurstSet);
-
-		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Counter, OnPlayerCounterHit);
-		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Mixup, OnPlayerMixup);
-		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.CanTech, OnPlayerCanEscape);
-		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.MissedTech, OnPlayerMissedEscape);
-		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.SuperFlash, OnSuperActivate);
-
-		P1.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
-		P2.Connect("HadoukenEmitted", this, nameof(OnHadoukenEmitted));
-		P1.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
-		P2.Connect("HadoukenRemoved", this, nameof(OnHadoukenRemoved));
-		
-		P1.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
-		P2.Connect("GenericGFX", this, nameof(OnGenericGFXEmitted));
-
 
 		centerText.Visible = true;
 		inputText.Call(ClearCallString);
@@ -306,7 +297,7 @@ public class GameScene : BaseGame
 		
 		gsObj.config(P1, P2, this, hosting);
 		SetPos(ResetPos.ROUNDSTART);
-		music.Call(PlayIdxCallString, bkg); // ALLOCATION
+		music.Call(PlayIdxCallString, bkg);  // PASSABLE
 		ConfigTime();
 		configured = true;
 
@@ -315,7 +306,6 @@ public class GameScene : BaseGame
 	public override void _ExitTree()
 	{
 		base._ExitTree();
-		Globals.ClearSignals();
 	}
 
 	public void SetP2AI()
@@ -404,8 +394,8 @@ public class GameScene : BaseGame
 	{
 		if (configured)
 		{
-			inputText.Call(InputsCallString, p1Inps); // ALLOCATION
-			inputTextP2.Call(InputsCallString, p2Inps); // ALLOCATION
+			inputText.Call(InputsCallString, p1Inps);
+			inputTextP2.Call(InputsCallString, p2Inps);
 		}
 
 	}
@@ -489,7 +479,7 @@ public class GameScene : BaseGame
 			{
 				P1Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
-					EmitSignal(nameof(ComboFinished), PlayerOneString); // ALLOCATION
+					EmitSignal(nameof(ComboFinished), PlayerOneString);
 			}
 		}
 
@@ -503,7 +493,7 @@ public class GameScene : BaseGame
 			{
 				P2Combo.Off();
 				if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
-					EmitSignal(nameof(ComboFinished), PlayerTwoString); // ALLOCATION
+					EmitSignal(nameof(ComboFinished), PlayerTwoString); // PASSABLE
 			}
 		}
 	}
@@ -645,6 +635,11 @@ public class GameScene : BaseGame
 		gsObj.RemoveHadouken(h);
 	}
 
+	public void OnHadoukenCommand(string playerName, string projectileName, HadoukenPart.ProjectileCommand command)
+	{
+		gsObj.HadoukenCommand(playerName, projectileName, command);
+	}
+
 	public void OnGhostEmitted()
 	{
 
@@ -652,7 +647,7 @@ public class GameScene : BaseGame
 
 	public void OnSuperActivate(string name)
 	{
-		superText.Call(DisplayCallString, Globals.frame); // ALLOCATION
+		superText.Display(Globals.frame);
 		gsObj.SuperFreeze(name);
 	}
 
@@ -672,6 +667,11 @@ public class GameScene : BaseGame
 		{
 			P2SnailRadar.DrawSnail(pos, color);
 		}
+	}
+
+	public void OnHitStop(string playerName, int stun)
+	{
+		gsObj.HandleHitStop(stun);
 	}
 
 	// ----------------
@@ -765,7 +765,7 @@ public class GameScene : BaseGame
 
 		int timerFrame = Globals.frame - startFrame;
 
-		timer.Text = timerStrings[(int)Math.Floor((float)timerFrame / 60)]; // ALLOCATION
+		timer.Text = timerStrings[(int)Math.Floor((float)timerFrame / 60)];
 	}
 
 	private void HandleFakeEndTime()
@@ -785,12 +785,12 @@ public class GameScene : BaseGame
 			if (P1Health.Value > P2Health.Value)
 			{
 				p1Wins++;
-				p1RoundCounters.Call(WinCounterUpString, p1Wins); // ALLOCATION
+				p1RoundCounters.Call(WinCounterUpString, p1Wins); // PASSABLE
 			}
 			else
 			{
 				p2Wins++;
-				p2RoundCounters.Call(WinCounterUpString, p2Wins);  // ALLOCATION
+				p2RoundCounters.Call(WinCounterUpString, p2Wins);  // PASSABLE
 			}
 		}
 			
@@ -801,13 +801,13 @@ public class GameScene : BaseGame
 			{
 				ResetWin(); 
 				
-				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind); // ALLOCATION
+				EmitSignal(nameof(GameWon), PlayerOneString, p1Ind);
 
 			}
 			else if (p2Wins == 2)
 			{
 				ResetWin();
-				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind); // ALLOCATION
+				EmitSignal(nameof(GameWon), PlayerTwoString, p2Ind);
 
 			}
 			else
@@ -887,7 +887,7 @@ public class GameScene : BaseGame
 		music.Stop();
 		if (configured)
 		{
-			tutorialContainer.Call("reset");  // ALLOCATION
+			tutorialContainer.Call("reset");
 			ResetRound();
 			mainGFX.Quit();
 			OnPlayerBurstSet(PlayerOneString, 100);
@@ -895,8 +895,8 @@ public class GameScene : BaseGame
 			p1Wins = 0;
 			p2Wins = 0;
 			centerText.Text = "";
-			p1RoundCounters.Call("_ready"); // ALLOCATION
-			p2RoundCounters.Call("_ready"); // ALLOCATION
+			p1RoundCounters.Call("_ready");
+			p2RoundCounters.Call("_ready");
 			RemoveChild(P1);
 			RemoveChild(P2);
 			configured = false;
@@ -911,6 +911,7 @@ public class GameScene : BaseGame
 /// </summary>
 	public override void ResetRound()
 	{
+		superText.last_display = 0;
 		ResetHealth(PlayerOneString);
 		ResetHealth(PlayerTwoString);
 		P1.Reset();
@@ -954,8 +955,8 @@ public class GameScene : BaseGame
 	{
 		ResetRound();
 		centerText.Text = "";
-		p1RoundCounters.Call("_ready"); // ALLOCATION
-		p2RoundCounters.Call("_ready"); // ALLOCATION
+		p1RoundCounters.Call("_ready");
+		p2RoundCounters.Call("_ready");
 		p1Wins = 0;
 		p2Wins = 0;
 		RemoveChild(P1);
@@ -968,8 +969,7 @@ public class GameScene : BaseGame
 
 	public void ConnectTrainingSignals(TrainingManager manager)
 	{
-		P1.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
-		P2.Connect("Recovery", manager, nameof(manager.OnCharacterRecovery));
+		Globals.ConnectPlayerNoArgSignalListener(Globals.PlayerSignal.Recovery, manager.OnCharacterRecovery);
 	}
 
 

@@ -144,7 +144,7 @@ public class Snail : HadoukenPart
 		switch (mode)
 		{
 			case SnailMode.GetInPosition:
-				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, setupColor);
+				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, setupColor); //ALLOCATION
 				break;
 			case SnailMode.Standby:
 				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, readyColor);

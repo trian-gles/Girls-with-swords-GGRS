@@ -151,7 +151,7 @@ public class Shield : HitState
 			stateName = CrouchShieldString;
 		Globals.EmitPlayerFXEmitted(collisionPnt, ShieldFxString, owner.OtherPlayerOnLeft());
 		owner.ChangeState(stateName);
-		owner.EmitSignal(HitConfirmString, blockStop);
+		Globals.EmitSignal(Globals.PlayerSignal.HitStop, owner.Name, blockStop);
 	}
 
     public override void Land()

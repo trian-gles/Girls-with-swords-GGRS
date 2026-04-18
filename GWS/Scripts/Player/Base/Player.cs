@@ -11,46 +11,6 @@ public class Player : Node2D
 	public State currentState; //The current state governs key aspects of input handling, movement, animation etc.
 	public Player otherPlayer; //I know I shouldn't do this, but it makes my life so much easier...
 
-	[Signal]
-	public delegate void HealthChanged(string name, int health);
-	[Signal]
-	public delegate void HealthSet(string name, int health);
-	[Signal]
-	public delegate void BurstSet(string name, int health);
-	[Signal]
-	public delegate void MeterChanged(string name, int meter);
-	[Signal]
-	public delegate void ComboChanged(string name, int combo);
-	[Signal]
-	public delegate void ComboSet(string name, int combo);
-	[Signal]
-	public delegate void CounterHit(string name);
-	[Signal]
-	public delegate void Mixup(string name);
-	[Signal]
-	public delegate void CanTech(string name);
-	[Signal]
-	public delegate void MissedTech(string name);
-	[Signal]
-	public delegate void HitConfirm();
-	[Signal]
-	public delegate void LevelUp();
-	[Signal]
-	public delegate void HadoukenEmitted(HadoukenPart h);
-	[Signal]
-	public delegate void HadoukenRemoved(HadoukenPart h);
-	[Signal]
-	public delegate void SuperFlash(string name);
-
-	[Signal]
-	public delegate void Recovery(string name);
-
-	[Signal]
-	public delegate void HadoukenCommand(string playerName, string projectileName, HadoukenPart.ProjectileCommand command);
-
-	[Signal]
-	public delegate void GenericGFX(string fxName, string playerName);
-
 	public const int MAXPLAYERDIST = 30000;
 
 	private const string ExplosionGfxString = "Explosion";
@@ -117,6 +77,7 @@ public class Player : Node2D
 
 	[Export]
 	public Resource greyPalette;
+	private bool greyedSprite = false; // NOT included in rollback
 
 	protected string charName;
 
@@ -659,7 +620,6 @@ public class Player : Node2D
 			GreySprite();
 		else if (pState.specialBreakFramesRemaining == 0 && specialBreakFramesRemaining > 0)
 			ColorSprite();
-
 		specialBreakFramesRemaining = pState.specialBreakFramesRemaining;
 		landingRecoveryFramesRemaining = pState.landingRecoveryFramesRemaining;
 		burstMeter = pState.burstMeter;
@@ -912,12 +872,7 @@ public class Player : Node2D
 				BufTimerDecrement();
 			if (hitStopInputs.Count > 0)
 			{
-				//if (Globals.logOn)
-				//	Globals.Log("Emptying hit stop inputs " + hitStopInputs.Dump() + " to " + unhandledInputs.Dump());
 				unhandledInputs.Prepend(hitStopInputs);
-				//if (Globals.logOn)
-				//	Globals.Log("Result " + unhandledInputs.Dump());
-				
 			}
 			
 			hitStopInputs.Clear();
@@ -1583,7 +1538,7 @@ public class Player : Node2D
 		currentState.ReceiveHit(details);
 		currentState.ReceiveStunDamage(details);
 		if (!details.projectile)
-			EmitSignal(nameof(HitConfirm), details.hitStop); // ALLOCATION
+			Globals.EmitSignal(Globals.PlayerSignal.HitStop, Name, details.hitStop);
 		PostHitCall();
 
 		wasHit = false;
@@ -1620,7 +1575,7 @@ public class Player : Node2D
 		return true;
 	}
 
-	public void OnHitConnected(int hitPush) 
+	public void OnHitPush(int hitPush) 
 	{
 		
 		if (otherPlayer.CheckTouchingWall() && hitPush > 0)
@@ -1638,17 +1593,17 @@ public class Player : Node2D
 
 	public void EmitHadouken(HadoukenPart h)
 	{
-		EmitSignal(nameof(HadoukenEmitted), h); // ALLOCATION
+		GetParent<GameScene>().OnHadoukenEmitted(h); // this is really gross but I want to avoid the use of signals as much as possible
 	}
 
 	public void DeleteHadouken(HadoukenPart h)
 	{
-		EmitSignal(nameof(HadoukenRemoved), h); // ALLOCATION
+		GetParent<GameScene>().OnHadoukenRemoved(h);
 	}
 
 	public void CommandHadouken(string hadName, HadoukenPart.ProjectileCommand command)
 	{
-		EmitSignal(nameof(HadoukenCommand), Name, hadName, command); // ALLOCATION
+		GetParent<GameScene>().OnHadoukenCommand( Name, hadName, command); // this is really gross but I want to avoid the use of signals as much as possible
 	}
 
 	public void ResetComboAndProration()
@@ -1756,15 +1711,21 @@ public class Player : Node2D
 
 	private void GreySprite()
 	{
+		if (greyedSprite)
+			return;
+		greyedSprite = true;
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", greyPalette);
 	}
 
 	private void ColorSprite()
 	{
+		if (!greyedSprite)
+			return;
+		greyedSprite = false;
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", palette);
-		shaderMaterial.SetShaderParam("palette_index", colorScheme); // ALLOCATION
+		shaderMaterial.SetShaderParam("palette_index", colorScheme); // PASSABLE
 	}
 
 	public void EndSpecialBreak()

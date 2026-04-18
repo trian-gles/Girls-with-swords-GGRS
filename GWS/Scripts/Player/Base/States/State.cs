@@ -615,7 +615,7 @@ public abstract class State : Node
 		if (owner.CheckHeldKeys(burstKeys))
 		{
 			if (!owner.TrySpendBurst()) return;
-			owner.EmitSignal(RecoveryString, owner.Name);
+			Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
 			owner.ChangeState(BurstString);
 		}
 	}
@@ -673,7 +673,7 @@ public abstract class State : Node
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
 			owner.hasBeenLaunched = true;
-			owner.EmitSignal(nameof(Player.GenericGFX), LaunchString, owner.otherPlayer.Name);
+			Globals.EmitPlayerGenericGfx(LaunchString, owner.otherPlayer.Name);
 		}
 
 		owner.ComboUp();
@@ -765,7 +765,7 @@ public abstract class State : Node
 		Globals.EmitPlayerFXEmitted(collisionPnt, BlockFxString, owner.OtherPlayerOnLeft());
 		
 		owner.ChangeState(stateName);
-		owner.EmitSignal(HitConfirmString, blockStop);
+		Globals.EmitSignal(Globals.PlayerSignal.HitStop, owner.Name, blockStop);
 
 	}
 

@@ -69,6 +69,8 @@ public class GameStateObjectRedesign : Node
 		{
 			memoryPool = new MemoryPool(sizeof(GameState), Globals.ROLLBACKDEPTH * 2 + 3);
 		}
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HitPush, HandleHitPush);
+		
 	}
 	public void config(Player P1, Player P2, GameScene mainScene, bool hosting)
 	{
@@ -78,14 +80,6 @@ public class GameStateObjectRedesign : Node
 
 		this.mainScene = mainScene;
 		this.hosting = hosting;
-		P1.Connect("HitConfirm", this, nameof(HandleHitConfirm));
-		P2.Connect("HitConfirm", this, nameof(HandleHitConfirm));
-
-		P1.Connect("LevelUp", this, nameof(OnLevelUp));
-		P2.Connect("LevelUp", this, nameof(OnLevelUp));
-
-		P1.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
-		P2.Connect("HadoukenCommand", this, nameof(HadoukenCommand));
 
 
 		P1.otherPlayer = P2;
@@ -511,10 +505,18 @@ public class GameStateObjectRedesign : Node
 		return P1rect.Intersects(P2rect);
 	}
 
+	public void HandleHitPush(string name, int hitPush)
+	{
+		if (name == P1.Name)
+			P1.OnHitPush(hitPush);
+		else
+			P2.OnHitPush(hitPush);
+	}
+
 	/// <summary>
 	/// Reset the hitstop counter, called by player signals on hit
 	/// </summary>
-	public void HandleHitConfirm(int hitStop)
+	public void HandleHitStop(int hitStop)
 	{
 		hitStopRemaining = hitStop;
 	}
@@ -526,11 +528,6 @@ public class GameStateObjectRedesign : Node
 		else
 			P1.counterStopFrames = 30;
 		
-	}
-
-	public void OnLevelUp()
-	{
-		hitStopRemaining = levelUpHitStop;
 	}
 
 	public void ResetHadoukens()

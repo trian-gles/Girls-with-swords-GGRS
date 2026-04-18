@@ -111,6 +111,14 @@ public class LobbyRedesign : Node2D
 	public override void _Ready()
 	{
 		Globals.GenerateCharacters(charScenes);
+		for (int i = 0; i < 4; i++)
+		{
+			AddChild(Globals.P1Characters[i]);
+			RemoveChild(Globals.P1Characters[i]);
+			AddChild(Globals.P2Characters[i]);
+			RemoveChild(Globals.P2Characters[i]);
+		}
+
 		menuroot = GetNode<Control>("MenuRoot");
 		mainmenu = menuroot.GetNode<MarginContainer>("MainMenu");
 		mainmenubuttons = mainmenu.GetNode<VBoxContainer>("CenterContainer/MainMenuButtons");

@@ -15,7 +15,7 @@ public class CrouchBlock : Block
 	{
 		frameCount++;
 		if (frameCount == 1)
-			owner.EmitSignal(RecoveryString, owner.Name);
+			Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
 		if (slowdownSpeed != 0) SlowDown();
 		stunRemaining--;
 		if (stunRemaining == 0)

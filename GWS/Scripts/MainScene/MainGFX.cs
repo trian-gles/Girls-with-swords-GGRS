@@ -61,12 +61,6 @@ public class MainGFX : Node
 		stages.Call(QuitString);
 	}
 
-	public void LevelUp(int frame)
-	{
-		stages.Call(LevelUpCallString);
-		lastLevelUp = frame;
-	}
-
 	public void OnGFXParticleEmitted(Vector2 location, string particleName, bool flipH)
 	{
 		if (Globals.DISABLEGFX)

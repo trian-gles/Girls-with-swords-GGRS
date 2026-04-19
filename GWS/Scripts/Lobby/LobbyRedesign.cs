@@ -178,6 +178,9 @@ public class LobbyRedesign : Node2D
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
+		GC.Collect();
+		GC.WaitForPendingFinalizers();
+		GC.Collect();
 		long mem = GC.GetTotalMemory(false); // allocated managed memory
 		if (mem > prevMem)
 			GD.Print(mem / 1024);

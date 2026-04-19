@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset/OL_Full_Moveset_gray.png" type="Texture" id=2]
@@ -31,9 +31,6 @@ shader_param/palette_index = 0.0
 shader_param/turn_snail = true
 shader_param/freak_out = false
 shader_param/palette = ExtResource( 3 )
-
-[sub_resource type="CSharpScript" id=3]
-resource_name = "OLWalk"
 
 [sub_resource type="Animation" id=4]
 resource_name = "6K"
@@ -8736,9 +8733,6 @@ offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
 frame = 6
-
-[node name="StateTree" parent="." index="7"]
-script = SubResource( 3 )
 
 [node name="Jump" parent="StateTree" index="4"]
 startupFrames = 7

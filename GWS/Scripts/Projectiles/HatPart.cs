@@ -8,9 +8,12 @@ public class HatPart : HadoukenPart
 	public Vector2 startSpeed;
 
 	private const string HatHadoukenTypeString = "Hat";
-	public override string hadoukenType { get; } = HatHadoukenTypeString;
 	public Vector2 targetPos = Vector2.Zero;
 
+	public override string GetType()
+	{
+		return HatHadoukenTypeString;
+	}
 	public override void Spawn(bool movingRight, Player targetPlayer)
 	{
 		base.Spawn(movingRight, targetPlayer);

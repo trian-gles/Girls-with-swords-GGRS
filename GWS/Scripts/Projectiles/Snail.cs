@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 public class Snail : HadoukenPart
 {
 	private const string SnailWalkString = "snail-walk";
@@ -20,21 +21,13 @@ public class Snail : HadoukenPart
 	[Signal]
 	public delegate void SnailUpdate(int x, Color color);
 
-	public override string hadoukenType { get; } = SnailTypeString;
-
 	private bool overhead = false;
 	private int activateFrame = 0;
-
-
 	private int hitConnectFrame = 0;
 
-	private AnimatedSprite sprite;
-
-	private SL snailOwner;
-
-	private Color setupColor = new Color(0, 0, 255);
-	private Color readyColor = new Color(0, 255, 0);
-	private Color attackColor = new Color(255, 0, 0);
+	private static Color setupColor = new Color(0, 0, 255);
+	private static Color readyColor = new Color(0, 255, 0);
+	private static Color attackColor = new Color(255, 0, 0);
 
 	private enum SnailMode
 	{
@@ -50,20 +43,34 @@ public class Snail : HadoukenPart
 
 	private SnailMode mode = SnailMode.GetInPosition;
 
+	private SL GetOwner()
+	{
+		return (SL)targetPlayer.otherPlayer;
+	}
+
+	private AnimatedSprite GetSprite()
+	{
+		return GetNode<AnimatedSprite>("AnimatedSprite");
+	}
+
+	public override string GetType()
+	{
+		return SnailTypeString;
+	}
+
 	public override void _Ready()
 	{
 		base._Ready();
-		sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-		sprite.Rotation = 0;
+		GetSprite().Rotation = 0;
 	}
 
 	public override void _EnterTree()
 	{
 		base._EnterTree();
-		if (sprite != null)
+		if (GetSprite() != null)
 		{
-			sprite.Rotation = 0;
-			sprite.Visible = true;
+			GetSprite().Rotation = 0;
+			GetSprite().Visible = true;
 		}
 	}
 
@@ -74,23 +81,22 @@ public class Snail : HadoukenPart
 		speed.y = 0;
 		hitConnectFrame = 0;
 		mode = SnailMode.GetInPosition;
-		snailOwner = (SL)targetPlayer.otherPlayer;
 		
 		Visible = true;
 		
 
-		if (snailOwner.rightCornerSnail && snailOwner.leftCornerSnail)
+		if (GetOwner().rightCornerSnail && GetOwner().leftCornerSnail)
 			Destroy();
-		else if ((movingRight && snailOwner.leftCornerSnail) || (!movingRight && snailOwner.rightCornerSnail))
+		else if ((movingRight && GetOwner().leftCornerSnail) || (!movingRight && GetOwner().rightCornerSnail))
 		{
 			this.movingRight = !movingRight;
 		}
 			
 
 		if (this.movingRight)
-			snailOwner.leftCornerSnail = true;
+			GetOwner().leftCornerSnail = true;
 		else
-			snailOwner.rightCornerSnail = true;
+			GetOwner().rightCornerSnail = true;
 
 		GetNode<AnimatedSprite>("AnimatedSprite").FlipH = this.movingRight;
 	}
@@ -139,20 +145,20 @@ public class Snail : HadoukenPart
 	public override void AlwaysUpdate()
 	{
 		base.AlwaysUpdate();
-		if (!sprite.Visible)
+		if (!GetSprite().Visible)
 			return;
 		switch (mode)
 		{
 			case SnailMode.GetInPosition:
-				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, setupColor); //ALLOCATION
+				EmitSignal(nameof(SnailUpdate), GetOwner().Name, Position.x, setupColor); //ALLOCATION
 				break;
 			case SnailMode.Standby:
-				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, readyColor);
+				EmitSignal(nameof(SnailUpdate), GetOwner().Name, Position.x, readyColor);
 				break;
 			case SnailMode.Inactive:
 				break;
 			default:
-				EmitSignal(nameof(SnailUpdate), snailOwner.Name, Position.x, attackColor);
+				EmitSignal(nameof(SnailUpdate), GetOwner().Name, Position.x, attackColor);
 				break;
 		}
 	}
@@ -175,22 +181,22 @@ public class Snail : HadoukenPart
 		GetNode<AnimatedSprite>("AnimatedSprite").FlipH = !movingRight;
 
 		if (movingRight)
-			snailOwner.leftCornerSnailArrived = true;
+			GetOwner().leftCornerSnailArrived = true;
 		else
-			snailOwner.rightCornerSnailArrived = true;
+			GetOwner().rightCornerSnailArrived = true;
 	}
 
 	private void ExitStandby()
 	{
 		if (movingRight)
 		{
-			snailOwner.leftCornerSnail = false;
-			snailOwner.leftCornerSnailArrived = false;
+			GetOwner().leftCornerSnail = false;
+			GetOwner().leftCornerSnailArrived = false;
 		}
 		else
 		{
-			snailOwner.rightCornerSnail = false;
-			snailOwner.rightCornerSnailArrived = false;
+			GetOwner().rightCornerSnail = false;
+			GetOwner().rightCornerSnailArrived = false;
 		}
 		activateFrame = frame;
 	}
@@ -236,7 +242,7 @@ public class Snail : HadoukenPart
 			
 
 		if (mode == SnailMode.JumpAttack)
-			sprite.Visible = false;
+			GetSprite().Visible = false;
 
 		if (mode == SnailMode.Attack)
 		{
@@ -282,7 +288,7 @@ public class Snail : HadoukenPart
 	
 	private void TryWalkSound()
 	{
-		if (frame % 15 == 0 && sprite.Visible && Position.x * 100 < Globals.rightWall && Position.x * 100 > Globals.leftWall)
+		if (frame % 15 == 0 && GetSprite().Visible && Position.x * 100 < Globals.rightWall && Position.x * 100 > Globals.leftWall)
 				targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, SnailWalkString);
 	}
 
@@ -344,7 +350,7 @@ public class Snail : HadoukenPart
 
 		ApplyGravity();
 
-		sprite.Rotation = (float)Math.Atan2(speed.y, xMove) + (float)Math.PI;
+		GetSprite().Rotation = (float)Math.Atan2(speed.y, xMove) + (float)Math.PI;
 		if (speed.y > 0)
 			overhead = true;
 	}
@@ -405,9 +411,9 @@ public class Snail : HadoukenPart
 		if (mode == SnailMode.GetInPosition)
 		{
 			if (movingRight)
-				snailOwner.leftCornerSnail = false;
+				GetOwner().leftCornerSnail = false;
 			else
-				snailOwner.rightCornerSnail = false;
+				GetOwner().rightCornerSnail = false;
 		}
 
 		if (mode != SnailMode.Standby)
@@ -460,15 +466,15 @@ public class Snail : HadoukenPart
 
 	private void TryRide()
 	{
-		if (!snailOwner.grounded || snailOwner.currentState.tags.Contains(Globals.Tags.hitstate)) return;
+		if (!GetOwner().grounded || GetOwner().currentState.tags.Contains(Globals.Tags.hitstate)) return;
 		Rect2 myRect = GetRect(collisionShape2D, true);
-		snailOwner.GetRects(targetPlayer.hitBoxes, playerRects, true);
+		GetOwner().GetRects(targetPlayer.hitBoxes, playerRects, true);
 		for (int i = 0; i < 3; i++)
 		{
 			var pRect = playerRects[i];
 			if (myRect.Intersects(pRect))
 			{
-				snailOwner.SnailRide();
+				GetOwner().SnailRide();
 				Destroy();
 			}
 		}

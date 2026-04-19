@@ -8841,7 +8841,6 @@ hitSound = "LampHit"
 restoreHitFrames = PoolIntArray( 10 )
 launch = Vector2( 200, -560 )
 launchFrame = 9
-dustFrames = [ 1 ]
 
 [node name="Burst" parent="StateTree" index="62"]
 exitOnLand = true

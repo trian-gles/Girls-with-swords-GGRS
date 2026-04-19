@@ -27,7 +27,6 @@ public class GGRSManager : StateManager
 	private int localHand = 1;
 	private int otherHand = 2;
 	private int waitFrames = 0;
-	private Queue<int> queueLengths = new Queue<int>();
 
 	private string opponentIp;
 	private int opponentPort;
@@ -124,7 +123,7 @@ public class GGRSManager : StateManager
 	public override void _Process(float delta)
 	{
 		if (connected)
-			GGRS.Call("poll_remote_clients");
+			GGRS.Call("poll_remote_clients"); // could be handled by a GDSCRIPT object for better performance
 		
 	}
 
@@ -140,22 +139,22 @@ public class GGRSManager : StateManager
 
 		if ((bool)GGRS.Call("is_running"))
 		{
-			GetNetStats();
-			int currentGGRSFrame = (int)GGRS.Call("get_current_frame");
+			if (Globals.frame % 60 == 0)
+				GetNetStats();
+			int currentGGRSFrame = (int)GGRS.Call("get_current_frame"); // should be combined in one call, also with events
 			Globals.lastConfirmedFrame = (int)GGRS.Call("get_confirmed_frame");
 
 			// prediction threshold reached
 			if (currentGGRSFrame - Globals.lastConfirmedFrame > 7)
 			{
-				GD.Print("TOO FAR AHEAD SKIPPING FRAME");
 				return;
 			}
 
-			var events = (Godot.Collections.Array)GGRS.Call("get_events");
+			var events = (Godot.Collections.Array)GGRS.Call("get_events"); // Could be a much simpler call
 			foreach (var item in events)
 			{
 				var itemArr = (Godot.Collections.Array)item;
-				if ((string)itemArr[0] == "WaitRecommendation")
+				if ((string)itemArr[0] == "WaitRecommendation") // definitely shouldn't be a string
 				{
 					waitFrames = (int)itemArr[1];
 				}
@@ -188,10 +187,7 @@ public class GGRSManager : StateManager
 
 	private void GetNetStats()
 	{
-		var netStats = (Godot.Collections.Array)GGRS.Call("get_network_stats", 1);
-		queueLengths.Enqueue((int)netStats[0]);
-		if (queueLengths.Count > 5)
-			queueLengths.Dequeue();
+		var netStats = (Godot.Collections.Array)GGRS.Call("get_network_stats", 1); // should only return ping
 
 		charSelectScene.ChangeHUDText(pingMessages[(int)netStats[1]]);
 		gameScene.ChangeHUDText(pingMessages[(int)netStats[1]]);

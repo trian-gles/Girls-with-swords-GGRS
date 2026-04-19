@@ -19,9 +19,6 @@ public class LaunchAttack : AirAttack
 	protected int launchFrame = 1;
 
 	[Export]
-	protected Array<int> dustFrames = new Array<int>();
-
-	[Export]
 	protected bool exitOnLand = false;
 
 	[Export]
@@ -85,7 +82,7 @@ public class LaunchAttack : AirAttack
 			}
 		}
 
-		if (dustFrames.Contains(frameCount))
+		if (frameCount == 1)
 		{
 			dustEmissionVector.x = owner.internalPos.x;
 			dustEmissionVector.y = owner.GetCollisionRect().End.y;

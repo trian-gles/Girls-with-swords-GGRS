@@ -17,16 +17,17 @@ public class CommandRunBase : GroundAttack
 	/// <summary>
 	/// Used because this move has two instances
 	/// </summary>
-	protected string exitState;
 
 	public override string animationName { get { return CommandRunAnimString; } }
 
-
+	public virtual string GetNextState()
+	{
+		return HojogiriString;
+	}
 	public override void _Ready()
 	{
 		base._Ready();
 		loop = true;
-		exitState = HojogiriString;
 		turnAroundOnExit = false;
 		slowdownSpeed = 0;
 
@@ -50,7 +51,7 @@ public class CommandRunBase : GroundAttack
 		base.FrameAdvance();
 		if (frameCount > len)
 		{
-			owner.ChangeState(exitState);
+			owner.ChangeState(GetNextState());
 		}
 
 	}

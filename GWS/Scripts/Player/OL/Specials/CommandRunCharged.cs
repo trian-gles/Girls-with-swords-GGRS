@@ -4,10 +4,9 @@ using System.Collections.Generic;
 
 public class CommandRunCharged : CommandRunBase
 {
-	public override void _Ready()
+
+	public override string GetNextState()
 	{
-		base._Ready();
-		exitState = "HojogiriCharged";
-		
+		return "HojogiriCharged";
 	}
 }

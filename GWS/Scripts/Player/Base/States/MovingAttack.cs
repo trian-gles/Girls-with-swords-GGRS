@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
 
 /// <summary>
 /// Attacks that may be grounded or aerial
@@ -15,9 +16,6 @@ public class MovingAttack : ComNorm
 
 	[Export]
 	protected int stopFrame = 0;
-
-	[Export]
-	protected Array<int> dustFrames = new Array<int>();
 
 	private const string DustString = "dust";
 	public override void _Ready()
@@ -56,12 +54,12 @@ public class MovingAttack : ComNorm
 			owner.velocity.x = 0;
 		}
 
-		if (dustFrames.Contains(frameCount))
+		if (false) // TODO : re add for SL
 		{
 			dustEmissionVector.x = owner.internalPos.x;
 			dustEmissionVector.y = owner.GetCollisionRect().End.y;
-            Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, owner.facingRight);
-        }
+			Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, owner.facingRight);
+		}
 		
 	}
 }

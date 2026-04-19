@@ -581,7 +581,7 @@ public class GameStateObjectRedesign : Node
 		for (int i = 0; i < hadoukenCount; i++)
 		{
 			HadoukenPart h = hadoukens[i];
-			if (h.hadoukenType == hadName && h.ownerName == playerName)
+			if (h.GetType() == hadName && h.ownerName == playerName)
 			{
 				h.ReceiveCommand(command);
 			}

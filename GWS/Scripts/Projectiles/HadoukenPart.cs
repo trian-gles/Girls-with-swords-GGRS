@@ -138,6 +138,11 @@ public class HadoukenPart : Node2D
 		Kill
 	}
 
+	public virtual string GetType()
+	{
+		return hadoukenType;
+	}
+
 	public override void _Ready()
 	{
 		hadState = new HadoukenState();

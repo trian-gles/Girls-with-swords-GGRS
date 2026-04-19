@@ -41,6 +41,9 @@ public class LobbyRedesign : Node2D
 	public bool autoTech = false;
 
 	[Export]
+	public bool gcStressTest = false;
+
+	[Export]
 	public PackedScene localManagerScene;
 
 	[Export]
@@ -178,9 +181,13 @@ public class LobbyRedesign : Node2D
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
-		GC.Collect();
-		GC.WaitForPendingFinalizers();
-		GC.Collect();
+		if (gcStressTest)
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+		}
+
 		long mem = GC.GetTotalMemory(false); // allocated managed memory
 		if (mem > prevMem)
 			GD.Print(mem / 1024);

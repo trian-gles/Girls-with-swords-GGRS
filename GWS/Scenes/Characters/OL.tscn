@@ -1,9 +1,8 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Movesets/OL Moveset/OL_Full_Moveset_gray.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/Player/OL/Specials/DP.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/Player/Base/player_shader.tres" type="Shader" id=5]
 [ext_resource path="res://Scripts/Player/OL/Specials/AntiAir.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/OL/Specials/Hojogiri.cs" type="Script" id=7]
@@ -8752,26 +8751,7 @@ launch = Vector2( 450, -680 )
 hitStun = 55
 prorationLevel = 4
 
-[node name="DP" type="Node" parent="StateTree" index="19"]
-script = ExtResource( 4 )
-isSpecial = true
-level = 3
-chip = true
-modifiedHitStun = 35
-modifiedCounterHitStun = 55
-opponentLaunch = Vector2( 320, -1000 )
-modifiedHitPush = 6000
-hitGfx = 4
-whiffSound = "SlashWhiff"
-hitSound = "SlashHit"
-restoreHitFrames = PoolIntArray( 12 )
-superKaraButton = "s"
-specialBurstKara = true
-landingRecoveryFrames = 4
-launch = Vector2( 200, -800 )
-launchFrame = 3
-
-[node name="AntiAir" type="Node" parent="StateTree" index="20"]
+[node name="AntiAir" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 6 )
 isSpecial = true
 level = 2
@@ -8791,7 +8771,7 @@ superKaraButton = "s"
 specialBurstKara = true
 launch = Vector2( 0, -400 )
 
-[node name="CommandRunTurn" type="Node" parent="StateTree" index="21"]
+[node name="CommandRunTurn" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 8 )
 isSpecial = true
 projectileInvulnFrames = 30
@@ -8799,7 +8779,7 @@ len = 25
 speed = 700
 turnFrame = 13
 
-[node name="CommandRun" type="Node" parent="StateTree" index="22"]
+[node name="CommandRun" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 22 )
 isSpecial = true
 projectileInvulnFrames = 20
@@ -8807,17 +8787,17 @@ specialBurstKara = true
 len = 12
 speed = 580
 
-[node name="CommandRunWillTurn" type="Node" parent="StateTree" index="23"]
+[node name="CommandRunWillTurn" type="Node" parent="StateTree" index="22"]
 script = ExtResource( 26 )
 isSpecial = true
 
-[node name="CommandRunCharged" type="Node" parent="StateTree" index="24"]
+[node name="CommandRunCharged" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 17 )
 isSpecial = true
 projectileInvulnFrames = 15
 speed = 700
 
-[node name="Hojogiri" type="Node" parent="StateTree" index="25"]
+[node name="Hojogiri" type="Node" parent="StateTree" index="24"]
 script = ExtResource( 7 )
 isSpecial = true
 level = 3
@@ -8839,67 +8819,67 @@ lastHitFrame = 11
 lastHitKnockdown = true
 lastHitLaunch = Vector2( 0, -1000 )
 
-[node name="DoubleJump" parent="StateTree" index="30"]
+[node name="DoubleJump" parent="StateTree" index="29"]
 script = ExtResource( 20 )
 
-[node name="SuperJump" parent="StateTree" index="31"]
+[node name="SuperJump" parent="StateTree" index="30"]
 startupFrames = 7
 
-[node name="AirDash" parent="StateTree" index="33"]
+[node name="AirDash" parent="StateTree" index="32"]
 len = 15
 hopForce = 80
 
-[node name="Jab" parent="StateTree" index="35"]
+[node name="Jab" parent="StateTree" index="34"]
 jumpCancelable = true
 gatlingWinEnd = 9
 whiffGatlingStart = 11
 
-[node name="Kick" parent="StateTree" index="36"]
+[node name="Kick" parent="StateTree" index="35"]
 jumpCancelable = true
 gatlingWinEnd = 10
 
-[node name="Slash" parent="StateTree" index="37"]
+[node name="Slash" parent="StateTree" index="36"]
 level = 1
 chEffect = 0
 hitGfx = 4
 gatlingWinEnd = 12
 commandNormalCancel = false
 
-[node name="JumpA" parent="StateTree" index="38"]
+[node name="JumpA" parent="StateTree" index="37"]
 gatlingWinEnd = 10
 
-[node name="JumpB" parent="StateTree" index="39"]
+[node name="JumpB" parent="StateTree" index="38"]
 hitPush = 3500
 jumpCancelable = true
 gatlingWinEnd = 14
 
-[node name="JumpC" parent="StateTree" index="40"]
+[node name="JumpC" parent="StateTree" index="39"]
 modifiedProration = -1
 hitGfx = 4
 gatlingWinEnd = 16
 
-[node name="CrouchA" parent="StateTree" index="41"]
+[node name="CrouchA" parent="StateTree" index="40"]
 gatlingWinEnd = 10
 
-[node name="CrouchB" parent="StateTree" index="42"]
+[node name="CrouchB" parent="StateTree" index="41"]
 gatlingWinEnd = 10
 
-[node name="CrouchC" parent="StateTree" index="43"]
+[node name="CrouchC" parent="StateTree" index="42"]
 jumpCancelable = true
 hitGfx = 4
 gatlingWinEnd = 19
 
-[node name="AirBackdash" parent="StateTree" index="44"]
+[node name="AirBackdash" parent="StateTree" index="43"]
 hopForce = 40
 
-[node name="HojogiriCharge" type="Node" parent="StateTree" index="49"]
+[node name="HojogiriCharge" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 14 )
 isSpecial = true
 whiffSound = ""
 hitSound = ""
 specialBurstKara = true
 
-[node name="HojogiriCharged" type="Node" parent="StateTree" index="50"]
+[node name="HojogiriCharged" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 15 )
 isSpecial = true
 level = 3
@@ -8913,7 +8893,7 @@ hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
-[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="51"]
+[node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 16 )
 isSpecial = true
 level = 3
@@ -8932,14 +8912,14 @@ restoreHitFrames = PoolIntArray( 9 )
 moveSpeed = 200
 stopFrame = 15
 
-[node name="Hadouken" parent="StateTree" index="52"]
+[node name="Hadouken" parent="StateTree" index="51"]
 releaseFrame = 13
 hadoukenScene = ExtResource( 12 )
 yOffset = -20
 xOffset = 20
 mustCooldown = true
 
-[node name="InstantOverhead" type="Node" parent="StateTree" index="54"]
+[node name="InstantOverhead" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 18 )
 isSpecial = true
 level = 3
@@ -8958,10 +8938,9 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 spike = true
 launch = Vector2( 300, -500 )
-dustFrames = [ 1 ]
 emitGhost = true
 
-[node name="Super" type="Node" parent="StateTree" index="55"]
+[node name="Super" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 19 )
 isSpecial = true
 level = 4
@@ -8983,7 +8962,7 @@ moveSpeed = 200
 startMovingFrame = 30
 stopFrame = 60
 
-[node name="6K" type="Node" parent="StateTree" index="56"]
+[node name="6K" type="Node" parent="StateTree" index="55"]
 script = ExtResource( 21 )
 level = 1
 modifiedCounterHitStun = 18
@@ -8998,7 +8977,7 @@ moveSpeed = 250
 stopFrame = 18
 stringCancel = "CrouchC"
 
-[node name="6P" type="Node" parent="StateTree" index="58"]
+[node name="6P" type="Node" parent="StateTree" index="57"]
 script = ExtResource( 24 )
 level = 2
 modifiedHitStun = 24
@@ -9014,11 +8993,11 @@ slashCancel = true
 sweepCancel = true
 commandNormalCancel = true
 
-[node name="AirGrab" parent="StateTree" index="59"]
+[node name="AirGrab" parent="StateTree" index="58"]
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 
-[node name="6S" type="Node" parent="StateTree" index="60"]
+[node name="6S" type="Node" parent="StateTree" index="59"]
 script = ExtResource( 24 )
 level = 3
 slowTerminalVelocity = 300
@@ -9029,7 +9008,7 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 superKaraButton = "a"
 
-[node name="Burst" parent="StateTree" index="66"]
+[node name="Burst" parent="StateTree" index="65"]
 exitOnLand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]

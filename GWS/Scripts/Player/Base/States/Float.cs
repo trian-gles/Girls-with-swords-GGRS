@@ -159,7 +159,7 @@ public class Float : HitStun
     public override void ReceiveHit(Globals.AttackDetails details)
     {
 		if (stunRemaining <= 0)
-			owner.EmitSignal(MissedTechString, owner.Name);
+			Globals.EmitSignal(Globals.PlayerSignal.MissedTech, owner.Name);
         base.ReceiveHit(details);
     }
 

@@ -3,8 +3,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security;
 
 public class Player : Node2D
 {
@@ -77,7 +75,6 @@ public class Player : Node2D
 
 	[Export]
 	public Resource greyPalette;
-	private bool greyedSprite = false; // NOT included in rollback
 
 	protected string charName;
 
@@ -429,6 +426,8 @@ public class Player : Node2D
 
 	public virtual void Reset()
 	{
+		foreach (Node state in allStateDict.Values)
+			((State)state).Reset();
 		ResetComboAndProration();
 		ChangeState(idleString);
 		velocity = Vector2.Zero;
@@ -1711,18 +1710,12 @@ public class Player : Node2D
 
 	private void GreySprite()
 	{
-		if (greyedSprite)
-			return;
-		greyedSprite = true;
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", greyPalette);
 	}
 
 	private void ColorSprite()
 	{
-		if (!greyedSprite)
-			return;
-		greyedSprite = false;
 		var shaderMaterial = sprite.Material as ShaderMaterial;
 		shaderMaterial.SetShaderParam("palette", palette);
 		shaderMaterial.SetShaderParam("palette_index", colorScheme); // PASSABLE

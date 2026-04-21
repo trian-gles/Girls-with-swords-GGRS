@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FixedMath.NET;
-using System.Security.Cryptography.X509Certificates;
 
 /// <summary>
 /// Base class for all states
@@ -959,6 +958,11 @@ public abstract class State : Node
 	public virtual bool LevelUp()
 	{
 		return false;
+	}
+
+	public virtual void Reset()
+	{
+		
 	}
 
 	public void ResetTerminalVelocity()

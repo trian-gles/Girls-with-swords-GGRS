@@ -27,15 +27,15 @@ public class BlackHole : HadoukenPart
 	public override void FrameAdvance() // wait till the turn after it was created to move the hadouken
 	{
 		if (frame > duration + 12) // far past rollback limit
+		{
 			targetPlayer.DeleteHadouken(this);
+		}
+		if (frame > duration)
+			MakeInactive();
 		frame++;
 
 		if (active && frame > startUp)
 		{
-
-
-			if (frame > duration)
-				MakeInactive();
 
 			if (targetPlayer.grounded || targetPlayer.currentState.tags.Contains(Globals.Tags.tech))
 			{
@@ -72,16 +72,16 @@ public class BlackHole : HadoukenPart
 			}
 
 
-				if (playerBelow) { pushVec.y *= -1; }
+			if (playerBelow) { pushVec.y *= -1; }
 
-				if (playerLeft) { pushVec.x *= -1; }
+			if (playerLeft) { pushVec.x *= -1; }
 
 
 
-				targetPlayer.velocity += pushVec;
+			targetPlayer.velocity += pushVec;
 
 			Vector2 collisionPnt = CheckRect();
-			if (collisionPnt != Vector2.Inf && hits < totalHits)
+			if (collisionPnt != Vector2.Inf && hits < totalHits && !targetPlayer.currentState.IsProjectileInvuln())
 			{
 				HurtPlayer(collisionPnt);
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
@@ -97,10 +97,8 @@ public class BlackHole : HadoukenPart
 	{
 		base.MakeInactive();
 		GetNode<CPUParticles2D>("CPUParticles2D").Emitting = false;
-		((GL)targetPlayer.otherPlayer).BlackHolesTotal--;
-		speed.y = 4;
-
 	}
+	
 
 	public override void ReceiveCommand(ProjectileCommand command)
 	{
@@ -112,19 +110,8 @@ public class BlackHole : HadoukenPart
 
 	public override void SetState(HadoukenState newState)
 	{
-
-		active = newState.active;
-		Visible = active;
-		frame = newState.frame;
+		base.SetState(newState);
 		if (GetNode<CPUParticles2D>("CPUParticles2D").Emitting != active)
 			GetNode<CPUParticles2D>("CPUParticles2D").Emitting = active;
-
-		hits = newState.hits;
-		lastHitFrame = newState.lastHitFrame;
-	}
-
-	public override void ShouldNotExist()
-	{
-		base.ShouldNotExist();
 	}
 }

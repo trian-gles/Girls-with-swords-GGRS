@@ -6,10 +6,6 @@ public class GL : Player
 {
 	private const string BlackHoleString = "BlackHole";
 	private const string HadoukenString = "Hadouken";
-
-	public int PoweredBlackHoleFramesRemaining = 0;
-	public int BlackHolesTotal = 0;
-	public int Stamina = 100;
 	public override void _EnterTree()
 	{
 		//j2C
@@ -72,42 +68,6 @@ public class GL : Player
 			return false;
 		CommandHadouken(BlackHoleString, HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
 		return true;
-	}
-
-	protected override void CharSpecificFrameAdvance()
-	{
-		if (PoweredBlackHoleFramesRemaining > 0)
-			PoweredBlackHoleFramesRemaining--;
-	}
-
-	private const int BLACKHOLEFRAMEINDEX = 0;
-	private const int BLACKHOLETOTALINDEX = 1;
-	private const int STAMINAINDEX = 2;
-	protected override int[] GetStateCharSpecific()
-	{
-		charSpecificData[BLACKHOLEFRAMEINDEX] = PoweredBlackHoleFramesRemaining;
-		charSpecificData[BLACKHOLETOTALINDEX] = BlackHolesTotal;
-		charSpecificData[STAMINAINDEX] = Stamina;
-		return charSpecificData;
-	}
-
-	protected override void SetStateCharSpecific(int[] newCharSpecificData)
-	{
-		if (newCharSpecificData != null)
-		{
-			PoweredBlackHoleFramesRemaining = newCharSpecificData[BLACKHOLEFRAMEINDEX];
-			BlackHolesTotal = newCharSpecificData[BLACKHOLETOTALINDEX];
-			Stamina = newCharSpecificData[STAMINAINDEX];
-			if (Globals.logOn)
-				Globals.Log($"Loading state for {Name}, black holes is now = {BlackHolesTotal}");
-		}	
-	}
-
-	public override void Reset() 
-	{ 
-		base.Reset();
-		BlackHolesTotal = 0;
-		PoweredBlackHoleFramesRemaining = 0;
 	}
 
 	protected override void PostHitCall()

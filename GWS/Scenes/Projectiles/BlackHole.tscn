@@ -13,6 +13,7 @@ extents = Vector2( 24, 12 )
 position = Vector2( 0, 0 )
 script = ExtResource( 2 )
 level = 4
+startup = 9
 modifiedHitStun = 45
 modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 0, -400 )

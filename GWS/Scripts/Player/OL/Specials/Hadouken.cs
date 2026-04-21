@@ -44,6 +44,15 @@ public class Hadouken : BaseAttack
 		base.Enter();
 		owner.velocity.x = 0;
 	}
+
+	public override void Reset()
+	{
+		foreach (var h in cachedHadoukens)
+		{
+			owner.DeleteHadouken(h);
+			h.active = false;
+		}
+	}
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();

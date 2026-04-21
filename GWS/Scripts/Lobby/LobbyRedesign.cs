@@ -176,8 +176,6 @@ public class LobbyRedesign : Node2D
 		gameScene = packedGameScene.Instance() as GameScene;
 		winScene = packedWinScene.Instance() as WinScene;
 	}
-
-	long prevMem = 0;
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
@@ -187,11 +185,6 @@ public class LobbyRedesign : Node2D
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
 		}
-
-		long mem = GC.GetTotalMemory(false); // allocated managed memory
-		if (mem > prevMem)
-			GD.Print(mem / 1024);
-		prevMem = mem;
 	}
 
 	private void syncTestBegin()

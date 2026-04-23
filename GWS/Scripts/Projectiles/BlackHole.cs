@@ -83,8 +83,9 @@ public class BlackHole : HadoukenPart
 			Vector2 collisionPnt = CheckRect();
 			if (collisionPnt != Vector2.Inf && hits < totalHits && !targetPlayer.currentState.IsProjectileInvuln())
 			{
-				HurtPlayer(collisionPnt);
 				targetPlayer.terminalVelocity = slowTerminalVelocity;
+				HurtPlayer(collisionPnt);
+				
 				targetPlayer.counterStopFrames = 15;
 
 			}

@@ -457,7 +457,14 @@ public class GameStateObjectRedesign : Node
 				P1.internalPos = new Vector2(P1.internalPos.x + 1, P1.internalPos.y);
 				P2.internalPos = new Vector2(P2.internalPos.x - 1, P2.internalPos.y);
 			}
-			else // same position, corner crossup likely
+			else if (P1.facingRight != P2.facingRight) // same x, different direction
+			{
+				int p1Move = P1.facingRight ? -1 : 1;
+				int p2Move = P2.facingRight ? -1 : 1;
+				P1.internalPos = new Vector2(P1.internalPos.x + p1Move, P1.internalPos.y);
+				P2.internalPos = new Vector2(P2.internalPos.x + p2Move, P2.internalPos.y);
+			}
+			else// shouldn't happen, but possible.  Relies on who is below
 			{
 				bool P1above = P1.internalPos.y < P2.internalPos.y;
 

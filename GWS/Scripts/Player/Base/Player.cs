@@ -1373,7 +1373,7 @@ public class Player : Node2D
 
 	public bool OtherPlayerOnRight()
 	{
-		return !OtherPlayerOnLeft();
+		return internalPos.x < otherPlayer.internalPos.x;
 	}
 
 	public bool OtherPlayerOnLeft()

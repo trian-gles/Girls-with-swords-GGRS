@@ -612,7 +612,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 11, 19 ) ]
+"values": [ Vector2( 14, 19 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -636,7 +636,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 34, -23 ) ]
+"values": [ Vector2( 30, -23 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -672,7 +672,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 15, 19 ) ]
+"values": [ Vector2( 20, 19 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
@@ -6518,10 +6518,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 6, 12, 13, 18, 19, 26, 27 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 6, 12, 18, 19, 26, 27 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 18, 27 ), Vector2( 18, 27 ), Vector2( 16, 30 ), Vector2( 15, 32 ), Vector2( 15, 32 ), Vector2( 22, 29 ), Vector2( 22, 29 ), Vector2( 19, 32 ) ]
+"values": [ Vector2( 18, 27 ), Vector2( 18, 27 ), Vector2( 16, 30 ), Vector2( 15, 32 ), Vector2( 22, 29 ), Vector2( 22, 29 ), Vector2( 19, 32 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:position")
@@ -6530,10 +6530,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 6, 12, 13, 18, 19, 26, 27 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 6, 12, 18, 19, 26, 27 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -9, 3 ), Vector2( -9, 3 ), Vector2( -11, 2 ), Vector2( -7, 7 ), Vector2( -7, 7 ), Vector2( -6, -2 ), Vector2( -6, -2 ), Vector2( -8, 1 ) ]
+"values": [ Vector2( -9, 3 ), Vector2( -9, 3 ), Vector2( -11, 2 ), Vector2( -7, 7 ), Vector2( -6, -2 ), Vector2( -6, -2 ), Vector2( -8, 1 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -9872,15 +9872,12 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 36, 2 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 30, -45 )
-disabled = false
+position = Vector2( 15, 18 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 51, -65 )
-disabled = false
+position = Vector2( -25, -15 )
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 70 )

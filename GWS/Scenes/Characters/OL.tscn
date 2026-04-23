@@ -58,7 +58,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 14, 16 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ Vector2( 12, 9 ), Vector2( 18, 9 ) ]
+"values": [ Vector2( 12, 9 ), Vector2( 21, 9 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -315,7 +315,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 2, 5, 6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 6, 14 ), Vector2( 11, 10 ), Vector2( 11, 24 ) ]
+"values": [ Vector2( 6, 14 ), Vector2( 11, 10 ), Vector2( 12, 24 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB1:disabled")
@@ -5663,7 +5663,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 2 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 13, 10 ) ]
+"values": [ Vector2( 13, 5 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB1:disabled")
@@ -6341,7 +6341,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 11, 13, 17, 27 ),
+"times": PoolRealArray( 0, 11, 14, 17, 27 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 18, 35 ), Vector2( 16, 30 ), Vector2( 15, 32 ), Vector2( 22, 29 ), Vector2( 19, 32 ) ]
@@ -6353,7 +6353,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 11, 13, 17, 27 ),
+"times": PoolRealArray( 0, 11, 14, 17, 27 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( -9, -3 ), Vector2( -11, -4 ), Vector2( -7, 1 ), Vector2( -6, -2 ), Vector2( -8, 1 ) ]
@@ -8716,6 +8716,7 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 21, -16 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
@@ -8732,7 +8733,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 6
+frame = 235
 
 [node name="Jump" parent="StateTree" index="4"]
 startupFrames = 7
@@ -8967,8 +8968,9 @@ restoreHitFrames = PoolIntArray( 16 )
 grabInvulnFrames = 14
 slashCancel = true
 sweepCancel = true
-moveSpeed = 250
-stopFrame = 18
+moveSpeed = 310
+startMovingFrame = 10
+stopFrame = 22
 stringCancel = "CrouchC"
 
 [node name="6P" type="Node" parent="StateTree" index="57"]

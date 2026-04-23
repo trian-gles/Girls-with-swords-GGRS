@@ -398,7 +398,7 @@ tracks/12/keys = {
 "times": PoolRealArray( 7 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 11, 18 ) ]
+"values": [ Vector2( 18, 18 ) ]
 }
 tracks/13/type = "value"
 tracks/13/path = NodePath("HurtBoxes/HurtB2:position")
@@ -410,7 +410,7 @@ tracks/13/keys = {
 "times": PoolRealArray( 7 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 32, -21 ) ]
+"values": [ Vector2( 22, -21 ) ]
 }
 tracks/14/type = "value"
 tracks/14/path = NodePath("HurtBoxes/HurtB1:position")
@@ -3130,7 +3130,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=21]
-length = 26.0
+length = 28.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -3187,7 +3187,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 6, 13 ),
+"times": PoolRealArray( 0, 6, 9 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -6385,7 +6385,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 18, 22 ) ]
+"values": [ Vector2( 18, 20 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HitBoxes/HitB1:position")
@@ -10263,7 +10263,6 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
@@ -10273,10 +10272,11 @@ shape = SubResource( 77 )
 position = Vector2( 14, 14 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
-position = Vector2( 0, 8 )
+position = Vector2( 10, -12 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 0, -41 )
+position = Vector2( 22, -21 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 22, 5 )
@@ -10288,14 +10288,13 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 169
+frame = 247
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
-offset = Vector2( 0, 15 )
 hframes = 255
 vframes = 2
-frame = 169
+frame = 247
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )

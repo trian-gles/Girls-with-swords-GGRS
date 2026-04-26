@@ -291,8 +291,9 @@ public class LobbyRedesign : Node2D
 		ggrsManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 		AddChild(ggrsManager);
 		Globals.mode = Globals.Mode.GGPO;
+		bool aiTest = hosting;
 		ggrsManager.Start();
-		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, hosting);
+		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, aiTest);
 		ggrsManager.Visible = true;
 	}
 

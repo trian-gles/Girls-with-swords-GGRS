@@ -689,7 +689,7 @@ public class GameScene : BaseGame
 		else
 		{
 			startFrame = Globals.frame + 60 * 3;
-			timeOutFrame = startFrame + 60 * 99;
+			timeOutFrame = startFrame + 40 * 99;
 			currTime = TimeStatus.PREROUND;
 		}
 
@@ -765,7 +765,7 @@ public class GameScene : BaseGame
 
 		int timerFrame = Globals.frame - startFrame;
 
-		timer.Text = timerStrings[(int)Math.Floor((float)timerFrame / 60)];
+		timer.Text = timerStrings[(int)Math.Floor((float)timerFrame / 40)];
 	}
 
 	private void HandleFakeEndTime()

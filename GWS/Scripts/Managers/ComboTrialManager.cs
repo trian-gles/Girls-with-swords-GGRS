@@ -128,6 +128,7 @@ public class ComboTrialManager : TutorialManager
 		cornerThrowCombo.MakeComboChallenge();
 
 		challenges.Add(cornerThrowCombo);
+		
 
 		Challenge cornerPunish = new Challenge("Corner punish", GameScene.ResetPos.P2CORNEREDRIGHT);
 
@@ -171,7 +172,7 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6C"
 		};
 
-		Goal sixPGoal = new Goal("Upper Kick", "right", "p")
+		Goal sixPGoal = new Goal("High Kick", "right", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "3K"
@@ -265,6 +266,12 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6P"
 		};
 
+		Goal sixKGoal = new Goal("Forward Kick", "right", "k")
+		{
+			p2StateFrame = 0,
+			p1State = "6K"
+		};
+
 		Goal sixCGoal = new Goal("Heavy Slash", "right", "s")
 		{
 			p2StateFrame = 0,
@@ -320,28 +327,46 @@ public class ComboTrialManager : TutorialManager
 
 
 		Challenge cornerCarry = new Challenge("Corner Carry Combo");
+		cornerCarry.goals.Add(kickGoal);
 		cornerCarry.goals.Add(ckickGoal);
 		cornerCarry.goals.Add(sixPGoal);
-		cornerCarry.goals.Add(fJumpGoal);
-		cornerCarry.goals.Add(adGoal);
-		cornerCarry.goals.Add(j2sGoal);
-		cornerCarry.goals.Add(sixPGoal);
-		cornerCarry.goals.Add(fJumpGoal);
-		cornerCarry.goals.Add(adGoal);
-		cornerCarry.goals.Add(j2sGoal);
-		cornerCarry.goals.Add(slash2xGoal);
+		cornerCarry.goals.Add(sixKGoal);
+		cornerCarry.goals.Add(jrGoal);
+		cornerCarry.goals.Add(jabGoal);
+		cornerCarry.goals.Add(slashGoal);
 		cornerCarry.goals.Add(sixCGoal);
 		cornerCarry.goals.Add(cslashGoal);
 		cornerCarry.MakeComboChallenge();
 		challenges.Add(cornerCarry);
 
-		Challenge cornerSweep = new Challenge("Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
-		cornerSweep.goals.Add(cjabGoal);
-		cornerSweep.goals.Add(ckickGoal);
+		Goal hatUpGoal = new Goal("Eat a hat (up)", "left", "special")
+		{
+			p1State = "UpHat",
+			p2StateFrame = 0
+		};
+
+		Goal sJumpGoal = new Goal("Super Jump", "up", "dash")
+		{
+			p1State = "SuperJump"	
+		};
+
+		Goal teleportDPGoal = new Goal("Suprise! (Up)", "right", "special")
+		{
+			p1State = "TeleportDP"
+		};
+
+		Challenge cornerSweep = new Challenge("Hard Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerSweep.goals.Add(cslashGoal);
 		cornerSweep.goals.Add(jrGoal);
 		cornerSweep.goals.Add(jabGoal);
-		cornerSweep.goals.Add(slashGoal);
+		cornerSweep.goals.Add(sixPGoal);
+		cornerSweep.goals.Add(hatUpGoal);
+		cornerSweep.goals.Add(teleportDPGoal);
+		cornerSweep.goals.Add(sixPGoal);
+		cornerSweep.goals.Add(sJumpGoal);
+		cornerSweep.goals.Add(jSlashGoal);
+		cornerSweep.goals.Add(j2sGoal);
+		cornerSweep.goals.Add(slash2xGoal);
 		cornerSweep.goals.Add(sixCGoal);
 		cornerSweep.goals.Add(cslashGoal);
 		cornerSweep.MakeComboChallenge();

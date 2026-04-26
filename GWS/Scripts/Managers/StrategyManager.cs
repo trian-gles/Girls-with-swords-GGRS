@@ -189,21 +189,39 @@ public class StrategyManager : TutorialManager
 			p1State = "Teleport"
 		};
 
+		Goal teleportDownSlashGoal = new Goal("Suprise! (Down)", "down", "special")
+		{
+			p1State = "TeleportDownSlash"
+		};
+
+		Goal teleportDPGoal = new Goal("Suprise! (Up)", "right", "special")
+		{
+			p1State = "TeleportDP"
+		};
+
+		Goal hatProjectileGoal = new Goal("Suprise?", "left", "special")
+		{
+			p1State = "HatSlash"
+		};
+
 		Challenge hatChallenge = new Challenge("The Art of Hat");
-		hatChallenge.popupText = "HL can use her hat as a projectile and/or to create a beacon to teleport to.  Use this to fly around the screen, reset pressure, and mixup the opponent";
+		hatChallenge.popupText = "HL can use her hat as a projectile and to create a beacon to teleport to.  Use this to fly around the screen, reset pressure, and mixup the opponent";
 		hatChallenge.goals.Add(hatGoal);
 		hatChallenge.goals.Add(teleportGoal);
 		hatChallenge.goals.Add(hatUpGoal);
-		hatChallenge.goals.Add(teleportGoal);
+		hatChallenge.goals.Add(teleportDownSlashGoal);
 		hatChallenge.goals.Add(hatUpUpGoal);
-		hatChallenge.goals.Add(teleportGoal);
+		hatChallenge.goals.Add(teleportDPGoal);
+		hatChallenge.goals.Add(hatGoal);
+		hatChallenge.goals.Add(hatProjectileGoal);
 		challenges.Add(hatChallenge);
 
 		Challenge hatMoveChallenge = new Challenge("Hats on, Hats off");
-		hatMoveChallenge.popupText = "HL's gameplay changes significantly when she removes her hat.  Many of her attacks become useless, but she becomes very tiny and thus hard for the opponent to hit.";
-		hatChallenge.goals.Add(jabGoal);
+		hatMoveChallenge.popupText = "HL's gameplay changes significantly when she removes her hat - many of her attacks become useless.  Her KICK and SLASH buttons now move the hat around.";
+
 		hatChallenge.goals.Add(hatGoal);
-		hatChallenge.goals.Add(jabGoal);
+		hatChallenge.goals.Add(kickGoal);
+		hatChallenge.goals.Add(slashGoal);
 		challenges.Add(hatMoveChallenge);
 
 		Challenge dpChallenge = new Challenge("DP");

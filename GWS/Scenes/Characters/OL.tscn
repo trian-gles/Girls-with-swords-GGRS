@@ -303,7 +303,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 2, 5, 6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 18, -14 ), Vector2( 24, -18 ), Vector2( 34, -31 ) ]
+"values": [ Vector2( 18, -14 ), Vector2( 24, -18 ), Vector2( 30, -31 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HurtBoxes/HurtB1:shape:extents")
@@ -315,7 +315,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 2, 5, 6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 6, 14 ), Vector2( 11, 10 ), Vector2( 12, 24 ) ]
+"values": [ Vector2( 6, 14 ), Vector2( 11, 10 ), Vector2( 16, 24 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("HitBoxes/HitB1:disabled")
@@ -8716,10 +8716,10 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 21, -16 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
+disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 23, 1 )
@@ -8733,7 +8733,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 235
+frame = 249
 
 [node name="Jump" parent="StateTree" index="4"]
 startupFrames = 7
@@ -8967,7 +8967,6 @@ hitSound = "PunchHit"
 restoreHitFrames = PoolIntArray( 16 )
 grabInvulnFrames = 14
 slashCancel = true
-sweepCancel = true
 moveSpeed = 310
 startMovingFrame = 10
 stopFrame = 22

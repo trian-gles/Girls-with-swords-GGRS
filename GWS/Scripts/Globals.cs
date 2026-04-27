@@ -344,6 +344,7 @@ public class Globals : Node
 
 	public struct AttackDetails
 	{
+		public string hitSound;
 		public bool projectile;
 		public int hitStun;
 		public int blockStun;

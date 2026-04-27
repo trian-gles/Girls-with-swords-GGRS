@@ -149,6 +149,8 @@ public class HadoukenPart : Node2D
 
 		hitDetails = Globals.attackLevels[level].hit;
 		chDetails = Globals.attackLevels[level].counterHit;
+		hitDetails.hitSound = HitStunString;
+		chDetails.hitSound = HitStunString;
 
 		hitDetails.chipDmg = true;
 
@@ -380,7 +382,6 @@ public class HadoukenPart : Node2D
 		var chHitDetailsCopy = chDetails;
 		hits++;
 
-		targetPlayer.ForceEvent(EventScheduler.EventType.AUDIO, HitStunString);
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
 		{
 			hitDetailsCopy.opponentLaunch = Vector2.Zero;

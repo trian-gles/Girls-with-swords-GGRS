@@ -124,5 +124,10 @@ public class Block : HitState
         base.TrySpecialBreak();
 		owner.SpecialBreak();
     }
+
+	public override void PlayHitSound(string hitSound)
+	{
+		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block", Name);
+	}
 }
 

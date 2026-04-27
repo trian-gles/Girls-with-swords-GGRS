@@ -67,4 +67,10 @@ public class HitState : State
 			}
 		}
 	}
+
+	public virtual void PlayHitSound(string hitSound)
+	{
+		if (hitSound != null)
+			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
+	}
 }

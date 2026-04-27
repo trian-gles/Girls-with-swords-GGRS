@@ -198,6 +198,8 @@ public abstract class BaseAttack : State
 		chDetails.height = height;
 		hitDetails.graphicFX = hitGfx;
 		chDetails.graphicFX = hitGfx;
+		hitDetails.hitSound = hitSound;
+		chDetails.hitSound = hitSound;
 
 		if (modifiedHitStop != 0)
 		{
@@ -384,7 +386,6 @@ public abstract class BaseAttack : State
 		
 		
 		hitConnect = true;
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hitSound, Name);
 
 		if (exitOnHit)
 		{

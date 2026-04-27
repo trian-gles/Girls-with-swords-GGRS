@@ -1536,6 +1536,7 @@ public class Player : Node2D
 		// I separate this into two pieces so that the next entered state can handle stun and damage
 		currentState.ReceiveHit(details);
 		currentState.ReceiveStunDamage(details);
+		((HitState) currentState).PlayHitSound(details.hitSound);
 		if (!details.projectile)
 			Globals.EmitSignal(Globals.PlayerSignal.HitStop, Name, details.hitStop);
 		PostHitCall();

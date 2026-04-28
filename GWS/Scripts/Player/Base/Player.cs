@@ -1869,7 +1869,7 @@ public class Player : Node2D
 			}
 			else
 			{
-				array[i] = new Rect2();
+				array[i] = new Rect2(-1000000, 100000, 0, 0);
 			}
 		}
 

@@ -113,7 +113,7 @@ public class HL : Player
 			}
 			else
 			{
-				array[i] = new Rect2(0, 0, 0, 0); // TODO : make sure this isn't breaking anything
+				array[i] = new Rect2(-1000000, 100000, 0, 0); // TODO : make sure this isn't breaking anything
 			}
 		}
 

@@ -294,7 +294,7 @@ public abstract class BaseAttack : State
 
 	public override void CheckHit()
 	{
-		if (!hitConnect)
+		if (!hitConnect && !owner.otherPlayer.wasHitThisFrame)
 		{
 			Vector2 collisionPnt = owner.CheckHurtRect();
 			if (collisionPnt != Vector2.Inf)

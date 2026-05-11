@@ -262,21 +262,9 @@ public class Player : Node2D
 	}
 
 	// components of a received attack
-	public bool wasHit = false;
+	public bool wasHitThisFrame = false;
 	private Globals.AttackDetails receivedHit;
 	private Globals.AttackDetails receivedCHit;
-
-	private BaseAttack.ATTACKDIR hit_rightAttack;
-	private int hit_dmg;
-	private int hit_blockStun;
-	private int hit_hitStun;
-	private State.HEIGHT hit_height;
-	private int hit_hitPush;
-	private Vector2 hit_launch;
-	private bool hit_knockdown;
-	private int hit_prorationLevel;
-	private BaseAttack.EXTRAEFFECT hit_effect;
-	private Vector2 hit_collisionPnt;
 
 	// Box colors
 	private Color hitColor = new Color(0, 0, 255, 0.5f);
@@ -1506,17 +1494,17 @@ public class Player : Node2D
 			
 		}
 	velocity = Vector2.Zero;
-		wasHit = true;
+		wasHitThisFrame = true;
 	}
 
 	public void ClearHit()
 	{
-		wasHit = false;
+		wasHitThisFrame = false;
 	}
 
 	public virtual bool CalculateHit()
 	{
-		if (!wasHit)
+		if (!wasHitThisFrame)
 		{
 			return false;
 		}
@@ -1541,7 +1529,7 @@ public class Player : Node2D
 			Globals.EmitSignal(Globals.PlayerSignal.HitStop, Name, details.hitStop);
 		PostHitCall();
 
-		wasHit = false;
+		wasHitThisFrame = false;
 
 		if (Globals.mode == Globals.Mode.TRAINING)
 			otherPlayer.DisplayPlusFrames(currentState.stunRemaining);

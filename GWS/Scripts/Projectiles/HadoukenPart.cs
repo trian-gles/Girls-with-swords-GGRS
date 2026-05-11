@@ -374,7 +374,7 @@ public class HadoukenPart : Node2D
 	protected virtual void HurtPlayer(Vector2 collisionPnt)
 	{
 		// fill this with harmful stuff!!!!
-		if (targetPlayer.IsInvuln())
+		if (targetPlayer.IsInvuln() || targetPlayer.wasHitThisFrame)
 		{
 			return;
 		}

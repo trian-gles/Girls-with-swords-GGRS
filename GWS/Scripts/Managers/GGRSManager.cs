@@ -18,7 +18,7 @@ public class GGRSManager : StateManager
 
 	private Popup mustUpdatePopup;
 
-	private List<string> pingMessages;
+	private List<string> pingMessages = new List<string>();
 	
 
 	private const int MAXPLAYERS = 2;
@@ -41,8 +41,8 @@ public class GGRSManager : StateManager
 	public override void _Ready()
 	{
 		events = GetNode<Node>("/root/Events");
-		for (int i = 0; i < 400; i++)
-			pingMessages[i] = $"Ping = {i}";
+		for (int i = 0; i <= 400; i++)
+			pingMessages.Add($"Ping = {i}");
 		//GGRS = GetNode("GodotGGRS");
 	}
 
@@ -188,9 +188,11 @@ public class GGRSManager : StateManager
 	private void GetNetStats()
 	{
 		var netStats = (Godot.Collections.Array)GGRS.Call("get_network_stats", 1); // should only return ping
+		int ping = Math.Min((int)netStats[1], 400);
+		
 
-		charSelectScene.ChangeHUDText(pingMessages[(int)netStats[1]]);
-		gameScene.ChangeHUDText(pingMessages[(int)netStats[1]]);
+		charSelectScene.ChangeHUDText(pingMessages[ping]);
+		gameScene.ChangeHUDText(pingMessages[ping]);
 	}
 
 	// ----------------

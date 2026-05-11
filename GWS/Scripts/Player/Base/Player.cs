@@ -1598,7 +1598,9 @@ public class Player : Node2D
 
 	public void DeleteHadouken(HadoukenPart h)
 	{
-		GetParent<GameScene>().OnHadoukenRemoved(h);
+		var parent = GetParent<GameScene>();
+		if (parent != null)
+			parent.OnHadoukenRemoved(h);
 	}
 
 	public void CommandHadouken(string hadName, HadoukenPart.ProjectileCommand command)

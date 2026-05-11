@@ -5,7 +5,7 @@ using Godot;
 public class WinScene : BaseGame
 {
 	private int winScreenFrame;
-	private int[] lastFrameInputs = {0, 0};
+	private BaseManager.CombinedInputs lastFrameInputs = new BaseManager.CombinedInputs();
 
 	private int[] cursorPositions = {0, 0};
 
@@ -127,7 +127,7 @@ public class WinScene : BaseGame
 		state.winScreenFrame = this.winScreenFrame;
 		state.p1Pos = this.cursorPositions[0];
 		state.p2Pos = this.cursorPositions[1];
-		state.lastFrameInputs.SetInputs(lastFrameInputs[0], lastFrameInputs[1]);
+		state.lastFrameInputs = lastFrameInputs;
 		state.p1Selected = this.selected[0];
 		state.p2Selected = this.selected[1];
 		var arr = memoryPool.Get();
@@ -149,8 +149,7 @@ public class WinScene : BaseGame
 		this.winScreenFrame = state.winScreenFrame;
 		cursorPositions[0] = state.p1Pos;
 		cursorPositions[1] = state.p2Pos;
-		this.lastFrameInputs[0] = state.lastFrameInputs.p1Inps;
-		this.lastFrameInputs[1] = state.lastFrameInputs.p2Inps;
+		lastFrameInputs = state.lastFrameInputs;
 		this.selected[0] = state.p1Selected;
 		this.selected[1] = state.p2Selected;
 		if (timeStatus == TimeStatus.FAKEEND && winScreenFrame < falseEndFrame) timeStatus = TimeStatus.SELECT;
@@ -159,10 +158,17 @@ public class WinScene : BaseGame
 
 	public override void AdvanceFrame(int p1Inps, int p2Inps)
 	{
+		if (Globals.mode != Globals.Mode.GGPO)
+			p2Inps = 0;
+
 		base.AdvanceFrame(p1Inps, p2Inps);
 		winScreenFrame++;
 
-		int[] combinedInputs = new int[] { p1Inps, p2Inps };
+		var combinedInputs = new BaseManager.CombinedInputs
+		{
+			p1Inps = p1Inps,
+			p2Inps = p2Inps
+		};
 
 		
 		if (timeStatus == TimeStatus.SELECT) SelectUpdate(combinedInputs);
@@ -172,14 +178,14 @@ public class WinScene : BaseGame
 		lastFrameInputs = combinedInputs;
 	}
 
-	private void SelectUpdate(int[] combinedInputs)
+	private void SelectUpdate(BaseManager.CombinedInputs combinedInputs)
 	{
 		for (int i = 0; i <= 1; i++)
 		{
 			if (selected[i])
 				continue;
-			int inputs = combinedInputs[i];
-			int playerLastFrameInputs = lastFrameInputs[i];
+			int inputs = combinedInputs.GetInputs(i);
+			int playerLastFrameInputs = lastFrameInputs.GetInputs(i);
 
 			if ((inputs & 1) != 0 && (playerLastFrameInputs & 1) == 0)
 			{
@@ -269,6 +275,7 @@ public class WinScene : BaseGame
 			bool h = Globals.hosting; 
 			pos = h ? 0 : 1;
 		}
+		
 		cursors.Call(SetCursorCallString, cursorPositions[pos]);
 		if (selected[pos]) // sloppy, I know...
 			cursors.Visible = false;

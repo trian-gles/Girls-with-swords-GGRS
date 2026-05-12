@@ -171,8 +171,7 @@ public class Snail : HadoukenPart
 		var animSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		animSprite.FlipH = !animSprite.FlipH;
 		hits = 0;
-		hitDetails.hitPush = - Math.Abs(hitDetails.hitPush);
-		chDetails.hitPush = -Math.Abs(chDetails.hitPush);
+		movingRight = !movingRight;
 	}
 
 	private void EnterStandby()
@@ -296,11 +295,11 @@ public class Snail : HadoukenPart
 	{
 		if (movingRight)
 		{
-			Position = new Vector2(Position.x - 4, Position.y);
+			Position = new Vector2(Position.x + 4, Position.y);
 		}
 		else
 		{
-			Position = new Vector2(Position.x + 4, Position.y);
+			Position = new Vector2(Position.x - 4, Position.y);
 		}
 		
 		TryWalkSound();

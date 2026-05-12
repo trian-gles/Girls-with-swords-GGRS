@@ -33,7 +33,7 @@ public class GameStateObjectRedesign : Node
 	/// </summary>
 	private GameState lastGs;
 
-	private const int HADOUKENSTATESIZE = 68;
+	private const int HADOUKENSTATESIZE = 69;
 	/// <summary>
 	/// Stores all vital data about positions in the game in a single struct
 	/// </summary>

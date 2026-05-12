@@ -107,7 +107,7 @@ public class Player : Node2D
 	/// States that cannot be cancelled into grab, for reasons...
 	/// </summary>
 	
-	public HashSet<string> noGrabLastStates = new HashSet<string>() { "Jab", "Run", "PreRun", "CrouchA", "PostRun" };
+	public HashSet<string> noGrabLastStates = new HashSet<string>() { "Jab", "Kick", "Slash", "Run", "PreRun", "CrouchA", "CrouchB", "6P", "3K", "PostRun" };
 	public HashSet<string> noGrabStates = new HashSet<string>() { "Super" };
 
 	public delegate void NegEdgeCallback(char releasedkey);

@@ -45,9 +45,6 @@ public class HadoukenPart : Node2D
 	protected int modifiedHitPush = 0;
 
 	[Export]
-	protected int hitPush = 0;
-
-	[Export]
 	protected State.HEIGHT height = State.HEIGHT.MID;
 
 	[Export]
@@ -262,6 +259,7 @@ public class HadoukenPart : Node2D
 		public int lastHitFrame; // 4 bytes
 		public int hits; // 4 bytes
 		public bool visible; // 1 byte
+		public bool movingRight; // 1 byte
 
 		public fixed int dict[6]; // 4 * 6 = 24 bytes
 	}
@@ -380,6 +378,13 @@ public class HadoukenPart : Node2D
 		}
 		var hitDetailsCopy = hitDetails;
 		var chHitDetailsCopy = chDetails;
+	
+		if (!MovingAgainstTargetPlayer())
+		{
+			//hitDetailsCopy.hitPush *= -1;
+			//chHitDetailsCopy.hitPush *= -1;
+			
+		}
 		hits++;
 
 		if (!launchOnGrounded && targetPlayer.currentState.Name != "Knockdown" && targetPlayer.grounded)
@@ -406,7 +411,7 @@ public class HadoukenPart : Node2D
 		if (!movingRight)
 		{
 			hitDetailsCopy.dir = BaseAttack.ATTACKDIR.LEFT;
-			chDetails.dir = BaseAttack.ATTACKDIR.LEFT;
+			chHitDetailsCopy.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
 		hitDetailsCopy.collisionPnt = collisionPnt * 100;
 		chHitDetailsCopy.collisionPnt = collisionPnt * 100;
@@ -415,14 +420,21 @@ public class HadoukenPart : Node2D
 		{
 			targetPlayer.terminalVelocity = slowTerminalVelocity;
 		}
-
-		Globals.EmitSignal(Globals.PlayerSignal.HitPush, targetPlayer.Name, 0);
 		targetPlayer.ReceiveHit(hitDetailsCopy, chHitDetailsCopy);
 		lastHitFrame = frame;
 		
 
 		if (hits == totalHits)
 			MakeInactive();
+	}
+
+	bool MovingAgainstTargetPlayer()
+	{
+		if (movingRight && targetPlayer.OtherPlayerOnLeft())
+			return true;
+		if (!movingRight && targetPlayer.OtherPlayerOnRight())
+			return true;
+		return false;
 	}
 
 	protected virtual void MakeInactive()
@@ -458,7 +470,7 @@ public class HadoukenPart : Node2D
 	public unsafe HadoukenState GetState()
 	{
 		hadState.posx = (int) Position.x;
-
+		hadState.movingRight = movingRight;
 		hadState.posy = (int) Position.y;
 		hadState.speedx = (int)speed.x;
 		hadState.speedy = (int)speed.y;
@@ -495,7 +507,7 @@ public class HadoukenPart : Node2D
 	{
 		Position = new Vector2(newState.posx, newState.posy);
 		speed = new Vector2(newState.speedx, newState.speedy);
-		
+		movingRight = newState.movingRight;
 		active = newState.active;
 		Visible = newState.visible;
 		frame = newState.frame;

@@ -84,6 +84,7 @@ public abstract class State : Node
 	protected List<NormalGatling> normalGatlings = new List<NormalGatling>();
 	protected List<CommandGatling> commandGatlings = new List<CommandGatling>();
 	protected List<KaraGatling> karaGatlings = new List<KaraGatling>();
+	protected List<NormalGatling> earlyCancelGatlings = new List<NormalGatling>();
 	private const string CrouchAString = "CrouchA";
 	private const string CrouchBString = "CrouchB";
 	private const string CrouchCString = "CrouchC";
@@ -487,9 +488,63 @@ public abstract class State : Node
 					owner.ClearInputs();
 					owner.GFXEvent(CancelGfxString);
 					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, RcString, cancelState);
-				});
+				}
+			);
+
+			AddGatling(new char[] { perm[0], 'p' },
+				() => owner.CheckKeyPressedThisFrame(perm[1]) && owner.CheckKeyPressedThisFrame(perm[2]) && owner.TrySpendMeter(),
+				cancelState,
+				() => {
+					owner.landingRecoveryFramesRemaining = 0;
+					owner.ClearInputs();
+					owner.GFXEvent(CancelGfxString);
+					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, RcString, cancelState);
+				}
+			);
+
+			var newGatling = new NormalGatling
+			{
+				input = new char[] { perm[0], 'p' },
+				state = cancelState,
+				postCall = () => {
+					owner.landingRecoveryFramesRemaining = 0;
+					owner.ClearInputs();
+					owner.GFXEvent(CancelGfxString);
+					owner.ScheduleEvent(EventScheduler.EventType.AUDIO, RcString, cancelState);
+				},
+				reqCall = () => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter()
+			};
+			earlyCancelGatlings.Add(newGatling);
 		}
 		
+	}
+
+	protected void ProcessNormalGatings(InputContainer.CharPair inputArr, List<NormalGatling> gatlings)
+	{
+		foreach (NormalGatling normGat in gatlings)
+		{
+			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
+				continue;
+
+			var input = new InputContainer.CharPair(normGat.input[0], normGat.input[1]);
+			if (input == inputArr)
+			{
+				if (normGat.reqCall != null)
+				{
+					if (!normGat.reqCall())
+					{ 
+						continue;
+					}
+				}
+
+				normGat.postCall?.Invoke();
+
+				if (normGat.state != EmptyString)
+					owner.ChangeState(normGat.state);
+				
+				return;
+			}
+		}
 	}
 
 	public virtual void HandleInput(InputContainer.CharPair inputArr)
@@ -542,30 +597,7 @@ public abstract class State : Node
 				}
 			}
 		}
-		foreach (NormalGatling normGat in normalGatlings)
-		{
-			if (normGat.input[0] == 'a' && owner.specialBreakFramesRemaining > 0)
-				continue;
-
-			var input = new InputContainer.CharPair(normGat.input[0], normGat.input[1]);
-			if (input == inputArr)
-			{
-				if (normGat.reqCall != null)
-				{
-					if (!normGat.reqCall())
-					{ 
-						continue;
-					}
-				}
-
-				normGat.postCall?.Invoke();
-
-				if (normGat.state != EmptyString)
-					owner.ChangeState(normGat.state);
-				
-				return;
-			}
-		}
+		ProcessNormalGatings(inputArr, normalGatlings);
 	}
 
 	/// <summary>

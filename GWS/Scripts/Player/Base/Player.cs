@@ -670,6 +670,7 @@ public class Player : Node2D
 		public int inBuf2TimerMax = 5;
 		public int inBuf2Timer = 5;
 		public HeldKeys heldKeys = new HeldKeys(12);
+		public HeldKeys keysPressedThisFrame = new HeldKeys(12);
 		public State playerState;
 		/// <summary>
 		/// Used for checking if a key has been pressed or released
@@ -683,6 +684,7 @@ public class Player : Node2D
 		public void Reset()
 		{
 			heldKeys.Clear();
+			keysPressedThisFrame.Clear();
 			hitStopInputs.Clear();
 			inBuf2.Clear();
 			inBuf2Timer = inBuf2TimerMax;
@@ -861,10 +863,14 @@ public class Player : Node2D
 			{
 				unhandledInputs.Prepend(hitStopInputs);
 			}
-			
+			keysPressedThisFrame.Clear();
 			hitStopInputs.Clear();
 			for (int i = 0; i < unhandledInputs.Count; i++)
 			{
+				if (unhandledInputs.Get(i).B == 'p')
+				{
+					keysPressedThisFrame.Add(unhandledInputs.Get(i).A);
+				}
 				playerState.HandleInput(unhandledInputs.Get(i));
 				if (clearUnhandled)
 					break;
@@ -964,6 +970,11 @@ public class Player : Node2D
 	public bool CheckHeldKey(char key) 
 	{
 		return (inputHandler.heldKeys.Contains(key));
+	}
+
+	public bool CheckKeyPressedThisFrame(char key) 
+	{
+		return inputHandler.keysPressedThisFrame.Contains(key);
 	}
 
 	public bool CheckNoDirectionsHeld()

@@ -59,6 +59,9 @@ public abstract class BaseAttack : State
 	[Export]
 	protected bool jumpCancelable = false;
 
+	[Export]
+	protected bool canYRC = true;
+
 
 	[Export]
 	protected EXTRAEFFECT effect = EXTRAEFFECT.NONE;
@@ -433,6 +436,12 @@ public abstract class BaseAttack : State
 					return;
 				}
 			}
+		}
+
+		// YRC test
+		if (frameCount < 10 && canYRC && owner.otherPlayer.currentState.stunRemaining == 0)
+		{
+			ProcessNormalGatings(inputArr, earlyCancelGatlings);
 		}
 
 		if (!hitConnect && frameCount > whiffGatlingStart)

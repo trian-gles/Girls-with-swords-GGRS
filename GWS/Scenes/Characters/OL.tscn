@@ -8769,6 +8769,7 @@ launch = Vector2( 0, -400 )
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="20"]
 script = ExtResource( 8 )
 isSpecial = true
+canYRC = false
 projectileInvulnFrames = 30
 len = 25
 speed = 700
@@ -8789,6 +8790,7 @@ isSpecial = true
 [node name="CommandRunCharged" type="Node" parent="StateTree" index="23"]
 script = ExtResource( 17 )
 isSpecial = true
+canYRC = false
 projectileInvulnFrames = 15
 speed = 700
 
@@ -8803,6 +8805,7 @@ opponentLaunch = Vector2( 0, -480 )
 chLaunch = Vector2( 0, 1000 )
 slowTerminalVelocity = 550
 hitPush = 3000
+canYRC = false
 chEffect = 1
 hitGfx = 4
 knockdown = true
@@ -8870,6 +8873,7 @@ hopForce = 40
 [node name="HojogiriCharge" type="Node" parent="StateTree" index="48"]
 script = ExtResource( 14 )
 isSpecial = true
+canYRC = false
 whiffSound = ""
 hitSound = ""
 specialBurstKara = true
@@ -8884,6 +8888,7 @@ modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 100, -500 )
 chLaunch = Vector2( 100, -500 )
 hitPush = 500
+canYRC = false
 hitGfx = 4
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
@@ -8899,6 +8904,7 @@ slowTerminalVelocity = 440
 modifiedHitPush = 100
 modifiedDmg = 3
 hitPush = 100
+canYRC = false
 hitGfx = 4
 knockdown = true
 whiffSound = "SlashWhiff"

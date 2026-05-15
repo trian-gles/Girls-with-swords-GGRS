@@ -120,9 +120,13 @@ public class HL : Player
 		return active;
 	}
 
-	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-	//  public override void _Process(float delta)
-	//  {
-	//      
-	//  }
+	protected override void PostHitCall()
+	{
+		base.PostHitCall();
+		if (currentState.tags.Contains(Globals.Tags.hitstate))
+		{
+			CommandHadouken("Hat", HadoukenPart.ProjectileCommand.StopHat);
+			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+		}
+	}
 }

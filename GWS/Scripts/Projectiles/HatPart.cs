@@ -38,6 +38,8 @@ public class HatPart : HadoukenPart
 			Right();
 		else if (command == ProjectileCommand.MoveHatLeft)
 			Left();
+		else if (command == ProjectileCommand.StopHat)
+			Arrive();
 	}
 
 	private void Right()

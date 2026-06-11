@@ -152,6 +152,8 @@ public class Player : Node2D
 	public bool hasBeenSpiked = false;
 	public bool hasHurtboxActive = false;
 	protected int[] charSpecificData = new int[4];
+	public int lastAttemptRightIBFrame = -30;
+	public int lastAttemptLeftIBFrame = -30;
 
 	public PlayerState pState = new PlayerState();
 
@@ -224,6 +226,8 @@ public class Player : Node2D
 		public bool hasHurtboxActive;
 		public bool hasBeenSpiked;
 		public fixed int charSpecificData[4];
+		public int lastAttemptRightIBFrame;
+		public int lastAttemptLeftIBFrame;
 		public int safety;
 
 	}
@@ -424,6 +428,11 @@ public class Player : Node2D
 		lastPressedDownFrame = 0;
 		lastPressedDashFrame = 0;
 		lastPressedUpFrame = 0;
+		lastAttemptLeftIBFrame = -30;
+		lastAttemptRightIBFrame = -30;
+		specialBreakFramesRemaining = 0;
+		wasOTGHit = false;
+		ColorSprite();
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{
@@ -528,6 +537,8 @@ public class Player : Node2D
 		pState.hasBeenSpiked = hasBeenSpiked;
 		pState.meterGainCooldownRemaining = meterGainCooldownRemaining;
 		pState.hasHurtboxActive = hasHurtboxActive;
+		pState.lastAttemptLeftIBFrame = lastAttemptLeftIBFrame;
+		pState.lastAttemptRightIBFrame = lastAttemptRightIBFrame;
 		pState.safety = 3;
 		
 		return pState;
@@ -615,6 +626,8 @@ public class Player : Node2D
 		backdashCooldownRemaining = pState.backdashCooldownRemaining;
 		meterGainCooldownRemaining = pState.meterGainCooldownRemaining;
 		hasBeenLaunched = pState.hasBeenLaunched;
+		lastAttemptLeftIBFrame = pState.lastAttemptLeftIBFrame;
+		lastAttemptRightIBFrame = pState.lastAttemptRightIBFrame;
 		Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 	}
 
@@ -746,6 +759,8 @@ public class Player : Node2D
 			if ((inputs & 4) != 0 && (lastFrameInputs & 4) == 0)
 			{
 				unhandledInputs.Add(Globals.RIGHTPRESS);
+				if (playerState.owner.lastAttemptRightIBFrame < Globals.frame - 30)
+					playerState.owner.lastAttemptRightIBFrame = Globals.frame;
 			}
 			else if ((inputs & 4) == 0 && (lastFrameInputs & 4) != 0)
 			{
@@ -755,6 +770,8 @@ public class Player : Node2D
 			if ((inputs & 8) != 0 && (lastFrameInputs & 8) == 0)
 			{
 				unhandledInputs.Add(Globals.LEFTPRESS);
+				if (playerState.owner.lastAttemptLeftIBFrame < Globals.frame - 30)
+					playerState.owner.lastAttemptLeftIBFrame = Globals.frame;
 			}
 			else if ((inputs & 8) == 0 && (lastFrameInputs & 8) != 0)
 			{
@@ -1466,17 +1483,8 @@ public class Player : Node2D
 	}
 
 	/// <summary>
-	/// Receive a hit, but do not calculate the results yet
+	/// Receive a hit, but do not calculate the results yet. See CalculateHit() for that.
 	/// </summary>
-	/// <param name="rightAttack"></param>
-	/// <param name="dmg"></param>
-	/// <param name="blockStun"></param>
-	/// <param name="hitStun"></param>
-	/// <param name="height"></param>
-	/// <param name="hitPush"></param>
-	/// <param name="launch"></param>
-	/// <param name="knockdown"></param>
-	/// <param name="prorationLevel"></param>
 	public void ReceiveHit(Globals.AttackDetails hitDetails, Globals.AttackDetails chDetails) 
 	{
 		receivedHit = hitDetails;
@@ -1504,7 +1512,7 @@ public class Player : Node2D
 				counterStopFrames = 2;
 			
 		}
-	velocity = Vector2.Zero;
+		velocity = Vector2.Zero;
 		wasHitThisFrame = true;
 	}
 
@@ -1533,7 +1541,9 @@ public class Player : Node2D
 
 
 		// I separate this into two pieces so that the next entered state can handle stun and damage
-		currentState.ReceiveHit(details);
+		
+		currentState.ReceiveHit(details);  // HERE the state will be likely changed
+		details.hitStun = Math.Min(details.hitStun, currentState.maxStun);
 		currentState.ReceiveStunDamage(details);
 		((HitState) currentState).PlayHitSound(details.hitSound);
 		if (!details.projectile)
@@ -1783,6 +1793,8 @@ public class Player : Node2D
 			spriteAnim.Play(FireAnimString);
 		else if (name == PurpleGfxString)
 			spriteAnim.Play(PurpleAnimString);
+		else if (name == "IB")
+			spriteAnim.Play("ib");
 	}
 
 	public void GFXEvent(string name, Vector2 pos)

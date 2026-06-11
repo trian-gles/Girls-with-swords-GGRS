@@ -51,6 +51,7 @@ public abstract class State : Node
 
 	public int stunRemaining 
 	{ get; set; }
+	public virtual int maxStun { get { return int.MaxValue; } }
 
 	public virtual bool wasHit
 	{ get { return false; } }
@@ -682,6 +683,16 @@ public abstract class State : Node
 		}
 	}
 
+	protected bool CheckRightIB(Globals.AttackDetails details)
+	{
+		return details.dir == BaseAttack.ATTACKDIR.RIGHT && owner.lastAttemptRightIBFrame > Globals.frame - 8;
+	}
+
+	protected bool CheckLeftIB(Globals.AttackDetails details)
+	{
+		return details.dir == BaseAttack.ATTACKDIR.LEFT && owner.lastAttemptLeftIBFrame > Globals.frame - 8;
+	}
+
 	/// <summary>
 	/// Called if the other player is found in this hurtbox
 	/// </summary>
@@ -741,10 +752,9 @@ public abstract class State : Node
 		}
 		else if (!airState && knockdown)
 		{
-			owner.ChangeState(HitStunString);
-
+			owner.ChangeState(StaggerString);
 		}
-		else if (!airState && effect == BaseAttack.EXTRAEFFECT.STAGGER)
+		else if (!airState && (effect == BaseAttack.EXTRAEFFECT.STAGGER || effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE))
 		{
 			owner.ChangeState(StaggerString);
 
@@ -981,9 +991,9 @@ public abstract class State : Node
 		owner.Prorate(hitProration);
 	}
 
-	public virtual void receiveStun(int hitStun, int blockStun)
+	public virtual bool IsAirInvuln()
 	{
-		stunRemaining = hitStun;
+		return false;
 	}
 
 

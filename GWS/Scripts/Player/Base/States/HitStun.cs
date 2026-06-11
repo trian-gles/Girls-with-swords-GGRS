@@ -5,6 +5,8 @@ public class HitStun : HitState
 {
 	private const string BloodGfxString = "Blood";
 	private const string IdleString = "Idle";
+
+	public override int maxStun { get { return 20; } }
 	public override void _Ready()
 	{
 		base._Ready();

@@ -16,6 +16,7 @@ public class Float : HitStun
 	private const string RecoveryString = "Recovery";
 	private const string BurstString = "Burst";
 	private char[] burstKeys = new[] { 'p', 'k', 'a' };
+	public override int maxStun { get { return int.MaxValue; } }
 	public override void _Ready()
 	{
 		base._Ready();
@@ -158,7 +159,7 @@ public class Float : HitStun
 
     public override void ReceiveHit(Globals.AttackDetails details)
     {
-		if (stunRemaining <= 0)
+		if (stunRemaining == 0)
 			Globals.EmitSignal(Globals.PlayerSignal.MissedTech, owner.Name);
         base.ReceiveHit(details);
     }

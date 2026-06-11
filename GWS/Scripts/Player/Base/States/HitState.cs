@@ -18,7 +18,7 @@ public class HitState : State
 
     public override bool DelayInputs()
 	{
-		return frameCount > stunRemaining - 3;
+		return frameCount > stunRemaining - 2;
 	}
 
 	public override void Exit()
@@ -52,13 +52,12 @@ public class HitState : State
 	
 	protected void TryTech()
 	{
-
 		if (stunRemaining == 1 && owner.electrocuted)
 			ReceiveElectrocution();
 
 		if (stunRemaining <= 0)
 		{
-			if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+			if (owner.CheckHeldKey('p') || Globals.autoTech)
 				owner.ChangeState(TechString);
 			else if (owner.wasOTGHit)
 			{

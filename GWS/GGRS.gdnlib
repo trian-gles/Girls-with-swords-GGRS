@@ -7,8 +7,10 @@ symbol_prefix="godot_"
 
 [entry]
 
+OSX.64="res://libgodot_ggrs_wrapper.dylib"
 Windows.64="res://godot_ggrs_wrapper_windows-64_v0.5.0.dll"
 
 [dependencies]
 
+OSX.64=[  ]
 Windows.64=[ "res://godot_ggrs_wrapper_windows-64_v0.5.0.dll" ]

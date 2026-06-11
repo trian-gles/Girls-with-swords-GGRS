@@ -11,12 +11,22 @@ public class ComNorm : GroundAttack
 
 	[Export]
 	public bool commandNormalCancel = false;
+
+	[Export]
+	public bool specialCancel = true;
+
+	[Export]
+	public bool grabKara = true;
 	public override void _Ready()
 	{
 		base._Ready();
-		AddSpecials(owner.groundSpecials);
-		AddEasyGroundSpecials();
-		AddExSpecials(owner.groundExSpecials);
+		if (specialCancel)
+		{
+			AddSpecials(owner.groundSpecials);
+			AddEasyGroundSpecials();
+			AddExSpecials(owner.groundExSpecials);
+		}
+
 		if (commandNormalCancel)
 		{
 			foreach (var comNorm in owner.commandNormals)
@@ -42,8 +52,10 @@ public class ComNorm : GroundAttack
 			AddGatling(new char[] { 'b', 'p' }, "Slash");
 		}
 
-
-		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
-		AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
+		if (grabKara)
+		{
+			AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), "GrabStart");
+			AddKara(new char[] { 'k', 'p' }, () => owner.CanGrab(), "GrabStart");
+		}
 	}
 }

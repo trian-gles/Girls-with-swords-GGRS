@@ -209,24 +209,19 @@ public class ComboTrialManager : TutorialManager
 		meterExtendedComboChallenge.goals.Add(fJumpGoal);
 		meterExtendedComboChallenge.goals.Add(adGoal);
 		meterExtendedComboChallenge.goals.Add(jSlashGoal);
-		meterExtendedComboChallenge.goals.Add(jabGoal);
+		meterExtendedComboChallenge.goals.Add(sixPGoal);
 		meterExtendedComboChallenge.goals.Add(superGoal);
 		meterExtendedComboChallenge.MakeComboChallenge();
 
 		challenges.Add(meterExtendedComboChallenge);
 
-		Challenge cornerComboChallenge = new Challenge("Big metered corner combo", GameScene.ResetPos.P2CORNEREDRIGHT);
+		Challenge cornerComboChallenge = new Challenge("Corner combo extension", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerComboChallenge.goals.Add(cslashGoal);
 		cornerComboChallenge.goals.Add(gunBlazedGoal);
 		Goal runGoal = new Goal("Run", "right", "dash");
 		cornerComboChallenge.goals.Add(runGoal);
 		cornerComboChallenge.goals.Add(dashAttackGoal);
-		cornerComboChallenge.goals.Add(kickGoal);
-		cornerComboChallenge.goals.Add(sixSGoal);
-		cornerComboChallenge.goals.Add(fJumpGoal);
-		cornerComboChallenge.goals.Add(adGoal);
-		cornerComboChallenge.goals.Add(jSlashGoal);
-		cornerComboChallenge.goals.Add(superGoal);
+		cornerComboChallenge.goals.Add(cslashGoal);
 		cornerComboChallenge.MakeComboChallenge();
 		challenges.Add(cornerComboChallenge);
 
@@ -234,17 +229,18 @@ public class ComboTrialManager : TutorialManager
 		dFJumpGoal.p1StateFrame = 1;
 		dFJumpGoal.p1Tags = new HashSet<Globals.Tags> { Globals.Tags.aerial };
 		dFJumpGoal.p1State = null;
-		extendedComboChallenge.goals.Add(ckickGoal);
 		extendedComboChallenge.goals.Add(slashGoal);
 		extendedComboChallenge.goals.Add(sixSGoal);
-		extendedComboChallenge.goals.Add(fJumpGoal);
 		extendedComboChallenge.goals.Add(adGoal);
 		extendedComboChallenge.goals.Add(jSlashGoal);
 		extendedComboChallenge.goals.Add(sixPGoal);
 		extendedComboChallenge.goals.Add(fJumpGoal);
 		extendedComboChallenge.goals.Add(jKickGoal);
+		extendedComboChallenge.goals.Add(jJabGoal);
+		extendedComboChallenge.goals.Add(jKickGoal);
+		extendedComboChallenge.goals.Add(dFJumpGoal);
 		extendedComboChallenge.goals.Add(j2CGoal);
-		extendedComboChallenge.goals.Add(slashGoal);
+		extendedComboChallenge.goals.Add(jabGoal);
 		extendedComboChallenge.goals.Add(gunBlazedGoal);
 		extendedComboChallenge.goals.Add(cslashGoal);
 		extendedComboChallenge.MakeComboChallenge();
@@ -426,6 +422,12 @@ public class ComboTrialManager : TutorialManager
 			p1State = "Slash"
 		};
 
+		Goal dashAttackGoal = new Goal("Dash Attack", "right", "s")
+		{
+			p2StateFrame = 0,
+			p1State = "DashAttack"
+		};
+
 		Goal runGoal = new Goal("Run", "right", "dash");
 		runGoal.p1State = "Run";
 
@@ -448,17 +450,32 @@ public class ComboTrialManager : TutorialManager
 		airConfirm.MakeComboChallenge();
 		challenges.Add(airConfirm);
 
-		Challenge bigCornerDamage = new Challenge("Big damage");
+		Challenge snailSetup = new Challenge("Snail setup");
+		snailSetup.goals.Add(ckickGoal);
+		snailSetup.goals.Add(sixPGoal);
+		snailSetup.goals.Add(slashGoal);
+		snailSetup.goals.Add(sixCGoal);
+		snailSetup.goals.Add(phoneTossGoal);
+		snailSetup.goals.Add(runGoal);
+		snailSetup.goals.Add(dashAttackGoal);
+		snailSetup.goals.Add(kickGoal);
+		snailSetup.goals.Add(sixCHoldGoal);
+		snailSetup.goals.Add(cslashGoal);
+		snailSetup.MakeComboChallenge();
+		challenges.Add(snailSetup);
+
+		Challenge bigCornerDamage = new Challenge("Corner double setup", GameScene.ResetPos.P2CORNEREDRIGHT);
+		bigCornerDamage.goals.Add(ckickGoal);
 		bigCornerDamage.goals.Add(sixPGoal);
-		bigCornerDamage.goals.Add(sixCHoldGoal);
+		bigCornerDamage.goals.Add(slashGoal);
+		bigCornerDamage.goals.Add(sixCGoal);
 		bigCornerDamage.goals.Add(phoneTossGoal);
-		bigCornerDamage.goals.Add(walkGoal);
+		bigCornerDamage.goals.Add(dashAttackGoal);
 		bigCornerDamage.goals.Add(sixPGoal);
-		bigCornerDamage.goals.Add(sixCHoldGoal);
+		bigCornerDamage.goals.Add(sixCGoal);
 		bigCornerDamage.goals.Add(phoneTossGoal);
-		bigCornerDamage.goals.Add(sixPGoal);
-		bigCornerDamage.goals.Add(sixCHoldGoal);
-		bigCornerDamage.goals.Add(sixPGoal);
+		bigCornerDamage.goals.Add(dashAttackGoal);
+		bigCornerDamage.goals.Add(kickGoal);
 		bigCornerDamage.goals.Add(sixCHoldGoal);
 		bigCornerDamage.goals.Add(cslashGoal);
 		bigCornerDamage.MakeComboChallenge();

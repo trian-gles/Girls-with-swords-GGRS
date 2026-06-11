@@ -405,14 +405,25 @@ public class HadoukenPart : Node2D
 			}
 				
 		}
-
 		hitDetailsCopy.dir = BaseAttack.ATTACKDIR.RIGHT;
 		chHitDetailsCopy.dir = BaseAttack.ATTACKDIR.RIGHT;
-		if (!movingRight)
+		if (targetPlayer.OtherPlayerOnRight())
 		{
 			hitDetailsCopy.dir = BaseAttack.ATTACKDIR.LEFT;
 			chHitDetailsCopy.dir = BaseAttack.ATTACKDIR.LEFT;
 		}
+
+		if (!movingRight && targetPlayer.OtherPlayerOnLeft())
+		{
+			hitDetailsCopy.hitPush *= -1;
+			chHitDetailsCopy.hitPush *= -1;
+		}
+		else if (movingRight && targetPlayer.OtherPlayerOnRight())
+		{
+			hitDetailsCopy.hitPush *= -1;
+			chHitDetailsCopy.hitPush *= -1;
+		}
+		
 		hitDetailsCopy.collisionPnt = collisionPnt * 100;
 		chHitDetailsCopy.collisionPnt = collisionPnt * 100;
 

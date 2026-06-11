@@ -32,7 +32,7 @@ public class Hadouken : BaseAttack
 	{
 		base._Ready();
 		cachedHadoukens = new List<HadoukenPart>();
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 24; i++)
 		{
 			var h = hadoukenScene.Instance() as HadoukenPart;
 			cachedHadoukens.Add(h);

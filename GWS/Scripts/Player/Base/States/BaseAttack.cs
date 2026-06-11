@@ -51,9 +51,6 @@ public abstract class BaseAttack : State
 	protected int modifiedDmg = 0;
 
 	[Export]
-	protected int hitPush = 0;
-
-	[Export]
 	protected HEIGHT height = HEIGHT.MID;
 
 	[Export]
@@ -137,6 +134,11 @@ public abstract class BaseAttack : State
 
 	[Export]
 	public bool ignoreProration = false;
+
+	[Export]
+	public int antiAirFrameStart = 0;
+	[Export]
+	public int antiAirFrameEnd = 0;
 
 
 	public enum EXTRAEFFECT
@@ -297,6 +299,14 @@ public abstract class BaseAttack : State
 
 	public override void CheckHit()
 	{
+		if ( height == HEIGHT.HIGH &&owner.otherPlayer.currentState.IsAirInvuln())
+		{
+			return;
+		}
+		if (owner.otherPlayer.currentState.tags.Contains(Globals.Tags.grab))
+		{
+			return;
+		}
 		if (!hitConnect && !owner.otherPlayer.wasHitThisFrame)
 		{
 			Vector2 collisionPnt = owner.CheckHurtRect();
@@ -400,6 +410,11 @@ public abstract class BaseAttack : State
 
 
 	}
+
+    public override bool IsAirInvuln()
+    {
+        return frameCount < antiAirFrameEnd && frameCount >= antiAirFrameStart;
+    }
 
 	/// <summary>
 	/// short input buffer for links and microdashes

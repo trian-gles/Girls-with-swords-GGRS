@@ -15,6 +15,7 @@ hitGfx = 1
 speed = Vector2( 5, 0 )
 duration = 55
 totalHits = 3
+breakBetweenHits = 6
 
 [node name="AnimatedSprite" parent="." index="0"]
 animation = "GLProjectile"

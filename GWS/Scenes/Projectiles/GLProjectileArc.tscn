@@ -19,6 +19,7 @@ hitGfx = 1
 speed = Vector2( 5, 0 )
 duration = 65
 totalHits = 3
+breakBetweenHits = 7
 slowTerminalVelocity = 300
 
 [node name="AnimatedSprite" parent="." index="0"]

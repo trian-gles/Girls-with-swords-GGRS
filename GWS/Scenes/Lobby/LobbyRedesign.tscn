@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=2]
@@ -33,6 +33,7 @@
 [ext_resource path="res://Scenes/Characters/GL.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=32]
 [ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Scenes/Popups/DesyncDetected.tscn" type="PackedScene" id=34]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -246,6 +247,12 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MenuRoot"]
 anims/fade_in = SubResource( 5 )
+
+[node name="DesyncDetected" parent="MenuRoot" instance=ExtResource( 34 )]
+margin_left = -45.0
+margin_top = -53.5
+margin_right = 45.0
+margin_bottom = 53.5
 
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
@@ -551,7 +558,6 @@ focus_previous = NodePath("../ComboTrials")
 text = "Back"
 
 [node name="NetPlayMenu" type="MarginContainer" parent="MenuRoot"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 480.0
@@ -629,6 +635,9 @@ margin_right = 118.0
 margin_bottom = 11.168
 rect_scale = Vector2( 0.6, 0.6 )
 text = "Send to a friend ->"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CopyClipboard" type="Button" parent="MenuRoot/NetPlayMenu/Entries/NewMatchContainer"]
 margin_left = 185.0
@@ -657,8 +666,9 @@ script = ExtResource( 25 )
 [node name="ExistingMatchID" type="LineEdit" parent="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer"]
 margin_right = 161.0
 margin_bottom = 24.0
-focus_neighbour_bottom = NodePath("../PasteClipboard")
+focus_mode = 0
 size_flags_horizontal = 3
+editable = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -667,6 +677,8 @@ __meta__ = {
 margin_left = 165.0
 margin_right = 300.0
 margin_bottom = 24.0
+focus_neighbour_top = NodePath("../../Join")
+focus_neighbour_bottom = NodePath("../../BackButton")
 text = "Paste from clipboard"
 
 [node name="LoadFriend" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
@@ -905,11 +917,13 @@ bus = "Music"
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/NewMatch" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NewMatch" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/NewMatchID" to="LobbySounds" method="focus_entered"]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/CopyClipboard" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/NewMatchContainer/CopyClipboard" to="MenuRoot/NetPlayMenu/Entries/NewMatchContainer" method="_on_CopyClipboard_pressed"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/Join" to="." method="OnJoinNetplayMatch"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/Join" to="LobbySounds" method="play_sound" binds= [ "select" ]]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/Join" to="LobbySounds" method="focus_entered"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer/ExistingMatchID" to="LobbySounds" method="focus_entered"]
+[connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer/PasteClipboard" to="LobbySounds" method="focus_entered"]
 [connection signal="pressed" from="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer/PasteClipboard" to="MenuRoot/NetPlayMenu/Entries/ExistingMatchContainer" method="_on_PasteClipboard_pressed"]
 [connection signal="focus_exited" from="MenuRoot/NetPlayMenu/Entries/LoadFriend" to="LobbySounds" method="focus_entered"]
 [connection signal="button_down" from="MenuRoot/NetPlayMenu/Entries/HostTest" to="." method="OnHostTestButtonDown"]

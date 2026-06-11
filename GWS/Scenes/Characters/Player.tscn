@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -71,22 +71,22 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 15, 26 )
+extents = Vector2( 26, 26 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 10, 13 )
+extents = Vector2( 20, 14 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 60, 60 )
+extents = Vector2( 20, 35 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 19, 17 )
+extents = Vector2( 20, 35 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 20, 8 )
+extents = Vector2( 12, 22 )
 
 [sub_resource type="Animation" id=20]
 resource_name = "fire"
@@ -101,7 +101,23 @@ tracks/0/keys = {
 "times": PoolRealArray( -0.1, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 0.658824, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "ib"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.1, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.49, 31.12, 35.19, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=23]
@@ -223,7 +239,7 @@ scale = Vector2( 9, 9 )
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 0.00990099, 0.00990099, 1 )
+modulate = Color( 0.848515, 9.94654, 11.1554, 1 )
 material = ExtResource( 2 )
 position = Vector2( 0, -48 )
 scale = Vector2( 3, 3 )
@@ -233,6 +249,7 @@ frame = 124
 [node name="SpriteModulations" type="AnimationPlayer" parent="Sprite"]
 playback_speed = 60.0
 anims/fire = SubResource( 20 )
+anims/ib = SubResource( 26 )
 anims/init = SubResource( 23 )
 anims/purple = SubResource( 22 )
 anims/snail = SubResource( 21 )
@@ -587,6 +604,27 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 35.52
 angle_random = 0.62
 scale_amount = 3.0
+color_ramp = SubResource( 25 )
+hue_variation = -1.0
+script = ExtResource( 36 )
+
+[node name="IB" type="CPUParticles2D" parent="GFXHandler"]
+z_index = 1
+emitting = false
+amount = 80
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.73
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 33.0
+direction = Vector2( 0, -1 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angle_random = 0.62
+scale_amount = 3.0
+color = Color( 0.0235294, 1, 1, 1 )
 color_ramp = SubResource( 25 )
 hue_variation = -1.0
 script = ExtResource( 36 )

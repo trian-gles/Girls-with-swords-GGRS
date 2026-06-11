@@ -12,11 +12,12 @@ public class GGRSManager : StateManager
 	[Export]
 	private PackedScene ggrsScene;
 
+	[Signal]
+	public delegate void DesyncDetected();
+
 	int port;
 
 	private Node events;
-
-	private Popup mustUpdatePopup;
 
 	private List<string> pingMessages = new List<string>();
 	
@@ -71,6 +72,12 @@ public class GGRSManager : StateManager
 		events.Call("emit_signal", MainMenuPressedString);
 	}
 
+	private void Desync()
+	{
+		EmitSignal(nameof(DesyncDetected));
+		events.Call("emit_signal", "MainMenuPressed");
+	}
+
 
 	public void ManualConfig(string ip, bool hosting, int localPort, int remotePort, bool aiTest=false)
 	{
@@ -93,7 +100,7 @@ public class GGRSManager : StateManager
 
 
 		GGRS.Call("set_callback_node", this);
-		GGRS.Call("set_frame_delay", 2, localPlayerHandle);
+		GGRS.Call("set_frame_delay", 1, localPlayerHandle);
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
 		connected = true;
@@ -141,6 +148,9 @@ public class GGRSManager : StateManager
 		{
 			if (Globals.frame % 60 == 0)
 				GetNetStats();
+
+			//if (Globals.frame == 300)
+			//	Desync(); // testing desync popup
 			int currentGGRSFrame = (int)GGRS.Call("get_current_frame"); // should be combined in one call, also with events
 			Globals.lastConfirmedFrame = (int)GGRS.Call("get_confirmed_frame");
 
@@ -157,6 +167,11 @@ public class GGRSManager : StateManager
 				if ((string)itemArr[0] == "WaitRecommendation") // definitely shouldn't be a string
 				{
 					waitFrames = (int)itemArr[1];
+				}
+				else if ((string)itemArr[0] == "DesyncDetected") // definitely shouldn't be a string
+				{
+					Desync();
+					return;
 				}
 
 			}

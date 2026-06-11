@@ -17,6 +17,7 @@ public class LobbyRedesign : Node2D
 	Label sendToFriendLabel;
 	Label waitingForOtherPlayerLabel;
 	Popup mustUpdatePopup;
+	Popup desyncPopup;
 	private string opponentIp;
 	private int opponentPort;
 	private int localPort;
@@ -150,6 +151,7 @@ public class LobbyRedesign : Node2D
 		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
 
 		//mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
+		desyncPopup = GetNode<Popup>("MenuRoot/DesyncDetected");
 
 		// set up debug globals
 		Globals.autoTech = autoTech;
@@ -275,6 +277,7 @@ public class LobbyRedesign : Node2D
 			activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 			AddChild(activeManager);
 			ggrsManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);
+			ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
 			activeManager.Visible = true;
 			activeManager.Start();
 		}
@@ -294,6 +297,7 @@ public class LobbyRedesign : Node2D
 		bool aiTest = hosting;
 		ggrsManager.Start();
 		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, aiTest);
+		ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
 		ggrsManager.Visible = true;
 	}
 
@@ -320,6 +324,11 @@ public class LobbyRedesign : Node2D
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
 	
+	public void OnDesyncDetected()
+	{
+		desyncPopup.Visible = true;
+		desyncPopup.PopupCentered();
+	}
 	public void OnLobbyReset()
 	{
 		if (activeManager != null)

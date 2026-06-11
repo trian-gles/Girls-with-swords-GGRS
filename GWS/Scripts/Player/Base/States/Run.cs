@@ -30,8 +30,6 @@ public class Run : MoveState
 			AddGatling(new[] { dashSpecial.inputs.Get(0).A, dashSpecial.inputs.Get(0).B}, () => frameCount > 5, dashSpecial.state );
 		soundRate = 10;
 	}
-
-	private Vector2 dustEmissionVector = new Vector2();
 	public override void Enter()
 	{
 		base.Enter();
@@ -39,9 +37,6 @@ public class Run : MoveState
 		else { owner.velocity.x = owner.dashSpeed;}
 
 		owner.GainMeter(500);
-		dustEmissionVector.x = owner.internalPos.x;
-		dustEmissionVector.y = owner.GetCollisionRect().End.y;
-		Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, !owner.facingRight);
 
 		if (owner.CheckHeldKey('8'))
 		{

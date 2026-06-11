@@ -22,6 +22,16 @@ public class PreRun : MoveState
 		AddNormals();
 	}
 
+	public override void Enter()
+	{
+		base.Enter();
+		Vector2 dustEmissionVector = new Vector2();
+		int mod = owner.facingRight ? -1000 : 1000;
+		dustEmissionVector.x = owner.internalPos.x + mod;
+		dustEmissionVector.y = owner.GetCollisionRect().End.y;
+		Globals.EmitPlayerFXEmitted(dustEmissionVector, "dust", owner.facingRight);
+	}
+
 
 	public override void FrameAdvance()
 	{

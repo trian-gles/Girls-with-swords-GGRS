@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/GWS-Block-4.ogg-2805adff7ba2ecd4f2f1d69dd7cd9910.oggstr"
+
+[deps]
+
+source_file="res://Sounds/GWS-Block-4.ogg"
+dest_files=[ "res://.import/GWS-Block-4.ogg-2805adff7ba2ecd4f2f1d69dd7cd9910.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

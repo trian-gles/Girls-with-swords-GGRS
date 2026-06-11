@@ -115,20 +115,12 @@ public class Shield : HitState
 		base.ReceiveHit(details);
 	}
 
-
-	public override void receiveStun(int hitStun, int blockStun)
-	{
-
-		stunRemaining = blockStun + 3;
-		owner.ForceEvent(EventScheduler.EventType.AUDIO, BlockString); // this will be inherited by crouchblock
-	}
-
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		owner.GFXEvent(LightString, details.collisionPnt / 100);
 		if (!owner.TrySpendMeter(300)) owner.EmptyMeter();
 
-		stunRemaining = details.blockStun;
+		stunRemaining = details.blockStun + 2;
 	}
 
 	public override bool IsGrabbable()
@@ -159,4 +151,9 @@ public class Shield : HitState
         base.Land();
 		owner.velocity.x = 0;
     }
+
+	public override void PlayHitSound(string hitSound)
+	{
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Shield");
+	}
 }

@@ -39,7 +39,9 @@ public class CharacterAudio : Node
 	public override void _Ready()
 	{
 		AddSound("HitStun", LoadAudio("res://Sounds/hit.ogg"), 0);
-		AddSound("Block", LoadAudio("res://Sounds/block.ogg"));
+		AddSound("Block", LoadAudio("res://Sounds/GWS-Block-3.ogg"));
+		AddSound("IB", LoadAudio("res://Sounds/GWS-Block-5.ogg"));
+		AddSound("Shield", LoadAudio("res://Sounds/GWS-Block-2.ogg"), 1);
 		AddSound("Knockdown", LoadAudio("res://Sounds/knockdown.ogg"));
 		AddSound("Jump", LoadAudio("res://Sounds/jump.ogg"));
 		AddSound("MovingJump", LoadAudio("res://Sounds/jump.ogg"));

@@ -37,7 +37,6 @@ public class Block : HitState
 		{
 			EnterShieldState();
         }
-		owner.ForceEvent(EventScheduler.EventType.AUDIO, blockString); // this will be inherited by crouchblock
 		owner.GainMeter(300);
 	}
 
@@ -80,25 +79,54 @@ public class Block : HitState
 		return GFXStates.NONE;
 	
 	}
-
-	public override void receiveStun(int hitStun, int blockStun)
-	{
-		stunRemaining = blockStun;
-	}
 	
 	public override void ReceiveStunDamage(Globals.AttackDetails details)
 	{
 		owner.GFXEvent(lightString, details.collisionPnt / 100);
 		stunRemaining = details.blockStun;
+		bool isIB = false;
+		if (CheckRightIB(details))
+		{
+			isIB = true;
+			owner.lastAttemptRightIBFrame = -30;
+		}
+		else if (CheckLeftIB(details))
+		{
+			isIB = true;
+			owner.lastAttemptLeftIBFrame = -30;
+		}
+
+		if (isIB)
+		{
+			DoIB();
+		}
+			
+		
 		if (details.chipDmg)
 			owner.DeductHealth(details.dmg);
+	}
+
+	protected virtual void DoIB()
+	{
+		stunRemaining -= 3;
+		if (!owner.grounded)
+		{
+			stunRemaining -= 3;
+			owner.velocity.y = 400;
+		}
+			
+		owner.hitPushRemaining /= 2;
+		owner.otherPlayer.hitPushRemaining /= 2;
+		owner.GainMeter(300);
+		owner.GFXEvent("IB");
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, "IB");
 	}
 
 	protected override void ReceiveHighBlock(Globals.AttackDetails details, bool leftBlock, bool rightBlock, bool anyBlock)
     {
         if (owner.CheckOverrideBlock())
 			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
-		else if (!owner.CheckHeldKey('2'))
+		else if (!owner.CheckHeldKey('2') || !owner.grounded)
 		{
 			EnterBlockState(blockString, details.collisionPnt, details.hitStop);
 		}
@@ -127,7 +155,7 @@ public class Block : HitState
 
 	public override void PlayHitSound(string hitSound)
 	{
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "Block", Name);
+		owner.ForceEvent(EventScheduler.EventType.AUDIO, "Block");
 	}
 }
 

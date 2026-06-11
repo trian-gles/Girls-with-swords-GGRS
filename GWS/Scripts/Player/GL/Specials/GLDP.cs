@@ -22,16 +22,22 @@ public class GLDP : LaunchAttack
     public override void Enter()
     {
         base.Enter();
+        owner.velocity = Vector2.Zero;
         owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Fire1String, Name);
     }
 
     public override void FrameAdvance()
     {
         base.FrameAdvance();
+        if (frameCount == knockdownFrame)
+            owner.velocity.y = 0;
+        
         if (frameCount == knockdownFrame && hitConnect && owner.otherPlayer.currentState.tags.Contains(Globals.Tags.hitstate))
         {
             owner.ForceEvent(EventScheduler.EventType.AUDIO, hitSound);
+            
             owner.otherPlayer.ReceiveHit(finalAttack, finalAttack);
+            
         }
     }
 }

@@ -75,6 +75,7 @@ public class HL : Player
 		internalPos = hatCoors * 100;
 		Position = hatCoors;
 		hatted = true;
+		frontSprite.Visible = true;
 	}
 
 	public override void FrameAdvance()

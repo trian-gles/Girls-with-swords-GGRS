@@ -30,24 +30,29 @@ public abstract class AirAttack : BaseAttack
 			owner.landingRecoveryFramesRemaining = landingRecoveryFrames;
 	}
 
+	protected bool CheckDoubleJumpConditions()
+    {
+        return owner.canDoubleJump && owner.internalPos.y < Globals.MAXDOUBLEJUMPDEPTH;
+    }
 	protected override void AddJumpCancel()
 	{
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && owner.canDoubleJump, DoubleJumpString, () =>
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('6') && CheckDoubleJumpConditions(), DoubleJumpString, () =>
 		{
 			owner.velocity.x = owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 			owner.hasDoubleOrSuperJumped = true;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && owner.canDoubleJump, DoubleJumpString, () =>
+		AddGatling(new char[] { '8', 'p' }, () => owner.CheckHeldKey('4') && CheckDoubleJumpConditions(), DoubleJumpString, () =>
 		{
 			owner.velocity.x = -owner.speed;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 			owner.hasDoubleOrSuperJumped = true;
 		});
-		AddGatling(new char[] { '8', 'p' }, () => owner.canDoubleJump, DoubleJumpString, () =>
+		AddGatling(new char[] { '8', 'p' }, () => CheckDoubleJumpConditions(), DoubleJumpString, () =>
 		{
+			owner.velocity.x = 0;
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 			owner.hasDoubleOrSuperJumped = true;

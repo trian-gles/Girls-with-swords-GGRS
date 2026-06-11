@@ -306,7 +306,8 @@ public class Globals : Node
 	public const int leftWall = 1500;
 	public const int floor = 22000;
 
-	public const int MAXAIRDASHDEPTH = 21200;
+	public const int MAXAIRDASHDEPTH = 19200;
+	public const int MAXDOUBLEJUMPDEPTH = 22000;
 
 	public const int MAXJPDEPTH = 18000;
 	public enum Inputs

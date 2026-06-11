@@ -50,11 +50,6 @@ public class Grabbed : State
     /// <summary>
     /// This is a little bit weird that I'm using ReceiveHit here!  This essentially damages the defender and triggers the release
     /// </summary>
-    /// <param name="rightAttack"></param>
-    /// <param name="height"></param>
-    /// <param name="hitPush"></param>
-    /// <param name="launch"></param>
-    /// <param name="knockdown"></param>
     public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		switch (details.dir)
@@ -74,7 +69,13 @@ public class Grabbed : State
         owner.ComboUp();
         owner.grounded = false;
 
-
-        owner.ChangeState(AirKnockdownString);
+        if (details.effect == BaseAttack.EXTRAEFFECT.NONE)
+            owner.ChangeState(AirKnockdownString);
+        else if (details.effect == BaseAttack.EXTRAEFFECT.GROUNDBOUNCE)
+        {
+            owner.ChangeState("GroundBounce");
+            owner.currentState.stunRemaining = 100;
+        }
+            
 	}
 }

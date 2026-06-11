@@ -16,6 +16,9 @@ public class AirGrab : State
 	public int releaseFrame = 10;
 
 	[Export]
+	public int applyGravityFrame = -1;
+
+	[Export]
 	public Vector2 launch = new Vector2();
 
 	[Export]
@@ -26,6 +29,9 @@ public class AirGrab : State
 
 	[Export]
 	public int prorationLevel = 2;
+
+	[Export]
+	public BaseAttack.EXTRAEFFECT extraEffect = BaseAttack.EXTRAEFFECT.NONE;
 
 	public bool released = false;
 
@@ -47,6 +53,8 @@ public class AirGrab : State
 		hitDetails.opponentLaunch = launch;
 		hitDetails.hitStun = hitStun;
 		chDetails.hitStun = hitStun;
+		hitDetails.effect = extraEffect;
+		chDetails.effect = extraEffect;
 	}
 
 	public override void Load(int[] loadData)
@@ -99,6 +107,11 @@ public class AirGrab : State
 	{
 		base.FrameAdvance();
 
+		if (applyGravityFrame >= 0 && frameCount >= applyGravityFrame)
+		{
+			ApplyGravity();
+		}
+
 		if (frameCount < releaseFrame)
 		{
 			Vector2 relGrabPosition = owner.grabPos.Position * 100;
@@ -130,7 +143,6 @@ public class AirGrab : State
 			{
 				direction = BaseAttack.ATTACKDIR.LEFT;
 			}
-
 			hitDetails.dir = direction;
 			chDetails.dir = direction;
 			hitDetails.opponentLaunch = actualLaunch;
@@ -140,10 +152,10 @@ public class AirGrab : State
 		}
 	}
 
-	public override void ReceiveHit(Globals.AttackDetails details)
-	{
-		// make sure that a grab can't trade with a hit
-	}
+	// public override void ReceiveHit(Globals.AttackDetails details)
+	// {
+	// 	// make sure that a grab can't trade with a hit
+	// }
 
     public override void Exit()
     {

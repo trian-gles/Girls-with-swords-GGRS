@@ -8,7 +8,7 @@ public class BlackHolePlace : Hadouken
 		base.Enter();
 		owner.velocity.y = 0;
 		
-		owner.landingRecoveryFramesRemaining = 7;
+		owner.landingRecoveryFramesRemaining = 5;
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
 	}
 

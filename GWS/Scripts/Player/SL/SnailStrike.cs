@@ -27,6 +27,9 @@ class SnailStrike : Hadouken
 			int strikeCycle = (frameCount - releaseFrame) % gapBetweenStrikes;
 			if (strikeCycle == 0)
 			{
+				owner.ScheduleEvent(EventScheduler.EventType.AUDIO, SnailStrikeAudioString, Name);
+				EmitHadouken();
+				EmitHadouken();
 				EmitHadouken();
 			}
 		}
@@ -34,7 +37,7 @@ class SnailStrike : Hadouken
 
 	protected override HadoukenPart EmitHadouken()
 	{
-		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, SnailStrikeAudioString, Name);
+
 		int strikeNum = (frameCount - releaseFrame) / gapBetweenStrikes;
 		HadoukenPart h = null;
 		foreach (HadoukenPart cachedPart in cachedHadoukens)

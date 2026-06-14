@@ -4930,7 +4930,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id=34]
-length = 24.0
+length = 30.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -6420,7 +6420,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 11, 13, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 10, 18 ), Vector2( 36, 18 ), Vector2( 34, 16 ) ]
+"values": [ Vector2( 10, 18 ), Vector2( 23, 18 ), Vector2( 34, 16 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("HurtBoxes/HurtB1:position")
@@ -6432,7 +6432,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 11, 13, 17 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 17, 1 ), Vector2( 24, 20 ), Vector2( 15, 18 ) ]
+"values": [ Vector2( 17, 1 ), Vector2( 37, 20 ), Vector2( 15, 18 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -6441,10 +6441,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 11, 13, 17 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 11, 17 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false, true, true ]
+"values": [ true, false, true ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("HurtBoxes/HurtB2:position")
@@ -6453,10 +6453,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 11, 18 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 11, 13, 18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -25, -15 ), Vector2( -25, -15 ) ]
+"values": [ Vector2( -25, -15 ), Vector2( 17, -1 ), Vector2( -25, -15 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("HurtBoxes/HurtB2:shape:extents")
@@ -8759,7 +8759,6 @@ position = Vector2( 21, -16 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
-disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 23, 1 )
@@ -8775,7 +8774,6 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 131
 
 [node name="SpriteModulations" parent="Sprite" index="0"]
 anims/IB = SubResource( 64 )

@@ -21,6 +21,9 @@ public class BaseManager : Node2D
 	protected bool playbackInputs = false;
 	protected int inputHead = 0;
 
+	protected Queue<int> p1InputDelay = new Queue<int>(new[] { 0, 0});
+	protected Queue<int> p2InputDelay = new Queue<int>(new[] { 0, 0});
+
 	/// <summary>
 	/// Secondary buffer
 	/// </summary>
@@ -373,8 +376,29 @@ public class BaseManager : Node2D
 			}
 		}
 		
+		return DelayInputs(inputs, player);
+	}
 
-		return inputs;
+/// <summary>
+/// Delays inputs since netplay has an inherent 2 frame delay
+/// </summary>
+/// <param name="input"></param>
+/// <param name="player"></param>
+/// <returns></returns>
+	protected virtual int DelayInputs(int input, int player)
+	{
+		int delayedInput;
+		if (player == 0)
+		{
+			delayedInput = p1InputDelay.Dequeue();
+			p1InputDelay.Enqueue(input);
+		}
+		else
+		{
+			delayedInput = p2InputDelay.Dequeue();
+			p2InputDelay.Enqueue(input);
+		}
+		return delayedInput;
 	}
 
 	protected void Popup(string text)

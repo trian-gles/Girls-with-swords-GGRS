@@ -134,6 +134,11 @@ public class GGRSManager : StateManager
 		
 	}
 
+	protected override int DelayInputs(int input, int player)
+	{
+		return input; // GGRS has inherent delay.  We don't add additional delay.
+	}
+
 	// ----------------
 	// Frame handling
 	// ----------------

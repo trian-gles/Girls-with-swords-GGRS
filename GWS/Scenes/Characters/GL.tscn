@@ -2871,7 +2871,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=21]
-length = 31.0
+length = 38.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame_coords")
@@ -2880,10 +2880,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 8, 25 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 8, 11, 34 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 174, 0 ), Vector2( 177, 0 ), Vector2( 185, 0 ) ]
+"values": [ Vector2( 174, 0 ), Vector2( 177, 0 ), Vector2( 178, 0 ), Vector2( 185, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:position")
@@ -2940,7 +2940,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 5, 13 ),
+"times": PoolRealArray( 0, 5, 18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -8636,7 +8636,7 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -2, -8 )
+position = Vector2( -1, 10 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -8660,16 +8660,16 @@ position = Vector2( 35, -16 )
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( -1.5, 0 )
 hframes = 255
 vframes = 2
-frame = 86
+frame = 180
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 58 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( -1.5, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -8677,10 +8677,10 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 0.5, 0 )
+offset = Vector2( -1.5, 0 )
 hframes = 255
 vframes = 2
-frame = 86
+frame = 180
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )

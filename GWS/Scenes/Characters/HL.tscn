@@ -3555,7 +3555,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 4, 7 ),
+"times": PoolRealArray( 0, 5, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -10287,11 +10287,11 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
 shape = SubResource( 77 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 14, 14 )
@@ -10300,7 +10300,7 @@ position = Vector2( 14, 14 )
 position = Vector2( 42, 30 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 40, 23 )
+position = Vector2( 20, -4 )
 disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
@@ -10313,14 +10313,13 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 253
+frame = 41
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
-offset = Vector2( 3, 0 )
 hframes = 255
 vframes = 2
-frame = 253
+frame = 41
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -10406,7 +10405,6 @@ turnAroundOnEnter = true
 spike = true
 
 [node name="JumpB" parent="StateTree" index="35"]
-hitPush = 3500
 jumpCancelable = true
 gatlingWinEnd = 14
 
@@ -10467,7 +10465,6 @@ modifiedHitStun = 35
 modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 100, -500 )
 chLaunch = Vector2( 100, -500 )
-hitPush = 500
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 
@@ -10479,7 +10476,6 @@ opponentLaunch = Vector2( 300, -350 )
 chLaunch = Vector2( 50, -350 )
 slowTerminalVelocity = 440
 modifiedHitPush = 100
-hitPush = 100
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 moveSpeed = 200

@@ -7,7 +7,7 @@ public class HojogiriChargedSlash : MovingAttack
 	public override void _Ready()
 	{
 		base._Ready();
-		AddJumpCancel();
+		//AddJumpCancel();
         AddCommandNormals(owner.commandNormals);
         AddGatling(new char[] { 'k', 'p' }, () => owner.CheckHeldKey('2'), "CrouchB");
 		AddGatling(new char[] { 's', 'p' }, () => owner.CheckHeldKey('2'), "CrouchC");

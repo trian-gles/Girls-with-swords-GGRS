@@ -544,7 +544,7 @@ public class HadoukenPart : Node2D
 	public override void _Draw()
 	{
 		
-		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+		if (false)//Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			Rect2 myRect = GetRect(collisionShape2D, false);
 			var tinyExtents = myRect.Size / 100;

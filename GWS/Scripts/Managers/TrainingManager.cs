@@ -81,7 +81,7 @@ public class TrainingManager : BaseManager
 				p2Inputs = otherInputs;
 			}
 
-			gameScene.DisplayInputs(p1Inputs, p2Inputs);
+			//gameScene.DisplayInputs(p1Inputs, p2Inputs);
 		}
 
 
@@ -119,7 +119,7 @@ public class TrainingManager : BaseManager
 		base.OnCharactersSelected(playerOne, playerTwo, colorOne, colorTwo, bkgIndex);
 		OnNewGame();
 		gameScene.ignoreTime = true;
-		gameScene.SetDebugVisibility(true);
+		//gameScene.SetDebugVisibility(true);
 		gameScene.ConnectTrainingSignals(this);
 		gameScene.SetTrainingControlledPlayer(!flippedPlayers, flippedPlayers);
 		gameScene.ResetRound();

@@ -1552,8 +1552,8 @@ public class Player : Node2D
 
 		wasHitThisFrame = false;
 
-		if (Globals.mode == Globals.Mode.TRAINING)
-			otherPlayer.DisplayPlusFrames(currentState.stunRemaining);
+		//if (Globals.mode == Globals.Mode.TRAINING)
+			//otherPlayer.DisplayPlusFrames(currentState.stunRemaining);
 		return true;
 	}
 	
@@ -1948,7 +1948,7 @@ public class Player : Node2D
 	public override void _Draw()
 	{
 
-		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+		if (false)//Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			GetRects(hitBoxes, tempHitboxArray);
 			GetRects(hurtBoxes, tempHurtboxArray);

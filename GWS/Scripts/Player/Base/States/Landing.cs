@@ -36,10 +36,10 @@ public class Landing : State
 			owner.ChangeState(IdleString);
 	}
 
-	public override void ReceiveHit(Globals.AttackDetails details)
-	{
-		ReceiveHitNoBlock(details);
-	}
+	//public override void ReceiveHit(Globals.AttackDetails details)
+	//{
+	//	ReceiveHitNoBlock(details);
+	//}
 
 	public override void Exit()
 	{

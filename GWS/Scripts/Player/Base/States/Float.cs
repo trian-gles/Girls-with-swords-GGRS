@@ -65,7 +65,7 @@ public class Float : HitStun
 		if (effect == BaseAttack.EXTRAEFFECT.LAUNCHER)
 		{
 			Globals.EmitPlayerGenericGfx(LaunchString, owner.otherPlayer.Name);
-			if (owner.hasBeenLaunched)
+			if (owner.hasBeenLaunched || !owner.grounded)
 			{
 				owner.velocity.y = owner.velocity.y + (float)Math.Floor(owner.velocity.y / 2);
 			}

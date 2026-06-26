@@ -8728,6 +8728,7 @@ script = ExtResource( 9 )
 isSpecial = true
 level = 3
 chip = true
+modifiedProration = -3
 modifiedHitStun = 33
 modifiedCounterHitStun = 55
 opponentLaunch = Vector2( 500, -1050 )

@@ -115,13 +115,10 @@ public class ComboTrialManager : TutorialManager
 
 		Challenge cornerThrowCombo = new Challenge("Corner throw combo", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerThrowCombo.goals.Add(grabGoal);
-		cornerThrowCombo.goals.Add(sixKGoal);
-		cornerThrowCombo.goals.Add(dpGoal);
-		cornerThrowCombo.goals.Add(sixPGoal);
-		cornerThrowCombo.goals.Add(fJumpGoal);
-		cornerThrowCombo.goals.Add(adGoal);
-		cornerThrowCombo.goals.Add(jJabGoal);
-		cornerThrowCombo.goals.Add(dpGoal);
+		cornerThrowCombo.goals.Add(kickGoal);
+		cornerThrowCombo.goals.Add(sixSGoal);
+		cornerThrowCombo.goals.Add(hojogiriGoal);
+		cornerThrowCombo.goals.Add(cjabGoal);
 		cornerThrowCombo.goals.Add(kickGoal);
 		cornerThrowCombo.goals.Add(sixSGoal);
 		cornerThrowCombo.goals.Add(hojogiriGoal);
@@ -130,7 +127,7 @@ public class ComboTrialManager : TutorialManager
 		challenges.Add(cornerThrowCombo);
 		
 
-		Challenge cornerPunish = new Challenge("Corner punish", GameScene.ResetPos.P2CORNEREDRIGHT);
+		Challenge cornerPunish = new Challenge("Big corner punish", GameScene.ResetPos.P2CORNEREDRIGHT);
 
 		cornerPunish.goals.Add(sixPGoal);
 		cornerPunish.goals.Add(sixSGoal);
@@ -351,13 +348,10 @@ public class ComboTrialManager : TutorialManager
 			p1State = "TeleportDP"
 		};
 
-		Challenge cornerSweep = new Challenge("Hard Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
+		Challenge cornerSweep = new Challenge("Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerSweep.goals.Add(cslashGoal);
 		cornerSweep.goals.Add(jrGoal);
 		cornerSweep.goals.Add(jabGoal);
-		cornerSweep.goals.Add(sixPGoal);
-		cornerSweep.goals.Add(hatUpGoal);
-		cornerSweep.goals.Add(teleportDPGoal);
 		cornerSweep.goals.Add(sixPGoal);
 		cornerSweep.goals.Add(sJumpGoal);
 		cornerSweep.goals.Add(jSlashGoal);
@@ -367,6 +361,21 @@ public class ComboTrialManager : TutorialManager
 		cornerSweep.goals.Add(cslashGoal);
 		cornerSweep.MakeComboChallenge();
 		challenges.Add(cornerSweep);
+
+		Challenge hugePunish = new Challenge("Huge Punish");
+		hugePunish.goals.Add(slashGoal);
+		hugePunish.goals.Add(sixPGoal);
+		hugePunish.goals.Add(hatUpGoal);
+		hugePunish.goals.Add(teleportDPGoal);
+		hugePunish.goals.Add(sixPGoal);
+		hugePunish.goals.Add(sJumpGoal);
+		hugePunish.goals.Add(jSlashGoal);
+		hugePunish.goals.Add(j2sGoal);
+		hugePunish.goals.Add(slashGoal);
+		hugePunish.goals.Add(sixCGoal);
+		hugePunish.goals.Add(cslashGoal);
+		hugePunish.MakeComboChallenge();
+		challenges.Add(hugePunish);
 	}
 
 	protected void AddSLChallenges()

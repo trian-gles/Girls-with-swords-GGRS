@@ -9,10 +9,9 @@ extents = Vector2( 12, 12 )
 
 [node name="GLProjectileArc" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-level = 1
 startup = 7
-modifiedHitStun = 25
-modifiedCounterHitStun = 27
+modifiedHitStun = 24
+modifiedCounterHitStun = 26
 opponentLaunch = Vector2( 400, -650 )
 launchOnGrounded = false
 chEffect = 3

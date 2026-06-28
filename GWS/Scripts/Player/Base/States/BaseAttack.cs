@@ -139,6 +139,8 @@ public abstract class BaseAttack : State
 	public int antiAirFrameStart = 0;
 	[Export]
 	public int antiAirFrameEnd = 0;
+	[Export]
+	public int xAdvance = 0;
 
 
 	public enum EXTRAEFFECT
@@ -264,6 +266,18 @@ public abstract class BaseAttack : State
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, OhshitString, Name);
 		if (turnAroundOnEnter)
 			owner.CheckTurnAround();
+
+		if (xAdvance != 0)
+		{
+			if (owner.facingRight)
+			{
+				owner.ChangeIntPositionRel(xAdvance, 0);
+			}
+			else
+			{
+				owner.ChangeIntPositionRel(-xAdvance, 0);
+			}
+		}
 	}
 
 	/// <summary>

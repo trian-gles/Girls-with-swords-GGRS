@@ -1052,6 +1052,7 @@ wait_time = 0.5
 script = ExtResource( 13 )
 
 [node name="Stages" type="Node2D" parent="MainGFX"]
+position = Vector2( 1, 0 )
 script = ExtResource( 7 )
 
 [node name="BkgMusic" type="AudioStreamPlayer" parent="."]

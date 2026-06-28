@@ -10287,11 +10287,11 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 position = Vector2( -2, 0 )
-disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
 shape = SubResource( 77 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 14, 14 )
@@ -10300,8 +10300,7 @@ position = Vector2( 14, 14 )
 position = Vector2( 42, 30 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 20, -4 )
-disabled = false
+position = Vector2( 51, 21 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 22, 5 )
@@ -10313,13 +10312,13 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 41
+frame = 234
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
 hframes = 255
 vframes = 2
-frame = 41
+frame = 234
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -10379,6 +10378,7 @@ height = 0
 jumpCancelable = true
 gatlingWinEnd = 12
 selfGatlingInp = " k"
+xAdvance = 200
 
 [node name="Slash" parent="StateTree" index="32"]
 hitGfx = 4
@@ -10546,6 +10546,7 @@ launchOnGrounded = false
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 grabInvulnFrames = 14
+xAdvance = 300
 sweepCancel = true
 moveSpeed = 200
 stopFrame = 10
@@ -10586,6 +10587,7 @@ launchOnGrounded = false
 whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 superKaraButton = "a"
+xAdvance = 400
 sweepCancel = true
 
 [node name="DashAttack" type="Node" parent="StateTree" index="62"]

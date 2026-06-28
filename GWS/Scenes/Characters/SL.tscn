@@ -10098,6 +10098,7 @@ whiffGatlingStart = 12
 [node name="Kick" parent="StateTree" index="40"]
 jumpCancelable = true
 gatlingWinEnd = 12
+xAdvance = 200
 
 [node name="Slash" parent="StateTree" index="41"]
 gatlingWinEnd = 26

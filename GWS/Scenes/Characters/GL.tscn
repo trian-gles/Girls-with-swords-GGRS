@@ -8033,7 +8033,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 56, -8 ) ]
+"values": [ Vector2( 53, -8 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Sprite:offset")
@@ -8045,7 +8045,7 @@ tracks/12/keys = {
 "times": PoolRealArray( 0, 11, 25, 36 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0 ), Vector2( 8, 0 ), Vector2( 8, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0.5, 0 ), Vector2( 6, 0 ), Vector2( 6, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/13/type = "value"
 tracks/13/path = NodePath("HitBoxes/HitB2:shape:extents")
@@ -8093,7 +8093,7 @@ tracks/16/keys = {
 "times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 38, -38 ) ]
+"values": [ Vector2( 33, -38 ) ]
 }
 
 [sub_resource type="Animation" id=61]
@@ -8660,12 +8660,12 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( -2, -3 )
-disabled = true
+position = Vector2( 22, -2 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 27, 8 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -8673,11 +8673,12 @@ position = Vector2( 30, 29 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 15, 18 )
+position = Vector2( 53, -8 )
 disabled = false
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 22.5, 32 )
+disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 35, -16 )
@@ -8686,16 +8687,16 @@ position = Vector2( 35, -16 )
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
-offset = Vector2( 1, 0 )
+offset = Vector2( 6, 0 )
 hframes = 255
 vframes = 2
-frame = 190
+frame = 24
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 58 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 1, 0 )
+offset = Vector2( 6, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -8703,10 +8704,10 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 1, 0 )
+offset = Vector2( 6, 0 )
 hframes = 255
 vframes = 2
-frame = 190
+frame = 24
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -8769,6 +8770,7 @@ chEffect = 0
 whiffSound = "LampWhiff"
 hitSound = "LampHit"
 gatlingWinEnd = 17
+xAdvance = 300
 
 [node name="JumpA" parent="StateTree" index="33"]
 gatlingWinEnd = 10

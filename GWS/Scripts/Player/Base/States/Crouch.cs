@@ -29,7 +29,7 @@ public class Crouch : State
         base.Enter();
         owner.velocity.x = 0;
         owner.velocity.y = 0;
-
+        owner.ResetComboAndProration(); // allows chip damage to derender when crouch blocking
         if (owner.CheckFlippableHeldKey('4'))
         {
             if (owner.CheckHeldKey('p') && owner.CheckHeldKey('k'))

@@ -182,6 +182,7 @@ public class Globals : Node
 		ComboSet,
 		ComboChanged,
 		HealthChanged,
+		PreComboHealthChanged,
 		Counter,
 		Mixup,
 		CanTech,

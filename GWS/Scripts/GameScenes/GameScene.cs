@@ -24,6 +24,8 @@ public class GameScene : BaseGame
 	private HUDCombo P2Combo;
 	private TextureProgress P1Health;
 	private TextureProgress P2Health;
+	private TextureProgress P1PreComboHealth;
+	private TextureProgress P2PreComboHealth;
 	private Camera camera;
 	private GameStateObjectRedesign gsObj;
 	private Label timer;
@@ -188,6 +190,8 @@ public class GameScene : BaseGame
 		P2Combo = GetNode<HUDCombo>("HUD/P2Combo");
 		P1Health = GetNode<TextureProgress>("HUD/P1Health");
 		P2Health = GetNode<TextureProgress>("HUD/P2Health");
+		P1PreComboHealth = GetNode<TextureProgress>("HUD/P1PreComboHealth");
+		P2PreComboHealth = GetNode<TextureProgress>("HUD/P2PreComboHealth");
 		timer = GetNode<Label>("HUD/Timer");
 		centerText = GetNode<Label>("HUD/CenterText");
 		statsText = GetNode<Label>("HUD/NetStats");
@@ -226,6 +230,7 @@ public class GameScene : BaseGame
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboChanged, OnPlayerComboChange);
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.ComboSet, OnPlayerComboSet);
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthChanged, OnPlayerHealthChange);
+		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.PreComboHealthChanged, OnPlayerPreComboHealthChange);
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.HealthSet, OnPlayerHealthSet);
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.MeterChanged, OnPlayerMeterChange);
 		Globals.ConnectPlayerSingleArgSignalListener(Globals.PlayerSignal.BurstSet, OnPlayerBurstSet);
@@ -577,6 +582,18 @@ public class GameScene : BaseGame
 		else
 		{
 			P2Health.Value = health;
+		}
+	}
+
+	public void OnPlayerPreComboHealthChange(string name, int preComboHealth)
+	{
+		if (name == PlayerOneString)
+		{
+			P1PreComboHealth.Value = preComboHealth;
+		}
+		else
+		{
+			P2PreComboHealth.Value = preComboHealth;
 		}
 	}
 

@@ -120,6 +120,7 @@ public class Player : Node2D
 	
 	public int hitPushRemaining = 0; // stores the hitpush yet to be applied
 	public Vector2 internalPos; // this will be stored at 100x the actual rendered position, to allow greater resolution
+	public int preComboHealth = 1800;
 	public int health = 1800;
 	private int meter = 0;
 	public Vector2 velocity = Vector2.Zero;
@@ -190,6 +191,7 @@ public class Player : Node2D
 		public int stunRemaining;
 		public int hitPushRemaining;
 		public bool flipH;
+		public int preComboHealth;
 		public int health;
 		public int meter;
 		public int positionx;
@@ -492,6 +494,7 @@ public class Player : Node2D
 		pState.flipH = sprite.FlipH;
 		pState.hitPushRemaining = hitPushRemaining;
 		pState.health = health;
+		pState.preComboHealth = preComboHealth;
 		pState.meter = meter;
 		
 		pState.positionx = (int)internalPos.x;
@@ -583,11 +586,13 @@ public class Player : Node2D
 		hitPushRemaining = pState.hitPushRemaining;
 		canDoubleJump = pState.canDoubleJump;
 		canAirDash = pState.canAirDash;
+		SetPreComboHealth(pState.preComboHealth);
 		health = pState.health;
 		meter = pState.meter;
 		terminalVelocity = pState.terminalVelocity;
 		Globals.EmitSignal(Globals.PlayerSignal.HealthSet, Name, health);
 		Globals.EmitSignal(Globals.PlayerSignal.MeterChanged, Name, meter);
+		Globals.EmitSignal(Globals.PlayerSignal.PreComboHealthChanged, Name, preComboHealth);
 		internalPos.x = pState.positionx;
 		internalPos.y = pState.positiony;
 		lastPressedDownFrame = pState.lastPressedDownFrame;
@@ -1619,6 +1624,7 @@ public class Player : Node2D
 
 	public void ResetComboAndProration()
 	{
+		SetPreComboHealth(health);
 		combo = 0;
 		hasBeenSpiked = false;
 		proration = 24;
@@ -1656,6 +1662,16 @@ public class Player : Node2D
 		}
 		
 		Globals.EmitSignal(Globals.PlayerSignal.HealthChanged, Name, health);
+		if (chip)
+		{
+			SetPreComboHealth(health);
+		}
+	}
+
+	private void SetPreComboHealth(int newHealth)
+	{
+		preComboHealth = newHealth;
+		Globals.EmitSignal(Globals.PlayerSignal.PreComboHealthChanged, Name, preComboHealth);
 	}
 
 	public void GainMeter(int gains)
@@ -1935,6 +1951,7 @@ public class Player : Node2D
 	public void ResetHealth()
 	{
 		health = 1800;
+		SetPreComboHealth(1800);
 	}
 
 	public void DebugDisplay()

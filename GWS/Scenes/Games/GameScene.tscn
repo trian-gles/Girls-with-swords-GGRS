@@ -140,6 +140,21 @@ margin_right = 480.0
 margin_bottom = 270.0
 texture = ExtResource( 12 )
 
+[node name="P1PreComboHealth" type="TextureProgress" parent="HUD"]
+margin_left = 43.5141
+margin_top = 13.4195
+margin_right = 192.514
+margin_bottom = 53.4195
+max_value = 1800.0
+value = 1800.0
+texture_progress = ExtResource( 9 )
+tint_under = Color( 1, 1, 1, 0 )
+tint_over = Color( 1, 1, 1, 0 )
+tint_progress = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="P1Health" type="TextureProgress" parent="HUD"]
 margin_left = 43.5141
 margin_top = 13.4195
@@ -151,6 +166,21 @@ texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 0 )
 tint_over = Color( 1, 1, 1, 0 )
 tint_progress = Color( 1, 0.937255, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P2PreComboHealth" type="TextureProgress" parent="HUD"]
+margin_left = 286.975
+margin_top = 13.1587
+margin_right = 435.975
+margin_bottom = 53.1587
+max_value = 1800.0
+value = 1800.0
+texture_progress = ExtResource( 9 )
+tint_under = Color( 1, 1, 1, 0 )
+tint_over = Color( 1, 1, 1, 0 )
+tint_progress = Color( 1, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

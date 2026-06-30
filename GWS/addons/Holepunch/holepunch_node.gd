@@ -69,6 +69,7 @@ func _process(delta):
 	if peer_udp.get_available_packet_count() > 0:
 		var array_bytes = peer_udp.get_packet()
 		var packet_string = array_bytes.get_string_from_ascii()
+		print("Peer Message:")
 		
 		if not recieved_peer_greet:
 			if packet_string.begins_with(PEER_GREET):
@@ -88,6 +89,7 @@ func _process(delta):
 	if server_udp.get_available_packet_count() > 0:
 		var array_bytes = server_udp.get_packet()
 		var packet_string = array_bytes.get_string_from_ascii()
+		print("Server Message:")
 		print(packet_string)
 		
 		if packet_string.begins_with(VERSION_OUTDATED):
@@ -214,6 +216,7 @@ func start_peer_contact():
 func finalize_peers(id):
 	var buffer = PoolByteArray()
 	buffer.append_array((EXCHANGE_PEERS+str(id)).to_utf8())
+	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 
@@ -264,6 +267,8 @@ func start_traversal(id, player_name, version):
 func _try_create_session():
 	var buffer = PoolByteArray()
 	buffer.append_array((REGISTER_SESSION+str(session_id)+":"+str(MAX_PLAYER_COUNT)).to_utf8())
+	server_udp.close()
+	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 #Register a client with the server
@@ -272,6 +277,8 @@ func _send_client_to_server():
 	yield(get_tree().create_timer(2.0), "timeout")
 	var buffer = PoolByteArray()
 	buffer.append_array((REGISTER_CLIENT+client_name+":"+str(session_id)).to_utf8())
+	server_udp.close()
+	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 
 

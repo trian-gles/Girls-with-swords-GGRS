@@ -8884,7 +8884,6 @@ level = 1
 chEffect = 0
 hitGfx = 4
 gatlingWinEnd = 12
-xAdvance = 300
 commandNormalCancel = false
 
 [node name="JumpA" parent="StateTree" index="37"]

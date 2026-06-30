@@ -17,13 +17,13 @@ public class ParticleSprite : Sprite
 	{
 		animationPlayer = GetNode<Godot.AnimationPlayer>("AnimationPlayer");
 		animationPlayer.Play(AnimationNameString);
-    }
+	}
 
 	public void Reassign()
 	{
 		animationPlayer.Play(AnimationNameString);
-        Visible = true;
-    }
+		Visible = true;
+	}
 
 	public void Rollback(int frame)
 	{

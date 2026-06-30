@@ -274,6 +274,7 @@ public class LobbyRedesign : Node2D
 		var result = await NatTraversal();
 		if (result)
 		{
+			HideButtons();
 			activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 			AddChild(activeManager);
 			ggrsManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);

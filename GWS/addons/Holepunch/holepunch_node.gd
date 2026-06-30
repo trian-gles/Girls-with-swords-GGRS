@@ -158,6 +158,10 @@ func _cascade_peer(add, peer_port):
 
 
 func _ping_peer():
+	if server_udp.is_connected():
+		var buffer = PoolByteArray()
+		buffer.append_array("ping")
+		server_udp.put_packet(buffer)
 	
 	if not recieved_peer_confirm and greets_sent < response_window:
 		for p in peer.keys():
@@ -224,6 +228,7 @@ func finalize_peers(id):
 func checkout():
 	var buffer = PoolByteArray()
 	buffer.append_array((CHECKOUT_CLIENT+client_name).to_utf8())
+	server_udp.set_dest_address(rendevouz_address, rendevouz_port)
 	server_udp.put_packet(buffer)
 	
 func check_version():

@@ -383,8 +383,10 @@ public class LobbyRedesign : Node2D
 		hosting = ((int)result[3]) == 1;
 		Globals.hosting = hosting;
 		GD.Print("WE HAVE PUNCHED ZE HOLE");
+		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		RemoveChild(holePuncher);
 		holePuncher.QueueFree();
+		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		return true;
 	}
 

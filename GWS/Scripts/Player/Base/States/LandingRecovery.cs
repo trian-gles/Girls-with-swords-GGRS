@@ -35,6 +35,13 @@ public class LandingRecovery : State
 	{
 		ReceiveHitNoBlock(details);
 	}
+
+    public override void Exit()
+    {
+        base.Exit();
+		if (owner.otherPlayer.currentState.stunRemaining > 0)
+			owner.DisplayPlusFrames(owner.otherPlayer.currentState.stunRemaining);
+    }
 }
 
 

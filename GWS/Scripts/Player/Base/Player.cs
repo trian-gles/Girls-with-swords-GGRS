@@ -1595,14 +1595,17 @@ public class Player : Node2D
 	public void DisplayPlusFrames(int opponentStun)
 	{
 
-		if (!currentState.tags.Contains(Globals.Tags.attack) || !grounded || otherPlayer.currentState.tags.Contains(Globals.Tags.knockdown))
+		if (!grounded || otherPlayer.currentState.tags.Contains(Globals.Tags.knockdown))
 			return;
-		var diff = opponentStun - animationPlayer.GetRemainingFrames();
+		int diff;
+		if (currentState.tags.Contains(Globals.Tags.attack))
+			diff = opponentStun - animationPlayer.GetRemainingFrames();
+		else
+			diff = opponentStun;
 		var plusText = plusFrames[currPlusFrameIndex];
 		currPlusFrameIndex = (currPlusFrameIndex + 1) % MAXPLUSFRAMES;
 		plusText.SetPosition(Vector2.Zero);
 		plusText.Init(diff);
-		
 	}
 
 	public bool HurtboxesInactive()

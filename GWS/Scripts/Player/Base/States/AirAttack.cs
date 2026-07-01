@@ -83,5 +83,4 @@ public abstract class AirAttack : BaseAttack
 		else
 			ApplyGravity();
 	}
-
 }

@@ -241,11 +241,13 @@ public class Player : Node2D
 	{
 		public InputContainer inputs;
 		public string state;
+		public bool mustHadoukenCooldown;
 
-		public Special(InputContainer inputsList, string newState) 
+		public Special(InputContainer inputsList, string newState, bool mustHadoukenCooldown=false) 
 		{
 			inputs = inputsList;
 			state = newState;
+			this.mustHadoukenCooldown = mustHadoukenCooldown;
 		}
 	}
 
@@ -327,6 +329,32 @@ public class Player : Node2D
 		if (hasEnterTree)
 			return;
 		hasEnterTree = true;
+	}
+
+	protected void AddSpecials(string pSpecial, string kSpecial, string sSpecial, string dpSpecial, string airSpecial, string super)
+	{
+		easyAirSpecial = airSpecial;
+		easySpecial = kSpecial;
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', pSpecial, true, true));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', sSpecial));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', dpSpecial));
+
+
+		//DP
+		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial));
+		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial));
+		//air DP
+		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial));
+		groundSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial));
+		
+		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, true));
+		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial));
+		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial));
+		easySuper = super;
+		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
+		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' },  new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
+		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { 's', 'p' } }), super));
+		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
 	}
 
 	public override void _Ready()

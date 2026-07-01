@@ -21,16 +21,8 @@ public class HL : Player
 
 		//j2C
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
-
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "DP"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat", false, true));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "UpUpHat", true));
-		easySpecial = "Hadouken";
-
-		easyAirSpecial = "JoeRogan";
-
-		easySuper = "Super";
+		groundSpecials.Add(new Special(Globals.GetQCB('p'), "LilDodge"));
+		AddSpecials("UpUpHat", "Hadouken", "UpHat", "DP", "JoeRogan", "Super");
 
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 

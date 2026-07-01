@@ -22,9 +22,9 @@ public class ComNorm : GroundAttack
 		base._Ready();
 		if (specialCancel)
 		{
+			AddExSpecials(owner.groundExSpecials);
 			AddSpecials(owner.groundSpecials);
 			AddEasyGroundSpecials();
-			AddExSpecials(owner.groundExSpecials);
 		}
 
 		if (commandNormalCancel)

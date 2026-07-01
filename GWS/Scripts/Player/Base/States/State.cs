@@ -314,6 +314,19 @@ public abstract class State : Node
 		karaGatlings.Add(newGatling);
 	}
 
+	protected void AddGatling(InputContainer inputs, RequiredConditionCallback reqCall,string state, bool preventMash = true, bool flipInputs = true)
+	{
+		var newGatling = new CommandGatling
+		{
+			inputs = inputs,
+			state = state,
+			preventMash = preventMash,
+			flipInputs = flipInputs,
+			reqCall = reqCall
+		};
+		commandGatlings.Add(newGatling);
+	}
+
 	protected void AddGatling(InputContainer inputs, string state, bool preventMash = true, bool flipInputs = true)
 	{
 		var newGatling = new CommandGatling
@@ -409,6 +422,11 @@ public abstract class State : Node
 		return (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0);
 	}
 
+	private bool HasHadoukenCooledDown(Player.Special sp)
+	{
+		return (!sp.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0);
+	}
+
 	protected void AddCommandNormal(Player.CommandNormal cn)
 	{
 		if (!cn.crouching)
@@ -465,7 +483,7 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			AddGatling(special.inputs, special.state);
+			AddGatling(special.inputs, () => HasHadoukenCooledDown(special), special.state);
 		}
 	}
 

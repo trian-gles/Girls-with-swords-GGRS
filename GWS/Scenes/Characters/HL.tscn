@@ -10513,7 +10513,7 @@ frame = 17
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
-offset = Vector2( 0, 3 )
+offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
 frame = 17

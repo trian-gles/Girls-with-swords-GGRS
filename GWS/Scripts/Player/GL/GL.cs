@@ -19,7 +19,7 @@ public class GL : Player
 
 		//6c
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));
-
+		groundSpecials.Add(new Special(Globals.GetQCB('p'), "MegaFist", true));
 		AddSpecials("GunBlazed", "Hadouken", "Feint", "HadoukenAir", "BlackHolePlace", "GLDP");
 
 		//DP

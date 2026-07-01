@@ -7639,7 +7639,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=75]
 resource_name = "PhoneTossLow"
-length = 38.0
+length = 45.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")

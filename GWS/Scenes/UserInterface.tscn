@@ -12,7 +12,7 @@
 [ext_resource path="res://Scripts/InGameMenu/InGameSpecialInputList.gd" type="Script" id=10]
 
 [node name="CanvasLayer" type="CanvasLayer"]
-layer = 4
+layer = 12
 
 [node name="UserInterface" type="Control" parent="."]
 pause_mode = 2

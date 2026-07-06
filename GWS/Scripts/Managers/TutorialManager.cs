@@ -589,6 +589,7 @@ public class TutorialManager : TrainingManager
 	public override void Quit()
 	{
 		base.Quit();
+		tutorialContainer.Call(TutorialResetCallString);
 		currChallengePtr = 0;
 	}
 

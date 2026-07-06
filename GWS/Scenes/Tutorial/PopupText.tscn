@@ -5,7 +5,7 @@
 
 [node name="CanvasLayer" type="CanvasLayer"]
 pause_mode = 2
-layer = 100
+layer = 4
 script = ExtResource( 2 )
 
 [node name="Control" type="Panel" parent="."]

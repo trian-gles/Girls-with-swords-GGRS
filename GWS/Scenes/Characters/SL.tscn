@@ -10139,9 +10139,10 @@ moveSpeed = 200
 [node name="AirSnail" type="Node" parent="StateTree" index="21"]
 script = ExtResource( 4 )
 isSpecial = true
-releaseFrame = 8
+releaseFrame = 32
 hadoukenScene = ExtResource( 11 )
-yOffset = -8
+yOffset = -20
+xOffset = -9
 launch = Vector2( -200, -600 )
 launchFrame = 3
 landingRecovery = 9

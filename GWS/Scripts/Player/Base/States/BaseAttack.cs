@@ -45,6 +45,9 @@ public abstract class BaseAttack : State
 	protected int slowTerminalVelocity = 0;
 
 	[Export]
+	protected int ownSlowTerminalVelocity = 0;
+
+	[Export]
 	protected int modifiedHitPush = 0;
 
 	[Export]
@@ -277,6 +280,11 @@ public abstract class BaseAttack : State
 			{
 				owner.ChangeIntPositionRel(-xAdvance, 0);
 			}
+		}
+
+		if (ownSlowTerminalVelocity != 0)
+		{
+			owner.terminalVelocity = ownSlowTerminalVelocity;
 		}
 	}
 

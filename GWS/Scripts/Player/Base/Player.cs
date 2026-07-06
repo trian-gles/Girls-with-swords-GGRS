@@ -242,12 +242,14 @@ public class Player : Node2D
 		public InputContainer inputs;
 		public string state;
 		public bool mustHadoukenCooldown;
+		public char[] heldKeys;
 
-		public Special(InputContainer inputsList, string newState, bool mustHadoukenCooldown=false) 
+		public Special(InputContainer inputsList, string newState, bool mustHadoukenCooldown=false, char[] heldKeys=null) 
 		{
 			inputs = inputsList;
 			state = newState;
 			this.mustHadoukenCooldown = mustHadoukenCooldown;
+			this.heldKeys = heldKeys;
 		}
 	}
 
@@ -331,25 +333,27 @@ public class Player : Node2D
 		hasEnterTree = true;
 	}
 
-	protected void AddSpecials(string pSpecial, string kSpecial, string sSpecial, string dpSpecial, string airSpecial, string super)
+	protected void AddEasySpecials(string downSpecial, string neutralSpecial, string backSpecial, string forwardSpecial, string airSpecial, string super)
 	{
 		easyAirSpecial = airSpecial;
-		easySpecial = kSpecial;
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', pSpecial, true, true));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', sSpecial));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', dpSpecial));
+		easySpecial = neutralSpecial;
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', downSpecial, true, true));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', backSpecial));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', forwardSpecial));
+	}
 
-
+	protected void AddSpecials(string pSpecial, string kSpecial, string sSpecial, string dpSpecial, string airSpecial, string super)
+	{
 		//DP
-		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial));
-		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial));
+		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial, false, new char[] { '2', '6' }));
+		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial, false, new char[] { '2', '6' }));
 		//air DP
-		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial));
-		groundSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial));
+		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial, false, new char[] { '2', '6' }));
+		airSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial, false, new char[] { '2', '6' }));
 		
-		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, true));
-		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial));
-		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial));
+		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, true, new char[] {'6'}));
+		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial, false , new char[] {'6'}));
+		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial, false, new char[] {'6'}));
 		easySuper = super;
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' },  new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
@@ -1021,6 +1025,7 @@ public class Player : Node2D
 	{
 		return (inputHandler.heldKeys.Contains(key));
 	}
+	
 
 	public bool CheckKeyPressedThisFrame(char key) 
 	{

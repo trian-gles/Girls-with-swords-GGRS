@@ -8,6 +8,12 @@ public class Hadouken : BaseAttack
 	public int releaseFrame = 18;
 
 	[Export]
+	public Vector2 launch = new Vector2(0, 0);
+
+	[Export]
+	public int launchFrame = 1;
+
+	[Export]
 	public PackedScene hadoukenScene;
 
 	[Export]
@@ -37,11 +43,22 @@ public class Hadouken : BaseAttack
 			var h = hadoukenScene.Instance() as HadoukenPart;
 			cachedHadoukens.Add(h);
 		}
+
+		if (launch != Vector2.Zero)
+		{
+			slowdownSpeed = 0;
+		}
 	}	
 
 	public override void Enter()
 	{
 		base.Enter();
+		
+		if (launch != Vector2.Zero)
+		{
+			owner.landingRecoveryFramesRemaining = 15;
+			owner.velocity.y = 0;
+		}
 		owner.velocity.x = 0;
 	}
 
@@ -56,6 +73,30 @@ public class Hadouken : BaseAttack
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
+
+		if (launch != Vector2.Zero && frameCount == launchFrame)
+		{
+			owner.velocity = launch;
+			if (!owner.facingRight)
+			{
+				owner.velocity.x *= -1;
+			}
+			owner.grounded = false;
+		}
+
+		if (!owner.grounded && frameCount > launchFrame)
+		{
+			ApplyGravity();
+		}
+
+		if (owner.grounded && launch != Vector2.Zero)
+		{
+			owner.velocity.x = 0;
+			if (owner.landingRecoveryFramesRemaining > 0)
+				owner.ChangeState("LandingRecovery");
+			else
+				owner.ChangeState("Landing");
+		}
 
 		//if (frameCount == releaseFrame - 6)
 			//owner.ScheduleEvent(EventScheduler.EventType.AUDIO, hadoukenSound, Name);

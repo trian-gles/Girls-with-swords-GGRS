@@ -23,7 +23,7 @@ public abstract class AirState : State
     //}
 	protected bool CheckAirDashConditions()
     {
-        return owner.canAirDash && owner.internalPos.y < Globals.MAXAIRDASHDEPTH && frameCount >= preAirdashFrames;
+        return owner.canAirDash && owner.internalPos.y < Globals.MAXAIRDASHDEPTH && frameCount >= preAirdashFrames && !owner.CheckHeldKey('2');
     }
 	protected void AddAirdash()
     {

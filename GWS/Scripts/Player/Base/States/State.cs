@@ -483,7 +483,11 @@ public abstract class State : Node
 	{
 		foreach (var special in specials)
 		{
-			AddGatling(special.inputs, () => HasHadoukenCooledDown(special), special.state);
+			AddGatling(special.inputs, 
+			() => {
+				return HasHadoukenCooledDown(special) && ((special.heldKeys == null) || owner.CheckHeldFlippableKeys(special.heldKeys));
+			}, 
+			special.state);
 		}
 	}
 

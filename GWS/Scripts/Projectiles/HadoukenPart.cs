@@ -290,11 +290,9 @@ public class HadoukenPart : Node2D
 			{
 				trueSpeed.x *= -1;
 			}
-
-
 			Position += trueSpeed;
 			
-			//Globals.Log($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
+			//GD.Print($"Moving {Name} to position {Position} with rect {GetRect(GetNode<CollisionShape2D>("CollisionShape2D"), true)}, player at position {targetPlayer.internalPos}");
 		}
 		
 

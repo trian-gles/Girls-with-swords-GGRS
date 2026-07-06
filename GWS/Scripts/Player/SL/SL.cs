@@ -24,8 +24,11 @@ public class SL : Player
 
 
 		dashSpecials.Add(new Special(new InputContainer( new[] { new char[] { 's', 'p' } }), "DashAttack"));
-		groundSpecials.Add(new Special(Globals.GetQCB('p'), "PhoneTossLow", true));
-		AddSpecials("SnailCallFake", "SnailCall", "BackToss", "SnailCallJump", "AirSnail", "SnailStrike");
+		groundSpecials.Add(new Special(Globals.GetQCB('p'), "BackToss", true));
+		AddSpecials("SnailCallFake", "PhoneTossLow", "SnailCall", "SnailCallJump", "SnailCallJump", "SnailStrike");
+		AddEasySpecials("SnailCallFake", "SnailCall", "BackToss", "SnailCallJump", "AirSnail", "SnailStrike");
+		airSpecials.Add(new Special(Globals.GetQCF('s'), "SnailCall"));
+		airSpecials.Add(new Special(Globals.GetQCB('p'), "AirSnail", true));
 	}
 	public override void _Ready()
 	{

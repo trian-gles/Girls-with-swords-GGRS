@@ -608,10 +608,10 @@ public class TutorialManager : TrainingManager
 		walkGoal = new Goal("Walk forwards", "right");
 		walkGoal.p1State = "Walk";
 
-		fJumpGoal = new Goal("Forward Jump", "right", "up");
+		fJumpGoal = new Goal("Forward Jump", "upright");
 		fJumpGoal.p1State = "Jump";
 
-		dFJumpGoal = new Goal("Forward Double Jump", "air", "right", "up");
+		dFJumpGoal = new Goal("Forward Double Jump", "air", "upright");
 		dFJumpGoal.p1State = "DoubleJump";
 
 		jabGoal = new Goal("Punch", "p")

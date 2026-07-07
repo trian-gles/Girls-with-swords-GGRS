@@ -34,16 +34,22 @@ public class ComboTrialManager : TutorialManager
 	protected void AddOLChallenges()
 	{
 		RecordingName = "OL_combos";
-		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "special", "hold");
+		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "qcf", "k", "hold");
 		// needs to be completed
 
-		Goal dpGoal = new Goal("Dragon Punch", "right", "special")
+		Goal dpGoal = new Goal("Dragon Punch", "dp", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "AntiAir"
 		};
 
-		Goal hojogiriGoal = new Goal("Hojogiri", "special")
+		Goal airDpGoal = new Goal("Dragon Punch", "air", "dp", "s")
+		{
+			p2StateFrame = 0,
+			p1State = "AntiAir"
+		};
+
+		Goal hojogiriGoal = new Goal("Hojogiri", "qcf", "k")
 		{
 			p2StateFrame = 0,
 			p1State = "Hojogiri"
@@ -68,7 +74,7 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6P"
 		};
 
-		Goal hadoukenGoal = new Goal("Hadouken", "down", "special")
+		Goal hadoukenGoal = new Goal("Slow Coffee", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "Hadouken"
@@ -95,7 +101,7 @@ public class ComboTrialManager : TutorialManager
 		basicAirCombo.goals.Add(dFJumpGoal);
 		basicAirCombo.goals.Add(jKickGoal);
 		basicAirCombo.goals.Add(jSlashGoal);
-		basicAirCombo.goals.Add(dpGoal);
+		basicAirCombo.goals.Add(airDpGoal);
 		basicAirCombo.MakeComboChallenge();
 		challenges.Add(basicAirCombo);
 
@@ -140,7 +146,7 @@ public class ComboTrialManager : TutorialManager
 		cornerPunish.goals.Add(fJumpGoal);
 		cornerPunish.goals.Add(adGoal);
 		cornerPunish.goals.Add(jJabGoal);
-		cornerPunish.goals.Add(dpGoal);
+		cornerPunish.goals.Add(airDpGoal);
 		cornerPunish.goals.Add(sixSGoal);
 		cornerPunish.goals.Add(hojogiriGoal);
 		cornerPunish.MakeComboChallenge();

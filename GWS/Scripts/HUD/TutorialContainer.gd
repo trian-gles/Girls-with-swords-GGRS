@@ -18,7 +18,14 @@ var input_translation = {
 	"left": 10,
 	"air": 11,
 	"hold": 12,
-	"wait": 13
+	"wait": 13,
+	"downright": 14,
+	"upright" : 15,
+	"upleft" : 16,
+	"downleft" : 17,
+	"qcf" : 18,
+	"qcb" : 19,
+	"dp" : 20
 }
 
 func _ready():

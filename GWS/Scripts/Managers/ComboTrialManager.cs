@@ -187,13 +187,13 @@ public class ComboTrialManager : TutorialManager
 			p1State = "J2C"
 		};
 
-		Goal gunBlazedGoal = new Goal("Gunblazed", "down", "special")
+		Goal gunBlazedGoal = new Goal("Gunblazed", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "GunBlazed"
 		};
 
-		Goal superGoal = new Goal("OH SHIT", "right", "s", "special")
+		Goal superGoal = new Goal("OH SHIT", "qcf", "qcf", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "GLDP"
@@ -243,7 +243,7 @@ public class ComboTrialManager : TutorialManager
 		extendedComboChallenge.goals.Add(jKickGoal);
 		extendedComboChallenge.goals.Add(dFJumpGoal);
 		extendedComboChallenge.goals.Add(j2CGoal);
-		extendedComboChallenge.goals.Add(jabGoal);
+		extendedComboChallenge.goals.Add(jSlashGoal);
 		extendedComboChallenge.goals.Add(gunBlazedGoal);
 		extendedComboChallenge.goals.Add(cslashGoal);
 		extendedComboChallenge.MakeComboChallenge();
@@ -289,13 +289,13 @@ public class ComboTrialManager : TutorialManager
 			p1State = "J2C"
 		};
 
-		Goal jrGoal = new Goal("Wheeeeee", "air", "special")
+		Goal jrGoal = new Goal("Wheeeeee", "air", "qcb", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "JoeRogan"
 		};
 
-		Goal superGoal = new Goal("OH SHIT", "right", "s", "special")
+		Goal superGoal = new Goal("OH SHIT", "qcf", "qcf", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "Super"
@@ -338,7 +338,7 @@ public class ComboTrialManager : TutorialManager
 		cornerCarry.MakeComboChallenge();
 		challenges.Add(cornerCarry);
 
-		Goal hatUpGoal = new Goal("Eat a hat (up)", "left", "special")
+		Goal hatUpGoal = new Goal("Eat a hat (up)", "qcf", "s")
 		{
 			p1State = "UpHat",
 			p2StateFrame = 0
@@ -349,7 +349,7 @@ public class ComboTrialManager : TutorialManager
 			p1State = "SuperJump"	
 		};
 
-		Goal teleportDPGoal = new Goal("Suprise! (Up)", "right", "special")
+		Goal teleportDPGoal = new Goal("Suprise! (Up)", "dp", "s")
 		{
 			p1State = "TeleportDP"
 		};
@@ -407,7 +407,7 @@ public class ComboTrialManager : TutorialManager
 		};
 
 
-		Goal phoneTossGoal = new Goal("It's for you", "down", "special")
+		Goal phoneTossGoal = new Goal("It's for you", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "PhoneToss"

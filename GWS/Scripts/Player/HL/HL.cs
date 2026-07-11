@@ -25,6 +25,7 @@ public class HL : Player
 		groundSpecials.Add(new Special(Globals.GetQCB('p'), "JoeRogan"));
 		AddSpecials("UpUpHat", "Hadouken", "UpHat", "DP", "DP", "Super");
 		AddEasySpecials("UpUpHat", "Hadouken", "UpHat", "DP", "JoeRogan", "Super");
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));
 
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 

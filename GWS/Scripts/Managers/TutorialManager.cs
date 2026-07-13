@@ -98,7 +98,7 @@ public class TutorialManager : TrainingManager
 	private int currGoalPtr;
 	private Goal currGoal;
 
-	private Node tutorialContainer;
+	private Control tutorialContainer;
 
 	private Node events;
 
@@ -612,6 +612,7 @@ public class TutorialManager : TrainingManager
 	{
 		base.Quit();
 		tutorialContainer.Call(TutorialResetCallString);
+		tutorialContainer.Visible = false;
 		currChallengePtr = 0;
 	}
 
@@ -619,7 +620,7 @@ public class TutorialManager : TrainingManager
 	public override void _Ready()
 	{
 		base._Ready();
-		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
+		tutorialContainer = (Control)gameScene.GetNode("HUD/TutorialContainer");
 		events = GetNode("/root/Events");
 
 
@@ -709,7 +710,7 @@ public class TutorialManager : TrainingManager
 	public override void Start()
 	{
 		base.Start();
-
+		tutorialContainer.Visible = true;
 		Globals.autoTech = false;
 		if (comboTrial)
 		{

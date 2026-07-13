@@ -713,13 +713,13 @@ wait_time = 0.5
 [node name="Sprite" type="Sprite" parent="HUD/SplashText/P1Escape"]
 position = Vector2( 88, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 12
 
 [node name="Sprite2" type="Sprite" parent="HUD/SplashText/P1Escape"]
 position = Vector2( 104, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 1
 
 [node name="P1Ukemi" type="Label" parent="HUD/SplashText"]
@@ -862,13 +862,13 @@ wait_time = 0.5
 [node name="Sprite" type="Sprite" parent="HUD/SplashText/P2Escape"]
 position = Vector2( 88, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 12
 
 [node name="Sprite2" type="Sprite" parent="HUD/SplashText/P2Escape"]
 position = Vector2( 104, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 1
 
 [node name="P2Ukemi" type="Label" parent="HUD/SplashText"]

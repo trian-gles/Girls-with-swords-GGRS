@@ -295,6 +295,12 @@ public class ComboTrialManager : TutorialManager
 			p1State = "JoeRogan"
 		};
 
+		Goal groundjrGoal = new Goal("Wheeeeee", "qcb", "p")
+		{
+			p2StateFrame = 0,
+			p1State = "JoeRogan"
+		};
+
 		Goal superGoal = new Goal("OH SHIT", "qcf", "qcf", "s")
 		{
 			p2StateFrame = 0,
@@ -330,7 +336,7 @@ public class ComboTrialManager : TutorialManager
 		cornerCarry.goals.Add(ckickGoal);
 		cornerCarry.goals.Add(sixPGoal);
 		cornerCarry.goals.Add(sixKGoal);
-		cornerCarry.goals.Add(jrGoal);
+		cornerCarry.goals.Add(groundjrGoal);
 		cornerCarry.goals.Add(jabGoal);
 		cornerCarry.goals.Add(slashGoal);
 		cornerCarry.goals.Add(sixCGoal);
@@ -356,7 +362,7 @@ public class ComboTrialManager : TutorialManager
 
 		Challenge cornerSweep = new Challenge("Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerSweep.goals.Add(cslashGoal);
-		cornerSweep.goals.Add(jrGoal);
+		cornerSweep.goals.Add(groundjrGoal);
 		cornerSweep.goals.Add(jabGoal);
 		cornerSweep.goals.Add(sixPGoal);
 		cornerSweep.goals.Add(sJumpGoal);

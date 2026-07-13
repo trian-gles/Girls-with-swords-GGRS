@@ -37,6 +37,7 @@ public class Hadouken : BaseAttack
 	public override void _Ready()
 	{
 		base._Ready();
+		tags.Add(Globals.Tags.special);
 		cachedHadoukens = new List<HadoukenPart>();
 		for (int i = 0; i < 24; i++)
 		{

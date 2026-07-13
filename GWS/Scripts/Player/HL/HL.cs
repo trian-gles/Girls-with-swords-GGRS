@@ -80,7 +80,7 @@ public class HL : Player
 		else
 			frontSprite.Visible = true;
 
-		if (!hatted && grounded && !CheckHeldKey('2'))
+		if (!hatted && grounded && !CheckHeldKey('2') && !currentState.tags.Contains(Globals.Tags.special))
 		{
 			if (CheckHeldKey('s'))
 			{

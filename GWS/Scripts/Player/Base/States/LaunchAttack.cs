@@ -26,6 +26,12 @@ public class LaunchAttack : AirAttack
 
 	private Vector2 dustEmissionVector = new Vector2();
 
+	public override void _Ready()
+	{
+		base._Ready();
+		tags.Add(Globals.Tags.special);
+	}
+
 	/// <summary>
 	/// This doesn't call base.FrameAdvance() because that state includes things we don't want
 	/// </summary>

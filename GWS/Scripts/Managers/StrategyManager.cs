@@ -260,37 +260,38 @@ public class StrategyManager : TutorialManager
 			p1State = "6K"
 		};
 
-		Goal snailGoal = new Goal("Let's go girls", "left", "special")
+		Goal snailGoal = new Goal("Let's go girls", "qcb", "p")
 		{
 			p1State = "BackToss"
 		};
 
-		Goal airTossGoal = new Goal("Let's go girls (air)", "air", "special")
+		Goal airTossGoal = new Goal("Let's go girls (air)", "air", "qcb", "p")
 		{
 			p1State = "SnailCallJump"
 		};
 
-		Goal groundSnailGoal = new Goal("1-800-SLIMESMACK", "special")
+		Goal groundSnailGoal = new Goal("1-800-SLIMESMACK", "qcf", "s")
 		{
 			p1State = "SnailCall"
 		};
 
-		Goal airSnailGoal = new Goal("1-800-SHELLSMASH", "right", "special")
+		Goal airSnailGoal = new Goal("1-800-SHELLSMASH", "dp", "s")
 		{
 			p1State = "SnailCallJump"
 		};
 
-		Goal fakeTossGoal = new Goal("It's for you", "down", "special")
+		Goal fakeTossGoal = new Goal("It's for you (long)", "qcf", "p")
 		{
 			p1State = "PhoneToss"
 		};
 
-		Goal snailAirSpecial = new Goal("Big Flop", "air", "special")
+		Goal fakeTossGoal2 = new Goal("It's for you (short)", "qcf", "k")
 		{
-			p1State = "SnailCallJump"
+			p1State = "PhoneTossLow"
 		};
+
 		Challenge snailChallenge = new Challenge("Calling in the girls");
-		snailChallenge.popupText = "SL relies on her shelled buddies to win the match.  They must be first deployed and then commanded.";
+		snailChallenge.popupText = "SL relies on her shelled buddies to control the screen.  They must be first deployed and then commanded.  These moves can also be used in the air.";
 		snailChallenge.goals.Add(snailGoal);
 		snailChallenge.goals.Add(groundSnailGoal);
 		snailChallenge.goals.Add(airTossGoal);
@@ -301,6 +302,7 @@ public class StrategyManager : TutorialManager
 		Challenge phoneTossChallenge = new Challenge("Faking a snail command");
 		phoneTossChallenge.popupText = "SL can pretend to call in a snail but instead throw her phone at the opponent.";
 		phoneTossChallenge.goals.Add(fakeTossGoal);
+		phoneTossChallenge.goals.Add(fakeTossGoal2);
 		challenges.Add(phoneTossChallenge);
 
 

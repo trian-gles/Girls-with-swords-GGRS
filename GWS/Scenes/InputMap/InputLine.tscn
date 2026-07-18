@@ -31,7 +31,7 @@ __meta__ = {
 position = Vector2( 12, 11 )
 scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 5 )
-hframes = 14
+hframes = 21
 frame = 6
 
 [node name="Action" type="Label" parent="."]

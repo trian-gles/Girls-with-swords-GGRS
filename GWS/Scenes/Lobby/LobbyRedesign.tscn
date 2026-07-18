@@ -254,6 +254,14 @@ margin_top = -53.5
 margin_right = 45.0
 margin_bottom = 53.5
 
+[node name="Disconnected" parent="MenuRoot" instance=ExtResource( 34 )]
+margin_left = -45.0
+margin_top = -53.5
+margin_right = 45.0
+margin_bottom = 53.5
+window_title = "DISCONNECTED"
+dialog_text = "DISCONNECTED!"
+
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
 anchor_bottom = 1.0

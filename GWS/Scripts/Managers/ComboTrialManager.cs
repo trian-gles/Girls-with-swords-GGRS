@@ -34,16 +34,22 @@ public class ComboTrialManager : TutorialManager
 	protected void AddOLChallenges()
 	{
 		RecordingName = "OL_combos";
-		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "special", "hold");
+		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "qcf", "k", "hold");
 		// needs to be completed
 
-		Goal dpGoal = new Goal("Dragon Punch", "right", "special")
+		Goal dpGoal = new Goal("Dragon Punch", "dp", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "AntiAir"
 		};
 
-		Goal hojogiriGoal = new Goal("Hojogiri", "special")
+		Goal airDpGoal = new Goal("Dragon Punch", "air", "dp", "s")
+		{
+			p2StateFrame = 0,
+			p1State = "AntiAir"
+		};
+
+		Goal hojogiriGoal = new Goal("Hojogiri", "qcf", "k")
 		{
 			p2StateFrame = 0,
 			p1State = "Hojogiri"
@@ -68,7 +74,7 @@ public class ComboTrialManager : TutorialManager
 			p1State = "6P"
 		};
 
-		Goal hadoukenGoal = new Goal("Hadouken", "down", "special")
+		Goal hadoukenGoal = new Goal("Slow Coffee", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "Hadouken"
@@ -95,7 +101,7 @@ public class ComboTrialManager : TutorialManager
 		basicAirCombo.goals.Add(dFJumpGoal);
 		basicAirCombo.goals.Add(jKickGoal);
 		basicAirCombo.goals.Add(jSlashGoal);
-		basicAirCombo.goals.Add(dpGoal);
+		basicAirCombo.goals.Add(airDpGoal);
 		basicAirCombo.MakeComboChallenge();
 		challenges.Add(basicAirCombo);
 
@@ -140,7 +146,7 @@ public class ComboTrialManager : TutorialManager
 		cornerPunish.goals.Add(fJumpGoal);
 		cornerPunish.goals.Add(adGoal);
 		cornerPunish.goals.Add(jJabGoal);
-		cornerPunish.goals.Add(dpGoal);
+		cornerPunish.goals.Add(airDpGoal);
 		cornerPunish.goals.Add(sixSGoal);
 		cornerPunish.goals.Add(hojogiriGoal);
 		cornerPunish.MakeComboChallenge();
@@ -181,13 +187,13 @@ public class ComboTrialManager : TutorialManager
 			p1State = "J2C"
 		};
 
-		Goal gunBlazedGoal = new Goal("Gunblazed", "down", "special")
+		Goal gunBlazedGoal = new Goal("Gunblazed", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "GunBlazed"
 		};
 
-		Goal superGoal = new Goal("OH SHIT", "right", "s", "special")
+		Goal superGoal = new Goal("OH SHIT", "qcf", "qcf", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "GLDP"
@@ -237,7 +243,7 @@ public class ComboTrialManager : TutorialManager
 		extendedComboChallenge.goals.Add(jKickGoal);
 		extendedComboChallenge.goals.Add(dFJumpGoal);
 		extendedComboChallenge.goals.Add(j2CGoal);
-		extendedComboChallenge.goals.Add(jabGoal);
+		extendedComboChallenge.goals.Add(jSlashGoal);
 		extendedComboChallenge.goals.Add(gunBlazedGoal);
 		extendedComboChallenge.goals.Add(cslashGoal);
 		extendedComboChallenge.MakeComboChallenge();
@@ -283,13 +289,19 @@ public class ComboTrialManager : TutorialManager
 			p1State = "J2C"
 		};
 
-		Goal jrGoal = new Goal("Wheeeeee", "air", "special")
+		Goal jrGoal = new Goal("Wheeeeee", "air", "qcb", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "JoeRogan"
 		};
 
-		Goal superGoal = new Goal("OH SHIT", "right", "s", "special")
+		Goal groundjrGoal = new Goal("Wheeeeee", "qcb", "p")
+		{
+			p2StateFrame = 0,
+			p1State = "JoeRogan"
+		};
+
+		Goal superGoal = new Goal("OH SHIT", "qcf", "qcf", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "Super"
@@ -324,7 +336,7 @@ public class ComboTrialManager : TutorialManager
 		cornerCarry.goals.Add(ckickGoal);
 		cornerCarry.goals.Add(sixPGoal);
 		cornerCarry.goals.Add(sixKGoal);
-		cornerCarry.goals.Add(jrGoal);
+		cornerCarry.goals.Add(groundjrGoal);
 		cornerCarry.goals.Add(jabGoal);
 		cornerCarry.goals.Add(slashGoal);
 		cornerCarry.goals.Add(sixCGoal);
@@ -332,7 +344,7 @@ public class ComboTrialManager : TutorialManager
 		cornerCarry.MakeComboChallenge();
 		challenges.Add(cornerCarry);
 
-		Goal hatUpGoal = new Goal("Eat a hat (up)", "left", "special")
+		Goal hatUpGoal = new Goal("Eat a hat (up)", "qcf", "s")
 		{
 			p1State = "UpHat",
 			p2StateFrame = 0
@@ -343,14 +355,14 @@ public class ComboTrialManager : TutorialManager
 			p1State = "SuperJump"	
 		};
 
-		Goal teleportDPGoal = new Goal("Suprise! (Up)", "right", "special")
+		Goal teleportDPGoal = new Goal("Suprise! (Up)", "dp", "s")
 		{
 			p1State = "TeleportDP"
 		};
 
 		Challenge cornerSweep = new Challenge("Corner Sweep Extension", GameScene.ResetPos.P2CORNEREDRIGHT);
 		cornerSweep.goals.Add(cslashGoal);
-		cornerSweep.goals.Add(jrGoal);
+		cornerSweep.goals.Add(groundjrGoal);
 		cornerSweep.goals.Add(jabGoal);
 		cornerSweep.goals.Add(sixPGoal);
 		cornerSweep.goals.Add(sJumpGoal);
@@ -401,7 +413,7 @@ public class ComboTrialManager : TutorialManager
 		};
 
 
-		Goal phoneTossGoal = new Goal("It's for you", "down", "special")
+		Goal phoneTossGoal = new Goal("It's for you", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "PhoneToss"

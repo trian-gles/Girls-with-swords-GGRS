@@ -517,6 +517,9 @@ margin_right = 265.28
 margin_bottom = 232.62
 custom_constants/separation = 15
 script = ExtResource( 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TutorialGoal" parent="HUD/TutorialContainer" instance=ExtResource( 29 )]
 anchor_right = 0.0
@@ -714,13 +717,13 @@ wait_time = 0.5
 [node name="Sprite" type="Sprite" parent="HUD/SplashText/P1Escape"]
 position = Vector2( 88, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 12
 
 [node name="Sprite2" type="Sprite" parent="HUD/SplashText/P1Escape"]
 position = Vector2( 104, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 1
 
 [node name="P1Ukemi" type="Label" parent="HUD/SplashText"]
@@ -863,13 +866,13 @@ wait_time = 0.5
 [node name="Sprite" type="Sprite" parent="HUD/SplashText/P2Escape"]
 position = Vector2( 88, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 12
 
 [node name="Sprite2" type="Sprite" parent="HUD/SplashText/P2Escape"]
 position = Vector2( 104, 6 )
 texture = ExtResource( 38 )
-hframes = 14
+hframes = 21
 frame = 1
 
 [node name="P2Ukemi" type="Label" parent="HUD/SplashText"]

@@ -15,6 +15,9 @@ public class GGRSManager : StateManager
 	[Signal]
 	public delegate void DesyncDetected();
 
+	[Signal]
+	public delegate void Disconnected();
+
 	int port;
 
 	private Node events;
@@ -78,6 +81,12 @@ public class GGRSManager : StateManager
 		events.Call("emit_signal", "MainMenuPressed");
 	}
 
+	private void Timeout()
+	{
+		EmitSignal(nameof(Disconnected));
+		events.Call("emit_signal", "MainMenuPressed");
+	}
+
 
 	public void ManualConfig(string ip, bool hosting, int localPort, int remotePort, bool aiTest=false)
 	{
@@ -101,6 +110,7 @@ public class GGRSManager : StateManager
 
 		GGRS.Call("set_callback_node", this);
 		GGRS.Call("set_frame_delay", 1, localPlayerHandle);
+		GGRS.Call("set_disconnect_timeout", 10);
 		GGRS.Call("start_session");
 		GD.Print("Settup finished");
 		connected = true;
@@ -176,6 +186,11 @@ public class GGRSManager : StateManager
 				else if ((string)itemArr[0] == "DesyncDetected") // definitely shouldn't be a string
 				{
 					Desync();
+					return;
+				}
+				else if ((string)itemArr[0] == "Disconnected") // definitely shouldn't be a string
+				{
+					Timeout();
 					return;
 				}
 

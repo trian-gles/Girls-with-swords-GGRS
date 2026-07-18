@@ -50,26 +50,26 @@ __meta__ = {
 position = Vector2( 8, 7 )
 scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
-hframes = 14
+hframes = 21
 frame = 5
 
 [node name="Input2" type="Sprite" parent="."]
 position = Vector2( 26, 7 )
 scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
-hframes = 14
+hframes = 21
 frame = 8
 
 [node name="Input3" type="Sprite" parent="."]
 position = Vector2( 44, 7 )
 scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
-hframes = 14
+hframes = 21
 frame = 7
 
 [node name="Input4" type="Sprite" parent="."]
 position = Vector2( 60, 7 )
 scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 2 )
-hframes = 14
+hframes = 21
 frame = 7

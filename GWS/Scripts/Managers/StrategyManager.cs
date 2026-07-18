@@ -28,24 +28,36 @@ public class StrategyManager : TutorialManager
 	protected void AddOLChallenges()
 	{
 		RecordingName = "OL_strategy";
-		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "special", "hold")
+		Goal chargedHojoGoal = new Goal("Hojogiri, full charge", "qcf", "k", "hold")
 		{
 			p2StateFrame = 0,
 			p1State = "HojogiriChargedSlash"
 		};
 
-		Goal reverseChargedHojoGoal = new Goal("Cross up Hojogiri", "left", "special")
+		Goal reverseChargedHojoGoal = new Goal("Cross up Hojogiri", "qcf", "s")
 		{
 			p1State = "CommandRunTurn"
 		};
 
-		Goal coffeeGoal = new Goal("Bean Juice", "down", "special")
+		Goal coffeeGoal = new Goal("Slow Bean Juice", "qcf", "p")
 		{
 			p2StateFrame = 0,
 			p1State = "Hadouken"
 		};
 
-		Goal dpGoal = new Goal("Dragon Punch", "right", "special")
+		Goal fastCoffeeGoal = new Goal("Fast Bean Juice", "qcb", "p")
+		{
+			p2StateFrame = 0,
+			p1State = "FastHadouken"
+		};
+
+		Goal airCoffeeGoal = new Goal("Air Bean Juice", "air", "qcf", "p")
+		{
+			p2StateFrame = 0,
+			p1State = "AirHadouken"
+		};
+
+		Goal dpGoal = new Goal("Dragon Punch", "dp", "s")
 		{
 			p2StateFrame = 0,
 			p1State = "AntiAir",
@@ -53,11 +65,12 @@ public class StrategyManager : TutorialManager
 		};
 
 
-		Goal hojogiriGoal = new Goal("Hojogiri", "special")
+		Goal hojogiriGoal = new Goal("Hojogiri", "qcf", "k")
 		{
 			p2StateFrame = 0,
 			p1State = "Hojogiri"
 		};
+
 
 
 		Goal sixSGoal = new Goal("Heavy slash", "right", "s")
@@ -91,6 +104,8 @@ public class StrategyManager : TutorialManager
 		Challenge coffeeThrowChallenge = new Challenge("Overcaffinated");
 		coffeeThrowChallenge.popupText = "While it isn't the most powerful projectile, OL's boiling hot coffee can help lock down the opponent or destroy other dangerous projectiles";
 		coffeeThrowChallenge.goals.Add(coffeeGoal);
+		coffeeThrowChallenge.goals.Add(fastCoffeeGoal);
+		coffeeThrowChallenge.goals.Add(airCoffeeGoal);
 		challenges.Add(coffeeThrowChallenge);
 
 		Challenge dashAttackChallenge = new Challenge("Overhead Dash Attack");
@@ -106,19 +121,24 @@ public class StrategyManager : TutorialManager
 	protected void AddGLChallenges()
 	{
 		RecordingName = "GL_strategy";
-		Goal lowFireGoal = new Goal("Low fireball", "special")
+		Goal lowFireGoal = new Goal("Low fireball", "qcf", "k")
 		{
 			p1State = "Hadouken"
 		};
 
-		Goal arcFireGoal = new Goal("Arc fireball", "right", "special")
+		Goal arcFireGoal = new Goal("Arc fireball", "dp", "s")
 		{
 			p1State = "HadoukenAir"
 		};
 
-		Goal feintGoal = new Goal("Feint fireball", "left", "special")
+		Goal feintGoal = new Goal("Feint fireball", "qcf", "s")
 		{
 			p1State = "Feint"
+		};
+
+		Goal airFireGoal = new Goal("Air fireball", "air", "qcf", "k")
+		{
+			p1State = "HadoukenAirDown"
 		};
 
 		Goal gunblazedGoal = new Goal("Gunblazed", "down", "special")
@@ -127,10 +147,11 @@ public class StrategyManager : TutorialManager
 		};
 
 		Challenge fireballChallenge = new Challenge("Fireballs");
-		fireballChallenge.popupText = "GL's fireballs can chip away at the opponent's health while keeping them out of range.  Mix it up with a low fireball, an arcing fireball, and a fakeout fireball.";
+		fireballChallenge.popupText = "GL's fireballs can chip away at the opponent's health while keeping them out of range.  Mix it up between a bunch of options.";
 		fireballChallenge.goals.Add(lowFireGoal);
 		fireballChallenge.goals.Add(arcFireGoal);
 		fireballChallenge.goals.Add(feintGoal);
+		fireballChallenge.goals.Add(airFireGoal);
 		challenges.Add(fireballChallenge);
 
 		Goal sixKGoal = new Goal("Forward kick", "right", "k")
@@ -139,7 +160,7 @@ public class StrategyManager : TutorialManager
 		};
 
 
-		Goal blackHoleGoal = new Goal("Come with me", "air", "special")
+		Goal blackHoleGoal = new Goal("Come with me", "air", "dp", "s")
 		{
 			p1State = "BlackHolePlace"
 		};
@@ -165,41 +186,41 @@ public class StrategyManager : TutorialManager
 	protected void AddHLChallenges()
 	{
 		RecordingName = "HL_strategy";
-		Goal hatGoal = new Goal("Eat a hat", "special")
+		Goal hatGoal = new Goal("Eat a hat", "qcf", "k")
 		{
 			p1State = "Hadouken"
 		};
-		Goal hatUpGoal = new Goal("Eat a hat (up)", "left", "special")
-		{
-			p1State = "UpHat"
-		};
-
-		Goal hatUpUpGoal = new Goal("Eat a hat (up up)", "down", "special")
+		Goal hatUpGoal = new Goal("Eat a hat (up)", "qcf", "p")
 		{
 			p1State = "UpUpHat"
 		};
 
-		Goal dpGoal = new Goal("HAT IN YOUR FACE", "right", "special")
+		Goal hatUpUpGoal = new Goal("Eat a hat (far)", "qcf", "s")
+		{
+			p1State = "UpHat"
+		};
+
+		Goal dpGoal = new Goal("HAT IN YOUR FACE", "dp", "s")
 		{
 			p1State = "DP"
 		};
 
-		Goal teleportGoal = new Goal("Teleport", "special")
+		Goal teleportGoal = new Goal("Teleport", "qcf", "k")
 		{
 			p1State = "Teleport"
 		};
 
-		Goal teleportDownSlashGoal = new Goal("Suprise! (Down)", "down", "special")
+		Goal teleportDownSlashGoal = new Goal("Suprise! (Down)", "qcf", "p")
 		{
 			p1State = "TeleportDownSlash"
 		};
 
-		Goal teleportDPGoal = new Goal("Suprise! (Up)", "right", "special")
+		Goal teleportDPGoal = new Goal("Suprise! (Up)", "dp", "s")
 		{
 			p1State = "TeleportDP"
 		};
 
-		Goal hatProjectileGoal = new Goal("Suprise?", "left", "special")
+		Goal hatProjectileGoal = new Goal("Suprise?", "qcf", "s")
 		{
 			p1State = "HatSlash"
 		};
@@ -219,13 +240,13 @@ public class StrategyManager : TutorialManager
 		Challenge hatMoveChallenge = new Challenge("Hats on, Hats off");
 		hatMoveChallenge.popupText = "HL's gameplay changes significantly when she removes her hat - many of her attacks become useless.  Her KICK and SLASH buttons now move the hat around.";
 
-		hatChallenge.goals.Add(hatGoal);
-		hatChallenge.goals.Add(kickGoal);
-		hatChallenge.goals.Add(slashGoal);
+		hatMoveChallenge.goals.Add(hatGoal);
+		hatMoveChallenge.goals.Add(kickGoal);
+		hatMoveChallenge.goals.Add(slashGoal);
 		challenges.Add(hatMoveChallenge);
 
 		Challenge dpChallenge = new Challenge("DP");
-		dpChallenge.popupText = "While wearing her hat, HL can use her invincible Dragon Punch to escape pressure.  If you hold the special button, she will then deploy her hat.";
+		dpChallenge.popupText = "While wearing her hat, HL can use her invincible Dragon Punch to escape pressure.  If you hold the slash button, she will then deploy her hat.";
 		challenges.Add(dpChallenge);
 
 		
@@ -239,37 +260,38 @@ public class StrategyManager : TutorialManager
 			p1State = "6K"
 		};
 
-		Goal snailGoal = new Goal("Let's go girls", "left", "special")
+		Goal snailGoal = new Goal("Let's go girls", "qcb", "p")
 		{
 			p1State = "BackToss"
 		};
 
-		Goal airTossGoal = new Goal("Let's go girls (air)", "air", "special")
+		Goal airTossGoal = new Goal("Let's go girls (air)", "air", "qcb", "p")
 		{
 			p1State = "SnailCallJump"
 		};
 
-		Goal groundSnailGoal = new Goal("1-800-SLIMESMACK", "special")
+		Goal groundSnailGoal = new Goal("1-800-SLIMESMACK", "qcf", "s")
 		{
 			p1State = "SnailCall"
 		};
 
-		Goal airSnailGoal = new Goal("1-800-SHELLSMASH", "right", "special")
+		Goal airSnailGoal = new Goal("1-800-SHELLSMASH", "dp", "s")
 		{
 			p1State = "SnailCallJump"
 		};
 
-		Goal fakeTossGoal = new Goal("It's for you", "down", "special")
+		Goal fakeTossGoal = new Goal("It's for you (long)", "qcf", "p")
 		{
 			p1State = "PhoneToss"
 		};
 
-		Goal snailAirSpecial = new Goal("Big Flop", "air", "special")
+		Goal fakeTossGoal2 = new Goal("It's for you (short)", "qcf", "k")
 		{
-			p1State = "SnailCallJump"
+			p1State = "PhoneTossLow"
 		};
+
 		Challenge snailChallenge = new Challenge("Calling in the girls");
-		snailChallenge.popupText = "SL relies on her shelled buddies to win the match.  They must be first deployed and then commanded.";
+		snailChallenge.popupText = "SL relies on her shelled buddies to control the screen.  They must be first deployed and then commanded.  These moves can also be used in the air.";
 		snailChallenge.goals.Add(snailGoal);
 		snailChallenge.goals.Add(groundSnailGoal);
 		snailChallenge.goals.Add(airTossGoal);
@@ -280,6 +302,7 @@ public class StrategyManager : TutorialManager
 		Challenge phoneTossChallenge = new Challenge("Faking a snail command");
 		phoneTossChallenge.popupText = "SL can pretend to call in a snail but instead throw her phone at the opponent.";
 		phoneTossChallenge.goals.Add(fakeTossGoal);
+		phoneTossChallenge.goals.Add(fakeTossGoal2);
 		challenges.Add(phoneTossChallenge);
 
 

@@ -42,7 +42,6 @@ public class AirSnail : Hadouken
 		}
 		else if (frameCount > launchFrame)
 		{
-			ApplyGravity();
 			if (owner.grounded)
 			{
 				owner.velocity.x = 0;

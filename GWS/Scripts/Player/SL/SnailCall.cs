@@ -39,6 +39,9 @@ public class SnailCall : State
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Sound1String, Name);
 		if (callMode == 1)
 			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, Sound2String, Name);
+		
+		if (!owner.grounded)
+			owner.velocity.y = 50;
 	}
 
 	private void SendSnailAttack()

@@ -8,7 +8,6 @@ resource_local_to_scene = true
 extents = Vector2( 5, 8 )
 
 [node name="Coffee" instance=ExtResource( 1 )]
-modulate = Color( 1, 0.901961, 0.901961, 1 )
 scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
 level = 3
@@ -17,7 +16,7 @@ opponentLaunch = Vector2( 0, -450 )
 chLaunch = Vector2( 0, -450 )
 launchOnGrounded = false
 chEffect = 3
-speed = Vector2( 3, 0 )
+speed = Vector2( 5, 0 )
 postHitSpeed = Vector2( 6, 0 )
 duration = 200
 slowTerminalVelocity = 100

@@ -98,7 +98,7 @@ public class TutorialManager : TrainingManager
 	private int currGoalPtr;
 	private Goal currGoal;
 
-	private Node tutorialContainer;
+	private Control tutorialContainer;
 
 	private Node events;
 
@@ -316,7 +316,7 @@ public class TutorialManager : TrainingManager
 		walkBackGoal.p1State = "Walk";
 		moveChallenge.goals.Add(walkBackGoal);
 
-		Goal bJumpGoal = new Goal("Backwards Jump", "left", "up");
+		Goal bJumpGoal = new Goal("Backwards Jump", "upleft");
 		bJumpGoal.p1State = "Jump";
 		moveChallenge.goals.Add(bJumpGoal);
 
@@ -375,7 +375,7 @@ public class TutorialManager : TrainingManager
 
 
 		Challenge attackChallenge2 = new Challenge("Command Attacks");
-		attackChallenge2.popupText = "You can press forward along with attack buttons. In the air, press down along with slash. ";
+		attackChallenge2.popupText = "Press forward + attack buttons for a variant. In the air, press down + slash. ";
 
 		Goal AAGoal = new Goal("Anti air", "right", "p");
 		AAGoal.p1State = "6P";
@@ -424,8 +424,8 @@ public class TutorialManager : TrainingManager
 
 		airGrabChallenge.goals.Add(airGrabGoal);
 
-		Challenge specialAttackChallenge = new Challenge("Special Attacks");
-		specialAttackChallenge.popupText = "Press any direction with the special button to perform a special move.";
+		Challenge specialAttackChallenge = new Challenge("Easy Special Attacks");
+		specialAttackChallenge.popupText = "Press any direction with the special button easily perform a special move.  This will not work in online matches, but is fun for playing with friends.";
 
 		string[] allDirections = new string[] { "", "right", "left", "down", "up" };
 		string[] olSpecials = new string[] { "CommandRun", "AntiAir", "CommandRunWillTurn", "Hadouken", "AntiAir" };
@@ -436,9 +436,28 @@ public class TutorialManager : TrainingManager
 			specialAttackChallenge.goals.Add(specialGoal);
 
 		}
+		Challenge hardSpecialAttackChallenge = new Challenge("Motion Special Attacks");
+		hardSpecialAttackChallenge.popupText = "The proper way to perform special moves is to use motion inputs.  These involve moving the controller stick in specific motions and then pressing a button.";
+
+		string[] specialInputs = new string[] { "qcf", "qcf", "qcf", "qcb", "dp"};
+		string[] specialButtons = new string[] { "p", "k", "s", "p", "s" };
+		string[] olHardSpecials = new string[] { "Hadouken", "CommandRun", "CommandRunWillTurn", "FastHadouken", "AntiAir" };
+		for (int i = 0; i < specialInputs.Length; i++)
+		{
+			Goal specialGoal = new Goal("Special Skill", specialInputs[i], specialButtons[i]);
+			specialGoal.p1State = olHardSpecials[i];
+			hardSpecialAttackChallenge.goals.Add(specialGoal);
+		}
+		Goal airFireball = new Goal("Special Skill", "air", "qcf", "p");
+		airFireball.p1State = "AirHadouken";
+		hardSpecialAttackChallenge.goals.Add(airFireball);
+
+		Goal aerialDp = new Goal("Special Skill", "air", "dp", "s");
+		aerialDp.p1State = "AntiAir";
+		hardSpecialAttackChallenge.goals.Add(aerialDp);
 
 		Challenge gatlingChallenge = new Challenge("Gatlings");
-		Goal hojogiriGoal = new Goal("Hojogiri", "special")
+		Goal hojogiriGoal = new Goal("Hojogiri", "qcf", "k")
 		{
 			p2StateFrame = 0,
 			p1State = "Hojogiri"
@@ -464,8 +483,10 @@ public class TutorialManager : TrainingManager
 
 		Challenge superChallenge = new Challenge("OH SHIT");
 		superChallenge.popupText = "OH SHIT attacks cost half a bar of meter (see below your health bar), but make your opponent scream \"OH SHIT!\"";
-		Goal superGoal = new Goal("OH SHIT", "right", "s", "special");
+		Goal superGoal = new Goal("OH SHIT (casual)", "right", "s", "special");
+		Goal superGoal2 = new Goal("OH SHIT (hard)", "qcf", "qcf", "s");
 		superGoal.p1State = "Super";
+		superGoal2.p1State = "Super";
 		superChallenge.goals.Add(superGoal);
 
 
@@ -478,6 +499,7 @@ public class TutorialManager : TrainingManager
 		challenges.Add(grabChallenge);
 		challenges.Add(airGrabChallenge);
 		challenges.Add(specialAttackChallenge);
+		challenges.Add(hardSpecialAttackChallenge);
 		challenges.Add(superChallenge);
 		challenges.Add(gatlingChallenge);
 		challenges.Add(rcChallenge);
@@ -508,7 +530,7 @@ public class TutorialManager : TrainingManager
 
 		Challenge lowChallenge = new Challenge("Low blocking", GameScene.ResetPos.P1CORNEREDLEFT);
 		lowChallenge.popupText = "By holding back AND down, you'll block low and mid height attacks";
-		Goal blockGoalLow = new Goal("block mids and lows", "down", "left", "hold");
+		Goal blockGoalLow = new Goal("block mids and lows", "downleft", "hold");
 		blockGoalLow.p1State = "CrouchBlock";
 		blockGoalLow.p1FailTags.Add(Globals.Tags.hitstate);
 		blockGoalLow.p1StateFrame = 1;
@@ -518,7 +540,7 @@ public class TutorialManager : TrainingManager
 		lowChallenge.p2Inputs = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 520, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		challenges.Add(lowChallenge);
 
-		Goal loBlockGoal = new Goal("Low block", "left", "down", "hold");
+		Goal loBlockGoal = new Goal("Low block", "downleft", "hold");
 		loBlockGoal.p1State = "CrouchBlock";
 		loBlockGoal.p1FailState = "HitStun";
 		loBlockGoal.p1StateFrame = 1;
@@ -589,6 +611,8 @@ public class TutorialManager : TrainingManager
 	public override void Quit()
 	{
 		base.Quit();
+		tutorialContainer.Call(TutorialResetCallString);
+		tutorialContainer.Visible = false;
 		currChallengePtr = 0;
 	}
 
@@ -596,7 +620,7 @@ public class TutorialManager : TrainingManager
 	public override void _Ready()
 	{
 		base._Ready();
-		tutorialContainer = gameScene.GetNode("HUD/TutorialContainer");
+		tutorialContainer = (Control)gameScene.GetNode("HUD/TutorialContainer");
 		events = GetNode("/root/Events");
 
 
@@ -607,10 +631,10 @@ public class TutorialManager : TrainingManager
 		walkGoal = new Goal("Walk forwards", "right");
 		walkGoal.p1State = "Walk";
 
-		fJumpGoal = new Goal("Forward Jump", "right", "up");
+		fJumpGoal = new Goal("Forward Jump", "upright");
 		fJumpGoal.p1State = "Jump";
 
-		dFJumpGoal = new Goal("Forward Double Jump", "air", "right", "up");
+		dFJumpGoal = new Goal("Forward Double Jump", "air", "upright");
 		dFJumpGoal.p1State = "DoubleJump";
 
 		jabGoal = new Goal("Punch", "p")
@@ -686,7 +710,7 @@ public class TutorialManager : TrainingManager
 	public override void Start()
 	{
 		base.Start();
-
+		tutorialContainer.Visible = true;
 		Globals.autoTech = false;
 		if (comboTrial)
 		{

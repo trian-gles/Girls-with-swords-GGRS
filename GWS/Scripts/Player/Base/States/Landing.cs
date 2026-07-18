@@ -25,6 +25,8 @@ public class Landing : State
 	public override void Enter()
 	{
 		base.Enter();
+		if (owner.otherPlayer.currentState.stunRemaining > 0)
+			owner.DisplayPlusFrames(owner.otherPlayer.currentState.stunRemaining);
 		owner.canDoubleJump = true;
 		owner.canAirDash = true;
 		owner.hasDoubleOrSuperJumped = false;

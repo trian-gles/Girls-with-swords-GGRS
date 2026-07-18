@@ -13,7 +13,7 @@ class Coffee : HadoukenPart
 	Fix64 div = new Fix64(8);
 	public override void FrameAdvance()
 	{
-		if (active)
+		if (active && speed.y == 0)
 		{
 			var sloFrame = (Fix64)(frame + 2) / div;
 			var y = Fix64.Sin(sloFrame) * mult + offset;

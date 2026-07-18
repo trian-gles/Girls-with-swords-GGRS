@@ -625,6 +625,26 @@ public class Globals : Node
 
 	private static int[] tempResultBuffer = new int[64];
 
+	public static InputContainer GetQCF(char button)
+	{
+		return new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { button, 'p' } });
+	}
+
+	public static InputContainer GetQCB(char button)
+	{
+		return new InputContainer(new[] { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { button, 'p' } });
+	}
+
+	public static InputContainer GetDP1(char button)
+	{
+		return new InputContainer(new[] { new char[] { '6', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new[] { button, 'p' } });
+	}
+
+	public static InputContainer GetDP2(char button)
+	{
+		return new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new[] { button, 'p' } });
+	}
+
 
 	private static bool ArraysEqual(char[] a, char[] b)
 	{

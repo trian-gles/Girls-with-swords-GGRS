@@ -4,25 +4,20 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
-extents = Vector2( 17, 10 )
+extents = Vector2( 12, 12 )
 
-[node name="GLProjectile" instance=ExtResource( 1 )]
+[node name="GLProjectileArc" instance=ExtResource( 1 )]
 startup = 7
-modifiedHitStun = 18
-modifiedCounterHitStun = 18
-chEffect = 3
-hitGfx = 1
-speed = Vector2( 5, 0 )
-duration = 55
+modifiedHitStun = 24
+modifiedCounterHitStun = 25
+speed = Vector2( 2, 2 )
 totalHits = 3
-breakBetweenHits = 6
-modifiedProration = 1
+breakBetweenHits = 7
 
 [node name="AnimatedSprite" parent="." index="0"]
-animation = "GLProjectile"
+rotation = 3.14159
+animation = "GLAirProjectile"
 speed_scale = 2.0
-offset = Vector2( 0, -12 )
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2( -8, 29 )
 shape = SubResource( 1 )

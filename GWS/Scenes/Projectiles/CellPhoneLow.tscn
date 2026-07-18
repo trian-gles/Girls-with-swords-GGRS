@@ -66,7 +66,7 @@ chEffect = 3
 hitGfx = 5
 postHitSpeed = Vector2( 0, 10 )
 duration = 100
-launch = Vector2( 5, -7 )
+launch = Vector2( 3, -3 )
 gravity = 1
 
 [node name="AnimatedSprite" parent="." index="0"]

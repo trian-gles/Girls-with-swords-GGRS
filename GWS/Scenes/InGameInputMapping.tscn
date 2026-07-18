@@ -17,7 +17,7 @@ __meta__ = {
 [node name="InGameInput" type="Sprite" parent="."]
 position = Vector2( 7, 10 )
 texture = ExtResource( 2 )
-hframes = 14
+hframes = 21
 frame = 1
 
 [node name="ControllerInput" type="Sprite" parent="."]

@@ -18,6 +18,7 @@ public class LobbyRedesign : Node2D
 	Label waitingForOtherPlayerLabel;
 	Popup mustUpdatePopup;
 	Popup desyncPopup;
+	Popup disconnectPopup;
 	private string opponentIp;
 	private int opponentPort;
 	private int localPort;
@@ -152,6 +153,7 @@ public class LobbyRedesign : Node2D
 
 		//mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
 		desyncPopup = GetNode<Popup>("MenuRoot/DesyncDetected");
+		disconnectPopup = GetNode<Popup>("MenuRoot/Disconnected");
 
 		// set up debug globals
 		Globals.autoTech = autoTech;
@@ -274,10 +276,12 @@ public class LobbyRedesign : Node2D
 		var result = await NatTraversal();
 		if (result)
 		{
+			HideButtons();
 			activeManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 			AddChild(activeManager);
 			ggrsManager.ManualConfig(opponentIp, hosting, localPort, opponentPort);
 			ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
+			ggrsManager.Connect("Disconnected", this, nameof(OnDisconnected));
 			activeManager.Visible = true;
 			activeManager.Start();
 		}
@@ -298,6 +302,7 @@ public class LobbyRedesign : Node2D
 		ggrsManager.Start();
 		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, aiTest);
 		ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
+		ggrsManager.Connect("Disconnected", this, nameof(OnDisconnected));
 		ggrsManager.Visible = true;
 	}
 
@@ -328,6 +333,12 @@ public class LobbyRedesign : Node2D
 	{
 		desyncPopup.Visible = true;
 		desyncPopup.PopupCentered();
+	}
+
+	public void OnDisconnected()
+	{
+		disconnectPopup.Visible = true;
+		disconnectPopup.PopupCentered();
 	}
 	public void OnLobbyReset()
 	{
@@ -383,8 +394,10 @@ public class LobbyRedesign : Node2D
 		hosting = ((int)result[3]) == 1;
 		Globals.hosting = hosting;
 		GD.Print("WE HAVE PUNCHED ZE HOLE");
+		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		RemoveChild(holePuncher);
 		holePuncher.QueueFree();
+		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		return true;
 	}
 

@@ -21,16 +21,11 @@ public class HL : Player
 
 		//j2C
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
-
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "DP"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "UpHat", false, true));
+		airSpecials.Add(new Special(Globals.GetQCB('p'), "JoeRogan"));
+		groundSpecials.Add(new Special(Globals.GetQCB('p'), "JoeRogan"));
+		AddSpecials("UpUpHat", "Hadouken", "UpHat", "DP", "DP", "Super");
+		AddEasySpecials("UpUpHat", "Hadouken", "UpHat", "DP", "JoeRogan", "Super");
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "UpUpHat", true));
-		easySpecial = "Hadouken";
-
-		easyAirSpecial = "JoeRogan";
-
-		easySuper = "Super";
 
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 
@@ -85,7 +80,7 @@ public class HL : Player
 		else
 			frontSprite.Visible = true;
 
-		if (!hatted && grounded && !CheckHeldKey('2'))
+		if (!hatted && grounded && !CheckHeldKey('2') && !currentState.tags.Contains(Globals.Tags.special))
 		{
 			if (CheckHeldKey('s'))
 			{

@@ -15,10 +15,6 @@ public class SL : Player
 	public override void _EnterTree()
 	{
 		base._EnterTree();
-		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "SnailStrike"));
-		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "SnailStrike"));
-		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '2', 'r' }, new char[] { 's', 'p' } }, "SnailStrike"));
-		//groundExSpecials.Add(new Special(new InputContainer() { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }, "SnailStrike"));
 
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6C"));
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'k', "6K"));
@@ -26,24 +22,13 @@ public class SL : Player
 
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
 
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "SnailCall"));
-		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "BackToss"));
-
-		//airSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { 'k', 'p' } }, "AirSnail"));
-		//airSpecials.Add(new Special(new InputContainer() { new char[] { '4', 'p' }, new char[] { '2', 'r' }, new char[] { '8', 'p' }, new char[] { 'k', 'p' } }, "AirSnail"));
-
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', "SnailCallJump"));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', "SnailCallFake", true, true));
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', "BackToss"));
 
 		dashSpecials.Add(new Special(new InputContainer( new[] { new char[] { 's', 'p' } }), "DashAttack"));
-
-		//dashSpecials.Add(new Special(new InputContainer() { new char[] { 's', 'p' } }, "SnailRideAttempt"));
-		easySpecial = "SnailCall";
-
-		easyAirSpecial = "AirSnail";
-
-		easySuper = "SnailStrike";
+		groundSpecials.Add(new Special(Globals.GetQCB('p'), "BackToss", true));
+		AddSpecials("SnailCallFake", "PhoneTossLow", "SnailCall", "SnailCallJump", "SnailCallJump", "SnailStrike");
+		AddEasySpecials("SnailCallFake", "SnailCall", "BackToss", "SnailCallJump", "AirSnail", "SnailStrike");
+		airSpecials.Add(new Special(Globals.GetQCF('s'), "SnailCall"));
+		airSpecials.Add(new Special(Globals.GetQCB('p'), "AirSnail", true));
 	}
 	public override void _Ready()
 	{

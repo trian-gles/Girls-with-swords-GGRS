@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "GodotGGRS",
 "language": "NativeScript",
 "path": "res://GodotGGRS.gdns"
+}, {
+"base": "Node",
+"class": "UDPProxy",
+"language": "GDScript",
+"path": "res://addons/LocalProxy/local_proxy.gd"
 } ]
 _global_script_class_icons={
-"GodotGGRS": ""
+"GodotGGRS": "",
+"UDPProxy": ""
 }
 
 [WAT]

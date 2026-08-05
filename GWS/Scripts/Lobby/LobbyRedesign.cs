@@ -21,6 +21,7 @@ public class LobbyRedesign : Node2D
 	Popup desyncPopup;
 	Popup disconnectPopup;
 	Node holePuncher;
+	Node localProxy;
 	private string opponentIp;
 	private int opponentPort;
 	private int localPort;
@@ -230,6 +231,16 @@ public class LobbyRedesign : Node2D
 		BeginTestNetplaySession(false);
 	}
 	
+	private void OnHostProxyTestButtonDown()
+	{
+		BeginTestNetplayProxySession(true);
+	}
+	
+	private void OnJoinProxyTestButtonDown()
+	{
+		BeginTestNetplayProxySession(false);
+	}
+	
 	//local buttons
 	public void OnLocalButtonDown()
 	{
@@ -276,7 +287,7 @@ public class LobbyRedesign : Node2D
 	private async void BeginNetplayManager()
 	{
 		activeManager = ggrsManager;
-		var result = await NatTraversal();
+		var result = await ConnectToServerAndPeer();
 		if (result)
 		{
 			HideButtons();
@@ -297,6 +308,33 @@ public class LobbyRedesign : Node2D
 		HideButtons();
 		localPort = hosting ? 7001 : 7000;
 		opponentPort = hosting ? 7000 : 7001;
+		activeManager = ggrsManager;
+		ggrsManager.AttachGamescenes(charSelectScene, gameScene, winScene);
+		AddChild(ggrsManager);
+		Globals.mode = Globals.Mode.GGPO;
+		bool aiTest = hosting;
+		ggrsManager.Start();
+		ggrsManager.ManualConfig("127.0.0.1", hosting, localPort, opponentPort, aiTest);
+		ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
+		ggrsManager.Connect("Disconnected", this, nameof(OnDisconnected));
+		ggrsManager.Visible = true;
+	}
+
+	/// <summary>
+	/// Connect to the locally hosted proxy network
+	/// </summary>
+	/// <param name="hosting"></param>
+	private void BeginTestNetplayProxySession(bool hosting)
+	{
+
+		Globals.netplaySessionName = "TestSession";
+		lobbyMusic.Stop();
+		HideButtons();
+		
+		localPort = hosting ? 7001 : 7000;
+		opponentPort = hosting ? 8001 : 8000; // replaced with the proxy
+		InitProxyConnection(opponentPort, "127.0.0.1");
+		
 		activeManager = ggrsManager;
 		ggrsManager.AttachGamescenes(charSelectScene, gameScene, winScene);
 		AddChild(ggrsManager);
@@ -363,6 +401,7 @@ public class LobbyRedesign : Node2D
 	{
 		RemoveChild(holePuncher);
 		holePuncher.QueueFree();
+
 		OnLobbyReset();
 		disconnectPopup.Visible = true;
 		disconnectPopup.PopupCentered();
@@ -385,6 +424,12 @@ public class LobbyRedesign : Node2D
 			activeManager.Visible = false;
 			activeManager.Quit();
 			RemoveChild(activeManager);
+		}
+
+		if (localProxy != null)
+		{
+			RemoveChild(localProxy);
+			localProxy.QueueFree();
 		}
 		
 		menuroot.Visible = true;
@@ -411,7 +456,12 @@ public class LobbyRedesign : Node2D
 	// ----------------
 	// NAT
 	// ----------------
-	private async Task<bool> NatTraversal()
+
+	/// <summary>
+	/// Checks version, determines who is P1, and connects to peer
+	/// </summary>
+	/// <returns></returns>
+	private async Task<bool> ConnectToServerAndPeer()
 	{
 		var version = Globals.GetVersion();
 		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
@@ -440,6 +490,24 @@ public class LobbyRedesign : Node2D
 		holePuncher.QueueFree();
 		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		return true;
+	}
+
+	// ----------------
+	// PROXY CONNECTION
+	// ----------------
+
+/// <summary>
+/// Runs a local proxy, which sends the room code to the remote proxy and then routes GGRS traffic to that remote proxy.  Note: the proxy will figure out what port GGRS is running on
+/// </summary>
+/// <param name="localProxyPort">Port which GGRS must connect to</param>
+/// <param name="serverIP"></param>
+/// <param name="serverPort"></param>
+	private void InitProxyConnection(int localProxyPort, string serverIP)
+	{
+		var proxyScript = (Script)(GD.Load("res://addons/LocalProxy/local_proxy.gd"));
+		localProxy = (Node)proxyScript.Call("new");
+		AddChild(localProxy);
+		localProxy.Call("start_proxy", Globals.netplaySessionName, serverIP, 9999, localProxyPort);
 	}
 	
 }

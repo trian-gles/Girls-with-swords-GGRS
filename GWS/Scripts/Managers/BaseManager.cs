@@ -165,12 +165,12 @@ public class BaseManager : Node2D
 
 	public virtual void Quit()
 	{
-		gameScene.Quit();
-		charSelectScene.Reload();
-		gameScene.Disconnect("GameWon", this, nameof(OnGameWon));
-		gameScene.Disconnect("ComboFinished", this, nameof(OnComboFinished));
-		winScene.Disconnect("Rematch", this, nameof(OnRematch));
-		winScene.Disconnect("ReselectChar", this, nameof(OnReselectChar));
+		gameScene?.Quit();
+		charSelectScene?.Reload();
+		gameScene?.Disconnect("GameWon", this, nameof(OnGameWon));
+		gameScene?.Disconnect("ComboFinished", this, nameof(OnComboFinished));
+		winScene?.Disconnect("Rematch", this, nameof(OnRematch));
+		winScene?.Disconnect("ReselectChar", this, nameof(OnReselectChar));
 		RemoveChild(charSelectScene);
 		RemoveChild(gameScene);
 		RemoveChild(winScene);

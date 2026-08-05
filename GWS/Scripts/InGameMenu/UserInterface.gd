@@ -25,6 +25,9 @@ func set_paused(value: bool) -> void:
 		var in_training = get_node("/root/Globals").call("CheckTrainingMode")
 		$PauseOverlay/PauseMenu/AutoBlock.visible = in_training
 		$PauseOverlay/PauseMenu/AutoTech.visible = in_training
+		$P1Inputs/P1Controls.config_inputs()
+		$P2Inputs/P1Controls.config_inputs()
+		$SpecialInputs/Container.config_inputs()
 		
 func _on_AutoBlock_toggled(button_pressed):
 	if is_inside_tree():

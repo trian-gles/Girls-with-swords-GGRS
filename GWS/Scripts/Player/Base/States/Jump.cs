@@ -74,7 +74,7 @@ public class Jump : AirState
 	
 	private bool LateEnoughDoubleJump()
 	{
-		return frameCount > 13;
+		return frameCount > 8;
 	}
 
 	public override void Enter()
@@ -104,11 +104,13 @@ public class Jump : AirState
 
 	public override bool DelayInputs()
 	{
-		return frameCount < startupFrames && owner.canDoubleJump;
+		return frameCount > startupFrames - 6 && frameCount < startupFrames && owner.canDoubleJump;
 	}
 
 	public override void HandleInput(InputContainer.CharPair inputArr)
 	{
+		if (frameCount >= 3 && frameCount < startupFrames && !(Name == "DoubleJump"))
+			return;
 		base.HandleInput(inputArr);
 
 		// Allows the user to choose direction slightly into the jump

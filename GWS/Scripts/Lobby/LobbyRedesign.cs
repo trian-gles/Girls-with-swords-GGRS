@@ -15,10 +15,12 @@ public class LobbyRedesign : Node2D
 	VBoxContainer entries;
 	HBoxContainer netplaybuttons;
 	Label sendToFriendLabel;
-	Label waitingForOtherPlayerLabel;
+	Label connectionLabel;
 	Popup mustUpdatePopup;
+	Popup serverUnavailablePopup;
 	Popup desyncPopup;
 	Popup disconnectPopup;
+	Node holePuncher;
 	private string opponentIp;
 	private int opponentPort;
 	private int localPort;
@@ -135,11 +137,11 @@ public class LobbyRedesign : Node2D
 
 		newMatchId = entries.GetNode<LineEdit>("NewMatchContainer/NewMatchID");
 		sendToFriendLabel = newMatchId.GetNode<Label>("SendToFriend");
-		waitingForOtherPlayerLabel = netplaymenu.GetNode<Label>("WaitingForOtherPlayer");
+		connectionLabel = netplaymenu.GetNode<Label>("ConnectionLabel");
 
 		existingMatchId = entries.GetNode<LineEdit>("ExistingMatchContainer/ExistingMatchID");
 		sendToFriendLabel.Visible = false;
-		waitingForOtherPlayerLabel.Visible = false;
+		connectionLabel.Visible = false;
 
 		//button check menus
 		inputmenu = GetNode<Control>("InputMenu/InputMenu");
@@ -151,7 +153,8 @@ public class LobbyRedesign : Node2D
 		// cache lobby music player
 		lobbyMusic = GetNode<AudioStreamPlayer>("LobbyMusic");
 
-		//mustUpdatePopup = GetNode<Popup>("CanvasLayer/UpdateRequired");
+		mustUpdatePopup = GetNode<Popup>("MenuRoot/UpdateRequired");
+		serverUnavailablePopup = GetNode<Popup>("MenuRoot/ServerUnavailable");
 		desyncPopup = GetNode<Popup>("MenuRoot/DesyncDetected");
 		disconnectPopup = GetNode<Popup>("MenuRoot/Disconnected");
 
@@ -203,7 +206,7 @@ public class LobbyRedesign : Node2D
 		newMatchId.Text = RandomString(8);
 		Globals.netplaySessionName = newMatchId.Text;
 		sendToFriendLabel.Visible = true;
-		waitingForOtherPlayerLabel.Visible = true;
+		connectionLabel.Visible = true;
 		BeginNetplayManager();
 	}
 
@@ -211,7 +214,7 @@ public class LobbyRedesign : Node2D
 	{
 		GD.Print(existingMatchId.Text);
 		Globals.netplaySessionName = existingMatchId.Text;
-		waitingForOtherPlayerLabel.Visible = true;
+		connectionLabel.Visible = true;
 		BeginNetplayManager();
 	}
 
@@ -328,18 +331,53 @@ public class LobbyRedesign : Node2D
 		column.GetNode<Button>("ReturnToInGameMenu").Visible = true;
 		column.GetNode<Button>("ReturnMainMenu").Visible = false;
 	}
+
+	public void OnServerUnreachable()
+	{
+		RemoveChild(holePuncher);
+		holePuncher.QueueFree();
+		OnLobbyReset();
+		serverUnavailablePopup.Visible = true;
+		serverUnavailablePopup.PopupCentered();
+	}
+
+	public void OnUpdateRequired()
+	{
+		RemoveChild(holePuncher);
+		holePuncher.QueueFree();
+		OnLobbyReset();
+		mustUpdatePopup.Visible = true;
+		mustUpdatePopup.PopupCentered();
+	}
 	
 	public void OnDesyncDetected()
 	{
+		RemoveChild(holePuncher);
+		holePuncher.QueueFree();
+		OnLobbyReset();
 		desyncPopup.Visible = true;
 		desyncPopup.PopupCentered();
 	}
 
 	public void OnDisconnected()
 	{
+		RemoveChild(holePuncher);
+		holePuncher.QueueFree();
+		OnLobbyReset();
 		disconnectPopup.Visible = true;
 		disconnectPopup.PopupCentered();
 	}
+
+	public void OnServerContacted()
+	{
+		connectionLabel.Text = "Server contacted, waiting for other player...";
+	}
+
+	public void OnPeerFound()
+	{
+		connectionLabel.Text = "Opponent found, routing connection...";
+	}
+
 	public void OnLobbyReset()
 	{
 		if (activeManager != null)
@@ -357,7 +395,7 @@ public class LobbyRedesign : Node2D
 			mainmenubuttons.GetNode<ToolButton>("Local").GrabFocus();
 		}
 		lobbyMusic.Play();
-		waitingForOtherPlayerLabel.Visible = false;
+		connectionLabel.Visible = false;
 		sendToFriendLabel.Visible = false;
 		newMatchId.Text = "";
 		menuroot.Call(BackButtonPressedCallString);
@@ -379,8 +417,11 @@ public class LobbyRedesign : Node2D
 		var holePuncherScript = (Script)(GD.Load("res://addons/Holepunch/holepunch_node.gd"));
 		
 
-		var holePuncher = (Node)holePuncherScript.Call("new");
-		holePuncher.Connect("wrong_version", this, nameof(OnWrongVersionReject));
+		holePuncher = (Node)holePuncherScript.Call("new");
+		holePuncher.Connect("wrong_version", this, nameof(OnUpdateRequired));
+		holePuncher.Connect("server_unreachable", this, nameof(OnServerUnreachable));
+		holePuncher.Connect("contacted_server", this, nameof(OnServerContacted));
+		holePuncher.Connect("found_peer", this, nameof(OnPeerFound));
 
 		holePuncher.Set("rendevouz_address", "172.104.215.127"); // production : "172.104.215.127"
 		holePuncher.Set("rendevouz_port", 4000);
@@ -399,12 +440,6 @@ public class LobbyRedesign : Node2D
 		holePuncher.QueueFree();
 		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
 		return true;
-	}
-
-	public void OnWrongVersionReject()
-	{
-		GD.Print("Outdated!");
-		//mustUpdatePopup.PopupCentered();
 	}
 	
 }

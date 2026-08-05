@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://Scripts/Player/Base/States/AirBackdash.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/New Palette Swapper/PaletteSwap.tres" type="Material" id=2]
@@ -59,6 +59,7 @@
 [ext_resource path="res://Scripts/Tool/SpriteSync.gd" type="Script" id=57]
 [ext_resource path="res://Scripts/Player/Base/States/LandingRecovery.cs" type="Script" id=58]
 [ext_resource path="res://Scripts/Player/Base/GFX/ElectricShock.cs" type="Script" id=59]
+[ext_resource path="res://Scripts/Player/Base/States/GroundTech.cs" type="Script" id=60]
 [ext_resource path="res://Scripts/Player/Base/States/Shield.cs" type="Script" id=61]
 [ext_resource path="res://Scripts/Player/Base/States/CrouchShield.cs" type="Script" id=62]
 [ext_resource path="res://Scripts/Player/Base/States/Burst.cs" type="Script" id=64]
@@ -71,19 +72,19 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 26, 26 )
+extents = Vector2( 16, 32 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 20, 14 )
+extents = Vector2( 26, 9 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 6, 5 )
+extents = Vector2( 19, 14 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 20, 35 )
+extents = Vector2( 21, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 20, 35 )
+extents = Vector2( 10, 12 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 12, 22 )
@@ -506,6 +507,10 @@ modifiedDmg = 1
 knockdown = true
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
+
+[node name="GroundTech" type="Node" parent="StateTree"]
+script = ExtResource( 60 )
+techVector = Vector2( 400, -600 )
 
 [node name="DebugPos" type="Label" parent="."]
 visible = false

@@ -1,15 +1,16 @@
-[gd_scene load_steps=99 format=2]
+[gd_scene load_steps=101 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Player/HL/HL.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Player/Base/player_shader.tres" type="Shader" id=3]
 [ext_resource path="res://Scripts/Player/HL/Specials/HLDP.cs" type="Script" id=4]
-[ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset-hatless_gray.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Movesets/HL Moveset/HL_Full_Moveset-hatless_palette.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Player/HL/Specials/Teleport.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/Projectiles/UpHat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Projectiles/UpUpHat.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Player/Base/AnimationPlayer.cs" type="Script" id=9]
 [ext_resource path="res://Sprites/Palettes/OL/Default Palette.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Palettes/HL/HL_Full_Moveset-hatless_gray.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/Player/HL/Specials/HatThrow.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Player/HL/Specials/AirHatThrow.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/Player/OL/Specials/HojogiriCharged.cs" type="Script" id=15]
@@ -43,9 +44,206 @@ shader_param/palette = ExtResource( 10 )
 [sub_resource type="CSharpScript" id=3]
 resource_name = "OLWalk"
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=79]
 resource_name = "6K"
-length = 25.0
+length = 27.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4, 6, 11, 15, 19, 24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 88, 89, 90, 91, 92, 93, 94, 95 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HitBoxes/HitB1:shape:extents")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 18, 22 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("HitBoxes/HitB1:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 2, 18 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HitBoxes/HitB2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("HitBoxes/HitB2:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 3, 10, 15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -1, -8 ), Vector2( 18, 0 ), Vector2( 30, -17 ), Vector2( 1, -17 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("HitBoxes/HitB2:shape:extents")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 10, 15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 14, 30 ), Vector2( 42, 11 ), Vector2( 14, 11 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("HurtBoxes/HurtB1:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("HitBoxes/HitB1:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("HitBoxes/HitB3:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("HurtBoxes/HurtB2:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 11, 15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("HurtBoxes/HurtB3:disabled")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 11, 15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Sprite:offset")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 3, 0 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("HurtBoxes/HurtB2:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 11 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 20, -19 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("HurtBoxes/HurtB2:shape:extents")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 11 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 6, 9 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("HurtBoxes/HurtB3:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 11 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 52, -15 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("HurtBoxes/HurtB3:shape:extents")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 11 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 26, 22 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "6KOld"
+length = 26.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -448,7 +646,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 10, 16, 24 ),
+"times": PoolRealArray( 0, 10, 16, 29 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 6, 8, 10, 15 ]
@@ -472,7 +670,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 24 ),
+"times": PoolRealArray( 0, 29 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ true, true ]
@@ -496,7 +694,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 16, 24 ),
+"times": PoolRealArray( 0, 16, 29 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -592,7 +790,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 8, 11, 20 ),
+"times": PoolRealArray( 8, 16, 22 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 14, 4 ), Vector2( 19, 8 ), Vector2( 10, 12 ) ]
@@ -604,10 +802,10 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 8, 11, 20, 22 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 8, 16, 19, 22, 24, 27 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 27, -14 ), Vector2( 53, -9 ), Vector2( 108, 18 ), Vector2( 118, 44 ) ]
+"values": [ Vector2( 27, -14 ), Vector2( 56, -9 ), Vector2( 77, 2 ), Vector2( 108, 18 ), Vector2( 118, 36 ), Vector2( 128, 42 ) ]
 }
 tracks/14/type = "value"
 tracks/14/path = NodePath("HitBoxes/HitB2:position")
@@ -3555,7 +3753,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 5, 7 ),
+"times": PoolRealArray( 0, 5, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -8804,6 +9002,18 @@ tracks/7/keys = {
 "update": 0,
 "values": [ Vector2( 11, 12 ) ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("HurtBoxes/HurtB2:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 77, 2 ) ]
+}
 
 [sub_resource type="Animation" id=52]
 length = 45.0
@@ -9971,7 +10181,7 @@ tracks/11/keys = {
 
 [sub_resource type="Animation" id=70]
 resource_name = "TeleportDP"
-length = 38.0
+length = 37.0
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -10475,7 +10685,7 @@ accel = 35
 jumpForce = 900
 superJumpForce = 900
 damageModInt = 12
-palette = ExtResource( 10 )
+palette = ExtResource( 5 )
 greyPalette = ExtResource( 22 )
 plusFrameTextScene = ExtResource( 23 )
 
@@ -10488,35 +10698,35 @@ position = Vector2( -2, 0 )
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 0, -24 )
 shape = SubResource( 77 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
-position = Vector2( 14, 14 )
+position = Vector2( 8, 24 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( -30, 35 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
-position = Vector2( 51, 21 )
+position = Vector2( 77, 2 )
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 22, 5 )
 disabled = false
 
 [node name="Sprite" parent="." index="4"]
+modulate = Color( 0.662202, 0.00990099, 0.00990099, 1 )
 material = SubResource( 73 )
-texture = ExtResource( 5 )
+texture = ExtResource( 11 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 17
+frame = 167
 
 [node name="SpriteFront" parent="." index="5"]
 texture = ExtResource( 17 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 17
+frame = 167
 
 [node name="StateTree" parent="." index="7"]
 script = SubResource( 3 )
@@ -10536,13 +10746,15 @@ script = ExtResource( 4 )
 isSpecial = true
 level = 3
 chip = true
+modifiedHitStop = 5
 modifiedHitStun = 45
 modifiedCounterHitStun = 65
 opponentLaunch = Vector2( 300, -1200 )
 modifiedHitPush = 6000
+modifiedDmg = 3
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
-restoreHitFrames = PoolIntArray( 12 )
+restoreHitFrames = PoolIntArray( 5, 6, 7 )
 superKaraButton = "s"
 specialBurstKara = true
 launch = Vector2( 200, -1000 )
@@ -10608,7 +10820,7 @@ gatlingWinEnd = 14
 
 [node name="JumpC" parent="StateTree" index="36"]
 level = 3
-chEffect = 0
+modifiedCounterHitStun = 25
 hitGfx = 4
 gatlingWinEnd = 16
 
@@ -10734,19 +10946,16 @@ grabKara = false
 
 [node name="6K" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 21 )
-level = 1
-modifiedCounterHitStun = 19
-opponentLaunch = Vector2( 0, -300 )
-chLaunch = Vector2( 0, -300 )
+level = 2
+modifiedCounterHitStun = 29
+opponentLaunch = Vector2( 0, -350 )
+chLaunch = Vector2( 0, -350 )
 slowTerminalVelocity = 300
-height = 0
 launchOnGrounded = false
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
 grabInvulnFrames = 14
-xAdvance = 300
-sweepCancel = true
-moveSpeed = 200
+commandNormalCancel = true
 stopFrame = 10
 stringCancel = "UpHat"
 
@@ -10769,12 +10978,13 @@ commandNormalCancel = true
 grabKara = false
 
 [node name="AirGrab" parent="StateTree" index="57"]
+level = 3
 releaseFrame = 20
 launch = Vector2( 400, 0 )
 
 [node name="6S" type="Node" parent="StateTree" index="58"]
 script = ExtResource( 24 )
-level = 2
+level = 3
 opponentLaunch = Vector2( 200, 200 )
 chLaunch = Vector2( 200, 200 )
 modifiedHitPush = 100
@@ -10856,7 +11066,8 @@ exitOnLand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 playback_speed = 60.0
-anims/6K = SubResource( 4 )
+anims/6K = SubResource( 79 )
+anims/6KOld = SubResource( 4 )
 anims/6P = SubResource( 5 )
 anims/6S = SubResource( 64 )
 anims/AirBackdash = SubResource( 6 )

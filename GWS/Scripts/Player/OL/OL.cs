@@ -20,6 +20,8 @@ public class OL : Player
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 's', "6S"));
 		groundSpecials.Add(new Special(Globals.GetQCB('p'), "FastHadouken", true));
 		airSpecials.Add(new Special(Globals.GetQCF('p'), "AirHadouken", true));
+		cooldownSpecials.Add("Hadouken");
+		cooldownSpecials.Add("AirHadouken");
 		AddSpecials("Hadouken", "HojogiriCharge", "CommandRunWillTurn", "AntiAir", "AntiAir", "Super");
 		AddEasySpecials("Hadouken", "HojogiriCharge", "CommandRunWillTurn", "AntiAir", "AntiAir", "Super");
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "InstantOverhead"));

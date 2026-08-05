@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scripts/Lobby/MenuRoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Lobby/LocalMain.gd" type="Script" id=2]
@@ -34,6 +34,7 @@
 [ext_resource path="res://Scenes/Characters/OL.tscn" type="PackedScene" id=32]
 [ext_resource path="res://Scenes/Characters/HL.tscn" type="PackedScene" id=33]
 [ext_resource path="res://Scenes/Popups/DesyncDetected.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Scenes/Popups/ServerUnavailable.tscn" type="PackedScene" id=35]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -247,6 +248,11 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MenuRoot"]
 anims/fade_in = SubResource( 5 )
+
+[node name="ServerUnavailable" parent="MenuRoot" instance=ExtResource( 35 )]
+window_title = "Server Unavailable"
+
+[node name="UpdateRequired" parent="MenuRoot" instance=ExtResource( 35 )]
 
 [node name="DesyncDetected" parent="MenuRoot" instance=ExtResource( 34 )]
 margin_left = -45.0
@@ -571,12 +577,12 @@ anchor_bottom = 1.0
 margin_left = 480.0
 margin_right = 480.0
 
-[node name="WaitingForOtherPlayer" type="Label" parent="MenuRoot/NetPlayMenu"]
+[node name="ConnectionLabel" type="Label" parent="MenuRoot/NetPlayMenu"]
 margin_right = 480.0
 margin_bottom = 270.0
 size_flags_vertical = 1
 text = "
-Waiting for other player..."
+Connecting to server..."
 align = 1
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]

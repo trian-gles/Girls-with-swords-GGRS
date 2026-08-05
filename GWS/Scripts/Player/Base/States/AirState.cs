@@ -74,9 +74,9 @@ public abstract class AirState : State
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 		});
-
+		/*
 			AddGatling(new char[] { '6', 'p' },
-			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && CheckAirDashConditions(),
 				AirDashString,
 			() =>
 		{
@@ -86,7 +86,7 @@ public abstract class AirState : State
 		});
 
 			AddGatling(new char[] { '6', 'p' },
-			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && owner.canAirDash && !owner.facingRight&& owner.internalPos.y < Globals.MAXAIRDASHDEPTH,
+			() => owner.CheckBuffer(new InputContainer.CharPair('c', 'p')) && CheckAirDashConditions(),
 				AirBackdashString,
 			() =>
 		{
@@ -114,6 +114,7 @@ public abstract class AirState : State
 			owner.canDoubleJump = false;
 			owner.canAirDash = false;
 		});
+		*/
     }
 
 	public override void ReceiveHit(Globals.AttackDetails details)

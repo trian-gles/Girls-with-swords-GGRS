@@ -14,7 +14,6 @@ public class GGRSManager : StateManager
 
 	[Signal]
 	public delegate void DesyncDetected();
-
 	[Signal]
 	public delegate void Disconnected();
 
@@ -59,7 +58,7 @@ public class GGRSManager : StateManager
 	public override void Quit()
 	{
 		base.Quit();
-		GGRS.QueueFree();
+		GGRS?.QueueFree();
 		RemoveChild(GGRS);
 	}
 
@@ -67,12 +66,6 @@ public class GGRSManager : StateManager
 	{
 		ClearHUDText();
 		Visible = true;
-	}
-	
-	public void OnUpdateRequiredConfirmed()
-	{
-		const string MainMenuPressedString = "MainMenuPressed";
-		events.Call("emit_signal", MainMenuPressedString);
 	}
 
 	private void Desync()

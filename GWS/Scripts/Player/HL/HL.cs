@@ -23,6 +23,7 @@ public class HL : Player
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
 		airSpecials.Add(new Special(Globals.GetQCB('p'), "JoeRogan"));
 		groundSpecials.Add(new Special(Globals.GetQCB('p'), "JoeRogan"));
+		cooldownSpecials.Add("UpHat");
 		AddSpecials("UpUpHat", "Hadouken", "UpHat", "DP", "DP", "Super");
 		AddEasySpecials("UpUpHat", "Hadouken", "UpHat", "DP", "JoeRogan", "Super");
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '8', '8' }, 'a', "JoeRogan"));

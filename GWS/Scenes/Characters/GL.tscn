@@ -6639,10 +6639,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 6 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 6, 12 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, false, true ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("HitBoxes/HitB3:disabled")
@@ -8983,12 +8983,11 @@ visible = true
 
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0, 1, 0.0156863, 1 )
-position = Vector2( 30, 14 )
+position = Vector2( -1, 12 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 modulate = Color( 0, 1, 0.0156863, 1 )
 position = Vector2( 27, 8 )
-disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 modulate = Color( 0, 1, 0.0156863, 1 )
@@ -8996,11 +8995,10 @@ position = Vector2( 30, 29 )
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 light_mask = 0
-position = Vector2( 89, 15 )
+position = Vector2( 32, 1 )
 
 [node name="HurtB2" parent="HurtBoxes" index="1"]
 position = Vector2( 22.5, 32 )
-disabled = false
 
 [node name="HurtB3" parent="HurtBoxes" index="2"]
 position = Vector2( 35, -16 )
@@ -9009,16 +9007,16 @@ position = Vector2( 35, -16 )
 position = Vector2( 0, -57 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 22 )
-offset = Vector2( 11, 0 )
+offset = Vector2( -1, 0 )
 hframes = 255
 vframes = 2
-frame = 167
+frame = 149
 
 [node name="Sprite" parent="." index="4"]
 material = SubResource( 58 )
 position = Vector2( 0, -57 )
 texture = ExtResource( 16 )
-offset = Vector2( 11, 0 )
+offset = Vector2( -1, 0 )
 hframes = 255
 vframes = 2
 frame = 149
@@ -9026,10 +9024,10 @@ frame = 149
 [node name="SpriteFront" parent="." index="5"]
 position = Vector2( 0, -57 )
 texture = ExtResource( 18 )
-offset = Vector2( 11, 0 )
+offset = Vector2( -1, 0 )
 hframes = 255
 vframes = 2
-frame = 167
+frame = 149
 
 [node name="GunBlazed" type="Node" parent="StateTree" index="0"]
 script = ExtResource( 10 )
@@ -9238,6 +9236,9 @@ opponentLaunch = Vector2( 100, -100 )
 superFrame = 2
 powerUpFrame = 34
 powerUpDuration = 120
+
+[node name="AirGrab" parent="StateTree" index="56"]
+level = 3
 
 [node name="DashAttack" type="Node" parent="StateTree" index="58"]
 script = ExtResource( 24 )

@@ -155,6 +155,7 @@ public class Player : Node2D
 	protected int[] charSpecificData = new int[4];
 	public int lastAttemptRightIBFrame = -30;
 	public int lastAttemptLeftIBFrame = -30;
+	public int lastTurnAroundFrame = -30;
 
 	public PlayerState pState = new PlayerState();
 
@@ -230,6 +231,7 @@ public class Player : Node2D
 		public fixed int charSpecificData[4];
 		public int lastAttemptRightIBFrame;
 		public int lastAttemptLeftIBFrame;
+		public int lastTurnAroundFrame;
 		public int safety;
 
 	}
@@ -252,6 +254,8 @@ public class Player : Node2D
 			this.heldKeys = heldKeys;
 		}
 	}
+
+	public HashSet<string> cooldownSpecials = new HashSet<string>();
 
 	public struct CommandNormal
 	{
@@ -337,7 +341,7 @@ public class Player : Node2D
 	{
 		easyAirSpecial = airSpecial;
 		easySpecial = neutralSpecial;
-		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', downSpecial, true, true));
+		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '2', '2' }, 'a', downSpecial, true, cooldownSpecials.Contains(downSpecial)));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '4', '6' }, 'a', backSpecial));
 		easyCommandSpecials.Add(new CommandNormal(new List<char>() { '6', '4' }, 'a', forwardSpecial));
 	}
@@ -345,15 +349,15 @@ public class Player : Node2D
 	protected void AddSpecials(string pSpecial, string kSpecial, string sSpecial, string dpSpecial, string airSpecial, string super)
 	{
 		//DP
-		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial, false, new char[] { '2', '6' }));
-		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial, false, new char[] { '2', '6' }));
+		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial), new char[] { '2', '6' }));
+		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial), new char[] { '2', '6' }));
 		//air DP
-		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial, false, new char[] { '2', '6' }));
-		airSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial, false, new char[] { '2', '6' }));
+		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial, cooldownSpecials.Contains(airSpecial), new char[] { '2', '6' }));
+		airSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial, cooldownSpecials.Contains(airSpecial), new char[] { '2', '6' }));
 		
-		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, true, new char[] {'6'}));
-		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial, false , new char[] {'6'}));
-		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial, false, new char[] {'6'}));
+		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, cooldownSpecials.Contains(pSpecial), new char[] {'6'}));
+		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial, cooldownSpecials.Contains(kSpecial) , new char[] {'6'}));
+		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial, cooldownSpecials.Contains(sSpecial), new char[] {'6'}));
 		easySuper = super;
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' },  new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
@@ -464,6 +468,7 @@ public class Player : Node2D
 		lastPressedUpFrame = 0;
 		lastAttemptLeftIBFrame = -30;
 		lastAttemptRightIBFrame = -30;
+		lastTurnAroundFrame = -30;
 		specialBreakFramesRemaining = 0;
 		wasOTGHit = false;
 		ColorSprite();
@@ -574,6 +579,7 @@ public class Player : Node2D
 		pState.hasHurtboxActive = hasHurtboxActive;
 		pState.lastAttemptLeftIBFrame = lastAttemptLeftIBFrame;
 		pState.lastAttemptRightIBFrame = lastAttemptRightIBFrame;
+		pState.lastTurnAroundFrame = lastTurnAroundFrame;
 		pState.safety = 3;
 		
 		return pState;
@@ -665,6 +671,7 @@ public class Player : Node2D
 		hasBeenLaunched = pState.hasBeenLaunched;
 		lastAttemptLeftIBFrame = pState.lastAttemptLeftIBFrame;
 		lastAttemptRightIBFrame = pState.lastAttemptRightIBFrame;
+		lastTurnAroundFrame = pState.lastTurnAroundFrame;
 		Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 	}
 
@@ -1206,7 +1213,7 @@ public class Player : Node2D
 		currentState.FrameAdvance();
 		CharSpecificFrameAdvance();
 		
-		if (invulnFrames > 0)
+		if (invulnFrames > -1)
 		{
 			invulnFrames--;
 		}
@@ -1444,6 +1451,22 @@ public class Player : Node2D
 	/// <summary>
 	/// Called to check if the player should change directions.  Always called when changing states.  Some states call this in their FrameAdvance() methods.
 	/// </summary>
+	public bool CrossedUp() 
+	{
+		if (OtherPlayerOnLeft() && facingRight)
+		{
+			return true;
+		}
+		else if (OtherPlayerOnRight() && !facingRight) 
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Called to check if the player should change directions.  Always called when changing states.  Some states call this in their FrameAdvance() methods.
+	/// </summary>
 	public void CheckTurnAround() 
 	{
 		if (otherPlayer == null) 
@@ -1472,6 +1495,7 @@ public class Player : Node2D
 		
 		hurtBoxParent.Scale = Vector2.One;
 		hitBoxParent.Scale = Vector2.One;
+		lastTurnAroundFrame = Globals.frame;
 	}
 
 	public void TurnLeft()
@@ -1482,6 +1506,7 @@ public class Player : Node2D
 		behindSprite.Scale = facingLeftScale;
 		hitBoxParent.Scale = facingLeftBoxScale;
 		hurtBoxParent.Scale = facingLeftBoxScale;
+		lastTurnAroundFrame = Globals.frame;
 	}
 
 	/// <summary>
@@ -1590,8 +1615,8 @@ public class Player : Node2D
 
 		wasHitThisFrame = false;
 
-		//if (Globals.mode == Globals.Mode.TRAINING)
-			//otherPlayer.DisplayPlusFrames(currentState.stunRemaining);
+		if (Globals.mode == Globals.Mode.TRAINING && grounded)
+			otherPlayer.DisplayPlusFrames(currentState.stunRemaining);
 		return true;
 	}
 	
@@ -2001,7 +2026,7 @@ public class Player : Node2D
 	public override void _Draw()
 	{
 
-		if (false)//Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
+		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.SYNCTEST)
 		{
 			GetRects(hitBoxes, tempHitboxArray);
 			GetRects(hurtBoxes, tempHurtboxArray);

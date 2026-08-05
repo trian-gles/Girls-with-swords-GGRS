@@ -419,12 +419,12 @@ public abstract class State : Node
 
 	private bool HasHadoukenCooledDown(Player.CommandNormal cn)
 	{
-		return (!cn.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0);
+		return ((!owner.cooldownSpecials.Contains(Name) && !cn.mustHadoukenCooldown) || owner.hadoukenCooldownRemaining <= 0);
 	}
 
 	private bool HasHadoukenCooledDown(Player.Special sp)
 	{
-		return (!sp.mustHadoukenCooldown || owner.hadoukenCooldownRemaining <= 0);
+		return ((!owner.cooldownSpecials.Contains(Name) && !sp.mustHadoukenCooldown)  || owner.hadoukenCooldownRemaining <= 0);
 	}
 
 	protected void AddCommandNormal(Player.CommandNormal cn)
@@ -876,6 +876,12 @@ public abstract class State : Node
 		}
 	}
 
+	protected bool CheckAnyBlock(BaseAttack.ATTACKDIR dir)
+	{
+		bool canAnyBlock = dir == BaseAttack.ATTACKDIR.EQUAL || (owner.lastTurnAroundFrame > Globals.frame - 3 && owner.invulnFrames == 0);// || owner.CrossedUp(); for now no further crossup protection
+		return canAnyBlock && (owner.CheckHeldKey('4') || owner.CheckHeldKey('6'));
+	}
+
 	public virtual void ReceiveHit(Globals.AttackDetails details)
 	{
 		owner.velocity = Vector2.Zero;
@@ -903,7 +909,7 @@ public abstract class State : Node
 
 		bool rightBlock = details.dir == BaseAttack.ATTACKDIR.RIGHT && owner.CheckHeldKey('6');
 		bool leftBlock = details.dir == BaseAttack.ATTACKDIR.LEFT && owner.CheckHeldKey('4');
-		bool anyBlock = details.dir == BaseAttack.ATTACKDIR.EQUAL && (owner.CheckHeldKey('4') || owner.CheckHeldKey('6'));
+		bool anyBlock = CheckAnyBlock(details.dir);
 
 		if (details.height == HEIGHT.HIGH) 
 		{

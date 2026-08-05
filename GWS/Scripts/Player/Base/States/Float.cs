@@ -9,11 +9,7 @@ public class Float : HitStun
 	private const string GroundBounceString = "GroundBounce";
 	private const string AirKnockdownString = "AirKnockdown";
 	private const string FloatStateString = "Float";
-	private const string TechString = "Tech";
 	private const string SoftKDString = "SoftKD";
-	private const string CanTechString = "CanTech";
-	private const string MissedTechString = "MissedTech";
-	private const string RecoveryString = "Recovery";
 	private const string BurstString = "Burst";
 	private char[] burstKeys = new[] { 'p', 'k', 'a' };
 	public override int maxStun { get { return int.MaxValue; } }
@@ -131,6 +127,7 @@ public class Float : HitStun
 				if (!owner.TrySpendBurst()) return;
 				Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
 				owner.ChangeState(BurstString);
+				return;
 			}
 		}
 		
@@ -150,9 +147,8 @@ public class Float : HitStun
 
 	protected void TryGroundTech()
 	{
-		//owner.ChangeState("Tech");
 		if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
-			owner.ChangeState(TechString);
+			owner.ChangeState("GroundTech");
 		else
 			owner.ChangeState(SoftKDString);
 	}

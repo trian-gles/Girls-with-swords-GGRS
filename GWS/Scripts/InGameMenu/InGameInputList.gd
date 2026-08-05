@@ -15,6 +15,9 @@ var button_frames = ["", "p", "k", "s", "c", "a", "b"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	config_inputs()
+
+func config_inputs():
 	var children = get_children()
 	var config_file = File.new()
 	var ControllerConfigValues

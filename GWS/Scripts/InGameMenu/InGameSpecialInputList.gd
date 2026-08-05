@@ -6,6 +6,9 @@ var button_names = ['switch', 'reset', 'record', 'playback']
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	config_inputs()
+
+func config_inputs():
 	var children = get_children()
 	var config_file = File.new()
 	var ControllerConfigValues

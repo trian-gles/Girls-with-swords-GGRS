@@ -10,7 +10,4 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "+ 2"
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 speed = 3

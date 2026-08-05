@@ -39,7 +39,7 @@ public class LandingRecovery : State
     public override void Exit()
     {
         base.Exit();
-		if (owner.otherPlayer.currentState.stunRemaining > 0)
+		if (Globals.mode == Globals.Mode.TRAINING && owner.otherPlayer.currentState.stunRemaining > 0 && owner.otherPlayer.grounded)
 			owner.DisplayPlusFrames(owner.otherPlayer.currentState.stunRemaining);
     }
 }

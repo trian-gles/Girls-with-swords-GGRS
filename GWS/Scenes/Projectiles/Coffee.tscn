@@ -12,7 +12,6 @@ modulate = Color( 1, 0.901961, 0.901961, 1 )
 scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
 level = 3
-startup = 7
 opponentLaunch = Vector2( 0, -450 )
 chLaunch = Vector2( 0, -450 )
 launchOnGrounded = false

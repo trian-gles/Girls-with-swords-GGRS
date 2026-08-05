@@ -8,6 +8,11 @@ public class DoubleJump : Jump
         base.Enter();
         owner.hasDoubleOrSuperJumped = true;
     }
+
+    public override bool DelayInputs()
+	{
+		return frameCount < startupFrames;
+	}
 }
 
 

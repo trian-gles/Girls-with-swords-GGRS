@@ -40,7 +40,8 @@ public class SoftKD : HitState
         base.FrameAdvance();
         if (frameCount < 16)
         {
-            TryTech();
+            if (owner.CheckHeldKey('p') || owner.CheckHeldKey('k') || owner.CheckHeldKey('s') || Globals.autoTech)
+			    owner.ChangeState("GroundTech");
         }
     }
     

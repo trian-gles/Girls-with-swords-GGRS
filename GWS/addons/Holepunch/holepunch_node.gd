@@ -4,7 +4,13 @@ extends Node
 #Once your network manager received the signal they can initiate contact on that address and port
 signal hole_punched(my_port, other_port, other_address, unique_id)
 
+# bad signals, result in exit
 signal wrong_version()
+signal server_unreachable()
+
+# good signals, update text
+signal contacted_server()
+signal found_peer()
 
 #This signal is emitted when the server has acknowledged your client registration, but before the
 #address and port of the other client have arrived.
@@ -37,6 +43,7 @@ var other_port = 0
 var client_name
 var p_timer
 var s_timer
+var s_unreachable_timer
 var session_id
 var player_id
 
@@ -50,6 +57,7 @@ const REGISTER_SESSION = "rs:"
 const REGISTER_CLIENT = "rc:"
 const EXCHANGE_PEERS = "ep:"
 const CHECKOUT_CLIENT = "cc:"
+const PING = "pi:"
 const PEER_GREET = "greet"
 const PEER_CONFIRM = "confirm"
 const PEER_GO = "go"
@@ -62,6 +70,7 @@ const VERSION_UPTODATE = "uptodate"
 
 
 const MAX_PLAYER_COUNT = 2 # currently only works for two players.
+	
 
 ## ORDER : check version > register session > register client > exchange info
 
@@ -90,6 +99,7 @@ func _process(delta):
 	if server_udp.get_available_packet_count() > 0:
 		var array_bytes = server_udp.get_packet()
 		var packet_string = array_bytes.get_string_from_ascii()
+		s_unreachable_timer.stop()
 		print("Server Message:")
 		print(packet_string)
 		
@@ -97,6 +107,7 @@ func _process(delta):
 			emit_signal("wrong_version")
 		
 		if packet_string.begins_with(VERSION_UPTODATE):
+			emit_signal("contacted_server")
 			_try_create_session()
 			
 		if packet_string.begins_with(SERVER_OK):
@@ -116,6 +127,7 @@ func _process(delta):
 					peer[m[0]] = {"port":m[2], "address":m[1]}
 					player_id = int(m[3])
 					recieved_peer_info = true
+					emit_signal("found_peer")
 					start_peer_contact()
 		
 		
@@ -161,7 +173,7 @@ func _cascade_peer(add, peer_port):
 func _ping_server():
 	if server_udp.is_listening():
 		var buffer = PoolByteArray()
-		buffer.append_array("ping".to_utf8())
+		buffer.append_array((PING+client_name).to_utf8())
 		server_udp.put_packet(buffer)
 
 
@@ -215,6 +227,7 @@ func start_peer_contact():
 	
 	if err != OK:
 		print("Error listening on port: " + str(own_port) +" Error: " + str(err))
+		emit_signal("server_unreachable")
 	else:
 		print("Listening on port " + str(own_port))
 	p_timer.start()
@@ -243,11 +256,13 @@ func check_version():
 
 #Call this function when you want to start the holepunch process
 func start_traversal(id, player_name, version):
+	
 	if server_udp.is_listening():
 		server_udp.close()
 
 	var err = server_udp.listen(rendevouz_port, "*")
 	if err != OK:
+		emit_signal("server_unreachable")
 		print("Error listening on port: " + str(rendevouz_port) + " to server: " + rendevouz_address)
 
 	client_name = player_name
@@ -296,6 +311,9 @@ func _send_client_to_server():
 func _exit_tree():
 	server_udp.close()
 
+func _server_unreachable():
+	emit_signal("server_unreachable")
+
 
 func _ready():
 	p_timer = Timer.new()
@@ -307,3 +325,9 @@ func _ready():
 	get_node("/root/").call_deferred("add_child", s_timer)
 	s_timer.connect("timeout", self, "_ping_server")
 	s_timer.wait_time = 2
+	
+	s_unreachable_timer = Timer.new()
+	s_unreachable_timer.autostart = true
+	get_node("/root/").call_deferred("add_child", s_unreachable_timer)
+	s_unreachable_timer.connect("timeout", self, "_server_unreachable")
+	s_unreachable_timer.wait_time = 10

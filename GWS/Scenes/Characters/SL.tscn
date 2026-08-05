@@ -3235,7 +3235,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 15, 12 ) ]
+"values": [ Vector2( 5, 12 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -3244,7 +3244,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 5, 20 ),
+"times": PoolRealArray( 0, 5, 19 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -3891,7 +3891,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id=24]
-length = 57.0
+length = 58.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -10415,6 +10415,7 @@ directions = [ Vector2( 0, -557 ), Vector2( -400, -400 ), Vector2( -557, 0 ), Ve
 directionFrames = [ 0, 9, 19, 29, 39 ]
 
 [node name="AirGrab" parent="StateTree" index="67"]
+level = 3
 releaseFrame = 16
 applyGravityFrame = 13
 launch = Vector2( 100, 1800 )
@@ -10425,8 +10426,9 @@ extraEffect = 1
 script = ExtResource( 30 )
 level = 2
 launchOnGrounded = false
+xAdvance = -300
 specialCancel = false
-moveSpeed = 500
+moveSpeed = 480
 stopFrame = 30
 hadoukenScene = ExtResource( 11 )
 
@@ -10514,4 +10516,4 @@ anims/Walk = SubResource( 49 )
 script = ExtResource( 9 )
 
 [node name="GrabPos" parent="." index="10"]
-position = Vector2( -6, 2 )
+position = Vector2( 25, 0 )

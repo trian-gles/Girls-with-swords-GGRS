@@ -21,7 +21,8 @@ public class SL : Player
 		commandNormals.Add(new CommandNormal(new List<char>() { '6', '4' }, 'p', "6P"));
 
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
-
+		cooldownSpecials.Add("SnailCallFake");
+		cooldownSpecials.Add("PhoneTossLow");
 
 		dashSpecials.Add(new Special(new InputContainer( new[] { new char[] { 's', 'p' } }), "DashAttack"));
 		groundSpecials.Add(new Special(Globals.GetQCB('p'), "BackToss", true));

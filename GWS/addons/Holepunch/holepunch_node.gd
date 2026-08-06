@@ -2,7 +2,7 @@ extends Node
 
 #Signal is emitted when holepunch is complete. Connect this signal to your network manager
 #Once your network manager received the signal they can initiate contact on that address and port
-signal hole_punched(my_port, other_port, other_address, unique_id)
+signal hole_punched(my_port, other_port, other_address, unique_id, successful)
 
 # bad signals, result in exit
 signal wrong_version()
@@ -188,7 +188,7 @@ func _ping_peer():
 			greets_sent+=1
 			if greets_sent == response_window:
 				print("Receiving no confirm. Starting port cascade")
-				#if the other player hasn't responded we should try more ports
+				emit_signal("hole_punched", int(own_port), int(other_port), other_address, int(player_id), false)
 
 	if not recieved_peer_confirm and greets_sent == response_window:
 		for p in peer.keys():
@@ -211,7 +211,7 @@ func _ping_peer():
 		gos_sent += 1
 
 		if gos_sent >= response_window: #the other player has confirmed and is probably waiting
-			emit_signal("hole_punched", int(own_port), int(other_port), other_address, int(player_id))
+			emit_signal("hole_punched", int(own_port), int(other_port), other_address, int(player_id), true)
 			p_timer.stop()
 			set_process(false)
 

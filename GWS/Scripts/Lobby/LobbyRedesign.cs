@@ -333,7 +333,7 @@ public class LobbyRedesign : Node2D
 		
 		localPort = hosting ? 7001 : 7000;
 		opponentPort = hosting ? 8001 : 8000; // replaced with the proxy
-		InitProxyConnection(opponentPort, "127.0.0.1");
+		InitProxyConnection(opponentPort, "172.104.215.127"); // production : "172.104.215.127"
 		
 		activeManager = ggrsManager;
 		ggrsManager.AttachGamescenes(charSelectScene, gameScene, winScene);
@@ -417,6 +417,12 @@ public class LobbyRedesign : Node2D
 		connectionLabel.Text = "Opponent found, routing connection...";
 	}
 
+	public void OnHolepunchFailed(object result)
+	{
+		BeginTestNetplayProxySession((bool)result);
+
+	}
+
 	public void OnLobbyReset()
 	{
 		if (activeManager != null)
@@ -483,12 +489,30 @@ public class LobbyRedesign : Node2D
 		opponentPort = (int)result[1];
 		opponentIp = (string)result[2];
 		hosting = ((int)result[3]) == 1;
-		Globals.hosting = hosting;
-		GD.Print("WE HAVE PUNCHED ZE HOLE");
-		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
-		RemoveChild(holePuncher);
-		holePuncher.QueueFree();
-		await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+		bool success = (bool) result[4];
+		if (success)
+		{
+			Globals.hosting = hosting;
+			GD.Print("WE HAVE PUNCHED ZE HOLE");
+			connectionLabel.Text = "P2P holepunch confirmed, running cleanup...";
+			await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+			RemoveChild(holePuncher);
+			holePuncher.QueueFree();
+			await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+		}
+		else
+		{
+			opponentIp = "127.0.0.1"; // connecting via proxy
+			opponentPort = 8000; // proxy port
+			connectionLabel.Text = "Unable to form P2P connection, connecting via proxy...";
+			InitProxyConnection(opponentPort, "172.104.215.127"); // production : "172.104.215.127"
+			connectionLabel.Text = "Connected via proxy";
+			await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+			RemoveChild(holePuncher);
+			holePuncher.QueueFree();
+			await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+		}
+
 		return true;
 	}
 

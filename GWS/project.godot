@@ -42,7 +42,7 @@ Test_Metadata_Directory="res://tests"
 
 config/name="GWS-GGPO"
 run/main_scene="res://Scenes/SplashScreen.tscn"
-config/icon="res://Sprites/OL_icon.png"
+config/icon="res://Sprites/CharacterSelect/Portraits/Snail Smug.png"
 
 [autoload]
 

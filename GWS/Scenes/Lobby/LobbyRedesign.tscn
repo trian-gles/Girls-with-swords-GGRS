@@ -587,9 +587,9 @@ align = 1
 
 [node name="Entries" type="VBoxContainer" parent="MenuRoot/NetPlayMenu"]
 margin_left = 90.0
-margin_top = 21.0
+margin_top = 50.0
 margin_right = 390.0
-margin_bottom = 249.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 300, 170 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -706,6 +706,7 @@ __meta__ = {
 }
 
 [node name="HostTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
+visible = false
 margin_top = 122.0
 margin_right = 300.0
 margin_bottom = 140.0
@@ -715,36 +716,39 @@ __meta__ = {
 }
 
 [node name="HostProxyTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 144.0
+visible = false
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 162.0
+margin_bottom = 140.0
 text = "HOSTPROXYTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 166.0
+visible = false
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 184.0
+margin_bottom = 140.0
 text = "JOINTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinProxyTest" type="Button" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 188.0
+visible = false
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 206.0
+margin_bottom = 140.0
 text = "JOINPROXYTEST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="ToolButton" parent="MenuRoot/NetPlayMenu/Entries"]
-margin_top = 210.0
+margin_top = 122.0
 margin_right = 300.0
-margin_bottom = 228.0
+margin_bottom = 140.0
 text = "Back"
 
 [node name="AVConfigMenu" type="MarginContainer" parent="MenuRoot"]

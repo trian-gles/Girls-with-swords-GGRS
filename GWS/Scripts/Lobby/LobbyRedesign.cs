@@ -204,6 +204,7 @@ public class LobbyRedesign : Node2D
 
 	public void OnNewNetplayMatch()
 	{
+		hosting = true;
 		newMatchId.Text = RandomString(8);
 		Globals.netplaySessionName = newMatchId.Text;
 		sendToFriendLabel.Visible = true;
@@ -213,6 +214,7 @@ public class LobbyRedesign : Node2D
 
 	public void OnJoinNetplayMatch()
 	{
+		hosting = false;
 		GD.Print(existingMatchId.Text);
 		Globals.netplaySessionName = existingMatchId.Text;
 		connectionLabel.Visible = true;
@@ -287,6 +289,7 @@ public class LobbyRedesign : Node2D
 	private async void BeginNetplayManager()
 	{
 		activeManager = ggrsManager;
+		Globals.mode = Globals.Mode.GGPO;
 		var result = await ConnectToServerAndPeer();
 		if (result)
 		{
@@ -482,7 +485,8 @@ public class LobbyRedesign : Node2D
 		holePuncher.Set("rendevouz_address", "172.104.215.127"); // production : "172.104.215.127"
 		holePuncher.Set("rendevouz_port", 4000);
 		AddChild(holePuncher);
-		string player_id = OS.GetUniqueId();
+		char id_addition = hosting ? '0' : '1';
+		string player_id = OS.GetUniqueId() + id_addition;
 		holePuncher.Call("start_traversal", Globals.netplaySessionName, player_id, version);
 		var result = (await ToSignal(holePuncher, "hole_punched"));
 		localPort = (int)result[0];
@@ -502,8 +506,9 @@ public class LobbyRedesign : Node2D
 		}
 		else
 		{
-			opponentIp = "127.0.0.1"; // connecting via proxy
-			opponentPort = 8000; // proxy port
+			// connecting via proxy
+			opponentIp = "127.0.0.1"; 
+			opponentPort = hosting ? 8000 : 8001; // proxy port
 			connectionLabel.Text = "Unable to form P2P connection, connecting via proxy...";
 			InitProxyConnection(opponentPort, "172.104.215.127"); // production : "172.104.215.127"
 			connectionLabel.Text = "Connected via proxy";

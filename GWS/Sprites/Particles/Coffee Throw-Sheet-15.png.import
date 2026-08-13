@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SnailWin.png-e1a6de3b210979a53331c8abea5bcdf3.stex"
+path="res://.import/Coffee Throw-Sheet-15.png-65dac0e50879bc6f2fe91fd33b2cb29d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/CharacterSelect/Portraits/SnailWin.png"
-dest_files=[ "res://.import/SnailWin.png-e1a6de3b210979a53331c8abea5bcdf3.stex" ]
+source_file="res://Sprites/Particles/Coffee Throw-Sheet-15.png"
+dest_files=[ "res://.import/Coffee Throw-Sheet-15.png-65dac0e50879bc6f2fe91fd33b2cb29d.stex" ]
 
 [params]
 

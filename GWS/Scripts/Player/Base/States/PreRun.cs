@@ -43,6 +43,10 @@ public class PreRun : MoveState
 		{
 			owner.ChangeState(RunString);
 		}
+		if (frameCount % 15 == 0)
+		{
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Step");
+		}
 	}
 
 	public override void ReceiveHit(Globals.AttackDetails details)

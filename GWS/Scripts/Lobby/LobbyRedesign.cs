@@ -300,6 +300,7 @@ public class LobbyRedesign : Node2D
 			ggrsManager.Connect("DesyncDetected", this, nameof(OnDesyncDetected));
 			ggrsManager.Connect("Disconnected", this, nameof(OnDisconnected));
 			activeManager.Visible = true;
+			lobbyMusic.Stop();
 			activeManager.Start();
 		}
 

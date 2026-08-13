@@ -10424,6 +10424,7 @@ extraEffect = 1
 
 [node name="DashAttack" type="Node" parent="StateTree" index="72"]
 script = ExtResource( 30 )
+checkTurnAroundOnEnter = false
 level = 2
 launchOnGrounded = false
 xAdvance = -300

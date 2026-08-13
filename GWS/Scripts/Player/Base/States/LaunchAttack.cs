@@ -24,6 +24,9 @@ public class LaunchAttack : AirAttack
 	[Export]
 	public bool emitGhost = false;
 
+	[Export]
+	public int passThroughOpponentFrameEnd = 0;
+
 	private Vector2 dustEmissionVector = new Vector2();
 
 	public override void _Ready()
@@ -94,6 +97,11 @@ public class LaunchAttack : AirAttack
 			dustEmissionVector.y = owner.GetCollisionRect().End.y;
 			Globals.EmitPlayerFXEmitted(dustEmissionVector, DustString, owner.facingRight);
 		}
+	}
+
+	public override bool CollisionActive()
+	{
+		return frameCount > passThroughOpponentFrameEnd;
 	}
 
 	public override void AnimationFinished()

@@ -9225,6 +9225,7 @@ specialBurstKara = true
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 15 )
+checkTurnAroundOnEnter = false
 isSpecial = true
 level = 3
 chip = true
@@ -9239,6 +9240,7 @@ hitSound = "SlashHit"
 
 [node name="HojogiriChargedSlash" type="Node" parent="StateTree" index="50"]
 script = ExtResource( 16 )
+checkTurnAroundOnEnter = false
 isSpecial = true
 level = 3
 chip = true
@@ -9265,6 +9267,7 @@ mustCooldown = true
 
 [node name="InstantOverhead" type="Node" parent="StateTree" index="53"]
 script = ExtResource( 18 )
+checkTurnAroundOnEnter = false
 isSpecial = true
 level = 3
 chip = true
@@ -9283,6 +9286,7 @@ hitSound = "SlashHit"
 spike = true
 launch = Vector2( 300, -500 )
 emitGhost = true
+passThroughOpponentFrameEnd = 16
 
 [node name="Super" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 19 )

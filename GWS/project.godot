@@ -62,7 +62,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Holepunch/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [gdnative]
 

@@ -54,7 +54,7 @@ public class Run : MoveState
 
 		if (frameCount % soundRate == 0)
 		{
-			owner.ScheduleEvent(EventScheduler.EventType.AUDIO, StepString, Name);
+			owner.ForceEvent(EventScheduler.EventType.AUDIO, "Step");
 		}
 	}
 

@@ -47,9 +47,24 @@ func _ready():
 	else:
 		save_JSON()
 		load_JSON()
-	$InputMapper.change_profile(p1_profiles_menu.selected, 0)
-	$InputMapper.change_profile(p2_profiles_menu.selected, 1)
-	print("Input Menu Ready Called")
+	
+	var controllers = Input.get_connected_joypads()
+	print(controllers.size())
+	if controllers.size() == 1:
+		p1_profiles_menu.selected = 1
+		p2_profiles_menu.selected = 0
+		$InputMapper.change_profile(1, 0)
+		$InputMapper.change_profile(0, 1)
+	elif controllers.size() == 2:
+		p1_profiles_menu.selected = 1
+		p2_profiles_menu.selected = 1
+		$InputMapper.change_profile(1, 0)
+		$InputMapper.change_profile(1, 1)
+	elif controllers.size() == 0:
+		p1_profiles_menu.selected = 0
+		p2_profiles_menu.selected = 0
+		$InputMapper.change_profile(0, 0)
+		$InputMapper.change_profile(0, 1)
 	
 
 #main rebuild function (called by profile_changed in InputMapper)
@@ -157,32 +172,32 @@ func load_JSON():
 	#load p1 custom buttons
 	for buttons in ControllerConfigValues["P1CustomButtons"]:
 		$InputMapper.profile_fightstick[buttons] = ControllerConfigValues["P1CustomButtons"][buttons]
-	$InputMapper.change_profile(1,0)	
+	#$InputMapper.change_profile(1,0)	
 	p1_profiles_menu.selected = 1
 	#load p1 custom keys
 	for keys in ControllerConfigValues["P1CustomKeys"]:
 		$InputMapper.profile_keyboard[keys] = ControllerConfigValues["P1CustomKeys"][keys]
-	$InputMapper.change_profile(0,0)	
+	#$InputMapper.change_profile(0,0)	
 	p1_profiles_menu.selected = 0
 	
 	#load p2custom buttons
 	for buttons in ControllerConfigValues["P2CustomButtons"]:
 		$InputMapper.profile_2pfightstick[buttons] = ControllerConfigValues["P2CustomButtons"][buttons]
-	$InputMapper.change_profile(1,1)	
+	#$InputMapper.change_profile(1,1)	
 	p2_profiles_menu.selected = 1
 	#load p2 custom keys
 	#replace var
 	for keys in ControllerConfigValues["P2CustomKeys"]:
 		$InputMapper.profile_2pkeyboard[keys] = ControllerConfigValues["P2CustomKeys"][keys]
 	#load new var
-	$InputMapper.change_profile(0,1)	
+	#$InputMapper.change_profile(0,1)	
 	p2_profiles_menu.selected = 0
 	
 	#load last picked profiles
 	p1_profiles_menu.selected = int(ControllerConfigValues["P1"])
-	$InputMapper.change_profile(int(ControllerConfigValues["P1"]),0)
+	#$InputMapper.change_profile(int(ControllerConfigValues["P1"]),0)
 	p2_profiles_menu.selected = int(ControllerConfigValues["P2"])
-	$InputMapper.change_profile(int(ControllerConfigValues["P2"]),1)
+	#$InputMapper.change_profile(int(ControllerConfigValues["P2"]),1)
 
 
 func _on_P1Reset_pressed():

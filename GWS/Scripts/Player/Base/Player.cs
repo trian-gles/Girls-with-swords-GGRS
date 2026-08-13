@@ -348,21 +348,22 @@ public class Player : Node2D
 
 	protected void AddSpecials(string pSpecial, string kSpecial, string sSpecial, string dpSpecial, string airSpecial, string super)
 	{
-		//DP
-		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial), new char[] { '2', '6' }));
-		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial), new char[] { '2', '6' }));
-		//air DP
-		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial, cooldownSpecials.Contains(airSpecial), new char[] { '2', '6' }));
-		airSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial, cooldownSpecials.Contains(airSpecial), new char[] { '2', '6' }));
 		
-		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, cooldownSpecials.Contains(pSpecial), new char[] {'6'}));
-		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial, cooldownSpecials.Contains(kSpecial) , new char[] {'6'}));
-		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial, cooldownSpecials.Contains(sSpecial), new char[] {'6'}));
+		//air DP
+		airSpecials.Add(new Special(Globals.GetDP1('s'), airSpecial, cooldownSpecials.Contains(airSpecial)));
+		airSpecials.Add(new Special(Globals.GetDP2('s'), airSpecial, cooldownSpecials.Contains(airSpecial)));
+		
+		groundSpecials.Add(new Special(Globals.GetQCF('p'), pSpecial, cooldownSpecials.Contains(pSpecial)));
+		groundSpecials.Add(new Special(Globals.GetQCF('k'), kSpecial, cooldownSpecials.Contains(kSpecial) ));
+		groundSpecials.Add(new Special(Globals.GetQCF('s'), sSpecial, cooldownSpecials.Contains(sSpecial)));
 		easySuper = super;
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '2', 'p' },  new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new char[] { '2', 'p' }, new char[] { '6', 'r' }, new char[] { 's', 'p' } }), super));
 		groundExSpecials.Add(new Special(new InputContainer(new[] { new char[] { '2', 'p' }, new char[] { '6', 'p' }, new char[] { '6', 'r' }, new char[] { '6', 'p' }, new char[] { 's', 'p' } }), super));
+		//DP
+		groundSpecials.Add(new Special(Globals.GetDP1('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial)));
+		groundSpecials.Add(new Special(Globals.GetDP2('s'), dpSpecial, cooldownSpecials.Contains(dpSpecial)));
 	}
 
 	public override void _Ready()
@@ -986,7 +987,7 @@ public class Player : Node2D
 			animationPlayer.NewAnimation(currentState.animationName);
 		inputHandler.playerState = currentState;
 		
-		if (grounded && nextStateName != grabString && previousState.turnAroundOnExit)
+		if (grounded && nextStateName != grabString && previousState.turnAroundOnExit && currentState.checkTurnAroundOnEnter)
 		{
 			CheckTurnAround();
 		}

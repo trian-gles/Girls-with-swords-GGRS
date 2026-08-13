@@ -10947,6 +10947,7 @@ grabKara = false
 [node name="6K" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 21 )
 level = 2
+modifiedHitStun = 21
 modifiedCounterHitStun = 29
 opponentLaunch = Vector2( 0, -350 )
 chLaunch = Vector2( 0, -350 )
@@ -10985,6 +10986,8 @@ launch = Vector2( 400, 0 )
 [node name="6S" type="Node" parent="StateTree" index="58"]
 script = ExtResource( 24 )
 level = 3
+modifiedHitStun = 23
+modifiedCounterHitStun = 34
 opponentLaunch = Vector2( 200, 200 )
 chLaunch = Vector2( 200, 200 )
 modifiedHitPush = 100
@@ -11043,7 +11046,7 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 specialBurstKara = true
 launch = Vector2( 200, -600 )
-launchFrame = 8
+launchFrame = 9
 teleFrame = 7
 
 [node name="TeleportDownSlash" type="Node" parent="StateTree" index="67"]

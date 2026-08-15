@@ -545,6 +545,7 @@ public class CharSelectScene : BaseGame
 		p1Pos = 0;
 		p2Pos = 1;
 		selectedStage = 0;
+		charSelectFrame = 0;
 
 		HighlightChar(0, p1Pos);
 		HighlightChar(1, p2Pos);

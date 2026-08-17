@@ -10,6 +10,7 @@ extends OptionButton
 func _ready():
 	add_item("EASY")
 	add_item("HARD")
+	selected = 1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

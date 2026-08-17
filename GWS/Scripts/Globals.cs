@@ -592,7 +592,6 @@ public class Globals : Node
 	public static void ChangeDifficulty(int dif)
 	{
 		aiDifficulty = (AIDIFFICULTY)dif;
-		GD.Print(aiDifficulty);
 	}
 
 	public static bool CheckTrainingMode()

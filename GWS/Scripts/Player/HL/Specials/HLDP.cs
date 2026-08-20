@@ -20,7 +20,7 @@ public class HLDP : DP
 	public override void FrameAdvance()
 	{
 		base.FrameAdvance();
-		if (frameCount == throwFrame && ((HL)owner).hatted && owner.CheckHeldKey('a'))
+		if (frameCount == throwFrame && ((HL)owner).hatted && (owner.CheckHeldKey('a')|| owner.CheckHeldKey('s')))
 			owner.ChangeState(AirHatString);
 	}
 }

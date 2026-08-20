@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/HUD/Inputs.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/InGameMenu/MoveListItem.gd" type="Script" id=2]
+[ext_resource path="res://Themes/startmenu.theme" type="Theme" id=3]
+
+[node name="MoveListItem" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 60, 18 )
+rect_scale = Vector2( 1, 0.997145 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input1" type="Sprite" parent="."]
+position = Vector2( 7, 10 )
+scale = Vector2( 0.989918, 0.993131 )
+texture = ExtResource( 1 )
+hframes = 21
+frame = 20
+
+[node name="Input2" type="Sprite" parent="."]
+position = Vector2( 23, 10 )
+texture = ExtResource( 1 )
+hframes = 21
+frame = 1
+
+[node name="Input3" type="Sprite" parent="."]
+position = Vector2( 39, 10 )
+scale = Vector2( 1.00173, 1.02017 )
+texture = ExtResource( 1 )
+hframes = 21
+frame = 12
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 96.0
+margin_bottom = 19.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Control" parent="VBoxContainer"]
+margin_right = 47.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 47, 20 )
+
+[node name="Description" type="Label" parent="VBoxContainer"]
+margin_left = 51.0
+margin_right = 99.0
+margin_bottom = 21.0
+theme = ExtResource( 3 )
+custom_constants/line_spacing = -7
+text = "Hojogiri
+Charge"
+__meta__ = {
+"_edit_use_anchors_": false
+}

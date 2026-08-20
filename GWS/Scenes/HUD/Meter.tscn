@@ -16,8 +16,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ProgressBar" type="ProgressBar" parent="."]
-modulate = Color( 1, 1, 0, 1 )
+self_modulate = Color( 1, 1, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/fg = SubResource( 1 )

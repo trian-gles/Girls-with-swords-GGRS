@@ -10,6 +10,9 @@ margin_right = 44.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="InGameInput" type="Sprite" parent="."]
 position = Vector2( 7, 10 )

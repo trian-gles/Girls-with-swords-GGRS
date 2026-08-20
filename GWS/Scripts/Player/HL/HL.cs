@@ -30,6 +30,19 @@ public class HL : Player
 
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "DashAttack"));
 
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "p", "", "", "Eat\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "k", "", "", "Eat\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcb", "p", "", "", "Wheeeee" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "s", "", "", "Eat\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "", "", "Dragon\nPunch" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "hold", "", ">Eat\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "k", "hold", "", "", "Move\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "s", "hold", "", "", "Move\nHat" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcb", "p", "", "Wheeeee" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "", "Dragon\nPunch" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "qcf", "s", "", "All\nI Got" });
+		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }),  "DashAttack"));
+
 	}
 	public override void _Ready()
 	{

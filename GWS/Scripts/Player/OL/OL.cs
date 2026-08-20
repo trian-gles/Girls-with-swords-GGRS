@@ -25,6 +25,16 @@ public class OL : Player
 		AddSpecials("Hadouken", "HojogiriCharge", "CommandRunWillTurn", "AntiAir", "AntiAir", "Super");
 		AddEasySpecials("Hadouken", "HojogiriCharge", "CommandRunWillTurn", "AntiAir", "AntiAir", "Super");
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }), "InstantOverhead"));
+
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "p", "", "", "Slow\nCoffee" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcb", "p", "", "", "Fast\nCoffee" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "k", "", "", "Hojogiri" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "k", "hold", "", "Hojogiri++" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "s", "", "", "Reverse\nHojogiri" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "", "", "Dragon\nPunch" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcf", "p", "", "Air\nCoffee" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "", "Air Dragon\nPunch" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "qcf", "s", "", "OOO" });
 	}
 	public override void _Ready()
 	{

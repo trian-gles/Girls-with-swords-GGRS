@@ -15,8 +15,8 @@ func _ready():
 func _on_ProgressBar_value_changed(value):
 	super_hint.visible = (value > 50)
 	if value < 50:
-		bar.modulate = Color(0, 255, 255, 255)
+		bar.self_modulate = Color(0, 255, 255, 255)
 	elif value < 100:
-		bar.modulate = Color(255, 0, 0, 255)
+		bar.self_modulate = Color(255, 0, 0, 255)
 	else:
-		bar.modulate = Color(255, 255, 0, 255)
+		bar.self_modulate = Color(255, 255, 0, 255)

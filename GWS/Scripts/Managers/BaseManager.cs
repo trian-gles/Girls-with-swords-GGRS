@@ -308,7 +308,7 @@ public class BaseManager : Node2D
 				inputs |= 64;
 			}
 
-			if (Input.IsActionPressed(Globals.P1SPECIALACTION))
+			if (Input.IsActionPressed(Globals.P1SPECIALACTION) && Globals.mode != Globals.Mode.GGPO)
 			{
 				inputs |= 128;
 			}
@@ -360,7 +360,7 @@ public class BaseManager : Node2D
 				inputs |= 64;
 			}
 
-			if (Input.IsActionPressed(Globals.P2SPECIALACTION))
+			if (Input.IsActionPressed(Globals.P2SPECIALACTION) && Globals.mode != Globals.Mode.GGPO)
 			{
 				inputs |= 128;
 			}
@@ -372,6 +372,7 @@ public class BaseManager : Node2D
 
 			if (Input.IsActionPressed(Globals.P2DASHACTION))
 			{
+				GD.Print("P2Dash");
 				inputs |= 512;
 			}
 		}

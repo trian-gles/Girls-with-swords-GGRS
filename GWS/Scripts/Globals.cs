@@ -48,6 +48,9 @@ public class Globals : Node
 	public static Player[] P1Characters = new Player[4];
 	public static Player[] P2Characters = new Player[4];
 
+	public static Godot.Collections.Array<Godot.Collections.Array<string>> P1CharacterMoves = new Godot.Collections.Array<Godot.Collections.Array<string>>();
+	public static Godot.Collections.Array<Godot.Collections.Array<string>> P2CharacterMoves = new Godot.Collections.Array<Godot.Collections.Array<string>>();
+
 	public static void GenerateCharacters(PackedScene[] playerScenes)
 	{
 		for (int i = 0; i < playerScenes.Length; i++)
@@ -592,7 +595,6 @@ public class Globals : Node
 	public static void ChangeDifficulty(int dif)
 	{
 		aiDifficulty = (AIDIFFICULTY)dif;
-		GD.Print(aiDifficulty);
 	}
 
 	public static bool CheckTrainingMode()

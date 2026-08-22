@@ -298,6 +298,9 @@ public class Player : Node2D
 	private const string AirKnockdownString = "AirKnockdown";
 	private const string JiveString = "Jive";
 
+	// Only for user display
+	public Godot.Collections.Array<Godot.Collections.Array<string>> characterMoves;
+
 	// Temp arrays
 	public Rect2[] tempHurtboxArray = new Rect2[3];
 	public Rect2[] tempHitboxArray = new Rect2[3];
@@ -332,6 +335,7 @@ public class Player : Node2D
 	public override void _EnterTree()
 	{
 		base._EnterTree();
+		characterMoves = new Godot.Collections.Array<Godot.Collections.Array<string>>();
 		if (hasEnterTree)
 			return;
 		hasEnterTree = true;

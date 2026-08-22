@@ -30,6 +30,17 @@ public class SL : Player
 		AddEasySpecials("SnailCallFake", "SnailCall", "BackToss", "SnailCallJump", "AirSnail", "SnailStrike");
 		airSpecials.Add(new Special(Globals.GetQCF('s'), "SnailCall"));
 		airSpecials.Add(new Special(Globals.GetQCB('p'), "AirSnail", true));
+
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "p", "", "", "It's\nFor You" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcb", "p", "", "", "What's\nThis?" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "k", "", "", "It's\nFor You" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "s", "", "", "Snail\nCall" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "", "", "Snail\nCall" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcb", "p", "", "Air\nToss" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcf", "s", "",  "Air\nCall" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "", "", "Air\nCall" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "right", "s", "hold", "", "Come\nBack" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "qcf", "s", "", "Snail\nStrike" });
 	}
 	public override void _Ready()
 	{

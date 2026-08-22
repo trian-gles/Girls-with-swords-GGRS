@@ -263,6 +263,7 @@ public class GameScene : BaseGame
 		p1Ind = playerOneIndex;
 		p1Logos.Call(SelectedCharLogoString, playerOneIndex);
 		P1.aiControlled = false;
+		Globals.P1CharacterMoves = P1.characterMoves;
 
 		//p2
 		P2 = Globals.P2Characters[playerTwoIndex];
@@ -275,6 +276,7 @@ public class GameScene : BaseGame
 		MoveChild(P2, 5);
 		p2Ind = playerTwoIndex;
 		p2Logos.Call(SelectedCharLogoString, playerTwoIndex);
+		Globals.P2CharacterMoves = P2.characterMoves;
 
 		if (Globals.mode == Globals.Mode.TRAINING || Globals.mode == Globals.Mode.TUTORIAL)
 		{

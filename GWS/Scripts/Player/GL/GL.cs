@@ -8,6 +8,7 @@ public class GL : Player
 	private const string HadoukenString = "Hadouken";
 	public override void _EnterTree()
 	{
+		base._EnterTree();
 		//j2C
 		airCommandNormals.Add(new CommandNormal(new List<char>() { '2', '2' }, 's', "J2C"));
 
@@ -49,7 +50,14 @@ public class GL : Player
 		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 's', 'p' } }, "Feint"));
 
 		//groundSpecials.Add(new Special(new InputContainer() { new char[] { '6', 'p' }, new char[] { '2', 'r' }, new[] { 'k', 'p' } }, "HadoukenAir"));
-
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "p", "", "", "Gunblazed" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcb", "p", "", "", "Fiery\nEscape" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "k", "", "", "Ground\nFlame" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "s", "", "", "Feint\nFlame" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "", "", "Vertical\nFlame" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcf", "k", "", "Air\nFlame" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "", "Come\nWith Me" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "qcf", "s", "", "Hella\nFlame" });
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }),  "DashAttack"));
 	}
 	public override void _Ready()

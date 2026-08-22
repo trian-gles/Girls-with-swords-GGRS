@@ -28,6 +28,8 @@ func set_paused(value: bool) -> void:
 		$P1Inputs/P1Controls.config_inputs()
 		$P2Inputs/P1Controls.config_inputs()
 		$SpecialInputs/Container.config_inputs()
+		$P1Moves.fill_moves()
+		$P2Moves.fill_moves()
 		
 func _on_AutoBlock_toggled(button_pressed):
 	if is_inside_tree():

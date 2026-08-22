@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Lobby/QuitButton/Quit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Lobby/MainMenu.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Scripts/InGameMenu/InGameInputList.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/InGameSpecialInputMapping.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scripts/InGameMenu/InGameSpecialInputList.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/MoveListItem.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/InGameMenu/MoveList.gd" type="Script" id=12]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 12
@@ -29,17 +31,24 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="UserInterface"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.733333 )
+color = Color( 0, 0, 0, 0.807843 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PauseOverlay" type="ColorRect" parent="UserInterface"]
-margin_left = 175.0
-margin_top = 50.0
-margin_right = 318.0
-margin_bottom = 173.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -71.5
+margin_top = -83.0
+margin_right = 71.5
+margin_bottom = 61.5
 color = Color( 0.0196078, 0.0117647, 0.0117647, 0.494118 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Paused" type="Label" parent="UserInterface/PauseOverlay"]
 anchor_left = 0.5
@@ -66,6 +75,9 @@ margin_left = -61.5
 margin_top = -39.0
 margin_right = 63.5
 margin_bottom = 52.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MainMenu" parent="UserInterface/PauseOverlay/PauseMenu" instance=ExtResource( 2 )]
 margin_top = 0.0
@@ -96,9 +108,9 @@ margin_bottom = 84.0
 mouse_filter = 1
 
 [node name="P1Inputs" type="ColorRect" parent="UserInterface"]
-margin_left = 81.0
+margin_left = 121.0
 margin_top = 51.0
-margin_right = 126.0
+margin_right = 166.0
 margin_bottom = 174.0
 color = Color( 0, 0, 0, 0.392157 )
 __meta__ = {
@@ -141,9 +153,9 @@ margin_right = 4.0
 margin_bottom = 116.0
 
 [node name="P2Inputs" type="ColorRect" parent="UserInterface"]
-margin_left = 367.0
+margin_left = 324.0
 margin_top = 51.0
-margin_right = 412.0
+margin_right = 369.0
 margin_bottom = 174.0
 color = Color( 0, 0, 0, 0.392157 )
 __meta__ = {
@@ -225,6 +237,215 @@ anchor_right = 0.0
 margin_top = 72.0
 margin_right = 141.0
 margin_bottom = 92.0
+
+[node name="P1Moves" type="ColorRect" parent="UserInterface"]
+margin_top = 10.0
+margin_right = 100.0
+margin_bottom = 210.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+color = Color( 0, 0, 0, 0.439216 )
+script = ExtResource( 12 )
+
+[node name="Container" type="VBoxContainer" parent="UserInterface/P1Moves"]
+margin_right = 111.0
+margin_bottom = 194.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveListItem" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 111.0
+margin_bottom = 18.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem2" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 22.0
+margin_right = 111.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem3" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 44.0
+margin_right = 111.0
+margin_bottom = 62.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem4" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 66.0
+margin_right = 111.0
+margin_bottom = 84.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem5" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 88.0
+margin_right = 111.0
+margin_bottom = 106.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem6" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 110.0
+margin_right = 111.0
+margin_bottom = 128.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem7" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 132.0
+margin_right = 111.0
+margin_bottom = 150.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem8" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 154.0
+margin_right = 111.0
+margin_bottom = 172.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem9" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 176.0
+margin_right = 111.0
+margin_bottom = 194.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem10" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 198.0
+margin_right = 111.0
+margin_bottom = 216.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem11" parent="UserInterface/P1Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 220.0
+margin_right = 111.0
+margin_bottom = 238.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="P2Moves" type="ColorRect" parent="UserInterface"]
+margin_left = 372.0
+margin_top = 10.0
+margin_right = 143.0
+margin_bottom = 105.0
+color = Color( 0, 0, 0, 0.356863 )
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+player_num = 1
+
+[node name="Container" type="VBoxContainer" parent="UserInterface/P2Moves"]
+margin_right = 141.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveListItem" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 141.0
+margin_bottom = 18.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem2" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 22.0
+margin_right = 141.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem3" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 44.0
+margin_right = 141.0
+margin_bottom = 62.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem4" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 66.0
+margin_right = 141.0
+margin_bottom = 84.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem5" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 88.0
+margin_right = 141.0
+margin_bottom = 106.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem6" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 110.0
+margin_right = 141.0
+margin_bottom = 128.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem7" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 132.0
+margin_right = 141.0
+margin_bottom = 150.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem8" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 154.0
+margin_right = 141.0
+margin_bottom = 172.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem9" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 176.0
+margin_right = 141.0
+margin_bottom = 194.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem10" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 198.0
+margin_right = 141.0
+margin_bottom = 216.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="MoveListItem11" parent="UserInterface/P2Moves/Container" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 220.0
+margin_right = 141.0
+margin_bottom = 238.0
+rect_scale = Vector2( 1, 1 )
 
 [connection signal="button_down" from="UserInterface/PauseOverlay/PauseMenu/MainMenu" to="UserInterface" method="_on_MainMenu_button_down"]
 [connection signal="toggled" from="UserInterface/PauseOverlay/PauseMenu/AutoBlock" to="UserInterface" method="_on_AutoBlock_toggled"]

@@ -115,9 +115,6 @@ public abstract class BaseAttack : State
 	public string superKaraButton = "";
 
 	[Export]
-	public bool specialBurstKara = false;
-
-	[Export]
 	public int lastHitFrame = 0;
 
 	[Export]
@@ -240,11 +237,6 @@ public abstract class BaseAttack : State
 		if (superKaraButton.Length > 0)
 			AddKara(new char[] { superKaraButton[0], 'p' }, () => owner.grounded && owner.TrySpendMeter() && owner.specialBreakFramesRemaining <= 0, owner.easySuper);
 
-		if (specialBurstKara)
-		{
-			AddBurstKara('k', 'p');
-		}
-
 		if (selfGatlingInp[0] != ' ')
 		{
 			AddGatling(new char[] { selfGatlingInp[0], 'p' }, Name);
@@ -312,11 +304,6 @@ public abstract class BaseAttack : State
 			owner.ChangeState(IdleString);
 		else
 			owner.ChangeState(FallString);
-	}
-
-	public override void TryBurst()
-	{
-		// No bursting while attacking!
 	}
 
 	public override void CheckHit()

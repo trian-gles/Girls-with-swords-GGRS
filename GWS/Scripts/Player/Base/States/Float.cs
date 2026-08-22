@@ -11,7 +11,7 @@ public class Float : HitStun
 	private const string FloatStateString = "Float";
 	private const string SoftKDString = "SoftKD";
 	private const string BurstString = "Burst";
-	private char[] burstKeys = new[] { 'p', 'k', 'a' };
+	private char[] burstKeys = new[] { 'p', 'k', 's' };
 	public override int maxStun { get { return int.MaxValue; } }
 	public override void _Ready()
 	{

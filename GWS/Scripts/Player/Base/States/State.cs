@@ -94,7 +94,6 @@ public abstract class State : Node
 	private const string JabString = "Jab";
 	private const string KickString = "Kick";
 	private const string SlashString = "Slash";
-	private const string BurstString = "Burst";
 	private const string CancelGfxString = "Cancel";
 	private const string RcString = "RC";
 	private const string HitFxString = "hit";
@@ -476,11 +475,6 @@ public abstract class State : Node
 		AddGatling(new[] { 'a', 'p' }, () => owner.internalPos.y < Globals.MAXAIRDASHDEPTH, owner.easyAirSpecial);
 	}
 
-	protected void AddBurstKara(char key1, char key2)
-	{
-		AddKara(new char[] { key1, 'p' }, () => owner.CheckHeldKey(key2) && owner.TrySpendBurst(), BurstString);
-		AddKara(new char[] { key2, 'p' }, () => owner.CheckHeldKey(key1) && owner.TrySpendBurst(), BurstString);
-	}
 	protected void AddSpecials(List<Player.Special> specials)
 	{
 		foreach (var special in specials)
@@ -656,25 +650,9 @@ public abstract class State : Node
 	{
 		frameCount++;
 		if (slowdownSpeed != 0) SlowDown();
-
-		if (frameCount >= 1)
-		{
-			TryBurst();
-			
-		}
 	}
 
-	private char[] burstKeys = new[] { 'p', 'k', 'a' };
 
-	public virtual void TryBurst()
-	{
-		if (owner.CheckHeldKeys(burstKeys))
-		{
-			if (!owner.TrySpendBurst()) return;
-			Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
-			owner.ChangeState(BurstString);
-		}
-	}
 
 	/// <summary>
 	/// Called by parent

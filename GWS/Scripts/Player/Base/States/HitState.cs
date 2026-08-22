@@ -16,6 +16,16 @@ public class HitState : State
 		stunRemaining = 0;
     }
 
+    public override void FrameAdvance()
+    {
+        base.FrameAdvance();
+		if (frameCount >= 1)
+		{
+			TryBurst();
+			
+		}
+    }
+
     public override bool DelayInputs()
 	{
 		return frameCount > stunRemaining - 2;
@@ -30,6 +40,18 @@ public class HitState : State
     public override bool IsGrabbable()
 	{
 		return false;
+	}
+
+	private char[] burstKeys = new[] { 'p', 'k', 's' };
+
+	public virtual void TryBurst()
+	{
+		if (owner.CheckHeldKeys(burstKeys))
+		{
+			if (!owner.TrySpendBurst()) return;
+			Globals.EmitSignal(Globals.PlayerSignal.Recovery, owner.Name);
+			owner.ChangeState("Burst");
+		}
 	}
 
 

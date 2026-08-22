@@ -598,9 +598,9 @@ public class TutorialManager : TrainingManager
 		Goal getHitGoal2 = new Goal("Get hit", "wait");
 		getHitGoal2.p1State = "HitStun";
 		Challenge burstChallenge = new Challenge("Burst", GameScene.ResetPos.P1CORNEREDLEFT);
-		burstChallenge.popupText = "If your SALT meter is full, press punch, kick and special simultaneously to escape a combo";
+		burstChallenge.popupText = "If your SALT meter is full, press punch, kick and slash simultaneously to escape a combo";
 		burstChallenge.goals.Add(getHitGoal2);
-		Goal burst = new Goal("Burst", "p", "k", "special");
+		Goal burst = new Goal("Burst", "p", "k", "s");
 		burst.p1State = "Burst";
 		burst.p1FailTags.Add(Globals.Tags.recovery);
 		burstChallenge.goals.Add(burst);

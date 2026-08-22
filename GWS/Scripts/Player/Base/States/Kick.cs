@@ -26,8 +26,6 @@ public class Kick : GroundAttack
 		AddKara(new char[] { 's', 'p' }, () => owner.CanGrab(), GrabStartString);
 
 		AddKara(new char[] { 'p', 'p' }, () => owner.CanShield(), ShieldString);
-
-        AddBurstKara('p', 'a');
     }
 
     public override void Enter()

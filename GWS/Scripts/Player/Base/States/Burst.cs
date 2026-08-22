@@ -6,6 +6,13 @@ public class Burst : LaunchAttack
 {
 	private const string BurstString = "Burst";
 	private const string BurstLowerString = "burst";
+
+    public override void _Ready()
+    {
+        base._Ready();
+		hitDetails.hitStop = 20;
+		chDetails.hitStop = 20;
+    }
 	public override void Enter()
 	{
 		base.Enter();

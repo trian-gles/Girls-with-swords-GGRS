@@ -17,6 +17,5 @@ public class JumpA : AirNormal
 			whiffGatlings.Add(new NormalGatling { input = new[] { 'p', 'p' }, state = "JumpA" });
 
 		AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
-		AddBurstKara('k', 'a');
 	}
 }

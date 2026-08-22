@@ -23,6 +23,5 @@ public class Jab : GroundAttack
 		
 
         AddKara(new char[] { 'k', 'p' }, () => owner.CanShield(), "Shield");
-		AddBurstKara('k', 'a');
     }
 }

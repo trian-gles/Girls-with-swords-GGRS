@@ -200,8 +200,8 @@ public class GameScene : BaseGame
 		// cache frequently used HUD controls to avoid runtime GetNode calls
 		mainGFX = GetNode<MainGFX>("MainGFX");
 		debugControls = new Control[] {
-			GetNode<Control>("HUD/InputBack"),
-			GetNode<Control>("HUD/InputBackP2"),
+			//GetNode<Control>("HUD/InputBack"),
+			//GetNode<Control>("HUD/InputBackP2"),
 			GetNode<Control>("HUD/DebugText"),
 			GetNode<Control>("HUD/DebugText/DebugTextLabel")
 		};
@@ -978,6 +978,8 @@ public class GameScene : BaseGame
 		p2Wins = 0;
 		RemoveChild(P1);
 		RemoveChild(P2);
+		P1.burstMeter = 100;
+		P2.burstMeter = 100;
 		OnPlayerBurstSet(PlayerOneString, 100);
 		OnPlayerBurstSet(PlayerTwoString, 100);
 		configured = false;

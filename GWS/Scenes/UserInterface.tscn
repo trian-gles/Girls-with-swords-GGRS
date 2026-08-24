@@ -240,11 +240,11 @@ margin_bottom = 92.0
 
 [node name="P1Moves" type="ColorRect" parent="UserInterface"]
 margin_top = 10.0
-margin_right = 100.0
-margin_bottom = 210.0
+margin_right = 115.0
+margin_bottom = 250.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-color = Color( 0, 0, 0, 0.439216 )
+color = Color( 0, 0, 0, 1 )
 script = ExtResource( 12 )
 
 [node name="Container" type="VBoxContainer" parent="UserInterface/P1Moves"]
@@ -344,13 +344,10 @@ rect_scale = Vector2( 1, 1 )
 [node name="P2Moves" type="ColorRect" parent="UserInterface"]
 margin_left = 372.0
 margin_top = 10.0
-margin_right = 143.0
-margin_bottom = 105.0
-color = Color( 0, 0, 0, 0.356863 )
+margin_right = 472.0
+margin_bottom = 260.0
+color = Color( 0, 0, 0, 1 )
 script = ExtResource( 12 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 player_num = 1
 
 [node name="Container" type="VBoxContainer" parent="UserInterface/P2Moves"]

@@ -9107,7 +9107,6 @@ whiffSound = "SlashWhiff"
 hitSound = "SlashHit"
 restoreHitFrames = PoolIntArray( 11 )
 superKaraButton = "s"
-specialBurstKara = true
 launch = Vector2( 0, -400 )
 
 [node name="CommandRunTurn" type="Node" parent="StateTree" index="20"]
@@ -9123,7 +9122,6 @@ turnFrame = 13
 script = ExtResource( 22 )
 isSpecial = true
 projectileInvulnFrames = 20
-specialBurstKara = true
 len = 12
 speed = 580
 
@@ -9221,7 +9219,6 @@ isSpecial = true
 canYRC = false
 whiffSound = ""
 hitSound = ""
-specialBurstKara = true
 
 [node name="HojogiriCharged" type="Node" parent="StateTree" index="49"]
 script = ExtResource( 15 )

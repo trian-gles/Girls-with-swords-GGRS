@@ -12,13 +12,13 @@ scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
 level = 3
 opponentLaunch = Vector2( 0, -450 )
-chLaunch = Vector2( 0, -450 )
+chLaunch = Vector2( 0, -600 )
 launchOnGrounded = false
 chEffect = 3
 speed = Vector2( 5, 0 )
 postHitSpeed = Vector2( 6, 0 )
 duration = 200
-slowTerminalVelocity = 100
+slowTerminalVelocity = 200
 modifiedProration = -2
 
 [node name="AnimatedSprite" parent="." index="0"]

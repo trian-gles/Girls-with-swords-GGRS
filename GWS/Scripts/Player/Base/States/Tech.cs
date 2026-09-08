@@ -63,6 +63,15 @@ public class Tech : Fall
 		base.HandleInput(inputArr);
 	}
 
+    public override void FrameAdvance()
+    {
+        base.FrameAdvance();
+		if (frameCount > 60)
+		{
+			owner.ChangeState("Fall");
+		}
+    }
+
 	public override bool CollisionActive()
     {
 		return false;

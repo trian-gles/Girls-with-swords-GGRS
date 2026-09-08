@@ -555,7 +555,7 @@ tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 30, 0 ) ]
+"values": [ Vector2( 20, 0 ) ]
 }
 tracks/13/type = "value"
 tracks/13/path = NodePath("HitBoxes/HitB2:shape:extents")
@@ -9075,7 +9075,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 40
+frame = 159
 
 [node name="SpriteModulations" parent="Sprite" index="0"]
 anims/IB = SubResource( 64 )
@@ -9094,6 +9094,7 @@ prorationLevel = 4
 [node name="AntiAir" type="Node" parent="StateTree" index="19"]
 script = ExtResource( 6 )
 isSpecial = true
+cancelFrameStart = 11
 level = 2
 chip = true
 modifiedHitStun = 38
@@ -9287,6 +9288,7 @@ passThroughOpponentFrameEnd = 16
 
 [node name="Super" type="Node" parent="StateTree" index="54"]
 script = ExtResource( 19 )
+checkTurnAroundOnEnter = false
 isSpecial = true
 level = 4
 chip = true
@@ -9352,6 +9354,7 @@ launch = Vector2( 400, 0 )
 [node name="6S" type="Node" parent="StateTree" index="59"]
 script = ExtResource( 24 )
 level = 3
+modifiedCounterHitStun = 40
 opponentLaunch = Vector2( 0, -550 )
 chLaunch = Vector2( 0, -550 )
 slowTerminalVelocity = 270

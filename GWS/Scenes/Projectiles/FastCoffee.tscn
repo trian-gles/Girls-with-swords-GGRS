@@ -18,7 +18,7 @@ chEffect = 3
 speed = Vector2( 5, 0 )
 postHitSpeed = Vector2( 6, 0 )
 duration = 200
-slowTerminalVelocity = 200
+slowTerminalVelocity = 170
 modifiedProration = -2
 
 [node name="AnimatedSprite" parent="." index="0"]

@@ -57,6 +57,7 @@ public class GL : Player
 		characterMoves.Add(new Godot.Collections.Array<string>() { "dp", "s", "", "", "Vertical\nFlame" });
 		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "qcf", "k", "", "Air\nFlame" });
 		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "", "Come\nWith Me" });
+		characterMoves.Add(new Godot.Collections.Array<string>() { "air", "dp", "s", "hold", "Come\nWith Me!" });
 		characterMoves.Add(new Godot.Collections.Array<string>() { "qcf", "qcf", "s", "", "Hella\nFlame" });
 		dashSpecials.Add(new Special(new InputContainer(new[]{ new char[] { 's', 'p' } }),  "DashAttack"));
 	}
@@ -70,7 +71,8 @@ public class GL : Player
 	{
 		if (!base.CalculateHit())
 			return false;
-		CommandHadouken(BlackHoleString, HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
+		CommandHadouken("BlackHole", HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
+		CommandHadouken("BlackHoleHeld", HadoukenPart.ProjectileCommand.BlackHoleDeactivate);
 		return true;
 	}
 
@@ -82,6 +84,13 @@ public class GL : Player
 			CommandHadouken(HadoukenString, HadoukenPart.ProjectileCommand.Kill);
 			CommandHadouken(HadoukenString, HadoukenPart.ProjectileCommand.Kill);
 		}
+	}
+
+	public bool CanBlackHole()
+	{
+		BlackHolePlace blackHolePlace = allStateDict["BlackHolePlace"] as BlackHolePlace;
+		BlackHolePlace blackHoleHold = allStateDict["BlackHoleHold"] as BlackHolePlace;
+		return blackHolePlace.NoActiveBlackHoles() && blackHoleHold.NoActiveBlackHoles();
 	}
 
 }

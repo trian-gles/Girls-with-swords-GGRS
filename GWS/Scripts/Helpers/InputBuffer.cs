@@ -136,6 +136,19 @@ public sealed class InputContainer
 		_count = 0;
 	}
 
+	public bool Contains(CharPair item)
+	{
+		for (int i = 0; i < _count; i++)
+		{
+			int offset = i * 2;
+			if (_buffer[offset] == item.A &&
+				_buffer[offset + 1] == item.B)
+				return true;
+		}
+
+		return false;
+	}
+
 	public bool Contains(char[] item)
 	{
 		if (item == null || item.Length != 2)

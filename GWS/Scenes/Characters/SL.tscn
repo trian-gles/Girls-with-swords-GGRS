@@ -4386,7 +4386,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 3, 6, 11 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 18, 19, 20, 21 ]
+"values": [ 16, 17, 18, 20 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("HurtBoxes/HurtB1:shape:extents")
@@ -4398,7 +4398,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 15, 9 ) ]
+"values": [ Vector2( 17, 19 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("HurtBoxes/HurtB1:disabled")
@@ -4407,7 +4407,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 6, 11 ),
+"times": PoolRealArray( 0, 6, 9 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ true, false, true ]
@@ -4422,7 +4422,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 40, -1 ) ]
+"values": [ Vector2( 40, 16 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HurtBoxes/HurtB2:disabled")
@@ -10070,6 +10070,7 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 36, 2 )
+disabled = false
 
 [node name="HitB3" parent="HitBoxes" index="2"]
 position = Vector2( 27, 11 )
@@ -10155,7 +10156,6 @@ isSpecial = true
 script = ExtResource( 28 )
 hasGravity = false
 isSpecial = true
-specialBurstKara = true
 releaseFrame = 21
 hadoukenScene = ExtResource( 11 )
 yOffset = 22
@@ -10177,7 +10177,6 @@ emitGhost = true
 [node name="PhoneToss" type="Node" parent="StateTree" index="25"]
 script = ExtResource( 7 )
 isSpecial = true
-specialBurstKara = true
 releaseFrame = 11
 hadoukenScene = ExtResource( 8 )
 hadoukenSound = "Whiff"
@@ -10187,7 +10186,6 @@ mustCooldown = true
 [node name="PhoneTossLow" type="Node" parent="StateTree" index="26"]
 script = ExtResource( 7 )
 isSpecial = true
-specialBurstKara = true
 releaseFrame = 13
 hadoukenScene = ExtResource( 32 )
 hadoukenSound = "Whiff"

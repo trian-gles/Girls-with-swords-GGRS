@@ -28,8 +28,8 @@ func set_paused(value: bool) -> void:
 		$P1Inputs/P1Controls.config_inputs()
 		$P2Inputs/P1Controls.config_inputs()
 		$SpecialInputs/Container.config_inputs()
-		$P1Moves.fill_moves()
-		$P2Moves.fill_moves()
+		$Popup/HBoxContainer/P1Moves.fill_moves()
+		$Popup/HBoxContainer/P2Moves.fill_moves()
 		
 func _on_AutoBlock_toggled(button_pressed):
 	if is_inside_tree():
@@ -45,4 +45,20 @@ func _on_MainMenu_button_down():
 	set_paused(false)
 	Events.emit_signal("MainMenuPressed")
 	$PauseOverlay/PauseMenu/AutoBlock.pressed = false
-	$PauseOverlay/PauseMenu/AutoTech.pressed = false
+	$PauseOverlay/PauseMenu/AutoTech.pressed = true
+
+
+func _on_ShowMoves_pressed():
+	$Popup.popup()
+
+
+func _on_ShowMoves_focus_exited():
+	$Popup.visible = false;
+	$PauseOverlay/PauseMenu/ShowMoves.pressed = false
+
+
+func _on_ShowMoves_toggled(button_pressed):
+	if $Popup.visible:
+		$Popup.visible = false;
+	else:
+		$Popup.popup()

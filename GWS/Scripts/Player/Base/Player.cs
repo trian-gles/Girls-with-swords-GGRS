@@ -776,9 +776,16 @@ public class Player : Node2D
 		{
 			for (int i = 0; i < unhandledInputs.Count; i++){
 				var inputArr = unhandledInputs.Get(i);
+				if (inputArr.B == 'r' && (inputArr.A == 'p' || inputArr.A == 'k' || inputArr.A == 's'))
+				{
+					if (heldKeys.Contains(inputArr.A))
+						continue;
+				}
 				hitStopInputs.Add(inputArr);
 				if (hitStopInputs.Count == hitStopInputs.Capacity)
+				{
 					hitStopInputs.Clear();
+				}
 			}
 		}
 		private InputContainer unhandledInputs = new InputContainer(40);
@@ -939,7 +946,11 @@ public class Player : Node2D
 				}
 				playerState.HandleInput(unhandledInputs.Get(i));
 				if (clearUnhandled)
+				{
+					GD.Print("Clearing unhandled inputs");
 					break;
+				}
+					
 			}
 			clearUnhandled = false;
 			unhandledInputs.Clear();
@@ -1089,8 +1100,9 @@ public class Player : Node2D
 
 	public bool CheckLastBufInput(InputContainer.CharPair key)
 	{
+
 		var buf = inputHandler.GetBuffer();
-		return (key == buf.Get(buf.Count - 2));
+		return (key == buf.Get(buf.Count - 3));
 	}
 
 	/// <summary>
@@ -1177,12 +1189,17 @@ public class Player : Node2D
 
 	}
 
+	public override void _PhysicsProcess(float delta)
+	{
+		base._PhysicsProcess(delta);
+		Update();
+	}
+
 	/// <summary>
 	/// Only called outside of hitstop
 	/// </summary>
 	public virtual void FrameAdvance() 
 	{
-		Update();
 		if (counterStopFrames > 0)
 		{
 			counterStopFrames--;
@@ -1627,6 +1644,8 @@ public class Player : Node2D
 	
 	protected virtual void PostHitCall(){}
 
+	public virtual void PostBlockCall(){}
+
 	public void DisplayPlusFrames(int opponentStun)
 	{
 
@@ -1868,9 +1887,10 @@ public class Player : Node2D
 
 	public void GFXEvent(string name)
 	{
+
 		if (Globals.DISABLEGFX)
 			return;
-		gfxHand.Effect(name, Position, facingRight);
+		gfxHand.Effect(name, internalPos / 100, facingRight);
 		if (name == ExplosionGfxString)
 			spriteAnim.Play(FireAnimString);
 		else if (name == PurpleGfxString)

@@ -12,7 +12,12 @@ public class BlackHolePlace : Hadouken
 		owner.ScheduleEvent(EventScheduler.EventType.AUDIO, "WarpSpawn", Name);
 	}
 
-	public bool CanBlackHole()
+	protected virtual bool CanBlackHole()
+	{
+		return ((GL)owner).CanBlackHole();
+	}
+
+	public bool NoActiveBlackHoles()
 	{
 		for (int i = 0; i < cachedHadoukens.Count; i++)
 		{
@@ -34,5 +39,19 @@ public class BlackHolePlace : Hadouken
 			}
 
 		}
+	}
+
+	public override void AnimationFinished()
+	{
+		if ((owner.CheckHeldKey('s') || owner.CheckHeldKey('a'))&& Name == "BlackHolePlace")
+		{
+			owner.ChangeState("BlackHoleHold");
+		}
+		else
+		{
+			base.AnimationFinished();
+		}
+			
+		
 	}
 }

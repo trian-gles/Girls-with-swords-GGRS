@@ -57,7 +57,7 @@ public class Hadouken : BaseAttack
 		
 		if (launch != Vector2.Zero)
 		{
-			owner.landingRecoveryFramesRemaining = 15;
+			owner.landingRecoveryFramesRemaining = 11;
 			owner.velocity.y = 0;
 		}
 		owner.velocity.x = 0;

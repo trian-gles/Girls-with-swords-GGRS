@@ -17,7 +17,7 @@ public class PlayerParticleGPU : Particles2D
 			//Direction = new Vector2(1, 0);
 		}
 		Emitting = true;
-		
+		Visible = true;
 
 		Position = pos;
 	}
@@ -27,6 +27,7 @@ public class PlayerParticleGPU : Particles2D
 		if (startFrame > frame)
 		{
 			Emitting = false;
+			Visible = false;
 		}
 	}
 }

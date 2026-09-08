@@ -20,6 +20,9 @@ public class ThrowBreak : HitStun
             owner.hitPushRemaining = -2000;
         else
             owner.hitPushRemaining = 2000;
+
+        Globals.EmitSignal(Globals.PlayerSignal.HitStop, owner.Name, 10);
+        Globals.EmitSignal(Globals.PlayerSignal.HitStop, owner.otherPlayer.Name, 10);
         if (!owner.grounded)
         {
             stunRemaining = 0;

@@ -110,7 +110,7 @@ public class Shield : HitState
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		details.hitPush = (int)Math.Floor(details.hitPush * 1.5f);
+		details.hitPush = (int)Math.Floor(details.hitPush * 1.7f);
 		details.airBlockable = true;
 		base.ReceiveHit(details);
 	}

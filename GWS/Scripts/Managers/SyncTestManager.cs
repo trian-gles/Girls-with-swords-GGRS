@@ -229,6 +229,7 @@ public class SyncTestManager : StateManager
 		{
 			gameScene.WriteLogs();
 			broken = true;
+			GD.Print("DESYNC");
 		}
 
 		if (Globals.logOn && !currGame.CompareStates(serializedGamestate) && !broken){

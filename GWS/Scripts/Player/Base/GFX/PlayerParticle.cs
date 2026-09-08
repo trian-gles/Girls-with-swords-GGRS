@@ -20,6 +20,7 @@ public class PlayerParticle : CPUParticles2D
 		}
 		
 		Emitting = true;
+		Visible = true;
 		
 
 		Position = pos;
@@ -30,6 +31,7 @@ public class PlayerParticle : CPUParticles2D
 		if (startFrame > frame)
 		{
 			Emitting = false;
+			Visible = false;
 		}
 	}
 }

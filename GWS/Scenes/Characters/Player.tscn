@@ -72,22 +72,22 @@
 extents = Vector2( 7, 24 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 16, 32 )
+extents = Vector2( 15, 39 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 26, 9 )
+extents = Vector2( 14, 9 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 19, 14 )
+extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 21, 10 )
+extents = Vector2( 17, 19 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 10, 12 )
+extents = Vector2( 10, 22 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 12, 22 )
+extents = Vector2( 20, 8 )
 
 [sub_resource type="Animation" id=20]
 resource_name = "fire"

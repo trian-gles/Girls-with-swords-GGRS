@@ -50,11 +50,11 @@ public class GFXHandler : Node
 			return;
 		if (particlesCPUDict.ContainsKey(name))
 		{
-			particlesCPUDict[name].Trigger(0, pos, facingRight);
+			particlesCPUDict[name].Trigger(Globals.frame, pos, facingRight);
 		}
 		else if (particlesGPUDict.ContainsKey(name))
 		{
-			particlesGPUDict[name].Trigger(0, pos, facingRight);
+			particlesGPUDict[name].Trigger(Globals.frame, pos, facingRight);
 		}
 		else if (name == SlashString)
 		{

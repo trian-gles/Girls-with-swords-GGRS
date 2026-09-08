@@ -139,4 +139,14 @@ public class HL : Player
 			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
 		}
 	}
+
+	public override void PostBlockCall()
+	{
+		base.PostBlockCall();
+		if (currentState.tags.Contains(Globals.Tags.hitstate))
+		{
+			CommandHadouken("Hat", HadoukenPart.ProjectileCommand.StopHat);
+			CommandHadouken("Hadouken", HadoukenPart.ProjectileCommand.Kill);
+		}
+	}
 }

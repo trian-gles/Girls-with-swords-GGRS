@@ -32,6 +32,7 @@ public class Block : HitState
 	
 	public override void Enter(){
 		base.Enter();
+		owner.PostBlockCall();
 		ResetTerminalVelocity();
 		if (owner.CheckHeldKeys(shieldKeys))
 		{

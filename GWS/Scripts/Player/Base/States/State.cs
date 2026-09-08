@@ -68,6 +68,9 @@ public abstract class State : Node
 	[Export]
 	public bool isSpecial = false;
 
+	[Export]
+	public int cancelFrameStart = 0;
+
 
 	public enum HEIGHT
 	{
@@ -500,7 +503,7 @@ public abstract class State : Node
 		foreach (var perm in Permutations(new List<char>() { 'p', 'k', 's' }))
 		{
 			AddGatling(new char[] { perm[0], 'p' },
-				() => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter(),
+				() => owner.CheckHeldKey(perm[1]) && owner.CheckHeldKey(perm[2]) && owner.TrySpendMeter() && frameCount >= cancelFrameStart,
 				cancelState,
 				() => {
 					owner.landingRecoveryFramesRemaining = 0;
@@ -511,7 +514,7 @@ public abstract class State : Node
 			);
 
 			AddGatling(new char[] { perm[0], 'p' },
-				() => owner.CheckKeyPressedThisFrame(perm[1]) && owner.CheckKeyPressedThisFrame(perm[2]) && owner.TrySpendMeter(),
+				() => owner.CheckKeyPressedThisFrame(perm[1]) && owner.CheckKeyPressedThisFrame(perm[2]) && owner.TrySpendMeter() && frameCount >= cancelFrameStart,
 				cancelState,
 				() => {
 					owner.landingRecoveryFramesRemaining = 0;
@@ -600,6 +603,7 @@ public abstract class State : Node
 
 					if (comGat.preventMash && owner.CheckLastBufInput(firstInp)) // don't alow mashing the final input
 					{
+						GD.Print("Preventing mash");
 						continue;
 					}
 

@@ -706,7 +706,7 @@ public class Globals : Node
 
 				if (arr.Get(arrIndex) == element)
 				{
-					if (cursor >= 0 && i - cursor > 2)
+					if (cursor >= 0 && i - cursor > 3)
 						return false;
 
 					cursor = i;

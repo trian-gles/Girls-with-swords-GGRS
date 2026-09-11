@@ -677,13 +677,6 @@ public class Globals : Node
 			   || potentialDescendant == potentialBase;
 	}
 
-	private static InputContainer tempContainer = new InputContainer(9);
-	/// <summary>
-	/// Tests if the elements are found in that order but possibly separated by other elements within the array.  
-	/// </summary>
-	/// <param name="arr"> The array to search in </param>
-	/// <param name="elements"> The elements to search for in order </param>
-	/// <returns></returns>
 	public static bool ArrOfArraysComplexInList(
 		InputContainer arr,
 		InputContainer elements
@@ -693,33 +686,51 @@ public class Globals : Node
 		int windowSize = Math.Min(arrCount, 9);
 		int windowStart = arrCount - windowSize;
 
-		int cursor = -1; // relative to windowStart
-
-		foreach (var element in elements)
+		// Try each possible occurrence of the first element.
+		for (int start_pos = 0; start_pos < windowSize; start_pos++)
 		{
-			bool found = false;
+			if (arr.Get(windowStart + start_pos) != elements.Get(0))
+				continue;
 
-			// search forward from cursor + 1
-			for (int i = cursor + 1; i < windowSize; i++)
+			int cursor = start_pos;
+			bool success = true;
+
+			// Match remaining elements.
+			for (int elementIndex = 1; elementIndex < elements.Count; elementIndex++)
 			{
-				int arrIndex = windowStart + i;
+				bool found = false;
 
-				if (arr.Get(arrIndex) == element)
+				for (int i = cursor + 1; i < windowSize; i++)
 				{
-					if (cursor >= 0 && i - cursor > 3)
-						return false;
+					int arrIndex = windowStart + i;
 
-					cursor = i;
-					found = true;
+					if (arr.Get(arrIndex) == elements.Get(elementIndex))
+					{
+						// Allow at most two items between matched elements.
+						if (i - cursor > 3)
+						{
+							success = false;
+							break;
+						}
+
+						cursor = i;
+						found = true;
+						break;
+					}
+				}
+
+				if (!found)
+				{
+					success = false;
 					break;
 				}
 			}
 
-			if (!found)
-				return false;
+			if (success)
+				return true;
 		}
 
-		return true;
+		return false;
 	}
 
 

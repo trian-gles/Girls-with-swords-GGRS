@@ -472,7 +472,7 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 16) != 0 && (lastFrameInputs & 16) == 0)
 			{
-				SelectPlayer(i, 3);
+				SelectPlayer(i, 0);
 			}
 
 			if ((inputs & 32) != 0 && (lastFrameInputs & 32) == 0)
@@ -487,7 +487,7 @@ public class CharSelectScene : BaseGame
 
 			if ((inputs & 128) != 0 && (lastFrameInputs & 128) == 0)
 			{
-				SelectPlayer(i, 0);
+				SelectPlayer(i, 3);
 			}
 		}
 	}

@@ -874,14 +874,12 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P1 Chooses Stage"
 
 [node name="P2Cursor" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 269, 118 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1
 texture = ExtResource( 4 )
 
 [node name="P1Cursor" type="Sprite" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 189, 118 )
 scale = Vector2( 2.5, 2.5 )
 z_index = 1

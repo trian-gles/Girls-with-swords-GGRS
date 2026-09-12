@@ -48,7 +48,7 @@ public class Backdash: Walk
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
 		details.hitStun += 5;
-		if ((owner.terminalVelocity == owner.standardTerminalVelocity) && details.opponentLaunch != Vector2.Zero)
+		if (details.opponentLaunch == Vector2.Zero)
         {
             owner.terminalVelocity = 100;
         }

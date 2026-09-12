@@ -372,7 +372,6 @@ public class BaseManager : Node2D
 
 			if (Input.IsActionPressed(Globals.P2DASHACTION))
 			{
-				GD.Print("P2Dash");
 				inputs |= 512;
 			}
 		}

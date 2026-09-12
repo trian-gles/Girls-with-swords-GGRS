@@ -44,7 +44,7 @@ var profile_2pfightstick = {
 	'sb': [JOY_SONY_CIRCLE,1],
 	'ab': [JOY_SONY_X,1],
 	'bb': [JOY_R,1],
-	'cb': [JOY_R2,0]
+	'cb': [JOY_R2,1]
 }
 
 #p1 profile list
@@ -96,6 +96,7 @@ func change_action_key(action_name, key_scancode, device_id, player_id):
 	var new_button = InputEventJoypadButton.new()
 	new_button.set_button_index(key_scancode)
 	new_button.device = device_id
+
 	InputMap.action_add_event(action_name, new_button)
 	InputMap.action_add_event('ui_accept', new_button)
 	

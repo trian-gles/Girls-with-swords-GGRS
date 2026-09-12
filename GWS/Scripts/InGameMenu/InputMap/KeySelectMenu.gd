@@ -8,12 +8,13 @@ func _ready():
 
 #process inputs and pass them via signal
 func _input(event):
+	
 	if not event.is_pressed():
 		return
+	print(event.as_text())
 	if event is InputEventJoypadButton:
 		emit_signal("key_selected", event.button_index, event.device)
 	elif event is InputEventKey:
-		print(event.device)
 		emit_signal("key_selected", event.scancode, event.device)
 
 	close()

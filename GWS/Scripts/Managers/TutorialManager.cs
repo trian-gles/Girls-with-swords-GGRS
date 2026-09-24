@@ -437,7 +437,7 @@ public class TutorialManager : TrainingManager
 
 		}
 		Challenge hardSpecialAttackChallenge = new Challenge("Motion Special Attacks");
-		hardSpecialAttackChallenge.popupText = "The proper way to perform special moves is to use motion inputs.  These involve moving the controller stick in specific motions and then pressing a button.";
+		hardSpecialAttackChallenge.popupText = "The \"proper\" way to perform special moves is to use motion inputs.  These involve moving the controller stick in specific motions and then pressing a button.";
 
 		string[] specialInputs = new string[] { "qcf", "qcf", "qcf", "qcb", "dp"};
 		string[] specialButtons = new string[] { "p", "k", "s", "p", "s" };

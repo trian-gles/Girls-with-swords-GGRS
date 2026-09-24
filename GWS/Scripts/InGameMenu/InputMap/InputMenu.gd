@@ -26,6 +26,7 @@ onready var p2_keyselect = get_node(p2_keyselect_path)
 onready var value_data
 onready var ControllerConfigValues
 
+
 func _ready():
 	
 	#SIGNALS
@@ -47,7 +48,12 @@ func _ready():
 	else:
 		save_JSON()
 		load_JSON()
+		
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	set_profile_based_on_connected()
+
 	
+func set_profile_based_on_connected():
 	var controllers = Input.get_connected_joypads()
 	print(controllers.size())
 	if controllers.size() == 1:
@@ -66,7 +72,6 @@ func _ready():
 		$InputMapper.change_profile(0, 0)
 		$InputMapper.change_profile(0, 1)
 	
-
 #main rebuild function (called by profile_changed in InputMapper)
 func rebuild(input_profile, is_customizable=false, id=0, player_id=0):
 
@@ -259,3 +264,6 @@ func _on_P2Reset_pressed():
 		for moves in keyboard2p_init:
 			$InputMapper.profile_2pkeyboard[moves] = keyboard2p_init[moves]
 		$InputMapper.change_profile(0,1)
+
+func _on_joy_connection_changed(device_id, connected):
+	set_profile_based_on_connected()

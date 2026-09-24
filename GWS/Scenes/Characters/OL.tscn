@@ -9057,6 +9057,7 @@ position = Vector2( -2, 0 )
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 21, -16 )
+disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
@@ -9075,7 +9076,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 159
+frame = 235
 
 [node name="SpriteModulations" parent="Sprite" index="0"]
 anims/IB = SubResource( 64 )
@@ -9319,6 +9320,7 @@ modifiedCounterHitStun = 18
 modifiedHitPush = 3500
 whiffSound = "PunchWhiff"
 hitSound = "PunchHit"
+gatlingWinEnd = 24
 restoreHitFrames = PoolIntArray( 16 )
 grabInvulnFrames = 14
 slashCancel = true

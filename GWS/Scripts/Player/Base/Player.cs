@@ -1331,7 +1331,7 @@ public class Player : Node2D
 			}
 			else
 			{
-				var speed = hitPushSpeed;
+				var speed = currentState.GetHitPushSpeed();
 				if (currentState.tags.Contains(Globals.Tags.shield))
 					speed *= 2;
 				if (hitPushRemaining < 0)

@@ -1036,4 +1036,9 @@ public abstract class State : Node
 	{
 
 	}
+
+	public virtual int GetHitPushSpeed()
+	{
+		return owner.hitPushSpeed;
+	}
 }

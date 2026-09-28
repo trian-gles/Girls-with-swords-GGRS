@@ -110,7 +110,7 @@ public class Shield : HitState
 
 	public override void ReceiveHit(Globals.AttackDetails details)
 	{
-		details.hitPush = (int)Math.Floor(details.hitPush * 1.7f);
+		details.hitPush = (int)Math.Floor(details.hitPush * 1.5f);
 		details.airBlockable = true;
 		base.ReceiveHit(details);
 	}
@@ -121,6 +121,11 @@ public class Shield : HitState
 		if (!owner.TrySpendMeter(300)) owner.EmptyMeter();
 
 		stunRemaining = details.blockStun + 2;
+	}
+
+	public override int GetHitPushSpeed()
+	{
+		return owner.hitPushSpeed * 2;
 	}
 
 	public override bool IsGrabbable()

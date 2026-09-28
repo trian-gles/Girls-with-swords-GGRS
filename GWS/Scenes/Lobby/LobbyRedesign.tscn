@@ -206,7 +206,7 @@ packedCharSelectScene = ExtResource( 27 )
 packedWinScene = ExtResource( 29 )
 
 [node name="InputMenu" type="CanvasLayer" parent="."]
-layer = 9
+layer = -1
 
 [node name="InputMenu" parent="InputMenu" instance=ExtResource( 16 )]
 
@@ -239,6 +239,7 @@ margin_left = -4.0
 margin_top = -12.0
 margin_right = 480.0
 margin_bottom = 272.0
+mouse_filter = 2
 color = Color( 0.141176, 0.180392, 0.235294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -271,6 +272,9 @@ dialog_text = "DISCONNECTED!"
 [node name="MainMenu" type="MarginContainer" parent="MenuRoot"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CenterContainer" type="CenterContainer" parent="MenuRoot/MainMenu"]
 margin_right = 480.0
@@ -284,7 +288,7 @@ margin_top = 42.0
 margin_right = 317.0
 margin_bottom = 228.0
 grow_horizontal = 2
-mouse_filter = 0
+mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
 alignment = 1

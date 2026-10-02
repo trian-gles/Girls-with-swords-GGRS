@@ -947,7 +947,6 @@ public class Player : Node2D
 				playerState.HandleInput(unhandledInputs.Get(i));
 				if (clearUnhandled)
 				{
-					GD.Print("Clearing unhandled inputs");
 					break;
 				}
 					
@@ -1771,7 +1770,7 @@ public class Player : Node2D
 	public void GainBurst()
 	{
 		if (burstMeter == 100) return;
-		burstMeter += 2;
+		burstMeter += 3;
 		Globals.EmitSignal(Globals.PlayerSignal.BurstSet, Name, burstMeter);
 	}
 

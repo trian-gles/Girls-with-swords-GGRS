@@ -1939,7 +1939,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 6, 7, 15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( 16, 29 ), Vector2( 16, 29 ), Vector2( 60, 60 ), Vector2( 15, 37 ) ]
+"values": [ Vector2( 16, 29 ), Vector2( 16, 29 ), Vector2( 68, 68 ), Vector2( 15, 37 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("HurtBoxes/HurtB1:position")
@@ -9054,10 +9054,10 @@ visible = true
 [node name="HitB1" parent="HitBoxes" index="0"]
 modulate = Color( 0.313726, 1, 0.00392157, 1 )
 position = Vector2( -2, 0 )
+disabled = true
 
 [node name="HitB2" parent="HitBoxes" index="1"]
 position = Vector2( 21, -16 )
-disabled = false
 
 [node name="HurtB1" parent="HurtBoxes" index="0"]
 position = Vector2( 45, -7 )
@@ -9076,7 +9076,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 10, 0 )
 hframes = 255
 vframes = 2
-frame = 235
+frame = 47
 
 [node name="SpriteModulations" parent="Sprite" index="0"]
 anims/IB = SubResource( 64 )
